@@ -74,7 +74,6 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
   margin-bottom: 6px;
 }
 
-
 /* increase text opacity of Last Played, Play Time */
 
 .appdetailsplaysection_PlayBarLabel_34lrt {
@@ -454,3 +453,8 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 }
 
 /*END HORIZONTAL GAME IMAGE TWEAKS*/
+
+/*Shrink DLC size to show more (JS recommended)*/
+.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
+	grid-template-columns: repeat(4, minmax(24.1%, max-content));
+}

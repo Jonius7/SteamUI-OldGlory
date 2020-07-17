@@ -26,7 +26,8 @@ fixes_dict = {
     '[$o.GetCachedVerticalCapsuleURL(this.props.app), $o.GetVerticalCapsuleURLForApp(this.props.app),': \
     '[$o.GetCachedLandscapeImageURLForApp(this.props.app), $o.GetLandscapeImageURLForApp(this.props.app),',
     't + "/portrait.png?v=2"': 't + "/header.jpg"',
-    'vecScreenShots.slice(0, 4).map': 'vecScreenShots.slice(0, 9).map'
+    'vecScreenShots.slice(0, 4).map': 'vecScreenShots.slice(0, 9).map',
+    't = t.slice(0, 6),': 't = t.slice(0, 12),'
 }
 
 
