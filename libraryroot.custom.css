@@ -1,6 +1,7 @@
-/* List of Steam UI CSS Tweaks v0.71
+/* List of Steam UI CSS Tweaks v0.8
 
 == Changelog ==
+v0.8 Added Horizontal Game Image tweaks, to be used with JS
 v0.7 Fixed some values so these tweaks work with webkit.css
 v0.6 Shortened to only modified lines (removed unmodified ones)
 v0.5 Added in new tweaks to Apppages, padding and headers
@@ -423,7 +424,7 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
     align-self: center;
 }
 
-/*HORIZONTAL*/
+/*HORIZONTAL GAME IMAGE TWEAKS - DELETE IF NOT USING*/
 /* Requires corresponding JS modifications */
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
     grid-template-columns: repeat(auto-fill, 200px) !important;
@@ -452,4 +453,4 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 	height: 93px !important;
 }
 
-/*HORIZONTAL*/
+/*END HORIZONTAL GAME IMAGE TWEAKS*/
