@@ -458,3 +458,19 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 .appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
 	grid-template-columns: repeat(4, minmax(24.1%, max-content));
 }
+
+/*DLC MANAGER - row height set to 40px from 90px with JS*/
+.managedlcdialog_Container_1Gc2g .managedlcdialog_NameAndArt_2Mxb5 {
+	height: 40px;
+}
+
+.libraryassetimage_Container_1R9r2.libraryassetimage_Visibility_3d_bT.libraryassetimage_Visible_yDr03.libraryassetimage_LandscapeImage_ZsU8n.appdetailsdlcsection_Art_3SQn1 > img.libraryassetimage_Image_24_Au {
+    width: 48%;
+    margin: 0 auto;
+}
+
+/* gloss */
+.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.appdetailsdlcsection_Gloss_HAvWs {
+    width: 44%;
+    left: 28%;
+}
