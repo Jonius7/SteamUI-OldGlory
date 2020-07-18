@@ -294,7 +294,7 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 /* Make game list height constant so search bar doesn't "flex" down */
 
 .gamelist_Container_1ijTa {
-  height: 90%;
+  height: calc(95.8% - 74px);
 }
 
 
@@ -326,7 +326,7 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 
 .gamelist_NoSearchResultsContainer_1fbRp {
   margin: 2px;
-  height: 89.5%;
+  height: calc(98% - 74px);
 }
 
 
@@ -370,6 +370,10 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 
 .LibraryDisplaySizeSmall .libraryhome_UpdatesContainer_17uEB {
   height: 270px;
+}
+
+.libraryhome_WhatsNewContainer_gdZT7 {
+	display: none;
 }
 
 
@@ -423,6 +427,16 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
     align-self: center;
 }
 
+.hover_release {
+	font-family: Arial, Helvetica, sans-serif !important;
+}
+
+
+/* Height of blur over background image. If a low value, most of the background will be clear default: 450px*/
+.appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
+	height: 900px;
+}
+
 /*HORIZONTAL GAME IMAGE TWEAKS - DELETE IF NOT USING*/
 /* Requires corresponding JS modifications */
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
@@ -439,6 +453,11 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-rows: auto auto auto;
 }
+
+body.game_hover_iframe {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 
 /* Recent games shelf for horizontal images */
 .libraryhomerecentgames_RecentGame_1esfE:not(:first-of-type) .libraryhomerecentgames_RecentGameMediaContainer_2XftM {
@@ -464,7 +483,7 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 	height: 40px;
 }
 
-.libraryassetimage_Container_1R9r2.libraryassetimage_Visibility_3d_bT.libraryassetimage_Visible_yDr03.libraryassetimage_LandscapeImage_ZsU8n.appdetailsdlcsection_Art_3SQn1 > img.libraryassetimage_Image_24_Au {
+div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.libraryassetimage_Container_1R9r2.libraryassetimage_Visibility_3d_bT.libraryassetimage_Visible_yDr03.libraryassetimage_LandscapeImage_ZsU8n.appdetailsdlcsection_Art_3SQn1 > img {
     width: 48%;
     margin: 0 auto;
 }
@@ -473,4 +492,11 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 .managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.appdetailsdlcsection_Gloss_HAvWs {
     width: 44%;
     left: 28%;
+}
+.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > img {
+	width: 44%;	
+}
+
+div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div {
+	box-shadow: none !important;
 }
