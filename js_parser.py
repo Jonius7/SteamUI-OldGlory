@@ -28,8 +28,7 @@ fixes_dict = {
     't + "/portrait.png?v=2"': 't + "/header.jpg"',
     'vecScreenShots.slice(0, 4).map': 'vecScreenShots.slice(0, 9).map',
     't = t.slice(0, 6),': 't = t.slice(0, 12),',
-    'rowHeight: 90,': 'rowHeight: 40,'
-}
+    'rowHeight: 90,': 'rowHeight: 40,'}
 
 
 #modify library.js to look for different libraryroot.js file
