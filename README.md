@@ -6,7 +6,7 @@ Install SteamFriendsPatcher (https://github.com/PhantomGamers/SteamFriendsPatche
 After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.\
 Replace it with the `libraryroot.custom.css` here on this repository.\
 To debug the Steam Library yourself, run Steam with the ` -dev` tag.\
-Create a shortcut to `Steam` -> `Right Click` -> `Properties`. In `Target`, after `Steam.exe"` add `&#9608;-dev`
+Create a shortcut to `Steam` -> `Right Click` -> `Properties`. In `Target`, after `Steam.exe"` add `  -dev`
 
 ## Long Story Short
 
