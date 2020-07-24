@@ -53,8 +53,9 @@ v0.4 initial version
 /* App Page main header - moving the image so it is anchored from the top */
 
 .sharedappdetailsheader_ImgSrc_HNbe3 {
-  width: calc(204% + 128px);
-  height: 190%;
+  width: calc(280% + 128px);
+  height: 160%;
+  left: 310px;
 }
 
 /*Remove Appdetail margins */
