@@ -8,6 +8,10 @@ Replace it with the `libraryroot.custom.css` here on this repository.\
 To debug the Steam Library yourself, run Steam with the ` -dev` tag.\
 Create a shortcut to `Steam` -> `Right Click` -> `Properties`. In `Target`, after `Steam.exe"` add `  -dev` so the end of Target looks like this: `Steam.exe" -dev`
 
+The file for modifying JavaScript, `js_tweaker.py` is a Python script. Install Python: https://www.python.org/downloads/ \
+The file that contains the list of JavaScript tweaks is `fixes.txt`.\
+Each line contains one tweak with the original js separated by two spaces from the tweaked js:  [original js]&#9608;&#9608;[new js]
+
 ## Long Story Short
 
 In Oct 2019, Valve pushed out the new Steam UI update. Needless to say, many people hated it. There is so much wasted space and usability issues that I reverted right back to the old UI. This worked for about 7 months, until in June 2020, Valve changed something in how Steam packages are handled that broke the old UI. For me, I could no longer see the client after log in. So since then I've moved to the new UI, but got to work on CSS modifications right away.
