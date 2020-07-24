@@ -1,6 +1,7 @@
-/* List of Steam UI CSS Tweaks v0.8
+/* List of Steam UI CSS Tweaks v0.9
 
 == Changelog ==
+v0.9 Tidy up and separate CSS tweaks
 v0.8 Added Horizontal Game Image tweaks, to be used with JS
 v0.7 Fixed some values so these tweaks work with webkit.css
 v0.6 Shortened to only modified lines (removed unmodified ones)
@@ -155,7 +156,6 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
 
 
 /* Tweak nav bar to be bigger and more opaque*/
-
 .appdetailsprimarylinkssection_LinksSection_3-V8v .appdetailsprimarylinkssection_Links_DgVQa {
   height: 35px !important;
 }
@@ -475,21 +475,22 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div {
 	grid-template-columns: repeat(4, minmax(24.1%, max-content));
 }
 
-/*HORIZONTAL GAME IMAGE TWEAKS - DELETE IF NOT USING*/
-/* Requires corresponding JS modifications */
-.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
-    grid-template-columns: repeat(auto-fill, 200px) !important;
-    grid-auto-rows: 93px !important;
-	gap: 8px 5px !important;
+/*Shrink Screenshots size to show more (JS recommended)*/
+.appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: auto auto auto;
 }
 
 .libraryassetimage_PortraitImage_3Ehhd .libraryassetimage_Image_24_Au, .libraryassetimage_LandscapeImage_ZsU8n .libraryassetimage_Image_24_Au {
 	height: unset;
 }
 
-.appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: auto auto auto;
+/*HORIZONTAL GAME IMAGE TWEAKS - DELETE IF NOT USING*/
+/* Requires corresponding JS modifications */
+.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
+    grid-template-columns: repeat(auto-fill, 200px) !important;
+    grid-auto-rows: 93px !important;
+	gap: 8px 5px !important;
 }
 
 body.game_hover_iframe {
@@ -515,8 +516,8 @@ body.game_hover_iframe {
 
 /*END HORIZONTAL GAME IMAGE TWEAKS*/
 
+/* LIST VIEW ONLY TWEAKS - EXPERIMENTAL */
 /*
- List View Only 
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
     grid-template-columns: repeat(auto-fill, 1000px) !important;
 	grid-auto-rows: 46.5px !important;
@@ -531,9 +532,3 @@ body.game_hover_iframe {
     margin-left: 115px;
 }
 */
-
-/* Condense top of Game Page - EXPERIMENTAL */
-/* ====== */
-
-
-

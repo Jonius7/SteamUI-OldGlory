@@ -55,8 +55,9 @@ def parse_fixes_file(filename):
     with open("fixes.txt", newline='', encoding="UTF-8") as fi:
         try:
             for line in fi:
-               (key, val) = line.rstrip().split("  ")
-               fixes_dict[key] = val
+                if not line.startswith('###'):
+                    (key, val) = line.rstrip().split("  ")
+                    fixes_dict[key] = val
         except Exception as e:
             fi.close()
             print(e)
