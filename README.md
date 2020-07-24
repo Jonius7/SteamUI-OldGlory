@@ -2,11 +2,11 @@
 A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. Check `/dev` branch for in-progress tweaks
 
 ## Quick Usage
-Install SteamFriendsPatcher (https://github.com/PhantomGamers/SteamFriendsPatcher)
-After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.
-Replace it with the `libraryroot.custom.css` here on this repository.
-
-To debug the Steam Library yourself, run Steam with the ` -dev` tag. Create a shortcut to `Steam` -> `Right Click` -> `Properties`. In `Target`, after `Steam.exe"` add ` -dev`
+Install SteamFriendsPatcher (https://github.com/PhantomGamers/SteamFriendsPatcher)\
+After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.\
+Replace it with the `libraryroot.custom.css` here on this repository.\
+To debug the Steam Library yourself, run Steam with the ` -dev` tag.\
+Create a shortcut to `Steam` -> `Right Click` -> `Properties`. In `Target`, after `Steam.exe"` add ` -dev`
 
 ## Long Story Short
 

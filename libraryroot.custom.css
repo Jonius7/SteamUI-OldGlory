@@ -509,6 +509,10 @@ body.game_hover_iframe {
 	height: 93px !important;
 }
 
+.appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
+    grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
+}
+
 /*END HORIZONTAL GAME IMAGE TWEAKS*/
 
 /*
