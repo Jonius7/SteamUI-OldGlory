@@ -37,7 +37,7 @@ https://gyazo.com/aa37f6846e6771ecbc51f08808b93864
 
 Two of my biggest gripes: the left sidebar not being compact enough, and the Friends Activity with padding taking up way too much space on the game page, were now tweaked.
 
-My third gripe was many of my games had those portrait game images with the horrid blurry background in them. I searched up this https://github.com/wynick27/steam-missing-covers-downloader, contributed my own fix, as it had been broken due to the same package changes that broke the old UI, and boom! I was able to import 235 images for myself. You can have a look there and also on my fork (as I compiled an .exe if you are unwilling to install Python)
+My third gripe was many of my games had those portrait game images with the horrid blurry background in them. I searched up this https://github.com/wynick27/steam-missing-covers-downloader, contributed my own fix, as it had been broken due to the same package changes that broke the old UI, and boom! I was able to import 235 images for myself. For a compiled .exe, look here: https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix
 
 So, the main css file: `libraryroot.custom.css`. It is designed to be used with SteamFriendsPatcher (https://github.com/PhantomGamers/SteamFriendsPatcher). Download and open the program up, after it patches, you should find a `libraryroot.custom.css` file in `Steam/steamui`. Replace the file with the one here on the repository. 
 
