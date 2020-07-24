@@ -376,15 +376,14 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
   height: 270px;
 }
 
+/* Hide What's New Container */
 .libraryhome_WhatsNewContainer_gdZT7 {
 	display: none;
 }
 
-
 .appportrait_LibraryItemBoxSubscript_1LJqx {
 	margin-top: -32px;
 }
-
 
 /* Fix event image and text widths */
 
@@ -446,8 +445,23 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 	height: 900px;
 }
 
+.libraryassetimage_PortraitImage_3Ehhd .libraryassetimage_Image_24_Au, .libraryassetimage_LandscapeImage_ZsU8n .libraryassetimage_Image_24_Au {
+	height: unset;
+}
 
-/*DLC MANAGER - row height set to 40px from 90px with JS*/
+/*Shrink DLC size to show more (JS recommended)*/
+.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
+	grid-template-columns: repeat(4, minmax(24.1%, max-content));
+}
+
+/*Shrink Screenshots size to show more (JS recommended)*/
+.appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: auto auto auto;
+}
+
+/*DLC MANAGER - JS Recommended
+- row height set to 40px from 90px with JS*/
 .managedlcdialog_Container_1Gc2g .managedlcdialog_NameAndArt_2Mxb5 {
 	height: 40px;
 }
@@ -469,42 +483,27 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.library
 div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div {
 	box-shadow: none !important;
 }
+/* END DLC MANAGER */
 
-/*Shrink DLC size to show more (JS recommended)*/
-.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
-	grid-template-columns: repeat(4, minmax(24.1%, max-content));
-}
-
-/*Shrink Screenshots size to show more (JS recommended)*/
-.appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: auto auto auto;
-}
-
-.libraryassetimage_PortraitImage_3Ehhd .libraryassetimage_Image_24_Au, .libraryassetimage_LandscapeImage_ZsU8n .libraryassetimage_Image_24_Au {
-	height: unset;
-}
-
-/*HORIZONTAL GAME IMAGE TWEAKS - DELETE IF NOT USING*/
-/* Requires corresponding JS modifications */
+/*HORIZONTAL GAME IMAGE TWEAKS - DELETE IF NOT USING
+Requires corresponding JS tweaks to display correctly
+- Horizontal Grid on Home Page
+- Recent Games shelf for horizontal images
+- Play Next shelf for horizontal images
+- Game information panel resize for horizontal images
+*/
+/*
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
     grid-template-columns: repeat(auto-fill, 200px) !important;
     grid-auto-rows: 93px !important;
 	gap: 8px 5px !important;
 }
 
-body.game_hover_iframe {
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-
-/* Recent games shelf for horizontal images */
 .libraryhomerecentgames_RecentGame_1esfE:not(:first-of-type) .libraryhomerecentgames_RecentGameMediaContainer_2XftM {
 	width: 200px !important;
 	height: 93px !important;
 }
 
-/* Play next shelf for horizontal images */
 .libraryhomeplaynext_PlayNextSuggestion_2a9Sn:not(:first-of-type) .libraryhomeplaynext_PlayNextSuggestionMediaContainer_2AcrN {
 	width: 200px !important;
 	height: 93px !important;
@@ -513,7 +512,7 @@ body.game_hover_iframe {
 .appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
     grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
 }
-
+*/
 /*END HORIZONTAL GAME IMAGE TWEAKS*/
 
 /* LIST VIEW ONLY TWEAKS - EXPERIMENTAL */

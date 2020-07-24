@@ -1,32 +1,33 @@
-#libraries needed: jsbeaitifier, jsmin
+#libraries needed: jsbeautifier, jsmin
 
 import jsbeautifier
 import os.path
 import sys
 from jsmin import jsmin
 
-if not os.path.isfile("libraryroot.beaut.js"):
-    print("Opening JS file and beautifying...")
-    library = jsbeautifier.beautify_file("libraryroot.js")
-
-    f = open("libraryroot.beaut.js", "wt", newline='', encoding="UTF-8")
-    print("Writing beautified file... please do not close")
-    f.write(library)
-    f.close()
-    print("Beautified file write finished")
-
-
-       
-replacements = {'4:"libraryroot"}[n=u]||n': '4:"libraryreet"}[n=u]||n'}
+   
+swap_js = {'4:"libraryroot"}[n=u]||n': '4:"libraryreet"}[n=u]||n'}
 
 fixes_dict = {}
+
+def beautify_js():
+    if not os.path.isfile("libraryroot.beaut.js"):
+        print("Opening JS file and beautifying...")
+        library = jsbeautifier.beautify_file("libraryroot.js")
+
+        f = open("libraryroot.beaut.js", "wt", newline='', encoding="UTF-8")
+        print("Writing beautified file... please do not close")
+        f.write(library)
+        f.close()
+        print("Beautified file write finished")
+
 
 #modify library.js to look for different libraryroot.js file
 def setup_library():
     lines = []
     with open('library.js') as infile:
         for line in infile:
-            for src, target in replacements.items():
+            for src, target in swap_js.items():
                 line = line.replace(src, target)
             lines.append(line)
     with open('library.js', 'w') as outfile:
@@ -65,6 +66,7 @@ def re_minify():
     print("Re-minify JS file")
   
 def main():
+    beautify_js()
     setup_library()
     print("Finding Fixes")
     parse_fixes_file("fixes.txt")
