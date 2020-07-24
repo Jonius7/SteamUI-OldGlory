@@ -15,6 +15,13 @@ Each line contains one tweak with the original js separated by two spaces from t
 Required libraries: `jsbeautifier`, `jsmin`.\
 Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
 
+## Quick Links
+GIF of changes: https://gyazo.com/aa37f6846e6771ecbc51f08808b93864
+More DLC and Screenshots, more info!: https://imgur.com/a/3WTdrXP
+JS Tweaks: https://imgur.com/a/mL4QNYB
+Is Steam Grid View Back?: https://imgur.com/gallery/qcIHx0l
+Discussions: https://steamcommunity.com/discussions/forum/0/2451595019863406679/
+
 ## Long Story Short
 
 In Oct 2019, Valve pushed out the new Steam UI update. Needless to say, many people hated it. There is so much wasted space and usability issues that I reverted right back to the old UI. This worked for about 7 months, until in June 2020, Valve changed something in how Steam packages are handled that broke the old UI. For me, I could no longer see the client after log in. So since then I've moved to the new UI, but got to work on CSS modifications right away.
