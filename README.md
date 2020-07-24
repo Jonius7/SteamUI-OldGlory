@@ -11,7 +11,9 @@ Create a shortcut to `Steam` -> `Right Click` -> `Properties`. In `Target`, afte
 The file for modifying JavaScript, `js_tweaker.py` is a Python script. Install Python: https://www.python.org/downloads/ \
 The file that contains the list of JavaScript tweaks is `fixes.txt`.\
 Each line contains one tweak with the original js separated by two spaces from the tweaked js:  [original js]&#9608;&#9608;[new js] \
-Required libraries: jsbeautifier, jsmin. Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
+
+Required libraries: `jsbeautifier`, `jsmin`.\
+Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
 
 ## Long Story Short
 
@@ -43,7 +45,7 @@ So, the main css file: `libraryroot.custom.css`. It is designed to be used with 
 
 So, back to more tweaking. CSS can do a lot of cosmetic tweaks, but it has its limits. I understood CSS enough (some good ol' brute-force Google searching helps), but when it came to JavaScript, the minified JS files were a solid obstacle and I felt I had no idea how to decipher it to make tweaks.
 
-But eventually, I've figured out enough to make JS + CSS tweaks (https://imgur.com/a/mL4QNYB) enabling landscape game images - like in the Grid view the old UI had (https://imgur.com/a/qcIHx0l), and wrote a Python script to automate changing any JS. Now, the script is still not user-consumer-friendly-ready, but a quick glance at the code and you'll see that it finds and replaces certain strings in the JavaScript. If you want to add any tweaks of your own, the variable `fixes_dict` is where to put them. Of course, I could just make it so that it reads your tweaks from an external file, but that's not essential for now. Just run `js_tweaker.py` to apply the JavaScript tweaks. Additionally, there is a limitation that the script only reads one line at a time, so you cannot use multiple lines as your search criteria to "find and replace", at the moment.
+But eventually, I've figured out enough to make JS + CSS tweaks (https://imgur.com/a/mL4QNYB) enabling landscape game images - like in the Grid view the old UI had (https://imgur.com/a/qcIHx0l), and wrote a Python script to automate changing any JS. Now, the script is still not user-consumer-friendly-ready, but a quick glance at the code and you'll see that it finds and replaces certain strings in the JavaScript. If you want to add any tweaks of your own, edit the file `fixes.txt`. Just run `js_tweaker.py` to apply the JavaScript tweaks. Additionally, there is a limitation that the script only reads one line at a time, so you cannot use multiple lines as your search criteria to "find and replace", at the moment.
 
 I have been able to increase the number of screenshots it shows on a game's page from 4 to 8. Tried to get it to generate 9, but was unable to find the specific variable (it generates an array of 8 screenshots by default). Also increased the number of DLC visible to 12 - the JS generates an array of 23! They are just not displayed on the page. https://imgur.com/a/3WTdrXP
 
