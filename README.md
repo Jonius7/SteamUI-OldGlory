@@ -10,7 +10,8 @@ Create a shortcut to `Steam` -> `Right Click` -> `Properties`. In `Target`, afte
 
 The file for modifying JavaScript, `js_tweaker.py` is a Python script. Install Python: https://www.python.org/downloads/ \
 The file that contains the list of JavaScript tweaks is `fixes.txt`.\
-Each line contains one tweak with the original js separated by two spaces from the tweaked js:  [original js]&#9608;&#9608;[new js]
+Each line contains one tweak with the original js separated by two spaces from the tweaked js:  [original js]&#9608;&#9608;[new js] \
+Required libraries: jsbeautifier, jsmin. Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
 
 ## Long Story Short
 
