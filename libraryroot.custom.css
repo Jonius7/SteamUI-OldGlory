@@ -8,6 +8,11 @@ v0.5 Added in new tweaks to Apppages, padding and headers
 v0.4 initial version 
 */
 
+/* Variables to change between Detail (default) and Grid view */
+:root {
+	
+}
+
 
 /* Games dropdown width increased */
 
@@ -16,8 +21,7 @@ v0.4 initial version
 }
 
 
-/* Search bar padding especially bottom, reduced */
-
+/* Search bar 100% width, padding especially top, reduced */
 .gamelistsearchbar_Container_20QAC {
   width: 100%;
   padding: 3px;
@@ -26,20 +30,18 @@ v0.4 initial version
 
 
 /* fix search bar sometimes flexing down a few pixels */
-
 .gamelistsearchbar_Container_20QAC .gamelistsearchbar_SearchInput_12vo5 {
   height: 11.5px;
 }
 
 
-/* Your Collections header and side padding */
+/* Your Collections header and side padding reduced*/
 
 .allcollections_ScrollContainer_u1xD3 {
   padding: 10px;
 }
 
-
-/* App Page main header - down to 70% the height */
+/* App Page main header - down to 60% the height */
 
 .sharedappdetailsheader_TopCapsule_NZMJ6 {
   width: 60%;
@@ -53,7 +55,6 @@ v0.4 initial version
   width: calc(204% + 128px);
   height: 190%;
 }
-
 
 /*Remove Appdetail margins */
 
@@ -80,6 +81,7 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
   color: rgba(255, 255, 255, 0.9);
 }
 
+/* increase icon opacity of Play Time */
 .appdetailsplaysection_Playtime_1aKeg .appdetailsplaysection_PlaytimeIcon_1GZdo svg polyline,
 .appdetailsplaysection_Playtime_1aKeg .appdetailsplaysection_PlaytimeIcon_1GZdo svg path {
   stroke: rgba(255, 255, 255, 0.5);
@@ -89,30 +91,32 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
   stroke: rgba(255, 255, 255, 0.5);
   fill: rgba(255, 255, 255, 0.5);
 }
-
+/* increase opacity of small text for Last Played, Play Time */
 .appdetailsplaysection_PlayBarDetailLabel_2TYVG,
 .appdetailsplaysection_LastPlayed_3pS8k .appdetailsplaysection_LastPlayedInfo_1nfJN {
   color: rgba(255, 255, 255, 0.5);
 }
 
+/* Remove Activity item margin */
 .appactivityday_AppActivityDay_S2Fu9 {
   margin-bottom: 0px;
 }
-
+/* Remove Activity Event margin */
 .appactivityday_Event_UVeN0 {
   margin-top: 0px;
 }
 
+/* Activity Achievement Unlocked to 2 columns */
 .appactivityday_ActivityAchievementUnlocked_yJLy7 {
   padding: 6px;
   grid-template-columns: repeat(auto-fill, [col-start] minmax(140px, 48%) [col-end]) !important;
   gap: 8px 8px;
 }
-
+/* Font size for large event title */
 .appactivityday_PartnerEventLargeImage_Title_3fsjz {
   font-size: 16px;
 }
-
+/* Font size for medium event*/
 .appactivityday_PartnerEventMediumImage_Contents_2gv3E {
   padding: 10px;
 }
@@ -294,7 +298,7 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 /* Make game list height constant so search bar doesn't "flex" down */
 
 .gamelist_Container_1ijTa {
-  height: 90%;
+  height: calc(95.8% - 74px);
 }
 
 
@@ -326,7 +330,7 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 
 .gamelist_NoSearchResultsContainer_1fbRp {
   margin: 2px;
-  height: 89.5%;
+  height: calc(98% - 74px);
 }
 
 
@@ -370,6 +374,15 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 
 .LibraryDisplaySizeSmall .libraryhome_UpdatesContainer_17uEB {
   height: 270px;
+}
+
+.libraryhome_WhatsNewContainer_gdZT7 {
+	display: none;
+}
+
+
+.appportrait_LibraryItemBoxSubscript_1LJqx {
+	margin-top: -32px;
 }
 
 
@@ -423,6 +436,45 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
     align-self: center;
 }
 
+.hover_release {
+	font-family: Arial, Helvetica, sans-serif !important;
+}
+
+
+/* Height of blur over background image. If a low value, most of the background will be clear. default: 450px*/
+.appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
+	height: 900px;
+}
+
+
+/*DLC MANAGER - row height set to 40px from 90px with JS*/
+.managedlcdialog_Container_1Gc2g .managedlcdialog_NameAndArt_2Mxb5 {
+	height: 40px;
+}
+
+div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.libraryassetimage_Container_1R9r2.libraryassetimage_Visibility_3d_bT.libraryassetimage_Visible_yDr03.libraryassetimage_LandscapeImage_ZsU8n.appdetailsdlcsection_Art_3SQn1 > img {
+    width: 48%;
+    margin: 0 auto;
+}
+
+/* gloss */
+.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.appdetailsdlcsection_Gloss_HAvWs {
+    width: 44%;
+    left: 28%;
+}
+.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > img {
+	width: 44%;	
+}
+
+div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div {
+	box-shadow: none !important;
+}
+
+/*Shrink DLC size to show more (JS recommended)*/
+.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
+	grid-template-columns: repeat(4, minmax(24.1%, max-content));
+}
+
 /*HORIZONTAL GAME IMAGE TWEAKS - DELETE IF NOT USING*/
 /* Requires corresponding JS modifications */
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
@@ -440,6 +492,11 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 	grid-template-rows: auto auto auto;
 }
 
+body.game_hover_iframe {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
 /* Recent games shelf for horizontal images */
 .libraryhomerecentgames_RecentGame_1esfE:not(:first-of-type) .libraryhomerecentgames_RecentGameMediaContainer_2XftM {
 	width: 200px !important;
@@ -454,23 +511,25 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 
 /*END HORIZONTAL GAME IMAGE TWEAKS*/
 
-/*Shrink DLC size to show more (JS recommended)*/
-.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
-	grid-template-columns: repeat(4, minmax(24.1%, max-content));
+/*
+ List View Only 
+.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
+    grid-template-columns: repeat(auto-fill, 1000px) !important;
+	grid-auto-rows: 46.5px !important;
 }
 
-/*DLC MANAGER - row height set to 40px from 90px with JS*/
-.managedlcdialog_Container_1Gc2g .managedlcdialog_NameAndArt_2Mxb5 {
-	height: 40px;
+.appportrait_LibraryItemBox_WYgDg {
+    width: 10%;
 }
 
-.libraryassetimage_Container_1R9r2.libraryassetimage_Visibility_3d_bT.libraryassetimage_Visible_yDr03.libraryassetimage_LandscapeImage_ZsU8n.appdetailsdlcsection_Art_3SQn1 > img.libraryassetimage_Image_24_Au {
-    width: 48%;
-    margin: 0 auto;
-}
+.appportrait_LibraryItemBoxSubscript_1LJqx {
 
-/* gloss */
-.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.appdetailsdlcsection_Gloss_HAvWs {
-    width: 44%;
-    left: 28%;
+    margin-left: 115px;
 }
+*/
+
+/* Condense top of Game Page - EXPERIMENTAL */
+/* ====== */
+
+
+

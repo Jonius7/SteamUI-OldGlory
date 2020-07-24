@@ -1,6 +1,13 @@
 # SteamUI-OldGlory
 A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. Check `/dev` branch for in-progress tweaks
 
+## Quick Usage
+Install SteamFriendsPatcher (https://github.com/PhantomGamers/SteamFriendsPatcher)
+After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.
+Replace it with the `libraryroot.custom.css` here on this repository.
+
+To debug the Steam Library yourself, run Steam with the ` -dev` tag. Create a shortcut to `Steam` -> `Right Click` -> `Properties`. In `Target`, after `Steam.exe"` add ` -dev`
+
 ## Long Story Short
 
 In Oct 2019, Valve pushed out the new Steam UI update. Needless to say, many people hated it. There is so much wasted space and usability issues that I reverted right back to the old UI. This worked for about 7 months, until in June 2020, Valve changed something in how Steam packages are handled that broke the old UI. For me, I could no longer see the client after log in. So since then I've moved to the new UI, but got to work on CSS modifications right away.
