@@ -462,7 +462,9 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 }
 
 /*DLC MANAGER - JS Recommended
-- row height set to 40px from 90px with JS*/
+- row height set to 40px from 90px with JS
+- gloss*/
+/*
 .managedlcdialog_Container_1Gc2g .managedlcdialog_NameAndArt_2Mxb5 {
 	height: 40px;
 }
@@ -472,7 +474,7 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.library
     margin: 0 auto;
 }
 
-/* gloss */
+
 .managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.appdetailsdlcsection_Gloss_HAvWs {
     width: 44%;
     left: 28%;
@@ -484,6 +486,7 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.library
 div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div {
 	box-shadow: none !important;
 }
+*/
 /* END DLC MANAGER */
 
 /*HORIZONTAL GAME IMAGE TWEAKS - DELETE IF NOT USING
