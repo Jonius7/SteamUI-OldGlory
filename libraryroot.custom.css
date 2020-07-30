@@ -458,24 +458,6 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 .libraryassetimage_PortraitImage_3Ehhd .libraryassetimage_Image_24_Au, .libraryassetimage_LandscapeImage_ZsU8n .libraryassetimage_Image_24_Au {
 	height: unset;
 }
-<<<<<<< HEAD
-
-/*Shrink DLC size to show more (JS recommended)*/
-.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
-	grid-template-columns: repeat(4, minmax(24.1%, max-content));
-}
-
-/*Shrink Screenshots size to show more (JS recommended)*/
-.appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: auto auto auto;
-}
-
-/*DLC MANAGER - JS Recommended
-- row height set to 40px from 90px with JS
-- gloss*/
-
-=======
 
 /*Shrink DLC size to show more (JS recommended)*/
 .appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
@@ -492,7 +474,6 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 - row height set to 40px from 90px with JS
 - gloss*/
 /*
->>>>>>> origin/master
 .managedlcdialog_Container_1Gc2g .managedlcdialog_NameAndArt_2Mxb5 {
 	height: 40px;
 }
