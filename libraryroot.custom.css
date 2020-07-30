@@ -58,7 +58,7 @@ v0.4 initial version
   left: 310px;
 }
 
-?
+
 /* Remove pesky rectangle underneath just above header image*/
 .sharedappdetailsheader_ImgSrc_HNbe3.sharedappdetailsheader_ImgBlurBackdrop_3_IUV {
 	-webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);
@@ -458,6 +458,7 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 .libraryassetimage_PortraitImage_3Ehhd .libraryassetimage_Image_24_Au, .libraryassetimage_LandscapeImage_ZsU8n .libraryassetimage_Image_24_Au {
 	height: unset;
 }
+<<<<<<< HEAD
 
 /*Shrink DLC size to show more (JS recommended)*/
 .appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
@@ -474,6 +475,24 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 - row height set to 40px from 90px with JS
 - gloss*/
 
+=======
+
+/*Shrink DLC size to show more (JS recommended)*/
+.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
+	grid-template-columns: repeat(4, minmax(24.1%, max-content));
+}
+
+/*Shrink Screenshots size to show more (JS recommended)*/
+.appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: auto auto auto;
+}
+
+/*DLC MANAGER - JS Recommended
+- row height set to 40px from 90px with JS
+- gloss*/
+/*
+>>>>>>> origin/master
 .managedlcdialog_Container_1Gc2g .managedlcdialog_NameAndArt_2Mxb5 {
 	height: 40px;
 }
@@ -507,7 +526,6 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div {
     background: #000000;
 }
 */
-
 
 /*HORIZONTAL GAME IMAGE TWEAKS - DELETE IF NOT USING
 Requires corresponding JS tweaks to display correctly
