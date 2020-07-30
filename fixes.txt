@@ -1,6 +1,6 @@
 ###Child: d,  Child: d,
-###gridColumnGap: 16,  gridColumnGap: 5,
-###gridRowGap: 24,  gridRowGap: 8,
+gridColumnGap: 16,  gridColumnGap: 5,
+gridRowGap: 24,  gridRowGap: 8,
 ###eAssetType: 0,  eAssetType: 3,
 ###name : "library_600x900.jpg", e.rt  name : "header.jpg", e.rt
 ###t + "/portrait.png?v=2"  t + "/header.jpg"

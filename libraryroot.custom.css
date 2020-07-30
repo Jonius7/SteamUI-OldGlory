@@ -58,6 +58,12 @@ v0.4 initial version
   left: 310px;
 }
 
+?
+/* Remove pesky rectangle underneath just above header image*/
+.sharedappdetailsheader_ImgSrc_HNbe3.sharedappdetailsheader_ImgBlurBackdrop_3_IUV {
+	-webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);
+}
+
 /*Remove Appdetail margins */
 
 .appdetailssection_AppDetailsSection_2r4TK {
@@ -440,6 +446,9 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 	font-family: Arial, Helvetica, sans-serif !important;
 }
 
+.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
+	gap: 8px 5px !important;
+}
 
 /* Height of blur over background image. If a low value, most of the background will be clear. default: 450px*/
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
@@ -464,7 +473,7 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 /*DLC MANAGER - JS Recommended
 - row height set to 40px from 90px with JS
 - gloss*/
-/*
+
 .managedlcdialog_Container_1Gc2g .managedlcdialog_NameAndArt_2Mxb5 {
 	height: 40px;
 }
@@ -486,8 +495,19 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.library
 div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div {
 	box-shadow: none !important;
 }
-*/
 /* END DLC MANAGER */
+
+/* Vertical Play Bar */
+
+/* Vertical Navigation Bar */
+/*
+.appdetailssection_Body_5uvIN.appdetailsprimarylinkssection_LinksSectionBody_25f0f {
+    transform: translateY(-250px);
+    z-index: 3;
+    background: #000000;
+}
+*/
+
 
 /*HORIZONTAL GAME IMAGE TWEAKS - DELETE IF NOT USING
 Requires corresponding JS tweaks to display correctly
@@ -535,3 +555,4 @@ Requires corresponding JS tweaks to display correctly
     margin-left: 115px;
 }
 */
+
