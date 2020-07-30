@@ -16,10 +16,11 @@ Required libraries: `jsbeautifier`, `jsmin`.\
 Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
 
 ## Quick Links
-- GIF of tweaks: https://gyazo.com/aa37f6846e6771ecbc51f08808b93864
+- GIF of tweaks: https://gyazo.com/38d0101b493741501697b4a0f5f0818f
 - More DLC and Screenshots, more info!: https://imgur.com/a/3WTdrXP
 - JS Tweaks: https://imgur.com/a/mL4QNYB
 - Is Steam Grid View Back?: https://imgur.com/gallery/qcIHx0l
+- Steam List View Proof of Concept: https://imgur.com/a/ZqvqrkR
 - Discussions: https://steamcommunity.com/discussions/forum/0/2451595019863406679/
 
 ## Long Story Short
