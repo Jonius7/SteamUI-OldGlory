@@ -216,7 +216,9 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
   flex-direction: column;
   float: left;
 }
-
+.appdetailsoverview_Spotlights_11kuV {
+    width: 98% !important;
+}
 
 /* New sections */
 
@@ -555,4 +557,3 @@ Requires corresponding JS tweaks to display correctly
     margin-left: 115px;
 }
 */
-
