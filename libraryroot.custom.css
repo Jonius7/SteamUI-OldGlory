@@ -9,10 +9,10 @@ v0.5 Added in new tweaks to Apppages, padding and headers
 v0.4 initial version 
 */
 
+
 /* Variables to change between Detail (default) and Grid view */
-:root {
-	
-}
+
+:root {}
 
 
 /* Games dropdown width increased */
@@ -23,6 +23,7 @@ v0.4 initial version
 
 
 /* Search bar 100% width, padding especially top, reduced */
+
 .gamelistsearchbar_Container_20QAC {
   width: 100%;
   padding: 3px;
@@ -31,6 +32,7 @@ v0.4 initial version
 
 
 /* fix search bar sometimes flexing down a few pixels */
+
 .gamelistsearchbar_Container_20QAC .gamelistsearchbar_SearchInput_12vo5 {
   height: 11.5px;
 }
@@ -41,6 +43,7 @@ v0.4 initial version
 .allcollections_ScrollContainer_u1xD3 {
   padding: 10px;
 }
+
 
 /* App Page main header - down to 60% the height */
 
@@ -57,6 +60,14 @@ v0.4 initial version
   height: 160%;
   left: 310px;
 }
+
+
+/* Remove pesky rectangle underneath just above header image*/
+
+.sharedappdetailsheader_ImgSrc_HNbe3.sharedappdetailsheader_ImgBlurBackdrop_3_IUV {
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);
+}
+
 
 /*Remove Appdetail margins */
 
@@ -77,13 +88,16 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
   margin-bottom: 6px;
 }
 
+
 /* increase text opacity of Last Played, Play Time */
 
 .appdetailsplaysection_PlayBarLabel_34lrt {
   color: rgba(255, 255, 255, 0.9);
 }
 
+
 /* increase icon opacity of Play Time */
+
 .appdetailsplaysection_Playtime_1aKeg .appdetailsplaysection_PlaytimeIcon_1GZdo svg polyline,
 .appdetailsplaysection_Playtime_1aKeg .appdetailsplaysection_PlaytimeIcon_1GZdo svg path {
   stroke: rgba(255, 255, 255, 0.5);
@@ -93,32 +107,48 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
   stroke: rgba(255, 255, 255, 0.5);
   fill: rgba(255, 255, 255, 0.5);
 }
+
+
 /* increase opacity of small text for Last Played, Play Time */
+
 .appdetailsplaysection_PlayBarDetailLabel_2TYVG,
 .appdetailsplaysection_LastPlayed_3pS8k .appdetailsplaysection_LastPlayedInfo_1nfJN {
   color: rgba(255, 255, 255, 0.5);
 }
 
+
 /* Remove Activity item margin */
+
 .appactivityday_AppActivityDay_S2Fu9 {
   margin-bottom: 0px;
 }
+
+
 /* Remove Activity Event margin */
+
 .appactivityday_Event_UVeN0 {
   margin-top: 0px;
 }
 
+
 /* Activity Achievement Unlocked to 2 columns */
+
 .appactivityday_ActivityAchievementUnlocked_yJLy7 {
   padding: 6px;
   grid-template-columns: repeat(auto-fill, [col-start] minmax(140px, 48%) [col-end]) !important;
   gap: 8px 8px;
 }
+
+
 /* Font size for large event title */
+
 .appactivityday_PartnerEventLargeImage_Title_3fsjz {
   font-size: 16px;
 }
+
+
 /* Font size for medium event*/
+
 .appactivityday_PartnerEventMediumImage_Contents_2gv3E {
   padding: 10px;
 }
@@ -157,6 +187,7 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
 
 
 /* Tweak nav bar to be bigger and more opaque*/
+
 .appdetailsprimarylinkssection_LinksSection_3-V8v .appdetailsprimarylinkssection_Links_DgVQa {
   height: 35px !important;
 }
@@ -209,6 +240,10 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
   display: flex;
   flex-direction: column;
   float: left;
+}
+
+.appdetailsoverview_Spotlights_11kuV {
+  width: 98% !important;
 }
 
 
@@ -377,14 +412,17 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
   height: 270px;
 }
 
+
 /* Hide What's New Container */
+
 .libraryhome_WhatsNewContainer_gdZT7 {
-	display: none;
+  display: none;
 }
 
 .appportrait_LibraryItemBoxSubscript_1LJqx {
-	margin-top: -32px;
+  margin-top: -32px;
 }
+
 
 /* Fix event image and text widths */
 
@@ -426,68 +464,99 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
   display: flex;
 }
 
+
 /*Change Game Summary separator from small dot to thin line-clamp*/
+
 .spotlightgameplaysummary_TypeSeparator_11ner {
-    background-color: rgba(132, 154, 182, 0.3);
-    width: 1px;
-    height: 160px;
-    border-radius: 3%;
-    margin: 10px 16px;
-    align-self: center;
+  background-color: rgba(132, 154, 182, 0.3);
+  width: 1px;
+  height: 160px;
+  border-radius: 3%;
+  margin: 10px 16px;
+  align-self: center;
 }
 
 .hover_release {
-	font-family: Arial, Helvetica, sans-serif !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG,
+.appgrid_YourCollection_11p6F {
+  gap: 8px 5px !important;
 }
 
 
 /* Height of blur over background image. If a low value, most of the background will be clear. default: 450px*/
+
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
-	height: 900px;
+  height: 900px;
 }
 
-.libraryassetimage_PortraitImage_3Ehhd .libraryassetimage_Image_24_Au, .libraryassetimage_LandscapeImage_ZsU8n .libraryassetimage_Image_24_Au {
-	height: unset;
+.libraryassetimage_PortraitImage_3Ehhd .libraryassetimage_Image_24_Au,
+.libraryassetimage_LandscapeImage_ZsU8n .libraryassetimage_Image_24_Au {
+  height: unset;
 }
+
 
 /*Shrink DLC size to show more (JS recommended)*/
+
 .appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
-	grid-template-columns: repeat(4, minmax(24.1%, max-content));
+  grid-template-columns: repeat(4, minmax(24.1%, max-content));
 }
 
+
 /*Shrink Screenshots size to show more (JS recommended)*/
+
 .appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: auto auto auto;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto;
 }
+
 
 /*DLC MANAGER - JS Recommended
 - row height set to 40px from 90px with JS
 - gloss*/
-/*
+
 .managedlcdialog_Container_1Gc2g .managedlcdialog_NameAndArt_2Mxb5 {
-	height: 40px;
+  height: 40px;
 }
 
-div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.libraryassetimage_Container_1R9r2.libraryassetimage_Visibility_3d_bT.libraryassetimage_Visible_yDr03.libraryassetimage_LandscapeImage_ZsU8n.appdetailsdlcsection_Art_3SQn1 > img {
-    width: 48%;
-    margin: 0 auto;
+div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div.libraryassetimage_Container_1R9r2.libraryassetimage_Visibility_3d_bT.libraryassetimage_Visible_yDr03.libraryassetimage_LandscapeImage_ZsU8n.appdetailsdlcsection_Art_3SQn1>img {
+  width: 48%;
+  margin: 0 auto;
+}
+
+.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div.appdetailsdlcsection_Gloss_HAvWs {
+  width: 44%;
+  left: 28%;
+}
+
+.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>img {
+  width: 44%;
+}
+
+div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
+  box-shadow: none !important;
 }
 
 
-.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.appdetailsdlcsection_Gloss_HAvWs {
-    width: 44%;
-    left: 28%;
-}
-.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > img {
-	width: 44%;	
-}
+/* END DLC MANAGER */
 
-div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div {
-	box-shadow: none !important;
+
+/* Vertical Play Bar */
+
+
+/* Vertical Navigation Bar */
+
+
+/*
+.appdetailssection_Body_5uvIN.appdetailsprimarylinkssection_LinksSectionBody_25f0f {
+    transform: translateY(-250px);
+    z-index: 3;
+    background: #000000;
 }
 */
-/* END DLC MANAGER */
+
 
 /*HORIZONTAL GAME IMAGE TWEAKS - DELETE IF NOT USING
 Requires corresponding JS tweaks to display correctly
@@ -496,6 +565,8 @@ Requires corresponding JS tweaks to display correctly
 - Play Next shelf for horizontal images
 - Game information panel resize for horizontal images
 */
+
+
 /*
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
     grid-template-columns: repeat(auto-fill, 200px) !important;
@@ -517,9 +588,14 @@ Requires corresponding JS tweaks to display correctly
     grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
 }
 */
+
+
 /*END HORIZONTAL GAME IMAGE TWEAKS*/
 
+
 /* LIST VIEW ONLY TWEAKS - EXPERIMENTAL */
+
+
 /*
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
     grid-template-columns: repeat(auto-fill, 1000px) !important;

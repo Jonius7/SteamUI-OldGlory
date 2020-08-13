@@ -9,6 +9,7 @@ To debug the Steam Library yourself, run Steam with the ` -dev` tag.\
 Create a shortcut to `Steam` -> `Right Click` -> `Properties`. In `Target`, after `Steam.exe"` add `  -dev` so the end of Target looks like this: `Steam.exe" -dev`
 
 The file for modifying JavaScript, `js_tweaker.py` is a Python script. Install Python: https://www.python.org/downloads/ \
+js_tweaker Windows build: https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_1r4
 The file that contains the list of JavaScript tweaks is `fixes.txt`.\
 Each line contains one tweak with the original js separated by two spaces from the tweaked js:  [original js]&#9608;&#9608;[new js] \
 
