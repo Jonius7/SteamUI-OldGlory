@@ -1,6 +1,7 @@
-/* List of Steam UI CSS Tweaks v0.9
+/* List of Steam UI CSS Tweaks v0.10
 
 == Changelog ==
+v0.10 More experimental tweaks
 v0.9 Tidy up and separate CSS tweaks
 v0.8 Added Horizontal Game Image tweaks, to be used with JS
 v0.7 Fixed some values so these tweaks work with webkit.css
@@ -9,227 +10,254 @@ v0.5 Added in new tweaks to Apppages, padding and headers
 v0.4 initial version 
 */
 
+
 /* Variables to change between Detail (default) and Grid view */
-:root {
-	
-}
+
+:root {}
 
 
 /* Games dropdown width increased */
 
 .gamelistdropdown_DropDown_EDl_m {
-  width: 195px !important;
+	width: 195px !important;
 }
 
 
 /* Search bar 100% width, padding especially top, reduced */
+
 .gamelistsearchbar_Container_20QAC {
-  width: 100%;
-  padding: 3px;
-  padding-top: 0px;
+	width: 100%;
+	padding: 3px;
+	padding-top: 0px;
 }
 
 
 /* fix search bar sometimes flexing down a few pixels */
+
 .gamelistsearchbar_Container_20QAC .gamelistsearchbar_SearchInput_12vo5 {
-  height: 11.5px;
+	height: 11.5px;
 }
 
 
 /* Your Collections header and side padding reduced*/
 
 .allcollections_ScrollContainer_u1xD3 {
-  padding: 10px;
+	padding: 10px;
 }
+
 
 /* App Page main header - down to 60% the height */
 
 .sharedappdetailsheader_TopCapsule_NZMJ6 {
-  width: 60%;
-  height: 14.4vw!important;
+	width: 60%;
+	height: 14.4vw!important;
 }
 
 
 /* App Page main header - moving the image so it is anchored from the top */
 
 .sharedappdetailsheader_ImgSrc_HNbe3 {
-  width: calc(280% + 128px);
-  height: 160%;
-  left: 310px;
+	width: calc(280% + 128px);
+	height: 160%;
+	left: 310px;
 }
 
 
 /* Remove pesky rectangle underneath just above header image*/
+
 .sharedappdetailsheader_ImgSrc_HNbe3.sharedappdetailsheader_ImgBlurBackdrop_3_IUV {
 	-webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);
 }
 
+
 /*Remove Appdetail margins */
 
 .appdetailssection_AppDetailsSection_2r4TK {
-  margin-bottom: 6px;
+	margin-bottom: 6px;
 }
 
 .appdetailssection_AppDetailsSectionContainer_31ptF {
-  margin: 8px;
+	margin: 8px;
 }
 
 button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_BottomRight_3nJyY {
-  margin-top: -4px;
-  padding: 2px 8px;
+	margin-top: -4px;
+	padding: 2px 8px;
 }
 
 .appdetailsfriendssection_Subsection_39bm0 {
-  margin-bottom: 6px;
+	margin-bottom: 6px;
 }
+
 
 /* increase text opacity of Last Played, Play Time */
 
 .appdetailsplaysection_PlayBarLabel_34lrt {
-  color: rgba(255, 255, 255, 0.9);
+	color: rgba(255, 255, 255, 0.9);
 }
 
+
 /* increase icon opacity of Play Time */
+
 .appdetailsplaysection_Playtime_1aKeg .appdetailsplaysection_PlaytimeIcon_1GZdo svg polyline,
 .appdetailsplaysection_Playtime_1aKeg .appdetailsplaysection_PlaytimeIcon_1GZdo svg path {
-  stroke: rgba(255, 255, 255, 0.5);
+	stroke: rgba(255, 255, 255, 0.5);
 }
 
 .appdetailsplaysection_Playtime_1aKeg .appdetailsplaysection_PlaytimeIcon_1GZdo svg circle {
-  stroke: rgba(255, 255, 255, 0.5);
-  fill: rgba(255, 255, 255, 0.5);
+	stroke: rgba(255, 255, 255, 0.5);
+	fill: rgba(255, 255, 255, 0.5);
 }
+
+
 /* increase opacity of small text for Last Played, Play Time */
+
 .appdetailsplaysection_PlayBarDetailLabel_2TYVG,
 .appdetailsplaysection_LastPlayed_3pS8k .appdetailsplaysection_LastPlayedInfo_1nfJN {
-  color: rgba(255, 255, 255, 0.5);
+	color: rgba(255, 255, 255, 0.5);
 }
+
 
 /* Remove Activity item margin */
+
 .appactivityday_AppActivityDay_S2Fu9 {
-  margin-bottom: 0px;
-}
-/* Remove Activity Event margin */
-.appactivityday_Event_UVeN0 {
-  margin-top: 0px;
+	margin-bottom: 0px;
 }
 
+
+/* Remove Activity Event margin */
+
+.appactivityday_Event_UVeN0 {
+	margin-top: 0px;
+}
+
+
 /* Activity Achievement Unlocked to 2 columns */
+
 .appactivityday_ActivityAchievementUnlocked_yJLy7 {
-  padding: 6px;
-  grid-template-columns: repeat(auto-fill, [col-start] minmax(140px, 48%) [col-end]) !important;
-  gap: 8px 8px;
+	padding: 6px;
+	grid-template-columns: repeat(auto-fill, [col-start] minmax(140px, 48%) [col-end]) !important;
+	gap: 8px 8px;
 }
+
+
 /* Font size for large event title */
+
 .appactivityday_PartnerEventLargeImage_Title_3fsjz {
-  font-size: 16px;
+	font-size: 16px;
 }
+
+
 /* Font size for medium event*/
+
 .appactivityday_PartnerEventMediumImage_Contents_2gv3E {
-  padding: 10px;
+	padding: 10px;
 }
 
 .appactivityday_PartnerEventMediumImage_Title_1gljE {
-  font-size: 16px;
+	font-size: 16px;
 }
 
 .appdetailsachievementssection_Featured_1j_gj .appdetailsachievementssection_TextSection_1s_9c .appdetailsachievementssection_Name_39Y01 {
-  font-size: 12px;
+	font-size: 12px;
 }
 
 .appdetailsachievementssection_Featured_1j_gj .appdetailsachievementssection_TextSection_1s_9c .appdetailsachievementssection_Desc_2gLHb {
-  font-size: 11px;
+	font-size: 11px;
 }
 
 .appdetailscommunityfeed_CommunityContentContainer_A6G1l {
-  font-size: 16px;
-  flex-direction: column;
-  color: #616970;
-  display: flex;
-  /*margin-left: -163%;*/
+	font-size: 16px;
+	flex-direction: column;
+	color: #616970;
+	display: flex;
+	/*margin-left: -163%;*/
 }
 
 .appdetailsactivitysection_ActivityFeedContainer_3yTl3 {
-  color: white;
-  margin-bottom: 22px;
-  max-width: unset;
-  width: 100%;
-  float: left;
+	color: white;
+	margin-bottom: 22px;
+	max-width: unset;
+	width: 100%;
+	float: left;
 }
 
 .appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
-  grid-template-columns: repeat(3, minmax(32.3%, max-content));
+	grid-template-columns: repeat(3, minmax(32.3%, max-content));
 }
 
 
 /* Tweak nav bar to be bigger and more opaque*/
+
 .appdetailsprimarylinkssection_LinksSection_3-V8v .appdetailsprimarylinkssection_Links_DgVQa {
-  height: 35px !important;
+	height: 35px !important;
 }
 
 .appdetailsprimarylinkssection_LinksSection_3-V8v .appdetailsprimarylinkssection_LinksSectionBody_25f0f {
-  padding: 0px 10px 3px 10px !important;
+	padding: 0px 10px 3px 10px !important;
 }
 
 .appdetailsprimarylinkssection_LinkInner_7k4qm {
-  position: absolute;
-  padding: 4px 20px 4px 0px !important;
-  margin-right: 0px;
+	position: absolute;
+	padding: 4px 20px 4px 0px !important;
+	margin-right: 0px;
 }
 
 .appdetailsprimarylinkssection_LinkInner_7k4qm .appdetailsprimarylinkssection_Text_2sNDj {
-  color: rgba(255, 255, 255, 0.7);
-  white-space: nowrap;
-  font-size: 15px;
+	color: rgba(255, 255, 255, 0.7);
+	white-space: nowrap;
+	font-size: 15px;
 }
 
 .boxcarousel_BoxCarousel_3fiHs {
-  height: 192.5px !important;
+	height: 192.5px !important;
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_ColumnContainer_OhSdL {
-  padding: 8px;
+	padding: 8px;
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_Spotlights_11kuV {
-  width: 59.5%;
+	width: 59.5%;
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_Spotlights_11kuV.appdetailsoverview_SpotlightLeftColumn_3wbnd {
-  width: calc( 63.7% - 42px);
+	width: calc( 63.7% - 42px);
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB {
-  width: 38%;
-  box-sizing: border-box;
-  flex: none;
-  flex-direction: column;
-  display: flex;
-  float: right;
+	width: 38%;
+	box-sizing: border-box;
+	flex: none;
+	flex-direction: column;
+	display: flex;
+	float: right;
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_RightColumn_2aor4 {
-  width: 61%;
-  margin-left: 2px;
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  float: left;
+	width: 61%;
+	margin-left: 2px;
+	flex: none;
+	display: flex;
+	flex-direction: column;
+	float: left;
 }
+
 .appdetailsoverview_Spotlights_11kuV {
-    width: 98% !important;
+	width: 98% !important;
 }
+
 
 /* New sections */
 
 div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
-  display: flex;
-  width: 5%;
+	display: flex;
+	width: 5%;
 }
 
 #root>div>div.library_MainPanel_3BFcm.MediumRightPanel>div.library_AppDetailsTransitionGroup_2Dd4T>div>div.smartscrollcontainer_Container_3VQUe.appdetails_Container_2iE-7>div.smartscrollcontainer_Body_3lDcz.appdetails_ScrollContainer_2l416.appdetails_Glassy_3Fmxx>div>div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appdetailsoverview_ColumnContainer_OhSdL>div.appdetailsoverview_LeftColumn_1sZgB>div:nth-child(1) {
-  width: 100%;
-  display: flex;
+	width: 100%;
+	display: flex;
 }
 
 
@@ -239,75 +267,75 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 /* added a darker gradient to the top of the apppage below the Game Image */
 
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_Backdrop_1Qa-A {
-  background: linear-gradient(0deg, rgba(40, 41, 49, 0) 0%, rgba(51, 51, 51, 0.2) 35%, rgba(51, 51, 51, 0.5) 100%);
+	background: linear-gradient(0deg, rgba(40, 41, 49, 0) 0%, rgba(51, 51, 51, 0.2) 35%, rgba(51, 51, 51, 0.5) 100%);
 }
 
 .appportrait_HoversEnabled_54PuC .appportrait_LibraryItemBox_WYgDg:hover .appportrait_UninstalledIcon_8YrRm {
-  opacity: .9;
+	opacity: .9;
 }
 
 
 /* Gamelist entry - font size */
 
 .gamelistentry_Container_2-O4Z {
-  font-size: 16px;
+	font-size: 16px;
 }
 
 .gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
-  height: 100%;
+	height: 100%;
 }
 
 
 /* Gamelist entry - icon size */
 
 .gamelistentry_Container_2-O4Z .gamelistentry_GameIcon_ga1hy {
-  height: 22px;
-  width: 22px;
+	height: 22px;
+	width: 22px;
 }
 
 
 /* Fix hover text to the bottom. I unfortunately couldn't keep it dynamic without affecting ALL other hover overlays across the client */
 
 .gamelistentry_FriendStatusHover_2iiN7 {
-  position: fixed;
-  bottom: 2% !important;
-  height: 28px;
+	position: fixed;
+	bottom: 2% !important;
+	height: 28px;
 }
 
 
 /* remove border */
 
 .gamelistsectionheader_Container_2sYIg {
-  box-sizing: border-box;
-  color: #707379;
-  border: 0px solid rgba(0, 0, 0, 0);
+	box-sizing: border-box;
+	color: #707379;
+	border: 0px solid rgba(0, 0, 0, 0);
 }
 
 .gamelistsectionheader_SectionHeaderContent_3cV3O {
-  margin-top: 3px;
-  padding: 0px 9px 5px 9px;
+	margin-top: 3px;
+	padding: 0px 9px 5px 9px;
 }
 
 
 /* category name - font size and height*/
 
 .gamelistsectionheader_SectionName_2mZ8L {
-  font-size: 13px;
-  height: 15px;
+	font-size: 13px;
+	height: 15px;
 }
 
 
 /* category count - font size and height*/
 
 .gamelistsectionheader_SectionCount_29ute {
-  font-size: 13px;
+	font-size: 13px;
 }
 
 
 /* Make game list height constant so search bar doesn't "flex" down */
 
 .gamelist_Container_1ijTa {
-  height: calc(95.8% - 74px);
+	height: calc(95.8% - 74px);
 }
 
 
@@ -318,17 +346,20 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 
 .gamelist_Container_1ijTa,
 .gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
-  zoom: 75%;
-  position: relative;
+	zoom: 75%;
+	position: relative;
 }
 
 
-/* Fix hover text to the bottom. I unfortunately couldn't keep it dynamic without affecting ALL other hover overlays across the client */
+/* Fix hover text to the bottom. I unfortunately couldn't keep it dynamic without affecting ALL other hover overlays across the client*/
+
+
+/* Using JS could fix this, though other values need changing too */
 
 .gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
-  position: fixed;
-  bottom: 0% !important;
-  height: 24px;
+	position: fixed;
+	bottom: 0% !important;
+	height: 24px;
 }
 
 
@@ -338,54 +369,56 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 /* Make nosearchresults height constant so search bar doesn't "flex" down */
 
 .gamelist_NoSearchResultsContainer_1fbRp {
-  margin: 2px;
-  height: calc(98% - 74px);
+	margin: 2px;
+	height: calc(98% - 74px);
 }
 
 
 /*Gamelist dropdown and buttons width reduced to 50%, align with home bar*/
 
 .gamelistdropdown_Bar_1ZS_x {
-  width: 50%;
-  flex: 1 1 auto;
-  padding: 4px 3px 0px;
-  height: 36px;
+	width: 50%;
+	flex: 1 1 auto;
+	padding: 4px 3px 0px;
+	height: 36px;
 }
 
 
 /* remove height: 100% */
 
 .gamelistbar_Container_3x1Hk {
-  background-image: linear-gradient(to bottom, #2d333c 0%, #24282f 20%);
-  height: unset;
-  flex: 1;
-  display: flex;
-  min-width: 0;
-  flex-direction: row;
-  flex-wrap: wrap;
-  user-select: none;
-  outline: none;
+	background-image: linear-gradient(to bottom, #2d333c 0%, #24282f 20%);
+	height: unset;
+	flex: 1;
+	display: flex;
+	min-width: 0;
+	flex-direction: row;
+	flex-wrap: wrap;
+	user-select: none;
+	outline: none;
 }
 
 
 /*Home bar width reduced to 20%, align with Gamelist dropdown and buttons*/
 
 .gamelistbar_GameListHomeAndSearch_2TKEa {
-  padding: 4px 3px 0px 6px;
-  background-color: unset;
-  box-shadow: 0 0 0px rgba(0, 0, 0, 0.8) !important;
-  position: relative;
-  display: flex;
-  height: 36px;
-  flex: 1 1 auto;
-  width: 20%;
+	padding: 4px 3px 0px 6px;
+	background-color: unset;
+	box-shadow: 0 0 0px rgba(0, 0, 0, 0.8) !important;
+	position: relative;
+	display: flex;
+	height: 36px;
+	flex: 1 1 auto;
+	width: 20%;
 }
 
 .LibraryDisplaySizeSmall .libraryhome_UpdatesContainer_17uEB {
-  height: 270px;
+	height: 270px;
 }
 
+
 /* Hide What's New Container */
+
 .libraryhome_WhatsNewContainer_gdZT7 {
 	display: none;
 }
@@ -394,87 +427,106 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 	margin-top: -32px;
 }
 
+
 /* Fix event image and text widths */
 
 .appactivityday_ImageContainer_1XpBI {
-  max-width: 260px;
-  min-width: 240px;
-  padding: unset;
-  padding: 0px 6px;
+	max-width: 260px;
+	min-width: 240px;
+	padding: unset;
+	padding: 0px 6px;
 }
 
 .appactivityday_PartnerEventLargeImage_Image_fGDsm {
-  max-width: 250px;
+	max-width: 250px;
 }
 
 .appactivityday_PartnerEventLargeImage_TextColumn_2HzKE {
-  position: relative;
-  padding: 8px 12px 12px 0px;
-  margin-top: 0px;
-  flex: 1;
-  max-height: 130px;
+	position: relative;
+	padding: 8px 12px 12px 0px;
+	margin-top: 0px;
+	flex: 1;
+	max-height: 130px;
 }
 
 .appactivityday_MediumImageContainer_ddB5G {
-  width: 200px;
-  height: unset;
+	width: 200px;
+	height: unset;
 }
 
 .appactivityday_PartnerEventMediumImage_Image_VytJz {
-  max-width: 200px;
+	max-width: 200px;
 }
 
 .appactivityday_PartnerEventMediumImage_Title_1gljE {
-  max-width: 600px;
-  -webkit-line-clamp: 3 !important;
+	max-width: 600px;
+	-webkit-line-clamp: 3 !important;
 }
 
 .appactivityday_PartnerEventMediumImage_TextColumn_3dJ4B {
-  padding: 0px;
-  display: flex;
+	padding: 0px;
+	display: flex;
 }
 
+
 /*Change Game Summary separator from small dot to thin line-clamp*/
+
 .spotlightgameplaysummary_TypeSeparator_11ner {
-    background-color: rgba(132, 154, 182, 0.3);
-    width: 1px;
-    height: 160px;
-    border-radius: 3%;
-    margin: 10px 16px;
-    align-self: center;
+	background-color: rgba(132, 154, 182, 0.3);
+	width: 1px;
+	height: 160px;
+	border-radius: 3%;
+	margin: 10px 16px;
+	align-self: center;
 }
 
 .hover_release {
 	font-family: Arial, Helvetica, sans-serif !important;
 }
 
-.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
-	gap: 8px 5px !important;
-}
 
 /* Height of blur over background image. If a low value, most of the background will be clear. default: 450px*/
+
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
 	height: 900px;
 }
 
-.libraryassetimage_PortraitImage_3Ehhd .libraryassetimage_Image_24_Au, .libraryassetimage_LandscapeImage_ZsU8n .libraryassetimage_Image_24_Au {
+.libraryassetimage_PortraitImage_3Ehhd .libraryassetimage_Image_24_Au,
+.libraryassetimage_LandscapeImage_ZsU8n .libraryassetimage_Image_24_Au {
 	height: unset;
 }
 
+
 /*Shrink DLC size to show more (JS recommended)*/
+
 .appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
 	grid-template-columns: repeat(4, minmax(24.1%, max-content));
 }
 
+
 /*Shrink Screenshots size to show more (JS recommended)*/
+
 .appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-rows: auto auto auto;
 }
 
+
+/* JS recommended, grid spacing - change gridColumnGap and gridRowGap */
+
+
+/*
+.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
+	gap: 8px 5px !important;
+}
+*/
+
+
 /*DLC MANAGER - JS Recommended
 - row height set to 40px from 90px with JS
 - gloss*/
+
+
 /*
 .managedlcdialog_Container_1Gc2g .managedlcdialog_NameAndArt_2Mxb5 {
 	height: 40px;
@@ -498,11 +550,17 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div {
 	box-shadow: none !important;
 }
 */
+
+
 /* END DLC MANAGER */
+
 
 /* Vertical Play Bar */
 
+
 /* Vertical Navigation Bar */
+
+
 /*
 .appdetailssection_Body_5uvIN.appdetailsprimarylinkssection_LinksSectionBody_25f0f {
     transform: translateY(-250px);
@@ -511,13 +569,16 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div {
 }
 */
 
-/*HORIZONTAL GAME IMAGE TWEAKS - DELETE IF NOT USING
+
+/*HORIZONTAL GAME IMAGE TWEAKS
 Requires corresponding JS tweaks to display correctly
 - Horizontal Grid on Home Page
 - Recent Games shelf for horizontal images
 - Play Next shelf for horizontal images
 - Game information panel resize for horizontal images
 */
+
+
 /*
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
     grid-template-columns: repeat(auto-fill, 200px) !important;
@@ -539,9 +600,14 @@ Requires corresponding JS tweaks to display correctly
     grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
 }
 */
+
+
 /*END HORIZONTAL GAME IMAGE TWEAKS*/
 
+
 /* LIST VIEW ONLY TWEAKS - EXPERIMENTAL */
+
+
 /*
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
     grid-template-columns: repeat(auto-fill, 1000px) !important;
