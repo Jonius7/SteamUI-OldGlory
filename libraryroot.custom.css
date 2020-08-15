@@ -208,8 +208,14 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
   font-size: 15px;
 }
 
+/* Expand Post-Game summary to fill width */
 .boxcarousel_BoxCarousel_3fiHs {
   height: 192.5px !important;
+  width: 163%;
+}
+
+.pageablecontainer_HeaderPageControls_2ce8e {
+    width: 163%;
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_ColumnContainer_OhSdL {
@@ -240,10 +246,6 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
   display: flex;
   flex-direction: column;
   float: left;
-}
-
-.appdetailsoverview_Spotlights_11kuV {
-  width: 98% !important;
 }
 
 
