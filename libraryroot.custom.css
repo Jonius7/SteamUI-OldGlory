@@ -209,13 +209,13 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
 }
 
 /* Expand Post-Game summary to fill width */
-.boxcarousel_BoxCarousel_3fiHs {
+.boxcarousel_BoxCarousel_3fiHs.spotlightgameplaysummary_SummaryCarouselContainer_wgbDI{
   height: 192.5px !important;
   width: 163%;
 }
 
-.pageablecontainer_HeaderPageControls_2ce8e {
-    width: 163%;
+div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY > div.appdetailsoverview_ColumnContainer_OhSdL > div.appdetailsoverview_Spotlights_11kuV > div > div > div > div.pageablecontainer_HeaderPageControls_2ce8e {
+  width: 163%;
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_ColumnContainer_OhSdL {
@@ -414,13 +414,17 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
   height: 270px;
 }
 
-
-/* Hide What's New Container */
+/* Move What's New to bottom */
 
 .libraryhome_WhatsNewContainer_gdZT7 {
-  display: none;
+  order: 5;
+}
+.smartscrollcontainer_Body_3lDcz.libraryhome_InnerContainer_2AUVZ {
+    display: flex;
+    flex-flow: column;
 }
 
+/* Move Hours Played/Size on Disk/Metacritic Score... text box up */
 .appportrait_LibraryItemBoxSubscript_1LJqx {
   margin-top: -32px;
 }
