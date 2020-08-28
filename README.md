@@ -1,5 +1,6 @@
 # SteamUI-OldGlory
 A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. Check `/dev` branch for in-progress tweaks
+![Alt Text](https://i.gyazo.com/38d0101b493741501697b4a0f5f0818f.gif)
 
 ## Quick Usage
 Install SteamFriendsPatcher (https://github.com/PhantomGamers/SteamFriendsPatcher/releases) \
