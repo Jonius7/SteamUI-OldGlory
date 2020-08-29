@@ -45,6 +45,8 @@ The main differences/upgrades between the vanilla new UI and mine were:
 
 https://gyazo.com/aa37f6846e6771ecbc51f08808b93864
 
+## Missing/Blurred Game Images
+
 Many of my games had those portrait game images with the horrid blurry background in them. I searched up this https://github.com/wynick27/steam-missing-covers-downloader, contributed my own fix, as it had been broken due to the same package changes that broke the old UI, and boom! I was able to import 235 images for myself. For a compiled .exe, look here: https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix
 
 So, about the main css file: `libraryroot.custom.css`. It is designed to be used with SteamFriendsPatcher (https://github.com/PhantomGamers/SteamFriendsPatcher). Download and open the program up, after it patches, you should find a `libraryroot.custom.css` file in `Steam/steamui`. Replace the file with the one here on the repository. 
