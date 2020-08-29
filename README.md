@@ -3,14 +3,13 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 ![Alt Text](https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif)
 
 ## Quick Usage
-Install SteamFriendsPatcher (https://github.com/PhantomGamers/SteamFriendsPatcher/releases) \
+Install SteamFriendsPatcher: (https://github.com/PhantomGamers/SteamFriendsPatcher/releases) \
 After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.\
-Replace it with the `libraryroot.custom.css` here on this repository.\
+Replace it with the `libraryroot.custom.css` here on this repository. Latest Release: (https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) \
 To debug the Steam Library yourself, run Steam with the ` -dev` tag.\
 Create a shortcut to `Steam` -> `Right Click` -> `Properties`. In `Target`, after `Steam.exe"` add `  -dev` so the end of Target looks like this: `Steam.exe" -dev`
 
 The file for modifying JavaScript, `js_tweaker.py` is a Python script. Install Python: https://www.python.org/downloads/ \
-js_tweaker Windows build: https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_1r4 \
 The file that contains the list of JavaScript tweaks is `fixes.txt`.\
 Each line contains one tweak with the original js separated by two spaces from the tweaked js:  [original js]&#9608;&#9608;[new js] \
 
@@ -18,6 +17,7 @@ Required libraries: `jsbeautifier`, `jsmin`.\
 Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
 
 ## Quick Links
+- Video Guide: https://www.youtube.com/watch?v=7_3e9j8FFv8
 - GIF of tweaks: https://gyazo.com/38d0101b493741501697b4a0f5f0818f
 - More DLC and Screenshots, more info!: https://imgur.com/a/3WTdrXP
 - JS Tweaks: https://imgur.com/a/mL4QNYB
@@ -45,20 +45,18 @@ The main differences/upgrades between the vanilla new UI and mine were:
 
 https://gyazo.com/aa37f6846e6771ecbc51f08808b93864
 
-Two of my biggest gripes: the left sidebar not being compact enough, and the Friends Activity with padding taking up way too much space on the game page, were now tweaked.
+Many of my games had those portrait game images with the horrid blurry background in them. I searched up this https://github.com/wynick27/steam-missing-covers-downloader, contributed my own fix, as it had been broken due to the same package changes that broke the old UI, and boom! I was able to import 235 images for myself. For a compiled .exe, look here: https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix
 
-My third gripe was many of my games had those portrait game images with the horrid blurry background in them. I searched up this https://github.com/wynick27/steam-missing-covers-downloader, contributed my own fix, as it had been broken due to the same package changes that broke the old UI, and boom! I was able to import 235 images for myself. For a compiled .exe, look here: https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix
-
-So, the main css file: `libraryroot.custom.css`. It is designed to be used with SteamFriendsPatcher (https://github.com/PhantomGamers/SteamFriendsPatcher). Download and open the program up, after it patches, you should find a `libraryroot.custom.css` file in `Steam/steamui`. Replace the file with the one here on the repository. 
+So, about the main css file: `libraryroot.custom.css`. It is designed to be used with SteamFriendsPatcher (https://github.com/PhantomGamers/SteamFriendsPatcher). Download and open the program up, after it patches, you should find a `libraryroot.custom.css` file in `Steam/steamui`. Replace the file with the one here on the repository. 
 
 ## Can you do JavaScript Tweaks?
 
-So, back to more tweaking. CSS can do a lot of cosmetic tweaks, but it has its limits. I understood CSS enough (some good ol' brute-force Google searching helps), but when it came to JavaScript, the minified JS files were a solid obstacle and I felt I had no idea how to decipher it to make tweaks.
+CSS can do a lot of cosmetic tweaks, but it has its limits. I understood CSS enough (some good ol' brute-force Google searching helps), but when it came to JavaScript, the minified JS files were a solid obstacle and I felt I had no idea how to decipher it to make tweaks.
 
-But eventually, I've figured out enough to make JS + CSS tweaks (https://imgur.com/a/mL4QNYB) enabling landscape game images - like in the Grid view the old UI had (https://imgur.com/a/qcIHx0l), and wrote a Python script to automate changing any JS. Now, the script is still not user-consumer-friendly-ready, but a quick glance at the code and you'll see that it finds and replaces certain strings in the JavaScript. If you want to add any tweaks of your own, edit the file `fixes.txt`. Just run `js_tweaker.py` to apply the JavaScript tweaks. Additionally, there is a limitation that the script only reads one line at a time, so you cannot use multiple lines as your search criteria to "find and replace", at the moment.
+But eventually, I've figured out enough to enable landscape game images (https://imgur.com/a/mL4QNYB) - like in the Grid view the old UI had (https://imgur.com/a/qcIHx0l), and wrote a Python script to automate changing any JS. A quick glance at the code and you'll see that it finds and replaces certain strings in the JavaScript. If you want to add any tweaks of your own, edit the file `fixes.txt`. Just run `js_tweaker.py` to apply the JavaScript tweaks. Additionally, there is a limitation that the script only reads one line at a time, so you cannot use multiple lines as your search criteria to "find and replace", at the moment.
 
 I have been able to increase the number of screenshots it shows on a game's page from 4 to 8. Tried to get it to generate 9, but was unable to find the specific variable (it generates an array of 8 screenshots by default). Also increased the number of DLC visible to 12 - the JS generates an array of 23! They are just not displayed on the page. https://imgur.com/a/3WTdrXP
 
 There are a few niggling minor bugs as a result of all this tweaking. See if you can find them. But for the most part, it's been a much more usable experience for me already.
 
-Here is a proof of concept of recreating the List view: https://imgur.com/a/ZqvqrkR
+Additionally, here is a proof of concept of recreating the List view: https://imgur.com/a/ZqvqrkR
