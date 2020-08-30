@@ -6,7 +6,7 @@ import sys
 from jsmin import jsmin
 
    
-swap_js = {'4:"libraryroot"}[n=u]||n': '4:"libraryreet"}[n=u]||n'}
+swap_js = {'"libraryroot"}[n=u]||n': '"libraryreet"}[n=u]||n'}
 
 fixes_dict = {}
 

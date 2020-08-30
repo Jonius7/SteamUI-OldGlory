@@ -1,4 +1,4 @@
-/* List of Steam UI CSS Tweaks v0.9
+/* List of Steam UI CSS Tweaks v0.9.1
 
 == Changelog ==
 v0.9 Tidy up and separate CSS tweaks
@@ -50,6 +50,13 @@ v0.4 initial version
 .sharedappdetailsheader_TopCapsule_NZMJ6 {
   width: 60%;
   height: 14.4vw!important;
+}
+
+
+/* Unset Header Image height to show top and bottom */
+
+.sharedappdetailsheader_ImgContainer_QlR9E {
+  height: unset;
 }
 
 
@@ -208,13 +215,15 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
   font-size: 15px;
 }
 
+
 /* Expand Post-Game summary to fill width */
-.boxcarousel_BoxCarousel_3fiHs.spotlightgameplaysummary_SummaryCarouselContainer_wgbDI{
+
+.boxcarousel_BoxCarousel_3fiHs.spotlightgameplaysummary_SummaryCarouselContainer_wgbDI {
   height: 192.5px !important;
   width: 163%;
 }
 
-div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY > div.appdetailsoverview_ColumnContainer_OhSdL > div.appdetailsoverview_Spotlights_11kuV > div > div > div > div.pageablecontainer_HeaderPageControls_2ce8e {
+div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appdetailsoverview_ColumnContainer_OhSdL>div.appdetailsoverview_Spotlights_11kuV>div>div>div>div.pageablecontainer_HeaderPageControls_2ce8e {
   width: 163%;
 }
 
@@ -414,17 +423,21 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
   height: 270px;
 }
 
+
 /* Move What's New to bottom */
 
 .libraryhome_WhatsNewContainer_gdZT7 {
   order: 5;
 }
+
 .smartscrollcontainer_Body_3lDcz.libraryhome_InnerContainer_2AUVZ {
-    display: flex;
-    flex-flow: column;
+  display: flex;
+  flex-flow: column;
 }
 
+
 /* Move Hours Played/Size on Disk/Metacritic Score... text box up */
+
 .appportrait_LibraryItemBoxSubscript_1LJqx {
   margin-top: -32px;
 }
@@ -523,6 +536,8 @@ div.appdetailsoverview_LeftColumn_1sZgB:nth-child(2) {
 - row height set to 40px from 90px with JS
 - gloss*/
 
+
+/*
 .managedlcdialog_Container_1Gc2g .managedlcdialog_NameAndArt_2Mxb5 {
   height: 40px;
 }
@@ -544,6 +559,7 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div.libraryas
 div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
   box-shadow: none !important;
 }
+*/
 
 
 /* END DLC MANAGER */
@@ -557,14 +573,14 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 
 /*
 .appdetailssection_Body_5uvIN.appdetailsprimarylinkssection_LinksSectionBody_25f0f {
-    transform: translateY(-250px);
-    z-index: 3;
-    background: #000000;
+  transform: translateY(-250px);
+  z-index: 3;
+  background: #000000;
 }
 */
 
 
-/*HORIZONTAL GAME IMAGE TWEAKS - DELETE IF NOT USING
+/*HORIZONTAL GAME IMAGE TWEAKS
 Requires corresponding JS tweaks to display correctly
 - Horizontal Grid on Home Page
 - Recent Games shelf for horizontal images
@@ -575,23 +591,23 @@ Requires corresponding JS tweaks to display correctly
 
 /*
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
-    grid-template-columns: repeat(auto-fill, 200px) !important;
-    grid-auto-rows: 93px !important;
-	gap: 8px 5px !important;
+  grid-template-columns: repeat(auto-fill, 200px) !important;
+  grid-auto-rows: 93px !important;
+  gap: 8px 5px !important;
 }
 
 .libraryhomerecentgames_RecentGame_1esfE:not(:first-of-type) .libraryhomerecentgames_RecentGameMediaContainer_2XftM {
-	width: 200px !important;
-	height: 93px !important;
+  width: 200px !important;
+  height: 93px !important;
 }
 
 .libraryhomeplaynext_PlayNextSuggestion_2a9Sn:not(:first-of-type) .libraryhomeplaynext_PlayNextSuggestionMediaContainer_2AcrN {
-	width: 200px !important;
-	height: 93px !important;
+  width: 200px !important;
+  height: 93px !important;
 }
 
 .appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
-    grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
+  grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
 }
 */
 
@@ -604,16 +620,19 @@ Requires corresponding JS tweaks to display correctly
 
 /*
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
-    grid-template-columns: repeat(auto-fill, 1000px) !important;
-	grid-auto-rows: 46.5px !important;
+  grid-template-columns: repeat(auto-fill, 1000px) !important;
+  grid-auto-rows: 46.5px !important;
 }
 
 .appportrait_LibraryItemBox_WYgDg {
-    width: 10%;
+  width: 10%;
 }
 
 .appportrait_LibraryItemBoxSubscript_1LJqx {
 
-    margin-left: 115px;
+  margin-left: 115px;
 }
 */
+
+
+/* END LIST VIEW ONLY TWEAKS */

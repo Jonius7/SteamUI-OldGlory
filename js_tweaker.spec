@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['js_tweaker.py'],
-             pathex=['D:\\New Horizons\\Hearthstone\\SteamUI-OldGlory\\backup'],
+             pathex=['D:\\New Horizons\\Hearthstone\\SteamUI-OldGlory'],
              binaries=[],
              datas=[],
              hiddenimports=['six', 'jsmin'],
