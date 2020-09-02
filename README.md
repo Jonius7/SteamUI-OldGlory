@@ -26,13 +26,13 @@ To debug the Steam Library yourself, run Steam with the ` -dev` tag.
 - In `Target`, after `Steam.exe"` add `  -dev` so the end of Target looks like this: `Steam.exe" -dev`
 
 ## Quick Links
-- Video Guide(https://www.youtube.com/watch?v=7_3e9j8FFv8)
-- GIF of tweaks(https://gyazo.com/38d0101b493741501697b4a0f5f0818f)
-- More DLC and Screenshots, more info!(https://imgur.com/a/3WTdrXP)
-- JS Tweaks(https://imgur.com/a/mL4QNYB)
-- Is Steam Grid View Back?(https://imgur.com/gallery/qcIHx0l)
-- Steam List View Proof of Concept(https://imgur.com/a/ZqvqrkR)
-- Steam Discussions(https://steamcommunity.com/discussions/forum/0/2451595019863406679/)
+- [Video Guide](https://www.youtube.com/watch?v=7_3e9j8FFv8)
+- [GIF of tweaks](https://gyazo.com/38d0101b493741501697b4a0f5f0818f)
+- [More DLC and Screenshots, more info!](https://imgur.com/a/3WTdrXP)
+- [JS Tweaks](https://imgur.com/a/mL4QNYB)
+- [Is Steam Grid View Back?](https://imgur.com/gallery/qcIHx0l)
+- [Steam List View Proof of Concept](https://imgur.com/a/ZqvqrkR)
+- [Steam Discussions](https://steamcommunity.com/discussions/forum/0/2451595019863406679/)
 
 ## Long Story Short
 
