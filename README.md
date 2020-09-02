@@ -3,19 +3,22 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 ![Alt Text](https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif)
 
 ## Quick Usage
-- Install SteamFriendsPatcher: (https://github.com/PhantomGamers/SteamFriendsPatcher/releases)
+- Install **SteamFriendsPatcher**: (https://github.com/PhantomGamers/SteamFriendsPatcher/releases)
 - After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.
 - Replace it with **SteamUI-OldGlory's** `libraryroot.custom.css`.
 - Latest Release: (https://github.com/Jonius7/SteamUI-OldGlory/releases/latest)
 
 The file for modifying JavaScript, `js_tweaker.py` is a [Python](https://www.python.org/downloads/ "Python Downloads Page") script. \
 The file that contains the list of JavaScript tweaks is `fixes.txt`.\
-Each line contains one tweak with the original js separated by two spaces from the tweaked js:  [original js]&#9608;&#9608;[new js] \
-
-Required libraries: `jsbeautifier`, `jsmin`.\
+Each line contains one tweak with the original js separated by two spaces from the tweaked js:  [original js]&#9608;&#9608;[new js] 
+Required libraries: `jsbeautifier`, `jsmin`.
 
 - Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
 - Copy `js_tweaker.py` and `fixes.txt` to `Steam/steamui` and run it.
+
+Fix blurred game images: \
+https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix
+
 
 To debug the Steam Library yourself, run Steam with the ` -dev` tag.
 - Create a shortcut to `Steam` -> `Right Click` -> `Properties`.
