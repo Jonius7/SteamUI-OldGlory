@@ -12,7 +12,7 @@ v0.4 initial version
 */
 
 :root {
-	--HoverOverlayPosition: unset; /* Set 0 if default JS, unset if tweaked JS */
+	--HoverOverlayPosition: 0; /* Set 0 if default JS, unset if tweaked JS */
 	--DLCGridSize: 1;              /* Set 0 or 1 (tweaked JS preferred 1) */
 	--WhatsNew: block;			   /* Set none to hide, Set block to show */
 	--WhatsNewOrder: 1;            /* Set 0 to put to top, 1 or higher to put to bottom */

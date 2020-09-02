@@ -20,12 +20,6 @@
 /* steam-library tweaks for SteamUI-OldGlory
    ========================================================================== */
    
-/* Config Variables */
-:root {
-	--GameIconHeight: 22px;
-    --GameIconWidth: 22px;
-}
-
 .gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L::before, .gamelisthome_Label_3O48L::before {
     margin: 0px !important;
 }
@@ -45,8 +39,8 @@
 
 /* Game icons resize */
 .gamelistentry_Container_2-O4Z .gamelistentry_GameIcon_ga1hy {
-    height: var(--GameIconHeight) !important;
-    width: var(--GameIconWidth) !important;
+    height: 22px !important;
+    width: 22px !important;
 }
 
 /* Remove to have solid background in GamePage */

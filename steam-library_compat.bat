@@ -42,6 +42,10 @@ set "search4=--ButtonPlayHover: #70d61d;"
 set "replace4=--ButtonPlayHover: var^(--libraryhome^)^;"
 set "search5=--ButtonPlayHover2: #01a75b;"
 set "replace5=--ButtonPlayHover2: var^(--libraryhome^)^;"
+set "search6=--ButtonInstallHover: #47bfff;"
+set "replace6=--ButtonInstallHover: var^(--libraryhome^)^;"
+set "search7=--ButtonInstallHover2: #1a44c2;"
+set "replace7=--ButtonInstallHover2: var^(--libraryhome^)^;"
 ::set "searchA=--GameIcons: none;"
 ::set "replaceA=--GameIcons: block;"
 
@@ -53,6 +57,8 @@ set "replace5=--ButtonPlayHover2: var^(--libraryhome^)^;"
 	set line=!line:%search3%=%replace3%!
 	set line=!line:%search4%=%replace4%!
 	set line=!line:%search5%=%replace5%!
+	set line=!line:%search6%=%replace6%!
+	set line=!line:%search7%=%replace7%!
 	::set line=!line:%searchA%=%replaceA%!
 	set line=!line:*:=!
 	echo(!line!

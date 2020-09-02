@@ -97,5 +97,10 @@ In layman's terms:
 - copy and paste **steam-library's** `config.css` over into `Steam/steamui`
 - run `steam-library_compat.bat`. It will prompt you asking you to confirm. Type Y and press Enter.
 - a backup of your `libraryroot.custom.css` will be made at `libraryroot.custom.css.backup`
+- Reload the Steam Library (either End Task on Steam Client WebHelper or trigger reload of `Steam/steamui` folder)
 
 You should be set to go!
+
+## build js_tweaker.exe
+`pyinstaller --hidden-import six --onefile js_tweaker.py`
+The `.spec` file is included for redundancy's sake.
