@@ -3,11 +3,13 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 ![Alt Text](https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif)
 
 ## Quick Usage
-Install SteamFriendsPatcher: (https://github.com/PhantomGamers/SteamFriendsPatcher/releases) \
-After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.\
-Replace it with the `libraryroot.custom.css` here on this repository. Latest Release: (https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) \
-To debug the Steam Library yourself, run Steam with the ` -dev` tag.\
-Create a shortcut to `Steam` -> `Right Click` -> `Properties`. In `Target`, after `Steam.exe"` add `  -dev` so the end of Target looks like this: `Steam.exe" -dev`
+- Install SteamFriendsPatcher: (https://github.com/PhantomGamers/SteamFriendsPatcher/releases) \
+- After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.\
+- Replace it with **SteamUI-OldGlory's** `libraryroot.custom.css`. \
+- Latest Release: (https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) \
+- To debug the Steam Library yourself, run Steam with the ` -dev` tag.\
+- Create a shortcut to `Steam` -> `Right Click` -> `Properties`.
+- In `Target`, after `Steam.exe"` add `  -dev` so the end of Target looks like this: `Steam.exe" -dev`
 
 The file for modifying JavaScript, `js_tweaker.py` is a Python script. Install Python: https://www.python.org/downloads/ \
 The file that contains the list of JavaScript tweaks is `fixes.txt`.\
