@@ -17,8 +17,7 @@ Required libraries: `jsbeautifier`, `jsmin`.
 - Copy `js_tweaker.py` and `fixes.txt` to `Steam/steamui` and run it.
 - After opening Steam, open up the Dev Tools by click in the library window and pressing `Ctrl + Shift + I`
 
-Fix blurred game images: \
-https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix
+[Fix blurred game images](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix "Steam Missing Covers Downloader Release")
 
 
 To debug the Steam Library yourself, run Steam with the ` -dev` tag.
