@@ -1,4 +1,6 @@
+#JS Tweaker for Steam Library UI by Jonius7
 #libraries needed: jsbeautifier, jsmin
+
 
 import jsbeautifier
 import os.path

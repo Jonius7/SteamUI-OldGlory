@@ -3,34 +3,45 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 ![Alt Text](https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif)
 
 ## Quick Usage
-Install SteamFriendsPatcher: (https://github.com/PhantomGamers/SteamFriendsPatcher/releases) \
-After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.\
-Replace it with the `libraryroot.custom.css` here on this repository. Latest Release: (https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) \
-To debug the Steam Library yourself, run Steam with the ` -dev` tag.\
-Create a shortcut to `Steam` -> `Right Click` -> `Properties`. In `Target`, after `Steam.exe"` add `  -dev` so the end of Target looks like this: `Steam.exe" -dev`
+#### Patching and CSS
+- Install **_SteamFriendsPatcher_**: (https://github.com/PhantomGamers/SteamFriendsPatcher/releases)
+- After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.
+- Replace it with **_SteamUI-OldGlory's_** `libraryroot.custom.css`.
+- Latest Release: (https://github.com/Jonius7/SteamUI-OldGlory/releases/latest)
 
-The file for modifying JavaScript, `js_tweaker.py` is a Python script. Install Python: https://www.python.org/downloads/ \
+#### JavaScript Tweaks
+The file for modifying JavaScript, `js_tweaker.py` is a [Python](https://www.python.org/downloads/ "Python Downloads Page") script. \
 The file that contains the list of JavaScript tweaks is `fixes.txt`.\
-Each line contains one tweak with the original js separated by two spaces from the tweaked js:  [original js]&#9608;&#9608;[new js] \
+Each line contains one tweak with the original JS separated by two spaces from the tweaked JS: [original js]&#9608;&#9608;[new js] 
+Required libraries: `jsbeautifier`, `jsmin`.
 
-Required libraries: `jsbeautifier`, `jsmin`.\
-Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
+- Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
+- Copy `js_tweaker.py` and `fixes.txt` to `Steam/steamui` and run it.
+- After opening Steam, open up the Dev Tools by click in the library window and pressing `Ctrl + Shift + I`
+
+#### Fix Blurred Game Images
+[Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix)
+
+#### Debugging Steam Library Yourself
+To debug the Steam Library yourself, run Steam with the ` -dev` tag.
+- Create a shortcut to `Steam` -> `Right Click` -> `Properties`.
+- In `Target`, after `Steam.exe"` add `  -dev` so the end of Target looks like this: `Steam.exe" -dev`
 
 ## Quick Links
-- Video Guide: https://www.youtube.com/watch?v=7_3e9j8FFv8
-- GIF of tweaks: https://gyazo.com/38d0101b493741501697b4a0f5f0818f
-- More DLC and Screenshots, more info!: https://imgur.com/a/3WTdrXP
-- JS Tweaks: https://imgur.com/a/mL4QNYB
-- Is Steam Grid View Back?: https://imgur.com/gallery/qcIHx0l
-- Steam List View Proof of Concept: https://imgur.com/a/ZqvqrkR
-- Discussions: https://steamcommunity.com/discussions/forum/0/2451595019863406679/
+- [Video Guide](https://www.youtube.com/watch?v=7_3e9j8FFv8)
+- [GIF of tweaks](https://gyazo.com/38d0101b493741501697b4a0f5f0818f)
+- [More DLC and Screenshots, more info!](https://imgur.com/a/3WTdrXP)
+- [JS Tweaks](https://imgur.com/a/mL4QNYB)
+- [Is Steam Grid View Back?](https://imgur.com/gallery/qcIHx0l)
+- [Steam List View Proof of Concept](https://imgur.com/a/ZqvqrkR)
+- [Steam Discussions](https://steamcommunity.com/discussions/forum/0/2451595019863406679/)
 
 ## Long Story Short
 
 In Oct 2019, Valve pushed out the new Steam UI update. Needless to say, many people hated it. There is so much wasted space and usability issues that I reverted right back to the old UI. This worked for about 7 months, until in June 2020, Valve changed something in how Steam packages are handled that broke the old UI. For me, I could no longer see the client after log in. So since then I've moved to the new UI, but got to work on CSS modifications right away.
 
 This Steam Discussions thread became my main way of communicating my progress on tweaking the new Steam UI to make it less terrible. https://steamcommunity.com/discussions/forum/0/2451595019863406679/
-There are a lot of instructions and tips there, such as accessing the Developer Tools (*Ctrl+ Shift+I*) which is important to be able to debug your way around the Steam UI.
+There are a lot of instructions and tips there, such as accessing the Developer Tools (*Ctrl+Shift+I*) which is important to be able to debug your way around the Steam UI.
 
 ## CSS Tweaking Commence
 
@@ -55,10 +66,41 @@ So, about the main css file: `libraryroot.custom.css`. It is designed to be used
 
 CSS can do a lot of cosmetic tweaks, but it has its limits. I understood CSS enough (some good ol' brute-force Google searching helps), but when it came to JavaScript, the minified JS files were a solid obstacle and I felt I had no idea how to decipher it to make tweaks.
 
-But eventually, I've figured out enough to enable landscape game images (https://imgur.com/a/mL4QNYB) - like in the Grid view the old UI had (https://imgur.com/a/qcIHx0l), and wrote a Python script to automate changing any JS. A quick glance at the code and you'll see that it finds and replaces certain strings in the JavaScript. If you want to add any tweaks of your own, edit the file `fixes.txt`. Just run `js_tweaker.py` to apply the JavaScript tweaks. Additionally, there is a limitation that the script only reads one line at a time, so you cannot use multiple lines as your search criteria to "find and replace", at the moment.
+But eventually, I've figured out enough to enable landscape game images (https://imgur.com/a/mL4QNYB) - like in the Grid view the old UI had (https://imgur.com/a/qcIHx0l), and wrote a Python script to automate changing any JS. A quick glance at the code and you'll see that it finds and replaces certain strings in the JavaScript. If you want to add any tweaks of your own, edit the file `fixes.txt`. Just run `js_tweaker.py` to apply the JavaScript tweaks. 
+
+the JS goes through this process:
+- `libraryroot.js` - original file
+- `libraryroot.beaut.js` - beautified js using `jsbeautifier`
+- `libraryroot.modif.js` - beautified js with modified tweaks from `fixes.txt`
+- `libraryreet.js` - minified `libraryroot.modif.js` using `jsmin`
+
+There is a limitation that the script only reads from `libraryroot.beaut.js` one line at a time, so you cannot use multiple lines as your search criteria to "find and replace", at the moment.
+
+`js_tweaker` will use `libraryroot.beaut.js` if it already exists. This means:
+- you can experiment in `libraryroot.modif.js` and delete it afterwards if you want to go back to the clean version `libraryroot.beaut.js`
 
 I have been able to increase the number of screenshots it shows on a game's page from 4 to 8. Tried to get it to generate 9, but was unable to find the specific variable (it generates an array of 8 screenshots by default). Also increased the number of DLC visible to 12 - the JS generates an array of 23! They are just not displayed on the page. https://imgur.com/a/3WTdrXP
 
 There are a few niggling minor bugs as a result of all this tweaking. See if you can find them. But for the most part, it's been a much more usable experience for me already.
 
 Additionally, here is a proof of concept of recreating the List view: https://imgur.com/a/ZqvqrkR
+
+## steam-library Support
+
+https://github.com/AikoMidori/steam-library
+SteamUI-OldGlory mostly works with Shiina's steam-library CSS skin by simply copying the code in **steam-library's** `libraryroot.custom.css` and pasting it above **SteamUI-OldGlory's** `libraryroot.custom.css` code. 
+
+However, I have provided a compatibility CSS file and batch file to hopefully streamline the process.
+
+In layman's terms:
+- copy and paste **SteamUI-OldGlory's** `libraryroot.custom.css`, `steam-library_compat.css` and `steam-library_compat.bat` into `Steam/steamui`
+- copy and paste **steam-library's** `config.css` over into `Steam/steamui`
+- run `steam-library_compat.bat`. It will prompt you asking you to confirm. Type Y and press Enter.
+- a backup of your `libraryroot.custom.css` will be made at `libraryroot.custom.css.backup`
+- Reload the Steam Library (either End Task on Steam Client WebHelper or trigger reload of `Steam/steamui` folder)
+
+You should be set to go!
+
+## build js_tweaker.exe
+`pyinstaller --hidden-import six --onefile js_tweaker.py`
+The `.spec` file is included for redundancy's sake.
