@@ -10,11 +10,12 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 
 The file for modifying JavaScript, `js_tweaker.py` is a [Python](https://www.python.org/downloads/ "Python Downloads Page") script. \
 The file that contains the list of JavaScript tweaks is `fixes.txt`.\
-Each line contains one tweak with the original js separated by two spaces from the tweaked js:  [original js]&#9608;&#9608;[new js] 
+Each line contains one tweak with the original JS separated by two spaces from the tweaked JS: [original js]&#9608;&#9608;[new js] 
 Required libraries: `jsbeautifier`, `jsmin`.
 
 - Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
 - Copy `js_tweaker.py` and `fixes.txt` to `Steam/steamui` and run it.
+- After opening Steam, open up the Dev Tools by click in the library window and pressing `Ctrl + Shift + I`
 
 Fix blurred game images: \
 https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix
@@ -38,7 +39,7 @@ To debug the Steam Library yourself, run Steam with the ` -dev` tag.
 In Oct 2019, Valve pushed out the new Steam UI update. Needless to say, many people hated it. There is so much wasted space and usability issues that I reverted right back to the old UI. This worked for about 7 months, until in June 2020, Valve changed something in how Steam packages are handled that broke the old UI. For me, I could no longer see the client after log in. So since then I've moved to the new UI, but got to work on CSS modifications right away.
 
 This Steam Discussions thread became my main way of communicating my progress on tweaking the new Steam UI to make it less terrible. https://steamcommunity.com/discussions/forum/0/2451595019863406679/
-There are a lot of instructions and tips there, such as accessing the Developer Tools (*Ctrl+ Shift+I*) which is important to be able to debug your way around the Steam UI.
+There are a lot of instructions and tips there, such as accessing the Developer Tools (*Ctrl+Shift+I*) which is important to be able to debug your way around the Steam UI.
 
 ## CSS Tweaking Commence
 
