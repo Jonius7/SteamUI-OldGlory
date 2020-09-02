@@ -1,62 +1,3 @@
-/* !!! DO NOT EDIT THESE !!! DO NOT EDIT THESE !!! */
-@import url('https://shiinaskins.com/steam-library/remote!url=master&css/live.css');
-@import url('config.css');
-/* !!! DO NOT EDIT THESE !!! DO NOT EDIT THESE !!! */
-
-*{  /* Disable Shadows & Transitions */
-    transition: 0s !important;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important; 
-}
-
-/* ===== CREDITS  =====
-/* SHIINA♪
-/* DISCORD: https://discord.gg/UZvkvkh
-/* GITHUB: https://github.com/AikoMidori/
-/* -------------------------------------------------------------------------------------------
-/* © 2019 All Rights Reserved. Created by Shiina♪
-/**/
-
-/* steam-library tweaks for SteamUI-OldGlory
-   ========================================================================== */
-   
-/* Config Variables */
-:root {
-	--GameIconHeight: 22px;
-    --GameIconWidth: 22px;
-}
-
-.gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L::before, .gamelisthome_Label_3O48L::before {
-    margin: 0px !important;
-}
-
-.gamelisthome_Label_3O48L, .gamelisthome_Bar_3pSPl.gamelisthome_CollectionButton_30KGS {
-    margin-left: 0px !important;
-}
-
-.gamelistdropdown_Bar_1ZS_x {
-    margin-left: 0px;
-}
-
-/* Show full header (overflow) */
-.sharedappdetailsheader_TopCapsule_NZMJ6.sharedappdetailsheader_TopCapsule_NZMJ6 {
-    overflow: unset !important;
-}
-
-/* Game icons resize */
-.gamelistentry_Container_2-O4Z .gamelistentry_GameIcon_ga1hy {
-    height: var(--GameIconHeight) !important;
-    width: var(--GameIconWidth) !important;
-}
-
-/* Remove to have solid background in GamePage */
-.appdetailsoverview_Container_27RcN {
-    backdrop-filter: opacity(50%) !important;
-    background: linear-gradient(0deg, rgba(40, 41, 49, 0) 0%, rgba(51, 51, 51, 0.2) 35%, rgba(51, 51, 51, 0.5) 100%) !important;
-}
-
-/* === END steam-library tweaks for SteamUI-OldGlory === */ 
- 
 /* SteamUI-OldGlory CSS Tweaks v0.10
 
 == Changelog ==
@@ -72,8 +13,9 @@ v0.4 initial version
 
 :root {
 	--HoverOverlayPosition: unset; /* Set 0 if default JS, unset if tweaked JS */
-	--DLCGridSize: 1;          /* Set 0 or 1 (tweaked JS preferred 1) */
-	--WhatsNew: 0;			   /* Set 0 to hide, Set 1 to push to bottom */
+	--DLCGridSize: 1;              /* Set 0 or 1 (tweaked JS preferred 1) */
+	--WhatsNew: block;			   /* Set none to hide, Set block to show */
+	--WhatsNewOrder: 1;            /* Set 0 to put to top, 1 or higher to put to bottom */
 }
 
 /* GameList Sidebar
@@ -555,8 +497,9 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 /* Move What's New to bottom */
 
 .libraryhome_WhatsNewContainer_gdZT7 {
-  order: 5;
-  /* display: none */
+  display: var(--WhatsNew);
+  order: var(--WhatsNewOrder);
+  
 }
 
 

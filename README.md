@@ -55,7 +55,18 @@ So, about the main css file: `libraryroot.custom.css`. It is designed to be used
 
 CSS can do a lot of cosmetic tweaks, but it has its limits. I understood CSS enough (some good ol' brute-force Google searching helps), but when it came to JavaScript, the minified JS files were a solid obstacle and I felt I had no idea how to decipher it to make tweaks.
 
-But eventually, I've figured out enough to enable landscape game images (https://imgur.com/a/mL4QNYB) - like in the Grid view the old UI had (https://imgur.com/a/qcIHx0l), and wrote a Python script to automate changing any JS. A quick glance at the code and you'll see that it finds and replaces certain strings in the JavaScript. If you want to add any tweaks of your own, edit the file `fixes.txt`. Just run `js_tweaker.py` to apply the JavaScript tweaks. Additionally, there is a limitation that the script only reads one line at a time, so you cannot use multiple lines as your search criteria to "find and replace", at the moment.
+But eventually, I've figured out enough to enable landscape game images (https://imgur.com/a/mL4QNYB) - like in the Grid view the old UI had (https://imgur.com/a/qcIHx0l), and wrote a Python script to automate changing any JS. A quick glance at the code and you'll see that it finds and replaces certain strings in the JavaScript. If you want to add any tweaks of your own, edit the file `fixes.txt`. Just run `js_tweaker.py` to apply the JavaScript tweaks. 
+
+the JS goes through this process:
+- `libraryroot.js` - original file
+- `libraryroot.beaut.js` - beautified js using `jsbeautifier`
+- `libraryroot.modif.js` - beautified js with modified tweaks from `fixes.txt`
+- `libraryreet.js` - minified `libraryroot.modif.js` using `jsmin`
+
+There is a limitation that the script only reads from `libraryroot.beaut.js` one line at a time, so you cannot use multiple lines as your search criteria to "find and replace", at the moment.
+
+`js_tweaker` will use `libraryroot.beaut.js` if it already exists. This means:
+- you can experiment in `libraryroot.modif.js` and delete it afterwards if you want to go back to the clean version `libraryroot.beaut.js`
 
 I have been able to increase the number of screenshots it shows on a game's page from 4 to 8. Tried to get it to generate 9, but was unable to find the specific variable (it generates an array of 8 screenshots by default). Also increased the number of DLC visible to 12 - the JS generates an array of 23! They are just not displayed on the page. https://imgur.com/a/3WTdrXP
 
@@ -66,14 +77,14 @@ Additionally, here is a proof of concept of recreating the List view: https://im
 ## steam-library Support
 
 https://github.com/AikoMidori/steam-library
-SteamUI-OldGlory mostly works with Shiina's steam-library CSS skin by simply copying the code in steam-library's libraryroot.custom.css and pasting it above SteamUI-OldGlory's libraryroot.custom.css code. 
+SteamUI-OldGlory mostly works with Shiina's steam-library CSS skin by simply copying the code in **steam-library's** `libraryroot.custom.css` and pasting it above **SteamUI-OldGlory's** `libraryroot.custom.css` code. 
 
 However, I have provided a compatibility CSS file and batch file to hopefully streamline the process.
 
 In layman's terms:
-- copy and paste SteamUI-OldGlory's `libraryroot.custom.css`, `steam-library_compat.css` and `steam-library_compat.bat` into `Steam/steamui`
-- copy and paste steam-library's `config.css` over into `Steam/steamui`
+- copy and paste **SteamUI-OldGlory's** `libraryroot.custom.css`, `steam-library_compat.css` and `steam-library_compat.bat` into `Steam/steamui`
+- copy and paste **steam-library's** `config.css` over into `Steam/steamui`
 - run `steam-library_compat.bat`. It will prompt you asking you to confirm. Type Y and press Enter.
-- a backup of your libraryroot.custom.css will be made at libraryroot.custom.css.backup
+- a backup of your `libraryroot.custom.css` will be made at `libraryroot.custom.css.backup`
 
 You should be set to go!
