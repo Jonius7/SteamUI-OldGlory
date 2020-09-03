@@ -17,7 +17,6 @@ Required libraries: `jsbeautifier`, `jsmin`.
 
 - Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
 - Copy `js_tweaker.py` and `fixes.txt` to `Steam/steamui` and run it.
-- After opening Steam, open up the Dev Tools by click in the library window and pressing `Ctrl + Shift + I`
 
 #### Fix Blurred Game Images
 [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix)
@@ -26,6 +25,7 @@ Required libraries: `jsbeautifier`, `jsmin`.
 To debug the Steam Library yourself, run Steam with the ` -dev` tag.
 - Create a shortcut to `Steam` -> `Right Click` -> `Properties`.
 - In `Target`, after `Steam.exe"` add `  -dev` so the end of Target looks like this: `Steam.exe" -dev`
+- After opening Steam, open up the Dev Tools by click in the library window and pressing `Ctrl + Shift + I`
 
 ## Quick Links
 - [Video Guide](https://www.youtube.com/watch?v=7_3e9j8FFv8)
@@ -100,6 +100,8 @@ In layman's terms:
 - Reload the Steam Library (either End Task on Steam Client WebHelper or trigger reload of `Steam/steamui` folder)
 
 You should be set to go!
+
+![preview image](https://i.imgur.com/4gWzhj9.png)
 
 ## build js_tweaker.exe
 `pyinstaller --hidden-import six --onefile js_tweaker.py`
