@@ -9,4 +9,4 @@ t = t.slice(0, 6),  t = t.slice(0, 12),
 rowHeight: 90,  rowHeight: 40,
 ###scrollToTopThreshold: 386,  scrollToTopThreshold: 386, scrollTop:30,
 ###className: Object(oa.a)(zl.a.Body, t)  className: Object(oa.a)(zl.a.Body, t),scrollTop:30
-g = u.nTop,  g = t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") ? u.nTop * 0.75 : u.nTop,
+g = u.nTop,  g = (t.children[0] && t.children[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0].classList && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_Container_2-O4Z")) ? u.nTop * 0.75 : u.nTop,

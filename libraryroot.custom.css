@@ -11,11 +11,15 @@ v0.5 Added in new tweaks to Apppages, padding and headers
 v0.4 initial version 
 */
 
+/* Configurable variables */
 :root {
 	--HoverOverlayPosition: 0; /* Set 0 if default JS, unset if tweaked JS */
 	--DLCGridSize: 1;              /* Set 0 or 1 (tweaked JS preferred 1) */
 	--WhatsNew: block;			   /* Set none to hide, Set block to show */
 	--WhatsNewOrder: 1;            /* Set 0 to put to top, 1 or higher to put to bottom */
+	
+	--GameListEntrySize: 16px;     /* Default: 16px */
+	--GameListHeaderSize: 13px;	   /* Default: 13px */
 }
 
 /* GameList Sidebar
@@ -44,7 +48,7 @@ v0.4 initial version
 /* Gamelist entry - font size */
 
 .gamelistentry_Container_2-O4Z {
-  font-size: 16px;
+  font-size: var(--GameListEntrySize);
 }
 
 .gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
@@ -86,7 +90,7 @@ v0.4 initial version
 /* category name - font size and height*/
 
 .gamelistsectionheader_SectionName_2mZ8L {
-  font-size: 13px;
+  font-size: var(--GameListHeaderSize);
   height: 15px;
 }
 
@@ -649,7 +653,3 @@ Requires corresponding JS tweaks to display correctly
 
 
 /* END LIST VIEW ONLY TWEAKS */
-
-
-
-
