@@ -13,13 +13,17 @@ v0.4 initial version
 
 /* Configurable variables */
 :root {
-	--HoverOverlayPosition: 0; /* Set 0 if default JS, unset if tweaked JS */
-	--DLCGridSize: 1;              /* Set 0 or 1 (tweaked JS preferred 1) */
+	--HoverOverlayPosition: 0 	   /* Set 0 if default JS, unset if tweaked JS */
+	/* --DLCGridSize: 0;               Set 0 or 1 (tweaked JS preferred 1) */
 	--WhatsNew: block;			   /* Set none to hide, Set block to show */
 	--WhatsNewOrder: 1;            /* Set 0 to put to top, 1 or higher to put to bottom */
 	
 	--GameListEntrySize: 16px;     /* Default: 16px */
 	--GameListHeaderSize: 13px;	   /* Default: 13px */
+	--RemoveShine: none;		   /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
+	--GameImageTransition: 0s;     /* Grid Game Images transition time. 0s for instant, 2s for smooth.*/
+	--GameImageOpacity: 0.7;        /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5*/
+	--GameGridBackground: #365d2d; /* Default is inherit, set #365d2d for a friendly green */
 }
 
 /* GameList Sidebar
@@ -68,7 +72,7 @@ v0.4 initial version
 
 .gamelistentry_FriendStatusHover_2iiN7 {
   position: fixed;
-  bottom: 2% !important;
+  bottom: var(--HoverOverlayPosition) !important;
   height: 28px;
 }
 
@@ -121,7 +125,7 @@ v0.4 initial version
 }
 
 
-/* Fix hover text to the bottom. I unfortunately couldn't keep it dynamic without affecting ALL other hover overlays across the client */
+/* Fix hover text to the bottom if default JS, position dynamically if JS tweaked. */
 
 .gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
   position: fixed;
@@ -174,6 +178,12 @@ v0.4 initial version
   flex: 1 1 auto;
   width: 20%;
 }
+
+/*Home button text centred*/
+.gamelisthome_Label_3O48L {
+    margin: auto;
+}
+
 /* ========================================================================== 
    END GameList Sidebar */
 
@@ -524,6 +534,28 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   opacity: .9;
 }
 
+/* Remove grid shine/glare */
+.appportrait_LibraryItemBoxShine_MyNb5 {
+	display: var(--RemoveShine);
+}
+
+/* Remove transitioning on game images when scrolling */
+.appportrait_PortraitImage_2IYf7 {
+    
+    transition-duration: var(--GameImageTransition) !important;
+    transition-timing-function: unset;
+}
+
+/* Background color behind game images */
+.appportrait_LibraryItemBox_WYgDg {
+    background-color: var(--GameGridBackground);
+}
+
+/* Grid game image opacity */
+.appportrait_PortraitImage_2IYf7.appportrait_Capsule_13w3S.appportrait_CapsuleVisible_3QIfJ {
+    opacity: var(--GameImageOpacity);
+}
+
 /* CSS Tweaks involving JS/
    ========================================================================== */
 
@@ -532,13 +564,12 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 /*Shrink DLC size to show more */
 
 .appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
+  /* grid-template-columns: repeat(4, minmax(24.1%, max-content)); */
+  /* grid-template-columns: repeat(3, minmax(32.3%, max-content)); */
+  /* Stopped working */
   grid-template-columns: repeat(
     calc(4 * var(--DLCGridSize) + 3 * (1 - var(--DLCGridSize))), minmax(calc(24.1% * var(--DLCGridSize) + 32.3% * (1 - var(--DLCGridSize))), max-content)
   );
-  /* In plain terms:
-  grid-template-columns: repeat(4, minmax(24.1%, max-content));
-  grid-template-columns: repeat(3, minmax(32.3%, max-content));
-  */
 }
 
 

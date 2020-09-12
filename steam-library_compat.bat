@@ -7,13 +7,13 @@ setlocal
 set/P AREYOUSURE=Would you like to continue (Y/N)? 
 if /I "%AREYOUSURE%" NEQ "Y" goto END
 endlocal
-
+echo ========================
 set "libraryroot=libraryroot.custom.css"
 set "compat=steam-library_compat.css"
 set "temp=hybrid.temp.css"
 
 ::Just so it won't keep adding the compat text if you've done it already
-if exist %libraryroot%.backup echo libraryroot.custom.css.backup exists, skipping
+if exist %libraryroot%.backup echo libraryroot.custom.css.backup exists, skipping. Delete or rename the file if you want to add the CSS.
 if exist %libraryroot%.backup goto AFTER
 type %compat% >> %temp%
 echo. >> %temp%
@@ -21,6 +21,7 @@ echo. >> %temp%
 type %libraryroot% >> %temp%
 rename %libraryroot% %libraryroot%.backup
 rename %temp% %libraryroot%
+echo CSS Added.
 echo A backup of your library CSS has been saved to libraryroot.custom.css.backup
 
 :AFTER
@@ -46,8 +47,8 @@ set "search6=--ButtonInstallHover: #47bfff;"
 set "replace6=--ButtonInstallHover: var^(--libraryhome^)^;"
 set "search7=--ButtonInstallHover2: #1a44c2;"
 set "replace7=--ButtonInstallHover2: var^(--libraryhome^)^;"
-::set "searchA=--GameIcons: none;"
-::set "replaceA=--GameIcons: block;"
+set "searchA=--GameIcons: none;"
+set "replaceA=--GameIcons: block;"
 
 (for /f "delims=" %%L in ('findstr /n "^" "%textfile%"') do (
 	set line=%%L
@@ -59,7 +60,7 @@ set "replace7=--ButtonInstallHover2: var^(--libraryhome^)^;"
 	set line=!line:%search5%=%replace5%!
 	set line=!line:%search6%=%replace6%!
 	set line=!line:%search7%=%replace7%!
-	::set line=!line:%searchA%=%replaceA%!
+	set line=!line:%searchA%=%replaceA%!
 	set line=!line:*:=!
 	echo(!line!
 	endlocal

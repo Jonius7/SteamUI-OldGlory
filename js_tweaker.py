@@ -40,8 +40,9 @@ def setup_library():
 
 def parse_fixes_file(filename):
     with open("fixes.txt", newline='', encoding="UTF-8") as fi:
+        lines = filter(None, (line.rstrip() for line in fi))
         try:
-            for line in fi:
+            for line in lines:
                 if not line.startswith('###'):
                     (key, val) = line.rstrip().split("  ")
                     fixes_dict[key] = val
