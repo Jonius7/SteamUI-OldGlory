@@ -13,13 +13,14 @@ v0.4 initial version
 
 /* Configurable variables */
 :root {
-	--HoverOverlayPosition: 0 	   /* Set 0 if default JS, unset if tweaked JS */
-	/* --DLCGridSize: 0;               Set 0 or 1 (tweaked JS preferred 1) */
+	
 	--WhatsNew: block;			   /* Set none to hide, Set block to show */
 	--WhatsNewOrder: 1;            /* Set 0 to put to top, 1 or higher to put to bottom */
 	
+	--HoverOverlayPosition: 0 	   /* Set 0 if default JS, unset if tweaked JS */
 	--GameListEntrySize: 16px;     /* Default: 16px */
 	--GameListHeaderSize: 13px;	   /* Default: 13px */
+	
 	--RemoveShine: none;		   /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
 	--GameImageTransition: 0s;     /* Grid Game Images transition time. 0s for instant, 2s for smooth.*/
 	--GameImageOpacity: 0.7;        /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5*/
@@ -564,12 +565,12 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 /*Shrink DLC size to show more */
 
 .appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
-  /* grid-template-columns: repeat(4, minmax(24.1%, max-content)); */
+  grid-template-columns: repeat(4, minmax(24.1%, max-content));
   /* grid-template-columns: repeat(3, minmax(32.3%, max-content)); */
   /* Stopped working */
-  grid-template-columns: repeat(
+  /* grid-template-columns: repeat(
     calc(4 * var(--DLCGridSize) + 3 * (1 - var(--DLCGridSize))), minmax(calc(24.1% * var(--DLCGridSize) + 32.3% * (1 - var(--DLCGridSize))), max-content)
-  );
+  ); */
 }
 
 

@@ -1,0 +1,111 @@
+.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {
+  transform: translate(10px, -120%);
+  width: 30%;
+  background: rgba(40,40,40,0.7);
+  backdrop-filter: blur(2px);
+  border-radius: 4px;
+}
+
+.appdetails_PlayBar_2L3s2 {
+  width: 30%;
+}
+
+.appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
+  transform: translateY(-140px);
+}
+
+.appdetailsoverview_ColumnContainer_OhSdL {
+  transform: translateY(-140px);
+}
+
+.appdetailsplaysection_Row_9EHg9 {
+  flex-flow: column;
+  width: 100%;
+}
+
+.sharedappdetailsheader_TopCapsule_NZMJ6 {
+  z-index: -2;
+  pointer-events: none;
+}
+
+.sharedappdetailsheader_Features_fqwOy, .sharedappdetailsheader_PinBox_2O6k6, .sharedappdetailsheader_BoxSizerDragBox_3ICyu {
+  pointer-events: all;
+}
+
+
+.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe {
+	width: 70%;
+}
+.appdetailsplaysection_StickyHeader_39Rhe .appdetailsplaysection_StatusAndStats_1YbtI .appdetailsplaysection_PlayBarIconAndGame_2MBVR {
+    width: 100%;
+}
+
+
+.appdetailsplaysection_StatusAndStats_1YbtI {
+	overflow: visible;
+}
+
+.appdetailsplaysection_StatusAndStats_1YbtI .appdetailsplaysection_StatusNameContainer_zjtAI {
+    align-items: unset;
+	overflow: visible;
+}
+
+
+.appdetailsplaysection_GameStatsSection_1mDAV {
+	width: 100%;
+    flex-direction: column;
+	align-content: flex-start;
+	flex-wrap: wrap;
+}
+
+.appdetailsplaysection_StatusAndStats_1YbtI .appdetailsplaysection_GameStatsSection_1mDAV {
+    width: 100%;
+	padding-top: 4px;
+}
+
+
+.appdetailsplaysection_GameStat_1kiZK.appdetailsplaysection_LastPlayed_3pS8k {
+	width: 45%;
+	/*margin: 0px 0px auto 37px;*/
+}
+.appdetailsplaysection_GameStat_1kiZK.appdetailsplaysection_Playtime_1aKeg {
+	width: 55%;
+}
+
+.appdetailsplaysection_RightControls_1EAxK {
+    margin-left: auto;
+    width: 50%;
+    justify-content: flex-end;
+}
+
+
+.appdetailsplaysection_ActionSection_2zxzS {
+  width: 50%;
+}
+
+
+.appdetailsplaysection_GameStat_1kiZK {
+    margin: 0px;
+}
+
+.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe > div > div > div {
+	flex-direction: row;
+}
+
+.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe > div > div > div > :nth-child(1) {
+	width: unset;
+}
+
+.appdetailsplaysection_StickyHeader_39Rhe .appdetailsplaysection_StatusAndStats_1YbtI .appdetailsplaysection_StatusNameContainer_zjtAI {
+    min-width: unset;
+}
+
+
+.appdetailsplaysection_StickyHeaderShadow_2_86Q {
+    background: linear-gradient(to bottom, rgba(40, 40, 40, 0.5) 0%, rgba(40, 40, 40, 0.2) 30%, rgba(40, 40, 40, 0) 100%);
+}
+
+
+.appdetailsplaysection_StatusAndStats_1YbtI .appdetailsplaysection_PlayBarIconAndGame_2MBVR .appdetailsplaysection_PlayBarGameName_3rpUk {
+	overflow: unset;
+}
