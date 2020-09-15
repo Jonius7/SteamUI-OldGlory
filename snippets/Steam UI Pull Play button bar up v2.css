@@ -1,9 +1,17 @@
+/* Play Button Layout */
+
 .appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {
-  transform: translate(10px, -120%);
-  width: 30%;
+  transform: translate(calc(8vmax - 29%), calc(-8.5vmax - 38.8%));
+  width: 33%;
+  max-width: 345px;
   background: rgba(40,40,40,0.7);
   backdrop-filter: blur(2px);
   border-radius: 4px;
+}
+
+.appdetailsplaysection_InnerContainer_3Y87Y {
+    box-sizing: border-box;
+    padding: 10px 12px 7px 12px;
 }
 
 .appdetails_PlayBar_2L3s2 {
@@ -15,6 +23,10 @@
 }
 
 .appdetailsoverview_ColumnContainer_OhSdL {
+  transform: translateY(-140px);
+}
+
+.appdetailsgameinfocontainer_AppGameInfoContainer_25oBZ {
   transform: translateY(-140px);
 }
 
@@ -36,8 +48,16 @@
 .appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe {
 	width: 70%;
 }
+
+}
+
+/* Play button height */
+.appactionbutton_PlayButtonContainer_1FnJ6.appactionbutton_Green_3cI5T.appactionbutton_ShowingStreaming_1hhB2 {
+    height: 90%;
+}
+
 .appdetailsplaysection_StickyHeader_39Rhe .appdetailsplaysection_StatusAndStats_1YbtI .appdetailsplaysection_PlayBarIconAndGame_2MBVR {
-    width: 100%;
+    width: 204%;
 }
 
 
@@ -74,8 +94,8 @@
 
 .appdetailsplaysection_RightControls_1EAxK {
     margin-left: auto;
-    width: 50%;
     justify-content: flex-end;
+	z-index: 2;
 }
 
 
@@ -92,12 +112,18 @@
 	flex-direction: row;
 }
 
+.appdetailsplaysection_PlayBarLabel_34lrt {
+    overflow: hidden;
+    max-height: 16px;
+}
+
+
 .appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe > div > div > div > :nth-child(1) {
 	width: unset;
 }
 
 .appdetailsplaysection_StickyHeader_39Rhe .appdetailsplaysection_StatusAndStats_1YbtI .appdetailsplaysection_StatusNameContainer_zjtAI {
-    min-width: unset;
+    /*min-width: unset;*/
 }
 
 
@@ -106,6 +132,29 @@
 }
 
 
-.appdetailsplaysection_StatusAndStats_1YbtI .appdetailsplaysection_PlayBarIconAndGame_2MBVR .appdetailsplaysection_PlayBarGameName_3rpUk {
-	overflow: unset;
+
+.appdetailsplaysection_RightControls_1EAxK {
+    margin-top: -90px;
 }
+
+
+.appdetailsplaysection_AppButtonsContainer_lO1IF {
+    flex-flow: column;
+	padding-bottom: 10px;
+}
+
+.appdetailsplaysection_MenuButton_3qDWQ {
+    margin-right: 0px;
+    margin-top: 5px;
+}
+
+.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe > div > div > div > :nth-child(3) > div {
+	flex-direction: row;
+}
+
+.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe > div > div > div > :nth-child(3) > div > div {
+	margin-right: 5px;
+}
+
+
+/* End Play Button Layout */
