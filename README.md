@@ -63,7 +63,7 @@ You should be set to go!
 
 ## Dev Notes
 
-For more details, go to [Story](story.md).
+For more details, go to [Story](docs/story.md).
 
 
 
