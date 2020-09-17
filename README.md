@@ -40,6 +40,28 @@ Required libraries: `jsbeautifier`, `jsmin`.
 
 
 
+## What's New?
+#### Release 3
+
+New CSS for:
+- Play Button Box
+- Vertical Nav Bar (BETA)
+- Classic Layout (BETA)
+
+New Configurable variables at top of CSS file
+
+BETA CSS is functionally working, but may require some manual uncommenting in the CSS and JS
+- Update compatibility with [steam-library](https://github.com/AikoMidori/steam-library)
+
+rework [`README.md`](README.md)
+- moved long exploratory story to [docs/story.md](docs/story.md)
+moved [CSS changelog](docs/CSS%20changelog.md) to its own file
+
+[`js_tweaker`](js_tweaker) now accepts blank lines for [`fixes.txt`](fixes.txt) readability
+added explanatory comments for each group of tweaks in [`fixes.txt`](fixes.txt)
+
+
+
 ## steam-library Support
 
 https://github.com/AikoMidori/steam-library
