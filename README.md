@@ -2,7 +2,19 @@
 A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. Check `/dev` branch for in-progress tweaks \
 ![Alt Text](https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif)
 
+```HTML
+<details>
+  <summary>The title of the image group</summary><details>
+  <img src="https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif" name="image-name">
+  <img src="https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif" name="image-name">
+  <img src="https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif" name="image-name">
+</details>
+```
+
+
+
 ## Quick Usage
+
 #### Patching and CSS
 - Install **_SteamFriendsPatcher_**: (https://github.com/PhantomGamers/SteamFriendsPatcher/releases)
 - After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.
