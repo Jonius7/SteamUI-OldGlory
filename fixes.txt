@@ -15,13 +15,13 @@ g = u.nTop,  g = (t.children[0] && t.children[0].childNodes[0] && t.children[0].
 ### === Scrolling Tweak (Apply after initialisation) ===
 return e.default.Initialize(t)  document.getElementsByClassName('smartscrollcontainer_Body_3lDcz')[0].scrollTop = 30;return e.default.Initialize(t)
 
-### === Vertical Nav Bar ===
-x: l,  x: 0,
-y: c * i  y: (i - 10) * u
-opacity: 0, pointerEvents: "none", zIndex: -100  left: e.position.x, top: e.position.y
-c < r ? d.push({  true ? d.push({
+### === Vertical Nav Bar (beta, working)===
+###x: l,  x: 0,
+###y: c * i  y: (i - 10) * u
+###opacity: 0, pointerEvents: "none", zIndex: -100  left: e.position.x, top: e.position.y
+###c < r ? d.push({  true ? d.push({
 
-### === Change Game Image Grid Sizes ===
+### === Change Game Image Grid Sizes (optional)===
 ###(i = 111, n = !0) : 2 == e ? i = 148 : 3 == e && (i = 222), {  (i = 150, n = !0) : 2 == e ? i = 200 : 3 == e && (i = 280), {
 
 ### === Landscape Images JS Tweaks (beta, working with bugs) ===
