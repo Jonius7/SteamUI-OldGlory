@@ -2,6 +2,19 @@
 A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. Check `/dev` branch for in-progress tweaks \
 ![Alt Text](https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif)
 
+<details>
+    <summary>Showcase of Tweaks</summary>
+    <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 50%;" />
+    <img src="https://i.imgur.com/c0AJnsn.png" alt="Show more games" style="zoom: 67%;" />
+
+
+
+</details>
+
+
+
+
+
 ## Quick Usage
 
 #### Patching and CSS
