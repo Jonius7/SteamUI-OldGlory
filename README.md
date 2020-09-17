@@ -14,7 +14,11 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
     Improved game page layout <br>
     <img src="https://i.imgur.com/7UvT6OX.png" alt="Fix blurred images" style="zoom: 50%;" /> <br><br>
     Show more DLC and screenshots <br>
-    <img src="https://media.giphy.com/media/cbPuBtJ1ez2v55SptR/giphy.gif" alt="More DLC" style="zoom: 100%;" /> <br>
+    <img src="https://media.giphy.com/media/cbPuBtJ1ez2v55SptR/giphy.gif" alt="Show more DLC" style="zoom:80%;" /> <br><br>
+    Play bar moved up into box <br>
+    <img src="https://i.imgur.com/HrgBUPl.png" alt="Play bar moved up into box" style="zoom:80%;"
+
+​    
 
  
 
