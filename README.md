@@ -10,12 +10,13 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
     Show more games <br>
     <img src="https://i.imgur.com/c0AJnsn.png" alt="Show more games" style="zoom: 55%;" /> <br><br>
     Fix blurred images <br>
-    ![Fix blurred images](https://gyazo.com/426eeaa53affa5b6b1521d27c9a7eede) <br><br>
+    <img src="https://media.giphy.com/media/YIKhhaK166Iynrcer8/giphy.gif" alt="Fix blurred images" style="zoom: 100%;" /> <br><br>
     Improved game page layout <br>
-    <img src="https://i.imgur.com/7UvT6OX.png" alt="Fix blurred images" style="zoom: 50%;" /> <br>
+    <img src="https://i.imgur.com/7UvT6OX.png" alt="Fix blurred images" style="zoom: 50%;" /> <br><br>
+    Show more DLC and screenshots <br>
+    <img src="https://media.giphy.com/media/cbPuBtJ1ez2v55SptR/giphy.gif" alt="More DLC" style="zoom: 100%;" /> <br>
 
-
-​    Improved game page layout       
+ 
 
 
 
