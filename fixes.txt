@@ -1,12 +1,47 @@
-###Child: d,  Child: d,
+### === Home Page Grid Spacing ===
 gridColumnGap: 16,  gridColumnGap: 5,
 gridRowGap: 24,  gridRowGap: 8,
-###eAssetType: 0,  eAssetType: 3,
-###name : "library_600x900.jpg", e.rt  name : "header.jpg", e.rt
-###t + "/portrait.png?v=2"  t + "/header.jpg"
+
+### === Increase Number of Screenshots and DLC displayed ===
 vecScreenShots.slice(0, 4).map  vecScreenShots.slice(0, 9).map
 t = t.slice(0, 6),  t = t.slice(0, 12),
+
+### === DLC Manager rowHeight ===
 rowHeight: 90,  rowHeight: 40,
-###scrollToTopThreshold: 386,  scrollToTopThreshold: 386, scrollTop:30,
-###className: Object(oa.a)(zl.a.Body, t)  className: Object(oa.a)(zl.a.Body, t),scrollTop:30
-g = u.nTop,  g = (t.children[0] && t.children[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0].classList && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_Container_2-O4Z")) ? u.nTop * 0.75 : u.nTop,
+
+### === HoverPosition Fix for GameListEntry ===
+g = u.nTop,  g = (t.children[0] && t.children[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0].classList && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_Container_2-O4Z")) || (t.children[0].classList && t.children[0].classList.contains("gamelistentry_FriendStatusHover_2iiN7")) ? u.nTop * 0.75 : u.nTop,
+
+### === Scrolling Tweak (Apply after initialisation) ===
+return e.default.Initialize(t)  document.getElementsByClassName('smartscrollcontainer_Body_3lDcz')[0].scrollTop = 30;return e.default.Initialize(t)
+
+### === Vertical Nav Bar (beta, working)===
+###x: l,  x: 0,
+###y: c * i  y: (i - 10) * u
+###opacity: 0, pointerEvents: "none", zIndex: -100  left: e.position.x, top: e.position.y
+###c < r ? d.push({  true ? d.push({
+
+### === Change Game Image Grid Sizes (optional)===
+###(i = 111, n = !0) : 2 == e ? i = 148 : 3 == e && (i = 222), {  (i = 150, n = !0) : 2 == e ? i = 200 : 3 == e && (i = 280), {
+
+### === Landscape Images JS Tweaks (beta, working with bugs) ===
+###eAssetType: 0,  eAssetType: 3,
+###childHeight: 1.5 * i,  childHeight: i * 43 / 92,
+
+### === Obsolete Landscape Images JS Tweaks (no effect) ===
+###name : "library_600x900.jpg", e.rt  name : "header.jpg", e.rt
+###t + "/portrait.png?v=2"  t + "/header.jpg"
+
+### === Controls Scroll (experimental, purposeless for now) ===
+###	Child: d,  Child: d+100,
+
+### === Scrolling Tweak (failed experiments) ===
+###	scrollToTopThreshold: 386,  scrollToTopThreshold: 386, scrollTop:30,
+###	className: Object(oa.a)(zl.a.Body, t)  className: Object(oa.a)(zl.a.Body, t),scrollTop:30
+### t.m_elTarget.scrollTop = i[1]  t.m_elTarget.scrollTop = i[1] + 30
+###className: Object(Ga.a)(ec.a.Body, t)  className: Object(Ga.a)(ec.a.Body, t), scrollTop:30
+###e.m_nScrollTop = 0  e.m_nScrollTop = 30
+###"innerRef", "strRememberScrollKey"]));  "innerRef", "strRememberScrollKey"]));Object(E.a).scrollTop = 30;
+###return this.m_elTarget.scrollTop  return this.m_elTarget.scrollTop + 30
+
+
