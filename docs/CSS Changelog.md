@@ -1,4 +1,4 @@
-## Changelog
+## CSS Changelog
 
 **v1.1** Whole new sections for Play Bar layout, Vertical Nav Bar and Classic layout
 **v0.10** Rewrite/Pass ordering the CSS classes into sections
