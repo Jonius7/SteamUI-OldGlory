@@ -1,11 +1,23 @@
 # SteamUI-OldGlory
+
 A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. Check `/dev` branch for in-progress tweaks \
 ![Alt Text](https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif)
 
 <details>
-    <summary>Showcase of Tweaks</summary>
-    <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 50%;" />
-    <img src="https://i.imgur.com/c0AJnsn.png" alt="Show more games" style="zoom: 67%;" />
+    <summary>Showcase of Tweaks</summary><br>
+    Condensed sidebar buttons <br>
+    <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 50%;" /> <br><br>
+    Show more games <br>
+    <img src="https://i.imgur.com/c0AJnsn.png" alt="Show more games" style="zoom: 67%;" /> <br><br>
+    Fix blurred images <br>
+    <img src="https://i.gyazo.com/426eeaa53affa5b6b1521d27c9a7eede.gif" alt="Fix blurred images" style="zoom: 67%;" /> <br><br>
+    Improved game page layout <br>
+    <img src="https://i.imgur.com/7UvT6OX.png" alt="Fix blurred images" style="zoom: 67%;" /> <br>
+
+​         
+
+
+​         
 
 
 
@@ -18,12 +30,14 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 ## Quick Usage
 
 #### Patching and CSS
+
 - Install **_SteamFriendsPatcher_**: (https://github.com/PhantomGamers/SteamFriendsPatcher/releases)
 - After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.
 - Replace it with **_SteamUI-OldGlory's_** `libraryroot.custom.css`.
 - Latest Release: (https://github.com/Jonius7/SteamUI-OldGlory/releases/latest)
 
 #### JavaScript Tweaks
+
 The file for modifying JavaScript, `js_tweaker.py` is a [Python](https://www.python.org/downloads/ "Python Downloads Page") script. \
 The file that contains the list of JavaScript tweaks is `fixes.txt`.\
 Each line contains one tweak with the original JS separated by two spaces from the tweaked JS: 
@@ -37,6 +51,7 @@ Required libraries: `jsbeautifier`, `jsmin`.
 - Copy `js_tweaker.py` and `fixes.txt` to `Steam/steamui` and run it.
 
 #### Fix Blurred Game Images
+
 [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix)
 
 
@@ -54,9 +69,11 @@ Required libraries: `jsbeautifier`, `jsmin`.
 
 
 ## What's New?
+
 #### Release 3
 
 New CSS for:
+
 - Play Button Box
 - Vertical Nav Bar (BETA)
 - Classic Layout (BETA)
@@ -64,11 +81,13 @@ New CSS for:
 New Configurable variables at top of CSS file
 
 BETA CSS is functionally working, but may require some manual uncommenting in the CSS and JS
+
 - Update compatibility with [steam-library](https://github.com/AikoMidori/steam-library)
 
 rework [`README.md`](README.md)
+
 - moved long exploratory story to [docs/story.md](docs/story.md)
-moved [CSS changelog](docs/CSS%20changelog.md) to its own file
+  moved [CSS changelog](docs/CSS%20changelog.md) to its own file
 
 [`js_tweaker`](js_tweaker) now accepts blank lines for [`fixes.txt`](fixes.txt) readability
 added explanatory comments for each group of tweaks in [`fixes.txt`](fixes.txt)
@@ -83,9 +102,10 @@ https://github.com/AikoMidori/steam-library
 However, I have provided a compatibility CSS file and batch file to hopefully streamline the process.
 
 In layman's terms:
+
 - copy and paste into `Steam/steamui` from **SteamUI-OldGlory**: 
   - `libraryroot.custom.css`
-  -  `steam-library_compat.css` 
+  - `steam-library_compat.css` 
   - `steam-library_compat.bat` 
 - copy and paste into `Steam/steamui` from **steam-library**:
   - `config.css` 
@@ -130,3 +150,5 @@ Limitation that the script only reads from `libraryroot.beaut.js` one line at a 
 `js_tweaker` will use `libraryroot.beaut.js` if it already exists. This means:
 
 - you can experiment in `libraryroot.modif.js` and delete it afterwards if you want to go back to the clean version `libraryroot.beaut.js`
+
+​    https://i.gyazo.com/426eeaa53affa5b6b1521d27c9a7eede.gif
