@@ -4,20 +4,18 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 ![Alt Text](https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif)
 
 <details>
-    <summary>Showcase of Tweaks</summary><br>
+    <summary><h3>Showcase of Tweaks</h3></summary><br>
     Condensed sidebar buttons <br>
-    <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 50%;" /> <br><br>
+    <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 40%;" /> <br><br>
     Show more games <br>
-    <img src="https://i.imgur.com/c0AJnsn.png" alt="Show more games" style="zoom: 67%;" /> <br><br>
+    <img src="https://i.imgur.com/c0AJnsn.png" alt="Show more games" style="zoom: 55%;" /> <br><br>
     Fix blurred images <br>
-    <img src="https://i.gyazo.com/426eeaa53affa5b6b1521d27c9a7eede.gif" alt="Fix blurred images" style="zoom: 67%;" /> <br><br>
+    ![Fix blurred images](https://gyazo.com/426eeaa53affa5b6b1521d27c9a7eede) <br><br>
     Improved game page layout <br>
-    <img src="https://i.imgur.com/7UvT6OX.png" alt="Fix blurred images" style="zoom: 67%;" /> <br>
-
-​         
+    <img src="https://i.imgur.com/7UvT6OX.png" alt="Fix blurred images" style="zoom: 50%;" /> <br>
 
 
-​         
+​    Improved game page layout       
 
 
 
