@@ -3,6 +3,7 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 ![Alt Text](https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif)
 
 ## Quick Usage
+
 #### Patching and CSS
 - Install **_SteamFriendsPatcher_**: (https://github.com/PhantomGamers/SteamFriendsPatcher/releases)
 - After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.
@@ -63,9 +64,9 @@ You should be set to go!
 
 ## Dev Notes
 
-#### For more details, go to [Story](..//story.md).
+#### For more details, go to [Story](docs/story.md).
 
-
+#### [CSS Changelog](docs/CSS%20Changelog.md)
 
 #### Debugging Steam Library Yourself
 
