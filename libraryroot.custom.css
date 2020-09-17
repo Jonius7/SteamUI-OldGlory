@@ -8,7 +8,7 @@
   --WhatsNew: block;  /* Set none to hide, Set block to show */
   --WhatsNewOrder: 1;  /* Set 0 to put to top, 1 or higher to put to bottom */
 
-  --HoverOverlayPosition: 0;  /* Set 0 if default JS, unset if tweaked JS */
+  --HoverOverlayPosition: unset;  /* Set 0 if default JS, unset if tweaked JS */
   --GameListEntrySize: 16px;  /* Default: 16px */
   --CategoryNameHeaderSize: 13px;  /* Default: 13px */
 
@@ -16,6 +16,11 @@
   --GameImageTransition: 0s;  /* Grid Game Images transition time. 0s for instant, 2s for smooth.*/
   --GameImageOpacity: 1;  /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5*/
   --GameGridBackground: inherit;  /* Default is inherit, set #365d2d for a friendly green */
+  
+  --AppPageBlur: 8px; /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look.*/
+  
+  --VerticalNavBarOffset: 0px; /* Leave at 0, this var is for steam-library compatibility */
+  
 }
 
 /* ==================== GameList Sidebar ====================
@@ -217,12 +222,11 @@
 }
 
 
-/* Enable if you want a more plain background as you scroll down*/
-/*
 .sharedappdetailsheader_ImgSrc_HNbe3.sharedappdetailsheader_ImgBlurBackdrop_3_IUV {
-  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);
+  width: calc(180% + 128px);
+  /*-webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);*/ /* Enable if you want a more plain background as you scroll down*/
 }
-*/
+
 
 /* ========================================================================== 
    END Your Collections */
@@ -233,11 +237,12 @@
 
 .appdetailssection_AppDetailsSection_2r4TK {
   margin-bottom: 6px;
+  /*
   background: rgba(40, 42, 47, 0.8);
   border-radius: 4px;
   padding: 4px 0px;
   width: unset;
-  margin: 6px 6px 0px 0px;
+  margin: 6px 6px 0px 0px;*/
 }
 
 .appdetailssection_AppDetailsSectionContainer_31ptF {
@@ -267,15 +272,17 @@ div.appdetailsoverview_RightColumn_2aor4>div:nth-child(3) {
 /* added a darker gradient to the top of the apppage below the Game Image */
 
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_Backdrop_1Qa-A {
-  /*background: linear-gradient(0deg, rgba(40, 41, 49, 0) 0%, rgba(51, 51, 51, 0.2) 35%, rgba(51, 51, 51, 0.5) 100%);*/
+  background: linear-gradient(0deg, rgba(40, 41, 49, 0) 0%, rgba(51, 51, 51, 0.2) 35%, rgba(51, 51, 51, 0.5) 100%);
 }
 
-/* Height of blur over background image. If a low value, most of the background will be clear. default: 450px*/
+/* Height of blur over background image. If a low value, most of the background will be clear. default: 450px
+   Background color
+*/
 
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
   height: 900px;
-  background: linear-gradient(to top, rgba(40, 40, 40, 0.6) 99%, rgba(40, 40, 40, 0.2) 100%);
-  backdrop-filter: blur(2px);
+  /*background: linear-gradient(to top, rgba(40, 40, 40, 0.6) 99%, rgba(40, 40, 40, 0.2) 100%);*/
+  backdrop-filter: blur(var(--AppPageBlur));
 }
 
 /* ========================================================================== 
@@ -530,13 +537,10 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 
 }
 
-/* Home Page - Recent Games Shelf */
-.boxcarousel_BoxCarousel_3fiHs.libraryhomerecentgames_RecentGames_1RLny {
-  height: 200px !important;
+/* Home Page - Shelves height */
+.boxcarousel_BoxCarousel_3fiHs {
+  height: 210px !important;
 }
-
-
-
 
 /* Home Page - Steam Games Grid
    ========================================================================== */
@@ -861,7 +865,7 @@ Requires corresponding JS tweaks to display correctly
 /* START VERTICAL NAV BAR */
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
-  transform: translate(calc(100vw * 0.75 - (390px - 15vw * 1.30)), calc(-13.5vw * 0.95 - (2vw * 0.5)));
+  transform: translate(calc(100vw * 0.75 - (390px - 15vw * 1.30)), calc(var(--VerticalNavBarOffset) + -13.5vw * 0.95 - (2vw * 0.5)));
   margin-left: auto;
   position: absolute;
   width: 170px;
@@ -869,8 +873,12 @@ Requires corresponding JS tweaks to display correctly
   border-radius: 4px;
   height: 14.43vw;
   pointer-events: all;
-  z-index: 5;
+  z-index: 5 !important;
   padding: 0px;
+}
+
+.appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v>div {
+	background: none !important;
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB:before {
@@ -880,15 +888,15 @@ Requires corresponding JS tweaks to display correctly
 }
 
 .appdetailssection_AppDetailsSectionContainer_31ptF.appdetailssection_RightColumnSection_3KfxI {
-  background: none !important;
+  /* background: none !important;*/
 }
 
 .appdetailsoverview_ColumnContainer_OhSdL {}
 
 .appdetailsheader_HeaderFeatures_2b6Wk,
 .sharedappdetailsheader_TitleSection_30acA {
-  right: calc(122vw * 0.15);
-  pointer-events: all;
+  /*right: calc(122vw * 0.15);
+  pointer-events: all;*/
 }
 
 .appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appdetailsoverview_ColumnContainer_OhSdL:nth-child(4) {
@@ -901,7 +909,7 @@ Requires corresponding JS tweaks to display correctly
 /* Start CLASSIC Layout */
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_RightColumn_2aor4 {
-  width: calc(100% - 220px);
+  width: calc(100% - 200px);
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB {
@@ -916,10 +924,25 @@ Requires corresponding JS tweaks to display correctly
 }
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
-  transform: translate(-40px, -130px);
+  transform: translate(-20px, -130px);
   position: sticky;
   height: 0px;
 
 }
 
+.appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB {
+    margin-top: 30px;
+}
+
+/*
+.sharedappdetailsheader_TitleSection_30acA {
+    transform: translate(600px, 300px);
+    position: sticky;
+    flex-direction: column;
+}
+.appdetailsheader_HeaderFeatures_2b6Wk {
+	transform: translate(500px, 350px);
+    position: sticky;
+    flex-direction: column;
+*/
 /* END CLASSIC Layout */
