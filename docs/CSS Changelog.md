@@ -8,4 +8,4 @@
 **v0.7** Fixed some values so these tweaks work with webkit.css \
 **v0.6** Shortened to only modified lines (removed unmodified ones) \
 **v0.5** Added in new tweaks to Apppages, padding and headers \
-**v0.4** initial version \
+**v0.4** initial version

@@ -5,17 +5,18 @@
 /* Configurable variables */
 :root {
 
-  --WhatsNew: block;  /* Set none to hide, Set block to show */
+  --WhatsNew: block;  /* Default: block. Set to none to hide What's New */
   --WhatsNewOrder: 1;  /* Set 0 to put to top, 1 or higher to put to bottom */
 
-  --HoverOverlayPosition: unset;  /* Set 0 if default JS, unset if tweaked JS */
+  --HoverOverlayPosition: 0;  /* Set 0 if default JS, unset if tweaked JS */
   --GameListEntrySize: 16px;  /* Default: 16px */
   --CategoryNameHeaderSize: 13px;  /* Default: 13px */
+  --ShowLeftSidebar: flex; /* Default: flex, set to none to hide left sidebar */
 
   --RemoveShine: none;  /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
   --GameImageTransition: 0s;  /* Grid Game Images transition time. 0s for instant, 2s for smooth.*/
   --GameImageOpacity: 1;  /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5*/
-  --GameGridBackground: inherit;  /* Default is inherit, set #365d2d for a friendly green */
+  --GameGridImageBackground: inherit;  /* Default is inherit, set #365d2d for a friendly green */
   
   --AppPageBlur: 8px; /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look.*/
   
@@ -107,7 +108,7 @@
 /* Make game list height constant so search bar doesn't "flex" down */
 
 .gamelist_Container_1ijTa {
-  height: calc(97.4% - 74px);
+  height: calc(94.4% - 76px + 0.017vmax * 65);
 }
 
 
@@ -135,8 +136,7 @@
 
 .gamelist_NoSearchResultsContainer_1fbRp {
   margin: 2px;
-  height: calc(99% - 73px);
-  max-height: calc(99vh - 1.9vh * 4);
+  height: calc(97.8% - 76px + (1600px - 100vmax) * 0.007);
 }
 
 
@@ -145,10 +145,14 @@
 .gamelistdropdown_Bar_1ZS_x {
   width: 50%;
   flex: 1 1 auto;
-  padding: 4px 3px 0px;
+  padding: 6px 3px 0px;
   height: 36px;
 }
 
+
+.library_LeftListSizableContainer_9sPoV {
+    display: var(--ShowLeftSidebar);
+}
 
 /* remove height: 100% */
 
@@ -168,7 +172,7 @@
 /*Home bar width reduced to 20%, align with Gamelist dropdown and buttons*/
 
 .gamelistbar_GameListHomeAndSearch_2TKEa {
-  padding: 4px 3px 0px 6px;
+  padding: 6px 3px 0px 6px;
   background-color: unset;
   box-shadow: 0 0 0px rgba(0, 0, 0, 0.8) !important;
   position: relative;
@@ -176,6 +180,10 @@
   height: 36px;
   flex: 1 1 auto;
   width: 20%;
+}
+
+.gamelisthome_Bar_3pSPl.gamelisthome_CollectionButton_30KGS {
+    margin-left: 6px;
 }
 
 /*Home button text centred*/
@@ -574,7 +582,7 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 
 /* Background color behind game images */
 .appportrait_LibraryItemBox_WYgDg {
-  background-color: var(--GameGridBackground);
+  background-color: var(--GameGridImageBackground);
 }
 
 /* Grid game image opacity */
@@ -582,30 +590,28 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   opacity: var(--GameImageOpacity);
 }
 
-/* CSS Tweaks involving JS/
-   ========================================================================== */
 
+/*Responsive DLC Grid Columns */
 
-
-/*Shrink DLC size to show more */
-
-.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
-  grid-template-columns: repeat(4, minmax(24.1%, max-content));
-  /* grid-template-columns: repeat(3, minmax(32.3%, max-content)); */
-  /* Stopped working */
-  /* grid-template-columns: repeat(
-    calc(4 * var(--DLCGridSize) + 3 * (1 - var(--DLCGridSize))), minmax(calc(24.1% * var(--DLCGridSize) + 32.3% * (1 - var(--DLCGridSize))), max-content)
-  ); */
+div.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    /*justify-content: center;*/
 }
 
 
 /*Shrink Screenshots size to show more (JS recommended)*/
 
+
+
 .appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   grid-template-rows: auto auto auto;
+  overflow-y: scroll;
 }
 
+div.NarrowRightPanel .appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
+    grid-template-rows: auto auto;
+}
 
 /*DLC MANAGER - JS Recommended
 - row height set to 40px from 90px with JS
@@ -646,27 +652,14 @@ Requires corresponding JS tweaks to display correctly
 */
 
 
-/*
-.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
-  grid-template-columns: repeat(auto-fill, 200px) !important;
-  grid-auto-rows: 93px !important;
-  gap: 8px 5px !important;
-}
-
-.libraryhomerecentgames_RecentGame_1esfE:not(:first-of-type) .libraryhomerecentgames_RecentGameMediaContainer_2XftM {
-  width: 200px !important;
-  height: 93px !important;
-}
-
-.libraryhomeplaynext_PlayNextSuggestion_2a9Sn:not(:first-of-type) .libraryhomeplaynext_PlayNextSuggestionMediaContainer_2AcrN {
-  width: 200px !important;
-  height: 93px !important;
+.libraryhomeplaynext_PlayNextSuggestion_2a9Sn:first-of-type>div.libraryhomeplaynext_PlayNextSuggestionMediaContainer_2AcrN, .libraryhomerecentgames_RecentGame_1esfE:first-of-type>div.libraryhomerecentgames_RecentGameMediaContainer_2XftM {
+    height: 167px !important;
 }
 
 .appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
   grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
 }
-*/
+
 
 
 /*END HORIZONTAL GAME IMAGE TWEAKS*/
@@ -690,7 +683,6 @@ Requires corresponding JS tweaks to display correctly
   margin-left: 115px;
 }
 */
-
 
 /* END LIST VIEW ONLY TWEAKS */
 
@@ -862,7 +854,7 @@ Requires corresponding JS tweaks to display correctly
 
 /* END PLAY BAR LAYOUT */
 
-/* START VERTICAL NAV BAR */
+/* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS */
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
   transform: translate(calc(100vw * 0.75 - (390px - 15vw * 1.30)), calc(var(--VerticalNavBarOffset) + -13.5vw * 0.95 - (2vw * 0.5)));
@@ -887,16 +879,12 @@ Requires corresponding JS tweaks to display correctly
   height: calc((1600px - 100vw) / 8);
 }
 
-.appdetailssection_AppDetailsSectionContainer_31ptF.appdetailssection_RightColumnSection_3KfxI {
-  /* background: none !important;*/
-}
-
 .appdetailsoverview_ColumnContainer_OhSdL {}
 
 .appdetailsheader_HeaderFeatures_2b6Wk,
 .sharedappdetailsheader_TitleSection_30acA {
-  /*right: calc(122vw * 0.15);
-  pointer-events: all;*/
+  right: calc(122vw * 0.15);
+  pointer-events: all;
 }
 
 .appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appdetailsoverview_ColumnContainer_OhSdL:nth-child(4) {
@@ -906,7 +894,14 @@ Requires corresponding JS tweaks to display correctly
 /* END VERTICAL NAV BAR */
 
 
-/* Start CLASSIC Layout */
+/* CLASSIC LAYOUT - BETA */
+
+.appdetailsheader_HeaderFeatures_2b6Wk {
+  right: 16px;
+}
+.sharedappdetailsheader_TitleSection_30acA {
+  right: 0;
+}
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_RightColumn_2aor4 {
   width: calc(100% - 200px);
@@ -924,6 +919,10 @@ Requires corresponding JS tweaks to display correctly
 }
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
+  transform: none;
+}
+
+.appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
   transform: translate(-20px, -130px);
   position: sticky;
   height: 0px;
@@ -934,15 +933,4 @@ Requires corresponding JS tweaks to display correctly
     margin-top: 30px;
 }
 
-/*
-.sharedappdetailsheader_TitleSection_30acA {
-    transform: translate(600px, 300px);
-    position: sticky;
-    flex-direction: column;
-}
-.appdetailsheader_HeaderFeatures_2b6Wk {
-	transform: translate(500px, 350px);
-    position: sticky;
-    flex-direction: column;
-*/
-/* END CLASSIC Layout */
+/* END CLASSIC LAYOUT */
