@@ -86,6 +86,7 @@ def main():
     f.close()
     f1.close()
     re_minify()
+    #input('Press Enter to exit')
                 
 if __name__ == "__main__":
     main()

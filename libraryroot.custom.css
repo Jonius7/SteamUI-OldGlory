@@ -11,14 +11,15 @@
   --HoverOverlayPosition: 0;  /* Set 0 if default JS, unset if tweaked JS */
   --GameListEntrySize: 16px;  /* Default: 16px */
   --CategoryNameHeaderSize: 13px;  /* Default: 13px */
-  --ShowLeftSidebar: flex;  /* Default: flex, set to none to hide left sidebar */
+  --ShowLeftSidebar: flex !important;  /* Default: flex, set to none to hide left sidebar */
 
   --RemoveShine: none;  /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
   --GameImageTransition: 0s;  /* Grid Game Images transition time. 0s for instant, 2s for smooth.*/
   --GameImageOpacity: 1;  /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5*/
   --GameGridImageBackground: inherit;  /* Default is inherit, set #365d2d for a friendly green */
 
-  --AppPageBlur: 8px;  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look.*/
+  --AppPageBlur: 2px;  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look.*/
+  --AmbientBlur: black; /* Default: black 80%. Set to rgba(0,0,0,0) to remove */
 
   --VerticalNavBarOffset: 0px;  /* Leave at 0, this var is for steam-library compatibility */
 
@@ -69,9 +70,7 @@
 /* Fix hover text to the bottom. With JavaScript tweaks this can be dynamic.*/
 
 .gamelistentry_FriendStatusHover_2iiN7 {
-  position: fixed;
   bottom: var(--HoverOverlayPosition) !important;
-  height: 28px;
 }
 
 
@@ -232,6 +231,7 @@
 
 .sharedappdetailsheader_ImgSrc_HNbe3.sharedappdetailsheader_ImgBlurBackdrop_3_IUV {
   width: calc(180% + 128px);
+  -webkit-mask-image: linear-gradient(to top, var(--AmbientBlur) 80%, rgba(0, 0, 0, 0) 100%);
   /*-webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);*/
   /* Enable if you want a more plain background as you scroll down*/
 }
@@ -257,6 +257,12 @@
 .appdetailssection_AppDetailsSectionContainer_31ptF {
   margin: 8px;
 }
+
+/* Section box background color */
+.appdetailssection_AppDetailsSectionContainer_31ptF.appdetailssection_RightColumnSection_3KfxI {
+	background: radial-gradient(100% 80% at 64% 95%, rgba(104, 112, 124, 0.5) 0%, rgba(91, 99, 112, 0.5) 40%, rgba(24, 35, 36, 0.5) 100%);
+}
+
 
 button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_BottomRight_3nJyY {
   margin-top: -4px;
@@ -289,9 +295,9 @@ div.appdetailsoverview_RightColumn_2aor4>div:nth-child(3) {
 */
 
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
-  height: 900px;
-  /*background: linear-gradient(to top, rgba(40, 40, 40, 0.6) 99%, rgba(40, 40, 40, 0.2) 100%);*/
-  backdrop-filter: blur(var(--AppPageBlur));
+    height: 1500px;
+    background: linear-gradient(to bottom, rgba(40, 40, 40, 0.1) 0%, rgba(39, 44, 53, 0.5) 82px, rgba(40, 40, 40, 0.6) 92%, rgba(40, 40, 40, 0) 100%);
+    backdrop-filter: blur(var(--AppPageBlur));
 }
 
 /* ========================================================================== 
@@ -595,17 +601,15 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 /*Responsive DLC Grid Columns */
 
 div.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   /*justify-content: center;*/
 }
 
 
 /*Shrink Screenshots size to show more (JS recommended)*/
 
-
-
 .appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-template-rows: auto auto auto;
   overflow-y: scroll;
 }
@@ -653,13 +657,20 @@ Requires corresponding JS tweaks to display correctly
 */
 
 
+
+
+.libraryhomerecentgames_RecentGameMediaContainer_2XftM {
+  width: 200px !important;
+  height: 133px !important;
+}
+
 .libraryhomeplaynext_PlayNextSuggestion_2a9Sn:first-of-type>div.libraryhomeplaynext_PlayNextSuggestionMediaContainer_2AcrN,
 .libraryhomerecentgames_RecentGame_1esfE:first-of-type>div.libraryhomerecentgames_RecentGameMediaContainer_2XftM {
   height: 167px !important;
 }
 
 .appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
-  /*grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;*/
+  grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
 }
 
 
@@ -690,7 +701,7 @@ Requires corresponding JS tweaks to display correctly
 
 
 /* PLAY BAR LAYOUT - BETA */
-
+/*
 .appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {
   transform: translate(calc(8vmax - 27%), calc(-8vmax - 42%));
   width: 33%;
@@ -703,6 +714,7 @@ Requires corresponding JS tweaks to display correctly
 .appdetailsplaysection_InnerContainer_3Y87Y {
   box-sizing: border-box;
   padding: 10px 12px 7px 12px;
+  overflow-y: hidden;
 }
 
 .appdetails_PlayBar_2L3s2 {
@@ -713,7 +725,6 @@ Requires corresponding JS tweaks to display correctly
   transform: translateY(-140px);
 }
 
-/*.appdetailsoverview_ColumnContainer_OhSdL {*/
 .appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY> :nth-child(6) {
   transform: translateY(-140px);
 }
@@ -743,8 +754,6 @@ Requires corresponding JS tweaks to display correctly
   width: 70%;
 }
 
-
-/* Play button height */
 .appactionbutton_PlayButtonContainer_1FnJ6.appactionbutton_Green_3cI5T.appactionbutton_ShowingStreaming_1hhB2 {
   height: 90%;
 }
@@ -782,7 +791,6 @@ Requires corresponding JS tweaks to display correctly
 
 .appdetailsplaysection_GameStat_1kiZK.appdetailsplaysection_LastPlayed_3pS8k {
   width: 45%;
-  /*margin: 0px 0px auto 37px;*/
 }
 
 .appdetailsplaysection_GameStat_1kiZK.appdetailsplaysection_Playtime_1aKeg {
@@ -809,6 +817,11 @@ Requires corresponding JS tweaks to display correctly
   flex-direction: row;
 }
 
+.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe>div>div>div>div.appdetailsplaysection_StatusAndStats_1YbtI>div.appdetailsplaysection_DetailsSection_1dg8h.appdetailsplaysection_Downloading_2F4Pc {
+	width: 32%;
+}
+	
+
 .appdetailsplaysection_PlayBarLabel_34lrt {
   overflow: hidden;
   max-height: 16px;
@@ -818,11 +831,6 @@ Requires corresponding JS tweaks to display correctly
 .appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe>div>div>div> :nth-child(1) {
   width: unset;
 }
-
-.appdetailsplaysection_StickyHeader_39Rhe .appdetailsplaysection_StatusAndStats_1YbtI .appdetailsplaysection_StatusNameContainer_zjtAI {
-  /*min-width: unset;*/
-}
-
 
 .appdetailsplaysection_StickyHeaderShadow_2_86Q {
   background: linear-gradient(to bottom, rgba(40, 40, 40, 0.5) 0%, rgba(40, 40, 40, 0.2) 30%, rgba(40, 40, 40, 0) 100%);
@@ -852,13 +860,11 @@ Requires corresponding JS tweaks to display correctly
 .appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe>div>div>div> :nth-child(3)>div>div {
   margin-right: 5px;
 }
-
-
+*/
 /* END PLAY BAR LAYOUT */
 
 /* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS */
 /*
-
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
   transform: translate(calc(100vw * 0.75 - (390px - 15vw * 1.30)), calc(var(--VerticalNavBarOffset) + -13.5vw * 0.95 - (2vw * 0.5)));
   margin-left: auto;
@@ -893,14 +899,12 @@ Requires corresponding JS tweaks to display correctly
 .appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appdetailsoverview_ColumnContainer_OhSdL:nth-child(4) {
   transform: translateY(-100px);
 }
-
 */
 /* END VERTICAL NAV BAR */
 
 
 /* CLASSIC LAYOUT - BETA */
 /*
-
 .appdetailsheader_HeaderFeatures_2b6Wk {
   right: 16px;
 }
@@ -938,6 +942,5 @@ Requires corresponding JS tweaks to display correctly
 .appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB {
   margin-top: 30px;
 }
-
 */
 /* END CLASSIC LAYOUT */
