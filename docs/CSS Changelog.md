@@ -1,7 +1,7 @@
 ## CSS Changelog
 
 **v1.1** Whole new sections for Play Bar layout, Vertical Nav Bar and Classic layout \
-**v0.10** Rewrite/Pass ordering the CSS classes into sections \
+**v1.0** Rewrite/Pass ordering the CSS classes into sections \
       Add compatibility with Shiina's steam-library \
 **v0.9** Tidy up and separate CSS tweaks \
 **v0.8** Added Horizontal Game Image tweaks, to be used with JS \
