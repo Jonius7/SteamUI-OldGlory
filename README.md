@@ -3,7 +3,7 @@
 A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. Check `/dev` branch for in-progress tweaks \
 ![Alt Text](https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif)
 
-[<img src="https://i.imgur.com/4Ka9db8.png" alt="Watch the video" style="zoom:45%;" />](https://www.youtube.com/watch?v=7_3e9j8FFv8)
+[<img src="https://i.imgur.com/2TZn4ET.png" alt="Video Guide to Tweaking the Steam Library"/>](https://www.youtube.com/watch?v=7_3e9j8FFv8)
 
 <details>
     <summary><h3>Showcase of Tweaks</h3></summary><br>
