@@ -1,12 +1,17 @@
 # SteamUI-OldGlory
 
 A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. Check `/dev` branch for in-progress tweaks \
-![Alt Text](https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif)
+
+### Video Guide and GIF
+
+<img src="https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif" alt="Alt Text" style="zoom:95%;" />
 
 [<img src="https://i.imgur.com/2TZn4ET.png" alt="Video Guide to Tweaking the Steam Library"/>](https://www.youtube.com/watch?v=7_3e9j8FFv8)
 
+### Showcase of Tweaks
+
 <details>
-    <summary><h3>Showcase of Tweaks</h3></summary><br>
+    <summary>Images</summary><br>
     Condensed sidebar buttons <br>
     <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 40%;" /> <br><br>
     Show more games <br>
@@ -19,6 +24,7 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
     <img src="https://media.giphy.com/media/cbPuBtJ1ez2v55SptR/giphy.gif" alt="Show more DLC" style="zoom:80%;" /> <br><br>
     Play bar moved up into box <br>
     <img src="https://i.imgur.com/HrgBUPl.png" alt="Play bar moved up into box" style="zoom:80%;"
+
 
 ​    
 
