@@ -1,6 +1,6 @@
 # SteamUI-OldGlory
 
-A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. Check `/dev` branch for in-progress tweaks \
+A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. Check `/dev` branch for in-progress tweaks.
 
 ### Video Guide and GIF
 
@@ -8,10 +8,8 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 
 [<img src="https://i.imgur.com/2TZn4ET.png" alt="Video Guide to Tweaking the Steam Library"/>](https://www.youtube.com/watch?v=7_3e9j8FFv8)
 
-### Showcase of Tweaks
-
 <details>
-    <summary>Images</summary><br>
+    <summary><h3 style="display: inline;">Showcase of Tweaks</h3></summary><br>
     Condensed sidebar buttons <br>
     <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 40%;" /> <br><br>
     Show more games <br>
