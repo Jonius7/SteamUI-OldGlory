@@ -53,6 +53,8 @@ Each line contains one tweak with the original JS separated by two spaces from t
 
 [original js]&#9608;&#9608;[new js] 
 
+Commented lines with `###`, and blank lines are ignored. You can use this to make `fixes.txt` more readable.
+
 Required libraries: `jsbeautifier`, `jsmin`.
 
 - Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
