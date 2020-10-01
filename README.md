@@ -96,7 +96,7 @@ BETA CSS is functionally working, but may require some manual uncommenting in th
 rework [`README.md`](README.md)
 
 - moved long exploratory story to [docs/story.md](docs/story.md)
-  moved [CSS changelog](docs/CSS%20changelog.md) to its own file
+  moved [CSS changelog](docs/CSS%20Changelog.md) to its own file
 
 [`js_tweaker`](js_tweaker) now accepts blank lines for [`fixes.txt`](fixes.txt) readability
 added explanatory comments for each group of tweaks in [`fixes.txt`](fixes.txt)
