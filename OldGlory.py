@@ -3,7 +3,7 @@ import tkinter.font as TkFont
 from tkinter import ttk
 import cssutils
 
-###class OldGloryApp(tk.Tk):
+
     
 def create_window():
     root = tk.Tk()
