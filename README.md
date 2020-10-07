@@ -2,6 +2,8 @@
 
 A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. Check `/dev` branch for in-progress tweaks.
 
+#### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest)
+
 ### Video Guide and GIF
 
 <img src="https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif" alt="Alt Text" style="zoom:95%;" />
