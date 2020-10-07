@@ -22,7 +22,7 @@ return e.default.Initialize(t)  document.getElementsByClassName('smartscrollcont
 ###c < r ? d.push({  true ? d.push({
 
 ### === Change Game Image Grid Sizes (optional)===
-###(i = 111, n = !0) : 2 == e ? i = 148 : 3 == e && (i = 222), {  (i = 150, n = !0) : 2 == e ? i = 200 : 3 == e && (i = 280), {
+###(i = 111, n = !0) : 2 == e ? i = 148 : 3 == e && (i = 222), {  (i = 80, n = !0) : 2 == e ? i = 120 : 3 == e && (i = 160), {
 
 ### === Landscape Images JS Tweaks (beta, working with bugs) ===
 ###eAssetType: 0,  eAssetType: 3,

@@ -5,19 +5,24 @@
 /* Configurable variables */
 :root {
 
+	/* What's New */
   --WhatsNew: block;  /* Default: block. Set to none to hide What's New */
   --WhatsNewOrder: 1;  /* Set 0 to put to top, 1 or higher to put to bottom */
 
+	/* Left Sidebar - Games List */
   --HoverOverlayPosition: 0;  /* Set 0 if default JS, unset if tweaked JS */
   --GameListEntrySize: 16px;  /* Default: 16px */
   --CategoryNameHeaderSize: 13px;  /* Default: 13px */
   --ShowLeftSidebar: flex !important;  /* Default: flex, set to none to hide left sidebar */
 
+	/* Game Grid */
   --RemoveShine: none;  /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
   --GameImageTransition: 0s;  /* Grid Game Images transition time. 0s for instant, 2s for smooth.*/
   --GameImageOpacity: 1;  /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5*/
+  --UninstalledGameImageOpacity: 0.5; /* Default: 1. Suggested values: 0.5, 0.2*/
   --GameGridImageBackground: inherit;  /* Default is inherit, set #365d2d for a friendly green */
 
+	/* Game Page Background */
   --AppPageBlur: 2px;  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look.*/
   --AmbientBlur: black; /* Default: black 80%. Set to rgba(0,0,0,0) to remove */
 
@@ -231,9 +236,7 @@
 
 .sharedappdetailsheader_ImgSrc_HNbe3.sharedappdetailsheader_ImgBlurBackdrop_3_IUV {
   width: calc(180% + 128px);
-  -webkit-mask-image: linear-gradient(to top, var(--AmbientBlur) 80%, rgba(0, 0, 0, 0) 100%);
-  /*-webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);*/
-  /* Enable if you want a more plain background as you scroll down*/
+  -webkit-mask-image: linear-gradient(to bottom, var(--AmbientBlur) 80%, rgba(0, 0, 0, 0) 100%);
 }
 
 
@@ -260,7 +263,7 @@
 
 /* Section box background color */
 .appdetailssection_AppDetailsSectionContainer_31ptF.appdetailssection_RightColumnSection_3KfxI {
-	background: radial-gradient(100% 80% at 64% 95%, rgba(104, 112, 124, 0.5) 0%, rgba(91, 99, 112, 0.5) 40%, rgba(24, 35, 36, 0.5) 100%);
+  background: radial-gradient(100% 80% at 64% 95%, rgba(104, 112, 124, 0.5) 0%, rgba(91, 99, 112, 0.5) 40%, rgba(24, 35, 36, 0.5) 100%);
 }
 
 
@@ -295,9 +298,9 @@ div.appdetailsoverview_RightColumn_2aor4>div:nth-child(3) {
 */
 
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
-    height: 1500px;
-    background: linear-gradient(to bottom, rgba(40, 40, 40, 0.1) 0%, rgba(39, 44, 53, 0.5) 82px, rgba(40, 40, 40, 0.6) 92%, rgba(40, 40, 40, 0) 100%);
-    backdrop-filter: blur(var(--AppPageBlur));
+  height: 1500px;
+  background: linear-gradient(to bottom, rgba(40, 40, 40, 0.1) 0%, rgba(39, 44, 53, 0.5) 82px, rgba(40, 40, 40, 0.6) 92%, rgba(40, 40, 40, 0) 100%);
+  backdrop-filter: blur(var(--AppPageBlur));
 }
 
 /* ========================================================================== 
@@ -566,6 +569,13 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   margin-top: -32px;
 }
 
+/* Move small "Friend Playing" box on Steam Grid */
+.appportrait_Short_yGeS6 .appportrait_FriendsBar_3dncO.appportrait_IconsView_1WWmQ {
+  top: 0px;
+  align-items: flex-end;
+  height: 100%;
+}
+
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG,
 .appgrid_YourCollection_11p6F {
   gap: 8px 5px !important;
@@ -597,6 +607,14 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   opacity: var(--GameImageOpacity);
 }
 
+/* Grid - Uninstaleld game image opacity */
+.appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(2) {
+  opacity: var(--UninstalledGameImageOpacity);
+}
+
+.appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(3) {
+  opacity: var(--UninstalledGameImageOpacity);
+}
 
 /*Responsive DLC Grid Columns */
 
@@ -657,8 +675,8 @@ Requires corresponding JS tweaks to display correctly
 */
 
 
-
 /*
+
 .libraryhomerecentgames_RecentGameMediaContainer_2XftM {
   width: 200px !important;
   height: 133px !important;
@@ -672,7 +690,7 @@ Requires corresponding JS tweaks to display correctly
 .appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
   grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
 }
-/
+*/
 
 
 /*END HORIZONTAL GAME IMAGE TWEAKS*/
@@ -818,9 +836,9 @@ Requires corresponding JS tweaks to display correctly
 }
 
 .appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe>div>div>div>div.appdetailsplaysection_StatusAndStats_1YbtI>div.appdetailsplaysection_DetailsSection_1dg8h.appdetailsplaysection_Downloading_2F4Pc {
-	width: 32%;
+  width: 32%;
 }
-	
+
 
 .appdetailsplaysection_PlayBarLabel_34lrt {
   overflow: hidden;
