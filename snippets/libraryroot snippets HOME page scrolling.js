@@ -15,7 +15,6 @@ if (v > 70) {
     console.log("scroll2 | " + performance.now());
 }
 
-
 ===
 SNIPPET ComputeLayout
 ===
