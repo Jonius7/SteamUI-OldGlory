@@ -576,6 +576,7 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   height: 100%;
 }
 
+/* Recommended corresponding JS tweak: default gap is 24px 16px */
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG,
 .appgrid_YourCollection_11p6F {
   gap: 8px 5px !important;
@@ -669,29 +670,22 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 /*HORIZONTAL GAME IMAGE TWEAKS
 Requires corresponding JS tweaks to display correctly
 - Horizontal Grid on Home Page
-- Recent Games shelf for horizontal images
-- Play Next shelf for horizontal images
-- Game information panel resize for horizontal images
+- Enlarge first game image on Recent Games shelf
+- Enlarge first game image on Play Next shelf
+- Enlarge game image on Game information panel
 */
-
-
-/*
-
-.libraryhomerecentgames_RecentGameMediaContainer_2XftM {
-  width: 200px !important;
-  height: 133px !important;
-}
-
-.libraryhomeplaynext_PlayNextSuggestion_2a9Sn:first-of-type>div.libraryhomeplaynext_PlayNextSuggestionMediaContainer_2AcrN,
-.libraryhomerecentgames_RecentGame_1esfE:first-of-type>div.libraryhomerecentgames_RecentGameMediaContainer_2XftM {
-  height: 167px !important;
-}
 
 .appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
   grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
 }
-*/
 
+.libraryhomerecentgames_RecentGame_1esfE:first-child > :nth-child(2) {
+  height: 180px !important;
+}
+
+.libraryhomeplaynext_PlayNextSuggestion_2a9Sn:first-child > :nth-child(1) {
+  height: 180px !important;
+}
 
 /*END HORIZONTAL GAME IMAGE TWEAKS*/
 
@@ -718,8 +712,8 @@ Requires corresponding JS tweaks to display correctly
 /* END LIST VIEW ONLY TWEAKS */
 
 
-/* PLAY BAR LAYOUT - BETA */
-/*
+/* PLAY BAR LAYOUT - BETA *//*
+
 .appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {
   transform: translate(calc(8vmax - 27%), calc(-8vmax - 42%));
   width: 33%;
@@ -841,7 +835,6 @@ Requires corresponding JS tweaks to display correctly
 
 
 .appdetailsplaysection_PlayBarLabel_34lrt {
-  overflow: hidden;
   max-height: 16px;
 }
 
@@ -878,11 +871,15 @@ Requires corresponding JS tweaks to display correctly
 .appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe>div>div>div> :nth-child(3)>div>div {
   margin-right: 5px;
 }
-*/
-/* END PLAY BAR LAYOUT */
+
+*//* END PLAY BAR LAYOUT */
 
 /* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS */
 /*
+.sharedappdetailsheader_BoxSizerContainer_A14yd {
+  z-index: 2;
+}
+
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
   transform: translate(calc(100vw * 0.75 - (390px - 15vw * 1.30)), calc(var(--VerticalNavBarOffset) + -13.5vw * 0.95 - (2vw * 0.5)));
   margin-left: auto;
@@ -921,8 +918,8 @@ Requires corresponding JS tweaks to display correctly
 /* END VERTICAL NAV BAR */
 
 
-/* CLASSIC LAYOUT - BETA */
-/*
+/* CLASSIC LAYOUT - BETA *//*
+
 .appdetailsheader_HeaderFeatures_2b6Wk {
   right: 16px;
 }
@@ -960,5 +957,5 @@ Requires corresponding JS tweaks to display correctly
 .appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB {
   margin-top: 30px;
 }
-*/
-/* END CLASSIC LAYOUT */
+
+*//* END CLASSIC LAYOUT */
