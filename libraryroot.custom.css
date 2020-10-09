@@ -580,6 +580,8 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG,
 .appgrid_YourCollection_11p6F {
   gap: 8px 5px !important;
+  grid-template-columns: repeat(auto-fill, 200px) !important;
+  grid-auto-rows: 93px !important;
 }
 
 .appportrait_HoversEnabled_54PuC .appportrait_LibraryItemBox_WYgDg:hover .appportrait_UninstalledIcon_8YrRm {
