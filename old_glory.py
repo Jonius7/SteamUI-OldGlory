@@ -12,8 +12,8 @@ class OldGloryApp(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         container = tk.Frame(self)
         windowW = 700
-        windowH = 400
-        self.geometry((str(windowW)+'x'+str(windowH)+'+950+400'))
+        windowH = 500
+        self.geometry((str(windowW)+'x'+str(windowH)+'+650+400'))
         self.minsize(width=windowW, height=windowH)
         self.maxsize(width=windowW, height=windowH)
         container.pack(side="top", fill="both", expand = True)
@@ -131,11 +131,29 @@ class StartPage(tk.Frame):
         label5.grid(row=4, column=1, sticky="w")
 
         ###
-        label_end = tk.Label(frameCheck, height=4)
+        label_end = tk.Label(frameCheck, height=3)
         label_end.grid(row=5, column=0, columnspan=2)
+
+
+        ### LOG FRAME
+        ###
+        frameLog = tk.Frame(self)
+
+        #
+        entry1 = ttk.Entry(frameLog)
+        text1 = tk.Text(entry1, height=5)
+        ###text1.insert(tk.END, "Start\r\n")
+        text1.config(state='disabled')
+        text1.pack()
+        entry1.grid(row=0, column=0)
+
+        #
+        scroll_1 = ttk.Scrollbar(frameLog, command=text1.yview)
+        scroll_1.grid(row=0, column=1, sticky='nsew')
+        text1['yscrollcommand'] = scroll_1.set
         
 
-        ### MODE Frame
+        ### MODE FRAME
         ###
         frameMode = tk.Frame(self)
         self.var_m = tk.IntVar()
@@ -148,7 +166,7 @@ class StartPage(tk.Frame):
         button_m.grid(row=0, column=0, padx=5)
 
         
-        ### CONFIRM Frame
+        ### CONFIRM FRAME
         ###
         frameConfirm = confirm_frame(self)
 
@@ -159,9 +177,12 @@ class StartPage(tk.Frame):
         ###
         self.frameHead.pack()
         frameCheck.pack()
-        frameMode.pack(pady=8)
-        frameConfirm.pack()
-        
+        frameLog.pack(pady=(10,0))
+        frameConfirm.pack(pady=(7, 20), side="bottom")
+        frameMode.pack(pady=(2, 0), side="bottom")
+
+
+    ### Getters 
     def getCheckbuttonVal(self, getter):
         return getattr(self, getter)
 
@@ -179,30 +200,38 @@ class PageOne(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
+        self.frameHead = head_frame(self, controller)
+        
         frameCheck = tk.Frame(self)
+
+        #
+        self.var1 = tk.IntVar()
+        check1 = ttk.Checkbutton(frameCheck,
+                                 variable=self.var1,
+                                 state='disabled')
+        check1.grid(row=0, column=0)
+        label1 = tk.Label(frameCheck,
+                          text="  - AdvOption1")
+        label1.grid(row=0, column=1, sticky="w")
+
+        #
+        self.var2 = tk.IntVar()
+        check2 = ttk.Checkbutton(frameCheck,
+                                 variable=self.var2,
+                                 state='disabled')
+        check2.grid(row=1, column=0)
+        label2 = tk.Label(frameCheck,
+                          text="  - AdvOption2")
+        label2.grid(row=1, column=1, sticky="w")
+
+        #
         self.var3 = tk.IntVar()
         check3 = ttk.Checkbutton(frameCheck,
                                  variable=self.var3,
                                  state='disabled')
         check3.grid(row=2, column=0)
         label3 = tk.Label(frameCheck,
-                          text="  - Vertical Nav Bar")
-        label3.grid(row=2, column=1, sticky="w")
-        self.var3 = tk.IntVar()
-        check3 = ttk.Checkbutton(frameCheck,
-                                 variable=self.var3,
-                                 state='disabled')
-        check3.grid(row=2, column=0)
-        label3 = tk.Label(frameCheck,
-                          text="  - Vertical Nav Bar")
-        label3.grid(row=2, column=1, sticky="w")
-        self.var3 = tk.IntVar()
-        check3 = ttk.Checkbutton(frameCheck,
-                                 variable=self.var3,
-                                 state='disabled')
-        check3.grid(row=2, column=0)
-        label3 = tk.Label(frameCheck,
-                          text="  - Vertical Nav Bar")
+                          text="  - AdvOption3")
         label3.grid(row=2, column=1, sticky="w")
         
         ### MODE Frame
@@ -219,9 +248,10 @@ class PageOne(tk.Frame):
         frameConfirm = confirm_frame(self)
 
         ### Pack frames
+        self.frameHead.pack()
         frameCheck.pack()
-        frameMode.pack(pady=8)
-        frameConfirm.pack()
+        frameConfirm.pack(pady=(7, 20), side="bottom")
+        frameMode.pack(pady=(2, 0), side="bottom")
 
 def head_frame(self, controller):
     ### HEAD FRAME
@@ -267,6 +297,9 @@ def confirm_frame(self):
     button2.grid(row=0, column=1)
     return frameConfirm
 
+
+def redirect_stdout(page):
+    page.
 
 def css_cb_check(event, var1, check2, check3):
     if var1.get() == 0:

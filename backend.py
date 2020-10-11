@@ -23,14 +23,16 @@ def find_library_dir():
 ### Loading config
 def load_config():
     config_dict = {}
-    
-    with open ("oldglory_config.cfg", newline='', encoding="UTF-8") as fi:
-        lines = filter(None, (line.rstrip() for line in fi))
-        for line in lines:
-            if not line.startswith('###'):
-                try:
-                    (key, val) = line.rstrip().replace(" ", "").split("=")
-                    config_dict[key] = val
-                except Exception as e:
-                    print("Error with line: " + line + " Skipping.", file=sys.stderr)               
+    if not os.path.isfile("oldglory_config.cfg") :
+        return DEFAULT_CONFIG
+    else :
+        with open ("oldglory_config.cfg", newline='', encoding="UTF-8") as fi:
+            lines = filter(None, (line.rstrip() for line in fi))
+            for line in lines:
+                if not line.startswith('###'):
+                    try:
+                        (key, val) = line.rstrip().replace(" ", "").split("=")
+                        config_dict[key] = val
+                    except Exception as e:
+                        print("Error with line: " + line + " Skipping.", file=sys.stderr)               
     return config_dict
