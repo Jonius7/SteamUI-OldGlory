@@ -1,9 +1,9 @@
 import winreg
-import cssutils
 import os.path
 import sys
 
 DEFAULT_CONFIG = {"SteamLibraryPath" : "",
+                  "PatcherPath" : "",
                   "InstallCSSTweaks" : "1",
                   "EnablePlayButtonBox" : "0",
                   "EnableVerticalNavBar" : "0",

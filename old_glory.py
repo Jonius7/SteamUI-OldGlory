@@ -3,7 +3,6 @@ import tkinter.font as TkFont
 from tkinter import ttk
 from PIL import ImageTk, Image
 import sys
-import cssutils
 import contextlib, io
 import backend
 import js_tweaker
@@ -44,10 +43,10 @@ class OldGloryApp(tk.Tk):
         
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
-    
-        self.frames = {}
 
-        for F in (StartPage, PageOne):
+        self.frames = {}
+        
+        for F in (StartPage, PageOne, PageTwo):
             frame = F(container, self)
             frame.grid(row=0, column=0, sticky="nsew")
             self.frames[F] = frame
@@ -161,12 +160,21 @@ class StartPage(tk.Frame):
         frameMode = tk.Frame(self)
         self.var_m = tk.IntVar()
         button_m = ttk.Button(frameMode,
-                           text="Advanced Options",
-                           width=20
+                           text="CSS Options",
+                           width=16
         )
-        ###button_m.bind("<Button-1>", lambda event:controller.show_frame(PageOne))
-        button_m.config(command=lambda: controller.show_frame(PageOne))
+        button_m.bind("<Button-1>", lambda event:controller.show_frame(PageOne))
+        ###button_m.config(command=lambda: controller.show_frame(PageOne))
         button_m.grid(row=0, column=0, padx=5)
+
+        self.var_n = tk.IntVar()
+        button_n = ttk.Button(frameMode,
+                           text="JS Options",
+                           width=16
+        )
+        button_n.bind("<Button-1>", lambda event:controller.show_frame(PageTwo))
+        ###button_n.config(command=lambda: controller.show_frame(PageTwo))
+        button_n.grid(row=0, column=1, padx=5)
 
         
         ### CONFIRM FRAME
@@ -177,6 +185,8 @@ class StartPage(tk.Frame):
         ### Set GUI from config
         set_selected_from_config(self)
         text1.config(state='disabled')
+        init_cb_check(self.var1, check2, check3)
+        init_cb_check(self.var3, check4, check4)
 
         ###
         self.frameHead.pack()
@@ -232,13 +242,77 @@ class PageOne(tk.Frame):
         ### MODE Frame
         ###
         frameMode = tk.Frame(self)
+
+        #
         self.var_m = tk.IntVar()
         button_m = ttk.Button(frameMode,
-                           text="Options",
-                           width=20
+                           text="Back to Home",
+                           width=16
         )
         button_m.bind("<Button-1>", lambda event:controller.show_frame(StartPage))
+        ###button_m.config(command=lambda: controller.show_frame(StartPage))
         button_m.grid(row=0, column=0, padx=5)
+
+        #
+        self.var_n = tk.IntVar()
+        button_n = ttk.Button(frameMode,
+                           text="JS Options",
+                           width=16
+        )
+        button_n.bind("<Button-1>", lambda event:controller.show_frame(PageTwo))
+        ###button_n.config(command=lambda: controller.show_frame(PageTwo))
+        button_n.grid(row=0, column=1, padx=5)
+
+        frameConfirm = confirm_frame(self)
+        
+        ### Pack frames
+        self.frameHead.pack()
+        frameCheck.pack()
+        frameConfirm.pack(pady=(7, 20), side="bottom")
+        frameMode.pack(pady=(2, 0), side="bottom")
+
+
+class PageTwo(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        self.frameHead = head_frame(self, controller)
+        
+        frameCheck = tk.Frame(self)
+
+        #
+        self.var1 = tk.IntVar()
+        check1 = ttk.Checkbutton(frameCheck,
+                                 variable=self.var1,
+                                 state='disabled')
+        check1.grid(row=0, column=0)
+        label1 = tk.Label(frameCheck,
+                          text="  - AdvOption1")
+        label1.grid(row=0, column=1, sticky="w")
+        
+        ### MODE Frame
+        ###
+        frameMode = tk.Frame(self)
+
+        #
+        self.var_m = tk.IntVar()
+        button_m = ttk.Button(frameMode,
+                           text="Back to Home",
+                           width=16
+        )
+        button_m.bind("<Button-1>", lambda event:controller.show_frame(StartPage))
+        ###button_m.config(command=lambda: controller.show_frame(PageOne))
+        button_m.grid(row=0, column=0, padx=5)
+
+        #
+        self.var_n = tk.IntVar()
+        button_n = ttk.Button(frameMode,
+                           text="CSS Options",
+                           width=16
+        )
+        button_n.bind("<Button-1>", lambda event:controller.show_frame(PageOne))
+        ###button_n.config(command=lambda: controller.show_frame(PageTwo))
+        button_n.grid(row=0, column=1, padx=5)
         
         frameConfirm = confirm_frame(self)
 
@@ -289,7 +363,7 @@ def confirm_frame(self):
                        state='disabled'
     )
     button2.bind()
-    button2.grid(row=0, column=1)
+    button2.grid(row=0, column=1, padx=5)
     return frameConfirm
 
 
@@ -322,6 +396,14 @@ def css_cb_check(event, var1, check2, check3):
     else:
         check2.config(state='disabled')
         check3.config(state='disabled')
+        
+def init_cb_check(var1, check2, check3):
+    if var1.get() == 1:
+        check2.config(state='enabled')
+        check3.config(state='enabled')
+    else:
+        check2.config(state='disabled')
+        check3.config(state='disabled')
 
 
 ### Image Functions
@@ -345,9 +427,6 @@ def change_image(label, filename):
     img = open_img(filename)
     label.configure(image=img)
     label.image = img
-
-
-
 
 
 ### Initialisation
