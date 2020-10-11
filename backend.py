@@ -1,9 +1,13 @@
 import winreg
+import cssutils
+import os.path
+import sys
 
-DEFAULT_CONFIG = {"SteamPath" : "",
+DEFAULT_CONFIG = {"SteamLibraryPath" : "",
                   "InstallCSSTweaks" : "1",
                   "EnablePlayButtonBox" : "0",
                   "EnableVerticalNavBar" : "0",
+                  "EnableClassicLayout" : "0",
                   "InstallWithDarkLibrary" : "0"}
 user_config = {}
 
@@ -13,6 +17,20 @@ def find_library_dir():
     print(steam_path)
     steamui_path = steam_path.replace("/","\\") + "\steamui"
     print(steamui_path)
+    return steamui_path
 
 
-
+### Loading config
+def load_config():
+    config_dict = {}
+    
+    with open ("oldglory_config.cfg", newline='', encoding="UTF-8") as fi:
+        lines = filter(None, (line.rstrip() for line in fi))
+        for line in lines:
+            if not line.startswith('###'):
+                try:
+                    (key, val) = line.rstrip().replace(" ", "").split("=")
+                    config_dict[key] = val
+                except Exception as e:
+                    print("Error with line: " + line + " Skipping.", file=sys.stderr)               
+    return config_dict

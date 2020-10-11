@@ -4,6 +4,7 @@ from tkinter import ttk
 from PIL import ImageTk, Image
 import cssutils
 import backend
+import js_tweaker
 
 
 class OldGloryApp(tk.Tk):
@@ -19,7 +20,9 @@ class OldGloryApp(tk.Tk):
         
         self.iconbitmap('steam_oldglory.ico')
         self.wm_title("SteamUI-OldGlory Configurer")
-        ###frameTitle = tk.Frame()
+
+        ###
+        
 
         ###
         self.default_font = TkFont.nametofont("TkDefaultFont")
@@ -56,10 +59,9 @@ class OldGloryApp(tk.Tk):
 
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
+        tk.Frame.__init__(self, parent)           
         
-        frameHead = head_frame(self, controller)
-
+        self.frameHead = head_frame(self, controller)
 
         ### CHECK FRAME
         ###
@@ -75,6 +77,7 @@ class StartPage(tk.Frame):
         check1.grid(row=0, column=0)
         label1 = tk.Label(frameCheck,
                           text="Install CSS Tweaks (SteamUI-OldGlory)")
+        label1.bind("<Button-1>", lambda event:change_image(image1, 'buttons_before_after.png'))
         label1.grid(row=0, column=1, sticky="w")
 
 
@@ -91,31 +94,45 @@ class StartPage(tk.Frame):
         
         ###
         image1 = add_img(frameCheck, 'buttons_before_after.png')
-        image1.grid(row=0, column=2, rowspan=5, padx=5, sticky="n")
+        image1.grid(row=0, column=2, rowspan=6, padx=5, sticky="n")
         
         ###
         self.var3 = tk.IntVar()
         check3 = ttk.Checkbutton(frameCheck,
                                  variable=self.var3,
                                  state='disabled')
+        check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, check4, check4))
         check3.grid(row=2, column=0)
         label3 = tk.Label(frameCheck,
                           text="  - Vertical Nav Bar")
+        label3.bind("<Button-1>", lambda event:change_image(image1, 'vertical_nav_bar.png'))
         label3.grid(row=2, column=1, sticky="w")
-
+        
         ###
         self.var4 = tk.IntVar()
         check4 = ttk.Checkbutton(frameCheck,
-                                 variable=self.var4)
+                                 variable=self.var4,
+                                 state='disabled'
+                                 )
         check4.grid(row=3, column=0)
         label4 = tk.Label(frameCheck,
-                          text="Install with Dark Library (steam-library)")
-        label4.bind("<Button-1>", lambda event:change_image(image1, 'dark_steam_library.png'))
+                          text="    - Classic Layout")
+        label4.bind("<Button-1>", lambda event:change_image(image1, 'classic_layout.png'))
         label4.grid(row=3, column=1, sticky="w")
+        
+        ###
+        self.var5 = tk.IntVar()
+        check5 = ttk.Checkbutton(frameCheck,
+                                 variable=self.var5)
+        check5.grid(row=4, column=0)
+        label5 = tk.Label(frameCheck,
+                          text="Install with Dark Library (steam-library)")
+        label5.bind("<Button-1>", lambda event:change_image(image1, 'dark_steam_library.png'))
+        label5.grid(row=4, column=1, sticky="w")
 
         ###
-        label_end = tk.Label(frameCheck, height=5)
-        label_end.grid(row=4, column=0, columnspan=2)
+        label_end = tk.Label(frameCheck, height=4)
+        label_end.grid(row=5, column=0, columnspan=2)
         
 
         ### MODE Frame
@@ -131,15 +148,32 @@ class StartPage(tk.Frame):
         button_m.grid(row=0, column=0, padx=5)
 
         
-        ### CONFIRM FRAME
+        ### CONFIRM Frame
         ###
-        ###frameConfirm = confirm_frame(self.var1, frameHead.labeltext_b)
+        frameConfirm = confirm_frame(self)
+
+
+        ### Set GUI from config
+        set_selected_from_config(self)
 
         ###
-        frameHead.pack()
+        self.frameHead.pack()
         frameCheck.pack()
         frameMode.pack(pady=8)
-        ###frameConfirm.pack()
+        frameConfirm.pack()
+        
+    def getCheckbuttonVal(self, getter):
+        return getattr(self, getter)
+
+    def getCheckbutton(self,getter):
+        return getattr(self, getter)
+    
+    def setCheckbuttonVal(self, setter, value):
+        setattr(self, "self." + setter, value)
+
+    def setCheckbutton(self, setter, value):
+        setattr(self, setter, value)
+
 
 class PageOne(tk.Frame):
     def __init__(self, parent, controller):
@@ -182,10 +216,12 @@ class PageOne(tk.Frame):
         button_m.bind("<Button-1>", lambda event:controller.show_frame(StartPage))
         button_m.grid(row=0, column=0, padx=5)
         
-        ###frameConfirm = confirm_frame(tk.IntVar(), tk.StringVar())
+        frameConfirm = confirm_frame(self)
+
+        ### Pack frames
         frameCheck.pack()
         frameMode.pack(pady=8)
-        ###frameConfirm.pack()
+        frameConfirm.pack()
 
 def head_frame(self, controller):
     ### HEAD FRAME
@@ -203,21 +239,23 @@ def head_frame(self, controller):
     label_a.grid(row=0, column=0)
 
     ###
-    labeltext_b = tk.StringVar()
-    labeltext_b.set("A set of CSS and JS tweaks for the Steam Library")
+    self.labeltext_b = tk.StringVar()
+    self.labeltext_b.set("A set of CSS and JS tweaks for the Steam Library")
         
-    label_b = tk.Label(frameHead, textvariable=labeltext_b)
+    label_b = tk.Label(frameHead, textvariable=self.labeltext_b)
     label_b.grid(row=1, column=0)
     return frameHead
 
-def confirm_frame(checked, labeltext):
-    frameConfirm = tk.Frame()
+def confirm_frame(self):
+    frameConfirm = tk.Frame(self)
     ###
     button1 = ttk.Button(frameConfirm,
                        text="Install",
                        width=15                       
     )
-    button1.bind("<Button-1>", lambda event:install_click(event, checked, labeltext))
+    button1.bind("<Button-1>",
+                 ###lambda event:install_click(event, self.var1)
+                 )
     button1.grid(row=0, column=0, padx=5)
 
     button2 = ttk.Button(frameConfirm,
@@ -239,11 +277,7 @@ def css_cb_check(event, var1, check2, check3):
         check3.config(state='disabled')
 
 
-def install_click(event, var1, labeltext):
-    if var1.get() == 1:
-        labeltext.set("var enabled " + str(var1.get()))
-    else:
-        labeltext.set("var disabled " + str(var1.get()))
+### Image Functions
 
 def open_img(filename):
     x = filename
@@ -265,8 +299,32 @@ def change_image(label, filename):
     label.configure(image=img)
     label.image = img
 
+
+
+
+
 ### Initialisation
-   
+def set_selected_from_config(page):
+
+    ### Map config values to selected checkboxes
+    config_map = {"InstallCSSTweaks" : "var1",
+                  "EnablePlayButtonBox" : "var2",
+                  "EnableVerticalNavBar" : "var3",
+                  "EnableClassicLayout" : "var4",
+                  "InstallWithDarkLibrary" : "var5"} 
+    
+    loaded_config = backend.load_config()
+    for key in loaded_config:
+        ###print("WAH" + key)
+        ###print(loaded_config)
+        if key in config_map :
+            if loaded_config[key] == '0' :
+                page.getCheckbuttonVal(config_map[key]).set(0)
+            if loaded_config[key] == '1' :
+                page.getCheckbuttonVal(config_map[key]).set(1)
+        else :
+            None
+
 def main():
     app = OldGloryApp()
     app.mainloop()
