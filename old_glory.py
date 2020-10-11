@@ -2,7 +2,9 @@ import tkinter as tk
 import tkinter.font as TkFont
 from tkinter import ttk
 from PIL import ImageTk, Image
+import sys
 import cssutils
+import contextlib, io
 import backend
 import js_tweaker
 
@@ -54,9 +56,6 @@ class OldGloryApp(tk.Tk):
     def show_frame(self, cont):
         self.frames[cont].tkraise()
 
-    def load_from_config():
-        print("yahoo")
-
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)           
@@ -79,7 +78,6 @@ class StartPage(tk.Frame):
                           text="Install CSS Tweaks (SteamUI-OldGlory)")
         label1.bind("<Button-1>", lambda event:change_image(image1, 'buttons_before_after.png'))
         label1.grid(row=0, column=1, sticky="w")
-
 
         ###
         self.var2 = tk.IntVar()
@@ -139,14 +137,19 @@ class StartPage(tk.Frame):
         ###
         frameLog = tk.Frame(self)
 
-        #
+        ### Text
         entry1 = ttk.Entry(frameLog)
         text1 = tk.Text(entry1, height=5)
         ###text1.insert(tk.END, "Start\r\n")
-        text1.config(state='disabled')
+        
+
+        sys.stdout = StdoutRedirector(text1)
+        sys.stderr = StderrRedirector(text1)
+        ###print("SteamUI-OldGlory Configurer v1")
+        
         text1.pack()
         entry1.grid(row=0, column=0)
-
+        
         #
         scroll_1 = ttk.Scrollbar(frameLog, command=text1.yview)
         scroll_1.grid(row=0, column=1, sticky='nsew')
@@ -173,6 +176,7 @@ class StartPage(tk.Frame):
 
         ### Set GUI from config
         set_selected_from_config(self)
+        text1.config(state='disabled')
 
         ###
         self.frameHead.pack()
@@ -181,20 +185,11 @@ class StartPage(tk.Frame):
         frameConfirm.pack(pady=(7, 20), side="bottom")
         frameMode.pack(pady=(2, 0), side="bottom")
 
-
     ### Getters 
     def getCheckbuttonVal(self, getter):
         return getattr(self, getter)
-
-    def getCheckbutton(self,getter):
+    def getTextArea(self, getter):
         return getattr(self, getter)
-    
-    def setCheckbuttonVal(self, setter, value):
-        setattr(self, "self." + setter, value)
-
-    def setCheckbutton(self, setter, value):
-        setattr(self, setter, value)
-
 
 class PageOne(tk.Frame):
     def __init__(self, parent, controller):
@@ -298,8 +293,27 @@ def confirm_frame(self):
     return frameConfirm
 
 
-def redirect_stdout(page):
-    page.
+### Redirect StdOut
+
+class IORedirector(object):
+    def __init__(self, text_area):
+        self.text_area = text_area
+
+class StdoutRedirector(IORedirector):
+    def write(self, text):
+        self.text_area.config(foreground="black")
+        self.text_area.insert(tk.END, text)
+
+    def flush(self):
+        pass
+
+class StderrRedirector(IORedirector):
+    def write(self, text):
+        self.text_area.config(foreground="red")
+        self.text_area.insert(tk.END, text)
+
+    def flush(self):
+        pass
 
 def css_cb_check(event, var1, check2, check3):
     if var1.get() == 0:
@@ -344,9 +358,13 @@ def set_selected_from_config(page):
                   "EnablePlayButtonBox" : "var2",
                   "EnableVerticalNavBar" : "var3",
                   "EnableClassicLayout" : "var4",
-                  "InstallWithDarkLibrary" : "var5"} 
+                  "InstallWithDarkLibrary" : "var5"}
     
-    loaded_config = backend.load_config()
+    ### grab stdout, stderr from function in backend
+    f = io.StringIO()
+    with contextlib.redirect_stdout(f):
+        loaded_config = backend.load_config()
+        
     for key in loaded_config:
         ###print("WAH" + key)
         ###print(loaded_config)

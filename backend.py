@@ -34,5 +34,6 @@ def load_config():
                         (key, val) = line.rstrip().replace(" ", "").split("=")
                         config_dict[key] = val
                     except Exception as e:
-                        print("Error with line: " + line + " Skipping.", file=sys.stderr)               
-    return config_dict
+                        print("Error with line in config: " + line + " Skipping.", file=sys.stderr)               
+    return config_dict  
+    
