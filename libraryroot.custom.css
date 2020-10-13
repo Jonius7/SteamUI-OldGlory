@@ -4,16 +4,18 @@
 
 /* Configurable variables */
 :root {
-
-	/* What's New */
+  /* What's New */
   --WhatsNew: block;  /* Default: block. Set to none to hide What's New */
   --WhatsNewOrder: 1;  /* Set 0 to put to top, 1 or higher to put to bottom */
 
 	/* Left Sidebar - Games List */
-  --HoverOverlayPosition: 0;  /* Set 0 if default JS, unset if tweaked JS */
+  --HoverOverlayPosition: unset;  /* Set 0 if default JS, unset if tweaked JS */
   --GameListEntrySize: 16px;  /* Default: 16px */
   --CategoryNameHeaderSize: 13px;  /* Default: 13px */
   --ShowLeftSidebar: flex !important;  /* Default: flex, set to none to hide left sidebar */
+  
+  --ContextMenuLineHeight: 16px; /* Default: 20px */
+  --ContextMenuFontSize: 14px; /* Default: 14px */
 
 	/* Game Grid */
   --RemoveShine: none;  /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
@@ -24,12 +26,10 @@
 
 	/* Game Page Background */
   --AppPageBlur: 2px;  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look.*/
-  --AmbientBlur: black; /* Default: black 80%. Set to rgba(0,0,0,0) to remove */
-
+  --AmbientBlur: black;  /* Default: black 80%. Set to rgba(0,0,0,0) to remove */
+	
   --VerticalNavBarOffset: 0px;  /* Leave at 0, this var is for steam-library compatibility */
-
-}
-
+  }
 /* ==================== GameList Sidebar ====================
    ========================================================================== */
 
@@ -77,6 +77,19 @@
 .gamelistentry_FriendStatusHover_2iiN7 {
   bottom: var(--HoverOverlayPosition) !important;
 }
+
+/* Context Menu font size */
+.contextmenu_contextMenuContents_2EstN {
+  font-size: var(--ContextMenuFontSize);
+}
+
+/* Context Menu line spacing/height */
+.contextmenu_contextMenuItem_1n7Wl {
+  line-height: var(--ContextMenuLineHeight);
+  height: var(--ContextMenuLineHeight);
+}
+
+
 
 
 /* remove border */
@@ -197,6 +210,36 @@
 
 /* ========================================================================== 
    END GameList Sidebar */
+
+/* ==================== General Library and Scrollbar ====================
+   ========================================================================== */
+
+/* Library Home padding and background */
+.libraryhome_LibraryHome_3Sb2o {
+    padding: 8px 12px 12px; /* default 8px 14px 14px */
+    /*background-image: linear-gradient(to bottom, #2d333c 0%, #24282f 20%);*/
+}
+
+
+/* Scrollbar tweaks */
+.library_Container_3xRRJ *::-webkit-scrollbar, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar {
+  width: 16px; /* default 12px */
+  
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px; /* default 10px */
+}
+
+.library_Container_3xRRJ *::-webkit-scrollbar-thumb, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar-thumb {
+  border: 1px solid transparent; /* default: 3px solid transparent */
+  border-right: 0px solid transparent;
+  background-color: rgba(140,140,140,0.35);
+}
+
+.library_Container_3xRRJ *::-webkit-scrollbar-thumb:active, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar-thumb:active {
+  border: 1px solid transparent;
+  border-right: 0px solid transparent;
+}
 
 /* ==================== Your Collections ====================
    ========================================================================== */
@@ -570,18 +613,14 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 }
 
 /* Move small "Friend Playing" box on Steam Grid */
-.appportrait_Short_yGeS6 .appportrait_FriendsBar_3dncO.appportrait_IconsView_1WWmQ {
-  top: 0px;
-  align-items: flex-end;
-  height: 100%;
+.appportrait_FriendsBar_3dncO.appportrait_IconsView_1WWmQ:not(.appportrait_PortraitHover_301ft) {
+  transform: translateY(-12px);
 }
 
 /* Recommended corresponding JS tweak: default gap is 24px 16px */
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG,
 .appgrid_YourCollection_11p6F {
   gap: 8px 5px !important;
-  grid-template-columns: repeat(auto-fill, 200px) !important;
-  grid-auto-rows: 93px !important;
 }
 
 .appportrait_HoversEnabled_54PuC .appportrait_LibraryItemBox_WYgDg:hover .appportrait_UninstalledIcon_8YrRm {
@@ -610,7 +649,7 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   opacity: var(--GameImageOpacity);
 }
 
-/* Grid - Uninstaleld game image opacity */
+/* Grid - Uninstalled game image opacity */
 .appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(2) {
   opacity: var(--UninstalledGameImageOpacity);
 }
@@ -676,7 +715,7 @@ Requires corresponding JS tweaks to display correctly
 - Enlarge first game image on Play Next shelf
 - Enlarge game image on Game information panel
 */
-
+/*
 .appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
   grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
 }
@@ -688,7 +727,7 @@ Requires corresponding JS tweaks to display correctly
 .libraryhomeplaynext_PlayNextSuggestion_2a9Sn:first-child > :nth-child(1) {
   height: 180px !important;
 }
-
+*/
 /*END HORIZONTAL GAME IMAGE TWEAKS*/
 
 
@@ -714,7 +753,7 @@ Requires corresponding JS tweaks to display correctly
 /* END LIST VIEW ONLY TWEAKS */
 
 
-/* PLAY BAR LAYOUT - BETA *//*
+/* PLAY BAR LAYOUT - BETA */
 
 .appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {
   transform: translate(calc(8vmax - 27%), calc(-8vmax - 42%));
@@ -820,6 +859,8 @@ Requires corresponding JS tweaks to display correctly
 
 .appdetailsplaysection_ActionSection_2zxzS {
   width: 50%;
+  transform: scale(1);
+  transform-origin: left;
 }
 
 
@@ -874,7 +915,7 @@ Requires corresponding JS tweaks to display correctly
   margin-right: 5px;
 }
 
-*//* END PLAY BAR LAYOUT */
+/* END PLAY BAR LAYOUT */
 
 /* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS */
 /*
@@ -920,7 +961,8 @@ Requires corresponding JS tweaks to display correctly
 /* END VERTICAL NAV BAR */
 
 
-/* CLASSIC LAYOUT - BETA *//*
+/* CLASSIC LAYOUT - BETA */
+/*
 
 .appdetailsheader_HeaderFeatures_2b6Wk {
   right: 16px;
@@ -960,4 +1002,5 @@ Requires corresponding JS tweaks to display correctly
   margin-top: 30px;
 }
 
-*//* END CLASSIC LAYOUT */
+*/
+/* END CLASSIC LAYOUT */

@@ -16,7 +16,7 @@ h = d.nTop,  h = (t.children[0] && t.children[0].childNodes[0] && t.children[0].
 this.SetStateLoaded(),  this.SetStateLoaded(),document.getElementsByClassName('smartscrollcontainer_Body_3lDcz')[0].scrollTop = 30,
 
 ### === Change Game Image Grid Sizes (optional) - default widths 111, 148, 222 ===
-###(n = 111, r = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {  (n = 160, r = !0) : 2 == e ? n = 200 : 3 == e && (n = 240), {
+(n = 111, r = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {  (n = 80, r = !0) : 2 == e ? n = 120 : 3 == e && (n = 160), {
 
 ### === Vertical Nav Bar (beta, working) ===
 ###x: c,  x: 0,
