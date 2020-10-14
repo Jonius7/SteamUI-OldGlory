@@ -162,6 +162,4 @@ Limitation that the script only reads from `libraryroot.beaut.js` one line at a 
 
 `js_tweaker` will use `libraryroot.beaut.js` if it already exists. This means:
 
-- you can experiment in `libraryroot.modif.js` and delete it afterwards if you want to go back to the clean version `libraryroot.beaut.js`
-
-​    https://i.gyazo.com/426eeaa53affa5b6b1521d27c9a7eede.gif
+- you can experiment in `libraryroot.modif.js` and delete it afterwards if you want to go back to the clean version `libraryroot.beaut.js
