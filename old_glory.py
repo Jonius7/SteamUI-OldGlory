@@ -58,7 +58,9 @@ class OldGloryApp(tk.Tk):
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)           
-        
+
+        ### HEAD FRAME
+        ###
         self.frameHead = head_frame(self, controller)
 
         ### CHECK FRAME
@@ -149,7 +151,7 @@ class StartPage(tk.Frame):
         text1.pack()
         entry1.grid(row=0, column=0)
         
-        #
+        ###
         scroll_1 = ttk.Scrollbar(frameLog, command=text1.yview)
         scroll_1.grid(row=0, column=1, sticky='nsew')
         text1['yscrollcommand'] = scroll_1.set
@@ -158,22 +160,23 @@ class StartPage(tk.Frame):
         ### MODE FRAME
         ###
         frameMode = tk.Frame(self)
+
+        ###
         self.var_m = tk.IntVar()
         button_m = ttk.Button(frameMode,
                            text="CSS Options",
                            width=16
         )
         button_m.bind("<Button-1>", lambda event:controller.show_frame(PageOne))
-        ###button_m.config(command=lambda: controller.show_frame(PageOne))
         button_m.grid(row=0, column=0, padx=5)
 
+        ###
         self.var_n = tk.IntVar()
         button_n = ttk.Button(frameMode,
                            text="JS Options",
                            width=16
         )
         button_n.bind("<Button-1>", lambda event:controller.show_frame(PageTwo))
-        ###button_n.config(command=lambda: controller.show_frame(PageTwo))
         button_n.grid(row=0, column=1, padx=5)
 
         
@@ -205,11 +208,15 @@ class PageOne(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
+        ### HEAD FRAME
+        ###
         self.frameHead = head_frame(self, controller)
         
+        ### CHECK FRAME
+        ###
         frameCheck = tk.Frame(self)
 
-        #
+        ###
         self.var1 = tk.IntVar()
         check1 = ttk.Checkbutton(frameCheck,
                                  variable=self.var1,
@@ -219,7 +226,7 @@ class PageOne(tk.Frame):
                           text="  - AdvOption1")
         label1.grid(row=0, column=1, sticky="w")
 
-        #
+        ###
         self.var2 = tk.IntVar()
         check2 = ttk.Checkbutton(frameCheck,
                                  variable=self.var2,
@@ -229,7 +236,7 @@ class PageOne(tk.Frame):
                           text="  - AdvOption2")
         label2.grid(row=1, column=1, sticky="w")
 
-        #
+        ###
         self.var3 = tk.IntVar()
         check3 = ttk.Checkbutton(frameCheck,
                                  variable=self.var3,
@@ -243,26 +250,26 @@ class PageOne(tk.Frame):
         ###
         frameMode = tk.Frame(self)
 
-        #
+        ###
         self.var_m = tk.IntVar()
         button_m = ttk.Button(frameMode,
                            text="Back to Home",
                            width=16
         )
         button_m.bind("<Button-1>", lambda event:controller.show_frame(StartPage))
-        ###button_m.config(command=lambda: controller.show_frame(StartPage))
         button_m.grid(row=0, column=0, padx=5)
 
-        #
+        ###
         self.var_n = tk.IntVar()
         button_n = ttk.Button(frameMode,
                            text="JS Options",
                            width=16
         )
         button_n.bind("<Button-1>", lambda event:controller.show_frame(PageTwo))
-        ###button_n.config(command=lambda: controller.show_frame(PageTwo))
         button_n.grid(row=0, column=1, padx=5)
 
+        ### CONFIRM FRAME
+        ###
         frameConfirm = confirm_frame(self)
         
         ### Pack frames
@@ -276,11 +283,15 @@ class PageTwo(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
+        ### HEAD FRAME
+        ###
         self.frameHead = head_frame(self, controller)
-        
+
+        ### CHECK FRAME
+        ###
         frameCheck = tk.Frame(self)
 
-        #
+        ###
         self.var1 = tk.IntVar()
         check1 = ttk.Checkbutton(frameCheck,
                                  variable=self.var1,
@@ -294,26 +305,26 @@ class PageTwo(tk.Frame):
         ###
         frameMode = tk.Frame(self)
 
-        #
+        ###
         self.var_m = tk.IntVar()
         button_m = ttk.Button(frameMode,
                            text="Back to Home",
                            width=16
         )
         button_m.bind("<Button-1>", lambda event:controller.show_frame(StartPage))
-        ###button_m.config(command=lambda: controller.show_frame(PageOne))
         button_m.grid(row=0, column=0, padx=5)
 
-        #
+        ###
         self.var_n = tk.IntVar()
         button_n = ttk.Button(frameMode,
                            text="CSS Options",
                            width=16
         )
         button_n.bind("<Button-1>", lambda event:controller.show_frame(PageOne))
-        ###button_n.config(command=lambda: controller.show_frame(PageTwo))
         button_n.grid(row=0, column=1, padx=5)
-        
+
+        ### CONFIRM FRAME
+        ###
         frameConfirm = confirm_frame(self)
 
         ### Pack frames
@@ -356,9 +367,10 @@ def confirm_frame(self):
                  ###lambda event:install_click(event, self.var1)
                  )
     button1.grid(row=0, column=0, padx=5)
-
+    
+    ###
     button2 = ttk.Button(frameConfirm,
-                       text="Load from Config",
+                       text="Reload Config",
                        width=15,
                        state='disabled'
     )
@@ -389,6 +401,8 @@ class StderrRedirector(IORedirector):
     def flush(self):
         pass
 
+
+### Checkbox Validation - Disable
 def css_cb_check(event, var1, check2, check3):
     if var1.get() == 0:
         check2.config(state='enabled')
@@ -445,8 +459,6 @@ def set_selected_from_config(page):
         loaded_config = backend.load_config()
         
     for key in loaded_config:
-        ###print("WAH" + key)
-        ###print(loaded_config)
         if key in config_map :
             if loaded_config[key] == '0' :
                 page.getCheckbuttonVal(config_map[key]).set(0)
