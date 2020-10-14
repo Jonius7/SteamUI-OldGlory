@@ -24,6 +24,6 @@ this.SetStateLoaded(),  this.SetStateLoaded(),document.getElementsByClassName('s
 ###l < i ? u.push({  true ? u.push({
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
-eAssetType: 0,  eAssetType: 3,
-childHeight: 1.5 * n,  childHeight: n * 43 / 92,
+###eAssetType: 0,  eAssetType: 3,
+###childHeight: 1.5 * n,  childHeight: n * 43 / 92,
 

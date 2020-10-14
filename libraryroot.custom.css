@@ -674,7 +674,7 @@ Requires corresponding JS tweaks to display correctly
 - Enlarge first game image on Play Next shelf
 - Enlarge game image on Game information panel
 */
-
+/*
 .appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
   grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
 }
@@ -686,7 +686,7 @@ Requires corresponding JS tweaks to display correctly
 .libraryhomeplaynext_PlayNextSuggestion_2a9Sn:first-child > :nth-child(1) {
   height: 180px !important;
 }
-
+*/
 /*END HORIZONTAL GAME IMAGE TWEAKS*/
 
 
