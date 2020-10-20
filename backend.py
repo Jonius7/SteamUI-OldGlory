@@ -77,7 +77,7 @@ CSS_CONFIG = {"What's New" : {
             }}
 
 def find_library_dir():
-    key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam");
+    key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
     steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
     print(steam_path)
     steamui_path = steam_path.replace("/","\\") + "\steamui"
@@ -88,7 +88,10 @@ def find_library_dir():
 ### Loading config
 def load_config():
     config_dict = {}
-    if not os.path.isfile("oldglory_config.cfg") :
+    config_filename = "oldglory_config.cfg"
+    if not os.path.isfile(config_filename) :
+        print("Config file " + config_filename + " not found. Creating copy with default options.", file=sys.stderr)
+        create_config()
         return DEFAULT_CONFIG
     else :
         with open ("oldglory_config.cfg", newline='', encoding="UTF-8") as fi:
@@ -101,16 +104,24 @@ def load_config():
                     except Exception as e:
                         print("Error with line in config: " + line + " Skipping.", file=sys.stderr)               
     return config_dict  
-    
+
+def create_config():
+    print("TODO", flush=True)
+
 def load_css_options():
     start = ["Configurable Variables", ":root {"]
     end = ["{", "======"]
     
-    with open('libraryroot.custom.js') as infile:
+    with open('libraryroot.custom.css') as infile:
         prevline = ""
+        startreading = 0
         for line in infile:
             if start[0] in prevline and start[1] in line:
                 print("YAHOO")
+                startreading = 1
+            elif end[0] in prevline and end[1] in line:
+                print("PARTYEND")
+                startreading = 0
     '''
             for src, target in swap_js.items():
                 line = line.replace(src, target)
@@ -120,6 +131,9 @@ def load_css_options():
             outfile.write(line)
     '''
 
-
     
     return list
+
+def css_variable_parser():
+    print("WHAT", file=sys.stdout)
+    

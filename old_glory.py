@@ -6,6 +6,7 @@ import sys
 import contextlib, io
 import backend
 import js_tweaker
+import os
 
 
 class OldGloryApp(tk.Tk):
@@ -142,11 +143,11 @@ class StartPage(tk.Frame):
         entry1 = ttk.Entry(frameLog)
         text1 = tk.Text(entry1, height=5)
         ###text1.insert(tk.END, "Start\r\n")
-        
+        text1.tag_configure("err", foreground="red")
 
-        sys.stdout = StdoutRedirector(text1)
-        sys.stderr = StderrRedirector(text1)
-        ###print("SteamUI-OldGlory Configurer v1")
+        ### REDIRECT STDOUT STDERR
+        #sys.stdout = StdoutRedirector(text1)
+        #sys.stderr = StderrRedirector(text1)
         
         text1.pack()
         entry1.grid(row=0, column=0)
@@ -216,35 +217,38 @@ class PageOne(tk.Frame):
         ###
         frameCheck = tk.Frame(self)
 
+        label0 = tk.Label(frameCheck,
+                          text="Coming Soon")
+        label0.grid(row=0, column=0, columnspan=2)
         ###
         self.var1 = tk.IntVar()
         check1 = ttk.Checkbutton(frameCheck,
                                  variable=self.var1,
                                  state='disabled')
-        check1.grid(row=0, column=0)
+        check1.grid(row=1, column=0)
         label1 = tk.Label(frameCheck,
                           text="  - AdvOption1")
-        label1.grid(row=0, column=1, sticky="w")
+        label1.grid(row=1, column=1, sticky="w")
 
         ###
         self.var2 = tk.IntVar()
         check2 = ttk.Checkbutton(frameCheck,
                                  variable=self.var2,
                                  state='disabled')
-        check2.grid(row=1, column=0)
+        check2.grid(row=2, column=0)
         label2 = tk.Label(frameCheck,
                           text="  - AdvOption2")
-        label2.grid(row=1, column=1, sticky="w")
+        label2.grid(row=2, column=1, sticky="w")
 
         ###
         self.var3 = tk.IntVar()
         check3 = ttk.Checkbutton(frameCheck,
                                  variable=self.var3,
                                  state='disabled')
-        check3.grid(row=2, column=0)
+        check3.grid(row=3, column=0)
         label3 = tk.Label(frameCheck,
                           text="  - AdvOption3")
-        label3.grid(row=2, column=1, sticky="w")
+        label3.grid(row=3, column=1, sticky="w")
         
         ### MODE Frame
         ###
@@ -291,15 +295,18 @@ class PageTwo(tk.Frame):
         ###
         frameCheck = tk.Frame(self)
 
+        label0 = tk.Label(frameCheck,
+                          text="Coming Soon")
+        label0.grid(row=0, column=0, columnspan=2)
         ###
         self.var1 = tk.IntVar()
         check1 = ttk.Checkbutton(frameCheck,
                                  variable=self.var1,
                                  state='disabled')
-        check1.grid(row=0, column=0)
+        check1.grid(row=1, column=0)
         label1 = tk.Label(frameCheck,
                           text="  - AdvOption1")
-        label1.grid(row=0, column=1, sticky="w")
+        label1.grid(row=1, column=1, sticky="w")
         
         ### MODE Frame
         ###
@@ -333,6 +340,7 @@ class PageTwo(tk.Frame):
         frameConfirm.pack(pady=(7, 20), side="bottom")
         frameMode.pack(pady=(2, 0), side="bottom")
 
+### FRAME functions
 def head_frame(self, controller):
     ### HEAD FRAME
     ###
@@ -371,10 +379,12 @@ def confirm_frame(self):
     ###
     button2 = ttk.Button(frameConfirm,
                        text="Reload Config",
-                       width=15,
-                       state='disabled'
+                       width=15#,
+                       ###state='disabled'
     )
-    button2.bind()
+    button2.bind("<Button-1>",
+                 lambda event:reload_click(event)
+                 )
     button2.grid(row=0, column=1, padx=5)
     return frameConfirm
 
@@ -389,7 +399,6 @@ class StdoutRedirector(IORedirector):
     def write(self, text):
         self.text_area.config(foreground="black")
         self.text_area.insert(tk.END, text)
-
     def flush(self):
         pass
 
@@ -397,7 +406,6 @@ class StderrRedirector(IORedirector):
     def write(self, text):
         self.text_area.config(foreground="red")
         self.text_area.insert(tk.END, text)
-
     def flush(self):
         pass
 
@@ -419,6 +427,16 @@ def init_cb_check(var1, check2, check3):
         check2.config(state='disabled')
         check3.config(state='disabled')
 
+### INSTALL Functions
+
+### RELOAD Functions
+def reload_click(event):
+    run_js_tweaker()
+
+def run_js_tweaker():
+    ###with open('js_tweaker.py') as source_file:
+    os.system('python js_tweaker.py')
+    print("running, but not")
 
 ### Image Functions
 
@@ -455,8 +473,9 @@ def set_selected_from_config(page):
     
     ### grab stdout, stderr from function in backend
     f = io.StringIO()
-    with contextlib.redirect_stdout(f):
-        loaded_config = backend.load_config()
+    #with contextlib.redirect_stdout(f):
+    loaded_config = backend.load_config()
+        
         
     for key in loaded_config:
         if key in config_map :
