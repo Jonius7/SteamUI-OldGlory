@@ -146,8 +146,8 @@ class StartPage(tk.Frame):
         text1.tag_configure("err", foreground="red")
 
         ### REDIRECT STDOUT STDERR
-        sys.stdout = StdoutRedirector(text1)
-        sys.stderr = StderrRedirector(text1)
+        #sys.stdout = StdoutRedirector(text1)
+        #sys.stderr = StderrRedirector(text1)
         
         text1.pack()
         entry1.grid(row=0, column=0)
@@ -199,7 +199,7 @@ class StartPage(tk.Frame):
         frameConfirm.pack(pady=(7, 20), side="bottom")
         frameMode.pack(pady=(2, 0), side="bottom")
 
-    ### Getters 
+    ### Getters
     def getCheckbuttonVal(self, getter):
         return getattr(self, getter)
     def getTextArea(self, getter):
@@ -372,7 +372,7 @@ def confirm_frame(self):
                        width=15                       
     )
     button1.bind("<Button-1>",
-                 ###lambda event:install_click(event, self.var1)
+                 lambda event:get_settings_from_gui(event, self)
                  )
     button1.grid(row=0, column=0, padx=5)
     
@@ -428,6 +428,9 @@ def init_cb_check(var1, check2, check3):
         check3.config(state='disabled')
 
 ### INSTALL Functions
+        
+   
+
 
 ### RELOAD Functions
 def reload_click(event):
@@ -462,15 +465,27 @@ def change_image(label, filename):
     label.image = img
 
 
+### Map config values to selected checkboxes
+CONFIG_MAP = {"InstallCSSTweaks" : "var1",
+              "EnablePlayButtonBox" : "var2",
+              "EnableVerticalNavBar" : "var3",
+              "EnableClassicLayout" : "var4",
+              "InstallWithDarkLibrary" : "var5"}
+
+        
+def get_settings_from_gui(event, page):
+    settings = []
+    for key in CONFIG_MAP:
+        print(page.getCheckbuttonVal(CONFIG_MAP[key]).get())
+        if page.getCheckbuttonVal(CONFIG_MAP[key]).get() == 1:
+            settings.append(key)
+            #print(key)
+    #print("ARRAY ")
+    #print(settings)
+
+
 ### Initialisation
 def set_selected_from_config(page):
-
-    ### Map config values to selected checkboxes
-    config_map = {"InstallCSSTweaks" : "var1",
-                  "EnablePlayButtonBox" : "var2",
-                  "EnableVerticalNavBar" : "var3",
-                  "EnableClassicLayout" : "var4",
-                  "InstallWithDarkLibrary" : "var5"}
     
     ### grab stdout, stderr from function in backend
     f = io.StringIO()
@@ -479,11 +494,11 @@ def set_selected_from_config(page):
         
         
     for key in loaded_config:
-        if key in config_map :
+        if key in CONFIG_MAP :
             if loaded_config[key] == '0' :
-                page.getCheckbuttonVal(config_map[key]).set(0)
+                page.getCheckbuttonVal(CONFIG_MAP[key]).set(0)
             if loaded_config[key] == '1' :
-                page.getCheckbuttonVal(config_map[key]).set(1)
+                page.getCheckbuttonVal(CONFIG_MAP[key]).set(1)
         else :
             None
 

@@ -109,6 +109,39 @@ def create_config():
     print("TODO", flush=True)
 
 
+def validate_settings(settings):
+    setting_map = {"InstallCSSTweaks" : "1",
+                  "EnablePlayButtonBox" : {"start" : "/* PLAY BAR LAYOUT - BETA */", "end" : "/* END PLAY BAR LAYOUT */"},
+                  "EnableVerticalNavBar" : {"start" : "/* VERTICAL NAV BAR", "end" : "/* END VERTICAL NAV BAR */"},
+                  "EnableClassicLayout" : {"start" : "/* CLASSIC LAYOUT - BETA */", "end" : "/* END CLASSIC LAYOUT */"},
+                  "InstallWithDarkLibrary" : ""
+    }
+
+    settings = {}
+    #if "InstallCSSTweaks" not in settings:
+    #    break
+    #elif "InstallWithDarkLibrary" in settings
+
+
+def write_settings(settings):
+    with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
+         open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
+        for line in f:
+            modified = 0
+            
+
+            '''
+            for setting in settings:
+                if fix in line:
+                    f1.write(find_fix(line, fix))
+                    modified = 1
+            if modified == 0:
+                f1.write(line)
+            '''
+    f.close()
+    f1.close()
+
+
 ### CSS functions
 def load_css_options():
     start = ["Configurable variables", ":root {"]
@@ -156,3 +189,4 @@ def css_line_parser(line):
             #print("YOU HAVE " + name[1])
     except:
         print("Some error at: " + line)
+
