@@ -20,7 +20,7 @@ class OldGloryApp(tk.Tk):
         self.maxsize(width=windowW, height=windowH)
         container.pack(side="top", fill="both", expand = True)
         
-        self.iconbitmap('steam_oldglory.ico')
+        #self.iconbitmap('steam_oldglory.ico')
         self.wm_title("SteamUI-OldGlory Configurer")
 
         ###
@@ -146,8 +146,8 @@ class StartPage(tk.Frame):
         text1.tag_configure("err", foreground="red")
 
         ### REDIRECT STDOUT STDERR
-        #sys.stdout = StdoutRedirector(text1)
-        #sys.stderr = StderrRedirector(text1)
+        sys.stdout = StdoutRedirector(text1)
+        sys.stderr = StderrRedirector(text1)
         
         text1.pack()
         entry1.grid(row=0, column=0)
@@ -431,8 +431,9 @@ def init_cb_check(var1, check2, check3):
 
 ### RELOAD Functions
 def reload_click(event):
+    backend.load_css_options()
     run_js_tweaker()
-
+    
 def run_js_tweaker():
     ###with open('js_tweaker.py') as source_file:
     os.system('python js_tweaker.py')

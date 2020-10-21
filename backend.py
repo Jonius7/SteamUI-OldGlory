@@ -108,20 +108,31 @@ def load_config():
 def create_config():
     print("TODO", flush=True)
 
+
+### CSS functions
 def load_css_options():
-    start = ["Configurable Variables", ":root {"]
-    end = ["{", "======"]
+    start = ["Configurable variables", ":root {"]
+    end = ["}", "======"]
+
+    loaded_css_config = {}
     
     with open('libraryroot.custom.css') as infile:
+        lines = filter(None, (line.rstrip() for line in infile))
         prevline = ""
         startreading = 0
-        for line in infile:
+        for line in lines:
             if start[0] in prevline and start[1] in line:
                 print("YAHOO")
                 startreading = 1
             elif end[0] in prevline and end[1] in line:
                 print("PARTYEND")
                 startreading = 0
+                break
+            prevline = line
+            if startreading == 1:
+                css_line_parser(line)
+    infile.close()
+    print("U SEEING")
     '''
             for src, target in swap_js.items():
                 line = line.replace(src, target)
@@ -132,8 +143,16 @@ def load_css_options():
     '''
 
     
-    return list
+    return loaded_css_config
 
-def css_variable_parser():
-    print("WHAT", file=sys.stdout)
-    
+def css_line_parser(line):
+    ###print("TODO", file=sys.stdout)
+    try:
+        if line.lstrip()[:2] == "/*":
+            print("SECTION")
+        else:
+            name = line.split(":")
+            print(name[0] + "  |  " + name[1])
+            #print("YOU HAVE " + name[1])
+    except:
+        print("Some error at: " + line)
