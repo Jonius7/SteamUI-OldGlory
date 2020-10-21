@@ -57,7 +57,13 @@ Each line contains one tweak with the original JS separated by two spaces from t
 
 Commented lines with `###`, and blank lines are ignored. You can use this to make `fixes.txt` more readable.
 
-Required libraries: `jsbeautifier`, `jsmin`.
+For running `js_tweaker.exe`: 
+
+- Copy `js_tweaker.exe` and `fixes.txt` to `Steam/steamui` and run it.
+
+For running `js_tweaker.py`:
+
+Required libraries: `jsbeautifier`, `jsmin`
 
 - Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
 

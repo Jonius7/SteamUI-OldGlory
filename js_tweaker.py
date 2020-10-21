@@ -6,6 +6,7 @@ import jsbeautifier
 import os.path
 import sys
 from jsmin import jsmin
+import time
 
    
 swap_js = {'"libraryroot"}[n=u]||n': '"libraryreet"}[n=u]||n'}
@@ -39,19 +40,25 @@ def setup_library():
     outfile.close()
 
 def parse_fixes_file(filename):
-    with open("fixes.txt", newline='', encoding="UTF-8") as fi:
-        lines = filter(None, (line.rstrip() for line in fi))
-        try:
-            for line in lines:
-                if not line.startswith('###'):
-                    (key, val) = line.rstrip().split("  ")
-                    fixes_dict[key] = val
-        except Exception as e:
-            fi.close()
-            print(e)
-            sys.exit("Invalid file format")
-    fi.close()
-    #print(fixes_dict)
+    print("Finding Fixes...\n")
+    try:
+        with open("fixes.txt", newline='', encoding="UTF-8") as fi:
+            lines = filter(None, (line.rstrip() for line in fi))
+            try:
+                for line in lines:
+                    if not line.startswith('###'):
+                        (key, val) = line.rstrip().split("  ")
+                        fixes_dict[key] = val
+            except Exception as e:
+                print("Error in line" + line, file=sys.stderr)
+                print(e, file=sys.stderr)
+                fi.close()                
+                error_exit("Invalid file format")
+        fi.close()
+    except FileNotFoundError:
+        error_exit("fixes.txt not found")
+    except Exception as e:
+        error_exit("Unknown error: " + e)
 
 def find_fix(line, fix):
     m_line = line.replace(fix, fixes_dict[fix])
@@ -59,20 +66,7 @@ def find_fix(line, fix):
     print(m_line.strip())
     return m_line
 
-def re_minify():
-    with open("libraryroot.modif.js", "r", newline='', encoding="UTF-8") as js_file:
-        minified = jsmin(js_file.read())
-    with open("libraryreet.js", "w", newline='', encoding="UTF-8") as js_min_file:
-        js_min_file.write(minified)
-    js_file.close()
-    js_min_file.close()
-    print("Re-minify JS file")
-  
-def main():
-    beautify_js()
-    setup_library()
-    print("Finding Fixes")
-    parse_fixes_file("fixes.txt")
+def write_modif_file():
     with open("libraryroot.beaut.js", "r", newline='', encoding="UTF-8") as f, \
          open("libraryroot.modif.js", "w", newline='', encoding="UTF-8") as f1:
         for line in f:
@@ -85,8 +79,29 @@ def main():
                 f1.write(line)
     f.close()
     f1.close()
-    re_minify()
-    #input('Press Enter to exit')
+
+def re_minify_file():
+    with open("libraryroot.modif.js", "r", newline='', encoding="UTF-8") as js_file:
+        minified = jsmin(js_file.read())
+    with open("libraryreet.js", "w", newline='', encoding="UTF-8") as js_min_file:
+        js_min_file.write(minified)
+    js_file.close()
+    js_min_file.close()
+    print("\nRe-minify JS file")
+
+def error_exit(errormsg):
+    print(errormsg, file=sys.stderr)
+    input("Press Enter to continue...")
+    sys.exit()
+    
+def main():
+    beautify_js()
+    setup_library()
+    parse_fixes_file("fixes.txt")
+    write_modif_file()
+    re_minify_file()
+    print("\nSteam Library JS Tweaks applied successfully.")
+    time.sleep(2)
                 
 if __name__ == "__main__":
     main()

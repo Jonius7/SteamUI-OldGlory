@@ -1,5 +1,6 @@
 ## CSS Changelog
 
+**v1.2** Standardised CSS variable format
 **v1.1** Whole new sections for Play Bar layout, Vertical Nav Bar and Classic layout \
 **v1.0** Rewrite/Pass ordering the CSS classes into sections \
       Add compatibility with Shiina's steam-library \
