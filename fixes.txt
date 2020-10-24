@@ -26,4 +26,11 @@ this.SetStateLoaded(),  this.SetStateLoaded(),document.getElementsByClassName('s
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
 ###eAssetType: 0,  eAssetType: 3,
 ###childHeight: 1.5 * n,  childHeight: n * 43 / 92,
+###o = e.nHeight,  o = e.nWidth * 43 / 92,
+###i = e.nHeight,  i = e.nWidth * 43 / 92,
 
+### === Stop What's New Events from Loading (working, needs more testing) ===
+###n = B.b.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",
+
+### === Reduce ComputeLayout time (buggy, may improve performance) ===
+###d == this.state.iFirstRenderableRow && o == this.state.iRows && m == this.state.iLastRenderableRow && p == this.state.iFirstRenderableChild && u == this.state.iLastRenderableChild && i == this.state.iItemsPerRow || this.setState({  (d ? d == this.state.iFirstRenderableRow : o ? o == this.state.iRows : m ? m == this.state.iLastRenderableRow : p ? p == this.state.iFirstRenderableChild : u ? u == this.state.iLastRenderableChild : i ? i == this.state.iItemsPerRow : true) || this.setState({

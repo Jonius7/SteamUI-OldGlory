@@ -136,6 +136,8 @@ You should be set to go!
 
 ![preview image](https://i.imgur.com/4gWzhj9.png)
 
+If you want to remove **steam-library's** changes, go into `libraryroot.custom.css` and delete the top lines up to and including `/* === END steam-library tweaks for SteamUI-OldGlory === */`
+
 ## Dev Notes
 
 #### For more details, go to [Story](docs/story.md).
