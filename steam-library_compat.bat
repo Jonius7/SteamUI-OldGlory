@@ -1,6 +1,6 @@
 @echo off
 
-echo You are about to add steam-library to SteamUI-OldGlory's CSS.
+echo You are about to add steam-library's CSS to SteamUI-OldGlory's CSS.
 echo Please make sure you have libraryroot.custom.css, config.css, and steam-library_compat.css in folder
 echo You only need to do this once.
 setlocal
@@ -14,15 +14,27 @@ set "temp=hybrid.temp.css"
 
 ::Just so it won't keep adding the compat text if you've done it already
 if exist %libraryroot%.backup echo libraryroot.custom.css.backup exists, skipping. Delete or rename the file if you want to add the CSS.
-if exist %libraryroot%.backup goto AFTER
-type %compat% >> %temp%
-echo. >> %temp%
-echo. >> %temp%
-type %libraryroot% >> %temp%
-rename %libraryroot% %libraryroot%.backup
-rename %temp% %libraryroot%
-echo CSS Added.
-echo A backup of your library CSS has been saved to libraryroot.custom.css.backup
+::if exist %libraryroot%.backup goto AFTER
+set /p firstline=< %libraryroot%
+set "compareline=!!! DO NOT EDIT THESE !!!"
+
+::if not "x!firstline:%compareline%=!"=="x%firstline%" echo libraryroot.custom.css has already been patched, skipping.
+::if not "x!firstline:%compareline%=!"=="x%firstline%" goto AFTER
+
+echo.%firstline%|findstr /C:"%compareline%" >nul 2>&1
+if not errorlevel 1 (
+   echo libraryroot.custom.css already has steam-library's CSS, skipping.
+   goto AFTER
+) else (
+	type %compat% >> %temp%
+	echo. >> %temp%
+	echo. >> %temp%
+	type %libraryroot% >> %temp%
+	rename %libraryroot% %libraryroot%.backup
+	rename %temp% %libraryroot%
+	echo CSS Added.
+	echo A backup of your library CSS has been saved to libraryroot.custom.css.backup
+)
 
 :AFTER
 
