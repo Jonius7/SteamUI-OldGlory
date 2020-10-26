@@ -1,9 +1,11 @@
 import tkinter as tk
 import tkinter.font as TkFont
 from tkinter import ttk
+from idlelib.tooltip import *
 from PIL import ImageTk, Image
 import sys
-import contextlib, io
+#import contextlib, io
+import io
 import backend
 import js_tweaker
 import os
@@ -14,16 +16,15 @@ class OldGloryApp(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         container = tk.Frame(self)
         windowW = 700
-        windowH = 500
-        self.geometry((str(windowW)+'x'+str(windowH)+'+650+400'))
+        windowH = 600
+        self.geometry((str(windowW)+'x'+str(windowH)+'+650+300'))
         self.minsize(width=windowW, height=windowH)
         self.maxsize(width=windowW, height=windowH)
         container.pack(side="top", fill="both", expand = True)
         
-        #self.iconbitmap('steam_oldglory.ico')
+        self.iconbitmap(resource_path('steam_oldglory.ico'))
         self.wm_title("SteamUI-OldGlory Configurer")
 
-        ###
         
 
         ###
@@ -40,7 +41,9 @@ class OldGloryApp(tk.Tk):
                 })]
             })]
         )
-        
+
+        ### Styling Combobox dropdown
+        self.option_add("*TCombobox*Listbox*font", (self.default_font)),
         
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
@@ -78,7 +81,7 @@ class StartPage(tk.Frame):
         check1.grid(row=0, column=0)
         label1 = tk.Label(frameCheck,
                           text="Install CSS Tweaks (SteamUI-OldGlory)")
-        label1.bind("<Button-1>", lambda event:change_image(image1, 'buttons_before_after.png'))
+        label1.bind("<Button-1>", lambda event:change_image(image1, resource_path('buttons_before_after.png')))
         label1.grid(row=0, column=1, sticky="w")
 
         ###
@@ -89,11 +92,11 @@ class StartPage(tk.Frame):
         check2.grid(row=1, column=0)
         label2 = tk.Label(frameCheck,
                           text="  - Box Play Button")
-        label2.bind("<Button-1>", lambda event:change_image(image1, 'play_button_box.png'))
+        label2.bind("<Button-1>", lambda event:change_image(image1, resource_path('play_button_box.png')))
         label2.grid(row=1, column=1, sticky="w")
         
         ###
-        image1 = add_img(frameCheck, 'buttons_before_after.png')
+        image1 = add_img(frameCheck, resource_path('buttons_before_after.png'))
         image1.grid(row=0, column=2, rowspan=6, padx=5, sticky="n")
         
         ###
@@ -105,7 +108,7 @@ class StartPage(tk.Frame):
         check3.grid(row=2, column=0)
         label3 = tk.Label(frameCheck,
                           text="  - Vertical Nav Bar")
-        label3.bind("<Button-1>", lambda event:change_image(image1, 'vertical_nav_bar.png'))
+        label3.bind("<Button-1>", lambda event:change_image(image1, resource_path('vertical_nav_bar.png')))
         label3.grid(row=2, column=1, sticky="w")
         
         ###
@@ -117,7 +120,7 @@ class StartPage(tk.Frame):
         check4.grid(row=3, column=0)
         label4 = tk.Label(frameCheck,
                           text="    - Classic Layout")
-        label4.bind("<Button-1>", lambda event:change_image(image1, 'classic_layout.png'))
+        label4.bind("<Button-1>", lambda event:change_image(image1, resource_path('classic_layout.png')))
         label4.grid(row=3, column=1, sticky="w")
         
         ###
@@ -127,7 +130,7 @@ class StartPage(tk.Frame):
         check5.grid(row=4, column=0)
         label5 = tk.Label(frameCheck,
                           text="Install with Dark Library (steam-library)")
-        label5.bind("<Button-1>", lambda event:change_image(image1, 'dark_steam_library.png'))
+        label5.bind("<Button-1>", lambda event:change_image(image1, resource_path('dark_steam_library.png')))
         label5.grid(row=4, column=1, sticky="w")
 
         ###
@@ -141,20 +144,21 @@ class StartPage(tk.Frame):
 
         ### Text
         entry1 = ttk.Entry(frameLog)
-        text1 = tk.Text(entry1, height=5)
+        text1 = tk.Text(entry1, height=12)
+        text1.configure(font=("Arial",10))
         ###text1.insert(tk.END, "Start\r\n")
         text1.tag_configure("err", foreground="red")
 
         ### REDIRECT STDOUT STDERR
-        #sys.stdout = StdoutRedirector(text1)
-        #sys.stderr = StderrRedirector(text1)
+        sys.stdout = StdoutRedirector(text1)
+        sys.stderr = StderrRedirector(text1)
         
         text1.pack()
         entry1.grid(row=0, column=0)
         
         ###
         scroll_1 = ttk.Scrollbar(frameLog, command=text1.yview)
-        scroll_1.grid(row=0, column=1, sticky='nsew')
+        scroll_1.grid(row=0, column=1, sticky='ns')
         text1['yscrollcommand'] = scroll_1.set
         
 
@@ -217,38 +221,13 @@ class PageOne(tk.Frame):
         ###
         frameCheck = tk.Frame(self)
 
-        label0 = tk.Label(frameCheck,
-                          text="Coming Soon")
-        label0.grid(row=0, column=0, columnspan=2)
-        ###
-        self.var1 = tk.IntVar()
-        check1 = ttk.Checkbutton(frameCheck,
-                                 variable=self.var1,
-                                 state='disabled')
-        check1.grid(row=1, column=0)
-        label1 = tk.Label(frameCheck,
-                          text="  - AdvOption1")
-        label1.grid(row=1, column=1, sticky="w")
+        #label0 = tk.Label(frameCheck,
+                          #text="Coming Soon")
+        #label0.grid(row=0, column=0, columnspan=2)
 
+        ### CSS Frame
         ###
-        self.var2 = tk.IntVar()
-        check2 = ttk.Checkbutton(frameCheck,
-                                 variable=self.var2,
-                                 state='disabled')
-        check2.grid(row=2, column=0)
-        label2 = tk.Label(frameCheck,
-                          text="  - AdvOption2")
-        label2.grid(row=2, column=1, sticky="w")
-
-        ###
-        self.var3 = tk.IntVar()
-        check3 = ttk.Checkbutton(frameCheck,
-                                 variable=self.var3,
-                                 state='disabled')
-        check3.grid(row=3, column=0)
-        label3 = tk.Label(frameCheck,
-                          text="  - AdvOption3")
-        label3.grid(row=3, column=1, sticky="w")
+        frameCSS = css_config_to_gui(self, controller, backend.CSS_CONFIG)
         
         ### MODE Frame
         ###
@@ -279,6 +258,8 @@ class PageOne(tk.Frame):
         ### Pack frames
         self.frameHead.pack()
         frameCheck.pack()
+        #canvasCSS.pack(fill="both", expand=True)
+        frameCSS.pack(fill="both", expand=True, padx=10)
         frameConfirm.pack(pady=(7, 20), side="bottom")
         frameMode.pack(pady=(2, 0), side="bottom")
 
@@ -341,6 +322,7 @@ class PageTwo(tk.Frame):
         frameMode.pack(pady=(2, 0), side="bottom")
 
 ### FRAME functions
+### ================================
 def head_frame(self, controller):
     ### HEAD FRAME
     ###
@@ -387,30 +369,35 @@ def confirm_frame(self):
                  )
     button2.grid(row=0, column=1, padx=5)
     return frameConfirm
-
+### ================================
 
 ### Redirect StdOut
-
+### ================================
 class IORedirector(object):
     def __init__(self, text_area):
         self.text_area = text_area
 
 class StdoutRedirector(IORedirector):
     def write(self, text):
+        self.text_area.config(state='normal')
         self.text_area.config(foreground="black")
         self.text_area.insert(tk.END, text)
+        self.text_area.config(state='disabled')
     def flush(self):
         pass
 
 class StderrRedirector(IORedirector):
     def write(self, text):
+        self.text_area.config(state='normal')
         self.text_area.config(foreground="red")
         self.text_area.insert(tk.END, text)
+        self.text_area.config(state='disabled')
     def flush(self):
         pass
-
+### ================================
 
 ### Checkbox Validation - Disable
+### ================================
 def css_cb_check(event, var1, check2, check3):
     if var1.get() == 0:
         check2.config(state='enabled')
@@ -426,13 +413,16 @@ def init_cb_check(var1, check2, check3):
     else:
         check2.config(state='disabled')
         check3.config(state='disabled')
+### ================================
 
+        
 ### INSTALL Functions
         
    
 
 
 ### RELOAD Functions
+### ================================
 def reload_click(event):
     backend.load_css_options()
     run_js_tweaker()
@@ -463,7 +453,7 @@ def change_image(label, filename):
     img = open_img(filename)
     label.configure(image=img)
     label.image = img
-
+### ================================
 
 ### Map config values to selected checkboxes
 CONFIG_MAP = {"InstallCSSTweaks" : "var1",
@@ -474,16 +464,21 @@ CONFIG_MAP = {"InstallCSSTweaks" : "var1",
 
         
 def get_settings_from_gui(event, page):
-    settings = []
-    for key in CONFIG_MAP:
-        print(page.getCheckbuttonVal(CONFIG_MAP[key]).get())
-        if page.getCheckbuttonVal(CONFIG_MAP[key]).get() == 1:
-            settings.append(key)
-            #print(key)
-    #print("ARRAY ")
-    #print(settings)
-
-
+    try:
+        settings = []
+        for key in CONFIG_MAP:
+            #print(page.getCheckbuttonVal(CONFIG_MAP[key]).get())
+            if page.getCheckbuttonVal(CONFIG_MAP[key]).get() == 1:
+                settings.append(key)
+                #print(key)
+        #print("ARRAY ")
+        print(settings)
+        settings_to_apply = backend.validate_settings(settings)
+        backend.apply_settings(settings_to_apply)
+    except FileNotFoundError:
+        pass
+        #print("libraryroot.custom.css not found", file=sys.stderr)
+        
 ### Initialisation
 def set_selected_from_config(page):
     
@@ -501,6 +496,117 @@ def set_selected_from_config(page):
                 page.getCheckbuttonVal(CONFIG_MAP[key]).set(1)
         else :
             None
+
+### CSS Config to GUI
+def css_config_to_gui(self, controller, config):
+    ###Outer frame and canvas
+    frameCSSOuter = tk.Frame(self)
+    
+    canvasCSS = tk.Canvas(frameCSSOuter, highlightthickness=0, yscrollincrement=10) #remove highlight black border wtf
+    canvasCSS.pack(side="left")
+    #canvasCSS.grid(row=0, column=0, padx=10, sticky="nsew")
+    
+
+    ### Scrollbar
+    scroll_1 = ttk.Scrollbar(frameCSSOuter, command=canvasCSS.yview)
+    scroll_1.pack(side="right", fill="y")
+    #scroll_1.grid(row=0, column=1, sticky="nsew")
+    canvasCSS.configure(yscrollcommand=scroll_1.set)
+    canvasCSS.bind('<Configure>', lambda e: canvasCSS.configure(scrollregion = canvasCSS.bbox('all')))
+    
+    ### Inner frame
+    frameCSS = tk.Frame(canvasCSS)
+    canvasCSS.create_window((0,0), window=frameCSS, anchor="nw")
+    canvasCSS.pack(fill=BOTH, expand=YES)
+    
+    ### Section title font
+    sectionfont = controller.default_font.copy()
+    sectionfont.configure(underline=1)
+    
+    ### Populate config
+    labels = []
+    row = -1
+    
+    for i, section in enumerate(config):
+        row += 1
+        label = tk.Label(frameCSS,
+                          text=section,
+                         font=sectionfont,
+                         fg='blue')
+        label.grid(row=row, column=0)
+        labels.append(label)
+        
+        labelgroup = []
+        for j, prop in enumerate(config[section]):
+            #print(config[section][prop]['options'])
+            propDict = config[section][prop]
+            frameCSSSection = create_css_config_row(prop, propDict, frameCSS)
+            row += 1
+
+            
+            #propObject = create_css_config_row(prop, propDict, frameCSSSection)
+            #propObject.grid(row=j, column=0)
+            ###
+
+            
+            frameCSSSection.grid(row=row, column=0, padx=(15, 0))
+    
+    return frameCSSOuter
+
+
+###Structure of CSS config as follows
+###config       > section       > prop              > attr
+###CSS_CONFIG   > "What's New"  > "--WhatsNewOrder" > "desc" 
+def create_css_config_row(propName, propDict, parentFrame):
+    frameCSSRow = tk.Frame(parentFrame)
+    try:
+        
+        label = tk.Label(frameCSSRow,
+                          text=propName,anchor='w',width=25)
+        tip = Hovertip(label, formatted_hover_text(propDict['default'], propDict['desc']), hover_delay=200)
+        label.grid(row=0, column=0)
+        
+        combobox = ttk.Combobox(frameCSSRow,
+                                font="TkDefaultFont",
+                                 values=get_prop_options_as_array(propDict))
+        combobox.set(propDict['current'])
+        combobox.grid(row=0, column=1)
+        
+        '''
+        var2 = tk.IntVar()
+        check2 = ttk.Checkbutton(frameCSSRow,
+                                 variable=var2)
+        check2.grid(row=0, column=1)
+            #print("WAXOO " + propDict['default'])
+        '''
+    except Exception as e:
+        print(e, file=sys.stderr)
+        print("CSS config in libraryroot.custom.css not configured correctly.\n", file=sys.stderr)
+        print("Either the format of configurable variables is incorrect or this feature is not fully implemented yet.\n", file=sys.stderr)
+
+    return frameCSSRow
+
+def formatted_hover_text(default, desc):
+    return "Default: " + default + ". " + desc
+
+def get_prop_options_as_array(propDict):
+    try:
+        optionsarray = []
+        for option in propDict['options']:
+            optionsarray.append(option)
+        return optionsarray
+    except:
+        print("Options Invalid", file=sys.stderr)
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 def main():
     app = OldGloryApp()

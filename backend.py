@@ -12,6 +12,10 @@ DEFAULT_CONFIG = {"SteamLibraryPath" : "",
 user_config = {}
 
 
+###Structure as follows
+###config       > section       > prop              > attr
+###CSS_CONFIG   > "What's New"  > "--WhatsNewOrder" > "desc" 
+
 CSS_CONFIG = {"What's New" : {
                   "--WhatsNew" : {"default" : "block", "current" : "none",
                        "options": {"block", "none"},
@@ -38,8 +42,8 @@ CSS_CONFIG = {"What's New" : {
                        "desc" : "Set to none to hide left sidebar"}
              },
              "Right Click Context Menu" : {
-                  "--ContextMenuLineHeight" : {"default" : "20px", "current" : "16px",
-                        "options": {"20px", "16px"},
+                  "--ContextMenuLineHeight" : {"default" : "inherit", "current" : "16px",
+                        "options": {"inherit", "16px"},
                         "desc" : "Currently will override very long category names"},
                   "--ContextMenuFontSize" : {"default" : "14px", "current" : "13px",
                         "options": {"14px", "13px"},
@@ -53,14 +57,20 @@ CSS_CONFIG = {"What's New" : {
                        "options": {"0s", "2s", ".4s, .4s, .4s, .2s"},
                        "desc" : "Grid Game Images transition time. 0s for instant, 2s for smooth."},
                   "--GameImageOpacity" : {"default" : "1", "current" : "1",
-                       "options": {'Suggested values for "softer" images: 0.7 or 0.5'},
+                       "options": {"1", "0.7", "0.5"},
                        "desc" : 'Suggested values for "softer" images: 0.7 or 0.5'},
                   "--UninstalledGameImageOpacity" : {"default" : "1", "current" : "0.5",
                        "options": {"1", "0.5", "0.2"},
                        "desc" : "Suggested values: 0.5, 0.2"},
                   "--GameGridImageBackground" : {"default" : "inherit", "current" : "inherit",
                        "options": {"inherit", "#365d2d"},
-                       "desc" : "Default is inherit, set #365d2d for a friendly green"}
+                       "desc" : "Default is inherit, set #365d2d for a friendly green"},
+                  "--GridRowGap" : {"default" : "24px", "current" : "8px",
+                       "options": {"24px", "8px"},
+                       "desc" : "Corresponds with JavaScript tweak - Home Page Grid Spacing."},
+                  "--GridColumnGap" : {"default" : "16px", "current" : "5px",
+                       "options": {"16px", "5px"},
+                       "desc" : "Corresponds with JavaScript tweak - Home Page Grid Spacing."}
              },
              "Game Page Background" : {
                   "--AppPageBlur" : {"default" : "8px", "current" : "2px",
@@ -76,6 +86,13 @@ CSS_CONFIG = {"What's New" : {
                        "desc" : "Leave at 0px, this var is for steam-library compatibility"}
             }}
 
+
+SETTING_MAP = {"InstallCSSTweaks" : "",
+                  "EnablePlayButtonBox" : {"start" : "/* PLAY BAR LAYOUT - BETA */", "end" : "/* END PLAY BAR LAYOUT */"},
+                  "EnableVerticalNavBar" : {"start" : "/* VERTICAL NAV BAR", "end" : "/* END VERTICAL NAV BAR */"},
+                  "EnableClassicLayout" : {"start" : "/* CLASSIC LAYOUT - BETA */", "end" : "/* END CLASSIC LAYOUT */"},
+                  "InstallWithDarkLibrary" : ""
+            }
 def find_library_dir():
     key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
     steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
@@ -109,27 +126,45 @@ def create_config():
     print("TODO", flush=True)
 
 
+### Settings (checkboxes) functions
 def validate_settings(settings):
-    setting_map = {"InstallCSSTweaks" : "1",
-                  "EnablePlayButtonBox" : {"start" : "/* PLAY BAR LAYOUT - BETA */", "end" : "/* END PLAY BAR LAYOUT */"},
-                  "EnableVerticalNavBar" : {"start" : "/* VERTICAL NAV BAR", "end" : "/* END VERTICAL NAV BAR */"},
-                  "EnableClassicLayout" : {"start" : "/* CLASSIC LAYOUT - BETA */", "end" : "/* END CLASSIC LAYOUT */"},
-                  "InstallWithDarkLibrary" : ""
-    }
+    validated_settings = []
+    if "InstallCSSTweaks" not in settings:
+        print("CSS Tweaks not enabled. Nothing will be applied.")
+    elif "InstallCSSTweaks" in settings: #1
+        validated_settings.extend(["InstallCSSTweaks"])
+        if "EnablePlayButtonBox" in settings: #2
+            validated_settings.extend(["EnablePlayButtonBox"])
+        if "EnableClassicLayout" in settings and "EnableVerticalNavBar" in settings: #3 and #4
+            validated_settings.extend(["EnableVerticalNavBar", "EnableClassicLayout"])
+        elif "EnableVerticalNavBar" in settings: #3
+            validated_settings.extend(["EnableVerticalNavBar"])
+        if "InstallWithDarkLibrary" in settings: #5
+            print("DARK STEAM")
+            validated_settings.extend(["InstallWithDarkLibrary"])
+        
 
-    settings = {}
-    #if "InstallCSSTweaks" not in settings:
-    #    break
-    #elif "InstallWithDarkLibrary" in settings
+    print(validated_settings)
+    return validated_settings
 
-
-def write_settings(settings):
+def apply_settings(settings):
     with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
          open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
         for line in f:
             modified = 0
-            
 
+            ###validated_settings currently needs to be in the right order (top to bottom through CSS file)
+
+
+            for setting in settings:
+                #print(SETTING_MAP['EnablePlayButtonBox'] or "BLANK VALUE")
+                print(line)
+                #if SETTING_MAP[setting].start:
+                    #print(SETTING_MAP.setting.start or "BLANK VALUE")
+                #if SETTING_MAP[setting]["start"] in line:
+                    #print("FOUND | " + line)
+                #print(line, end="")
+            
             '''
             for setting in settings:
                 if fix in line:
@@ -183,10 +218,13 @@ def css_line_parser(line):
     try:
         if line.lstrip()[:2] == "/*":
             print("SECTION")
+        elif line.lstrip()[:1] == "}":
+            pass
         else:
-            name = line.split(":")
-            print(name[0] + "  |  " + name[1])
-            #print("YOU HAVE " + name[1])
+            name = line.split(":", 1)
+            value = name[1].split(";")
+            desc = value[1].lstrip()
+            print(name[0] + "  |  " + value[0] + "  |  " + desc)
     except:
         print("Some error at: " + line)
 
