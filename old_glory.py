@@ -383,7 +383,8 @@ class StdoutRedirector(IORedirector):
         self.text_area.config(state='normal')
         self.text_area.config(foreground="black")
         self.text_area.insert(tk.END, text)
-        self.text_area.config(state='disabled')
+        self.text_area.yview_pickplace("end")
+        self.text_area.config(state='disabled')        
     def flush(self):
         pass
 
@@ -392,9 +393,16 @@ class StderrRedirector(IORedirector):
         self.text_area.config(state='normal')
         self.text_area.config(foreground="red")
         self.text_area.insert(tk.END, text)
-        self.text_area.config(state='disabled')
+        self.text_area.yview_pickplace("end")
+        self.text_area.config(state='disabled')        
     def flush(self):
         pass
+
+def scroll_to_bottom(text_area):
+    last_char_visible = text_area.bbox("end-1c")
+    if last_char_visible:
+        text_area.see(tk.END)
+    
 ### ================================
 
 ### Checkbox Validation - Disable
@@ -426,32 +434,20 @@ def init_cb_check(var1, check2, check3):
 ### ================================
 def reload_click(event):
     backend.load_css_options()
+    print(event.widget)
     run_js_tweaker()
     
 def run_js_tweaker():
     ###with open('js_tweaker.py') as source_file:
     try:
+        print("==================")
         print("Running js_tweaker")
-        os.system('python js_tweaker.py')
-        
-        '''
-        popen = subprocess.Popen(js_tweaker.main(), stdin=subprocess.PIPE,
-                                         stdout=subprocess.PIPE,
-                                         stderr=subprocess.PIPE)
-        for stdout_line in iter(popen.stdout.readline, ""):
-            yield stdout_line 
-        popen.stdout.close()
-        return_code = popen.wait()
-        if return_code:
-            raise subprocess.CalledProcessError(return_code, cmd)
-        '''
-        
-        '''
         ### REDIRECT STDOUT STDERR
-        f = io.StringIO()
-        with contextlib.redirect_stdout(f):
-            js_tweaker.main()
-        '''      
+        #f = io.StringIO()
+        #with contextlib.redirect_stdout(f):
+        event.widget.update_idletasks()
+        js_tweaker.main()
+              
     except Exception as e:
         print(e, file=sys.stderr)
 
