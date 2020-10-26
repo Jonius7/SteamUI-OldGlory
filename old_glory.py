@@ -432,14 +432,26 @@ def run_js_tweaker():
     ###with open('js_tweaker.py') as source_file:
     try:
         print("Running js_tweaker")
-        #os.system('python js_tweaker.py')
-        #exec(open('./js_tweaker.py').read())
-
+        os.system('python js_tweaker.py')
+        
+        '''
+        popen = subprocess.Popen(js_tweaker.main(), stdin=subprocess.PIPE,
+                                         stdout=subprocess.PIPE,
+                                         stderr=subprocess.PIPE)
+        for stdout_line in iter(popen.stdout.readline, ""):
+            yield stdout_line 
+        popen.stdout.close()
+        return_code = popen.wait()
+        if return_code:
+            raise subprocess.CalledProcessError(return_code, cmd)
+        '''
+        
+        '''
         ### REDIRECT STDOUT STDERR
         f = io.StringIO()
         with contextlib.redirect_stdout(f):
             js_tweaker.main()
-        
+        '''      
     except Exception as e:
         print(e, file=sys.stderr)
 
