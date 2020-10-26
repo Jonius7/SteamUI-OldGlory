@@ -4,11 +4,12 @@ from tkinter import ttk
 from idlelib.tooltip import *
 from PIL import ImageTk, Image
 import sys
-#import contextlib, io
-import io
+import contextlib, io
+#import io
 import backend
 import js_tweaker
 import os
+import subprocess
 
 
 class OldGloryApp(tk.Tk):
@@ -371,7 +372,7 @@ def confirm_frame(self):
     return frameConfirm
 ### ================================
 
-### Redirect StdOut
+### Redirect Stdout, Stderr
 ### ================================
 class IORedirector(object):
     def __init__(self, text_area):
@@ -429,8 +430,18 @@ def reload_click(event):
     
 def run_js_tweaker():
     ###with open('js_tweaker.py') as source_file:
-    os.system('python js_tweaker.py')
-    print("running, but not")
+    try:
+        print("Running js_tweaker")
+        #os.system('python js_tweaker.py')
+        #exec(open('./js_tweaker.py').read())
+
+        ### REDIRECT STDOUT STDERR
+        f = io.StringIO()
+        with contextlib.redirect_stdout(f):
+            js_tweaker.main()
+        
+    except Exception as e:
+        print(e, file=sys.stderr)
 
 ### Image Functions
 

@@ -119,7 +119,8 @@ def load_config():
                         (key, val) = line.rstrip().replace(" ", "").split("=")
                         config_dict[key] = val
                     except Exception as e:
-                        print("Error with line in config: " + line + " Skipping.", file=sys.stderr)               
+                        print("Error with line in config: " + line + " Skipping.", file=sys.stderr)
+        fi.close()
     return config_dict  
 
 def create_config():
