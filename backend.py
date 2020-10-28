@@ -145,7 +145,7 @@ def validate_settings(settings):
             validated_settings.extend(["InstallWithDarkLibrary"])
         
 
-    print(validated_settings)
+    #print(validated_settings)
     return validated_settings
 
 def apply_settings(settings):
@@ -155,13 +155,16 @@ def apply_settings(settings):
             modified = 0
 
             ###validated_settings currently needs to be in the right order (top to bottom through CSS file)
+            print(settings)
 
-
+            #if any(setting in line for setting in settings):
+            #    print(line)
             for setting in settings:
-                #print(SETTING_MAP['EnablePlayButtonBox'] or "BLANK VALUE")
-                print(line)
-                #if SETTING_MAP[setting].start:
-                    #print(SETTING_MAP.setting.start or "BLANK VALUE")
+                #print(SETTING_MAP[setting] or "BLANK VALUE")
+                #print(line)
+                print('start' in SETTING_MAP[setting])
+                #if SETTING_MAP[setting]['start']:
+                #    print(SETTING_MAP[setting]['start'] or "BLANK VALUE")
                 #if SETTING_MAP[setting]["start"] in line:
                     #print("FOUND | " + line)
                 #print(line, end="")

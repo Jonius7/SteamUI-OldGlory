@@ -145,22 +145,22 @@ class StartPage(tk.Frame):
 
         ### Text
         entry1 = ttk.Entry(frameLog)
-        text1 = tk.Text(entry1, height=12)
-        text1.configure(font=("Arial",10))
-        ###text1.insert(tk.END, "Start\r\n")
-        text1.tag_configure("err", foreground="red")
+        self.text1 = tk.Text(entry1, height=12)
+        self.text1.configure(font=("Arial",10))
+        ###self.text1.insert(tk.END, "Start\r\n")
+        self.text1.tag_configure("err", foreground="red")
 
         ### REDIRECT STDOUT STDERR
-        sys.stdout = StdoutRedirector(text1)
-        sys.stderr = StderrRedirector(text1)
+        sys.stdout = StdoutRedirector(self.text1)
+        sys.stderr = StderrRedirector(self.text1)
         
-        text1.pack()
+        self.text1.pack()
         entry1.grid(row=0, column=0)
         
         ###
-        scroll_1 = ttk.Scrollbar(frameLog, command=text1.yview)
+        scroll_1 = ttk.Scrollbar(frameLog, command=self.text1.yview)
         scroll_1.grid(row=0, column=1, sticky='ns')
-        text1['yscrollcommand'] = scroll_1.set
+        self.text1['yscrollcommand'] = scroll_1.set
         
 
         ### MODE FRAME
@@ -193,7 +193,7 @@ class StartPage(tk.Frame):
 
         ### Set GUI from config
         set_selected_from_config(self)
-        text1.config(state='disabled')
+        self.text1.config(state='disabled')
         init_cb_check(self.var1, check2, check3)
         init_cb_check(self.var3, check4, check4)
 
@@ -366,7 +366,7 @@ def confirm_frame(self):
                        ###state='disabled'
     )
     button2.bind("<Button-1>",
-                 lambda event:reload_click(event)
+                 lambda event:reload_click(event, self.text1)
                  )
     button2.grid(row=0, column=1, padx=5)
     return frameConfirm
@@ -407,6 +407,7 @@ def scroll_to_bottom(text_area):
 
 ### Checkbox Validation - Disable
 ### ================================
+### may rewrite, so array of checkboxes instead of separate arguments
 def css_cb_check(event, var1, check2, check3):
     if var1.get() == 0:
         check2.config(state='enabled')
@@ -432,12 +433,12 @@ def init_cb_check(var1, check2, check3):
 
 ### RELOAD Functions
 ### ================================
-def reload_click(event):
+def reload_click(event, text_area):
     backend.load_css_options()
-    print(event.widget)
-    run_js_tweaker()
+    print(text_area)
+    run_js_tweaker(text_area)
     
-def run_js_tweaker():
+def run_js_tweaker(text_area):
     ###with open('js_tweaker.py') as source_file:
     try:
         print("==================")
@@ -445,8 +446,20 @@ def run_js_tweaker():
         ### REDIRECT STDOUT STDERR
         #f = io.StringIO()
         #with contextlib.redirect_stdout(f):
-        event.widget.update_idletasks()
-        js_tweaker.main()
+        text_area.update_idletasks()
+
+        ###
+        js_tweaker.beautify_js()
+        text_area.update_idletasks()
+        js_tweaker.setup_library()
+        text_area.update_idletasks()
+        js_tweaker.parse_fixes_file("fixes.txt")
+        text_area.update_idletasks()
+        js_tweaker.write_modif_file()
+        text_area.update_idletasks()
+        js_tweaker.re_minify_file()
+        text_area.update_idletasks()
+        print("\nSteam Library JS Tweaks applied successfully.")
               
     except Exception as e:
         print(e, file=sys.stderr)
@@ -491,8 +504,10 @@ def get_settings_from_gui(event, page):
                 settings.append(key)
                 #print(key)
         #print("ARRAY ")
-        print(settings)
         settings_to_apply = backend.validate_settings(settings)
+        print(settings_to_apply)
+        print("Applying settings...")
+        page.text1.update_idletasks()
         backend.apply_settings(settings_to_apply)
     except FileNotFoundError:
         pass
@@ -589,7 +604,7 @@ def create_css_config_row(propName, propDict, parentFrame):
                                 font="TkDefaultFont",
                                  values=get_prop_options_as_array(propDict))
         combobox.set(propDict['current'])
-        combobox.grid(row=0, column=1)
+        combobox.grid(row=0, column=1, pady=1)
         
         '''
         var2 = tk.IntVar()
