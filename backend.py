@@ -4,6 +4,7 @@ import sys
 
 DEFAULT_CONFIG = {"SteamLibraryPath" : "",
                   "PatcherPath" : "",
+                  "" : "",
                   "InstallCSSTweaks" : "1",
                   "EnablePlayButtonBox" : "0",
                   "EnableVerticalNavBar" : "0",
@@ -111,7 +112,7 @@ def load_config():
         create_config()
         return DEFAULT_CONFIG
     else :
-        with open ("oldglory_config.cfg", newline='', encoding="UTF-8") as fi:
+        with open("oldglory_config.cfg", newline='', encoding="UTF-8") as fi:
             lines = filter(None, (line.rstrip() for line in fi))
             for line in lines:
                 if not line.startswith('###'):
@@ -124,7 +125,13 @@ def load_config():
     return config_dict  
 
 def create_config():
-    print("TODO", flush=True)
+    with open("oldglory_config.cfg", "w", newline='', encoding="UTF-8") as config_file:
+        for config in DEFAULT_CONFIG:
+            line_to_write = config + "=" + DEFAULT_CONFIG[config] + "\n"
+            if line_to_write == "=\n":
+                line_to_write = "\n"
+            config_file.write(line_to_write)
+    config_file.close()
 
 
 ### Settings (checkboxes) functions
@@ -153,21 +160,20 @@ def apply_settings(settings):
          open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
         for line in f:
             modified = 0
-
-            ###validated_settings currently needs to be in the right order (top to bottom through CSS file)
-            print(settings)
-
-            #if any(setting in line for setting in settings):
-            #    print(line)
             for setting in settings:
-                #print(SETTING_MAP[setting] or "BLANK VALUE")
-                #print(line)
-                print('start' in SETTING_MAP[setting])
-                #if SETTING_MAP[setting]['start']:
-                #    print(SETTING_MAP[setting]['start'] or "BLANK VALUE")
-                #if SETTING_MAP[setting]["start"] in line:
-                    #print("FOUND | " + line)
-                #print(line, end="")
+                if 'start' in SETTING_MAP[setting]:
+                    start_string = SETTING_MAP[setting]['start']
+                    end_string = SETTING_MAP[setting]['end']
+                    if start_string in line:
+                        if start_string + "/*" in line:
+                            print("CSS Start commented out")
+                        else:
+                            print("CSS Start not commented out (enabled)")
+                    if end_string in line:
+                        if "*/" + end_string in line:
+                            print("CSS End commented out")
+                        else:
+                            print("CSS End not commented out (enabled)")
             
             '''
             for setting in settings:
@@ -188,7 +194,7 @@ def load_css_options():
 
     loaded_css_config = {}
     
-    with open('libraryroot.custom.css') as infile:
+    with open('libraryroot.custom.css', newline='', encoding="UTF-8") as infile:
         lines = filter(None, (line.rstrip() for line in infile))
         prevline = ""
         startreading = 0

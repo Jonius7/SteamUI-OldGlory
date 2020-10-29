@@ -509,6 +509,7 @@ def get_settings_from_gui(event, page):
         print("Applying settings...")
         page.text1.update_idletasks()
         backend.apply_settings(settings_to_apply)
+        print("Settings applied.")
     except FileNotFoundError:
         pass
         #print("libraryroot.custom.css not found", file=sys.stderr)

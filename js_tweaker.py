@@ -106,6 +106,7 @@ def error_exit(errormsg):
     sys.exit()
     
 def main():
+    print("JS Tweaker for Steam Library UI by Jonius7\n")
     beautify_js()
     setup_library()
     parse_fixes_file("fixes.txt")
