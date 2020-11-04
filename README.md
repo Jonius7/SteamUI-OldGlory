@@ -78,11 +78,12 @@ Required libraries: `jsbeautifier`, `jsmin`
 ## Quick Links
 
 - [Video Guide](https://www.youtube.com/watch?v=7_3e9j8FFv8)
+- [SteamUI-OldGlory Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki)
 - [GIF of tweaks](https://gyazo.com/38d0101b493741501697b4a0f5f0818f)
-- [More DLC and Screenshots, more info!](https://imgur.com/a/3WTdrXP)
-- [JS Tweaks](https://imgur.com/a/mL4QNYB)
-- [Is Steam Grid View Back?](https://imgur.com/gallery/qcIHx0l)
-- [Steam List View Proof of Concept](https://imgur.com/a/ZqvqrkR)
+- [(Images) More DLC and Screenshots, more info!](https://imgur.com/a/3WTdrXP)
+- [(Images) JS Tweaks](https://imgur.com/a/mL4QNYB)
+- [(Images) Is Steam Grid View Back?](https://imgur.com/gallery/qcIHx0l)
+- [(Images) Steam List View Proof of Concept](https://imgur.com/a/ZqvqrkR)
 - [Steam Discussions](https://steamcommunity.com/discussions/forum/0/2451595019863406679/)
 
 
@@ -143,6 +144,8 @@ If you want to remove **steam-library's** changes, go into `libraryroot.custom.c
 #### For more details, go to [Story](docs/story.md).
 
 #### [CSS Changelog](docs/CSS%20Changelog.md)
+
+#### [SteamUI-OldGlory Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki)
 
 #### Debugging Steam Library Yourself
 
