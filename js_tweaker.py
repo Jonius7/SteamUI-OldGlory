@@ -10,6 +10,7 @@ import time
 
    
 swap_js = {'"libraryroot"}[n=u]||n': '"libraryreet"}[n=u]||n'}
+swapback_js = {'"libraryreet"}[n=u]||n': '"libraryroot"}[n=u]||n'}
 
 fixes_dict = {}
 
@@ -27,17 +28,37 @@ def beautify_js():
 
 #modify library.js to look for different libraryroot.js file
 def setup_library():
-    lines = []
-    with open('library.js') as infile:
-        for line in infile:
-            for src, target in swap_js.items():
-                line = line.replace(src, target)
-            lines.append(line)
-    with open('library.js', 'w') as outfile:
-        for line in lines:
-            outfile.write(line)
-    infile.close()
-    outfile.close()
+    try:
+        lines = []
+        with open('library.js') as infile:
+            for line in infile:
+                for src, target in swap_js.items():
+                    line = line.replace(src, target)
+                lines.append(line)
+        with open('library.js', 'w') as outfile:
+            for line in lines:
+                outfile.write(line)
+        infile.close()
+        outfile.close()
+    except:
+        error_exit("library.js not found")
+
+#revert library.js to use original libraryroot.js file
+def revert_library():
+    try:
+        lines = []
+        with open('library.js') as infile:
+            for line in infile:
+                for src, target in swapback_js.items():
+                    line = line.replace(src, target)
+                lines.append(line)
+        with open('library.js', 'w') as outfile:
+            for line in lines:
+                outfile.write(line)
+        infile.close()
+        outfile.close()
+    except:
+        error_exit("library.js not found")
 
 def parse_fixes_file(filename):
     print("Finding Fixes...\n")
