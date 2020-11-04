@@ -44,7 +44,7 @@ class OldGloryApp(tk.Tk):
         )
 
         ### Styling Combobox dropdown
-        self.option_add("*TCombobox*Listbox*font", (self.default_font)),
+        self.option_add("*TCombobox*Listbox*font", (self.default_font))
         
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
@@ -83,7 +83,7 @@ class StartPage(tk.Frame):
         label1 = tk.Label(frameCheck,
                           text="Install CSS Tweaks (SteamUI-OldGlory)")
         label1.bind("<Button-1>", lambda event:change_image(image1, resource_path('buttons_before_after.png')))
-        label1.grid(row=0, column=1, sticky="w")
+        label1.grid(row=0, column=1, columnspan=2, sticky="w")
 
         ###
         self.var2 = tk.IntVar()
@@ -94,11 +94,11 @@ class StartPage(tk.Frame):
         label2 = tk.Label(frameCheck,
                           text="  - Box Play Button")
         label2.bind("<Button-1>", lambda event:change_image(image1, resource_path('play_button_box.png')))
-        label2.grid(row=1, column=1, sticky="w")
+        label2.grid(row=1, column=1, columnspan=2, sticky="w")
         
         ###
         image1 = add_img(frameCheck, resource_path('buttons_before_after.png'))
-        image1.grid(row=0, column=2, rowspan=6, padx=5, sticky="n")
+        image1.grid(row=0, column=3, rowspan=6, padx=5, sticky="n")
         
         ###
         self.var3 = tk.IntVar()
@@ -110,7 +110,7 @@ class StartPage(tk.Frame):
         label3 = tk.Label(frameCheck,
                           text="  - Vertical Nav Bar")
         label3.bind("<Button-1>", lambda event:change_image(image1, resource_path('vertical_nav_bar.png')))
-        label3.grid(row=2, column=1, sticky="w")
+        label3.grid(row=2, column=1, columnspan=2, sticky="w")
         
         ###
         self.var4 = tk.IntVar()
@@ -122,7 +122,7 @@ class StartPage(tk.Frame):
         label4 = tk.Label(frameCheck,
                           text="    - Classic Layout")
         label4.bind("<Button-1>", lambda event:change_image(image1, resource_path('classic_layout.png')))
-        label4.grid(row=3, column=1, sticky="w")
+        label4.grid(row=3, column=1, columnspan=2, sticky="w")
         
         ###
         self.var5 = tk.IntVar()
@@ -130,13 +130,20 @@ class StartPage(tk.Frame):
                                  variable=self.var5)
         check5.grid(row=4, column=0)
         label5 = tk.Label(frameCheck,
-                          text="Install with Dark Library (steam-library)")
+                          text="Dark Library Theme")
         label5.bind("<Button-1>", lambda event:change_image(image1, resource_path('dark_steam_library.png')))
         label5.grid(row=4, column=1, sticky="w")
 
+        self.dropdown5 = ttk.Combobox(frameCheck,
+                                 font="TkDefaultFont",
+                                 values=["steam-library by Shiina","Dark Library by Thespikedballofdoom"])
+        self.dropdown5.bind('<ButtonPress>', lambda event:self.dropdown_configure())
+        self.dropdown5.grid(row=5, column=1, sticky="w")
+        
+        
         ###
         label_end = tk.Label(frameCheck, height=3)
-        label_end.grid(row=5, column=0, columnspan=2)
+        label_end.grid(row=6, column=0, columnspan=2)
 
 
         ### LOG FRAME
@@ -208,6 +215,22 @@ class StartPage(tk.Frame):
         return getattr(self, getter)
     def getTextArea(self, getter):
         return getattr(self, getter)
+
+    def dropdown_configure(event):
+        #width = 10
+        #style = ttk.Style()
+        #style.configure('TCombobox', postoffset=(0,0,width,0))
+        combo = event.dropdown5
+        style = ttk.Style()
+
+        long = max(combo.cget('values'), key=len)
+        print("LONG" + long)
+
+        font = TkFont.nametofont(str(combo.cget('font')))
+        width = max(0,font.measure(long.strip() + '0') - combo.winfo_width())
+        print(width)
+
+        style.configure('TCombobox', postoffset=(0,0,width,0))
 
 class PageOne(tk.Frame):
     def __init__(self, parent, controller):
@@ -502,13 +525,17 @@ def get_settings_from_gui(event, page):
         #print("ARRAY ")
         settings_to_apply = backend.validate_settings(settings)
         print(settings_to_apply)
-        print("Applying settings...")
-        page.text1.update_idletasks()
-        backend.apply_settings(settings_to_apply)
-        print("Settings applied.")
+        #applying settings
+        apply_settings_from_gui(page, settings_to_apply)
     except FileNotFoundError:
         pass
         #print("libraryroot.custom.css not found", file=sys.stderr)
+
+def apply_settings_from_gui(page, settings_to_apply):
+    print("Applying settings...")
+    page.text1.update_idletasks()
+    backend.apply_settings(settings_to_apply)
+    print("Settings applied.")
         
 ### Initialisation
 def set_selected_from_config(page):

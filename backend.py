@@ -1,6 +1,9 @@
 import winreg
+import platform
 import os.path
 import sys
+
+OS_TYPE = platform.system()
 
 DEFAULT_CONFIG = {"SteamLibraryPath" : "",
                   "PatcherPath" : "",
@@ -95,11 +98,16 @@ SETTING_MAP = {"InstallCSSTweaks" : "",
                   "InstallWithDarkLibrary" : ""
             }
 def find_library_dir():
-    key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
-    steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
-    print(steam_path)
-    steamui_path = steam_path.replace("/","\\") + "\steamui"
-    print(steamui_path)
+    steamui_path = ""
+    if OS_TYPE == "Windows":
+        key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
+        steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
+        steamui_path = steam_path.replace("/","\\") + "\steamui"
+        print(steamui_path)
+    elif OS_TYPE ==  "Darwin":
+        steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "\steamui"
+    elif OS_TYPE ==  "Linux":
+        steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "\steamui"
     return steamui_path
 
 
@@ -242,5 +250,5 @@ def css_line_parser(line):
 
 
 #temp
-def css_root_writer():
+def css_root_writer(line):
     print ('w')
