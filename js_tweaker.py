@@ -1,7 +1,6 @@
 #JS Tweaker for Steam Library UI by Jonius7
 #libraries needed: jsbeautifier, jsmin
 
-
 import jsbeautifier
 import os.path
 import sys
@@ -25,31 +24,20 @@ def beautify_js():
         f.close()
         print("Beautified file write finished")
 
-
 #modify library.js to look for different libraryroot.js file
 def setup_library():
-    try:
-        lines = []
-        with open('library.js') as infile:
-            for line in infile:
-                for src, target in swap_js.items():
-                    line = line.replace(src, target)
-                lines.append(line)
-        with open('library.js', 'w') as outfile:
-            for line in lines:
-                outfile.write(line)
-        infile.close()
-        outfile.close()
-    except:
-        error_exit("library.js not found")
+    modify_library(swap_js)
 
 #revert library.js to use original libraryroot.js file
 def revert_library():
+    modify_library(swapback_js)
+    
+def modify_library(swap_js_array):
     try:
         lines = []
         with open('library.js') as infile:
             for line in infile:
-                for src, target in swapback_js.items():
+                for src, target in swap_js_array.items():
                     line = line.replace(src, target)
                 lines.append(line)
         with open('library.js', 'w') as outfile:
