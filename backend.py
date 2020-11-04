@@ -166,14 +166,14 @@ def apply_settings(settings):
                     end_string = SETTING_MAP[setting]['end']
                     if start_string in line:
                         if start_string + "/*" in line:
-                            print("CSS Start commented out")
+                            print(setting + " CSS Start commented out")
                         else:
-                            print("CSS Start not commented out (enabled)")
+                            print(setting + " CSS Start not commented out (enabled)")
                     if end_string in line:
                         if "*/" + end_string in line:
-                            print("CSS End commented out")
+                            print(setting + " CSS End commented out")
                         else:
-                            print("CSS End not commented out (enabled)")
+                            print(setting + " CSS End not commented out (enabled)")
             
             '''
             for setting in settings:
@@ -227,9 +227,11 @@ def css_line_parser(line):
     ###print("TODO", file=sys.stdout)
     try:
         if line.lstrip()[:2] == "/*":
-            print("SECTION")
-        elif line.lstrip()[:1] == "}":
+            print("SECTION | " + line.lstrip()[3:-3])
+        elif line.lstrip()[:5] == ":root":
             pass
+        elif line.lstrip()[:1] == "}":
+            pass        
         else:
             name = line.split(":", 1)
             value = name[1].split(";")
@@ -238,3 +240,7 @@ def css_line_parser(line):
     except:
         print("Some error at: " + line)
 
+
+#temp
+def css_root_writer():
+    print ('w')

@@ -147,7 +147,6 @@ class StartPage(tk.Frame):
         entry1 = ttk.Entry(frameLog)
         self.text1 = tk.Text(entry1, height=12)
         self.text1.configure(font=("Arial",10))
-        ###self.text1.insert(tk.END, "Start\r\n")
         self.text1.tag_configure("err", foreground="red")
 
         ### REDIRECT STDOUT STDERR
@@ -443,9 +442,6 @@ def run_js_tweaker(text_area):
     try:
         print("==================")
         print("Running js_tweaker")
-        ### REDIRECT STDOUT STDERR
-        #f = io.StringIO()
-        #with contextlib.redirect_stdout(f):
         text_area.update_idletasks()
 
         ###
