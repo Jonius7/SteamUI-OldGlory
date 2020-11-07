@@ -4,8 +4,7 @@ from tkinter import ttk
 from idlelib.tooltip import *
 from PIL import ImageTk, Image
 import sys
-import contextlib, io
-#import io
+import io
 import backend
 import js_tweaker
 import os
@@ -81,7 +80,8 @@ class StartPage(tk.Frame):
         check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, check2, check3))
         check1.grid(row=0, column=0)
         label1 = tk.Label(frameCheck,
-                          text="Install CSS Tweaks (SteamUI-OldGlory)")
+                          text="Install CSS Tweaks (SteamUI-OldGlory)",
+                          cursor="hand2")
         label1.bind("<Button-1>", lambda event:change_image(image1, resource_path('buttons_before_after.png')))
         label1.grid(row=0, column=1, columnspan=2, sticky="w")
 
@@ -92,13 +92,14 @@ class StartPage(tk.Frame):
                                  state='disabled')
         check2.grid(row=1, column=0)
         label2 = tk.Label(frameCheck,
-                          text="  - Box Play Button")
+                          text="  - Box Play Button",
+                          cursor="hand2")
         label2.bind("<Button-1>", lambda event:change_image(image1, resource_path('play_button_box.png')))
         label2.grid(row=1, column=1, columnspan=2, sticky="w")
         
         ###
         image1 = add_img(frameCheck, resource_path('buttons_before_after.png'))
-        image1.grid(row=0, column=3, rowspan=6, padx=5, sticky="n")
+        image1.grid(row=0, column=3, rowspan=7, padx=5, sticky="n")
         
         ###
         self.var3 = tk.IntVar()
@@ -108,7 +109,8 @@ class StartPage(tk.Frame):
         check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, check4, check4))
         check3.grid(row=2, column=0)
         label3 = tk.Label(frameCheck,
-                          text="  - Vertical Nav Bar")
+                          text="  - Vertical Nav Bar",
+                          cursor="hand2")
         label3.bind("<Button-1>", lambda event:change_image(image1, resource_path('vertical_nav_bar.png')))
         label3.grid(row=2, column=1, columnspan=2, sticky="w")
         
@@ -120,7 +122,8 @@ class StartPage(tk.Frame):
                                  )
         check4.grid(row=3, column=0)
         label4 = tk.Label(frameCheck,
-                          text="    - Classic Layout")
+                          text="    - Classic Layout",
+                          cursor="hand2")
         label4.bind("<Button-1>", lambda event:change_image(image1, resource_path('classic_layout.png')))
         label4.grid(row=3, column=1, columnspan=2, sticky="w")
         
@@ -130,19 +133,24 @@ class StartPage(tk.Frame):
                                  variable=self.var5)
         check5.grid(row=4, column=0)
         label5 = tk.Label(frameCheck,
-                          text="Dark Library Theme")
+                          text="Dark Library Theme",
+                          cursor="hand2")
         label5.bind("<Button-1>", lambda event:change_image(image1, resource_path('dark_steam_library.png')))
         label5.grid(row=4, column=1, sticky="w")
 
+        self.dropdown5_value = tk.IntVar()
         self.dropdown5 = ttk.Combobox(frameCheck,
                                  font="TkDefaultFont",
-                                 values=["steam-library by Shiina","Dark Library by Thespikedballofdoom"])
-        self.dropdown5.bind('<ButtonPress>', lambda event:self.dropdown_configure())
+                                 values=["steam-library (Shiina)","Dark Library (Thespikedballofdoom)"],
+                                 state="readonly",
+                                 textvariable=self.dropdown5_value,
+                                 width=30)
+        self.dropdown5.current(0)
         self.dropdown5.grid(row=5, column=1, sticky="w")
         
         
         ###
-        label_end = tk.Label(frameCheck, height=3)
+        label_end = tk.Label(frameCheck, height=2)
         label_end.grid(row=6, column=0, columnspan=2)
 
 
@@ -162,7 +170,7 @@ class StartPage(tk.Frame):
         
         self.text1.pack()
         entry1.grid(row=0, column=0)
-        
+
         ###
         scroll_1 = ttk.Scrollbar(frameLog, command=self.text1.yview)
         scroll_1.grid(row=0, column=1, sticky='ns')
@@ -216,22 +224,6 @@ class StartPage(tk.Frame):
     def getTextArea(self, getter):
         return getattr(self, getter)
 
-    def dropdown_configure(event):
-        #width = 10
-        #style = ttk.Style()
-        #style.configure('TCombobox', postoffset=(0,0,width,0))
-        combo = event.dropdown5
-        style = ttk.Style()
-
-        long = max(combo.cget('values'), key=len)
-        print("LONG" + long)
-
-        font = TkFont.nametofont(str(combo.cget('font')))
-        width = max(0,font.measure(long.strip() + '0') - combo.winfo_width())
-        print(width)
-
-        style.configure('TCombobox', postoffset=(0,0,width,0))
-
 class PageOne(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -250,7 +242,7 @@ class PageOne(tk.Frame):
 
         ### CSS Frame
         ###
-        frameCSS = css_config_to_gui(self, controller, backend.CSS_CONFIG)
+        self.frameCSS = css_config_to_gui(self, controller, backend.CSS_CONFIG)
         
         ### MODE Frame
         ###
@@ -282,10 +274,9 @@ class PageOne(tk.Frame):
         self.frameHead.pack()
         frameCheck.pack()
         #canvasCSS.pack(fill="both", expand=True)
-        frameCSS.pack(fill="both", expand=True, padx=10)
+        self.frameCSS.pack(fill="both", expand=True, padx=10)
         frameConfirm.pack(pady=(7, 20), side="bottom")
         frameMode.pack(pady=(2, 0), side="bottom")
-
 
 class PageTwo(tk.Frame):
     def __init__(self, parent, controller):
@@ -377,7 +368,7 @@ def confirm_frame(self):
                        width=15                       
     )
     button1.bind("<Button-1>",
-                 lambda event:get_settings_from_gui(event, self)
+                 lambda event:globals()["get_settings_from_gui"](event, self)
                  )
     button1.grid(row=0, column=0, padx=5)
     
@@ -420,11 +411,6 @@ class StderrRedirector(IORedirector):
     def flush(self):
         pass
 
-def scroll_to_bottom(text_area):
-    last_char_visible = text_area.bbox("end-1c")
-    if last_char_visible:
-        text_area.see(tk.END)
-    
 ### ================================
 
 ### Checkbox Validation - Disable
@@ -558,7 +544,23 @@ def set_selected_from_config(page):
 ### CSS Config to GUI
 def css_config_to_gui(self, controller, config):
     ###Outer frame and canvas
-    frameCSSOuter = tk.Frame(self)
+    cssOptionsFrame = tk.Frame(self)
+    frameCSSOuter = css_frame(cssOptionsFrame, controller, config)
+    framePreset = css_preset_frame(cssOptionsFrame, controller, config)
+
+    #Configure grid expand
+    cssOptionsFrame.columnconfigure(0, weight=0)
+    cssOptionsFrame.rowconfigure(0, weight=1)
+    cssOptionsFrame.columnconfigure(1, weight=2)
+    
+    framePreset.grid(row=0, column=0, sticky="nsew")
+    frameCSSOuter.grid(row=0, column=1, sticky="nsew")
+    #frameCSSOuter.pack(fill="both", expand=True, padx=10)
+    
+    return cssOptionsFrame
+
+def css_frame(parent, controller, config):
+    frameCSSOuter = tk.Frame(parent)
     
     canvasCSS = tk.Canvas(frameCSSOuter, highlightthickness=0, yscrollincrement=10) #remove highlight black border wtf
     canvasCSS.pack(side="left")
@@ -602,15 +604,29 @@ def css_config_to_gui(self, controller, config):
             row += 1
 
             
-            #propObject = create_css_config_row(prop, propDict, frameCSSSection)
-            #propObject.grid(row=j, column=0)
-            ###
-
-            
             frameCSSSection.grid(row=row, column=0, padx=(15, 0))
-    
     return frameCSSOuter
 
+def css_preset_frame(parent, controller, config):
+    framePreset = tk.Frame(parent)#,bd=2,relief=tk.SOLID)
+
+    preset_head = tk.StringVar()
+    preset_head.set("Quick CSS Settings")
+        
+    label_preset_head = tk.Label(framePreset, textvariable=preset_head)
+    label_preset_head.grid(row=0, column=0)
+    
+    
+    button1 = ttk.Button(framePreset,
+                       text="Setting 1",
+                       width=15                       
+    )
+    #button1.bind("<Button-1>",
+                 #lambda event:globals()["get_settings_from_gui"](event, self)
+                 #)
+    button1.grid(row=1, column=0, padx=5)
+    return framePreset
+    
 
 ###Structure of CSS config as follows
 ###config       > section       > prop              > attr
