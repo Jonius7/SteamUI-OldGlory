@@ -9,7 +9,9 @@ import backend
 import js_tweaker
 import os
 import subprocess
+import platform
 
+OS_TYPE = platform.system()
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -22,7 +24,8 @@ class OldGloryApp(tk.Tk):
         self.maxsize(width=windowW, height=windowH)
         container.pack(side="top", fill="both", expand = True)
         
-        self.iconbitmap(resource_path('steam_oldglory.ico'))
+        if OS_TYPE == "Windows":
+            self.iconbitmap(resource_path('steam_oldglory.ico'))
         self.wm_title("SteamUI-OldGlory Configurer")
 
         

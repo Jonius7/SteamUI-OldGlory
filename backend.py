@@ -1,9 +1,10 @@
-import winreg
 import platform
 import os.path
 import sys
 
 OS_TYPE = platform.system()
+if OS_TYPE == "Windows":
+    import winreg
 
 DEFAULT_CONFIG = {"SteamLibraryPath" : "",
                   "PatcherPath" : "",
