@@ -48,25 +48,25 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 
 #### JavaScript Tweaks
 
-For running `js_tweaker.exe`: 
+For running `js_tweaker.exe`: \
 
-- Copy `js_tweaker.exe` and `fixes.txt` to `Steam/steamui` and run it.
+- Copy `js_tweaker.exe` and `fixes.txt` to `Steam/steamui` and run it. \
 
-For running `js_tweaker.py` (requires [Python](https://www.python.org/downloads/ "Python Downloads Page")):
+For running `js_tweaker.py` (requires [Python](https://www.python.org/downloads/ "Python Downloads Page")): \
 
-- Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
+- Run `pip install jsbeautifier` and `pip install jsmin` from the command-line. \
 
-- Copy `js_tweaker.py` and `fixes.txt` to `Steam/steamui` and run it.
+- Copy `js_tweaker.py` and `fixes.txt` to `Steam/steamui` and run it. \
 
-`fixes.txt`  contains the list of JavaScript tweaks. 
+`fixes.txt`  contains the list of JavaScript tweaks. \
 
-Each tweak is under its own *Section Heading* marked with the line starting `###`.
+Each tweak is under its own *Section Heading* marked with the line starting `###`. \
 
-Tweaked lines are the original JS separated by two spaces from the tweaked JS: 
+Tweaked lines are the original JS separated by two spaces from the tweaked JS: \
 
-`[original js]`&#9608;&#9608;`[new js] `
+[original js]&#9608;&#9608;[new js]  \
 
-Some tweaks are disabled by default. Remove the `###` for each line under the *Section Heading* to enable.
+Some tweaks are disabled by default. Remove the `###` for each line under the *Section Heading* to enable. \
 
 Commented lines with `###`, and blank lines are ignored. You can use this to make `fixes.txt` more readable.
 
