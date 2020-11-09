@@ -67,9 +67,7 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 
 #### Fix Blurred Game Images
 
-[Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix)
-
--  Run `missing_cover_downloader`
+- Download [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix) and run `missing_cover_downloader`
 
 ## Quick Links
 
