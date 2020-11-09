@@ -26,14 +26,7 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
     <img src="https://media.giphy.com/media/cbPuBtJ1ez2v55SptR/giphy.gif" alt="Show more DLC" style="zoom:80%;" /> <br><br>
     Play bar moved up into box <br>
     <img src="https://i.imgur.com/HrgBUPl.png" alt="Play bar moved up into box" style="zoom:80%;"
-
-
-
-
-
 </details>
-
-
 
 
 
