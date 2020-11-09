@@ -11,7 +11,7 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 [<img src="https://i.imgur.com/2TZn4ET.png" alt="Video Guide to Tweaking the Steam Library"/>](https://www.youtube.com/watch?v=7_3e9j8FFv8)
 
 <details>
-    <summary><h3 style="display: inline; margin: 0; padding: 0;">Showcase of Tweaks</h3> (click to expand)</summary><br>
+    <summary style="display: inline; margin: 0; padding: 0; white-space: nowrap"><h3 style="display: inline; margin: 0; padding: 0; white-space: nowrap">Showcase of Tweaks</h3> (click to expand)</summary><br>
     Condensed sidebar buttons <br>
     <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 40%;" /> <br><br>
     Show more games <br>
@@ -24,6 +24,7 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
     <img src="https://media.giphy.com/media/cbPuBtJ1ez2v55SptR/giphy.gif" alt="Show more DLC" style="zoom:80%;" /> <br><br>
     Play bar moved up into box <br>
     <img src="https://i.imgur.com/HrgBUPl.png" alt="Play bar moved up into box" style="zoom:80%;"
+
 
 
 
