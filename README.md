@@ -10,8 +10,9 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 
 [<img src="https://i.imgur.com/2TZn4ET.png" alt="Video Guide to Tweaking the Steam Library"/>](https://www.youtube.com/watch?v=7_3e9j8FFv8)
 
-<details>
-    <summary><h3 style="display: inline; margin: 0; padding: 0;">Showcase of Tweaks</h3></summary><br>
+### Showcase of Tweaks
+
+<details><summary>(click to expand)</summary><br>
     Condensed sidebar buttons <br>
     <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 40%;" /> <br><br>
     Show more games <br>
@@ -23,18 +24,8 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
     Show more DLC and screenshots <br>
     <img src="https://media.giphy.com/media/cbPuBtJ1ez2v55SptR/giphy.gif" alt="Show more DLC" style="zoom:80%;" /> <br><br>
     Play bar moved up into box <br>
-    <img src="https://i.imgur.com/HrgBUPl.png" alt="Play bar moved up into box" style="zoom:80%;"
-
-
-​    
-
- 
-
-
-
+    <img src="https://i.imgur.com/HrgBUPl.png" alt="Play bar moved up into box" style="zoom:80%;" />
 </details>
-
-
 
 
 
@@ -42,38 +33,31 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 
 #### Patching and CSS
 
-- Install **_SteamFriendsPatcher_**: (https://github.com/PhantomGamers/SteamFriendsPatcher/releases)
-- After running it and patching, you should find `libraryroot.custom.css` file in `Steam/steamui`.
-- Replace it with **_SteamUI-OldGlory's_** `libraryroot.custom.css`.
-- Latest Release: (https://github.com/Jonius7/SteamUI-OldGlory/releases/latest)
+- Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). Run it, it will patch some files.
+- Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases) and copy `libraryroot.custom.css` over to `Steam/steamui`.
 
 #### JavaScript Tweaks
 
-The file for modifying JavaScript, `js_tweaker.py` is a [Python](https://www.python.org/downloads/ "Python Downloads Page") script. \
-The file that contains the list of JavaScript tweaks is `fixes.txt`.\
-Each line contains one tweak with the original JS separated by two spaces from the tweaked JS: 
-
-[original js]&#9608;&#9608;[new js] 
-
-Commented lines with `###`, and blank lines are ignored. You can use this to make `fixes.txt` more readable.
-
 For running `js_tweaker.exe`: 
 
-- Copy `js_tweaker.exe` and `fixes.txt` to `Steam/steamui` and run it.
+- Copy `js_tweaker.exe` and `fixes.txt` to `Steam/steamui` and run it. 
 
-For running `js_tweaker.py`:
-
-Required libraries: `jsbeautifier`, `jsmin`
+For running `js_tweaker.py` (requires [Python](https://www.python.org/downloads/ "Python Downloads Page")): 
 
 - Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
 
 - Copy `js_tweaker.py` and `fixes.txt` to `Steam/steamui` and run it.
 
+`fixes.txt`  contains the list of JavaScript tweaks.\
+Each tweak is under its own *Section Heading* marked with the line starting `###`.\
+Tweaked lines are the original JS separated by two spaces from the tweaked JS:\
+[original js]&#9608;&#9608;[new js]\
+Some tweaks are disabled by default. Remove the `###` for each line under the *Section Heading* to enable.\
+Commented lines with `###`, and blank lines are ignored. You can use this to make `fixes.txt` more readable.
+
 #### Fix Blurred Game Images
 
-[Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix)
-
-
+- Download [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix) and run `missing_cover_downloader`
 
 ## Quick Links
 
@@ -89,39 +73,47 @@ Required libraries: `jsbeautifier`, `jsmin`
 
 
 ## What's New?
-
-#### Release 3
-
-New CSS for:
-
-- Play Button Box
-- Vertical Nav Bar (BETA)
-- Classic Layout (BETA)
-
-New Configurable variables at top of CSS file
-
-BETA CSS is functionally working, but may require some manual uncommenting in the CSS and JS
-
-- Update compatibility with [steam-library](https://github.com/AikoMidori/steam-library)
-
-rework [`README.md`](README.md)
-
-- moved long exploratory story to [docs/story.md](docs/story.md)
-  moved [CSS changelog](docs/CSS%20Changelog.md) to its own file
-
-[`js_tweaker`](js_tweaker) now accepts blank lines for [`fixes.txt`](fixes.txt) readability
-added explanatory comments for each group of tweaks in [`fixes.txt`](fixes.txt)
-
+>
+>#### Release 3.2.2
+>
+>- Fixed `steam-library_compat.bat` sometimes duplicating `libraryroot.custom.css` code
+>
+>- Extra fixes in `fixes.txt` - disable the What's New shelf from loading in the background
+>
+>#### Release 3.2
+>
+>- Fixes to CSS and JS tweaks to work with Steam Client Oct 8 update.
+>- Delete `libraryroot.beaut.js` from directory, and run `js_tweaker` to apply JS tweaks to the > new version.
+>
+>#### Release 3.1
+>
+>- Quick update to custom CSS, cleaner glass effect
+>
+>- CSS Hotfixes
+>
+>#### Release 3
+>
+>New CSS for:
+>
+>- Play Button Box (BETA)
+>- Vertical Nav Bar (BETA)
+>- Classic Layout (BETA)
+>
+>New *configurable variables* at top of CSS file
+>
+>BETA CSS is functionally working, but may require some manual uncommenting in the CSS and JS
+>
+>[`js_tweaker`](https://github.com/Jonius7/SteamUI-OldGlory/blob/Release_3/js_tweaker) and [`fixes.txt`](https://github.com/Jonius7/SteamUI-OldGlory/blob/Release_3/fixes.txt) reworked for readability
+>
+>
+>
+>[More details...](https://github.com/Jonius7/SteamUI-OldGlory/releases)
 
 
 ## steam-library Support
 
 https://github.com/AikoMidori/steam-library
-**SteamUI-OldGlory** mostly works with Shiina's **steam-library** CSS skin by simply copying the code in **steam-library's** `libraryroot.custom.css` and pasting it above **SteamUI-OldGlory's** `libraryroot.custom.css` code. 
-
-However, I have provided a compatibility CSS file and batch file to hopefully streamline the process.
-
-In layman's terms:
+To use Shiina's **steam-library** CSS skin with **SteamUI-OldGlory**:
 
 - copy and paste into `Steam/steamui` from **SteamUI-OldGlory**: 
   - `libraryroot.custom.css`
