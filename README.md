@@ -12,8 +12,7 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 
 ### Showcase of Tweaks
 
-<details>
-    <summary>(click to expand)</summary><br>
+<details><summary>(click to expand)</summary><br>
     Condensed sidebar buttons <br>
     <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 40%;" /> <br><br>
     Show more games <br>
