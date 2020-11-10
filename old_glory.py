@@ -66,15 +66,16 @@ class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)           
 
-        ### HEAD FRAME
-        ###
+    ### HEAD FRAME
+    ###
         self.frameHead = head_frame(self, controller)
 
-        ### CHECK FRAME
-        ###
+    ### CHECK FRAME
+    ###
         frameCheck = tk.Frame(self)
         frameCheck.grid_columnconfigure(2, weight=1)
-        ###
+        
+        ######
         self.var1 = tk.IntVar()
         check1 = ttk.Checkbutton(frameCheck,
                                  variable=self.var1
@@ -82,6 +83,7 @@ class StartPage(tk.Frame):
                                  
         check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, check2, check3))
         check1.grid(row=0, column=0)
+        ###
         tagFrame1 = tk.Frame(frameCheck)
         label1 = tk.Label(tagFrame1,
                           text="Install CSS Tweaks",
@@ -89,18 +91,19 @@ class StartPage(tk.Frame):
         label1.bind("<Button-1>", lambda event:change_image(image1, resource_path('buttons_before_after.png')))
         #label1.grid(row=0, column=1, columnspan=1, sticky="w")
         label1.grid(row=0, column=0, sticky=W)
-
         ###
         tag1a = add_img(tagFrame1, resource_path('tag_CSS.png'), width=50)
-        tag1a.grid(row=0, column=1, sticky=W)
+        tag1a.grid(row=0, column=1, sticky=W, padx=(5,0))
         tagFrame1.grid(row=0, column=1, sticky=W)
 
-        ###
+
+        ######
         self.var2 = tk.IntVar()
         check2 = ttk.Checkbutton(frameCheck,
                                  variable=self.var2,
                                  state='disabled')
         check2.grid(row=1, column=0)
+        ###
         tagFrame2 = tk.Frame(frameCheck)
         label2 = tk.Label(tagFrame2,
                           text="  \u2937 Box Play Button",
@@ -108,60 +111,73 @@ class StartPage(tk.Frame):
         label2.bind("<Button-1>", lambda event:change_image(image1, resource_path('play_button_box.png')))
         #label2.grid(row=1, column=1, columnspan=1, sticky="w")
         label2.grid(row=0, column=0, sticky=W)
-        
         ###
         tag2a = add_img(tagFrame2, resource_path('tag_CSS.png'), width=50)
-        tag2a.grid(row=0, column=1, sticky=W)
+        tag2a.grid(row=0, column=1, sticky=W, padx=(5,0))
         tagFrame2.grid(row=1, column=1, sticky=W)
+
         
-        ###
+        ######
         self.var3 = tk.IntVar()
         check3 = ttk.Checkbutton(frameCheck,
                                  variable=self.var3,
                                  state='disabled')
         check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, check4, check4))
         check3.grid(row=2, column=0)
+        ###
         tagFrame3 = tk.Frame(frameCheck)
         label3 = tk.Label(tagFrame3,
                           text="  \u2937 Vertical Nav Bar",
                           cursor="hand2")
         label3.bind("<Button-1>", lambda event:change_image(image1, resource_path('vertical_nav_bar.png')))
         label3.grid(row=0, column=0, columnspan=1, sticky="w")
-
         ###
-        
         tag3a = add_img(tagFrame3, resource_path('tag_CSS.png'), width=50)
-        tag3a.grid(row=0, column=1, sticky=W)
+        tag3a.grid(row=0, column=1, sticky=W, padx=(5,0))
         tag3b = add_img(tagFrame3, resource_path('tag_JS.png'), width=50)
         tag3b.grid(row=0, column=2, sticky=W)
         tagFrame3.grid(row=2, column=1, sticky=W)
         
         
-        
-        ###
+        ######
         self.var4 = tk.IntVar()
         check4 = ttk.Checkbutton(frameCheck,
                                  variable=self.var4,
                                  state='disabled'
                                  )
         check4.grid(row=3, column=0)
-        label4 = tk.Label(frameCheck,
+        ###
+        tagFrame4 = tk.Frame(frameCheck)
+        label4 = tk.Label(tagFrame4,
                           text="    \u2937 Classic Layout",
                           cursor="hand2")
         label4.bind("<Button-1>", lambda event:change_image(image1, resource_path('classic_layout.png')))
-        label4.grid(row=3, column=1, columnspan=1, sticky="w")
-        
+        label4.grid(row=0, column=0, columnspan=1, sticky="w")
         ###
+        tag4a = add_img(tagFrame4, resource_path('tag_CSS.png'), width=50)
+        tag4a.grid(row=0, column=1, sticky=W, padx=(5,0))
+        tag4b = add_img(tagFrame4, resource_path('tag_JS.png'), width=50)
+        tag4b.grid(row=0, column=2, sticky=W)
+        tagFrame4.grid(row=3, column=1, sticky=W)
+
+        
+        ######
         self.var5 = tk.IntVar()
         check5 = ttk.Checkbutton(frameCheck,
                                  variable=self.var5)
         check5.grid(row=4, column=0)
-        label5 = tk.Label(frameCheck,
+        ###
+        tagFrame5 = tk.Frame(frameCheck)
+        label5 = tk.Label(tagFrame5,
                           text="Dark Library Theme",
                           cursor="hand2")
         label5.bind("<Button-1>", lambda event:change_image(image1, resource_path('dark_steam_library.png')))
-        label5.grid(row=4, column=1, columnspan=1, sticky="w")
-
+        label5.grid(row=0, column=0, columnspan=1, sticky="w")
+        ###
+        tag5a = add_img(tagFrame5, resource_path('tag_CSS.png'), width=50)
+        tag5a.grid(row=0, column=1, sticky=W, padx=(5,0))
+        tagFrame5.grid(row=4, column=1, sticky=W)
+        ###
         self.dropdown5_value = tk.IntVar()
         self.dropdown5 = ttk.Combobox(frameCheck,
                                  font="TkDefaultFont",
@@ -181,8 +197,8 @@ class StartPage(tk.Frame):
         image1 = add_img(frameCheck, resource_path('buttons_before_after.png'))
         image1.grid(row=0, column=4, rowspan=7, padx=5, sticky="n")
 
-        ### LOG FRAME
-        ###
+    ### LOG FRAME
+    ###
         frameLog = tk.Frame(self)
 
         ### Text
@@ -204,8 +220,8 @@ class StartPage(tk.Frame):
         self.text1['yscrollcommand'] = scroll_1.set
         
 
-        ### MODE FRAME
-        ###
+    ### MODE FRAME
+    ###
         frameMode = tk.Frame(self)
 
         ###
@@ -227,8 +243,8 @@ class StartPage(tk.Frame):
         button_n.grid(row=0, column=1, padx=5)
 
         
-        ### CONFIRM FRAME
-        ###
+    ### CONFIRM FRAME
+    ###
         frameConfirm = confirm_frame(self)
 
 
@@ -238,7 +254,7 @@ class StartPage(tk.Frame):
         init_cb_check(self.var1, check2, check3)
         init_cb_check(self.var3, check4, check4)
 
-        ###
+    ### Pack frames
         self.frameHead.pack()
         frameCheck.pack()
         frameLog.pack(pady=(10,0))
@@ -255,24 +271,20 @@ class PageOne(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
-        ### HEAD FRAME
-        ###
+    ### HEAD FRAME
+    ###
         self.frameHead = head_frame(self, controller)
         
-        ### CHECK FRAME
-        ###
+    ### CHECK FRAME
+    ###
         frameCheck = tk.Frame(self)
 
-        #label0 = tk.Label(frameCheck,
-                          #text="Coming Soon")
-        #label0.grid(row=0, column=0, columnspan=2)
-
-        ### CSS Frame
-        ###
+    ### CSS Frame
+    ###
         self.frameCSS = css_config_to_gui(self, controller, backend.CSS_CONFIG)
         
-        ### MODE Frame
-        ###
+    ### MODE Frame
+    ###
         frameMode = tk.Frame(self)
 
         ###
@@ -293,11 +305,11 @@ class PageOne(tk.Frame):
         button_n.bind("<Button-1>", lambda event:controller.show_frame(PageTwo))
         button_n.grid(row=0, column=1, padx=5)
 
-        ### CONFIRM FRAME
-        ###
+    ### CONFIRM FRAME
+    ###
         frameConfirm = confirm_frame(self)
         
-        ### Pack frames
+    ### Pack frames
         self.frameHead.pack()
         frameCheck.pack()
         #canvasCSS.pack(fill="both", expand=True)
@@ -309,12 +321,12 @@ class PageTwo(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
-        ### HEAD FRAME
-        ###
+    ### HEAD FRAME
+    ###
         self.frameHead = head_frame(self, controller)
 
-        ### CHECK FRAME
-        ###
+    ### CHECK FRAME
+    ###
         frameCheck = tk.Frame(self)
 
         label0 = tk.Label(frameCheck,
@@ -330,8 +342,8 @@ class PageTwo(tk.Frame):
                           text="  - AdvOption1")
         label1.grid(row=1, column=1, sticky="w")
         
-        ### MODE Frame
-        ###
+    ### MODE Frame
+    ###
         frameMode = tk.Frame(self)
 
         ###
@@ -352,11 +364,11 @@ class PageTwo(tk.Frame):
         button_n.bind("<Button-1>", lambda event:controller.show_frame(PageOne))
         button_n.grid(row=0, column=1, padx=5)
 
-        ### CONFIRM FRAME
-        ###
+    ### CONFIRM FRAME
+    ###
         frameConfirm = confirm_frame(self)
 
-        ### Pack frames
+    ### Pack frames
         self.frameHead.pack()
         frameCheck.pack()
         frameConfirm.pack(pady=(7, 20), side="bottom")
@@ -524,6 +536,17 @@ def change_image(label, filename):
     label.image = img
 ### ================================
 
+### Tooltip
+class Detail_tooltip(OnHoverTooltipBase):
+    def __init__(self, anchor_widget, text, hover_delay=1000):
+        super(Detail_tooltip, self).__init__(anchor_widget, hover_delay=hover_delay)
+        self.text = text
+        
+    def showcontents(self):
+        message = Message(self.tipwindow, text=self.text, justify=LEFT,
+                      background="#ffffe0", width=590, relief=SOLID, borderwidth=1)
+        message.pack()
+
 ### Map config values to selected checkboxes
 CONFIG_MAP = {"InstallCSSTweaks" : "var1",
               "EnablePlayButtonBox" : "var2",
@@ -581,9 +604,9 @@ def css_config_to_gui(self, controller, config):
     framePreset = css_preset_frame(cssOptionsFrame, controller, config)
 
     #Configure grid expand
-    cssOptionsFrame.columnconfigure(0, weight=0)
+    cssOptionsFrame.columnconfigure(0, weight=2)
     cssOptionsFrame.rowconfigure(0, weight=1)
-    cssOptionsFrame.columnconfigure(1, weight=2)
+    cssOptionsFrame.columnconfigure(1, weight=1)
     
     framePreset.grid(row=0, column=0, sticky="nsew")
     frameCSSOuter.grid(row=0, column=1, sticky="nsew")
@@ -650,13 +673,14 @@ def css_preset_frame(parent, controller, config):
     
     
     button1 = ttk.Button(framePreset,
-                       text="Setting 1",
-                       width=15                       
+                       text="What's New",
+                         state="disabled",
+                       width=12                       
     )
     #button1.bind("<Button-1>",
                  #lambda event:globals()["get_settings_from_gui"](event, self)
                  #)
-    button1.grid(row=1, column=0, padx=5)
+    button1.grid(row=1, column=0, padx=(5,0))
     return framePreset
     
 
@@ -669,12 +693,13 @@ def create_css_config_row(propName, propDict, parentFrame):
         
         label = tk.Label(frameCSSRow,
                           text=propName,anchor='w',width=25)
-        tip = Hovertip(label, formatted_hover_text(propDict['default'], propDict['desc']), hover_delay=200)
+        tip = Detail_tooltip(label, formatted_hover_text(propDict['default'], propDict['desc']), hover_delay=200)
         label.grid(row=0, column=0)
         
         combobox = ttk.Combobox(frameCSSRow,
                                 font="TkDefaultFont",
-                                 values=get_prop_options_as_array(propDict))
+                                 values=get_prop_options_as_array(propDict),
+                                width=12)
         combobox.set(propDict['current'])
         combobox.grid(row=0, column=1, pady=1)
         
