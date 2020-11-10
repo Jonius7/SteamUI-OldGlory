@@ -73,7 +73,7 @@ class StartPage(tk.Frame):
         ### CHECK FRAME
         ###
         frameCheck = tk.Frame(self)
-        
+        frameCheck.grid_columnconfigure(2, weight=1)
         ###
         self.var1 = tk.IntVar()
         check1 = ttk.Checkbutton(frameCheck,
@@ -82,11 +82,18 @@ class StartPage(tk.Frame):
                                  
         check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, check2, check3))
         check1.grid(row=0, column=0)
-        label1 = tk.Label(frameCheck,
+        tagFrame1 = tk.Frame(frameCheck)
+        label1 = tk.Label(tagFrame1,
                           text="Install CSS Tweaks",
                           cursor="hand2")
         label1.bind("<Button-1>", lambda event:change_image(image1, resource_path('buttons_before_after.png')))
-        label1.grid(row=0, column=1, columnspan=1, sticky="w")
+        #label1.grid(row=0, column=1, columnspan=1, sticky="w")
+        label1.grid(row=0, column=0, sticky=W)
+
+        ###
+        tag1a = add_img(tagFrame1, resource_path('tag_CSS.png'), width=50)
+        tag1a.grid(row=0, column=1, sticky=W)
+        tagFrame1.grid(row=0, column=1, sticky=W)
 
         ###
         self.var2 = tk.IntVar()
@@ -94,15 +101,18 @@ class StartPage(tk.Frame):
                                  variable=self.var2,
                                  state='disabled')
         check2.grid(row=1, column=0)
-        label2 = tk.Label(frameCheck,
+        tagFrame2 = tk.Frame(frameCheck)
+        label2 = tk.Label(tagFrame2,
                           text="  \u2937 Box Play Button",
                           cursor="hand2")
         label2.bind("<Button-1>", lambda event:change_image(image1, resource_path('play_button_box.png')))
-        label2.grid(row=1, column=1, columnspan=1, sticky="w")
+        #label2.grid(row=1, column=1, columnspan=1, sticky="w")
+        label2.grid(row=0, column=0, sticky=W)
         
         ###
-        image1 = add_img(frameCheck, resource_path('buttons_before_after.png'))
-        image1.grid(row=0, column=4, rowspan=7, padx=5, sticky="n")
+        tag2a = add_img(tagFrame2, resource_path('tag_CSS.png'), width=50)
+        tag2a.grid(row=0, column=1, sticky=W)
+        tagFrame2.grid(row=1, column=1, sticky=W)
         
         ###
         self.var3 = tk.IntVar()
@@ -111,14 +121,22 @@ class StartPage(tk.Frame):
                                  state='disabled')
         check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, check4, check4))
         check3.grid(row=2, column=0)
-        label3 = tk.Label(frameCheck,
+        tagFrame3 = tk.Frame(frameCheck)
+        label3 = tk.Label(tagFrame3,
                           text="  \u2937 Vertical Nav Bar",
                           cursor="hand2")
         label3.bind("<Button-1>", lambda event:change_image(image1, resource_path('vertical_nav_bar.png')))
-        label3.grid(row=2, column=1, columnspan=1, sticky="w")
+        label3.grid(row=0, column=0, columnspan=1, sticky="w")
 
-        tag3 = add_img(frameCheck, resource_path('tag_Skin.png'), 50)
-        tag3.grid(row=2, column=2, sticky="w")
+        ###
+        
+        tag3a = add_img(tagFrame3, resource_path('tag_CSS.png'), width=50)
+        tag3a.grid(row=0, column=1, sticky=W)
+        tag3b = add_img(tagFrame3, resource_path('tag_JS.png'), width=50)
+        tag3b.grid(row=0, column=2, sticky=W)
+        tagFrame3.grid(row=2, column=1, sticky=W)
+        
+        
         
         ###
         self.var4 = tk.IntVar()
@@ -159,6 +177,9 @@ class StartPage(tk.Frame):
         label_end = tk.Label(frameCheck, height=2)
         label_end.grid(row=6, column=0, columnspan=2)
 
+        ###
+        image1 = add_img(frameCheck, resource_path('buttons_before_after.png'))
+        image1.grid(row=0, column=4, rowspan=7, padx=5, sticky="n")
 
         ### LOG FRAME
         ###
