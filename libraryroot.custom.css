@@ -1,4 +1,4 @@
-/* SteamUI-OldGlory CSS Tweaks v1.2
+/* SteamUI-OldGlory CSS Tweaks v1.3
    by Jonius7 
 */
 
@@ -8,26 +8,32 @@
   --WhatsNew: block;  /* Default: block. Set to none to hide What's New */
   --WhatsNewOrder: 1;  /* Set 0 to put to top, 1 or higher to put to bottom */
 
-	/* Left Sidebar - Games List */
+  /* Left Sidebar - Games List */
   --HoverOverlayPosition: unset;  /* Set 0 if default JS, unset if tweaked JS */
   --GameListEntrySize: 16px;  /* Default: 16px */
   --CategoryNameHeaderSize: 13px;  /* Default: 13px */
-  --ShowLeftSidebar: flex !important;  /* Default: flex, set to none to hide left sidebar */
+  --GameListZoomSize: 75%; /* Default: 100%. 75% highly recommended for Game List similar to old Library UI. Affects GameListEntrySize and CategoryNameHeaderSize */
+  --ShowLeftSidebar: flex;  /* Default: flex, Set to none to hide left sidebar */
   
-  --ContextMenuLineHeight: 16px; /* Default: 20px */
+  
+  /* Right Click Context Menu */
+  --ContextMenuLineHeight: 16px; /* Default: inherit. Currently will override very long category names */
   --ContextMenuFontSize: 14px; /* Default: 14px */
 
-	/* Game Grid */
+  /* Game Grid */
   --RemoveShine: none;  /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
   --GameImageTransition: 0s;  /* Grid Game Images transition time. 0s for instant, 2s for smooth.*/
   --GameImageOpacity: 1;  /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5*/
   --UninstalledGameImageOpacity: 0.5; /* Default: 1. Suggested values: 0.5, 0.2*/
   --GameGridImageBackground: inherit;  /* Default is inherit, set #365d2d for a friendly green */
+  --GridRowGap: 8px; /* Default: 24px. Corresponds with JavaScript tweak.*/
+  --GridColumnGap:	5px; /* Default: 16px. Corresponds with JavaScript tweak.*/
 
-	/* Game Page Background */
+  /* Game Page Background */
   --AppPageBlur: 2px;  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look.*/
   --AmbientBlur: black;  /* Default: black 80%. Set to rgba(0,0,0,0) to remove */
-	
+
+  /* Other */	
   --VerticalNavBarOffset: 0px;  /* Leave at 0, this var is for steam-library compatibility */
   }
 /* ==================== GameList Sidebar ====================
@@ -136,7 +142,7 @@
 
 .gamelist_Container_1ijTa,
 .gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
-  zoom: 75%;
+  zoom: var(--GameListZoomSize);
   position: relative;
 }
 
@@ -291,13 +297,8 @@
 /*Remove Appdetail margins */
 
 .appdetailssection_AppDetailsSection_2r4TK {
-  margin-bottom: 6px;
-  /*
-  background: rgba(40, 42, 47, 0.8);
-  border-radius: 4px;
-  padding: 4px 0px;
-  width: unset;
-  margin: 6px 6px 0px 0px;*/
+  padding-bottom: 6px;
+  margin: 0px;
 }
 
 .appdetailssection_AppDetailsSectionContainer_31ptF {
@@ -374,6 +375,10 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_Spotlights_11kuV.appdetailsoverview_SpotlightLeftColumn_3wbnd {
   width: calc(63.7% - 42px);
+}
+
+.boxcarousel_BoxCarousel_3fiHs.appdetailsspotlight_NewDLCImages_ENdo7 {
+    height: unset !important;
 }
 
 /*Change Game Summary separator from small dot to thin line-clamp*/
@@ -610,6 +615,7 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 
 .appportrait_LibraryItemBoxSubscript_1LJqx {
   margin-top: -32px;
+  padding: 2px 8px;
 }
 
 /* Move small "Friend Playing" box on Steam Grid */
@@ -620,7 +626,7 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 /* Recommended corresponding JS tweak: default gap is 24px 16px */
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG,
 .appgrid_YourCollection_11p6F {
-  gap: 8px 5px !important;
+  gap: var(--GridRowGap) var(--GridColumnGap) !important;
 }
 
 .appportrait_HoversEnabled_54PuC .appportrait_LibraryItemBox_WYgDg:hover .appportrait_UninstalledIcon_8YrRm {
@@ -708,14 +714,8 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 /* END DLC MANAGER */
 
 
-/*HORIZONTAL GAME IMAGE TWEAKS
-Requires corresponding JS tweaks to display correctly
-- Horizontal Grid on Home Page
-- Enlarge first game image on Recent Games shelf
-- Enlarge first game image on Play Next shelf
-- Enlarge game image on Game information panel
-*/
-/*
+/*HORIZONTAL GAME IMAGE TWEAKS*//*
+
 .appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
   grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
 }
@@ -727,12 +727,15 @@ Requires corresponding JS tweaks to display correctly
 .libraryhomeplaynext_PlayNextSuggestion_2a9Sn:first-child > :nth-child(1) {
   height: 180px !important;
 }
-*/
-/*END HORIZONTAL GAME IMAGE TWEAKS*/
+
+.appportrait_LibraryItemBoxSubscript_1LJqx {
+    margin-top: -16px;
+}
+
+*//*END HORIZONTAL GAME IMAGE TWEAKS*/
 
 
 /* LIST VIEW ONLY TWEAKS - EXPERIMENTAL */
-
 
 /*
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
@@ -753,7 +756,7 @@ Requires corresponding JS tweaks to display correctly
 /* END LIST VIEW ONLY TWEAKS */
 
 
-/* PLAY BAR LAYOUT - BETA */
+/* PLAY BAR LAYOUT - BETA *//*
 
 .appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {
   transform: translate(calc(8vmax - 27%), calc(-8vmax - 42%));
@@ -914,11 +917,10 @@ Requires corresponding JS tweaks to display correctly
 .appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe>div>div>div> :nth-child(3)>div>div {
   margin-right: 5px;
 }
+*//* END PLAY BAR LAYOUT */
 
-/* END PLAY BAR LAYOUT */
+/* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS *//*
 
-/* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS */
-/*
 .sharedappdetailsheader_BoxSizerContainer_A14yd {
   z-index: 2;
 }
@@ -957,12 +959,11 @@ Requires corresponding JS tweaks to display correctly
 .appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appdetailsoverview_ColumnContainer_OhSdL:nth-child(4) {
   transform: translateY(-100px);
 }
-*/
-/* END VERTICAL NAV BAR */
+
+*//* END VERTICAL NAV BAR */
 
 
-/* CLASSIC LAYOUT - BETA */
-/*
+/* CLASSIC LAYOUT - BETA *//*
 
 .appdetailsheader_HeaderFeatures_2b6Wk {
   right: 16px;
@@ -1002,5 +1003,14 @@ Requires corresponding JS tweaks to display correctly
   margin-top: 30px;
 }
 
-*/
-/* END CLASSIC LAYOUT */
+*//* END CLASSIC LAYOUT */
+
+.appdetailssection_Body_5uvIN.appdetailsbroadcastsection_Body_CFp7F {
+    align-content: flex-end;
+}
+
+.appdetailsbroadcastsection_BroadcastBox_9nwsC {
+    width: 50%;
+    height: 50%;
+    margin-left: auto;
+}
