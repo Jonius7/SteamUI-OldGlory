@@ -83,10 +83,10 @@ class StartPage(tk.Frame):
         check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, check2, check3))
         check1.grid(row=0, column=0)
         label1 = tk.Label(frameCheck,
-                          text="Install CSS Tweaks (SteamUI-OldGlory)",
+                          text="Install CSS Tweaks",
                           cursor="hand2")
         label1.bind("<Button-1>", lambda event:change_image(image1, resource_path('buttons_before_after.png')))
-        label1.grid(row=0, column=1, columnspan=2, sticky="w")
+        label1.grid(row=0, column=1, columnspan=1, sticky="w")
 
         ###
         self.var2 = tk.IntVar()
@@ -95,14 +95,14 @@ class StartPage(tk.Frame):
                                  state='disabled')
         check2.grid(row=1, column=0)
         label2 = tk.Label(frameCheck,
-                          text="  - Box Play Button",
+                          text="  \u2937 Box Play Button",
                           cursor="hand2")
         label2.bind("<Button-1>", lambda event:change_image(image1, resource_path('play_button_box.png')))
-        label2.grid(row=1, column=1, columnspan=2, sticky="w")
+        label2.grid(row=1, column=1, columnspan=1, sticky="w")
         
         ###
         image1 = add_img(frameCheck, resource_path('buttons_before_after.png'))
-        image1.grid(row=0, column=3, rowspan=7, padx=5, sticky="n")
+        image1.grid(row=0, column=4, rowspan=7, padx=5, sticky="n")
         
         ###
         self.var3 = tk.IntVar()
@@ -112,10 +112,13 @@ class StartPage(tk.Frame):
         check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, check4, check4))
         check3.grid(row=2, column=0)
         label3 = tk.Label(frameCheck,
-                          text="  - Vertical Nav Bar",
+                          text="  \u2937 Vertical Nav Bar",
                           cursor="hand2")
         label3.bind("<Button-1>", lambda event:change_image(image1, resource_path('vertical_nav_bar.png')))
-        label3.grid(row=2, column=1, columnspan=2, sticky="w")
+        label3.grid(row=2, column=1, columnspan=1, sticky="w")
+
+        tag3 = add_img(frameCheck, resource_path('tag_Skin.png'), 50)
+        tag3.grid(row=2, column=2, sticky="w")
         
         ###
         self.var4 = tk.IntVar()
@@ -125,10 +128,10 @@ class StartPage(tk.Frame):
                                  )
         check4.grid(row=3, column=0)
         label4 = tk.Label(frameCheck,
-                          text="    - Classic Layout",
+                          text="    \u2937 Classic Layout",
                           cursor="hand2")
         label4.bind("<Button-1>", lambda event:change_image(image1, resource_path('classic_layout.png')))
-        label4.grid(row=3, column=1, columnspan=2, sticky="w")
+        label4.grid(row=3, column=1, columnspan=1, sticky="w")
         
         ###
         self.var5 = tk.IntVar()
@@ -139,7 +142,7 @@ class StartPage(tk.Frame):
                           text="Dark Library Theme",
                           cursor="hand2")
         label5.bind("<Button-1>", lambda event:change_image(image1, resource_path('dark_steam_library.png')))
-        label5.grid(row=4, column=1, sticky="w")
+        label5.grid(row=4, column=1, columnspan=1, sticky="w")
 
         self.dropdown5_value = tk.IntVar()
         self.dropdown5 = ttk.Combobox(frameCheck,
@@ -149,7 +152,7 @@ class StartPage(tk.Frame):
                                  textvariable=self.dropdown5_value,
                                  width=30)
         self.dropdown5.current(0)
-        self.dropdown5.grid(row=5, column=1, sticky="w")
+        self.dropdown5.grid(row=5, column=1, columnspan=2, sticky="w")
         
         
         ###
@@ -436,6 +439,11 @@ def init_cb_check(var1, check2, check3):
         check3.config(state='disabled')
 ### ================================
 
+
+
+### GUI CODE TAGS (CSS, JS, Skin)
+#def create_code_tag(langs): 
+    
         
 ### INSTALL Functions
         
@@ -474,17 +482,17 @@ def run_js_tweaker(text_area):
 
 ### Image Functions
 
-def open_img(filename):
+def open_img(filename, width=350):
     x = filename
     img = Image.open(x)
-    new_width = 350
+    new_width = width
     new_height = int(new_width * img.height / img.width)
     img = img.resize((new_width, new_height), Image.ANTIALIAS)
     img = ImageTk.PhotoImage(img)
     return img
 
-def add_img(frame, filename):
-    img = open_img(filename)
+def add_img(frame, filename, width=350):
+    img = open_img(filename, width)
     panel = tk.Label(frame, image=img)
     panel.image = img
     return panel
