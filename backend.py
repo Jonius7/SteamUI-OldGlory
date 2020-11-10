@@ -94,10 +94,19 @@ CSS_CONFIG = {"What's New" : {
 
 SETTING_MAP = {"InstallCSSTweaks" : "",
                   "EnablePlayButtonBox" : {"start" : "/* PLAY BAR LAYOUT - BETA */", "end" : "/* END PLAY BAR LAYOUT */"},
-                  "EnableVerticalNavBar" : {"start" : "/* VERTICAL NAV BAR", "end" : "/* END VERTICAL NAV BAR */"},
+                  "EnableVerticalNavBar" : {"start" : "/* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS */", "end" : "/* END VERTICAL NAV BAR */"},
                   "EnableClassicLayout" : {"start" : "/* CLASSIC LAYOUT - BETA */", "end" : "/* END CLASSIC LAYOUT */"},
                   "InstallWithDarkLibrary" : ""
             }
+
+def OS_line_ending():
+    if OS_TYPE == "Windows":
+        return "\r\n"
+    elif OS_TYPE ==  "Darwin":
+        return "\n"
+    elif OS_TYPE ==  "Linux":
+        return "\n"
+    
 def find_library_dir():
     steamui_path = ""
     if OS_TYPE == "Windows":
@@ -164,36 +173,59 @@ def validate_settings(settings):
     #print(validated_settings)
     return validated_settings
 
-def apply_settings(settings):
-    with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
-         open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
-        for line in f:
-            modified = 0
-            for setting in settings:
-                if 'start' in SETTING_MAP[setting]:
-                    start_string = SETTING_MAP[setting]['start']
-                    end_string = SETTING_MAP[setting]['end']
-                    if start_string in line:
-                        if start_string + "/*" in line:
-                            print(setting + " CSS Start commented out")
-                        else:
-                            print(setting + " CSS Start not commented out (enabled)")
-                    if end_string in line:
-                        if "*/" + end_string in line:
-                            print(setting + " CSS End commented out")
-                        else:
-                            print(setting + " CSS End not commented out (enabled)")
-            
-            '''
-            for setting in settings:
-                if fix in line:
-                    f1.write(find_fix(line, fix))
-                    modified = 1
-            if modified == 0:
-                f1.write(line)
-            '''
-    f.close()
-    f1.close()
+def apply_settings(settings, settings_values):
+    try:
+        with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
+             open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
+            for line in f:
+                modify = 0
+                for setting in settings_values:
+                    if 'start' in SETTING_MAP[setting]:
+                        start_string = SETTING_MAP[setting]['start']
+                        end_string = SETTING_MAP[setting]['end']
+                        if start_string in line:
+                            if start_string + "/*" in line:
+                                print(setting + " CSS Start commented out")
+                                print("Current Line | " + line)
+                                if settings_values[setting] == 1 and setting in settings:
+                                    modify = 1
+                                    f1.write(start_string + OS_line_ending())
+                            else:
+                                if settings_values[setting] == 0:
+                                    modify = 1
+                                    f1.write(start_string + "/*" + OS_line_ending())
+                                    print(setting + " CSS Start not commented out (enabled)")
+                        if end_string in line:
+                            if "*/" + end_string in line:
+                                print(setting + " CSS End commented out")
+                                print("Current Line | " + line)
+                                if settings_values[setting] == 1 and setting in settings:
+                                    modify = 1
+                                    f1.write(end_string + OS_line_ending())
+                            else:
+                                if settings_values[setting] == 0:
+                                    modify = 1
+                                    f1.write("*/" + end_string + OS_line_ending())
+                                    print(setting + " CSS End not commented out (enabled)")
+                if modify == 0:
+                    f1.write(line)
+                
+                '''
+                for setting in settings:
+                    if fix in line:
+                        f1.write(find_fix(line, fix))
+                        modified = 1
+                if modified == 0:
+                    f1.write(line)
+                '''
+        f.close()
+        f1.close()
+    except FileNotFoundError:
+        print("libraryroot.custom.css not found", file=sys.stderr)
+
+def strip_tag(s, subs):
+    i = s.index(subs)
+    return s[:i+len(subs)]
 
 
 ### CSS functions

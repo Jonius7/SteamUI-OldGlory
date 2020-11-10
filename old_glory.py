@@ -407,7 +407,7 @@ def confirm_frame(self):
                        width=15                       
     )
     button1.bind("<Button-1>",
-                 lambda event:globals()["get_settings_from_gui"](event, self)
+                 lambda event:globals()["install_click"](event, self)
                  )
     button1.grid(row=0, column=0, padx=5)
     
@@ -480,15 +480,45 @@ def init_cb_check(var1, check2, check3):
         
 ### INSTALL Functions
         
-   
+### Map config values to selected checkboxes
+CONFIG_MAP = {"InstallCSSTweaks" : "var1",
+              "EnablePlayButtonBox" : "var2",
+              "EnableVerticalNavBar" : "var3",
+              "EnableClassicLayout" : "var4",
+              "InstallWithDarkLibrary" : "var5"}
 
 
-### RELOAD Functions
-### ================================
-def reload_click(event, text_area):
-    backend.load_css_options()
-    print(text_area)
-    run_js_tweaker(text_area)
+def install_click(event, page):
+    get_settings_from_gui(event, page)
+    #run_js_tweaker(page.text1)
+    
+def get_settings_from_gui(event, page):
+    try:
+        settings = []
+        settings_values = {}
+        for key in CONFIG_MAP:
+            #print(page.getCheckbuttonVal(CONFIG_MAP[key]).get())
+            
+            settings_values[key] = page.getCheckbuttonVal(CONFIG_MAP[key]).get()
+            if page.getCheckbuttonVal(CONFIG_MAP[key]).get() == 1:
+                settings.append(key)
+                #print(key)
+        #print("ARRAY ")
+        settings_to_apply = backend.validate_settings(settings)
+        print(settings_to_apply)
+        print(settings_values)
+        #applying settings
+        apply_settings_from_gui(page, settings_to_apply, settings_values)
+    except FileNotFoundError:
+        pass
+        #print("libraryroot.custom.css not found", file=sys.stderr)
+
+def apply_settings_from_gui(page, settings_to_apply, settings_values):
+    print("Applying settings...")
+    page.text1.update_idletasks()
+    backend.apply_settings(settings_to_apply, settings_values)
+    page.text1.update_idletasks()
+    print("Settings applied.")
     
 def run_js_tweaker(text_area):
     ###with open('js_tweaker.py') as source_file:
@@ -512,6 +542,14 @@ def run_js_tweaker(text_area):
               
     except Exception as e:
         print(e, file=sys.stderr)
+
+
+
+### RELOAD Functions
+### ================================
+def reload_click(event, text_area):
+    backend.load_css_options()
+    print(text_area)
 
 ### Image Functions
 
@@ -546,37 +584,6 @@ class Detail_tooltip(OnHoverTooltipBase):
         message = Message(self.tipwindow, text=self.text, justify=LEFT,
                       background="#ffffe0", width=590, relief=SOLID, borderwidth=1)
         message.pack()
-
-### Map config values to selected checkboxes
-CONFIG_MAP = {"InstallCSSTweaks" : "var1",
-              "EnablePlayButtonBox" : "var2",
-              "EnableVerticalNavBar" : "var3",
-              "EnableClassicLayout" : "var4",
-              "InstallWithDarkLibrary" : "var5"}
-
-        
-def get_settings_from_gui(event, page):
-    try:
-        settings = []
-        for key in CONFIG_MAP:
-            #print(page.getCheckbuttonVal(CONFIG_MAP[key]).get())
-            if page.getCheckbuttonVal(CONFIG_MAP[key]).get() == 1:
-                settings.append(key)
-                #print(key)
-        #print("ARRAY ")
-        settings_to_apply = backend.validate_settings(settings)
-        print(settings_to_apply)
-        #applying settings
-        apply_settings_from_gui(page, settings_to_apply)
-    except FileNotFoundError:
-        pass
-        #print("libraryroot.custom.css not found", file=sys.stderr)
-
-def apply_settings_from_gui(page, settings_to_apply):
-    print("Applying settings...")
-    page.text1.update_idletasks()
-    backend.apply_settings(settings_to_apply)
-    print("Settings applied.")
         
 ### Initialisation
 def set_selected_from_config(page):
