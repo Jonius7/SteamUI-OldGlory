@@ -67,6 +67,10 @@ Original Design by EliteSkylu
 	padding-left: 15px;
 }
 
+.gamelistbar_GameListHomeAndSearch_2TKEa {
+    padding: 6px 3px 0px 0px;
+}
+
 /* fade in out at edges */
 .gamelist_Container_1ijTa {
     -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
