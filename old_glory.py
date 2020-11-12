@@ -235,7 +235,7 @@ class StartPage(tk.Frame):
                            text="CSS Options",
                            width=16
         )
-        button_m.bind("<Button-1>", lambda event:controller.show_frame(PageOne))
+        button_m.bind("<Button-1>", lambda event:show_PageOne(controller))
         button_m.grid(row=0, column=0, padx=5)
 
         ###
@@ -250,7 +250,7 @@ class StartPage(tk.Frame):
         
     ### CONFIRM FRAME
     ###
-        frameConfirm = confirm_frame(self)
+        frameConfirm = confirm_frame(self, controller)
 
 
         ### Set GUI from config
@@ -321,7 +321,7 @@ class PageOne(tk.Frame):
 
     ### CONFIRM FRAME
     ###
-        frameConfirm = confirm_frame(self)
+        frameConfirm = confirm_frame(self, controller)
         
     ### Pack frames
         self.frameHead.pack()
@@ -377,12 +377,12 @@ class PageTwo(tk.Frame):
                            text="CSS Options",
                            width=16
         )
-        button_n.bind("<Button-1>", lambda event:controller.show_frame(PageOne))
+        button_n.bind("<Button-1>", lambda event:show_PageOne(controller))
         button_n.grid(row=0, column=1, padx=5)
 
     ### CONFIRM FRAME
     ###
-        frameConfirm = confirm_frame(self)
+        frameConfirm = confirm_frame(self, controller)
 
     ### Pack frames
         self.frameHead.pack()
@@ -415,7 +415,7 @@ def head_frame(self, controller):
     label_b.grid(row=1, column=0)
     return frameHead
 
-def confirm_frame(self):
+def confirm_frame(self, controller):
     frameConfirm = tk.Frame(self)
     ###
     button1 = ttk.Button(frameConfirm,
@@ -434,11 +434,17 @@ def confirm_frame(self):
                        ###state='disabled'
     )
     button2.bind("<Button-1>",
-                 lambda event:reload_click(event, self.text1)
+                 lambda event:reload_click(event, controller.frames[StartPage].text1)
                  )
     button2.grid(row=0, column=1, padx=5)
     return frameConfirm
 ### ================================
+
+### Show Page Functions
+
+def show_PageOne(controller):
+    controller.show_frame(PageOne)
+    controller.frames[PageOne].frameCSS = css_config_to_gui(controller.frames[PageOne], controller, backend.load_css_options())
 
 ### Redirect Stdout, Stderr
 ### ================================
@@ -575,7 +581,6 @@ def run_js_tweaker(text_area):
 ### ================================
 def reload_click(event, text_area):
     backend.load_css_options()
-    print(text_area)
 
 ### Image Functions
 
@@ -630,10 +635,12 @@ def set_selected_from_config(page):
             None
 
 ### CSS Config to GUI
-def css_config_to_gui(self, controller, config):
+def css_config_to_gui(page, controller, config):
     ###Outer frame and canvas
-    cssOptionsFrame = tk.Frame(self)
-    frameCSSOuter = css_frame(cssOptionsFrame, controller, config)
+    cssOptionsFrame = tk.Frame(page)
+    x = CSSFrame(cssOptionsFrame, controller, config)
+    frameCSSOuter = x.returnFrame()
+    #print(x.returnLabels())
     framePreset = css_preset_frame(cssOptionsFrame, controller, config)
 
     #Configure grid expand
@@ -647,53 +654,64 @@ def css_config_to_gui(self, controller, config):
     
     return cssOptionsFrame
 
-def css_frame(parent, controller, config):
-    frameCSSOuter = tk.Frame(parent)
-    
-    canvasCSS = tk.Canvas(frameCSSOuter, highlightthickness=0, yscrollincrement=10) #remove highlight black border wtf
-    canvasCSS.pack(side="left")
-    #canvasCSS.grid(row=0, column=0, padx=10, sticky="nsew")
-    
+class CSSFrame(tk.Frame):
+    def __init__(self, parent, controller, config):
+        self.parent = parent
+        self.frameCSSOuter = tk.Frame(self.parent)
+        self.controller = controller
+        self.config = config
 
-    ### Scrollbar
-    scroll_1 = ttk.Scrollbar(frameCSSOuter, command=canvasCSS.yview)
-    scroll_1.pack(side="right", fill="y")
-    #scroll_1.grid(row=0, column=1, sticky="nsew")
-    canvasCSS.configure(yscrollcommand=scroll_1.set)
-    canvasCSS.bind('<Configure>', lambda e: canvasCSS.configure(scrollregion = canvasCSS.bbox('all')))
+        ###
+        frameCSSOuter = tk.Frame(self.parent)
     
-    ### Inner frame
-    frameCSS = tk.Frame(canvasCSS)
-    canvasCSS.create_window((0,0), window=frameCSS, anchor="nw")
-    canvasCSS.pack(fill=BOTH, expand=YES)
-    
-    ### Section title font
-    sectionfont = controller.default_font.copy()
-    sectionfont.configure(underline=1)
-    
-    ### Populate config
-    labels = []
-    row = -1
-    
-    for i, section in enumerate(config):
-        row += 1
-        label = tk.Label(frameCSS,
-                          text=section,
-                         font=sectionfont,
-                         fg='blue')
-        label.grid(row=row, column=0)
-        labels.append(label)
+        canvasCSS = tk.Canvas(self.frameCSSOuter, highlightthickness=0, yscrollincrement=10) #remove highlight black border wtf
+        canvasCSS.pack(side="left")
+        #canvasCSS.grid(row=0, column=0, padx=10, sticky="nsew")
         
-        labelgroup = []
-        for j, prop in enumerate(config[section]):
-            #print(config[section][prop]['options'])
-            propDict = config[section][prop]
-            frameCSSSection = create_css_config_row(prop, propDict, frameCSS)
-            row += 1
 
+        ### Scrollbar
+        scroll_1 = ttk.Scrollbar(self.frameCSSOuter, command=canvasCSS.yview)
+        scroll_1.pack(side="right", fill="y")
+        #scroll_1.grid(row=0, column=1, sticky="nsew")
+        canvasCSS.configure(yscrollcommand=scroll_1.set)
+        canvasCSS.bind('<Configure>', lambda e: canvasCSS.configure(scrollregion = canvasCSS.bbox('all')))
+        
+        ### Inner frame
+        self.frameCSS = tk.Frame(canvasCSS)
+        canvasCSS.create_window((0,0), window=self.frameCSS, anchor="nw")
+        canvasCSS.pack(fill=BOTH, expand=YES)
+        
+        ### Section title font
+        sectionfont = self.controller.default_font.copy()
+        sectionfont.configure(underline=1)
+
+        ### Populate config
+        row = -1
+        self.labels = []
+        
+        for i, section in enumerate(self.config):
+            row += 1
+            label = tk.Label(self.frameCSS,
+                              text=section,
+                             font=sectionfont,
+                             fg='blue')
+            label.grid(row=row, column=0)
+            self.labels.append(label)
             
-            frameCSSSection.grid(row=row, column=0, padx=(15, 0))
-    return frameCSSOuter
+            labelgroup = []
+            for j, prop in enumerate(self.config[section]):
+                #print(config[section][prop]['options'])
+                propDict = self.config[section][prop]
+                frameCSSSection = create_css_config_row(prop, propDict, self.frameCSS)
+                row += 1
+                frameCSSSection.grid(row=row, column=0, padx=(15, 0))
+    def returnFrame(self):
+        return self.frameCSSOuter
+    def returnLabels(self):
+        return self.labels
+        
+#def css_frame(parent, controller, config):
+    
 
 def css_preset_frame(parent, controller, config):
     framePreset = tk.Frame(parent)#,bd=2,relief=tk.SOLID)
@@ -735,14 +753,7 @@ def create_css_config_row(propName, propDict, parentFrame):
                                 width=12)
         combobox.set(propDict['current'])
         combobox.grid(row=0, column=1, pady=1)
-        
-        '''
-        var2 = tk.IntVar()
-        check2 = ttk.Checkbutton(frameCSSRow,
-                                 variable=var2)
-        check2.grid(row=0, column=1)
-            #print("WAXOO " + propDict['default'])
-        '''
+    
     except Exception as e:
         print(e, file=sys.stderr)
         print("CSS config in libraryroot.custom.css not configured correctly.\n", file=sys.stderr)

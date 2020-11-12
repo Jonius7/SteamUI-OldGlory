@@ -327,7 +327,7 @@ def load_css_options():
                         loaded_css_config[sectionkey][propkey]["default"] = css_line_values["default"]
                         loaded_css_config[sectionkey][propkey]["current"] = css_line_values["current"]
                         ### create options attr
-                        print(CSS_CONFIG.get(sectionkey, {}).get(propkey))
+                        #print(CSS_CONFIG.get(sectionkey, {}).get(propkey))
                         if exists_key_value := CSS_CONFIG.get(sectionkey, {}).get(propkey):
                             loaded_css_config[sectionkey][propkey]["options"] = CSS_CONFIG[sectionkey][propkey]["options"]
                         else:
@@ -335,6 +335,7 @@ def load_css_options():
                             loaded_css_config[sectionkey][propkey]["options"] = {css_line_values["default"], css_line_values["current"]}
                         loaded_css_config[sectionkey][propkey]["desc"] = css_line_values["desc"]
         infile.close()
+        print("created Options")
     except:
         print("Error loading CSS config from line: " + line, file=sys.stderr)
         print("~~~~~~~~~~")
