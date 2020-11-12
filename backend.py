@@ -284,16 +284,16 @@ def apply_css_settings(settings, settings_values):
     except FileNotFoundError:
         print("libraryroot.custom.css not found", file=sys.stderr)
 
+'''
 def strip_tag(s, subs):
     i = s.index(subs)
     return s[:i+len(subs)]
-
-
-
-
+'''
 
 ### CSS functions
+
 ### Triggers on Reload Config (button)
+### Create CSS Config dict from :root in css file
 def load_css_options():
 
     loaded_css_config = {}
@@ -335,7 +335,7 @@ def load_css_options():
                             loaded_css_config[sectionkey][propkey]["options"] = {css_line_values["default"], css_line_values["current"]}
                         loaded_css_config[sectionkey][propkey]["desc"] = css_line_values["desc"]
         infile.close()
-        print("created Options")
+        print("Loaded CSS Options.")
     except:
         print("Error loading CSS config from line: " + line, file=sys.stderr)
         print("~~~~~~~~~~")
@@ -345,8 +345,8 @@ def load_css_options():
         loaded_css_config = CSS_CONFIG
     return loaded_css_config
 
+###Parses one line of CSS file into dictionary values
 def css_line_parser(line):
-    ###print("TODO", file=sys.stdout)
     try:
         if line.lstrip()[:2] == "/*":
             section = line.lstrip()[3:-3]
@@ -366,7 +366,6 @@ def css_line_parser(line):
                 default = desc.split("/* Default: ")[1].split(".")[0]                                                            
             else:
                 default = value[0]
-            #print({"name" : name, "default" : default, "current" : value, "desc" : desc})
             return {"name" : name[0], "default" : default, "current" : value[0], "desc" : desc}   
     except Exception as e:
         print("Some error in line: " + line, file=sys.stderr)
@@ -374,12 +373,6 @@ def css_line_parser(line):
         print(traceback.print_exc(), file=sys.stderr)
         print("~~~~~~~~~~")
         
-
-#from CSS file, create USER_CSS_CONFIG dictionary
-def css_line_to_dict_value():
-    print("D")
-
-
 
 #root writer
 #from CSS_CONFIG dictionary to an array of lines of CSS to be written

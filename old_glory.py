@@ -10,8 +10,9 @@ import js_tweaker
 import os
 import subprocess
 import platform
-import queue
-from threading import Thread
+import traceback
+#import queue
+#from threading import Thread
 
 OS_TYPE = platform.system()
 DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
@@ -291,11 +292,10 @@ class PageOne(tk.Frame):
         #x = Thread(target = lambda q, arg1: q.put(backend.load_css_options(arg1)), args=(que))
         #x.start()
         #x.join()
-        #self.frameCSS = css_config_to_gui(self, controller, que.get())
-        print("B4")
-        print("AFTR")
+        #self.frameCSS = CSSGUICreator(self, controller, que.get())
         self.frameCSS = tk.Frame(self)
-        self.frameCSS = css_config_to_gui(self, controller, backend.CSS_CONFIG)
+        self.css_gui = CSSGUICreator(self, controller, backend.CSS_CONFIG)
+        self.frameCSS = self.css_gui.returnCSSOptionsFrame()
         
     ### MODE Frame
     ###
@@ -331,7 +331,7 @@ class PageOne(tk.Frame):
         frameConfirm.pack(pady=(7, 20), side="bottom")
         frameMode.pack(pady=(2, 0), side="bottom")
 
-        self.frameCSS = css_config_to_gui(self, controller, backend.load_css_options())
+        #self.frameCSS = create_css_gui(self, controller, backend.load_css_options())
 
 class PageTwo(tk.Frame):
     def __init__(self, parent, controller):
@@ -444,7 +444,8 @@ def confirm_frame(self, controller):
 
 def show_PageOne(controller):
     controller.show_frame(PageOne)
-    controller.frames[PageOne].frameCSS = css_config_to_gui(controller.frames[PageOne], controller, backend.load_css_options())
+    #controller.frames[PageOne].frameCSS = create_css_gui(controller.frames[PageOne], controller, backend.load_css_options())
+    update_css_gui(controller.frames[PageOne], controller, backend.load_css_options())
 
 ### Redirect Stdout, Stderr
 ### ================================
@@ -635,25 +636,35 @@ def set_selected_from_config(page):
             None
 
 ### CSS Config to GUI
-def css_config_to_gui(page, controller, config):
-    ###Outer frame and canvas
-    cssOptionsFrame = tk.Frame(page)
-    x = CSSFrame(cssOptionsFrame, controller, config)
-    frameCSSOuter = x.returnFrame()
-    for label in x.returnLabels():
-        print(label["text"])
-    framePreset = css_preset_frame(cssOptionsFrame, controller, config)
+class CSSGUICreator(tk.Frame):
+    def __init__(self, page, controller, config):
+        self.page = page
+        self.controller = controller
+        self.config = config
+        ###Outer frame and canvas
+        self.cssOptionsFrame = tk.Frame(page)
+        x = CSSFrame(self.cssOptionsFrame, controller, config)
+        self.frameCSSOuter = x.returnFrame()
+        self.labels = x.returnCSSFrame().returnLabels()
+        self.entryboxes = x.returnCSSFrame().returnEntryboxes()
+        #for label in x.returnLabels():
+        #    print(label["text"])
+        self.framePreset = css_preset_frame(self.cssOptionsFrame, controller, config)
 
-    #Configure grid expand
-    cssOptionsFrame.columnconfigure(0, weight=2)
-    cssOptionsFrame.rowconfigure(0, weight=1)
-    cssOptionsFrame.columnconfigure(1, weight=1)
-    
-    framePreset.grid(row=0, column=0, sticky="nsew")
-    frameCSSOuter.grid(row=0, column=1, sticky="nsew")
-    #frameCSSOuter.pack(fill="both", expand=True, padx=10)
-    
-    return cssOptionsFrame
+        #Configure grid expand
+        self.cssOptionsFrame.columnconfigure(0, weight=2)
+        self.cssOptionsFrame.rowconfigure(0, weight=1)
+        self.cssOptionsFrame.columnconfigure(1, weight=1)
+        
+        self.framePreset.grid(row=0, column=0, sticky="nsew")
+        self.frameCSSOuter.grid(row=0, column=1, sticky="nsew")
+        #frameCSSOuter.pack(fill="both", expand=True, padx=10)
+    def returnCSSOptionsFrame(self):
+        return self.cssOptionsFrame
+    def returnframeCSSOuter(self):
+        return self.frameCSSOuter  
+    def returnCSSGUI(self):
+        return self
 
 class CSSFrame(tk.Frame):
     def __init__(self, parent, controller, config):
@@ -663,7 +674,7 @@ class CSSFrame(tk.Frame):
         self.config = config
 
         ###
-        frameCSSOuter = tk.Frame(self.parent)
+        self.frameCSSOuter = tk.Frame(self.parent)
     
         canvasCSS = tk.Canvas(self.frameCSSOuter, highlightthickness=0, yscrollincrement=10) #remove highlight black border wtf
         canvasCSS.pack(side="left")
@@ -689,30 +700,34 @@ class CSSFrame(tk.Frame):
         ### Populate config
         row = -1
         self.labels = []
+        self.entryboxes = {}
         
         for i, section in enumerate(self.config):
             row += 1
-            label = tk.Label(self.frameCSS,
+            self.label = tk.Label(self.frameCSS,
                               text=section,
                              font=sectionfont,
                              fg='blue')
-            label.grid(row=row, column=0)
-            self.labels.append(label)
+            self.label.grid(row=row, column=0)
+            self.labels.append(self.label)
             
-            #self.configRows = []
             for j, prop in enumerate(self.config[section]):
                 #print(config[section][prop]['options'])
-                propDict = self.config[section][prop]
-                frameCSSSection = create_css_config_row(prop, propDict, self.frameCSS)
+                self.propDict = self.config[section][prop]
+                obj = CSSConfigRow(prop, self.propDict, self.frameCSS)
+                frameCSSSection = obj.returnCSSConfigRow()
                 row += 1
                 frameCSSSection.grid(row=row, column=0, padx=(15, 0))
                 #self.configRows.append(frameCSSSection)
+                self.entryboxes[obj.label["text"]] = obj.combobox
     def returnFrame(self):
         return self.frameCSSOuter
     def returnLabels(self):
         return self.labels
-    def returnConfigRows(self):
-        return self.configRows
+    def returnEntryboxes(self):
+        return self.entryboxes
+    def returnCSSFrame(self):
+        return self
         
 #def css_frame(parent, controller, config):
     
@@ -741,29 +756,50 @@ def css_preset_frame(parent, controller, config):
 
 ###Structure of CSS config as follows
 ###config       > section       > prop              > attr
-###CSS_CONFIG   > "What's New"  > "--WhatsNewOrder" > "desc" 
-def create_css_config_row(propName, propDict, parentFrame):
-    frameCSSRow = tk.Frame(parentFrame)
-    try:
-        
-        label = tk.Label(frameCSSRow,
-                          text=propName,anchor='w',width=25)
-        tip = Detail_tooltip(label, formatted_hover_text(propDict['default'], propDict['desc']), hover_delay=200)
-        label.grid(row=0, column=0)
-        
-        combobox = ttk.Combobox(frameCSSRow,
-                                font="TkDefaultFont",
-                                 values=get_prop_options_as_array(propDict),
-                                width=12)
-        combobox.set(propDict['current'])
-        combobox.grid(row=0, column=1, pady=1)
-    
-    except Exception as e:
-        print(e, file=sys.stderr)
-        print("CSS config in libraryroot.custom.css not configured correctly.\n", file=sys.stderr)
-        print("Either the format of configurable variables is incorrect or this feature is not fully implemented yet.\n", file=sys.stderr)
+###CSS_CONFIG   > "What's New"  > "--WhatsNewOrder" > "desc"
 
-    return frameCSSRow
+class CSSConfigRow(tk.Frame):
+    def __init__(self, propName, propDict, parentFrame):
+        self.propName = propName
+        self.propDict = propDict
+        self.parentFrame = parentFrame
+        self.frameCSSRow = tk.Frame(self.parentFrame)
+        try:
+            
+            self.label = tk.Label(self.frameCSSRow,
+                              text=self.propName,anchor='w',width=25)
+            tip = Detail_tooltip(self.label, formatted_hover_text(self.propDict['default'], self.propDict['desc']), hover_delay=200)
+            
+            self.label.grid(row=0, column=0)
+            
+            self.combobox = ttk.Combobox(self.frameCSSRow,
+                                    font="TkDefaultFont",
+                                     values=get_prop_options_as_array(self.propDict),
+                                    width=12)
+            self.combobox.set(self.propDict['current'])
+            self.combobox.grid(row=0, column=1, pady=1)
+        
+        except Exception as e:
+            print(traceback.print_exc(), file=sys.stderr)
+            print("CSS config in libraryroot.custom.css not configured correctly.\n", file=sys.stderr)
+            print("Either the format of configurable variables is incorrect or this feature is not fully implemented yet.\n", file=sys.stderr)
+
+    def returnCSSConfigRow(self):
+        return self.frameCSSRow
+    
+
+def update_css_gui(page, controller, config):
+    #print(page.frameCSS)
+    #print(dir(page.frameCSS))
+    test_css_gui_reach(page, controller, config)
+
+    #for entrybox in page.css_gui.entryboxes:
+        #config.get(sectionkey, {}).get(propkey)
+
+def test_css_gui_reach(page, controller, config):
+    print(page.css_gui.labels[0]["text"])
+    print(page.css_gui.entryboxes["--WhatsNew"].get())
+    print(page.css_gui.entryboxes["--WhatsNew"].set("lamb"))
 
 def formatted_hover_text(default, desc):
     return "Default: " + default + ". " + desc
