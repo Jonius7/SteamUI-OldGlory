@@ -12,6 +12,8 @@ import subprocess
 import platform
 
 OS_TYPE = platform.system()
+DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
+
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -88,7 +90,7 @@ class StartPage(tk.Frame):
         label1 = tk.Label(tagFrame1,
                           text="Install CSS Tweaks",
                           cursor="hand2")
-        label1.bind("<Button-1>", lambda event:change_image(image1, resource_path('buttons_before_after.png')))
+        label1.bind("<Button-1>", lambda event:change_image(image1, resource_path('full_layout.png')))
         #label1.grid(row=0, column=1, columnspan=1, sticky="w")
         label1.grid(row=0, column=0, sticky=W)
         ###
@@ -194,7 +196,7 @@ class StartPage(tk.Frame):
         label_end.grid(row=6, column=0, columnspan=2)
 
         ###
-        image1 = add_img(frameCheck, resource_path('buttons_before_after.png'))
+        image1 = add_img(frameCheck, resource_path('full_layout.png'))
         image1.grid(row=0, column=4, rowspan=7, padx=5, sticky="n")
 
     ### LOG FRAME
@@ -208,8 +210,9 @@ class StartPage(tk.Frame):
         self.text1.tag_configure("err", foreground="red")
 
         ### REDIRECT STDOUT STDERR
-        sys.stdout = StdoutRedirector(self.text1)
-        sys.stderr = StderrRedirector(self.text1)
+        if not DEBUG_STDOUT_STDERR:
+            sys.stdout = StdoutRedirector(self.text1)
+            sys.stderr = StderrRedirector(self.text1)
         
         self.text1.pack()
         entry1.grid(row=0, column=0)
@@ -481,26 +484,27 @@ def init_cb_check(var1, check2, check3):
 ### INSTALL Functions
         
 ### Map config values to selected checkboxes
-CONFIG_MAP = {"InstallCSSTweaks" : "var1",
-              "EnablePlayButtonBox" : "var2",
-              "EnableVerticalNavBar" : "var3",
-              "EnableClassicLayout" : "var4",
-              "InstallWithDarkLibrary" : "var5"}
+
+
+CONFIG_MAP = {"InstallCSSTweaks" : {"value" : "var1", "javascript" : False},
+              "EnablePlayButtonBox" : {"value" : "var2", "javascript" : False},
+              "EnableVerticalNavBar" : {"value" : "var3", "javascript" : True},
+              "EnableClassicLayout" : {"value" : "var4", "javascript" : True},
+              "InstallWithDarkLibrary" : {"value" : "var5", "javascript" : False}
+              }
 
 
 def install_click(event, page):
     get_settings_from_gui(event, page)
-    #run_js_tweaker(page.text1)
     
 def get_settings_from_gui(event, page):
     try:
         settings = []
         settings_values = {}
         for key in CONFIG_MAP:
-            #print(page.getCheckbuttonVal(CONFIG_MAP[key]).get())
-            
-            settings_values[key] = page.getCheckbuttonVal(CONFIG_MAP[key]).get()
-            if page.getCheckbuttonVal(CONFIG_MAP[key]).get() == 1:
+            #print(page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get())            
+            settings_values[key] = page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get()
+            if page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get() == 1:
                 settings.append(key)
                 #print(key)
         #print("ARRAY ")
@@ -514,10 +518,19 @@ def get_settings_from_gui(event, page):
         #print("libraryroot.custom.css not found", file=sys.stderr)
 
 def apply_settings_from_gui(page, settings_to_apply, settings_values):
-    print("Applying settings...")
+    print("Applying CSS settings...")
     page.text1.update_idletasks()
-    backend.apply_settings(settings_to_apply, settings_values)
+    backend.apply_css_settings(settings_to_apply, settings_values)
     page.text1.update_idletasks()
+
+    ### Run js_tweaker if required
+    need_javascript = 0
+    for setting in settings_to_apply:
+        if CONFIG_MAP[setting]["javascript"]:
+            need_javascript = 1
+    if need_javascript == 1:
+        run_js_tweaker(page.text1)
+    
     print("Settings applied.")
     
 def run_js_tweaker(text_area):
@@ -597,9 +610,9 @@ def set_selected_from_config(page):
     for key in loaded_config:
         if key in CONFIG_MAP :
             if loaded_config[key] == '0' :
-                page.getCheckbuttonVal(CONFIG_MAP[key]).set(0)
+                page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(0)
             if loaded_config[key] == '1' :
-                page.getCheckbuttonVal(CONFIG_MAP[key]).set(1)
+                page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
         else :
             None
 
@@ -735,6 +748,9 @@ def get_prop_options_as_array(propDict):
         return optionsarray
     except:
         print("Options Invalid", file=sys.stderr)
+
+###
+#create_user_config_from_gui():        
 
 
 def resource_path(relative_path):

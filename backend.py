@@ -1,6 +1,7 @@
 import platform
 import os.path
 import sys
+import shutil
 
 OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
@@ -21,82 +22,125 @@ user_config = {}
 ###config       > section       > prop              > attr
 ###CSS_CONFIG   > "What's New"  > "--WhatsNewOrder" > "desc" 
 
-CSS_CONFIG = {"What's New" : {
-                  "--WhatsNew" : {"default" : "block", "current" : "none",
-                       "options": {"block", "none"},
-                       "desc" : "Set to none to hide What's New"},
-                  "--WhatsNewOrder" : {"default" : "0", "current" : "1",
-                       "options": {"0", "1"},
-                       "desc" : "Set 0 to put to top, 1 or higher to put to bottom"}
+CSS_CONFIG = {
+    "What's New" : {
+        "--WhatsNew" : {
+            "default" : "block",
+            "current" : "none",
+            "options": {"block", "none"},
+            "desc" : "Set to none to hide What's New"},
+        "--WhatsNewOrder" : {
+            "default" : "0",
+            "current" : "1",
+            "options": {"0", "1"},
+            "desc" : "Set 0 to put to top, 1 or higher to put to bottom"}
+        },
+    "Left Sidebar - Games List" : {
+        "--HoverOverlayPosition" : {
+            "default" : "0",
+            "current" : "unset",
+            "options": {"0", "unset"},
+            "desc" : "Set 0 if default JS, unset if tweaked JS"},
+        "--GameListEntrySize" : {
+            "default" : "16px",
+            "current" : "16px",
+            "options": {"16px", "20px"},
+            "desc" : ""},
+        "--CategoryNameHeaderSize" : {
+            "default" : "13px",
+            "current" : "13px",
+            "options": {"13px", "16px"},
+            "desc" : ""},
+        "--GameListZoomSize" : {
+            "default" : "100%",
+            "current" : "75%",
+            "options": {"75%", "100%"},
+            "desc" : "75% highly recommended for Game List similar to old Library UI. Affects GameListEntrySize and CategoryNameHeaderSize"},
+        "--ShowLeftSidebar" : {
+            "default" : "flex",
+            "current" : "flex",
+            "options": {"flex", "none"},
+            "desc" : "Set to none to hide left sidebar"}
+        },
+    "Right Click Context Menu" : {
+        "--ContextMenuLineHeight" : {
+            "default" : "inherit",
+            "current" : "16px",
+            "options": {"inherit", "16px"},
+            "desc" : "Currently will override very long category names"},
+        "--ContextMenuFontSize" : {
+            "default" : "14px",
+            "current" : "13px",
+            "options": {"14px", "13px"},
+            "desc" : ""}
              },
-             "Left Sidebar - Games List" : {
-                  "--HoverOverlayPosition" : {"default" : "0", "current" : "unset",
-                       "options": {"0", "unset"},
-                       "desc" : "Set 0 if default JS, unset if tweaked JS"},
-                  "--GameListEntrySize" : {"default" : "16px", "current" : "16px",
-                       "options": {"16px", "20px"},
-                       "desc" : ""},
-                  "--CategoryNameHeaderSize" : {"default" : "13px", "current" : "13px",
-                       "options": {"13px", "16px"},
-                       "desc" : ""},
-                  "--GameListZoomSize" : {"default" : "100%", "current" : "75%",
-                       "options": {"75%", "100%"},
-                       "desc" : "75% highly recommended for Game List similar to old Library UI. Affects GameListEntrySize and CategoryNameHeaderSize"}, 
-                  "--ShowLeftSidebar" : {"default" : "flex", "current" : "flex",
-                       "options": {"flex", "none"},
-                       "desc" : "Set to none to hide left sidebar"}
+    "Game Grid" : {
+        "--RemoveShine" : {
+            "default" : "block",
+            "current" : "none",
+            "options": {"block","none"},
+            "desc" : "Set to none to Remove Shine/Glare on game grid images, which can cause discomfort"},
+        "--GameImageTransition" : {
+            "default" : ".4s, .4s, .4s, .2s",
+            "current" : "0s",
+            "options": {"0s", "2s", ".4s, .4s, .4s, .2s"},
+            "desc" : "Grid Game Images transition time. 0s for instant, 2s for smooth."},
+        "--GameImageOpacity" : {
+            "default" : "1",
+            "current" : "1",
+            "options": {"1", "0.7", "0.5"},
+            "desc" : 'Suggested values for "softer" images: 0.7 or 0.5'},
+        "--UninstalledGameImageOpacity" : {
+            "default" : "1",
+            "current" : "0.5",
+            "options": {"1", "0.5", "0.2"},
+            "desc" : "Suggested values: 0.5, 0.2"},
+        "--GameGridImageBackground" : {
+            "default" : "inherit",
+            "current" : "inherit",
+            "options": {"inherit", "#365d2d"},
+            "desc" : "Default is inherit, set #365d2d for a friendly green"},
+        "--GridRowGap" : {
+            "default" : "24px",
+            "current" : "8px",
+            "options": {"24px", "8px"},
+            "desc" : "Corresponds with JavaScript tweak - Home Page Grid Spacing."},
+        "--GridColumnGap" : {
+            "default" : "16px",
+            "current" : "5px",
+            "options": {"16px", "5px"},
+            "desc" : "Corresponds with JavaScript tweak - Home Page Grid Spacing."}
+        },
+    "Game Page Background" : {
+        "--AppPageBlur" : {
+            "default" : "8px",
+            "current" : "2px",
+            "options": {"8px", "2px"},
+            "desc" : "Controls the blur between the Header and AppPage content. 2px for a more clean look."},
+        "--AmbientBlur" : {
+            "default" : "black 80%",
+            "current" : "black",
+            "options": {"black 80%", "black", "rgba(0,0,0,0)"},
+            "desc" : "Set to rgba(0,0,0,0) to remove"}
              },
-             "Right Click Context Menu" : {
-                  "--ContextMenuLineHeight" : {"default" : "inherit", "current" : "16px",
-                        "options": {"inherit", "16px"},
-                        "desc" : "Currently will override very long category names"},
-                  "--ContextMenuFontSize" : {"default" : "14px", "current" : "13px",
-                        "options": {"14px", "13px"},
-                        "desc" : ""}
-             },
-             "Game Grid" : {
-                  "--RemoveShine" : {"default" : "block", "current" : "none",
-                       "options": {"block","none"},
-                       "desc" : "Set to none to Remove Shine/Glare on game grid images, which can cause discomfort"},
-                  "--GameImageTransition" : {"default" : ".4s, .4s, .4s, .2s", "current" : "0s",
-                       "options": {"0s", "2s", ".4s, .4s, .4s, .2s"},
-                       "desc" : "Grid Game Images transition time. 0s for instant, 2s for smooth."},
-                  "--GameImageOpacity" : {"default" : "1", "current" : "1",
-                       "options": {"1", "0.7", "0.5"},
-                       "desc" : 'Suggested values for "softer" images: 0.7 or 0.5'},
-                  "--UninstalledGameImageOpacity" : {"default" : "1", "current" : "0.5",
-                       "options": {"1", "0.5", "0.2"},
-                       "desc" : "Suggested values: 0.5, 0.2"},
-                  "--GameGridImageBackground" : {"default" : "inherit", "current" : "inherit",
-                       "options": {"inherit", "#365d2d"},
-                       "desc" : "Default is inherit, set #365d2d for a friendly green"},
-                  "--GridRowGap" : {"default" : "24px", "current" : "8px",
-                       "options": {"24px", "8px"},
-                       "desc" : "Corresponds with JavaScript tweak - Home Page Grid Spacing."},
-                  "--GridColumnGap" : {"default" : "16px", "current" : "5px",
-                       "options": {"16px", "5px"},
-                       "desc" : "Corresponds with JavaScript tweak - Home Page Grid Spacing."}
-             },
-             "Game Page Background" : {
-                  "--AppPageBlur" : {"default" : "8px", "current" : "2px",
-                       "options": {"8px","2px"},
-                       "desc" : "Controls the blur between the Header and AppPage content. 2px for a more clean look."},
-                  "--AmbientBlur" : {"default" : "black 80%", "current" : "black",
-                       "options": {"black 80%", "black", "rgba(0,0,0,0)"},
-                       "desc" : "Set to rgba(0,0,0,0) to remove"}
-             },
-             "Other" : {
-                  "--VerticalNavBarOffset" : {"default" : "0px", "current" : "0px",
-                       "options": {"0px"},
-                       "desc" : "Leave at 0px, this var is for steam-library compatibility"}
-            }}
-
+    "Other" : {
+        "--VerticalNavBarOffset" : {
+            "default" : "0px",
+            "current" : "0px",
+            "options": {"0px"},
+            "desc" : "Leave at 0px, this var is for steam-library compatibility"}
+        }
+    }
 
 SETTING_MAP = {"InstallCSSTweaks" : "",
                   "EnablePlayButtonBox" : {"start" : "/* PLAY BAR LAYOUT - BETA */", "end" : "/* END PLAY BAR LAYOUT */"},
                   "EnableVerticalNavBar" : {"start" : "/* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS */", "end" : "/* END VERTICAL NAV BAR */"},
                   "EnableClassicLayout" : {"start" : "/* CLASSIC LAYOUT - BETA */", "end" : "/* END CLASSIC LAYOUT */"},
                   "InstallWithDarkLibrary" : ""
+            }
+
+ROOT_MAP = {"start" : ["Configurable variables", ":root {"],
+            "end" : ["}", "======"]
             }
 
 def OS_line_ending():
@@ -173,53 +217,68 @@ def validate_settings(settings):
     #print(validated_settings)
     return validated_settings
 
-def apply_settings(settings, settings_values):
+def apply_css_settings(settings, settings_values):
     try:
         with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
              open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
+            #lines = filter(None, (line.rstrip() for line in f))
+            prevline = ""
+            startreading = 0
             for line in f:
                 modify = 0
-                for setting in settings_values:
-                    if 'start' in SETTING_MAP[setting]:
-                        start_string = SETTING_MAP[setting]['start']
-                        end_string = SETTING_MAP[setting]['end']
-                        if start_string in line:
-                            if start_string + "/*" in line:
-                                print(setting + " CSS Start commented out")
-                                print("Current Line | " + line)
-                                if settings_values[setting] == 1 and setting in settings:
-                                    modify = 1
-                                    f1.write(start_string + OS_line_ending())
-                            else:
-                                if settings_values[setting] == 0:
-                                    modify = 1
-                                    f1.write(start_string + "/*" + OS_line_ending())
-                                    print(setting + " CSS Start not commented out (enabled)")
-                        if end_string in line:
-                            if "*/" + end_string in line:
-                                print(setting + " CSS End commented out")
-                                print("Current Line | " + line)
-                                if settings_values[setting] == 1 and setting in settings:
-                                    modify = 1
-                                    f1.write(end_string + OS_line_ending())
-                            else:
-                                if settings_values[setting] == 0:
-                                    modify = 1
-                                    f1.write("*/" + end_string + OS_line_ending())
-                                    print(setting + " CSS End not commented out (enabled)")
+                ###
+                
+                if ROOT_MAP["start"][0] in prevline and ROOT_MAP["start"][1] in line:
+                    print("YAHOO " + line)
+                    #startreading = 1
+                    css_root_writer(CSS_CONFIG)
+                    
+                elif ROOT_MAP["end"][0] in prevline and ROOT_MAP["end"][1] in line:
+                    print("PARTYEND")
+                    startreading = 0
+                prevline = line
+
+                if startreading == 0:
+                    for setting in settings_values:
+                        ###
+                        if 'start' in SETTING_MAP[setting]:
+                            start_string = SETTING_MAP[setting]['start']
+                            end_string = SETTING_MAP[setting]['end']
+                            if start_string in line:
+                                if start_string + "/*" in line:
+                                    print(setting + " CSS Start commented out")
+                                    print("Current Line | " + line)
+                                    if settings_values[setting] == 1 and setting in settings:
+                                        modify = 1
+                                        f1.write(start_string + OS_line_ending())
+                                else:
+                                    if settings_values[setting] == 0:
+                                        modify = 1
+                                        f1.write(start_string + "/*" + OS_line_ending())
+                                        print(setting + " CSS Start not commented out (enabled)")
+                            if end_string in line:
+                                if "*/" + end_string in line:
+                                    print(setting + " CSS End commented out")
+                                    print("Current Line | " + line)
+                                    if settings_values[setting] == 1 and setting in settings:
+                                        modify = 1
+                                        f1.write(end_string + OS_line_ending())
+                                else:
+                                    if settings_values[setting] == 0:
+                                        modify = 1
+                                        f1.write("*/" + end_string + OS_line_ending())
+                                        print(setting + " CSS End not commented out (enabled)")
+                elif startreading == 1:
+                    modify = 1
                 if modify == 0:
                     f1.write(line)
-                
-                '''
-                for setting in settings:
-                    if fix in line:
-                        f1.write(find_fix(line, fix))
-                        modified = 1
-                if modified == 0:
-                    f1.write(line)
-                '''
         f.close()
         f1.close()
+
+        ###
+        shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
+        shutil.move("libraryroot.custom.temp.css", "libraryroot.custom.css")
+        
     except FileNotFoundError:
         print("libraryroot.custom.css not found", file=sys.stderr)
 
@@ -228,10 +287,12 @@ def strip_tag(s, subs):
     return s[:i+len(subs)]
 
 
+
+
+
 ### CSS functions
+### Triggers on Reload Config (button)
 def load_css_options():
-    start = ["Configurable variables", ":root {"]
-    end = ["}", "======"]
 
     loaded_css_config = {}
     
@@ -240,10 +301,10 @@ def load_css_options():
         prevline = ""
         startreading = 0
         for line in lines:
-            if start[0] in prevline and start[1] in line:
+            if ROOT_MAP["start"][0] in prevline and ROOT_MAP["start"][1] in line:
                 print("YAHOO")
                 startreading = 1
-            elif end[0] in prevline and end[1] in line:
+            elif ROOT_MAP["end"][0] in prevline and ROOT_MAP["end"][1] in line:
                 print("PARTYEND")
                 startreading = 0
                 break
@@ -268,7 +329,8 @@ def css_line_parser(line):
     ###print("TODO", file=sys.stdout)
     try:
         if line.lstrip()[:2] == "/*":
-            print("SECTION | " + line.lstrip()[3:-3])
+            section = line.lstrip()[3:-3]
+            #print("SECTION | " + section)
         elif line.lstrip()[:5] == ":root":
             pass
         elif line.lstrip()[:1] == "}":
@@ -277,11 +339,49 @@ def css_line_parser(line):
             name = line.split(":", 1)
             value = name[1].split(";")
             desc = value[1].lstrip()
-            print(name[0] + "  |  " + value[0] + "  |  " + desc)
+            #print(name[0] + "  |  " + value[0] + "  |  " + desc)
+            default = ""
+            if "/* Default: " in desc:
+                default = "WHAT"
+                default = desc.split("/* Default: ")[1].split(".")[0]                                                            
+            else:
+                default = value[0]
+            #print("PARSING DEFAULT:  " + default)
+            
     except:
-        print("Some error at: " + line)
+        print("Some error in line: " + line)
 
+#from CSS file, create USER_CSS_CONFIG dictionary
+def css_root_to_dict_css_config():
+    user_css_config = {}
+    return user_css_config
 
-#temp
-def css_root_writer(line):
-    print ('w')
+#root writer
+#from CSS_CONFIG dictionary to an array of lines of CSS to be written
+def css_root_writer(css_config):
+    print("START ROOT WRITER")
+    indent = "  "
+    css_lines = []
+    css_lines.append(":root {")
+    for key in css_config:
+        print(key)
+        css_lines.append(indent + "/* " + key + " */")
+        #
+        for prop in css_config[key]:
+            css_lines.append(indent + prop + ": "
+                             + css_config[key][prop]["current"] + ";  "
+                             + "/* Default: " + css_config[key][prop]["default"] + ". "
+                             + css_config[key][prop]["desc"] + " */")
+        css_lines.append("")
+    del css_lines[-1]
+    css_lines.append("}")
+    #print(css_lines)
+    return css_lines
+
+def css_root_writer_example():
+    indent = "  "
+    file = open("rootfile.css", "w", newline='', encoding="UTF-8")
+    for line in css_root_writer(CSS_CONFIG):
+        file.write(line + OS_line_ending())
+    file.close()
+    
