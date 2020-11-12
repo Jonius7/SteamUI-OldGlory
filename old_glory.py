@@ -640,7 +640,8 @@ def css_config_to_gui(page, controller, config):
     cssOptionsFrame = tk.Frame(page)
     x = CSSFrame(cssOptionsFrame, controller, config)
     frameCSSOuter = x.returnFrame()
-    #print(x.returnLabels())
+    for label in x.returnLabels():
+        print(label["text"])
     framePreset = css_preset_frame(cssOptionsFrame, controller, config)
 
     #Configure grid expand
@@ -698,17 +699,20 @@ class CSSFrame(tk.Frame):
             label.grid(row=row, column=0)
             self.labels.append(label)
             
-            labelgroup = []
+            #self.configRows = []
             for j, prop in enumerate(self.config[section]):
                 #print(config[section][prop]['options'])
                 propDict = self.config[section][prop]
                 frameCSSSection = create_css_config_row(prop, propDict, self.frameCSS)
                 row += 1
                 frameCSSSection.grid(row=row, column=0, padx=(15, 0))
+                #self.configRows.append(frameCSSSection)
     def returnFrame(self):
         return self.frameCSSOuter
     def returnLabels(self):
         return self.labels
+    def returnConfigRows(self):
+        return self.configRows
         
 #def css_frame(parent, controller, config):
     
