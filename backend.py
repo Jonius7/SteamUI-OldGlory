@@ -2,6 +2,7 @@ import platform
 import os.path
 import sys
 import shutil
+import traceback
 
 OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
@@ -26,7 +27,7 @@ CSS_CONFIG = {
     "What's New" : {
         "--WhatsNew" : {
             "default" : "block",
-            "current" : "none",
+            "current" : "block",
             "options": {"block", "none"},
             "desc" : "Set to none to hide What's New"},
         "--WhatsNewOrder" : {
@@ -230,8 +231,9 @@ def apply_css_settings(settings, settings_values):
                 
                 if ROOT_MAP["start"][0] in prevline and ROOT_MAP["start"][1] in line:
                     print("YAHOO " + line)
-                    #startreading = 1
-                    css_root_writer(CSS_CONFIG)
+                    startreading = 1
+                    for line in css_root_writer(CSS_CONFIG):
+                        f1.write(line + OS_line_ending())
                     
                 elif ROOT_MAP["end"][0] in prevline and ROOT_MAP["end"][1] in line:
                     print("PARTYEND")
@@ -295,34 +297,51 @@ def strip_tag(s, subs):
 def load_css_options():
 
     loaded_css_config = {}
-    
-    with open('libraryroot.custom.css', newline='', encoding="UTF-8") as infile:
-        lines = filter(None, (line.rstrip() for line in infile))
-        prevline = ""
-        startreading = 0
-        for line in lines:
-            if ROOT_MAP["start"][0] in prevline and ROOT_MAP["start"][1] in line:
-                print("YAHOO")
-                startreading = 1
-            elif ROOT_MAP["end"][0] in prevline and ROOT_MAP["end"][1] in line:
-                print("PARTYEND")
-                startreading = 0
-                break
-            prevline = line
-            if startreading == 1:
-                css_line_parser(line)
-    infile.close()
-    print("U SEEING")
-    '''
-            for src, target in swap_js.items():
-                line = line.replace(src, target)
-            lines.append(line)
-    with open('library.js', 'w') as outfile:
-        for line in lines:
-            outfile.write(line)
-    '''
-
-    
+    try:
+        with open('libraryroot.custom.css', newline='', encoding="UTF-8") as infile:
+            lines = filter(None, (line.rstrip() for line in infile))
+            prevline = ""
+            startreading = 0
+            sectionkey = ""
+            for line in lines:
+                if ROOT_MAP["start"][0] in prevline and ROOT_MAP["start"][1] in line:
+                    #print("YAHOO")
+                    #print(line)
+                    startreading = 1
+                elif ROOT_MAP["end"][0] in prevline and ROOT_MAP["end"][1] in line:
+                    #print("PARTYEND")
+                    #print(line)
+                    startreading = 0
+                    break
+                prevline = line
+                if startreading == 1:
+                    css_line_values = css_line_parser(line)
+                    if css_line_values == "brace":
+                        pass
+                    elif "section" in css_line_values:
+                        sectionkey = css_line_values["section"]
+                        loaded_css_config[sectionkey] = {}
+                    elif all (k in css_line_values for k in ("name", "default", "current", "desc")):
+                        propkey = css_line_values["name"]
+                        loaded_css_config[sectionkey][propkey] = {}
+                        loaded_css_config[sectionkey][propkey]["default"] = css_line_values["default"]
+                        loaded_css_config[sectionkey][propkey]["current"] = css_line_values["current"]
+                        ### create options attr
+                        print(CSS_CONFIG.get(sectionkey, {}).get(propkey))
+                        if exists_key_value := CSS_CONFIG.get(sectionkey, {}).get(propkey):
+                            loaded_css_config[sectionkey][propkey]["options"] = CSS_CONFIG[sectionkey][propkey]["options"]
+                        else:
+                            print("Options not found in default, creating from default + current values")
+                            loaded_css_config[sectionkey][propkey]["options"] = {css_line_values["default"], css_line_values["current"]}
+                        loaded_css_config[sectionkey][propkey]["desc"] = css_line_values["desc"]
+        infile.close()
+    except:
+        print("Error loading CSS config from line: " + line, file=sys.stderr)
+        print("~~~~~~~~~~")
+        print(traceback.print_exc(), file=sys.stderr)
+        print("~~~~~~~~~~")
+        print("Using default CSS config.")
+        loaded_css_config = CSS_CONFIG
     return loaded_css_config
 
 def css_line_parser(line):
@@ -330,14 +349,14 @@ def css_line_parser(line):
     try:
         if line.lstrip()[:2] == "/*":
             section = line.lstrip()[3:-3]
-            #print("SECTION | " + section)
+            return {"section" : section}
         elif line.lstrip()[:5] == ":root":
-            pass
+            return "brace"
         elif line.lstrip()[:1] == "}":
-            pass        
+            return "brace"     
         else:
-            name = line.split(":", 1)
-            value = name[1].split(";")
+            name = line.lstrip().split(":", 1)
+            value = name[1].lstrip().split(";")
             desc = value[1].lstrip()
             #print(name[0] + "  |  " + value[0] + "  |  " + desc)
             default = ""
@@ -346,15 +365,20 @@ def css_line_parser(line):
                 default = desc.split("/* Default: ")[1].split(".")[0]                                                            
             else:
                 default = value[0]
-            #print("PARSING DEFAULT:  " + default)
-            
-    except:
-        print("Some error in line: " + line)
+            #print({"name" : name, "default" : default, "current" : value, "desc" : desc})
+            return {"name" : name[0], "default" : default, "current" : value[0], "desc" : desc}   
+    except Exception as e:
+        print("Some error in line: " + line, file=sys.stderr)
+        print("~~~~~~~~~~")
+        print(traceback.print_exc(), file=sys.stderr)
+        print("~~~~~~~~~~")
+        
 
 #from CSS file, create USER_CSS_CONFIG dictionary
-def css_root_to_dict_css_config():
-    user_css_config = {}
-    return user_css_config
+def css_line_to_dict_value():
+    print("D")
+
+
 
 #root writer
 #from CSS_CONFIG dictionary to an array of lines of CSS to be written

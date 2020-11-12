@@ -10,6 +10,8 @@ import js_tweaker
 import os
 import subprocess
 import platform
+import queue
+from threading import Thread
 
 OS_TYPE = platform.system()
 DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
@@ -284,6 +286,15 @@ class PageOne(tk.Frame):
 
     ### CSS Frame
     ###
+        ### Start as Thread
+        #que = queue.Queue()
+        #x = Thread(target = lambda q, arg1: q.put(backend.load_css_options(arg1)), args=(que))
+        #x.start()
+        #x.join()
+        #self.frameCSS = css_config_to_gui(self, controller, que.get())
+        print("B4")
+        print("AFTR")
+        self.frameCSS = tk.Frame(self)
         self.frameCSS = css_config_to_gui(self, controller, backend.CSS_CONFIG)
         
     ### MODE Frame
@@ -319,6 +330,8 @@ class PageOne(tk.Frame):
         self.frameCSS.pack(fill="both", expand=True, padx=10)
         frameConfirm.pack(pady=(7, 20), side="bottom")
         frameMode.pack(pady=(2, 0), side="bottom")
+
+        self.frameCSS = css_config_to_gui(self, controller, backend.load_css_options())
 
 class PageTwo(tk.Frame):
     def __init__(self, parent, controller):
@@ -446,8 +459,8 @@ class StdoutRedirector(IORedirector):
 class StderrRedirector(IORedirector):
     def write(self, text):
         self.text_area.config(state='normal')
-        self.text_area.config(foreground="red")
-        self.text_area.insert(tk.END, text)
+        self.text_area.tag_configure("err", foreground="red")
+        self.text_area.insert(tk.END, text, ("err"))
         self.text_area.yview_pickplace("end")
         self.text_area.config(state='disabled')        
     def flush(self):
