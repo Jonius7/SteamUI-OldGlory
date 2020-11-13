@@ -71,6 +71,15 @@ Original Design by EliteSkylu
     padding: 6px 3px 0px 0px;
 }
 
+.gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
+  transform: translateX(-6.75px);
+}
+
+.gamelistentry_FriendStatusHover_2iiN7 {
+  transform: translateX(-6.75px);
+}
+
+
 /* fade in out at edges */
 .gamelist_Container_1ijTa {
     -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
@@ -97,6 +106,11 @@ Original Design by EliteSkylu
 /* What's new Background */
 .libraryhome_UpdatesContainer_17uEB {
     background: unset;
+}
+
+/* What's New rounded corners */
+.libraryhomenewupdates_PartnerEventRowCapsule_MainImageContainer_SPz0i {
+    border-radius: 10px;
 }
 
 /* Library background */
