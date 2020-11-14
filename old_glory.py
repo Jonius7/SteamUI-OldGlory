@@ -15,7 +15,7 @@ import traceback
 #from threading import Thread
 
 OS_TYPE = platform.system()
-DEBUG_STDOUT_STDERR = True  # Only useful for debugging purposes, set to True
+DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
 
 
 class OldGloryApp(tk.Tk):
@@ -23,8 +23,8 @@ class OldGloryApp(tk.Tk):
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
         container = tk.Frame(self)
-        windowW = 700
-        windowH = 600
+        windowW = 740
+        windowH = 620
         self.geometry((str(windowW)+'x'+str(windowH)+'+650+300'))
         self.minsize(width=windowW, height=windowH)
         self.maxsize(width=windowW, height=windowH)
@@ -88,7 +88,7 @@ class StartPage(tk.Frame):
                                  variable=self.var1
                                  )
                                  
-        check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, check2, check3))
+        check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, [check2, check3, check5]))
         check1.grid(row=0, column=0)
         ###        
         mo1 = MainOption(
@@ -110,7 +110,7 @@ class StartPage(tk.Frame):
         mo2 = MainOption(
             parentFrame=frameCheck,
             page=self,
-            name="Box Play Button",
+            name="  \u2937 Box Play Button",
             image="play_button_box.png",
             tags=["CSS"])
         mainoption2 = mo2.returnMainOption()
@@ -122,13 +122,13 @@ class StartPage(tk.Frame):
         check3 = ttk.Checkbutton(frameCheck,
                                  variable=self.var3,
                                  state='disabled')
-        check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, check4, check4))
+        check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, [check4]))
         check3.grid(row=2, column=0)
         ###
         mo3 = MainOption(
             parentFrame=frameCheck,
             page=self,
-            name="Vertical Nav Bar",
+            name="  \u2937 Vertical Nav Bar",
             image="vertical_nav_bar.png",
             tags=["CSS", "JS"])
         mainoption3 = mo3.returnMainOption()
@@ -146,12 +146,12 @@ class StartPage(tk.Frame):
         mo4 = MainOption(
             parentFrame=frameCheck,
             page=self,
-            name="Classic Layout",
+            name="    \u2937 Classic Layout",
             image="classic_layout.png",
             tags=["CSS", "JS"])
         mainoption4 = mo4.returnMainOption()
         mainoption4.grid(row=3, column=1, sticky=W)
-
+        
         ######
         self.var5 = tk.IntVar()
         check5 = ttk.Checkbutton(frameCheck,
@@ -161,30 +161,45 @@ class StartPage(tk.Frame):
         mo5 = MainOption(
             parentFrame=frameCheck,
             page=self,
+            name="  \u2937 Landscape Game Images",
+            image="landscape_images.png",
+            tags=["CSS", "JS"])
+        mainoption5 = mo5.returnMainOption()
+        mainoption5.grid(row=4, column=1, sticky=W)
+
+        ######
+        self.var6 = tk.IntVar()
+        check6 = ttk.Checkbutton(frameCheck,
+                                 variable=self.var6)
+        check6.grid(row=5, column=0)
+        ###
+        mo6 = MainOption(
+            parentFrame=frameCheck,
+            page=self,
             name="Dark Library Theme",
             image="dark_steam_library.png",
             tags=["CSS"])
-        mainoption5 = mo5.returnMainOption()
-        mainoption5.grid(row=4, column=1, sticky=W)
+        mainoption6 = mo6.returnMainOption()
+        mainoption6.grid(row=5, column=1, sticky=W)
         ###
-        self.dropdown5_value = tk.IntVar()
-        self.dropdown5 = ttk.Combobox(frameCheck,
+        self.dropdown6_value = tk.IntVar()
+        self.dropdown6 = ttk.Combobox(frameCheck,
                                  font="TkDefaultFont",
                                  values=["steam-library (Shiina)","Dark Library (Thespikedballofdoom)"],
                                  state="readonly",
-                                 textvariable=self.dropdown5_value,
+                                 textvariable=self.dropdown6_value,
                                  width=30)
-        self.dropdown5.current(0)
-        self.dropdown5.grid(row=5, column=1, columnspan=2, sticky="w")
+        self.dropdown6.current(0)
+        self.dropdown6.grid(row=6, column=1, columnspan=2, sticky="w")
         
         
         ###
-        label_end = tk.Label(frameCheck, height=2)
-        label_end.grid(row=6, column=0, columnspan=2)
+        label_end = tk.Label(frameCheck, height=0)
+        label_end.grid(row=7, column=0, columnspan=2)
 
         ###
         self.image1 = add_img(frameCheck, resource_path('full_layout.png'))
-        self.image1.grid(row=0, column=4, rowspan=7, padx=5, sticky="n")
+        self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")
 
     ### LOG FRAME
     ###
@@ -239,10 +254,10 @@ class StartPage(tk.Frame):
 
 
         ### Set GUI from config
-        #set_selected_from_config(self)
+        set_selected_from_config(self)
         self.text1.config(state='disabled')
-        init_cb_check(self.var1, check2, check3)
-        init_cb_check(self.var3, check4, check4)
+        init_cb_check(self.var1, [check2, check3, check5])
+        init_cb_check(self.var3, [check4])
 
     ### Pack frames
         self.frameHead.pack()
@@ -454,21 +469,22 @@ class StderrRedirector(IORedirector):
 ### Checkbox Validation - Disable
 ### ================================
 ### may rewrite, so array of checkboxes instead of separate arguments
-def css_cb_check(event, var1, check2, check3):
+### rewritten, but still the two functions
+def css_cb_check(event, var1, checks):
     if var1.get() == 0:
-        check2.config(state='enabled')
-        check3.config(state='enabled')
+        for check in checks:
+            check.config(state='enabled')
     else:
-        check2.config(state='disabled')
-        check3.config(state='disabled')
+        for check in checks:
+            check.config(state='disabled')
         
-def init_cb_check(var1, check2, check3):
+def init_cb_check(var1, checks):
     if var1.get() == 1:
-        check2.config(state='enabled')
-        check3.config(state='enabled')
+        for check in checks:
+            check.config(state='enabled')
     else:
-        check2.config(state='disabled')
-        check3.config(state='disabled')
+        for check in checks:
+            check.config(state='disabled')
 ### ================================
 
 
@@ -505,30 +521,38 @@ class MainOption(tk.Frame):
 ### Map config values to selected checkboxes
 
 
-CONFIG_MAP = {"InstallCSSTweaks" : {"value" : "var1", "javascript" : False},
+CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
+              "PatcherPath" : {"set" : ""},
+              "" : {},
+              "InstallCSSTweaks" : {"value" : "var1", "javascript" : False},
               "EnablePlayButtonBox" : {"value" : "var2", "javascript" : False},
               "EnableVerticalNavBar" : {"value" : "var3", "javascript" : True},
               "EnableClassicLayout" : {"value" : "var4", "javascript" : True},
-              "InstallWithDarkLibrary" : {"value" : "var5", "javascript" : False}
+              "LandscapeImages" : {"value" : "var5", "javascript" : True},
+              "InstallWithDarkLibrary" : {"value" : "var6", "javascript" : False}
               }
-
+LOADED_CONFIG = backend.load_config()
 
 def install_click(event, page):
     #get settings
     settings_to_apply, settings_values = get_settings_from_gui(event, page)
     #applying settings
     apply_settings_from_gui(page, settings_to_apply, settings_values)
+    backend.write_config(settings_values)
     
 def get_settings_from_gui(event, page):
     try:
         settings = []
         settings_values = {}
         for key in CONFIG_MAP:
-            #print(page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get())            
-            settings_values[key] = page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get()
-            if page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get() == 1:
-                settings.append(key)
-                #print(key)
+            if "value" in CONFIG_MAP[key]:         
+                settings_values[key] = page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get()
+                if page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get() == 1:
+                    settings.append(key)
+            elif "set" in CONFIG_MAP[key]:
+                settings_values[key] = CONFIG_MAP[key]["set"]    
+            else:
+                settings_values[""] = ""
         #print("ARRAY ")
         settings_to_apply = backend.validate_settings(settings)
         print(settings_to_apply)
@@ -546,11 +570,24 @@ def apply_settings_from_gui(page, settings_to_apply, settings_values):
     page.text1.update_idletasks()
 
     ### Run js_tweaker if required
-    need_javascript = 0
-    for setting in settings_to_apply:
-        if CONFIG_MAP[setting]["javascript"]:
-            need_javascript = 1
-    if need_javascript == 1:
+    #need_javascript = 0
+    #for setting in settings_to_apply:
+    #    if CONFIG_MAP[setting]["javascript"]:
+    #        need_javascript = 1
+    #if need_javascript == 1:
+    #    run_js_tweaker(page.text1)
+
+    change_javascript = 0
+    for setting in settings_values:
+        #print("javascript" in CONFIG_MAP[setting])
+        if "javascript" in CONFIG_MAP[setting]:
+            if CONFIG_MAP[setting]["javascript"] \
+            and int(LOADED_CONFIG[setting]) != page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get():
+                print(int(LOADED_CONFIG[setting]))
+                print(page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get())
+                change_javascript = 1
+        
+    if change_javascript == 1:
         run_js_tweaker(page.text1)
     
     print("Settings applied.")
@@ -623,19 +660,15 @@ class Detail_tooltip(OnHoverTooltipBase):
 def set_selected_from_config(page):
     
     ### grab stdout, stderr from function in backend
-    f = io.StringIO()
-    #with contextlib.redirect_stdout(f):
-    loaded_config = backend.load_config()
-        
-        
-    for key in loaded_config:
+    #f = io.StringIO()
+    #with contextlib.redirect_stdout(f):   
+    for key in LOADED_CONFIG:
         if key in CONFIG_MAP :
-            if loaded_config[key] == '0' :
+            if LOADED_CONFIG[key] == '0' :
                 page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(0)
-            if loaded_config[key] == '1' :
+            if LOADED_CONFIG[key] == '1' :
                 page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
-        else :
-            None
+    print(LOADED_CONFIG)
 
 ### CSS Config to GUI
 class CSSGUICreator(tk.Frame):
@@ -782,7 +815,7 @@ class PresetFrame(tk.Frame):
         label_preset_head.grid(row=0, column=0)
         
         button1 = ttk.Button(self.framePreset,
-                        text="What's New",
+                        text="Coming Soon",
                             state="disabled",
                         width=12                       
         )

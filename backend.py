@@ -15,6 +15,7 @@ DEFAULT_CONFIG = {"SteamLibraryPath" : "",
                   "EnablePlayButtonBox" : "0",
                   "EnableVerticalNavBar" : "0",
                   "EnableClassicLayout" : "0",
+                  "LandscapeImages" : "0",
                   "InstallWithDarkLibrary" : "0"}
 user_config = {}
 
@@ -133,10 +134,14 @@ CSS_CONFIG = {
         }
     }
 
-SETTING_MAP = {"InstallCSSTweaks" : "",
+SETTING_MAP = {"SteamLibraryPath" : "",
+                  "PatcherPath" : "",
+                  "" : "",
+                  "InstallCSSTweaks" : "",
                   "EnablePlayButtonBox" : {"start" : "/* PLAY BAR LAYOUT - BETA */", "end" : "/* END PLAY BAR LAYOUT */"},
                   "EnableVerticalNavBar" : {"start" : "/* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS */", "end" : "/* END VERTICAL NAV BAR */"},
                   "EnableClassicLayout" : {"start" : "/* CLASSIC LAYOUT - BETA */", "end" : "/* END CLASSIC LAYOUT */"},
+                  "LandscapeImages" : {"start" : "/*HORIZONTAL GAME IMAGE TWEAKS*/", "end" : "/*END HORIZONTAL GAME IMAGE TWEAKS*/"},                
                   "InstallWithDarkLibrary" : ""
             }
 
@@ -172,7 +177,7 @@ def load_config():
     config_filename = "oldglory_config.cfg"
     if not os.path.isfile(config_filename) :
         print("Config file " + config_filename + " not found. Creating copy with default options.", file=sys.stderr)
-        create_config()
+        write_config(DEFAULT_CONFIG)
         return DEFAULT_CONFIG
     else :
         with open("oldglory_config.cfg", newline='', encoding="UTF-8") as fi:
@@ -187,10 +192,10 @@ def load_config():
         fi.close()
     return config_dict  
 
-def create_config():
+def write_config(config_dict):
     with open("oldglory_config.cfg", "w", newline='', encoding="UTF-8") as config_file:
-        for config in DEFAULT_CONFIG:
-            line_to_write = config + "=" + DEFAULT_CONFIG[config] + "\n"
+        for config in config_dict:
+            line_to_write = config + "=" + str(config_dict[config]) + "\n"
             if line_to_write == "=\n":
                 line_to_write = "\n"
             config_file.write(line_to_write)
@@ -210,7 +215,9 @@ def validate_settings(settings):
             validated_settings.extend(["EnableVerticalNavBar", "EnableClassicLayout"])
         elif "EnableVerticalNavBar" in settings: #3
             validated_settings.extend(["EnableVerticalNavBar"])
-        if "InstallWithDarkLibrary" in settings: #5
+        if "LandscapeImages" in settings: #2
+            validated_settings.extend(["LandscapeImages"])
+        if "InstallWithDarkLibrary" in settings: #6
             print("DARK STEAM")
             validated_settings.extend(["InstallWithDarkLibrary"])
         
