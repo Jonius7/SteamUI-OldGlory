@@ -1,7 +1,6 @@
 #JS Tweaker for Steam Library UI by Jonius7
 #libraries needed: jsbeautifier, jsmin
 
-
 import jsbeautifier
 import os.path
 import sys
@@ -24,7 +23,6 @@ def beautify_js():
         f.write(library)
         f.close()
         print("Beautified file write finished")
-
 
 #modify library.js to look for different libraryroot.js file
 def setup_library():
