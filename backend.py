@@ -225,7 +225,7 @@ def validate_settings(settings):
     #print(validated_settings)
     return validated_settings
 
-def apply_css_settings(settings, settings_values):
+def apply_css_settings(settings, settings_values, root_config):
     try:
         with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
              open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
@@ -239,7 +239,7 @@ def apply_css_settings(settings, settings_values):
                 if ROOT_MAP["start"][0] in prevline and ROOT_MAP["start"][1] in line:
                     print("YAHOO " + line)
                     startreading = 1
-                    for line in css_root_writer(CSS_CONFIG):
+                    for line in css_root_writer(root_config):
                         f1.write(line + OS_line_ending())
                     
                 elif ROOT_MAP["end"][0] in prevline and ROOT_MAP["end"][1] in line:
@@ -301,7 +301,7 @@ def strip_tag(s, subs):
 
 ### Triggers on Reload Config (button)
 ### Create CSS Config dict from :root in css file
-def load_css_options():
+def load_css_configurables():
 
     loaded_css_config = {}
     try:
@@ -365,15 +365,21 @@ def css_line_parser(line):
         else:
             name = line.lstrip().split(":", 1)
             value = name[1].lstrip().split(";")
-            desc = value[1].lstrip()
-            #print(name[0] + "  |  " + value[0] + "  |  " + desc)
+            comment = value[1].lstrip()
             default = ""
-            if "/* Default: " in desc:
-                default = "WHAT"
-                default = desc.split("/* Default: ")[1].split(".")[0]                                                            
+            if "/* Default: " in comment:
+                comment_m = comment.split("/* Default: ")[1].split(".", 1)
+                print(comment_m)
+                default = comment_m[0].lstrip()
+                #print(comment_m[1].strip()[:-2])
+                desc = comment_m[1].split("*/")[0].strip()
             else:
                 default = value[0]
-            return {"name" : name[0], "default" : default, "current" : value[0], "desc" : desc}   
+                #print(comment)
+                desc = comment.split("/*")[1].split("*/")[0].strip()
+                
+            #print(name[0] + "  |  " + default + "  |  " + value[0] + "  |  " + desc)
+            return {"name" : name[0], "default" : default, "current" : value[0], "desc" : desc}
     except Exception as e:
         print("Some error in line: " + line, file=sys.stderr)
         print("~~~~~~~~~~")

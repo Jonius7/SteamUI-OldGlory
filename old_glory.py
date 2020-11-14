@@ -48,7 +48,7 @@ class OldGloryApp(tk.Tk):
                 })]
             })]
         )
-
+        
         ### Styling Combobox dropdown
         self.option_add("*TCombobox*Listbox*font", (self.default_font))
         
@@ -56,6 +56,9 @@ class OldGloryApp(tk.Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
+        ### Loaded CSS Configurables
+        self.css_config = {}
+        
         ### Frames/Pages configure
         self.frames = {}
         
@@ -209,8 +212,7 @@ class StartPage(tk.Frame):
         entry1 = ttk.Entry(frameLog)
         self.text1 = tk.Text(entry1, height=12)
         self.text1.configure(font=("Arial",10))
-        self.text1.tag_configure("err", foreground="red")
-
+        #self.text1.tag_configure("err", foreground="red")
         ### REDIRECT STDOUT STDERR
         if not DEBUG_STDOUT_STDERR:
             sys.stdout = StdoutRedirector(self.text1)
@@ -254,7 +256,7 @@ class StartPage(tk.Frame):
 
 
         ### Set GUI from config
-        set_selected_from_config(self)
+        self.loaded_config = set_selected_from_config(self)
         self.text1.config(state='disabled')
         init_cb_check(self.var1, [check2, check3, check5])
         init_cb_check(self.var3, [check4])
@@ -415,7 +417,7 @@ def confirm_frame(self, controller):
                        width=15                       
     )
     button1.bind("<Button-1>",
-                 lambda event:globals()["install_click"](event, self)
+                 lambda event:globals()["install_click"](event, self, controller)
                  )
     button1.grid(row=0, column=0, padx=5)
     
@@ -426,7 +428,7 @@ def confirm_frame(self, controller):
                        ###state='disabled'
     )
     button2.bind("<Button-1>",
-                 lambda event:reload_click(event, controller.frames[StartPage].text1)
+                 lambda event:reload_click(event, controller)
                  )
     button2.grid(row=0, column=1, padx=5)
     return frameConfirm
@@ -517,10 +519,8 @@ class MainOption(tk.Frame):
     
         
 ### INSTALL Functions
-        
+  
 ### Map config values to selected checkboxes
-
-
 CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
               "PatcherPath" : {"set" : ""},
               "" : {},
@@ -531,13 +531,12 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
               "LandscapeImages" : {"value" : "var5", "javascript" : True},
               "InstallWithDarkLibrary" : {"value" : "var6", "javascript" : False}
               }
-LOADED_CONFIG = backend.load_config()
 
-def install_click(event, page):
+def install_click(event, page, controller):
     #get settings
     settings_to_apply, settings_values = get_settings_from_gui(event, page)
     #applying settings
-    apply_settings_from_gui(page, settings_to_apply, settings_values)
+    apply_settings_from_gui(page, settings_to_apply, settings_values, controller.css_config)
     backend.write_config(settings_values)
     
 def get_settings_from_gui(event, page):
@@ -563,10 +562,10 @@ def get_settings_from_gui(event, page):
         pass
         print("libraryroot.custom.css not found", file=sys.stderr)
 
-def apply_settings_from_gui(page, settings_to_apply, settings_values):
+def apply_settings_from_gui(page, settings_to_apply, settings_values, root_config):
     print("Applying CSS settings...")
     page.text1.update_idletasks()
-    backend.apply_css_settings(settings_to_apply, settings_values)
+    backend.apply_css_settings(settings_to_apply, settings_values, root_config)
     page.text1.update_idletasks()
 
     ### Run js_tweaker if required
@@ -582,8 +581,8 @@ def apply_settings_from_gui(page, settings_to_apply, settings_values):
         #print("javascript" in CONFIG_MAP[setting])
         if "javascript" in CONFIG_MAP[setting]:
             if CONFIG_MAP[setting]["javascript"] \
-            and int(LOADED_CONFIG[setting]) != page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get():
-                print(int(LOADED_CONFIG[setting]))
+            and int(page.loaded_config[setting]) != page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get():
+                print(int(page.loaded_config[setting]))
                 print(page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get())
                 change_javascript = 1
         
@@ -619,8 +618,10 @@ def run_js_tweaker(text_area):
 
 ### RELOAD Functions
 ### ================================
-def reload_click(event, text_area):
-    backend.load_css_options()
+def reload_click(event, controller):
+    #.frames[StartPage].text1
+    controller.css_config = backend.load_css_configurables()
+    #print(controller.css_config["What's New"])
 
 ### Image Functions
 
@@ -658,17 +659,17 @@ class Detail_tooltip(OnHoverTooltipBase):
         
 ### Initialisation
 def set_selected_from_config(page):
-    
     ### grab stdout, stderr from function in backend
-    #f = io.StringIO()
+    f = io.StringIO()
+    loaded_config = backend.load_config()
     #with contextlib.redirect_stdout(f):   
-    for key in LOADED_CONFIG:
+    for key in loaded_config:
         if key in CONFIG_MAP :
-            if LOADED_CONFIG[key] == '0' :
+            if loaded_config[key] == '0' :
                 page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(0)
-            if LOADED_CONFIG[key] == '1' :
+            if loaded_config[key] == '1' :
                 page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
-    print(LOADED_CONFIG)
+    return loaded_config
 
 ### CSS Config to GUI
 class CSSGUICreator(tk.Frame):
