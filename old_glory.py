@@ -325,7 +325,7 @@ class PageOne(tk.Frame):
         frameConfirm.pack(pady=(7, 20), side="bottom")
         frameMode.pack(pady=(2, 0), side="bottom")
 
-        #self.frameCSS = create_css_gui(self, controller, backend.load_css_options())
+        #self.frameCSS = create_css_gui(self, controller, backend.load_css_configurables())
 
 class PageTwo(tk.Frame):
     def __init__(self, parent, controller):
@@ -437,8 +437,8 @@ def confirm_frame(self, controller):
 ### Show Page Functions
 def show_PageOne(controller):
     controller.show_frame(PageOne)
-    #controller.frames[PageOne].frameCSS = create_css_gui(controller.frames[PageOne], controller, backend.load_css_options())
-    update_css_gui(controller.frames[PageOne], controller, backend.load_css_options())
+    #controller.frames[PageOne].frameCSS = create_css_gui(controller.frames[PageOne], controller, backend.load_css_configurables())
+    update_css_gui(controller.frames[PageOne], controller, backend.load_css_configurables())
 
 ### Redirect Stdout, Stderr
 ### ================================
@@ -565,7 +565,7 @@ def get_settings_from_gui(event, page):
 def apply_settings_from_gui(page, settings_to_apply, settings_values, root_config):
     print("Applying CSS settings...")
     page.text1.update_idletasks()
-    backend.apply_css_settings(settings_to_apply, settings_values, root_config)
+    backend.write_css_settings(settings_to_apply, settings_values, root_config)
     page.text1.update_idletasks()
 
     ### Run js_tweaker if required
@@ -679,8 +679,8 @@ class CSSGUICreator(tk.Frame):
         self.config = config
         ###Outer frame and canvas
         self.frameCSS = tk.Frame(page)
-        #x = ConfigurablesFrame(self.frameCSS, controller, config)
-        #self.frameConfigurables = x.returnFrame()
+        x = ConfigurablesFrame(self.frameCSS, controller, config)
+        self.frameConfigurables = x.returnFrame()
         #self.labels = x.returnCSSFrame().returnLabels()
         #self.entryboxes = x.returnCSSFrame().returnEntryboxes()
         #for label in x.returnLabels():
@@ -694,7 +694,7 @@ class CSSGUICreator(tk.Frame):
         self.frameCSS.columnconfigure(1, weight=1)
         
         self.framePreset.grid(row=0, column=0, sticky="nsew")
-        #self.frameConfigurables.grid(row=0, column=1, sticky="nsew")
+        self.frameConfigurables.grid(row=0, column=1, sticky="nsew")
         #frameConfigurables.pack(fill="both", expand=True, padx=10)
     def returnframeCSS(self):
         return self.frameCSS

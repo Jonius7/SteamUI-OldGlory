@@ -3,6 +3,7 @@ import os.path
 import sys
 import shutil
 import traceback
+import re
 
 OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
@@ -170,6 +171,9 @@ def find_library_dir():
         steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "\steamui"
     return steamui_path
 
+###
+### CONFIG Functions
+###
 
 ### Loading config
 def load_config():
@@ -195,9 +199,9 @@ def load_config():
 def write_config(config_dict):
     with open("oldglory_config.cfg", "w", newline='', encoding="UTF-8") as config_file:
         for config in config_dict:
-            line_to_write = config + "=" + str(config_dict[config]) + "\n"
+            line_to_write = config + "=" + str(config_dict[config]) + OS_line_ending()
             if line_to_write == "=\n":
-                line_to_write = "\n"
+                line_to_write = OS_line_ending()
             config_file.write(line_to_write)
     config_file.close()
 
@@ -225,7 +229,7 @@ def validate_settings(settings):
     #print(validated_settings)
     return validated_settings
 
-def apply_css_settings(settings, settings_values, root_config):
+def write_css_settings(settings, settings_values, root_config):
     try:
         with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
              open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
@@ -297,10 +301,12 @@ def strip_tag(s, subs):
     return s[:i+len(subs)]
 '''
 
-### CSS functions
+###
+### CSS functions (libraryroot.custom.css)
+###
 
 ### Triggers on Reload Config (button)
-### Create CSS Config dict from :root in css file
+### From :root in css file -> CSS Config dict
 def load_css_configurables():
 
     loaded_css_config = {}
@@ -344,7 +350,7 @@ def load_css_configurables():
         infile.close()
         print("Loaded CSS Options.")
     except:
-        print("Error loading CSS config from line: " + line, file=sys.stderr)
+        print("Error loading CSS configurables from line: " + line, file=sys.stderr)
         print("~~~~~~~~~~")
         print(traceback.print_exc(), file=sys.stderr)
         print("~~~~~~~~~~")
@@ -369,7 +375,7 @@ def css_line_parser(line):
             default = ""
             if "/* Default: " in comment:
                 comment_m = comment.split("/* Default: ")[1].split(".", 1)
-                print(comment_m)
+                #print(comment_m)
                 default = comment_m[0].lstrip()
                 #print(comment_m[1].strip()[:-2])
                 desc = comment_m[1].split("*/")[0].strip()
@@ -409,10 +415,47 @@ def css_root_writer(css_config):
     #print(css_lines)
     return css_lines
 
+'''
 def css_root_writer_example():
     indent = "  "
     file = open("rootfile.css", "w", newline='', encoding="UTF-8")
     for line in css_root_writer(CSS_CONFIG):
         file.write(line + OS_line_ending())
     file.close()
+'''
+
+###
+### JS functions (fixes.txt)
+###
+def load_js_fixes():
+    print("T")
+    try:
+        with open('fixes.txt', newline='', encoding="UTF-8") as infile:
+            section = 0
+            for line in infile:
+                if re.match("### ===.*===", line):
+                    section = 1
+                    #print("SECTION " + line)                    
+                    #continue
+                if line.strip(' ') == OS_line_ending():
+                    section = 0
+                    #print("END OF SECTION")
+                    #continue
+                #print([line])
+                
+        infile.close()
+        print("Loaded JS Tweaks.")
+    except FileNotFoundError:
+        print("JS Tweaks file, 'fixes.txt' not found", file=sys.stderr)
+    except Exception as e:
+        print("Error loading JS Tweaks (fixes.txt) from line: " + line, file=sys.stderr)
+        print("~~~~~~~~~~")
+        print(traceback.print_exc(), file=sys.stderr)
+        print("~~~~~~~~~~")
     
+
+def js_fixes_line_formatter():
+    print("X")
+
+def write_js_fixes():
+    print("G")
