@@ -62,7 +62,7 @@ class OldGloryApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         ### Loaded CSS Configurables
-        self.css_config = {}
+        self.css_config = backend.load_css_configurables()
         
         ### Frames/Pages configure
         self.frames = {}
@@ -682,27 +682,32 @@ def set_selected_from_config(page):
 
 ### PRESET Functions
 def preset_click(event, controller, propValues):
-    print(propValues)
+    #print(propValues)
     apply_css_config_values(controller, propValues)
-    print("~~~~~~~~~~~")
+    #print("~~~~~~~~~~~")
     #print(controller.css_config)
     
 
 ### change container.css_config
 ### Recursion
 def apply_css_config_values(controller, propValues):
-    print(propValues)
+    #print(propValues)
     returns = []
     for key, value in propValues.items():
-        #search(key, container.css_config)
-        returns.append(search(key, value, controller.css_config))
+        returns.append(replace_item(key, value, controller.css_config))
+    #print(controller.css_config)
+    print("~~~g~")
+    print(returns)
+    return returns
     
             
-### Recursion            
+### Recursion 
+'''           
 def search(key, value, config_dict):
     if not isinstance(config_dict, dict):
         return None
     try:
+
         print("|||||||||||||")
         print("SUCCESS")
         print(config_dict[key])
@@ -710,15 +715,32 @@ def search(key, value, config_dict):
         print(config_dict[key])
         print("|||||||||||||")
         return config_dict[key]
+        
     except KeyError:
         for sub_config_dict in config_dict.values():
+            print("~~~~~~subdict~~~~~~~~~~~~~~~~~")
+            print(sub_config_dict)
             sub_value = search(key, value, sub_config_dict)
+            print("~~~~~~~subvalue~~~~~~~~~~~~~~~")
+            print(sub_value)
             if sub_value is not None:
                 if isinstance(sub_value, dict):
                     return sub_value
                 else:
                     return sub_value
     return None
+'''
+
+        #key, replace_value obj
+def replace_item(key, value, config_dict):
+    for k, v in config_dict.items():
+        if isinstance(v, dict):
+            config_dict[k] = replace_item(key, value, v)
+    if key in config_dict:
+        print("wAZOO")
+        print(config_dict[key]["current"])
+        config_dict[key]["current"] = value
+    return config_dict
 
 
 ### CSS Config to GUI
