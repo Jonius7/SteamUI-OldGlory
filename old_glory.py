@@ -289,7 +289,7 @@ class PageOne(tk.Frame):
     ### CSS Frame
     ###
         self.frameCSS = tk.Frame(self)
-        self.css_gui = CSSGUICreator(self, controller, backend.CSS_CONFIG)
+        self.css_gui = CSSGUICreator(self, controller, backend.load_css_configurables())
         self.frameCSS = self.css_gui.returnframeCSS()
         
     ### MODE Frame
@@ -671,6 +671,35 @@ def set_selected_from_config(page):
                 page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
     return loaded_config
 
+### change container.css_config
+### Recursion
+def apply_css_config_values(container, values):
+    for key in values.items():
+        search(key, container.css_config)
+            
+### Recursion            
+def search(key, config_dict):
+    if not isinstance(config_dict, dict):
+        return None
+    try:
+        return config_dict[key]
+    except KeyError:
+        for sub_config_dict in config_dict.values():
+            sub_value = search(key, sub_config_dict)
+            if sub_value is not None:
+                return sub_value
+    return None
+    '''
+    if key in config_dict:
+        return config_dict[key]
+    for key in config_dict.values():
+        if isinstance(sub_value, dict):
+            ret = search(sub_value, value)
+            if ret:
+                return ret
+    '''
+
+
 ### CSS Config to GUI
 class CSSGUICreator(tk.Frame):
     def __init__(self, page, controller, config):
@@ -679,8 +708,8 @@ class CSSGUICreator(tk.Frame):
         self.config = config
         ###Outer frame and canvas
         self.frameCSS = tk.Frame(page)
-        x = ConfigurablesFrame(self.frameCSS, controller, config)
-        self.frameConfigurables = x.returnFrame()
+        #x = ConfigurablesFrame(self.frameCSS, controller, config)
+        #self.frameConfigurables = x.returnFrame()
         #self.labels = x.returnCSSFrame().returnLabels()
         #self.entryboxes = x.returnCSSFrame().returnEntryboxes()
         #for label in x.returnLabels():
@@ -694,7 +723,7 @@ class CSSGUICreator(tk.Frame):
         self.frameCSS.columnconfigure(1, weight=1)
         
         self.framePreset.grid(row=0, column=0, sticky="nsew")
-        self.frameConfigurables.grid(row=0, column=1, sticky="nsew")
+        #self.frameConfigurables.grid(row=0, column=1, sticky="nsew")
         #frameConfigurables.pack(fill="both", expand=True, padx=10)
     def returnframeCSS(self):
         return self.frameCSS
