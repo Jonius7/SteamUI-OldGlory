@@ -52,6 +52,11 @@ class OldGloryApp(tk.Tk):
         ### Styling Combobox dropdown
         self.option_add("*TCombobox*Listbox*font", (self.default_font))
         
+        style.configure("TRadiobutton",
+                highlightthickness=0,
+                borderwidth=0,
+                relief=SOLID)
+
         ### Grid configure
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
@@ -436,6 +441,7 @@ def confirm_frame(self, controller):
 
 ### Show Page Functions
 def show_PageOne(controller):
+    controller.css_config = backend.load_css_configurables()
     controller.show_frame(PageOne)
     #controller.frames[PageOne].frameCSS = create_css_gui(controller.frames[PageOne], controller, backend.load_css_configurables())
     update_css_gui(controller.frames[PageOne], controller, backend.load_css_configurables())
@@ -623,6 +629,8 @@ def reload_click(event, controller):
     controller.css_config = backend.load_css_configurables()
     #print(controller.css_config["What's New"])
 
+
+
 ### Image Functions
 
 def open_img(filename, width=350):
@@ -671,33 +679,46 @@ def set_selected_from_config(page):
                 page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
     return loaded_config
 
+
+### PRESET Functions
+def preset_click(event, controller, propValues):
+    print(propValues)
+    apply_css_config_values(controller, propValues)
+    print("~~~~~~~~~~~")
+    #print(controller.css_config)
+    
+
 ### change container.css_config
 ### Recursion
-def apply_css_config_values(container, values):
-    for key in values.items():
-        search(key, container.css_config)
+def apply_css_config_values(controller, propValues):
+    print(propValues)
+    returns = []
+    for key, value in propValues.items():
+        #search(key, container.css_config)
+        returns.append(search(key, value, controller.css_config))
+    
             
 ### Recursion            
-def search(key, config_dict):
+def search(key, value, config_dict):
     if not isinstance(config_dict, dict):
         return None
     try:
+        print("|||||||||||||")
+        print("SUCCESS")
+        print(config_dict[key])
+        config_dict[key]["current"] = value
+        print(config_dict[key])
+        print("|||||||||||||")
         return config_dict[key]
     except KeyError:
         for sub_config_dict in config_dict.values():
-            sub_value = search(key, sub_config_dict)
+            sub_value = search(key, value, sub_config_dict)
             if sub_value is not None:
-                return sub_value
+                if isinstance(sub_value, dict):
+                    return sub_value
+                else:
+                    return sub_value
     return None
-    '''
-    if key in config_dict:
-        return config_dict[key]
-    for key in config_dict.values():
-        if isinstance(sub_value, dict):
-            ret = search(sub_value, value)
-            if ret:
-                return ret
-    '''
 
 
 ### CSS Config to GUI
@@ -843,16 +864,70 @@ class PresetFrame(tk.Frame):
             
         label_preset_head = tk.Label(self.framePreset, text="Quick CSS Settings")
         label_preset_head.grid(row=0, column=0)
-        
+        '''
         button1 = ttk.Button(self.framePreset,
-                        text="Coming Soon",
-                            state="disabled",
-                        width=12                       
+                        text="What's New",
+                        width=12
         )
-        #button1.bind("<Button-1>",
-                    #lambda event:globals()["get_settings_from_gui"](event, self)
-                    #)
+        
+        button1.bind("<Button-1>",
+                    lambda event:globals()["preset_click"](event, controller,
+                    {
+                        "--WhatsNew" : "block",
+                        "--WhatsNewOrder" : "2"
+                    })
+                    )
+        
         button1.grid(row=1, column=0, padx=(5,0))
+        '''
+
+        label1 = tk.Label(self.framePreset, text="What's New")
+        label1.grid(row=1, column=0, padx=(5,0))
+
+        radios_config = {"Bottom of page" : {"value" : "1", "config" : 
+                            {"--WhatsNew" : "block",
+                            "--WhatsNewOrder" : "2"}},
+                  "Hide entirely" : {"value" : "2", "config" :
+                            {"--WhatsNew" : "none",
+                            "--WhatsNewOrder" : "0"}}
+                  }
+        self.radiovar = (self.framePreset, "1") 
+        radios = []
+        print(radios_config.items())
+        for i, (text, value) in enumerate(radios_config.items(), 1): 
+            radios.append(ttk.Radiobutton(self.framePreset,
+                            text = text, 
+                            variable = self.radiovar, 
+                            value = value["value"]))
+            print(value["config"])
+            radios[i-1].bind("<Button-1>", lambda event:globals()["preset_click"](event, controller, value["config"]))
+            radios[i-1].grid(row=i+1, column=0, padx=(5,0), sticky='w')
+        '''
+        radiovar1 = tk.IntVar()
+        radio1 = ttk.Radiobutton(self.framePreset,
+                        variable=radiovar1,
+                        text="Bottom of page")
+        radio1.grid(row=1, column=0, padx=(5,0))
+        radio1.bind("<Button-1>",
+                    lambda event:globals()["preset_click"](event, controller,
+                    {
+                        "--WhatsNew" : "block",
+                        "--WhatsNewOrder" : "2"
+                    })
+                    )
+        radio2 = ttk.Radiobutton(self.framePreset,
+                        variable=radiovar1,
+                        text="Hide entirely")
+        radio2.grid(row=2, column=0, padx=(5,0))
+        radio2.bind("<Button-1>",
+                    lambda event:globals()["preset_click"](event, controller,
+                    {
+                        "--WhatsNew" : "none",
+                        "--WhatsNewOrder" : "0"
+                    })
+                    )
+        '''
+        
     def returnPresetFrame(self):
         return self.framePreset
 
