@@ -849,7 +849,7 @@ class PresetFrame(tk.Frame):
         label1 = tk.Label(self.framePreset, text="What's New")
         label1.grid(row=1, column=0, padx=(5,0))
 
-        radios_config = {"Bottom of page" : {"value" : "1", "config" : 
+        self.radios_config = {"Bottom of page" : {"value" : "1", "config" : 
                             {"--WhatsNew" : "block",
                             "--WhatsNewOrder" : "2"}},
                   "Hide entirely" : {"value" : "2", "config" :
@@ -859,57 +859,56 @@ class PresetFrame(tk.Frame):
                             {"--WhatsNew" : "black",
                             "--WhatsNewOrder" : "17"}}
                   }
-        self.radiovar = tk.IntVar()
+        self.radiovar = tk.StringVar()
         self.radiovar.set("1")
         self.radios = {}
-        #print(radios_config.items())
-        for i, (text, value) in enumerate(radios_config.items(), 1): 
-            _radio = ttk.Radiobutton(self.framePreset,
+
+        '''
+        print(len(self.radios_config.items()))
+        for i, (text, value) in enumerate(self.radios_config.items(), 1): 
+            self.radios.append(ttk.Radiobutton(self.framePreset,
                             text = text, 
                             variable = self.radiovar,
-                            value = value["value"])
+                            value = value["value"]))
             print("TO BE SENT: " + str(value["config"]))
-            radio_values = value["config"]
             #_radio.bind("<Button-1>", lambda event:self.clicked(event, self.radiovar))
-            _radio.bind("<Button-1>", lambda event:self.preset_click(event, controller, radio_values))
+            self.radios[i-1].bind("<Button-1>", lambda event:self.preset_click(event, controller, self.radios[i-1]["text"]))
+            self.radios[i-1].grid(row=i+1, column=0, padx=(5,0), sticky='w')
+            #self.radios["radio" + str(i)] = _radio
+        '''
+        '''
+        for i, (textv, value) in enumerate(self.radios_config.items()):
+            print("EOPG")
+            print(textv)
+            print(value["value"])
+            _radio = ttk.Radiobutton(self.framePreset,
+                            text = textv, 
+                            variable = self.radiovar,
+                            value = value["value"],
+                            command = lambda: self.preset_click(controller, textv)
+                            )
+            print(textv)
+            #_radio.bind("<Button-1>", lambda event:self.preset_click(event, controller, text))
             _radio.grid(row=i+1, column=0, padx=(5,0), sticky='w')
-            self.radios["radio" + str(i)] = _radio
-        #for radio in self.radios:
-            #print(self.radios[radio].get())
-        #self.myLabel = tk.Label(self.framePreset, text=self.radiovar.get())
-        #self.myLabel.grid(row=4, column=0, padx=(5,0), sticky='w')
+            self.radios[textv] = _radio
         '''
-        radiovar1 = tk.IntVar()
         radio1 = ttk.Radiobutton(self.framePreset,
-                        variable=radiovar1,
-                        text="Bottom of page")
-        radio1.grid(row=1, column=0, padx=(5,0))
-        radio1.bind("<Button-1>",
-                    lambda event:globals()["preset_click"](event, controller,
-                    {
-                        "--WhatsNew" : "block",
-                        "--WhatsNewOrder" : "2"
-                    })
-                    )
-        radio2 = ttk.Radiobutton(self.framePreset,
-                        variable=radiovar1,
-                        text="Hide entirely")
-        radio2.grid(row=2, column=0, padx=(5,0))
-        radio2.bind("<Button-1>",
-                    lambda event:globals()["preset_click"](event, controller,
-                    {
-                        "--WhatsNew" : "none",
-                        "--WhatsNewOrder" : "0"
-                    })
-                    )
-        '''
+                            text = "Bottom of page", 
+                            variable = self.radiovar,
+                            value = "1",
+                            command = lambda: self.preset_click(controller, "Bottom of page")
+                            )
+        radio1.grid(row=3, column=0, padx=(5,0), sticky='w')
+        
+        
     ### PRESET Click funtion
-    def preset_click(self, event, controller, propValues):
-        print("VAR::: "+ str(self.radiovar.get()))
-        #print("~~~pcccc~~~~~~")
-        print(propValues)
-        print("APPLY")
-        globals()["apply_css_config_values"](controller, propValues)
+    def preset_click(self, controller, radioText):
+        #self.radiovar.set(self.radios_config[radioText]["value"])
+        print("~~~pcccc~~~~~~")
+        print(radioText)
+        #print(self.radios_config[radioText]["config"])
+        #print("APPLY")
+        globals()["apply_css_config_values"](controller, self.radios_config[radioText]["config"])
         #print("~~~~~~~~~~~")
         #print(controller.css_config)
         
