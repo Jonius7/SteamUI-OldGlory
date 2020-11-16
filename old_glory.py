@@ -863,40 +863,12 @@ class PresetFrame(tk.Frame):
         self.radiovar.set("1")
         self.radios = {}
 
-        '''
-        print(len(self.radios_config.items()))
-        for i, (text, value) in enumerate(self.radios_config.items(), 1): 
-            self.radios.append(ttk.Radiobutton(self.framePreset,
-                            text = text, 
-                            variable = self.radiovar,
-                            value = value["value"]))
-            print("TO BE SENT: " + str(value["config"]))
-            #_radio.bind("<Button-1>", lambda event:self.clicked(event, self.radiovar))
-            self.radios[i-1].bind("<Button-1>", lambda event:self.preset_click(event, controller, self.radios[i-1]["text"]))
-            self.radios[i-1].grid(row=i+1, column=0, padx=(5,0), sticky='w')
-            #self.radios["radio" + str(i)] = _radio
-        '''
-        '''
-        for i, (textv, value) in enumerate(self.radios_config.items()):
-            print("EOPG")
-            print(textv)
-            print(value["value"])
-            _radio = ttk.Radiobutton(self.framePreset,
-                            text = textv, 
-                            variable = self.radiovar,
-                            value = value["value"],
-                            command = lambda: self.preset_click(controller, textv)
-                            )
-            print(textv)
-            #_radio.bind("<Button-1>", lambda event:self.preset_click(event, controller, text))
-            _radio.grid(row=i+1, column=0, padx=(5,0), sticky='w')
-            self.radios[textv] = _radio
-        '''
+        radio1_text = "Bottom of page"
         radio1 = ttk.Radiobutton(self.framePreset,
-                            text = "Bottom of page", 
+                            text = radio1_text, 
                             variable = self.radiovar,
                             value = "1",
-                            command = lambda: self.preset_click(controller, "Bottom of page")
+                            command = lambda: self.preset_click(controller, radio1_text)
                             )
         radio1.grid(row=3, column=0, padx=(5,0), sticky='w')
         
