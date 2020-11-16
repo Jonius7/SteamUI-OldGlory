@@ -52,10 +52,13 @@ class OldGloryApp(tk.Tk):
         ### Styling Combobox dropdown
         self.option_add("*TCombobox*Listbox*font", (self.default_font))
         
+        '''
         style.configure("TRadiobutton",
                 highlightthickness=0,
                 borderwidth=0,
-                relief=SOLID)
+                relief=SOLID,
+                indicatoron=False,)
+        '''
 
         ### Grid configure
         container.grid_rowconfigure(0, weight=1)
@@ -680,68 +683,6 @@ def set_selected_from_config(page):
     return loaded_config
 
 
-### PRESET Functions
-def preset_click(event, controller, propValues):
-    #print(propValues)
-    apply_css_config_values(controller, propValues)
-    #print("~~~~~~~~~~~")
-    #print(controller.css_config)
-    
-
-### change container.css_config
-### Recursion
-def apply_css_config_values(controller, propValues):
-    #print(propValues)
-    returns = []
-    for key, value in propValues.items():
-        returns.append(replace_item(key, value, controller.css_config))
-    #print(controller.css_config)
-    print("~~~g~")
-    print(returns)
-    return returns
-    
-            
-### Recursion 
-'''           
-def search(key, value, config_dict):
-    if not isinstance(config_dict, dict):
-        return None
-    try:
-
-        print("|||||||||||||")
-        print("SUCCESS")
-        print(config_dict[key])
-        config_dict[key]["current"] = value
-        print(config_dict[key])
-        print("|||||||||||||")
-        return config_dict[key]
-        
-    except KeyError:
-        for sub_config_dict in config_dict.values():
-            print("~~~~~~subdict~~~~~~~~~~~~~~~~~")
-            print(sub_config_dict)
-            sub_value = search(key, value, sub_config_dict)
-            print("~~~~~~~subvalue~~~~~~~~~~~~~~~")
-            print(sub_value)
-            if sub_value is not None:
-                if isinstance(sub_value, dict):
-                    return sub_value
-                else:
-                    return sub_value
-    return None
-'''
-
-        #key, replace_value obj
-def replace_item(key, value, config_dict):
-    for k, v in config_dict.items():
-        if isinstance(v, dict):
-            config_dict[k] = replace_item(key, value, v)
-    if key in config_dict:
-        print("wAZOO")
-        print(config_dict[key]["current"])
-        config_dict[key]["current"] = value
-    return config_dict
-
 
 ### CSS Config to GUI
 class CSSGUICreator(tk.Frame):
@@ -874,9 +815,11 @@ class CSSConfigRow(tk.Frame):
     def returnCSSConfigRow(self):
         return self.frameCSSRow
 
+
+
 ###
 ### END ConfigurablesFrame
-
+          
 class PresetFrame(tk.Frame):
     def __init__(self, parent, controller, config):
         self.parent = parent
@@ -911,19 +854,30 @@ class PresetFrame(tk.Frame):
                             "--WhatsNewOrder" : "2"}},
                   "Hide entirely" : {"value" : "2", "config" :
                             {"--WhatsNew" : "none",
-                            "--WhatsNewOrder" : "0"}}
+                            "--WhatsNewOrder" : "0"}},
+                "Higsegs" : {"value" : "3", "config" :
+                            {"--WhatsNew" : "black",
+                            "--WhatsNewOrder" : "17"}}
                   }
-        self.radiovar = (self.framePreset, "1") 
-        radios = []
-        print(radios_config.items())
+        self.radiovar = tk.IntVar()
+        self.radiovar.set("1")
+        self.radios = {}
+        #print(radios_config.items())
         for i, (text, value) in enumerate(radios_config.items(), 1): 
-            radios.append(ttk.Radiobutton(self.framePreset,
+            _radio = ttk.Radiobutton(self.framePreset,
                             text = text, 
-                            variable = self.radiovar, 
-                            value = value["value"]))
-            print(value["config"])
-            radios[i-1].bind("<Button-1>", lambda event:globals()["preset_click"](event, controller, value["config"]))
-            radios[i-1].grid(row=i+1, column=0, padx=(5,0), sticky='w')
+                            variable = self.radiovar,
+                            value = value["value"])
+            print("TO BE SENT: " + str(value["config"]))
+            radio_values = value["config"]
+            #_radio.bind("<Button-1>", lambda event:self.clicked(event, self.radiovar))
+            _radio.bind("<Button-1>", lambda event:self.preset_click(event, controller, radio_values))
+            _radio.grid(row=i+1, column=0, padx=(5,0), sticky='w')
+            self.radios["radio" + str(i)] = _radio
+        #for radio in self.radios:
+            #print(self.radios[radio].get())
+        #self.myLabel = tk.Label(self.framePreset, text=self.radiovar.get())
+        #self.myLabel.grid(row=4, column=0, padx=(5,0), sticky='w')
         '''
         radiovar1 = tk.IntVar()
         radio1 = ttk.Radiobutton(self.framePreset,
@@ -949,9 +903,61 @@ class PresetFrame(tk.Frame):
                     })
                     )
         '''
+    ### PRESET Click funtion
+    def preset_click(self, event, controller, propValues):
+        print("VAR::: "+ str(self.radiovar.get()))
+        #print("~~~pcccc~~~~~~")
+        print(propValues)
+        print("APPLY")
+        globals()["apply_css_config_values"](controller, propValues)
+        #print("~~~~~~~~~~~")
+        #print(controller.css_config)
         
     def returnPresetFrame(self):
         return self.framePreset
+
+### Preset
+### ~~~~~~~~~~
+### change container.css_config
+### Recursion
+def apply_css_config_values(controller, propValues):
+    print("~~~pv~~~~~~~~~~")
+    print(propValues)
+    returns = []
+    for key, value in propValues.items():
+        controller.config_dict = replace_item(key, value, controller.css_config)
+    #print(controller.css_config)
+    print("~~~g~")
+    #print(controller.css_config)
+
+    
+            
+### Recursion 
+        #key, replace_value obj
+
+'''
+def replace_item(obj, key, replace_value):
+    for k, v in obj.items():
+        if isinstance(v, dict):
+            obj[k] = replace_item(v, key, replace_value)
+    if key in obj:
+        obj[key] = replace_value
+    return obj
+'''
+def replace_item(key, value, config_dict):
+    for k, v in config_dict.items():
+        if isinstance(v, dict):
+            config_dict[k] = replace_item(key, value, v)
+    if key in config_dict:
+        print("wAZOO")
+        print(str(key) + "~~" + str(value))
+        print(config_dict[key]["current"])
+        config_dict[key]["current"] = value
+        #print("CHANGED")
+        print(config_dict[key]["current"])
+    return config_dict
+###
+### ~~~~~~~~~~
 
 def update_css_gui(page, controller, config):
     #print(page.frameCSS)
