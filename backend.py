@@ -426,24 +426,48 @@ def css_root_writer_example():
 
 ###
 ### JS functions (fixes.txt)
-###
+### Load state of JS Fixes (enabled, disabled) from file
+
 def load_js_fixes():
-    print("T")
     try:
+        fixesdata = {}
+        fixesname = ""
+        readfix = 0
+        sectionhead = 0
+        state = 3 #0 = disabled(commented out), 1 = enabled, 2 = mixed, starting
+
         with open('fixes.txt', newline='', encoding="UTF-8") as infile:
-            section = 0
             for line in infile:
                 if re.match("### ===.*===", line):
-                    section = 1
-                    #print("SECTION " + line)                    
+                    readfix = 1
+                    sectionhead = 1
+                    fixesname = line
+                    fixesname = re.sub("### ===|===", "", line).strip()
+                    #fixesnames.append(fixesname)
+                    #print([fixesname])                    
                     #continue
-                if line.strip(' ') == OS_line_ending():
-                    section = 0
+                elif line.strip(' ') == OS_line_ending():
+                    readfix = 0
                     #print("END OF SECTION")
                     #continue
-                #print([line])
-                
+                if readfix == 1 and sectionhead == 0:
+                    if line.lstrip()[:3] == "###":
+                        state = 2 if state == 1 else 0 #set state as mixed if state is already enabled
+                    else:
+                        state = 1
+                    if state == 2:
+                        print("Mixed enabled/disabled tweak found in fix:", file=sys.stderr)
+                        print("  " + fixesname, file=sys.stderr)
+                        print("Please check the lines in fixes.txt and see if\n"\
+                              "they are all commented out (with ###) or enabled (without ###).", file=sys.stderr)
+                    fixesdata[fixesname] = str(state)
+                elif readfix == 0:
+                    state = 0
+                sectionhead = 0               
         infile.close()
+        #print(fixesdata)
+        return fixesdata
+        
         print("Loaded JS Tweaks.")
     except FileNotFoundError:
         print("JS Tweaks file, 'fixes.txt' not found", file=sys.stderr)
@@ -455,7 +479,7 @@ def load_js_fixes():
     
 
 def js_fixes_line_formatter():
-    print("X")
+    print("TODO X")
 
-def write_js_fixes():
-    print("G")
+def write_js_fixes(config_dict):
+    print("TODO G")

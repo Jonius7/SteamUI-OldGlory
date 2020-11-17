@@ -66,6 +66,7 @@ class OldGloryApp(tk.Tk):
 
         ### Loaded CSS Configurables
         self.css_config = backend.load_css_configurables()
+        self.js_config = backend.load_js_fixes()
         
         ### Frames/Pages configure
         self.frames = {}
@@ -254,7 +255,7 @@ class StartPage(tk.Frame):
                            text="JS Options",
                            width=16
         )
-        button_n.bind("<Button-1>", lambda event:controller.show_frame(PageTwo))
+        button_n.bind("<Button-1>", lambda event:show_PageTwo(controller))
         button_n.grid(row=0, column=1, padx=5)
 
         
@@ -289,10 +290,6 @@ class PageOne(tk.Frame):
     ### HEAD FRAME
     ###
         self.frameHead = head_frame(self, controller)
-        
-    ### CHECK FRAME
-    ###
-        frameCheck = tk.Frame(self)
 
     ### CSS Frame
     ###
@@ -319,7 +316,7 @@ class PageOne(tk.Frame):
                            text="JS Options",
                            width=16
         )
-        button_n.bind("<Button-1>", lambda event:controller.show_frame(PageTwo))
+        button_n.bind("<Button-1>", lambda event:show_PageTwo(controller))
         button_n.grid(row=0, column=1, padx=5)
 
     ### CONFIRM FRAME
@@ -328,7 +325,6 @@ class PageOne(tk.Frame):
         
     ### Pack frames
         self.frameHead.pack()
-        frameCheck.pack()
         self.frameCSS.pack(fill="both", expand=True, padx=10)
         frameConfirm.pack(pady=(7, 20), side="bottom")
         frameMode.pack(pady=(2, 0), side="bottom")
@@ -343,22 +339,13 @@ class PageTwo(tk.Frame):
     ###
         self.frameHead = head_frame(self, controller)
 
-    ### CHECK FRAME
+    ### JS FRAME
     ###
-        frameCheck = tk.Frame(self)
-
-        label0 = tk.Label(frameCheck,
-                          text="Coming Soon")
-        label0.grid(row=0, column=0, columnspan=2)
-        ###
-        self.var1 = tk.IntVar()
-        check1 = ttk.Checkbutton(frameCheck,
-                                 variable=self.var1,
-                                 state='disabled')
-        check1.grid(row=1, column=0)
-        label1 = tk.Label(frameCheck,
-                          text="  - AdvOption1")
-        label1.grid(row=1, column=1, sticky="w")
+        self.frameJS = tk.Frame(self)
+        self.js_gui = JSFrame(self, controller)
+        self.frameJS = self.js_gui.returnframeJS()
+        
+        
         
     ### MODE Frame
     ###
@@ -388,7 +375,7 @@ class PageTwo(tk.Frame):
 
     ### Pack frames
         self.frameHead.pack()
-        frameCheck.pack()
+        self.frameJS.pack()
         frameConfirm.pack(pady=(7, 20), side="bottom")
         frameMode.pack(pady=(2, 0), side="bottom")
 
@@ -425,7 +412,7 @@ def confirm_frame(self, controller):
                        width=15                       
     )
     button1.bind("<Button-1>",
-                 lambda event:globals()["install_click"](event, self, controller)
+                 lambda event:globals()["install_click"](event, controller.frames[StartPage], controller)
                  )
     button1.grid(row=0, column=0, padx=5)
     
@@ -447,7 +434,11 @@ def show_PageOne(controller):
     controller.css_config = backend.load_css_configurables()
     controller.show_frame(PageOne)
     #controller.frames[PageOne].frameCSS = create_css_gui(controller.frames[PageOne], controller, backend.load_css_configurables())
-    update_css_gui(controller.frames[PageOne], controller, backend.load_css_configurables())
+    #update_css_gui(controller.frames[PageOne], controller, controller.css_config)
+def show_PageTwo(controller):
+    controller.js_config = backend.load_js_fixes()
+    controller.show_frame(PageTwo)
+    
 
 ### Redirect Stdout, Stderr
 ### ================================
@@ -544,6 +535,8 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
 def install_click(event, page, controller):
     #get settings
     settings_to_apply, settings_values = get_settings_from_gui(event, page)
+    #modify fixes.txt before apply
+    backend.write_js_fixes(controller.js_config)
     #applying settings
     apply_settings_from_gui(page, settings_to_apply, settings_values, controller.css_config)
     backend.write_config(settings_values)
@@ -631,6 +624,7 @@ def reload_click(event, controller):
     #.frames[StartPage].text1
     controller.css_config = backend.load_css_configurables()
     #print(controller.css_config["What's New"])
+    print("Config Reloaded.")
 
 
 
@@ -827,7 +821,7 @@ class PresetFrame(tk.Frame):
         self.controller = controller
         self.config = config
             
-        label_preset_head = tk.Label(self.framePreset, text="Quick CSS Settings")
+        label_preset_head = tk.Label(self.framePreset, text="Quick CSS Settings (more coming soon)")
         label_preset_head.grid(row=0, column=0)
 
         label1 = tk.Label(self.framePreset, text="What's New")
@@ -844,7 +838,7 @@ class PresetFrame(tk.Frame):
         self.radiovar.set("1")
         self.radios = {}
         
-        for i, (textv, value) in enumerate(self.radios_config.items()):
+        for i, (textv, value) in enumerate(self.radios_config.items(), 1):
             #print("EOPG")
             #print(textv)
             #print(value["value"])
@@ -854,11 +848,13 @@ class PresetFrame(tk.Frame):
                             value = value["value"],
                             command = lambda textv = textv: self.preset_click(controller, textv)
                             )
-            print(textv)
+            #print(textv)
             #_radio.bind("<Button-1>", lambda event:self.preset_click(event, controller, text))
             _radio.grid(row=i+1, column=0, padx=(5,0), sticky='w')
             self.radios[textv] = _radio
         
+        #label2 = tk.Label(self.framePreset, text="More Quick Settings Coming Soon")
+        #label2.grid(row=4, column=0, padx=(5,0))
         
     ### PRESET Click funtion
     def preset_click(self, controller, radioText):
@@ -944,7 +940,51 @@ def get_prop_options_as_array(propDict):
         print("Options Invalid", file=sys.stderr)
 
 ###
-#create_user_config_from_gui():        
+class JSFrame(tk.Frame):
+    def __init__(self, page, controller):
+        self.frameJS = tk.Frame(page)
+        self.controller = controller
+        self.frameJSInner = tk.Frame(self.frameJS)
+            
+        label_js_head = tk.Label(self.frameJSInner, text="JS Settings")
+        label_js_head.grid(row=0, column=0, columnspan=2)
+        #label_js_head.grid(row=0, column=0)
+
+        self.checkvars = []
+        
+        for i, (fixname, value) in enumerate(self.controller.js_config.items(), 1):
+            _checkvar = tk.IntVar()
+            _checkvar.set(value)
+            _checkbutton = ttk.Checkbutton(self.frameJSInner,
+                            text = fixname, 
+                            variable = _checkvar,
+                            command = lambda fixname = fixname: self.js_click(controller, fixname, _checkvar)
+                            )
+            _label = tk.Label(self.frameJSInner,
+                              text=fixname,
+                              cursor="hand2")
+            #_label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
+
+            _checkbutton.grid(row=i, column=0, padx=(5,0), sticky='w')
+            _label.grid(row=i, column=1, sticky=W)
+            
+            self.checkvars.append(_checkvar)
+        self.frameJSInner.pack()
+        #self.frameJSInner.grid()
+        
+    ### PRESET Click funtion
+    def js_click(self, controller, fixname, checkvar):
+        try:
+            controller.js_config[fixname] = str(checkvar.get())
+            print(controller.js_config)
+        except Exception as e:
+            print("Error setting config :\n"\
+                  "Fix:   " + fixname +\
+                  "Value: " + str(value), file=sys.stderr)
+        
+    def returnframeJS(self):
+        return self.frameJS
+######
 
 
 def resource_path(relative_path):
