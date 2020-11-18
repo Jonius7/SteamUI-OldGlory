@@ -158,7 +158,7 @@ def OS_line_ending():
     elif OS_TYPE ==  "Linux":
         return "\n"
     
-def find_library_dir():
+def library_dir():
     steamui_path = ""
     if OS_TYPE == "Windows":
         key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
@@ -481,5 +481,21 @@ def load_js_fixes():
 def js_fixes_line_formatter():
     print("TODO X")
 
-def write_js_fixes(config_dict):
-    print("TODO G")
+def write_js_fixes(fixes_dict):
+    try:
+        writefix = 0
+        with open('fixes.txt', "r", newline='', encoding="UTF-8") as f, \
+             open("fixes.temp.txt", "w", newline='', encoding="UTF-8") as f1:
+            for line in f:
+                if any(fixname in line for fixname in fixes_dict):
+                    writefix = 1
+                elif line.strip(' ') == OS_line_ending():
+                    writefix = 0
+    except FileNotFoundError:
+        print("JS Tweaks file, 'fixes.txt' not found", file=sys.stderr)
+    except Exception as e:
+        print("Error writing JS Tweaks (fixes.txt) from line: " + line, file=sys.stderr)
+        print("~~~~~~~~~~")
+        print(traceback.print_exc(), file=sys.stderr)
+        print("~~~~~~~~~~")
+                    

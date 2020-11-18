@@ -623,7 +623,7 @@ def run_js_tweaker(text_area):
 def reload_click(event, controller):
     #.frames[StartPage].text1
     controller.css_config = backend.load_css_configurables()
-    #print(controller.css_config["What's New"])
+    controller.js_config = backend.load_js_fixes()
     print("Config Reloaded.")
 
 
