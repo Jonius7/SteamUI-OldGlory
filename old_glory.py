@@ -51,22 +51,14 @@ class OldGloryApp(tk.Tk):
         
         ### Styling Combobox dropdown
         self.option_add("*TCombobox*Listbox*font", (self.default_font))
-        
-        '''
-        style.configure("TRadiobutton",
-                highlightthickness=0,
-                borderwidth=0,
-                relief=SOLID,
-                indicatoron=False,)
-        '''
 
         ### Grid configure
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
         ### Loaded CSS Configurables
-        self.css_config = backend.load_css_configurables()
-        self.js_config = backend.load_js_fixes()
+        #self.css_config = backend.load_css_configurables()
+        #self.js_config = backend.load_js_fixes()
         
         ### Frames/Pages configure
         self.frames = {}
@@ -93,13 +85,11 @@ class StartPage(tk.Frame):
         frameCheck = tk.Frame(self)
         #frameCheck.grid_columnconfigure(2, weight=1)
 
-        
         ######
         self.var1 = tk.IntVar()
         check1 = ttk.Checkbutton(frameCheck,
                                  variable=self.var1
-                                 )
-                                 
+                                 )                        
         check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, [check2, check3, check5]))
         check1.grid(row=0, column=0)
         ###        
@@ -221,7 +211,7 @@ class StartPage(tk.Frame):
         entry1 = ttk.Entry(frameLog)
         self.text1 = tk.Text(entry1, height=12)
         self.text1.configure(font=("Arial",10))
-        #self.text1.tag_configure("err", foreground="red")
+
         ### REDIRECT STDOUT STDERR
         if not DEBUG_STDOUT_STDERR:
             sys.stdout = StdoutRedirector(self.text1)
@@ -271,6 +261,7 @@ class StartPage(tk.Frame):
         init_cb_check(self.var3, [check4])
 
     ### Pack frames
+    ###
         self.frameHead.pack()
         frameCheck.pack()
         frameLog.pack(pady=(10,0))
@@ -341,9 +332,11 @@ class PageTwo(tk.Frame):
 
     ### JS FRAME
     ###
+        controller.js_config = backend.load_js_fixes()
         self.frameJS = tk.Frame(self)
         self.js_gui = JSFrame(self, controller)
         self.frameJS = self.js_gui.returnframeJS()
+        
         
         
         
@@ -374,6 +367,7 @@ class PageTwo(tk.Frame):
         frameConfirm = confirm_frame(self, controller)
 
     ### Pack frames
+    ###
         self.frameHead.pack()
         self.frameJS.pack()
         frameConfirm.pack(pady=(7, 20), side="bottom")
@@ -381,9 +375,11 @@ class PageTwo(tk.Frame):
 
 ### FRAME functions
 ### ================================
+
+### HEAD FRAME
+###
 def head_frame(self, controller):
-    ### HEAD FRAME
-    ###
+
     frameHead = tk.Frame(self)
         
     ###
@@ -404,8 +400,11 @@ def head_frame(self, controller):
     label_b.grid(row=1, column=0)
     return frameHead
 
-def confirm_frame(self, controller):
-    frameConfirm = tk.Frame(self)
+### CONFIRM FRAME
+###
+def confirm_frame(page, controller):
+    frameConfirm = tk.Frame(page)
+    
     ###
     button1 = ttk.Button(frameConfirm,
                        text="Install",
@@ -422,6 +421,7 @@ def confirm_frame(self, controller):
                        width=15#,
                        ###state='disabled'
     )
+    button2_tip = Detail_tooltip(button2, "If you have modified the files manually,\nclick here to reload their values into the program.", hover_delay=200)
     button2.bind("<Button-1>",
                  lambda event:reload_click(event, controller)
                  )
@@ -430,14 +430,17 @@ def confirm_frame(self, controller):
 ### ================================
 
 ### Show Page Functions
+### ================================
 def show_PageOne(controller):
-    controller.css_config = backend.load_css_configurables()
+    #controller.css_config = backend.load_css_configurables()
     controller.show_frame(PageOne)
     #controller.frames[PageOne].frameCSS = create_css_gui(controller.frames[PageOne], controller, backend.load_css_configurables())
     #update_css_gui(controller.frames[PageOne], controller, controller.css_config)
 def show_PageTwo(controller):
-    controller.js_config = backend.load_js_fixes()
+    #controller.js_config = backend.load_js_fixes()
     controller.show_frame(PageTwo)
+
+### ================================
     
 
 ### Redirect Stdout, Stderr
@@ -465,7 +468,6 @@ class StderrRedirector(IORedirector):
         self.text_area.config(state='disabled')        
     def flush(self):
         pass
-
 ### ================================
 
 ### Checkbox Validation - Disable
@@ -490,9 +492,10 @@ def init_cb_check(var1, checks):
 ### ================================
 
 
-
+### MainOption
+### ================================
 ### Label + CodeTag
-### Kwargs expected
+### Kwargs expected:
 ### parentFrame, page, name, image, tags
 class MainOption(tk.Frame):
     def __init__(self, **kwargs):
@@ -519,7 +522,7 @@ class MainOption(tk.Frame):
     
         
 ### INSTALL Functions
-  
+### ================================
 ### Map config values to selected checkboxes
 CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
               "PatcherPath" : {"set" : ""},
@@ -532,6 +535,7 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
               "InstallWithDarkLibrary" : {"value" : "var6", "javascript" : False}
               }
 
+### Install Click
 def install_click(event, page, controller):
     #get settings
     settings_to_apply, settings_values = get_settings_from_gui(event, page)
@@ -540,7 +544,8 @@ def install_click(event, page, controller):
     #applying settings
     apply_settings_from_gui(page, settings_to_apply, settings_values, controller.css_config)
     backend.write_config(settings_values)
-    
+
+### Get settings to apply (with validation), and values
 def get_settings_from_gui(event, page):
     try:
         settings = []
@@ -564,6 +569,8 @@ def get_settings_from_gui(event, page):
         pass
         print("libraryroot.custom.css not found", file=sys.stderr)
 
+
+### Write CSS settings (comment out sections) + run js_tweaker if needed
 def apply_settings_from_gui(page, settings_to_apply, settings_values, root_config):
     print("Applying CSS settings...")
     page.text1.update_idletasks()
@@ -571,13 +578,6 @@ def apply_settings_from_gui(page, settings_to_apply, settings_values, root_confi
     page.text1.update_idletasks()
 
     ### Run js_tweaker if required
-    #need_javascript = 0
-    #for setting in settings_to_apply:
-    #    if CONFIG_MAP[setting]["javascript"]:
-    #        need_javascript = 1
-    #if need_javascript == 1:
-    #    run_js_tweaker(page.text1)
-
     change_javascript = 0
     for setting in settings_values:
         #print("javascript" in CONFIG_MAP[setting])
@@ -594,7 +594,6 @@ def apply_settings_from_gui(page, settings_to_apply, settings_values, root_confi
     print("Settings applied.")
     
 def run_js_tweaker(text_area):
-    ###with open('js_tweaker.py') as source_file:
     try:
         print("==================")
         print("Running js_tweaker")
@@ -615,21 +614,24 @@ def run_js_tweaker(text_area):
               
     except Exception as e:
         print(e, file=sys.stderr)
-
+### ================================
 
 
 ### RELOAD Functions
 ### ================================
 def reload_click(event, controller):
     #.frames[StartPage].text1
+    print("=================")
     controller.css_config = backend.load_css_configurables()
     controller.js_config = backend.load_js_fixes()
+    controller.frames[PageTwo].js_gui.update_js_gui(controller)
+    
     print("Config Reloaded.")
-
+### ================================
 
 
 ### Image Functions
-
+### ================================
 def open_img(filename, width=350):
     x = filename
     img = Image.open(x)
@@ -652,6 +654,7 @@ def change_image(label, filename):
 ### ================================
 
 ### Tooltip
+### ================================
 class Detail_tooltip(OnHoverTooltipBase):
     def __init__(self, anchor_widget, text, hover_delay=1000):
         super(Detail_tooltip, self).__init__(anchor_widget, hover_delay=hover_delay)
@@ -661,6 +664,7 @@ class Detail_tooltip(OnHoverTooltipBase):
         message = Message(self.tipwindow, text=self.text, justify=LEFT,
                       background="#ffffe0", width=590, relief=SOLID, borderwidth=1)
         message.pack()
+### ================================
         
 ### Initialisation
 def set_selected_from_config(page):
@@ -676,8 +680,8 @@ def set_selected_from_config(page):
                 page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
     return loaded_config
 
-
-
+### CSS Options Functions
+### ================================
 ### CSS Config to GUI
 class CSSGUICreator(tk.Frame):
     def __init__(self, page, controller, config):
@@ -712,7 +716,6 @@ class CSSGUICreator(tk.Frame):
 
 ### START ConfigurablesFrame
 ###
-
 # Currently unused
 class ConfigurablesFrame(tk.Frame):
     def __init__(self, parent, controller, config):
@@ -809,11 +812,11 @@ class CSSConfigRow(tk.Frame):
     def returnCSSConfigRow(self):
         return self.frameCSSRow
 
-
-
 ###
 ### END ConfigurablesFrame
-          
+
+
+### START PresetFrame
 class PresetFrame(tk.Frame):
     def __init__(self, parent, controller, config):
         self.parent = parent
@@ -821,7 +824,7 @@ class PresetFrame(tk.Frame):
         self.controller = controller
         self.config = config
             
-        label_preset_head = tk.Label(self.framePreset, text="Quick CSS Settings (more coming soon)")
+        label_preset_head = tk.Label(self.framePreset, text="Quick CSS Options (more coming soon)")
         label_preset_head.grid(row=0, column=0)
 
         label1 = tk.Label(self.framePreset, text="What's New")
@@ -836,35 +839,23 @@ class PresetFrame(tk.Frame):
                   }
         self.radiovar = tk.StringVar()
         self.radiovar.set("1")
-        self.radios = {}
+        self.radios = []
         
         for i, (textv, value) in enumerate(self.radios_config.items(), 1):
-            #print("EOPG")
-            #print(textv)
-            #print(value["value"])
             _radio = ttk.Radiobutton(self.framePreset,
                             text = textv, 
                             variable = self.radiovar,
                             value = value["value"],
                             command = lambda textv = textv: self.preset_click(controller, textv)
                             )
-            #print(textv)
-            #_radio.bind("<Button-1>", lambda event:self.preset_click(event, controller, text))
             _radio.grid(row=i+1, column=0, padx=(5,0), sticky='w')
-            self.radios[textv] = _radio
-        
-        #label2 = tk.Label(self.framePreset, text="More Quick Settings Coming Soon")
-        #label2.grid(row=4, column=0, padx=(5,0))
+            self.radios.append(_radio)
         
     ### PRESET Click funtion
     def preset_click(self, controller, radioText):
-        #self.radiovar.set(self.radios_config[radioText]["value"])
         print("~~~pcccc~~~~~~")
         print(radioText)
-        #print(self.radios_config[radioText]["config"])
-        #print("APPLY")
         globals()["apply_css_config_values"](controller, self.radios_config[radioText]["config"])
-        #print("~~~~~~~~~~~")
         print(controller.css_config)
         
     def returnPresetFrame(self):
@@ -888,16 +879,6 @@ def apply_css_config_values(controller, propValues):
             
 ### Recursion 
         #key, replace_value obj
-
-'''
-def replace_item(obj, key, replace_value):
-    for k, v in obj.items():
-        if isinstance(v, dict):
-            obj[k] = replace_item(v, key, replace_value)
-    if key in obj:
-        obj[key] = replace_value
-    return obj
-'''
 def replace_item(key, value, config_dict):
     for k, v in config_dict.items():
         if isinstance(v, dict):
@@ -910,8 +891,10 @@ def replace_item(key, value, config_dict):
         #print("CHANGED")
         print(config_dict[key]["current"])
     return config_dict
+
 ###
-### ~~~~~~~~~~
+### END PresetFrame
+
 
 def update_css_gui(page, controller, config):
     #print(page.frameCSS)
@@ -946,7 +929,7 @@ class JSFrame(tk.Frame):
         self.controller = controller
         self.frameJSInner = tk.Frame(self.frameJS)
             
-        label_js_head = tk.Label(self.frameJSInner, text="JS Settings")
+        label_js_head = tk.Label(self.frameJSInner, text="JS Options")
         label_js_head.grid(row=0, column=0, columnspan=2)
         #label_js_head.grid(row=0, column=0)
 
@@ -982,10 +965,30 @@ class JSFrame(tk.Frame):
                   "Fix:   " + fixname +\
                   "Value: " + str(value), file=sys.stderr)
         
+    def update_js_gui(self, controller):
+        for i, (fixname, value) in enumerate(self.controller.js_config.items(), 1):
+            _checkvar = tk.IntVar()
+            _checkvar.set(value)
+            _checkbutton = ttk.Checkbutton(self.frameJSInner,
+                            text = fixname, 
+                            variable = _checkvar,
+                            command = lambda fixname = fixname: self.js_click(controller, fixname, _checkvar)
+                            )
+            _label = tk.Label(self.frameJSInner,
+                              text=fixname,
+                              cursor="hand2")
+            #_label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
+
+            _checkbutton.grid(row=i, column=0, padx=(5,0), sticky='w')
+            _label.grid(row=i, column=1, sticky=W)
+            
+            self.checkvars.append(_checkvar)
+
     def returnframeJS(self):
         return self.frameJS
 ######
-
+    
+### ================================
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """

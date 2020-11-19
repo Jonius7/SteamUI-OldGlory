@@ -224,10 +224,13 @@ def validate_settings(settings):
         if "InstallWithDarkLibrary" in settings: #6
             print("DARK STEAM")
             validated_settings.extend(["InstallWithDarkLibrary"])
-        
-
     #print(validated_settings)
     return validated_settings
+
+
+###
+### CSS functions (libraryroot.custom.css)
+###
 
 def write_css_settings(settings, settings_values, root_config):
     try:
@@ -301,9 +304,7 @@ def strip_tag(s, subs):
     return s[:i+len(subs)]
 '''
 
-###
-### CSS functions (libraryroot.custom.css)
-###
+
 
 ### Triggers on Reload Config (button)
 ### From :root in css file -> CSS Config dict
@@ -443,13 +444,8 @@ def load_js_fixes():
                     sectionhead = 1
                     fixesname = line
                     fixesname = re.sub("### ===|===", "", line).strip()
-                    #fixesnames.append(fixesname)
-                    #print([fixesname])                    
-                    #continue
                 elif line.strip(' ') == OS_line_ending():
                     readfix = 0
-                    #print("END OF SECTION")
-                    #continue
                 if readfix == 1 and sectionhead == 0:
                     if line.lstrip()[:3] == "###":
                         state = 2 if state == 1 else 0 #set state as mixed if state is already enabled
@@ -461,14 +457,23 @@ def load_js_fixes():
                         print("Please check the lines in fixes.txt and see if\n"\
                               "they are all commented out (with ###) or enabled (without ###).", file=sys.stderr)
                     fixesdata[fixesname] = str(state)
+                    (key, val) = line.rstrip().split("  ") #validation
+                    ### special fixes data
+                    if "Change Game Image Grid Sizes" in fixesname:
+                        #print(re.sub("[ ]{2}([0-9]+)$", "AAA", line))
+                        #print(re.sub("(?=  )([0-9]+)", "AAA", line))
+                        line_segments = line.split("  ")
+                        
                 elif readfix == 0:
                     state = 0
                 sectionhead = 0               
         infile.close()
         #print(fixesdata)
-        return fixesdata
         
         print("Loaded JS Tweaks.")
+    except ValueError:
+        print("(fixes.txt) Problem in line format from line: " + line + \
+              "Is the line missing a double space?", file=sys.stderr)
     except FileNotFoundError:
         print("JS Tweaks file, 'fixes.txt' not found", file=sys.stderr)
     except Exception as e:
@@ -476,6 +481,7 @@ def load_js_fixes():
         print("~~~~~~~~~~")
         print(traceback.print_exc(), file=sys.stderr)
         print("~~~~~~~~~~")
+    return fixesdata
     
 
 def js_fixes_line_formatter():
@@ -484,13 +490,26 @@ def js_fixes_line_formatter():
 def write_js_fixes(fixes_dict):
     try:
         writefix = 0
+        sectionhead = 0
         with open('fixes.txt', "r", newline='', encoding="UTF-8") as f, \
              open("fixes.temp.txt", "w", newline='', encoding="UTF-8") as f1:
             for line in f:
                 if any(fixname in line for fixname in fixes_dict):
                     writefix = 1
+                    sectionhead = 1
                 elif line.strip(' ') == OS_line_ending():
                     writefix = 0
+                if readfix == 1 and sectionhead == 1:
+                    sectionhead_line = "### === " + line + " ==="
+                    f1.write(sectionhead_line + OS_line_ending())
+                    
+                sectionhead = 0
+        print( fixes_dict)
+
+        ###
+        #shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
+        #shutil.move("libraryroot.custom.temp.css", "libraryroot.custom.css")
+                    
     except FileNotFoundError:
         print("JS Tweaks file, 'fixes.txt' not found", file=sys.stderr)
     except Exception as e:

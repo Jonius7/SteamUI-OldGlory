@@ -14,15 +14,18 @@ swapback_js = {'"libraryreet"}[n=u]||n': '"libraryroot"}[n=u]||n'}
 fixes_dict = {}
 
 def beautify_js():
-    if not os.path.isfile("libraryroot.beaut.js"):
-        print("Opening JS file and beautifying...")
-        library = jsbeautifier.beautify_file("libraryroot.js")
+    try:
+        if not os.path.isfile("libraryroot.beaut.js"):
+            print("Opening JS file and beautifying...")
+            library = jsbeautifier.beautify_file("libraryroot.js")
 
-        f = open("libraryroot.beaut.js", "wt", newline='', encoding="UTF-8")
-        print("Writing beautified file... please do not close")
-        f.write(library)
-        f.close()
-        print("Beautified file write finished")
+            f = open("libraryroot.beaut.js", "wt", newline='', encoding="UTF-8")
+            print("Writing beautified file... please do not close")
+            f.write(library)
+            f.close()
+            print("Beautified file write finished")
+    except:
+        error_exit("libraryroot.js not found") 
 
 #modify library.js to look for different libraryroot.js file
 def setup_library():
