@@ -3,6 +3,8 @@ import backend
 
 #CSS Line Parser
 class TestCSSLineParser(unittest.TestCase):
+
+    '''
     def test_withdefault(self):
         self.assertEqual(
             backend.css_line_parser("  --WhatsNew: ace;  /* Default: block. Set to none to hide What's New */"),
@@ -39,7 +41,11 @@ class TestCSSLineParser(unittest.TestCase):
              "default" : "ace",
              "current" : "ace",
              "desc" : "DSet to none to hide What's New"})
-    
+    '''
+
+    def test_run_fixes_modify(self):
+        a, b = backend.load_js_fixes()
+        backend.write_js_fixes(a, b)
 
 if __name__ == '__main__':
     unittest.main()

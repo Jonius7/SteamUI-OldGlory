@@ -494,6 +494,8 @@ def load_js_fixes():
 
 def write_js_fixes(fixesdata, special_fixesdata):
     try:
+        print("~0~~")
+        print(fixesdata)
         writefix = 0
         current_fixname = ""
         sectionhead = 0
@@ -511,6 +513,23 @@ def write_js_fixes(fixesdata, special_fixesdata):
                     writefix = 0
                     f1.write(OS_line_ending())
                 if writefix == 1 and sectionhead == 0:
+                    ### special fixes data
+                    if "Change Game Image Grid Sizes" in current_fixname:
+                        line_segments = line.split("  ")
+
+                        sizes = ["Small", "Medium", "Large"]
+                        line_segments[1] = re.sub("n = ([0-9]+)", "n = AAA", line_segments[1])
+                        #print(line_segments[1])
+                        for key in sizes:
+                            #print(special_fixesdata[current_fixname][key])
+                            line_segments[1] = line_segments[1].replace("AAA", special_fixesdata[current_fixname][key], 1)
+                        #print(line_segments[1])
+
+                        line = "  ".join(line_segments)
+                        #print(line)
+                    #print("~C!~~~")
+                    #print(current_fixname + "   ")
+                    #print(fixesdata[current_fixname])                    
                     if line.lstrip()[:3] == "###":
                         if fixesdata[current_fixname] == '1':
                             print("STRIP COMMENT AND ENABLE")
@@ -518,13 +537,15 @@ def write_js_fixes(fixesdata, special_fixesdata):
                             f1.write(line.lstrip().split("###")[1])
                         else:
                             f1.write(line)
+                            pass
                     else:
-                        print(fixesdata[current_fixname])
+                        #print(fixesdata[current_fixname])
                         if fixesdata[current_fixname] == '0':
                             print("ADD COMMENT AND DISABLE")
                             f1.write("###" + line.lstrip())
                         else:
                             f1.write(line)
+                            pass
                     
                 sectionhead = 0
                     
@@ -532,8 +553,8 @@ def write_js_fixes(fixesdata, special_fixesdata):
         f.close()
         f1.close()
         ###
-        shutil.move("fixes.txt", "fixes.txt.backup")
-        shutil.move("fixes.temp.txt", "fixes.txt")
+        #shutil.move("fixes.txt", "fixes.txt.backup")
+        #shutil.move("fixes.temp.txt", "fixes.txt")
                     
     except FileNotFoundError:
         print("JS Tweaks file, 'fixes.txt' not found", file=sys.stderr)

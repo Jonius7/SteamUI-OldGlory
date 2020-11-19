@@ -59,6 +59,7 @@ class OldGloryApp(tk.Tk):
         ### Loaded CSS Configurables
         #self.css_config = backend.load_css_configurables()
         #self.js_config = backend.load_js_fixes()
+        self.js_gui_changed = 0
         
         ### Frames/Pages configure
         self.frames = {}
@@ -547,6 +548,8 @@ def install_click(event, page, controller):
     #applying settings
     apply_settings_from_gui(page, controller, settings_to_apply, settings_values)
     backend.write_config(settings_values)
+    #reset state of js gui to "unchanged"
+    controller.js_gui_changed = 0
 
 ### Get settings to apply (with validation), and values
 def get_settings_from_gui(event, page):
@@ -564,8 +567,8 @@ def get_settings_from_gui(event, page):
                 settings_values[""] = ""
         #print("ARRAY ")
         settings_to_apply = backend.validate_settings(settings)
-        print(settings_to_apply)
-        print(settings_values)
+        #print(settings_to_apply)
+        #print(settings_values)
         return settings_to_apply, settings_values
         
     except FileNotFoundError:
@@ -575,6 +578,7 @@ def get_settings_from_gui(event, page):
 def apply_changes_to_js_config(controller, settings_values):
     if "EnableVerticalNavBar" in settings_values.keys():
         controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])
+    print(controller.js_config)
 
 ### Write CSS settings (comment out sections) + run js_tweaker if needed
 def apply_settings_from_gui(page, controller, settings_to_apply, settings_values):
@@ -585,15 +589,18 @@ def apply_settings_from_gui(page, controller, settings_to_apply, settings_values
     page.text1.update_idletasks()
 
     ### Run js_tweaker if required
+    
     change_javascript = 0
     for setting in settings_values:
         #print("javascript" in CONFIG_MAP[setting])
         if "javascript" in CONFIG_MAP[setting]:
             if CONFIG_MAP[setting]["javascript"] \
             and int(page.loaded_config[setting]) != page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get():
-                print(int(page.loaded_config[setting]))
-                print(page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get())
+                #print(int(page.loaded_config[setting]))
+                #print(page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get())
                 change_javascript = 1
+    if controller.js_gui_changed == 1:
+        change_javascript = 1
         
     if change_javascript == 1:
         run_js_tweaker(page.text1)
@@ -945,15 +952,18 @@ class JSFrame(tk.Frame):
 
         self.checkvars = []
         self.comboboxes = {}
-        self.create_frameJSInner(controller)
+        self.create_frameJSInner(self.controller)
         self.frameJSInner.pack()
         #self.frameJSInner.grid()
         
     ### PRESET Click funtion
     def js_click(self, controller, fixname, checkvar):
         try:
-            controller.js_config[fixname] = str(checkvar.get())
-            print(controller.js_config)
+            self.controller.js_config[fixname] = str(checkvar.get())
+            self.controller.js_gui_changed = 1
+            print(self.controller.js_config)
+            print(str(checkvar.get()))
+            #print(controller.js_config)
         except Exception as e:
             print("Error setting config :\n"\
                   "Fix:   " + fixname +\
@@ -967,7 +977,7 @@ class JSFrame(tk.Frame):
             _checkbutton = ttk.Checkbutton(self.frameJSInner,
                             text = fixname, 
                             variable = _checkvar,
-                            command = lambda fixname = fixname: self.js_click(controller, fixname, _checkvar)
+                            command = lambda fixname = fixname: self.js_click(self.controller, fixname, _checkvar)
                             )
             _label = tk.Label(self.frameJSInner,
                               text=fixname,
@@ -978,10 +988,8 @@ class JSFrame(tk.Frame):
             _label.grid(row=rownum, column=1, sticky=W)
             
             self.checkvars.append(_checkvar)
-
-            self.checkvars.append(_checkvar)
             rownum += 1
-            if fixname in controller.special_js_config:
+            if fixname in self.controller.special_js_config:
                 #print("YOU GOT IT" + fixname)
                 #print(self.controller.special_js_config["Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"])
                 self.sizesFrame = tk.Frame(self.frameJSInner)
