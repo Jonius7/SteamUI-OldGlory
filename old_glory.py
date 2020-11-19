@@ -540,7 +540,8 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
 def install_click(event, page, controller):
     #get settings
     settings_to_apply, settings_values = get_settings_from_gui(event, page)
-    
+    #make any js_config enable/disable required
+    apply_changes_to_js_config(controller, settings_values)
     #write fixes.txt before apply
     backend.write_js_fixes(controller.js_config, controller.special_js_config)
     #applying settings
@@ -571,19 +572,19 @@ def get_settings_from_gui(event, page):
         pass
         print("libraryroot.custom.css not found", file=sys.stderr)
 
-
-### Write CSS settings (comment out sections) + run js_tweaker if needed
-def apply_settings_from_gui(page, controller, settings_to_apply, settings_values):
+def apply_changes_to_js_config(controller, settings_values):
     # modify controller js_config
     #print("APPLY$)(!)(&#$")
     #print(controller.js_config)
-    #print(settings_values)
+    print(settings_values)
     if "EnableVerticalNavBar" in settings_values.keys():
         #print(controller.js_config["Vertical Nav Bar (beta, working)"])
         #print(settings_values["EnableVerticalNavBar"])
         controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])
-    print(controller.js_config)
+    #print(controller.js_config)
 
+### Write CSS settings (comment out sections) + run js_tweaker if needed
+def apply_settings_from_gui(page, controller, settings_to_apply, settings_values):
     # Write to libraryroot.custom.css
     print("Applying CSS settings...")
     page.text1.update_idletasks()
