@@ -428,11 +428,11 @@ def css_root_writer_example():
 ###
 ### JS functions (fixes.txt)
 ### Load state of JS Fixes (enabled, disabled) from file
-
 def load_js_fixes():
     try:
         fixesdata = {}
-        fixesname = ""
+        special_fixesdata = {}
+        fixname = ""
         readfix = 0
         sectionhead = 0
         state = 3 #0 = disabled(commented out), 1 = enabled, 2 = mixed, starting
@@ -442,8 +442,8 @@ def load_js_fixes():
                 if re.match("### ===.*===", line):
                     readfix = 1
                     sectionhead = 1
-                    fixesname = line
-                    fixesname = re.sub("### ===|===", "", line).strip()
+                    fixname = line
+                    fixname = re.sub("### ===|===", "", line).strip()
                 elif line.strip(' ') == OS_line_ending():
                     readfix = 0
                 if readfix == 1 and sectionhead == 0:
@@ -456,19 +456,26 @@ def load_js_fixes():
                         print("  " + fixesname, file=sys.stderr)
                         print("Please check the lines in fixes.txt and see if\n"\
                               "they are all commented out (with ###) or enabled (without ###).", file=sys.stderr)
-                    fixesdata[fixesname] = str(state)
+                    fixesdata[fixname] = str(state)
                     (key, val) = line.rstrip().split("  ") #validation
                     ### special fixes data
-                    if "Change Game Image Grid Sizes" in fixesname:
-                        #print(re.sub("[ ]{2}([0-9]+)$", "AAA", line))
-                        #print(re.sub("(?=  )([0-9]+)", "AAA", line))
+                    if "Change Game Image Grid Sizes" in fixname:
                         line_segments = line.split("  ")
-                        
+                        sizes_dict = {}
+                        sizes = ["Small", "Medium", "Large"]
+                        size_values = re.findall("n = ([0-9]+)", line_segments[1])
+                        for i, value in enumerate(size_values):
+                            sizes_dict[sizes[i]] = value
+                        special_fixesdata["Change Game Image Grid Sizes"] = sizes_dict
+                        print(special_fixesdata)
+                        #print(re.sub("n = ([0-9]+)", "n = AAA", line_segments[1]))
+                        #print("~~~~~~~~")
+                        #print("  ".join(line_segments))
+        
                 elif readfix == 0:
                     state = 0
                 sectionhead = 0               
         infile.close()
-        #print(fixesdata)
         
         print("Loaded JS Tweaks.")
     except ValueError:
@@ -481,34 +488,56 @@ def load_js_fixes():
         print("~~~~~~~~~~")
         print(traceback.print_exc(), file=sys.stderr)
         print("~~~~~~~~~~")
-    return fixesdata
+    return fixesdata, special_fixesdata
+    
     
 
-def js_fixes_line_formatter():
-    print("TODO X")
-
-def write_js_fixes(fixes_dict):
+def write_js_fixes(fixesdata, special_fixesdata):
     try:
         writefix = 0
+        current_fixname = ""
         sectionhead = 0
         with open('fixes.txt', "r", newline='', encoding="UTF-8") as f, \
              open("fixes.temp.txt", "w", newline='', encoding="UTF-8") as f1:
             for line in f:
-                if any(fixname in line for fixname in fixes_dict):
-                    writefix = 1
-                    sectionhead = 1
-                elif line.strip(' ') == OS_line_ending():
+                for fixname in fixesdata:
+                    if fixname in line:
+                        current_fixname = fixname
+                        sectionhead_line = "### === " + fixname + " ==="
+                        f1.write(sectionhead_line + OS_line_ending())
+                        writefix = 1
+                        sectionhead = 1
+                if line.strip(' ') == OS_line_ending():
                     writefix = 0
-                if readfix == 1 and sectionhead == 1:
-                    sectionhead_line = "### === " + line + " ==="
-                    f1.write(sectionhead_line + OS_line_ending())
+                    f1.write(OS_line_ending())
+                if writefix == 1 and sectionhead == 0:
+                    print("WHTIEONG")
+                    
+                    print([line.lstrip()[:3]])
+                    #print(current_fixname + " | " + fixesdata[current_fixname])
+                    if line.lstrip()[:3] == "###":
+                        if fixesdata[current_fixname] == '1':
+                            print("STRIP COMMENT AND ENABLE")
+                            print(line.lstrip().split("###")[1])
+                            f1.write(line.lstrip().split("###")[1])
+                        else:
+                            f1.write(line)
+                    else:
+                        print(fixesdata[current_fixname])
+                        if fixesdata[current_fixname] == '0':
+                            print("ADD COMMENT AND DISABLE")
+                            f1.write("###" + line.lstrip())
+                        else:
+                            f1.write(line)
                     
                 sectionhead = 0
-        print( fixes_dict)
-
+                    
+        #print(fixesdata)
+        f.close()
+        f1.close()
         ###
-        #shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
-        #shutil.move("libraryroot.custom.temp.css", "libraryroot.custom.css")
+        shutil.move("fixes.txt", "fixes.txt.backup")
+        shutil.move("fixes.temp.txt", "fixes.txt")
                     
     except FileNotFoundError:
         print("JS Tweaks file, 'fixes.txt' not found", file=sys.stderr)

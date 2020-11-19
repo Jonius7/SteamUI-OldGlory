@@ -284,8 +284,9 @@ class PageOne(tk.Frame):
 
     ### CSS Frame
     ###
+        controller.css_config = backend.load_css_configurables()
         self.frameCSS = tk.Frame(self)
-        self.css_gui = CSSGUICreator(self, controller, backend.load_css_configurables())
+        self.css_gui = CSSGUICreator(self, controller, controller.css_config)
         self.frameCSS = self.css_gui.returnframeCSS()
         
     ### MODE Frame
@@ -332,7 +333,7 @@ class PageTwo(tk.Frame):
 
     ### JS FRAME
     ###
-        controller.js_config = backend.load_js_fixes()
+        controller.js_config, controller.special_js_config = backend.load_js_fixes()
         self.frameJS = tk.Frame(self)
         self.js_gui = JSFrame(self, controller)
         self.frameJS = self.js_gui.returnframeJS()
@@ -539,10 +540,11 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
 def install_click(event, page, controller):
     #get settings
     settings_to_apply, settings_values = get_settings_from_gui(event, page)
-    #modify fixes.txt before apply
-    backend.write_js_fixes(controller.js_config)
+    
+    #write fixes.txt before apply
+    backend.write_js_fixes(controller.js_config, controller.special_js_config)
     #applying settings
-    apply_settings_from_gui(page, settings_to_apply, settings_values, controller.css_config)
+    apply_settings_from_gui(page, controller, settings_to_apply, settings_values)
     backend.write_config(settings_values)
 
 ### Get settings to apply (with validation), and values
@@ -571,10 +573,21 @@ def get_settings_from_gui(event, page):
 
 
 ### Write CSS settings (comment out sections) + run js_tweaker if needed
-def apply_settings_from_gui(page, settings_to_apply, settings_values, root_config):
+def apply_settings_from_gui(page, controller, settings_to_apply, settings_values):
+    # modify controller js_config
+    #print("APPLY$)(!)(&#$")
+    #print(controller.js_config)
+    #print(settings_values)
+    if "EnableVerticalNavBar" in settings_values.keys():
+        #print(controller.js_config["Vertical Nav Bar (beta, working)"])
+        #print(settings_values["EnableVerticalNavBar"])
+        controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])
+    print(controller.js_config)
+
+    # Write to libraryroot.custom.css
     print("Applying CSS settings...")
     page.text1.update_idletasks()
-    backend.write_css_settings(settings_to_apply, settings_values, root_config)
+    backend.write_css_settings(settings_to_apply, settings_values, controller.css_config)
     page.text1.update_idletasks()
 
     ### Run js_tweaker if required
@@ -592,6 +605,9 @@ def apply_settings_from_gui(page, settings_to_apply, settings_values, root_confi
         run_js_tweaker(page.text1)
     
     print("Settings applied.")
+
+def apply_mainoptions():
+    print("TODO")
     
 def run_js_tweaker(text_area):
     try:
@@ -623,7 +639,7 @@ def reload_click(event, controller):
     #.frames[StartPage].text1
     print("=================")
     controller.css_config = backend.load_css_configurables()
-    controller.js_config = backend.load_js_fixes()
+    controller.js_config, controller.special_js_config = backend.load_js_fixes()
     controller.frames[PageTwo].js_gui.update_js_gui(controller)
     
     print("Config Reloaded.")
