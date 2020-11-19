@@ -466,7 +466,7 @@ def load_js_fixes():
                         size_values = re.findall("n = ([0-9]+)", line_segments[1])
                         for i, value in enumerate(size_values):
                             sizes_dict[sizes[i]] = value
-                        special_fixesdata["Change Game Image Grid Sizes"] = sizes_dict
+                        special_fixesdata[fixname] = sizes_dict
                         print(special_fixesdata)
                         #print(re.sub("n = ([0-9]+)", "n = AAA", line_segments[1]))
                         #print("~~~~~~~~")
@@ -511,10 +511,6 @@ def write_js_fixes(fixesdata, special_fixesdata):
                     writefix = 0
                     f1.write(OS_line_ending())
                 if writefix == 1 and sectionhead == 0:
-                    print("WHTIEONG")
-                    
-                    print([line.lstrip()[:3]])
-                    #print(current_fixname + " | " + fixesdata[current_fixname])
                     if line.lstrip()[:3] == "###":
                         if fixesdata[current_fixname] == '1':
                             print("STRIP COMMENT AND ENABLE")

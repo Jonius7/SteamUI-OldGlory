@@ -573,15 +573,8 @@ def get_settings_from_gui(event, page):
         print("libraryroot.custom.css not found", file=sys.stderr)
 
 def apply_changes_to_js_config(controller, settings_values):
-    # modify controller js_config
-    #print("APPLY$)(!)(&#$")
-    #print(controller.js_config)
-    print(settings_values)
     if "EnableVerticalNavBar" in settings_values.keys():
-        #print(controller.js_config["Vertical Nav Bar (beta, working)"])
-        #print(settings_values["EnableVerticalNavBar"])
         controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])
-    #print(controller.js_config)
 
 ### Write CSS settings (comment out sections) + run js_tweaker if needed
 def apply_settings_from_gui(page, controller, settings_to_apply, settings_values):
@@ -951,24 +944,8 @@ class JSFrame(tk.Frame):
         #label_js_head.grid(row=0, column=0)
 
         self.checkvars = []
-        
-        for i, (fixname, value) in enumerate(self.controller.js_config.items(), 1):
-            _checkvar = tk.IntVar()
-            _checkvar.set(value)
-            _checkbutton = ttk.Checkbutton(self.frameJSInner,
-                            text = fixname, 
-                            variable = _checkvar,
-                            command = lambda fixname = fixname: self.js_click(controller, fixname, _checkvar)
-                            )
-            _label = tk.Label(self.frameJSInner,
-                              text=fixname,
-                              cursor="hand2")
-            #_label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
-
-            _checkbutton.grid(row=i, column=0, padx=(5,0), sticky='w')
-            _label.grid(row=i, column=1, sticky=W)
-            
-            self.checkvars.append(_checkvar)
+        self.comboboxes = {}
+        self.create_frameJSInner(controller)
         self.frameJSInner.pack()
         #self.frameJSInner.grid()
         
@@ -981,8 +958,9 @@ class JSFrame(tk.Frame):
             print("Error setting config :\n"\
                   "Fix:   " + fixname +\
                   "Value: " + str(value), file=sys.stderr)
-        
-    def update_js_gui(self, controller):
+            
+    def create_frameJSInner(self, controller):
+        rownum = 1
         for i, (fixname, value) in enumerate(self.controller.js_config.items(), 1):
             _checkvar = tk.IntVar()
             _checkvar.set(value)
@@ -996,10 +974,35 @@ class JSFrame(tk.Frame):
                               cursor="hand2")
             #_label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
 
-            _checkbutton.grid(row=i, column=0, padx=(5,0), sticky='w')
-            _label.grid(row=i, column=1, sticky=W)
+            _checkbutton.grid(row=rownum, column=0, padx=(5,0), sticky='w')
+            _label.grid(row=rownum, column=1, sticky=W)
             
             self.checkvars.append(_checkvar)
+
+            self.checkvars.append(_checkvar)
+            rownum += 1
+            if fixname in controller.special_js_config:
+                #print("YOU GOT IT" + fixname)
+                #print(self.controller.special_js_config["Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"])
+                self.sizesFrame = tk.Frame(self.frameJSInner)
+                for i, key in enumerate(self.controller.special_js_config["Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"]):
+                    _combolabel = tk.Label(self.sizesFrame,
+                                          text = key)
+                    _combobox = ttk.Combobox(self.sizesFrame,
+                                font="TkDefaultFont",
+                                 values=self.controller.special_js_config["Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"][key],
+                                width=6)
+                    _combobox.set(self.controller.special_js_config["Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"][key])
+                    _combolabel.grid(row=0, column=2*i, padx=(0,5))
+                    _combobox.grid(row=0, column=2*i+1, padx=(0,15))
+                    self.comboboxes[key] = _combobox
+                self.sizesFrame.grid(row=rownum, column=1, sticky=W)
+                rownum += 1
+
+        
+        
+    def update_js_gui(self, controller):
+        self.create_frameJSInner(controller)
 
     def returnframeJS(self):
         return self.frameJS
