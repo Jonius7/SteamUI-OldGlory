@@ -972,12 +972,15 @@ class JSFrame(tk.Frame):
     def create_frameJSInner(self, controller):
         rownum = 1
         for i, (fixname, value) in enumerate(self.controller.js_config.items(), 1):
+            print("WILD")
+            print(type(value))
             _checkvar = tk.IntVar()
-            _checkvar.set(value)
+            self.checkvars.append(_checkvar)
+            self.checkvars[i-1].set(int(value))
             _checkbutton = ttk.Checkbutton(self.frameJSInner,
                             text = fixname, 
                             variable = _checkvar,
-                            command = lambda fixname = fixname: self.js_click(self.controller, fixname, _checkvar)
+                            command = lambda fixname = fixname: self.js_click(self.controller, fixname, self.checkvars[i-1])
                             )
             _label = tk.Label(self.frameJSInner,
                               text=fixname,
@@ -987,7 +990,7 @@ class JSFrame(tk.Frame):
             _checkbutton.grid(row=rownum, column=0, padx=(5,0), sticky='w')
             _label.grid(row=rownum, column=1, sticky=W)
             
-            self.checkvars.append(_checkvar)
+            
             rownum += 1
             if fixname in self.controller.special_js_config:
                 #print("YOU GOT IT" + fixname)
