@@ -544,6 +544,7 @@ def install_click(event, page, controller):
     #make any js_config enable/disable required
     apply_changes_to_js_config(controller, settings_values)
     #write fixes.txt before apply
+    print(controller.js_config)
     backend.write_js_fixes(controller.js_config, controller.special_js_config)
     #applying settings
     apply_settings_from_gui(page, controller, settings_to_apply, settings_values)
@@ -578,7 +579,13 @@ def get_settings_from_gui(event, page):
 def apply_changes_to_js_config(controller, settings_values):
     if "EnableVerticalNavBar" in settings_values.keys():
         controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])
-    print(controller.js_config)
+    print("WAOYGEION")
+    for key in controller.special_js_config:
+        if "Change Game Image Grid Sizes" in key:
+            sizes = ["Small", "Medium", "Large"]
+            for size in sizes:
+                controller.special_js_config[key][size] = controller.frames[PageTwo].js_gui.comboboxes[size].get()
+    print(controller.special_js_config)
 
 ### Write CSS settings (comment out sections) + run js_tweaker if needed
 def apply_settings_from_gui(page, controller, settings_to_apply, settings_values):
@@ -963,14 +970,8 @@ class JSFrame(tk.Frame):
         
     ### PRESET Click funtion
     def js_click(self, controller, fixname, checkvarindex):
-        #print(self.controller.js_config)
-        #print(len(self.checkvars))
-        #print(str(checkvar.get()))
-        #for checkvar in self.checkvars:
-        #    print(checkvar.get())
-        print(self.checkvars[checkvarindex].get())
         try:
-            #self.controller.js_config[fixname] = str(checkvar.get())
+            controller.js_config[fixname] = str(self.checkvars[checkvarindex].get())
             self.controller.js_gui_changed = 1
             #print(controller.js_config)
         except Exception as e:
@@ -980,6 +981,7 @@ class JSFrame(tk.Frame):
             
     def create_frameJSInner(self, controller):
         rownum = 1
+        self.checkvars = []
         for i, (fixname, value) in enumerate(self.controller.js_config.items()):
             #print("WILD")
             #print(type(value))
@@ -987,7 +989,7 @@ class JSFrame(tk.Frame):
             self.checkvars.append(_checkvar)
             self.checkvars[i].set(int(value))
             _checkbutton = ttk.Checkbutton(self.frameJSInner,
-                            text = fixname, 
+                            text = fixname,
                             variable = _checkvar,
                             command = lambda fixname = fixname, i = i: self.js_click(self.controller, fixname, i)
                             )
@@ -1005,24 +1007,33 @@ class JSFrame(tk.Frame):
                 #print("YOU GOT IT" + fixname)
                 #print(self.controller.special_js_config["Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"])
                 self.sizesFrame = tk.Frame(self.frameJSInner)
-                for i, key in enumerate(self.controller.special_js_config["Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"]):
+                special_js_key_name = "Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"
+                for i, key in enumerate(self.controller.special_js_config[special_js_key_name]):
                     _combolabel = tk.Label(self.sizesFrame,
                                           text = key)
                     _combobox = ttk.Combobox(self.sizesFrame,
-                                font="TkDefaultFont",
-                                 values=self.controller.special_js_config["Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"][key],
+                                font="TkDefaultFont", 
+                                 values=self.controller.special_js_config[special_js_key_name][key],
                                 width=6)
-                    _combobox.set(self.controller.special_js_config["Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"][key])
+                    
+                    _combobox.set(self.controller.special_js_config[special_js_key_name][key])
+                    _combobox.bind("<Button-1>", lambda event: self.combobox_changed(event, self.controller))
+                    #_combobox.bind("<<ComboboxSelected>>", lambda fixname = fixname, propname = propname: combobox_changed(controller, fixname, key))
                     _combolabel.grid(row=0, column=2*i, padx=(0,5))
                     _combobox.grid(row=0, column=2*i+1, padx=(0,15))
                     self.comboboxes[key] = _combobox
                 self.sizesFrame.grid(row=rownum, column=1, sticky=W)
                 rownum += 1
         
-        
+    def combobox_changed(self, event, controller):
+        #controller.special_js_config[fixname][propname] = str(self.comboboxes[propname].get())
+        self.controller.js_gui_changed = 1
+    
     def update_js_gui(self, controller):
-        self.create_frameJSInner(controller)
-
+        self.create_frameJSInner(self.controller)
+        for checkvar in self.checkvars:
+            print(checkvar.get())
+        
     def returnframeJS(self):
         return self.frameJS
 ######

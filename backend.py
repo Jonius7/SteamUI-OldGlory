@@ -462,8 +462,8 @@ def load_js_fixes():
                               "they are all commented out (with ###) or enabled (without ###).", file=sys.stderr)
                     fixesdata[fixname] = str(state)
                     (key, val) = line.rstrip().split("  ") #validation
-                    ### special fixes data
-                    if "Change Game Image Grid Sizes" in fixname:
+                    ### special fixes data, line to look out for has n = [number] in it
+                    if "Change Game Image Grid Sizes" in fixname and re.search("n = ([0-9]+)", line):
                         line_segments = line.split("  ")
                         sizes_dict = {}
                         sizes = ["Small", "Medium", "Large"]
@@ -472,6 +472,7 @@ def load_js_fixes():
                             sizes_dict[sizes[i]] = value
                         special_fixesdata[fixname] = sizes_dict
                         print(special_fixesdata)
+                        print("!~!$!@$~!$!")
                         #print(re.sub("n = ([0-9]+)", "n = AAA", line_segments[1]))
                         #print("~~~~~~~~")
                         #print("  ".join(line_segments))
@@ -526,6 +527,7 @@ def write_js_fixes(fixesdata, special_fixesdata):
                         #print(line_segments[1])
                         for key in sizes:
                             #print(special_fixesdata[current_fixname][key])
+                            print(special_fixesdata)
                             line_segments[1] = line_segments[1].replace("AAA", special_fixesdata[current_fixname][key], 1)
                         #print(line_segments[1])
 
