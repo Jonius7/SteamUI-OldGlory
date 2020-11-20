@@ -173,6 +173,7 @@ class StartPage(tk.Frame):
         ######
         self.var6 = tk.IntVar()
         check6 = ttk.Checkbutton(frameCheck,
+                                 state='disabled',
                                  variable=self.var6)
         check6.grid(row=5, column=0)
         ###
@@ -189,7 +190,8 @@ class StartPage(tk.Frame):
         self.dropdown6 = ttk.Combobox(frameCheck,
                                  font="TkDefaultFont",
                                  values=["steam-library (Shiina)","Dark Library (Thespikedballofdoom)"],
-                                 state="readonly",
+                                 #state="readonly",
+                                 state='disabled',
                                  textvariable=self.dropdown6_value,
                                  width=30)
         self.dropdown6.current(0)
@@ -579,6 +581,8 @@ def get_settings_from_gui(event, page):
 def apply_changes_to_js_config(controller, settings_values):
     if "EnableVerticalNavBar" in settings_values.keys():
         controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])
+    if "LandscapeImages" in settings_values.keys():
+        controller.js_config["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"] = str(settings_values["LandscapeImages"])
     print("WAOYGEION")
     for key in controller.special_js_config:
         if "Change Game Image Grid Sizes" in key:
@@ -624,6 +628,8 @@ def run_js_tweaker(text_area):
         text_area.update_idletasks()
 
         ###
+        js_tweaker.copy_files_from_steam()
+        text_area.update_idletasks()
         js_tweaker.beautify_js()
         text_area.update_idletasks()
         js_tweaker.setup_library()
@@ -631,8 +637,10 @@ def run_js_tweaker(text_area):
         js_tweaker.parse_fixes_file("fixes.txt")
         text_area.update_idletasks()
         js_tweaker.write_modif_file()
-        text_area.update_idletasks()
+        #text_area.update_idletasks()
         js_tweaker.re_minify_file()
+        text_area.update_idletasks()
+        js_tweaker.copy_files_to_steam()
         text_area.update_idletasks()
         print("\nSteam Library JS Tweaks applied successfully.")
               

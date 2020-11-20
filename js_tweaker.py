@@ -23,7 +23,7 @@ def library_dir():
         key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
         steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
         steamui_path = steam_path.replace("/","\\") + "\steamui"
-        print(steamui_path)
+        #print(steamui_path)
     elif OS_TYPE ==  "Darwin":
         steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "\steamui"
     elif OS_TYPE ==  "Linux":
@@ -141,9 +141,10 @@ def re_minify_file():
 def copy_files_to_steam():
     try:
         if LOCAL_DEBUG == 0:
-            files_to_copy = ["libraryreet.js", "fixes.txt"]
+            files_to_copy = ["libraryroot.custom.css", "libraryreet.js", "fixes.txt"]
             for filename in files_to_copy:
                 shutil.copy2(filename, library_dir() + "\\" + filename)
+                print("File " + filename + " written to " + library_dir())
     except FileNotFoundError:
         print("Files not found!\n" \
               "Run the other functions in js_tweaker first.")
