@@ -684,6 +684,11 @@ class Detail_tooltip(OnHoverTooltipBase):
 ### ================================
         
 ### Initialisation
+### ================================
+### Check Steam files and copy
+
+        
+### StartPage
 def set_selected_from_config(page):
     ### grab stdout, stderr from function in backend
     f = io.StringIO()

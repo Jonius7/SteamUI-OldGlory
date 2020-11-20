@@ -174,7 +174,13 @@ def library_dir():
 #Working Directory
 #if not os.path.exists('config'):
 #    os.makedirs('config')
-#os.chdir(os.getcwd() + "\config")
+'''
+try:
+    directory = "\config"
+    os.chdir(os.getcwd() + directory)
+except FileNotFoundError:
+    print("Directory " + directory + " not found", file=sys.stderr)
+'''
 
 ###
 ### CONFIG Functions
@@ -302,13 +308,6 @@ def write_css_settings(settings, settings_values, root_config):
         
     except FileNotFoundError:
         print("libraryroot.custom.css not found", file=sys.stderr)
-
-'''
-def strip_tag(s, subs):
-    i = s.index(subs)
-    return s[:i+len(subs)]
-'''
-
 
 
 ### Triggers on Reload Config (button)
