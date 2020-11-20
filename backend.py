@@ -1,5 +1,5 @@
 import platform
-import os.path
+import os
 import sys
 import shutil
 import traceback
@@ -170,6 +170,11 @@ def library_dir():
     elif OS_TYPE ==  "Linux":
         steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "\steamui"
     return steamui_path
+
+#Working Directory
+#if not os.path.exists('config'):
+#    os.makedirs('config')
+#os.chdir(os.getcwd() + "\config")
 
 ###
 ### CONFIG Functions
@@ -553,8 +558,8 @@ def write_js_fixes(fixesdata, special_fixesdata):
         f.close()
         f1.close()
         ###
-        #shutil.move("fixes.txt", "fixes.txt.backup")
-        #shutil.move("fixes.temp.txt", "fixes.txt")
+        shutil.move("fixes.txt", "fixes.txt.backup")
+        shutil.move("fixes.temp.txt", "fixes.txt")
                     
     except FileNotFoundError:
         print("JS Tweaks file, 'fixes.txt' not found", file=sys.stderr)

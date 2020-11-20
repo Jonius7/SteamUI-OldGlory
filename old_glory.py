@@ -957,12 +957,16 @@ class JSFrame(tk.Frame):
         #self.frameJSInner.grid()
         
     ### PRESET Click funtion
-    def js_click(self, controller, fixname, checkvar):
+    def js_click(self, controller, fixname, checkvarindex):
+        #print(self.controller.js_config)
+        #print(len(self.checkvars))
+        #print(str(checkvar.get()))
+        #for checkvar in self.checkvars:
+        #    print(checkvar.get())
+        print(self.checkvars[checkvarindex].get())
         try:
-            self.controller.js_config[fixname] = str(checkvar.get())
+            #self.controller.js_config[fixname] = str(checkvar.get())
             self.controller.js_gui_changed = 1
-            print(self.controller.js_config)
-            print(str(checkvar.get()))
             #print(controller.js_config)
         except Exception as e:
             print("Error setting config :\n"\
@@ -971,16 +975,16 @@ class JSFrame(tk.Frame):
             
     def create_frameJSInner(self, controller):
         rownum = 1
-        for i, (fixname, value) in enumerate(self.controller.js_config.items(), 1):
-            print("WILD")
-            print(type(value))
+        for i, (fixname, value) in enumerate(self.controller.js_config.items()):
+            #print("WILD")
+            #print(type(value))
             _checkvar = tk.IntVar()
             self.checkvars.append(_checkvar)
-            self.checkvars[i-1].set(int(value))
+            self.checkvars[i].set(int(value))
             _checkbutton = ttk.Checkbutton(self.frameJSInner,
                             text = fixname, 
                             variable = _checkvar,
-                            command = lambda fixname = fixname: self.js_click(self.controller, fixname, self.checkvars[i-1])
+                            command = lambda fixname = fixname, i = i: self.js_click(self.controller, fixname, i)
                             )
             _label = tk.Label(self.frameJSInner,
                               text=fixname,
@@ -1009,7 +1013,6 @@ class JSFrame(tk.Frame):
                     self.comboboxes[key] = _combobox
                 self.sizesFrame.grid(row=rownum, column=1, sticky=W)
                 rownum += 1
-
         
         
     def update_js_gui(self, controller):
