@@ -2,27 +2,66 @@
 #libraries needed: jsbeautifier, jsmin
 
 import jsbeautifier
-import os.path
+import platform
+import os
 import sys
+import shutil
 from jsmin import jsmin
 import time
 
-   
+
+LOCAL_DEBUG = 0 #Set to 1 to not copy files to/from Steam directory
+
+# Determine Steam Library Path
+OS_TYPE = platform.system()
+if OS_TYPE == "Windows":
+    import winreg
+
+def library_dir():
+    steamui_path = ""
+    if OS_TYPE == "Windows":
+        key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
+        steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
+        steamui_path = steam_path.replace("/","\\") + "\steamui"
+        print(steamui_path)
+    elif OS_TYPE ==  "Darwin":
+        steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "\steamui"
+    elif OS_TYPE ==  "Linux":
+        steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "\steamui"
+    return steamui_path
+######
+
 swap_js = {'"libraryroot"}[n=u]||n': '"libraryreet"}[n=u]||n'}
 swapback_js = {'"libraryreet"}[n=u]||n': '"libraryroot"}[n=u]||n'}
 
 fixes_dict = {}
 
-def beautify_js():
-    if not os.path.isfile("libraryroot.beaut.js"):
-        print("Opening JS file and beautifying...")
-        library = jsbeautifier.beautify_file("libraryroot.js")
+def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fresh copy (useful for updates)
+    try:
+        if reset == 1 or LOCAL_DEBUG == 1:
+            files_to_copy = ["library.js", "libraryroot.js"]
+            for filename in files_to_copy:
+                if not os.path.isfile(filename):
+                    print("Copying files from Steam\steamui...")
+                    shutil.copy2(library_dir() + "\\" + filename, filename)
+    except FileNotFoundError:
+        print("Steam directory and/or files not found.\n" \
+              "Please check Steam\steamui for library.js and libraryroot.js")
+            
 
-        f = open("libraryroot.beaut.js", "wt", newline='', encoding="UTF-8")
-        print("Writing beautified file... please do not close")
-        f.write(library)
-        f.close()
-        print("Beautified file write finished")
+def beautify_js():
+    try:
+        if not os.path.isfile("libraryroot.beaut.js"):
+            print("Opening JS file and beautifying...")
+            library = jsbeautifier.beautify_file("libraryroot.js")
+
+            f = open("libraryroot.beaut.js", "wt", newline='', encoding="UTF-8")
+            print("Writing beautified file... please do not close")
+            f.write(library)
+            f.close()
+            print("Beautified file write finished")
+    except:
+        error_exit("libraryroot.js not found") 
 
 #modify library.js to look for different libraryroot.js file
 def setup_library():
@@ -71,8 +110,9 @@ def parse_fixes_file(filename):
 
 def find_fix(line, fix):
     m_line = line.replace(fix, fixes_dict[fix])
-    print("FIX: ", end = '')
-    print(m_line.strip())
+    #print("FIX: ", end = '')
+    #print(m_line.strip())
+    print("FIX: " + m_line.strip())
     return m_line
 
 def write_modif_file():
@@ -90,13 +130,24 @@ def write_modif_file():
     f1.close()
 
 def re_minify_file():
+    print("\nRe-minify JS file")
     with open("libraryroot.modif.js", "r", newline='', encoding="UTF-8") as js_file:
         minified = jsmin(js_file.read())
     with open("libraryreet.js", "w", newline='', encoding="UTF-8") as js_min_file:
         js_min_file.write(minified)
     js_file.close()
     js_min_file.close()
-    print("\nRe-minify JS file")
+    
+def copy_files_to_steam():
+    try:
+        if LOCAL_DEBUG == 0:
+            files_to_copy = ["libraryreet.js", "fixes.txt"]
+            for filename in files_to_copy:
+                shutil.copy2(filename, library_dir() + "\\" + filename)
+    except FileNotFoundError:
+        print("Files not found!\n" \
+              "Run the other functions in js_tweaker first.")
+
 
 def error_exit(errormsg):
     print(errormsg, file=sys.stderr)
@@ -105,11 +156,13 @@ def error_exit(errormsg):
     
 def main():
     print("JS Tweaker for Steam Library UI by Jonius7\n")
+    copy_files_from_steam()
     beautify_js()
     setup_library()
     parse_fixes_file("fixes.txt")
     write_modif_file()
     re_minify_file()
+    copy_files_to_steam()
     print("\nSteam Library JS Tweaks applied successfully.")
     time.sleep(2)
                 

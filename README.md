@@ -152,6 +152,10 @@ To debug the Steam Library yourself, run Steam with the ` -dev` tag.
 `pyinstaller --hidden-import six --onefile js_tweaker.py`
 The `.spec` file is included for redundancy's sake.
 
+Sometimes you may need to install `pyinstaller` like this: [Windows Compilers](https://wiki.python.org/moin/WindowsCompilers#Which_Microsoft_Visual_C.2B-.2B-_compiler_to_use_with_a_specific_Python_version_.3F)
+
+This is mainly for me to try and get an `.exe` that doesn't trigger false positives on [virustotal.com](virustotal.com)
+
 #### What does `js_tweaker` do?
 
 the JS goes through this process:
