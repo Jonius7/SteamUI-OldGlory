@@ -22,7 +22,7 @@ swapback_js = {'"libraryreet"}[n=u]||n': '"libraryroot"}[n=u]||n'}
 fixes_dict = {}
 
 def initialise():
-    fixes_dict = {}
+    fixes_dict.clear() #not fixes_dict = {}
 
 def library_dir():
     steamui_path = ""

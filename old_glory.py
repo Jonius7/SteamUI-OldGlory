@@ -568,7 +568,7 @@ def get_settings_from_gui(event, page):
                 if page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get() == 1:
                     settings.append(key)
                 elif page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get() != int(page.loaded_config[key]):
-                    print("BOX UNSELECTED")
+                    #print("BOX UNSELECTED")
                     settings.append(key)
             elif "set" in CONFIG_MAP[key]:
                 settings_values[key] = CONFIG_MAP[key]["set"]    
@@ -900,15 +900,18 @@ class PresetFrame(tk.Frame):
         label1 = tk.Label(self.framePreset, text="What's New")
         label1.grid(row=1, column=0, padx=(5,0))
 
-        self.radios_config = {"Bottom of page" : {"value" : "1", "config" : 
+        self.radios_config = {"Top of Page" : {"value" : "1", "config" :
+                            {"--WhatsNew" : "block",
+                            "--WhatsNewOrder" : "0"}},
+                              "Bottom of page" : {"value" : "2", "config" : 
                             {"--WhatsNew" : "block",
                             "--WhatsNewOrder" : "2"}},
-                  "Hide entirely" : {"value" : "2", "config" :
+                  "Hide entirely" : {"value" : "3", "config" :
                             {"--WhatsNew" : "none",
                             "--WhatsNewOrder" : "0"}}
                   }
         self.radiovar = tk.StringVar()
-        self.radiovar.set("1")
+        self.radiovar.set("2")
         self.radios = []
         
         for i, (textv, value) in enumerate(self.radios_config.items(), 1):
