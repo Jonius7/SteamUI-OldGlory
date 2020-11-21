@@ -544,17 +544,20 @@ def install_click(event, page, controller):
     #get settings
     settings_to_apply, settings_values = get_settings_from_gui(event, page)
     #make any js_config enable/disable required
-    apply_changes_to_js_config(controller, settings_values)
+    settings_values = apply_changes_to_config(controller, settings_values)
     #write fixes.txt before apply
-    print(controller.js_config)
+    #print(controller.js_config)
     backend.write_js_fixes(controller.js_config, controller.special_js_config)
     #applying settings
     apply_settings_from_gui(page, controller, settings_to_apply, settings_values)
     backend.write_config(settings_values)
     #reset state of js gui to "unchanged"
     controller.js_gui_changed = 0
+    backend.refresh_steam_dir()
+    update_loaded_config(page)
 
 ### Get settings to apply (with validation), and values
+### some of this needs to be changed to account for "unchecking" options
 def get_settings_from_gui(event, page):
     try:
         settings = []
@@ -563,6 +566,9 @@ def get_settings_from_gui(event, page):
             if "value" in CONFIG_MAP[key]:         
                 settings_values[key] = page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get()
                 if page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get() == 1:
+                    settings.append(key)
+                elif page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get() != int(page.loaded_config[key]):
+                    print("BOX UNSELECTED")
                     settings.append(key)
             elif "set" in CONFIG_MAP[key]:
                 settings_values[key] = CONFIG_MAP[key]["set"]    
@@ -578,18 +584,33 @@ def get_settings_from_gui(event, page):
         pass
         print("libraryroot.custom.css not found", file=sys.stderr)
 
-def apply_changes_to_js_config(controller, settings_values):
+def apply_changes_to_config(controller, settings_values):
+    print("GOINGOEIGE")
+    print(settings_values.keys())
     if "EnableVerticalNavBar" in settings_values.keys():
         controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])
+        controller.frames[PageTwo].js_gui.checkvars["Vertical Nav Bar (beta, working)"].set(settings_values["EnableVerticalNavBar"])
+        print("WOINGEI")
+        #print(controller.frames[PageTwo].js_gui.checkvars["Vertical Nav Bar (beta, working)"].get())
+        #print(settings_values)
+        #js_gui.checkvars["Vertical Nav Bar (beta, working)"] = settings_values["EnableVerticalNavBar"]
+        
+        #settings_values["EnableVerticalNavBar"] = str(controller.frames[PageTwo].js_gui.checkvars["Vertical Nav Bar (beta, working)"].get())
+        #print(settings_values["EnableVerticalNavBar"])
+    if "EnableClassicLayout" in settings_values.keys():
+        if settings_values["EnableClassicLayout"] == 1 and settings_values["EnableVerticalNavBar"] == 0:
+            settings_values["EnableClassicLayout"] = 0        
     if "LandscapeImages" in settings_values.keys():
         controller.js_config["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"] = str(settings_values["LandscapeImages"])
-    print("WAOYGEION")
+        controller.frames[PageTwo].js_gui.checkvars["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"].set(settings_values["LandscapeImages"])
+    #print("WAOYGEION")
     for key in controller.special_js_config:
         if "Change Game Image Grid Sizes" in key:
             sizes = ["Small", "Medium", "Large"]
             for size in sizes:
                 controller.special_js_config[key][size] = controller.frames[PageTwo].js_gui.comboboxes[size].get()
-    print(controller.special_js_config)
+    return settings_values
+    #print(controller.special_js_config)
 
 ### Write CSS settings (comment out sections) + run js_tweaker if needed
 def apply_settings_from_gui(page, controller, settings_to_apply, settings_values):
@@ -602,6 +623,8 @@ def apply_settings_from_gui(page, controller, settings_to_apply, settings_values
     ### Run js_tweaker if required
     
     change_javascript = 0
+    print("~!)!(!~~)~~~~~~~~")
+    print(settings_values)
     for setting in settings_values:
         #print("javascript" in CONFIG_MAP[setting])
         if "javascript" in CONFIG_MAP[setting]:
@@ -615,12 +638,10 @@ def apply_settings_from_gui(page, controller, settings_to_apply, settings_values
         
     if change_javascript == 1:
         run_js_tweaker(page.text1)
-    
+        
     print("Settings applied.")
 
-def apply_mainoptions():
-    print("TODO")
-    
+   
 def run_js_tweaker(text_area):
     try:
         print("==================")
@@ -628,6 +649,7 @@ def run_js_tweaker(text_area):
         text_area.update_idletasks()
 
         ###
+        js_tweaker.initialise()
         js_tweaker.copy_files_from_steam()
         text_area.update_idletasks()
         js_tweaker.beautify_js()
@@ -646,6 +668,17 @@ def run_js_tweaker(text_area):
               
     except Exception as e:
         print(e, file=sys.stderr)
+
+def update_loaded_config(page):
+    #update loaded_config on Install click
+    print("YOU ERROR?")
+    print(page.getCheckbuttonVal("var1").get())
+    print(page.loaded_config)
+    #print(page.getCheckbuttonVal(CONFIG_MAP[key]["value"])
+    for key in page.loaded_config:
+        if "value" in CONFIG_MAP[key]:
+            page.loaded_config[key] = str(page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get())
+
 ### ================================
 
 
@@ -890,10 +923,10 @@ class PresetFrame(tk.Frame):
         
     ### PRESET Click funtion
     def preset_click(self, controller, radioText):
-        print("~~~pcccc~~~~~~")
-        print(radioText)
+        #print("~~~pcccc~~~~~~")
+        #print(radioText)
         globals()["apply_css_config_values"](controller, self.radios_config[radioText]["config"])
-        print(controller.css_config)
+        #print(controller.css_config)
         
     def returnPresetFrame(self):
         return self.framePreset
@@ -903,13 +936,13 @@ class PresetFrame(tk.Frame):
 ### change container.css_config
 ### Recursion
 def apply_css_config_values(controller, propValues):
-    print("~~~pv~~~~~~~~~~")
-    print(propValues)
+    #print("~~~pv~~~~~~~~~~")
+    #print(propValues)
     returns = []
     for key, value in propValues.items():
         controller.config_dict = replace_item(key, value, controller.css_config)
     #print(controller.css_config)
-    print("~~~g~")
+    #print("~~~g~")
     #print(controller.css_config)
 
     
@@ -921,12 +954,12 @@ def replace_item(key, value, config_dict):
         if isinstance(v, dict):
             config_dict[k] = replace_item(key, value, v)
     if key in config_dict:
-        print("wAZOO")
-        print(str(key) + "~~" + str(value))
-        print(config_dict[key]["current"])
+        #print("wAZOO")
+        #print(str(key) + "~~" + str(value))
+        #print(config_dict[key]["current"])
         config_dict[key]["current"] = value
         #print("CHANGED")
-        print(config_dict[key]["current"])
+        #print(config_dict[key]["current"])
     return config_dict
 
 ###
@@ -970,16 +1003,16 @@ class JSFrame(tk.Frame):
         label_js_head.grid(row=0, column=0, columnspan=2)
         #label_js_head.grid(row=0, column=0)
 
-        self.checkvars = []
+        self.checkvars = {}
         self.comboboxes = {}
         self.create_frameJSInner(self.controller)
         self.frameJSInner.pack()
         #self.frameJSInner.grid()
         
     ### PRESET Click funtion
-    def js_click(self, controller, fixname, checkvarindex):
+    def js_click(self, controller, fixname):
         try:
-            controller.js_config[fixname] = str(self.checkvars[checkvarindex].get())
+            controller.js_config[fixname] = str(self.checkvars[fixname].get())
             self.controller.js_gui_changed = 1
             #print(controller.js_config)
         except Exception as e:
@@ -989,17 +1022,17 @@ class JSFrame(tk.Frame):
             
     def create_frameJSInner(self, controller):
         rownum = 1
-        self.checkvars = []
+        self.checkvars = {}
         for i, (fixname, value) in enumerate(self.controller.js_config.items()):
             #print("WILD")
             #print(type(value))
             _checkvar = tk.IntVar()
-            self.checkvars.append(_checkvar)
-            self.checkvars[i].set(int(value))
+            self.checkvars[fixname] = _checkvar
+            self.checkvars[fixname].set(int(value))
             _checkbutton = ttk.Checkbutton(self.frameJSInner,
                             text = fixname,
                             variable = _checkvar,
-                            command = lambda fixname = fixname, i = i: self.js_click(self.controller, fixname, i)
+                            command = lambda fixname = fixname: self.js_click(self.controller, fixname)
                             )
             _label = tk.Label(self.frameJSInner,
                               text=fixname,
@@ -1039,8 +1072,8 @@ class JSFrame(tk.Frame):
     
     def update_js_gui(self, controller):
         self.create_frameJSInner(self.controller)
-        for checkvar in self.checkvars:
-            print(checkvar.get())
+        #for checkvar in self.checkvars:
+            #print(checkvar.get())
         
     def returnframeJS(self):
         return self.frameJS

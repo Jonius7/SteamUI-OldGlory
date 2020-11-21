@@ -131,7 +131,7 @@ CSS_CONFIG = {
             "default" : "0px",
             "current" : "0px",
             "options": {"0px"},
-            "desc" : "Leave at 0px, this var is for steam-library compatibility"}
+            "desc" : "Leave at 0px, this var is for steam-library compatibility and vertical nav bar"}
         }
     }
 
@@ -164,7 +164,7 @@ def library_dir():
         key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
         steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
         steamui_path = steam_path.replace("/","\\") + "\steamui"
-        print(steamui_path)
+        #print(steamui_path)
     elif OS_TYPE ==  "Darwin":
         steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "\steamui"
     elif OS_TYPE ==  "Linux":
@@ -218,6 +218,7 @@ def write_config(config_dict):
 
 
 ### Settings (checkboxes) functions
+# Need to change logic to cover "unchecking" options
 def validate_settings(settings):
     validated_settings = []
     if "InstallCSSTweaks" not in settings:
@@ -255,13 +256,13 @@ def write_css_settings(settings, settings_values, root_config):
                 ###
                 
                 if ROOT_MAP["start"][0] in prevline and ROOT_MAP["start"][1] in line:
-                    print("YAHOO " + line)
+                    #print("YAHOO " + line)
                     startreading = 1
                     for line in css_root_writer(root_config):
                         f1.write(line + OS_line_ending())
                     
                 elif ROOT_MAP["end"][0] in prevline and ROOT_MAP["end"][1] in line:
-                    print("PARTYEND")
+                    #print("PARTYEND")
                     startreading = 0
                 prevline = line
 
@@ -273,8 +274,8 @@ def write_css_settings(settings, settings_values, root_config):
                             end_string = SETTING_MAP[setting]['end']
                             if start_string in line:
                                 if start_string + "/*" in line:
-                                    print(setting + " CSS Start commented out")
-                                    print("Current Line | " + line)
+                                    #print(setting + " CSS Start commented out")
+                                    #print("Current Line | " + line)
                                     if settings_values[setting] == 1 and setting in settings:
                                         modify = 1
                                         f1.write(start_string + OS_line_ending())
@@ -282,11 +283,11 @@ def write_css_settings(settings, settings_values, root_config):
                                     if settings_values[setting] == 0:
                                         modify = 1
                                         f1.write(start_string + "/*" + OS_line_ending())
-                                        print(setting + " CSS Start not commented out (enabled)")
+                                        #print(setting + " CSS Start not commented out (enabled)")
                             if end_string in line:
                                 if "*/" + end_string in line:
-                                    print(setting + " CSS End commented out")
-                                    print("Current Line | " + line)
+                                    #print(setting + " CSS End commented out")
+                                    #print("Current Line | " + line)
                                     if settings_values[setting] == 1 and setting in settings:
                                         modify = 1
                                         f1.write(end_string + OS_line_ending())
@@ -294,7 +295,7 @@ def write_css_settings(settings, settings_values, root_config):
                                     if settings_values[setting] == 0:
                                         modify = 1
                                         f1.write("*/" + end_string + OS_line_ending())
-                                        print(setting + " CSS End not commented out (enabled)")
+                                        #print(setting + " CSS End not commented out (enabled)")
                 elif startreading == 1:
                     modify = 1
                 if modify == 0:
@@ -401,12 +402,12 @@ def css_line_parser(line):
 #root writer
 #from CSS_CONFIG dictionary to an array of lines of CSS to be written
 def css_root_writer(css_config):
-    print("START ROOT WRITER")
+    #print("START ROOT WRITER")
     indent = "  "
     css_lines = []
     css_lines.append(":root {")
     for key in css_config:
-        print(key)
+        #print(key)
         css_lines.append(indent + "/* " + key + " */")
         #
         for prop in css_config[key]:
@@ -471,8 +472,8 @@ def load_js_fixes():
                         for i, value in enumerate(size_values):
                             sizes_dict[sizes[i]] = value
                         special_fixesdata[fixname] = sizes_dict
-                        print(special_fixesdata)
-                        print("!~!$!@$~!$!")
+                        #print(special_fixesdata)
+                        #print("!~!$!@$~!$!")
                         #print(re.sub("n = ([0-9]+)", "n = AAA", line_segments[1]))
                         #print("~~~~~~~~")
                         #print("  ".join(line_segments))
@@ -499,8 +500,8 @@ def load_js_fixes():
 
 def write_js_fixes(fixesdata, special_fixesdata):
     try:
-        print("~0~~")
-        print(fixesdata)
+        #print("~0~~")
+        #print(fixesdata)
         writefix = 0
         current_fixname = ""
         sectionhead = 0
@@ -527,7 +528,7 @@ def write_js_fixes(fixesdata, special_fixesdata):
                         #print(line_segments[1])
                         for key in sizes:
                             #print(special_fixesdata[current_fixname][key])
-                            print(special_fixesdata)
+                            #print(special_fixesdata)
                             line_segments[1] = line_segments[1].replace("AAA", special_fixesdata[current_fixname][key], 1)
                         #print(line_segments[1])
 
@@ -538,8 +539,8 @@ def write_js_fixes(fixesdata, special_fixesdata):
                     #print(fixesdata[current_fixname])                    
                     if line.lstrip()[:3] == "###":
                         if fixesdata[current_fixname] == '1':
-                            print("STRIP COMMENT AND ENABLE")
-                            print(line.lstrip().split("###")[1])
+                            #print("STRIP COMMENT AND ENABLE")
+                            #print(line.lstrip().split("###")[1])
                             f1.write(line.lstrip().split("###")[1])
                         else:
                             f1.write(line)
@@ -547,7 +548,7 @@ def write_js_fixes(fixesdata, special_fixesdata):
                     else:
                         #print(fixesdata[current_fixname])
                         if fixesdata[current_fixname] == '0':
-                            print("ADD COMMENT AND DISABLE")
+                            #print("ADD COMMENT AND DISABLE")
                             f1.write("###" + line.lstrip())
                         else:
                             f1.write(line)
@@ -570,3 +571,8 @@ def write_js_fixes(fixesdata, special_fixesdata):
         print(traceback.print_exc(), file=sys.stderr)
         print("~~~~~~~~~~")
                     
+def refresh_steam_dir():
+    shutil.copy2("libraryroot.custom.css", library_dir() + "\\" + "libraryroot.custom.css")
+    print("File " + "libraryroot.custom.css" + " written to " + library_dir())
+    shutil.copy2(library_dir() + "\\licenses.txt", library_dir() + "\\licenses.txt.copy")
+    os.remove(library_dir() + "\\licenses.txt.copy")
