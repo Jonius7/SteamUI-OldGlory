@@ -150,6 +150,8 @@ ROOT_MAP = {"start" : ["Configurable variables", ":root {"],
             "end" : ["}", "======"]
             }
 
+PATCHED_TEXT = "/*patched*/"
+
 def OS_line_ending():
     if OS_TYPE == "Windows":
         return "\r\n"
@@ -181,6 +183,25 @@ try:
 except FileNotFoundError:
     print("Directory " + directory + " not found", file=sys.stderr)
 '''
+
+
+
+### Check CSS Patched
+def is_css_patched():
+    patched = False
+    try:
+        with open(library_dir() + "\\css\\libraryroot.css") as f:
+            first_line = f.readline()
+        if PATCHED_TEXT not in first_line:
+            print("css\libraryroot.css not patched. Download SteamFriendsPatcher from\n" \
+                  "https://github.com/PhantomGamers/SteamFriendsPatcher/releases", file=sys.stderr)
+        else:
+            patched = True
+        f.close()
+    except:
+        print("css\libraryroot.css not found", file=sys.stderr)
+    return patched
+
 
 ###
 ### CONFIG Functions
@@ -429,6 +450,21 @@ def css_root_writer_example():
         file.write(line + OS_line_ending())
     file.close()
 '''
+
+###
+### Apply CSS Theme
+### Order: CSS before or after SteamUI-OldGlory's CSS
+def apply_css_theme(filename, order, patchtext):
+    print("TODO apply Theme")
+    #print(filename)
+    #print(order)
+
+def remove_current_css_themes():
+    print("TODO")
+def add_new_css_theme():
+    print("TODO")
+
+    
 
 ###
 ### JS functions (fixes.txt)

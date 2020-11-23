@@ -180,8 +180,8 @@ class StartPage(tk.Frame):
         mo6 = MainOption(
             parentFrame=frameCheck,
             page=self,
-            name="Dark Library Theme",
-            image="dark_steam_library.png",
+            name="Library Theme",
+            image="theme_shiina.png",
             tags=["CSS"])
         mainoption6 = mo6.returnMainOption()
         mainoption6.grid(row=5, column=1, sticky=W)
@@ -189,12 +189,14 @@ class StartPage(tk.Frame):
         self.dropdown6_value = tk.IntVar()
         self.dropdown6 = ttk.Combobox(frameCheck,
                                  font="TkDefaultFont",
-                                 values=["steam-library (Shiina)","Dark Library (Thespikedballofdoom)"],
-                                 #state="readonly",
-                                 state='disabled',
+                                 values=["steam-library (Shiina)",
+                                         "Dark Library (Thespikedballofdoom)",
+                                         "Acrylic Theme (EliteSkylu)"],
+                                 state="readonly",
                                  textvariable=self.dropdown6_value,
                                  width=30)
         self.dropdown6.current(0)
+        self.dropdown6.bind("<<ComboboxSelected>>", lambda event: dropdown_click(event, self))
         self.dropdown6.grid(row=6, column=1, columnspan=2, sticky="w")
         
         
@@ -257,6 +259,10 @@ class StartPage(tk.Frame):
         frameConfirm = confirm_frame(self, controller)
 
 
+        ### Running functions after much of StartPage has been initialised
+        ### Check if CSS Patched
+        check_if_css_patched()
+        
         ### Set GUI from config
         self.loaded_config = set_selected_from_config(self)
         self.text1.config(state='disabled')
@@ -445,7 +451,34 @@ def show_PageTwo(controller):
     controller.show_frame(PageTwo)
 
 ### ================================
+
+### Initialisation
+### ================================
+### Check SteamFriendsPatcher
+def check_if_css_patched():
+    backend.is_css_patched()
+    '''
+    if not backend.is_css_patched():
+        print("POPUP Here")
+    else:
+        print("NO POPUP")
+    '''
     
+### StartPage
+def set_selected_from_config(page):
+    ### grab stdout, stderr from function in backend
+    f = io.StringIO()
+    loaded_config = backend.load_config()
+    #with contextlib.redirect_stdout(f):   
+    for key in loaded_config:
+        if key in CONFIG_MAP :
+            if loaded_config[key] == '0' :
+                page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(0)
+            if loaded_config[key] == '1' :
+                page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
+    return loaded_config
+### ================================
+   
 
 ### Redirect Stdout, Stderr
 ### ================================
@@ -523,7 +556,38 @@ class MainOption(tk.Frame):
     def returnMainOption(self):
         return self.tagFrame
 
-    
+### Dropdown click (theme)
+###
+THEME_MAP = {"steam-library (Shiina)" :
+             {"filename" : "shiina.css",
+              "order" : "before",
+              "patchtext" :
+                  {"start" : "DO NOT EDIT THESE !!! DO NOT EDIT THESE",
+                  "end" : "END steam-library tweaks for SteamUI-OldGlory"}},
+             "Dark Library (Thespikedballofdoom)" :
+             {"filename" : "spiked.css",
+              "order" : "after",
+              "patchtext" :
+                  {"start" : "Dark Library by spikedballofdoom",
+                  "end" : "END Dark Library by spikedballofdoom"}},
+             "Acrylic Theme (EliteSkylu)" :
+             {"filename" : "acrylic.css",
+              "order" : "after",
+              "patchtext" :
+                  {"start" : "Acrylic Theme by Jonius7",
+                  "end" : "END CSS for Acrylic Theme"}}
+             }
+
+def dropdown_click(event,page):
+    theme_name = event.widget.get()
+    if theme_name in THEME_MAP:
+        #change_image
+        change_image(page.image1, resource_path("theme_" + THEME_MAP[theme_name]["filename"][0:-4] + ".png"))
+        backend.apply_css_theme(THEME_MAP[theme_name]["filename"],
+                                THEME_MAP[theme_name]["order"],
+                                THEME_MAP[theme_name]["patchtext"])
+
+  
         
 ### INSTALL Functions
 ### ================================
@@ -539,6 +603,8 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
               "InstallWithDarkLibrary" : {"value" : "var6", "javascript" : False}
               }
 
+
+
 ### Install Click
 def install_click(event, page, controller):
     #get settings
@@ -551,6 +617,10 @@ def install_click(event, page, controller):
     #applying settings
     apply_settings_from_gui(page, controller, settings_to_apply, settings_values)
     backend.write_config(settings_values)
+    #add/remove theme
+    print("WAYEO")
+    print(controller.frames[StartPage].dropdown6.get())
+    
     #reset state of js gui to "unchanged"
     controller.js_gui_changed = 0
     backend.refresh_steam_dir()
@@ -585,12 +655,12 @@ def get_settings_from_gui(event, page):
         print("libraryroot.custom.css not found", file=sys.stderr)
 
 def apply_changes_to_config(controller, settings_values):
-    print("GOINGOEIGE")
-    print(settings_values.keys())
+    #print("GOINGOEIGE")
+    #print(settings_values.keys())
     if "EnableVerticalNavBar" in settings_values.keys():
         controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])
         controller.frames[PageTwo].js_gui.checkvars["Vertical Nav Bar (beta, working)"].set(settings_values["EnableVerticalNavBar"])
-        print("WOINGEI")
+        #print("WOINGEI")
         #print(controller.frames[PageTwo].js_gui.checkvars["Vertical Nav Bar (beta, working)"].get())
         #print(settings_values)
         #js_gui.checkvars["Vertical Nav Bar (beta, working)"] = settings_values["EnableVerticalNavBar"]
@@ -623,8 +693,8 @@ def apply_settings_from_gui(page, controller, settings_to_apply, settings_values
     ### Run js_tweaker if required
     
     change_javascript = 0
-    print("~!)!(!~~)~~~~~~~~")
-    print(settings_values)
+    #print("~!)!(!~~)~~~~~~~~")
+    #print(settings_values)
     for setting in settings_values:
         #print("javascript" in CONFIG_MAP[setting])
         if "javascript" in CONFIG_MAP[setting]:
@@ -671,9 +741,9 @@ def run_js_tweaker(text_area):
 
 def update_loaded_config(page):
     #update loaded_config on Install click
-    print("YOU ERROR?")
-    print(page.getCheckbuttonVal("var1").get())
-    print(page.loaded_config)
+    #print("YOU ERROR?")
+    #print(page.getCheckbuttonVal("var1").get())
+    #print(page.loaded_config)
     #print(page.getCheckbuttonVal(CONFIG_MAP[key]["value"])
     for key in page.loaded_config:
         if "value" in CONFIG_MAP[key]:
@@ -730,25 +800,6 @@ class Detail_tooltip(OnHoverTooltipBase):
                       background="#ffffe0", width=590, relief=SOLID, borderwidth=1)
         message.pack()
 ### ================================
-        
-### Initialisation
-### ================================
-### Check Steam files and copy
-
-        
-### StartPage
-def set_selected_from_config(page):
-    ### grab stdout, stderr from function in backend
-    f = io.StringIO()
-    loaded_config = backend.load_config()
-    #with contextlib.redirect_stdout(f):   
-    for key in loaded_config:
-        if key in CONFIG_MAP :
-            if loaded_config[key] == '0' :
-                page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(0)
-            if loaded_config[key] == '1' :
-                page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
-    return loaded_config
 
 ### CSS Options Functions
 ### ================================
