@@ -744,8 +744,10 @@ def apply_css_theme(page):
         backend.apply_css_theme(THEME_MAP[theme_name]["filename"],
                             THEME_MAP[theme_name]["order"],
                             THEME_MAP[theme_name]["patchtext"])
+        page.text1.update_idletasks()
     elif page.var6.get() == 0 and page.change_theme == 1:
-        backend.remove_current_css_themes("no_themes.css")
+        backend.remove_current_css_themes("no_themes.css", "before")
+        page.text1.update_idletasks()
         print("Cleared current CSS Themes")
     page.change_theme = 0
 

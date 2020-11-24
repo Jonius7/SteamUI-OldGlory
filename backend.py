@@ -471,16 +471,12 @@ BEFORE_THEME = {"shiina.css" :
 ### Order: CSS before or after SteamUI-OldGlory's CSS
 def apply_css_theme(theme_filename, order, patchtext):
     print("TODO apply Theme")
-    #print(filename)
-    #print(order)
-    #print(patchtext)
-    #print("LINE2")
-    theme_change_needed = remove_current_css_themes(theme_filename)
+    theme_change_needed = remove_current_css_themes(theme_filename, order)
     if theme_change_needed:
         add_new_css_theme(theme_filename, order, patchtext)
 
 
-def remove_current_css_themes(theme_filename):
+def remove_current_css_themes(theme_filename, order):
     try:
         ### This is specifically for steam-library(shiina) or any theme that adds CSS "before"
         ### Would want a rewrite with some better conditional code
@@ -488,7 +484,7 @@ def remove_current_css_themes(theme_filename):
              open("libraryroot.custom.theme.css", "w", newline='', encoding="UTF-8") as f1:
             to_remove = 0
             last_line = 0
-            no_change = False #If False, theme will be added in add_new_css_theme.
+            change_theme = True #If False, theme will be added in add_new_css_theme.
             for line in f:
                 if last_line == 1 and line.strip(' ') != OS_line_ending():
                     to_remove = 0
@@ -503,23 +499,31 @@ def remove_current_css_themes(theme_filename):
                         elif BEFORE_THEME[theme]["end"] in line:
                             last_line = 1
                             #print("ROUND 2")                        
-                    elif theme_filename in theme: #if theme to apply is already in file, skip removing
-                        no_change = True
+                    #elif theme_filename in theme: #if theme to apply is already in file, skip removing
+                    #    change_theme = False
                     
                 if to_remove == 0:
                     f1.write(line)
         f.close()
         f1.close()
 
+        if order == "before":
+            print("Reset HTML file")
+            reset_html()
+
+        
         ###
         shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
         shutil.move("libraryroot.custom.theme.css", "libraryroot.custom.css")
 
-        return no_change
+        return change_theme
 
             
     except:
-        print("libraryroot.css not found", file=sys.stderr)
+        print("Error removing existing themes.", file=sys.stderr)
+        print("~~~~~~~~~~")
+        print(traceback.print_exc(), file=sys.stderr)
+        print("~~~~~~~~~~")
         
 def add_new_css_theme(theme_filename, order, patchtext):
     try:
@@ -530,7 +534,7 @@ def add_new_css_theme(theme_filename, order, patchtext):
                  open("libraryroot.custom.theme.css", "w", newline='', encoding="UTF-8") as f1:
                 for line in ft:
                     f1.write(line)
-                f1.write(OS_line_ending())
+                f1.write('' + OS_line_ending())
                 for line in f:
                     f1.write(line)
             f.close()
@@ -558,13 +562,19 @@ def add_new_css_theme(theme_filename, order, patchtext):
         print("~~~~~~~~~~")
 
 
+def reset_html():
+    try:
+        shutil.copy2("index.html.original", library_dir() + "\\" + "index.html")
+    except:
+        print("Could not restore backup index.html.original. Is it missing?", file=sys.stderr)
+
 def patch_html(theme_filename):
     print("TODO patchhtml")
     try:
-        if len(theme_filename) > 16:
-            raise Exception('Filename too long. Please keep it to 16 characters or less.')
+        if len(theme_filename) > 20:
+            raise Exception('Filename too long. Please keep it to 20 characters or less.')
         with open(library_dir() + "\\index.html", "r", newline='', encoding="UTF-8") as f, \
-             open("index.theme.html", "w", newline='', encoding="UTF-8") as f1:
+             open("index.html", "w", newline='', encoding="UTF-8") as f1:
             first_line = f.readline()
             second_line = f.readline()
             if first_line == "<!doctype html>" + OS_line_ending() and \
@@ -596,7 +606,7 @@ def patch_html(theme_filename):
                 
             else:
                 print("Patched HTML file detected.")
-                print(os.stat(library_dir() + "\\index.html").st_size)
+                #print(os.stat(library_dir() + "\\index.html").st_size)
                 
                 old_href = '<script src=\"library.js\"></script><link href=\"themes/.*\" rel="stylesheet\">'  
                 new_href = '<script src=\"library.js\"></script><link href=\"themes/' + theme_filename + '\" rel=\"stylesheet\">'
@@ -605,15 +615,17 @@ def patch_html(theme_filename):
                 f.seek(0)               
                 for line in f:
                     match = re.search(old_href, line)
+                    print("MATCH")
+                    print(match.string)
                     #print(match)
                     if match:
                         theme_line = re.sub(old_href, new_href, line)
-                        print(theme_line)
-                        length_diff = len(new_href) - len(old_href)
+                        #print(theme_line)
+                        length_diff = len(theme_line) - len(match.string)
                         print("DIFF")
                         print(length_diff)
                         if length_diff <= 0:
-                            theme_line += filler_text(old_href, new_href)
+                            theme_line += filler_text(len(match.string), len(theme_line))
                         elif length_diff > 0:
                             if length_diff > len(theme_line) - len(theme_line.rstrip()):
                                 raise Exception('Unable to trim enough characters! Is filename too long?')
@@ -629,6 +641,8 @@ def patch_html(theme_filename):
         f.close()
         f1.close()
 
+        shutil.copy2("index.html", library_dir() + "\\" + "index.html")
+        
         print("Patching HTML File successful.")
     except FileNotFoundError:
         print("index.html.original not found, and could not be created.", file=sys.stderr)
@@ -661,8 +675,25 @@ def href_rel_stylesheet(href):
     #########
 
 
-def copy_theme_css_file():
-    print("TODO copy to themes/themecss")
+def copy_theme_css_file(theme_filename):
+    try:
+        if not os.path.isdir(library_dir() + "\\" + "themes"):
+            os.mkdir(library_dir() + "\\" + "themes")
+            print("Created themes folder at: " + library_dir() + "\\" + "themes")
+        
+        shutil.copy2("themes\\" + theme_filename, library_dir() + "\\themes\\" + theme_filename)
+        print("Copied theme file " + theme_filename + " to " + library_dir())
+        
+    except FileNotFoundError:
+        print("CSS Theme file " + theme_filename + " not found", file=sys.stderr)
+        print("~~~~~~~~~~")
+        print(traceback.print_exc(), file=sys.stderr)
+        print("~~~~~~~~~~")
+    except Exception as e:
+        print("Error adding CSS Theme file", file=sys.stderr)
+        print("~~~~~~~~~~")
+        print(traceback.print_exc(), file=sys.stderr)
+        print("~~~~~~~~~~")
 
 def steam_library_compat_config():
     print("TODO find and replace config.css")
