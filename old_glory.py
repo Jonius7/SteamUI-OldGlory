@@ -171,10 +171,11 @@ class StartPage(tk.Frame):
         mainoption5.grid(row=4, column=1, sticky=W)
 
         ######
+        self.change_theme = 0
         self.var6 = tk.IntVar()
         check6 = ttk.Checkbutton(frameCheck,
-                                 state='disabled',
                                  variable=self.var6)
+        check6.bind("<Button-1>", lambda event: self.setChangeTheme(event))
         check6.grid(row=5, column=0)
         ###
         mo6 = MainOption(
@@ -282,6 +283,8 @@ class StartPage(tk.Frame):
         return getattr(self, getter)
     def getTextArea(self, getter):
         return getattr(self, getter)
+    def setChangeTheme(self, event):
+        self.change_theme = 1
 
 class PageOne(tk.Frame):
     def __init__(self, parent, controller):
@@ -578,16 +581,11 @@ THEME_MAP = {"steam-library (Shiina)" :
                   "end" : "END CSS for Acrylic Theme"}}
              }
 
-def dropdown_click(event,page):
+def dropdown_click(event, page):
     theme_name = event.widget.get()
     if theme_name in THEME_MAP:
         #change_image
-        change_image(page.image1, resource_path("theme_" + THEME_MAP[theme_name]["filename"][0:-4] + ".png"))
-        backend.apply_css_theme(THEME_MAP[theme_name]["filename"],
-                                THEME_MAP[theme_name]["order"],
-                                THEME_MAP[theme_name]["patchtext"])
-
-  
+        change_image(page.image1, resource_path("theme_" + THEME_MAP[theme_name]["filename"][0:-4] + ".png"))  
         
 ### INSTALL Functions
 ### ================================
@@ -618,8 +616,7 @@ def install_click(event, page, controller):
     apply_settings_from_gui(page, controller, settings_to_apply, settings_values)
     backend.write_config(settings_values)
     #add/remove theme
-    print("WAYEO")
-    print(controller.frames[StartPage].dropdown6.get())
+    apply_css_theme(controller.frames[StartPage])
     
     #reset state of js gui to "unchanged"
     controller.js_gui_changed = 0
@@ -738,6 +735,19 @@ def run_js_tweaker(text_area):
               
     except Exception as e:
         print(e, file=sys.stderr)
+
+
+def apply_css_theme(page):
+    if page.var6.get() == 1:
+        theme_name = page.dropdown6.get()
+        print("Applying CSS Theme: " + theme_name)
+        backend.apply_css_theme(THEME_MAP[theme_name]["filename"],
+                            THEME_MAP[theme_name]["order"],
+                            THEME_MAP[theme_name]["patchtext"])
+    elif page.var6.get() == 0 and page.change_theme == 1:
+        backend.remove_current_css_themes("no_themes.css")
+        print("Cleared current CSS Themes")
+    page.change_theme = 0
 
 def update_loaded_config(page):
     #update loaded_config on Install click

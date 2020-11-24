@@ -190,7 +190,7 @@ except FileNotFoundError:
 def is_css_patched():
     patched = False
     try:
-        with open(library_dir() + "\\css\\libraryroot.css") as f:
+        with open(library_dir() + "\\css\\libraryroot.css", newline='', encoding="UTF-8") as f:
             first_line = f.readline()
         if PATCHED_TEXT not in first_line:
             print("css\libraryroot.css not patched. Download SteamFriendsPatcher from\n" \
@@ -259,6 +259,9 @@ def validate_settings(settings):
             validated_settings.extend(["InstallWithDarkLibrary"])
     #print(validated_settings)
     return validated_settings
+
+### END
+###
 
 
 ###
@@ -450,21 +453,158 @@ def css_root_writer_example():
         file.write(line + OS_line_ending())
     file.close()
 '''
+### END
+###
+
+
 
 ###
-### Apply CSS Theme
+### APPLY CSS THEME Functions
+###
+
+BEFORE_THEME = {"shiina.css" :
+                {"start" : "DO NOT EDIT THESE !!! DO NOT EDIT THESE",
+                  "end" : "END steam-library tweaks for SteamUI-OldGlory"}
+                }
+
+
 ### Order: CSS before or after SteamUI-OldGlory's CSS
-def apply_css_theme(filename, order, patchtext):
+def apply_css_theme(theme_filename, order, patchtext):
     print("TODO apply Theme")
     #print(filename)
     #print(order)
+    #print(patchtext)
+    #print("LINE2")
+    theme_change_needed = remove_current_css_themes(theme_filename)
+    if theme_change_needed:
+        add_new_css_theme(theme_filename, order, patchtext)
 
-def remove_current_css_themes():
-    print("TODO")
-def add_new_css_theme():
-    print("TODO")
 
-    
+def remove_current_css_themes(theme_filename):
+    try:
+        ### This is specifically for steam-library(shiina) or any theme that adds CSS "before"
+        ### Would want a rewrite with some better conditional code
+        with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
+             open("libraryroot.custom.theme.css", "w", newline='', encoding="UTF-8") as f1:
+            to_remove = 0
+            last_line = 0
+            no_change = False #If False, theme will be added in add_new_css_theme.
+            for line in f:
+                if last_line == 1 and line.strip(' ') != OS_line_ending():
+                    to_remove = 0
+                    last_line = 0
+                
+                for theme in BEFORE_THEME:
+                    if theme_filename not in theme: 
+                        if BEFORE_THEME[theme]["start"] in line:
+                            #print("ROUND 1")
+                            to_remove = 1
+                            print("Removing existing themes in libraryroot.custom.css...")
+                        elif BEFORE_THEME[theme]["end"] in line:
+                            last_line = 1
+                            #print("ROUND 2")                        
+                    elif theme_filename in theme: #if theme to apply is already in file, skip removing
+                        no_change = True
+                    
+                if to_remove == 0:
+                    f1.write(line)
+        f.close()
+        f1.close()
+
+        ###
+        shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
+        shutil.move("libraryroot.custom.theme.css", "libraryroot.custom.css")
+
+        return no_change
+
+            
+    except:
+        print("libraryroot.css not found", file=sys.stderr)
+        
+def add_new_css_theme(theme_filename, order, patchtext):
+    try:
+        if order == "before":
+            print("BEFORE")
+            with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
+                 open("themes\\" + theme_filename, "r", newline='', encoding="UTF-8") as ft, \
+                 open("libraryroot.custom.theme.css", "w", newline='', encoding="UTF-8") as f1:
+                for line in ft:
+                    f1.write(line)
+                f1.write(OS_line_ending())
+                for line in f:
+                    f1.write(line)
+            f.close()
+            ft.close()
+            f1.close()
+            
+            ###
+            shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
+            shutil.move("libraryroot.custom.theme.css", "libraryroot.custom.css")
+
+            ###
+            if theme_filename == "shiina.css":
+                steam_library_compat_config()
+            
+            
+        elif order == "after":
+            '''
+            with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
+                 open("themes\\" + theme_filename, "r", newline='', encoding="UTF-8") as ft \
+                 open("libraryroot.custom.theme.css", "w", newline='', encoding="UTF-8") as f1:
+
+            '''
+            patch_html(theme_filename)
+
+            
+    except:
+        print("Error applying theme from " + theme_filename, file=sys.stderr)
+        print("~~~~~~~~~~")
+        print(traceback.print_exc(), file=sys.stderr)
+        print("~~~~~~~~~~")
+
+
+def patch_html(theme_filename):
+    print("TODO patchhtml")
+    try:
+        with open(library_dir() + "\\index.html", "r", newline='', encoding="UTF-8") as f, \
+             open("index.theme.html", "w", newline='', encoding="UTF-8") as f1:
+            first_line = f.readline()
+            second_line = f.readline()
+        if first_line == "<!doctype html>" + OS_line_ending() and \
+           second_line == "<html style=\"width: 100%; height: 100%\">" + OS_line_ending():
+            print("Original HTML file detected.")
+            shutil.copy2(library_dir() + "\\" + "index.html", "index.html.original")
+            ### return to start
+            f.seek(0)
+            #os.stat("index.html.originaly").st_size
+            for line in f:
+                if line.lstrip == "<script src=\"library.js\"></script>":
+                    f1.write(line + href_rel_stylesheet(theme_filename))
+                else:
+                    f1.write(line.rstrip())            
+        else:
+            print("Patched HTML file detected.")
+            print(os.stat("index.html").st_size)
+        f.close()
+        f1.close()
+    except:
+        print("Error configuring index.html", file=sys.stderr)
+        print("~~~~~~~~~~")
+        print(traceback.print_exc(), file=sys.stderr)
+        print("~~~~~~~~~~")
+
+
+def href_rel_stylesheet(href):
+    return '<link href=\"themes/' + href + '\" rel=\"stylesheet\">'
+
+
+def steam_library_compat_config():
+    print("TODO find and replace config.css")
+
+### END 
+### 
+
+
 
 ###
 ### JS functions (fixes.txt)
