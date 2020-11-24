@@ -547,13 +547,8 @@ def add_new_css_theme(theme_filename, order, patchtext):
             
             
         elif order == "after":
-            '''
-            with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
-                 open("themes\\" + theme_filename, "r", newline='', encoding="UTF-8") as ft \
-                 open("libraryroot.custom.theme.css", "w", newline='', encoding="UTF-8") as f1:
-
-            '''
             patch_html(theme_filename)
+            copy_theme_css_file(theme_filename)
 
             
     except:
@@ -566,37 +561,108 @@ def add_new_css_theme(theme_filename, order, patchtext):
 def patch_html(theme_filename):
     print("TODO patchhtml")
     try:
+        if len(theme_filename) > 16:
+            raise Exception('Filename too long. Please keep it to 16 characters or less.')
         with open(library_dir() + "\\index.html", "r", newline='', encoding="UTF-8") as f, \
              open("index.theme.html", "w", newline='', encoding="UTF-8") as f1:
             first_line = f.readline()
             second_line = f.readline()
-        if first_line == "<!doctype html>" + OS_line_ending() and \
-           second_line == "<html style=\"width: 100%; height: 100%\">" + OS_line_ending():
-            print("Original HTML file detected.")
-            shutil.copy2(library_dir() + "\\" + "index.html", "index.html.original")
-            ### return to start
-            f.seek(0)
-            #os.stat("index.html.originaly").st_size
-            for line in f:
-                if line.lstrip == "<script src=\"library.js\"></script>":
-                    f1.write(line + href_rel_stylesheet(theme_filename))
-                else:
-                    f1.write(line.rstrip())            
-        else:
-            print("Patched HTML file detected.")
-            print(os.stat("index.html").st_size)
+            if first_line == "<!doctype html>" + OS_line_ending() and \
+               second_line == "<html style=\"width: 100%; height: 100%\">" + OS_line_ending():
+                print("Original HTML file detected.")
+                shutil.copy2(library_dir() + "\\" + "index.html", "index.html.original")
+                ### return to start
+                f.seek(0)
+                theme_html_length = 0
+                for line in f:
+                    #Strip spacing from : and ;
+                    stripped_line = strip_spacing(line)
+                    #print(stripped_line)
+                    if stripped_line.strip() == '<script src="library.js"></script>':
+                        theme_line = stripped_line.strip() + href_rel_stylesheet(theme_filename)
+                        f1.write(theme_line)
+                        theme_html_length += len(theme_line)
+                    else:
+                        f1.write(stripped_line.strip())
+                        theme_html_length += len(stripped_line.strip())
+                #check file sizes    
+                #print(os.stat(library_dir() + "\\index.html").st_size)
+                #print(theme_html_length)
+
+                #Add filler
+                filler = filler_text(os.stat(library_dir() + "\\index.html").st_size,
+                                          theme_html_length)
+                f1.write(filler)
+                
+            else:
+                print("Patched HTML file detected.")
+                print(os.stat(library_dir() + "\\index.html").st_size)
+                
+                old_href = '<script src=\"library.js\"></script><link href=\"themes/.*\" rel="stylesheet\">'  
+                new_href = '<script src=\"library.js\"></script><link href=\"themes/' + theme_filename + '\" rel=\"stylesheet\">'
+                
+                ### return to start
+                f.seek(0)               
+                for line in f:
+                    match = re.search(old_href, line)
+                    #print(match)
+                    if match:
+                        theme_line = re.sub(old_href, new_href, line)
+                        print(theme_line)
+                        length_diff = len(new_href) - len(old_href)
+                        print("DIFF")
+                        print(length_diff)
+                        if length_diff <= 0:
+                            theme_line += filler_text(old_href, new_href)
+                        elif length_diff > 0:
+                            if length_diff > len(theme_line) - len(theme_line.rstrip()):
+                                raise Exception('Unable to trim enough characters! Is filename too long?')
+                            else:
+                                theme_line = theme_line[0:-length_diff]
+                        f1.write(theme_line)
+                        
+                        #print(len(theme_line))
+                        #print(len(theme_line.rstrip()))
+                    else:
+                        f1.write(line)
+  
         f.close()
         f1.close()
-    except:
+
+        print("Patching HTML File successful.")
+    except FileNotFoundError:
+        print("index.html.original not found, and could not be created.", file=sys.stderr)
+    except Exception as e:
         print("Error configuring index.html", file=sys.stderr)
+        print(e, file=sys.stderr)
         print("~~~~~~~~~~")
         print(traceback.print_exc(), file=sys.stderr)
         print("~~~~~~~~~~")
 
 
+    ### String Helper functions
+        
+def strip_spacing(line):
+    c_line = line.replace(": ", ":").replace("; ", ";")
+    return c_line
+
+def filler_text(original_length, new_length):
+    length = original_length - new_length
+    if length >= 0:
+        filler_text = "\t" * length
+        return filler_text
+    else:
+        raise Exception("Something is wrong with the length of the file. It's too long!\n" \
+                        "Changes won't be applied (hopefully).")
+
 def href_rel_stylesheet(href):
     return '<link href=\"themes/' + href + '\" rel=\"stylesheet\">'
 
+    #########
+
+
+def copy_theme_css_file():
+    print("TODO copy to themes/themecss")
 
 def steam_library_compat_config():
     print("TODO find and replace config.css")
