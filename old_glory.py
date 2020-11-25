@@ -15,7 +15,7 @@ import traceback
 #from threading import Thread
 
 OS_TYPE = platform.system()
-DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
+DEBUG_STDOUT_STDERR = True  # Only useful for debugging purposes, set to True
 
 
 class OldGloryApp(tk.Tk):
@@ -971,10 +971,13 @@ class PresetFrame(tk.Frame):
                             "--WhatsNewOrder" : "2"}},
                   "Hide entirely" : {"value" : "3", "config" :
                             {"--WhatsNew" : "none",
-                            "--WhatsNewOrder" : "0"}}
+                            "--WhatsNewOrder" : "0"}},
+                    "Custom value" : {"value" : "4"}
                   }
         self.radiovar = tk.StringVar()
         self.radiovar.set("2")
+        print("going in")
+        self.set_preset_default()
         self.radios = []
         
         for i, (textv, value) in enumerate(self.radios_config.items(), 1):
@@ -986,12 +989,27 @@ class PresetFrame(tk.Frame):
                             )
             _radio.grid(row=i+1, column=0, padx=(5,0), sticky='w')
             self.radios.append(_radio)
+
+    def set_preset_default(self):
+        selected_key = "0"
+        #print(self.controller.css_config)
+        for key in self.radios_config:
+            if "config" in self.radios_config[key]:
+                for prop in self.radios_config[key]["config"]:
+                    #print(prop)
+                    #print("KEY : VALUE")
+                    #if value in self.radios_config matches value in css_config
+                    print(self.radios_config[key]["config"][prop] == get_item(prop, self.controller.css_config))
+                    #print(prop + " : " + get_item(prop, self.controller.css_config))
+                
         
+    
     ### PRESET Click funtion
     def preset_click(self, controller, radioText):
         #print("~~~pcccc~~~~~~")
         #print(radioText)
-        globals()["apply_css_config_values"](controller, self.radios_config[radioText]["config"])
+        if radioText != "Custom value":
+            globals()["apply_css_config_values"](controller, self.radios_config[radioText]["config"])
         #print(controller.css_config)
         
     def returnPresetFrame(self):
@@ -1011,7 +1029,6 @@ def apply_css_config_values(controller, propValues):
     #print("~~~g~")
     #print(controller.css_config)
 
-    
             
 ### Recursion 
         #key, replace_value obj
@@ -1027,6 +1044,18 @@ def replace_item(key, value, config_dict):
         #print("CHANGED")
         #print(config_dict[key]["current"])
     return config_dict
+
+### Recursion
+def get_item(key, config_dict):
+    if key in config_dict:
+        #print("WGOINGE")
+        
+        return config_dict[key]["current"]
+    for value in config_dict.values():
+        if isinstance(value, dict):
+            ret = get_item(key, value)
+            if ret:
+                return ret
 
 ###
 ### END PresetFrame

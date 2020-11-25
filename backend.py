@@ -255,7 +255,6 @@ def validate_settings(settings):
         if "LandscapeImages" in settings: #2
             validated_settings.extend(["LandscapeImages"])
         if "InstallWithDarkLibrary" in settings: #6
-            print("DARK STEAM")
             validated_settings.extend(["InstallWithDarkLibrary"])
     #print(validated_settings)
     return validated_settings
@@ -491,16 +490,12 @@ def remove_current_css_themes(theme_filename, order):
                     last_line = 0
                 
                 for theme in BEFORE_THEME:
-                    if theme_filename not in theme: 
-                        if BEFORE_THEME[theme]["start"] in line:
-                            #print("ROUND 1")
-                            to_remove = 1
-                            print("Removing existing themes in libraryroot.custom.css...")
-                        elif BEFORE_THEME[theme]["end"] in line:
-                            last_line = 1
-                            #print("ROUND 2")                        
-                    #elif theme_filename in theme: #if theme to apply is already in file, skip removing
-                    #    change_theme = False
+                    if BEFORE_THEME[theme]["start"] in line:
+                        #print("ROUND 1")
+                        to_remove = 1
+                        print("Removing existing themes in libraryroot.custom.css...")
+                    elif BEFORE_THEME[theme]["end"] in line:
+                        last_line = 1
                     
                 if to_remove == 0:
                     f1.write(line)
@@ -534,7 +529,8 @@ def add_new_css_theme(theme_filename, order, patchtext):
                  open("libraryroot.custom.theme.css", "w", newline='', encoding="UTF-8") as f1:
                 for line in ft:
                     f1.write(line)
-                f1.write('' + OS_line_ending())
+                f1.write(OS_line_ending())
+                f1.write(OS_line_ending())
                 for line in f:
                     f1.write(line)
             f.close()
@@ -615,15 +611,15 @@ def patch_html(theme_filename):
                 f.seek(0)               
                 for line in f:
                     match = re.search(old_href, line)
-                    print("MATCH")
-                    print(match.string)
+                    #print("MATCH")
+                    #print(match.string)
                     #print(match)
                     if match:
                         theme_line = re.sub(old_href, new_href, line)
                         #print(theme_line)
                         length_diff = len(theme_line) - len(match.string)
-                        print("DIFF")
-                        print(length_diff)
+                        #print("DIFF")
+                        #print(length_diff)
                         if length_diff <= 0:
                             theme_line += filler_text(len(match.string), len(theme_line))
                         elif length_diff > 0:

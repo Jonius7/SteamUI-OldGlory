@@ -4,7 +4,7 @@ import backend
 
 #Test recursion for finding values in css_config
 class TestApplyCssValues(unittest.TestCase):
-    
+    '''
     def test_one_level(self):
         self.assertEqual(
             old_glory.search("--WhatsNew", "Random", {"--WhatsNew" : "block"}),
@@ -26,8 +26,22 @@ class TestApplyCssValues(unittest.TestCase):
         self.assertEqual(
             old_glory.apply_css_config_values(container, {"--WhatsNew" : "block", "--HoverOverlayPosition": "black"}),
             ["block", "black"])
+    '''
 
 
+    def test_simple_get_item(self):
+        self.assertEqual(
+            old_glory.get_item("--WhatsNew", {"--WhatsNew" : "block"}),
+            "block")
+
+    def test_full_get_item(self):
+        print(old_glory.get_item("--WhatsNew", backend.CSS_CONFIG)["current"])
+        self.assertEqual(
+            old_glory.get_item("--WhatsNew", backend.CSS_CONFIG),
+            "block")
+
+
+        
 class BlankClass(object):
     def __init__(self, string):
         self.string = string
