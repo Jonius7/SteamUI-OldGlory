@@ -68,12 +68,14 @@ def beautify_js():
 
 #modify library.js to look for different libraryroot.js file
 def setup_library(reset=0):
-    if reset == 1 or LOCAL_DEBUG == 1:
-        modify_library(swap_js)
+    #if reset == 1 or LOCAL_DEBUG == 1:
+    modify_library(swap_js)
+    print("Checked library.js")
 
 #revert library.js to use original libraryroot.js file
 def revert_library():
     modify_library(swapback_js)
+    print("library.js reverted to use original JS.")
     
 def modify_library(swap_js_array):
     try:

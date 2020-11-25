@@ -561,6 +561,7 @@ def add_new_css_theme(theme_filename, order, patchtext):
 def reset_html():
     try:
         shutil.copy2("index.html.original", library_dir() + "\\" + "index.html")
+        print("HTML file restored from index.html.original")
     except:
         print("Could not restore backup index.html.original. Is it missing?", file=sys.stderr)
 
@@ -845,3 +846,26 @@ def refresh_steam_dir():
     print("File " + "libraryroot.custom.css" + " written to " + library_dir())
     shutil.copy2(library_dir() + "\\licenses.txt", library_dir() + "\\licenses.txt.copy")
     os.remove(library_dir() + "\\licenses.txt.copy")
+
+def clean_slate_css():    
+    try:
+        f = open(library_dir() + "\\libraryroot.empty.css", "w", newline='', encoding="UTF-8")
+        #f.write(OS_line_ending())
+        f.close()
+        
+        shutil.move(library_dir() + "\\libraryroot.custom.css", library_dir() + "\\libraryroot.custom.css.backup")
+        shutil.move(library_dir() + "\\libraryroot.empty.css", library_dir() + "\\libraryroot.custom.css")
+        print("libraryroot.custom.css in Steam directory emptied out, backup at libraryroot.custom.css.backup")
+    except:
+        print("Was not able to completely reset libraryroot.custom.css.", file=sys.stderr)
+
+def clear_js_working_files():
+    try:
+        os.remove("libraryroot.beaut.js")
+        print("libraryroot.beaut.js deleted.")
+    except:
+        print("Was not able to remove libraryroot.beaut.js", file=sys.stderr)
+        print("~~~~~~~~~~")
+        print(traceback.print_exc(), file=sys.stderr)
+        print("~~~~~~~~~~")
+        

@@ -12,20 +12,27 @@ import subprocess
 import platform
 import traceback
 #import queue
-#from threading import Thread
+from threading import Thread
 
 OS_TYPE = platform.system()
-DEBUG_STDOUT_STDERR = True  # Only useful for debugging purposes, set to True
+DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
 
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
+        self.version = "v0.9.1 Beta"
+
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
         container = tk.Frame(self)
         windowW = 740
         windowH = 620
-        self.geometry((str(windowW)+'x'+str(windowH)+'+650+300'))
+        screen_width = container.winfo_screenwidth()
+        screen_height = container.winfo_screenheight()
+        windowX = (screen_width / 2) - (windowW / 2)
+        windowY = (screen_height / 2) - (windowH / 2)
+        #self.geometry((str(windowW)+'x'+str(windowH)+'+650+100'))
+        self.geometry(f'{windowW}x{windowH}+{int(windowX)}+{int(windowY)}')
         self.minsize(width=windowW, height=windowH)
         self.maxsize(width=windowW, height=windowH)
         container.pack(side="top", fill="both", expand = True)
@@ -275,7 +282,8 @@ class StartPage(tk.Frame):
         self.frameHead.pack()
         frameCheck.pack()
         frameLog.pack(pady=(10,0))
-        frameConfirm.pack(pady=(7, 20), side="bottom")
+        frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
+        #frameConfirm.pack(pady=(7, 20), side="bottom")
         frameMode.pack(pady=(2, 0), side="bottom")
 
     ### Getters
@@ -329,8 +337,8 @@ class PageOne(tk.Frame):
         
     ### Pack frames
         self.frameHead.pack()
-        self.frameCSS.pack(fill="both", expand=True, padx=10)
-        frameConfirm.pack(pady=(7, 20), side="bottom")
+        self.frameCSS.pack(padx=10, fill="x")
+        frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         frameMode.pack(pady=(2, 0), side="bottom")
 
         #self.frameCSS = create_css_gui(self, controller, backend.load_css_configurables())
@@ -383,7 +391,7 @@ class PageTwo(tk.Frame):
     ###
         self.frameHead.pack()
         self.frameJS.pack()
-        frameConfirm.pack(pady=(7, 20), side="bottom")
+        frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         frameMode.pack(pady=(2, 0), side="bottom")
 
 ### FRAME functions
@@ -418,6 +426,15 @@ def head_frame(self, controller):
 def confirm_frame(page, controller):
     frameConfirm = tk.Frame(page)
     
+    frameConfirm.grid_columnconfigure(0, weight=1)
+    frameConfirm.grid_columnconfigure(1, weight=0)
+    frameConfirm.grid_columnconfigure(2, weight=0)
+    frameConfirm.grid_columnconfigure(3, weight=1)
+
+    ###
+    label_left = tk.Label(frameConfirm, width=3)
+    label_left.grid(row=0, column=0, padx=(5,14))
+    
     ###
     button1 = ttk.Button(frameConfirm,
                        text="Install",
@@ -426,7 +443,7 @@ def confirm_frame(page, controller):
     button1.bind("<Button-1>",
                  lambda event:globals()["install_click"](event, controller.frames[StartPage], controller)
                  )
-    button1.grid(row=0, column=0, padx=5)
+    button1.grid(row=0, column=1, padx=5, sticky="NSEW")
     
     ###
     button2 = ttk.Button(frameConfirm,
@@ -438,7 +455,23 @@ def confirm_frame(page, controller):
     button2.bind("<Button-1>",
                  lambda event:reload_click(event, controller)
                  )
-    button2.grid(row=0, column=1, padx=5)
+    button2.grid(row=0, column=2, padx=5, sticky="NSEW")
+
+    ###
+    settings_image = open_img(globals()["resource_path"]('settings.png'), 24)
+    button3 = ttk.Button(frameConfirm,
+                       #text="GG",
+                       image=settings_image,
+                       width=3#,
+                       ###state='disabled'
+    )
+    button3.image = settings_image
+    button3_tip = Detail_tooltip(button3, "Settings and About", hover_delay=200)
+    button3.bind("<Button-1>",
+                 lambda event:settings_window(event, controller)
+                 )
+    button3.grid(row=0, column=3, padx=(5,15), sticky=tk.E)
+    
     return frameConfirm
 ### ================================
 
@@ -454,7 +487,6 @@ def show_PageTwo(controller):
     controller.show_frame(PageTwo)
 
 ### ================================
-
 ### Initialisation
 ### ================================
 ### Check SteamFriendsPatcher
@@ -605,6 +637,7 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
 
 ### Install Click
 def install_click(event, page, controller):
+    print("=================")
     #get settings
     settings_to_apply, settings_values = get_settings_from_gui(event, page)
     #make any js_config enable/disable required
@@ -704,7 +737,10 @@ def apply_settings_from_gui(page, controller, settings_to_apply, settings_values
         change_javascript = 1
         
     if change_javascript == 1:
-        run_js_tweaker(page.text1)
+        thread = Thread(target = run_js_tweaker, args = (page.text1, ))
+        thread.start()
+        #thread.join()
+        #run_js_tweaker(page.text1)
         
     print("Settings applied.")
 
@@ -772,6 +808,7 @@ def reload_click(event, controller):
     controller.css_config = backend.load_css_configurables()
     controller.js_config, controller.special_js_config = backend.load_js_fixes()
     controller.frames[PageTwo].js_gui.update_js_gui(controller)
+    controller.frames[PageOne].css_gui.PresetFrame.set_preset_default()
     
     print("Config Reloaded.")
 ### ================================
@@ -829,8 +866,8 @@ class CSSGUICreator(tk.Frame):
         #self.entryboxes = x.returnCSSFrame().returnEntryboxes()
         #for label in x.returnLabels():
         #    print(label["text"])
-        y = PresetFrame(self.frameCSS, controller, config)
-        self.framePreset = y.returnPresetFrame()
+        self.PresetFrame = PresetFrame(self.frameCSS, controller, config)
+        self.framePreset = self.PresetFrame.returnPresetFrame()
 
         #Configure grid expand
         self.frameCSS.columnconfigure(0, weight=2)
@@ -975,8 +1012,7 @@ class PresetFrame(tk.Frame):
                     "Custom value" : {"value" : "4"}
                   }
         self.radiovar = tk.StringVar()
-        self.radiovar.set("2")
-        print("going in")
+        #self.radiovar.set("2")
         self.set_preset_default()
         self.radios = []
         
@@ -993,14 +1029,28 @@ class PresetFrame(tk.Frame):
     def set_preset_default(self):
         selected_key = "0"
         #print(self.controller.css_config)
+        key_set = 0
         for key in self.radios_config:
+            equal = False
             if "config" in self.radios_config[key]:
+                equal = True
                 for prop in self.radios_config[key]["config"]:
                     #print(prop)
                     #print("KEY : VALUE")
+
+                    
                     #if value in self.radios_config matches value in css_config
-                    print(self.radios_config[key]["config"][prop] == get_item(prop, self.controller.css_config))
-                    #print(prop + " : " + get_item(prop, self.controller.css_config))
+                    equal = (self.radios_config[key]["config"][prop] == get_item(prop, self.controller.css_config)) and equal
+                    #print((self.radios_config[key]["config"][prop] == get_item(prop, self.controller.css_config)))
+                    #print(self.radios_config[key]["config"][prop])
+                    #print(get_item(prop, self.controller.css_config))
+                    ##print(prop + " : " + get_item(prop, self.controller.css_config))
+            #print(key + " | " + str(equal))
+            if equal:
+                self.radiovar.set(self.radios_config[key]["value"])
+                key_set = 1
+        if key_set == 0:
+            self.radiovar.set(self.radios_config["Custom value"]["value"])
                 
         
     
@@ -1173,6 +1223,114 @@ class JSFrame(tk.Frame):
     def returnframeJS(self):
         return self.frameJS
 ######
+
+### Reset Functions
+### ================================
+def reset_all_tweaks(event):
+    js_tweaker.revert_library()
+    backend.clean_slate_css()
+    backend.reset_html()
+    backend.clear_js_working_files()
+
+def remake_js(event, controller):
+    backend.clear_js_working_files()
+    
+    thread = Thread(target = run_js_tweaker, args = (controller.frames[StartPage].text1, ))
+    thread.start()
+    #thread.join()
+    
+    #run_js_tweaker(controller.frames[StartPage].text1)
+
+
+### Settings Window
+### ================================
+def settings_window(event, controller):
+    settings = tk.Toplevel(controller)
+    windowW = 500
+    windowH = 300
+    screen_width = controller.winfo_screenwidth()
+    screen_height = controller.winfo_screenheight()
+    windowX = (screen_width / 2) - (windowW / 2) + 100
+    windowY = (screen_height / 2) - (windowH / 2) + 30
+    settings.geometry(f'{windowW}x{windowH}+{int(windowX)}+{int(windowY)}')
+    settings.wm_title("Settings and About")
+    
+    if OS_TYPE == "Windows":
+        settings.iconbitmap(resource_path('steam_oldglory.ico'))
+    
+    settings.tkraise(controller)
+
+    ### About Frame
+    frameAbout = tk.Frame(settings)
+        
+    ###
+    titlefont = controller.default_font.copy()
+    titlefont.configure(size=16)
+        
+    labeltext_a = tk.StringVar()
+    labeltext_a.set("SteamUI-OldGlory Configurer " + controller.version)
+        
+    label_a = tk.Label(frameAbout, textvariable=labeltext_a, font=titlefont)
+    label_a.grid(row=0, column=0)
+
+    ###
+
+    subheadfont = titlefont.copy()
+    subheadfont.configure(size=13)
+    
+    labeltext_b = tk.StringVar()
+    labeltext_b.set("Created by Jonius7")
+        
+    label_b = tk.Label(frameAbout, textvariable=labeltext_b, font=subheadfont)
+    label_b.grid(row=1, column=0, sticky="w", padx=5)
+
+    paragraphfont = titlefont.copy()
+    paragraphfont.configure(size=10)
+
+    about_text = tk.StringVar()
+    about_text.set("SteamUI-OldGlory is a set of tweaks that aim to improve the overall layout and appearance of the Steam Library, " \
+                      "and provide some extra functionality where possible.\n\n" \
+                      #"The main objective is to remove some clear annoyances the library has,\n" \
+                      #"and bring back some of the usefulness that the Old Library UI had."
+                   )
+        
+    message_about = tk.Message(frameAbout,
+                               textvariable=about_text,
+                               font=paragraphfont,
+                               width=450)
+    message_about.grid(row=2, column=0, sticky="w", pady=(0,15))
+
+    
+    ### Settings Frame
+    frameGeneral = tk.Frame(settings)
+
+
+    ###
+    var_q = tk.IntVar()
+    button_q = ttk.Button(frameGeneral,
+                       text="Remake JS",
+                       width=10
+    )
+    button_q.bind("<Button-1>", lambda event:remake_js(event, controller))
+    buttonr_tip = Detail_tooltip(button_q, "Deletes libraryroot.beaut.js and reruns js_tweaker functions.\n" \
+                                 "Most useful when something changes with a Steam Client Update", hover_delay=200)
+    button_q.grid(row=0, column=0, padx=5)
+
+    ###
+    var_r = tk.IntVar()
+    button_r = ttk.Button(frameGeneral,
+                       text="Reset",
+                       width=10
+    )
+    button_r.bind("<Triple-Button-1>", lambda event:reset_all_tweaks(event))
+    buttonr_tip = Detail_tooltip(button_r, "WARNING!\n" \
+                                 "Triple click this button to revert JS and CSS modifications.", hover_delay=200)
+    button_r.grid(row=0, column=1, padx=5)
+
+    ###Pack Frames
+    frameAbout.pack(fill="x", padx=10)
+    frameGeneral.pack(fill="x", padx=10, pady=(0,30), side="bottom")
+    
     
 ### ================================
 
