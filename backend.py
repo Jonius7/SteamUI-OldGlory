@@ -871,8 +871,13 @@ def write_js_fixes(fixesdata, special_fixesdata):
 def refresh_steam_dir():
     shutil.copy2("libraryroot.custom.css", library_dir() + "\\" + "libraryroot.custom.css")
     print("File " + "libraryroot.custom.css" + " written to " + library_dir())
-    shutil.copy2(library_dir() + "\\licenses.txt", library_dir() + "\\licenses.txt.copy")
-    os.remove(library_dir() + "\\licenses.txt.copy")
+    
+    #shutil.copy2(library_dir() + "\\licenses.txt", library_dir() + "\\licenses.txt.copy")
+    #os.remove(library_dir() + "\\licenses.txt.copy")
+    f = open(library_dir() + "\\refresh_dir.txt", "w", newline='', encoding="UTF-8")
+    f.close()
+    os.remove(library_dir() + "\\refresh_dir.txt")
+    
 
 def clean_slate_css():    
     try:
