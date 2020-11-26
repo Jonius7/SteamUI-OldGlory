@@ -35,11 +35,19 @@ Check `/dev` branch for in-progress tweaks.
 #### Patching and CSS
 
 - Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). Run it, it will patch some files.
-- Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases) and run `old_glory.exe`
-
-#### Included files:
+- Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases) and copy `libraryroot.custom.css` over to `Steam/steamui`.
 
 #### JavaScript Tweaks
+
+For running `js_tweaker.exe`: 
+
+- Copy `js_tweaker.exe` and `fixes.txt` to `Steam/steamui` and run it. 
+
+For running `js_tweaker.py` (requires [Python](https://www.python.org/downloads/ "Python Downloads Page")): 
+
+- Run `pip install jsbeautifier` and `pip install jsmin` from the command-line.
+
+- Copy `js_tweaker.py` and `fixes.txt` to `Steam/steamui` and run it.
 
 `fixes.txt`  contains the list of JavaScript tweaks.\
 Each tweak is under its own *Section Heading* marked with the line starting `###`.\
@@ -67,9 +75,37 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 
 ## What's New?
 >
->#### 4.0 Beta
+>#### Release 3.2.2
 >
->- NEW Graphical User Interface for installing SteamUI-OldGlory Tweaks
+>- Fixed `steam-library_compat.bat` sometimes duplicating `libraryroot.custom.css` code
+>
+>- Extra fixes in `fixes.txt` - disable the What's New shelf from loading in the background
+>
+>#### Release 3.2
+>
+>- Fixes to CSS and JS tweaks to work with Steam Client Oct 8 update.
+>- Delete `libraryroot.beaut.js` from directory, and run `js_tweaker` to apply JS tweaks to the > new version.
+>
+>#### Release 3.1
+>
+>- Quick update to custom CSS, cleaner glass effect
+>
+>- CSS Hotfixes
+>
+>#### Release 3
+>
+>New CSS for:
+>
+>- Play Button Box (BETA)
+>- Vertical Nav Bar (BETA)
+>- Classic Layout (BETA)
+>
+>New *configurable variables* at top of CSS file
+>
+>BETA CSS is functionally working, but may require some manual uncommenting in the CSS and JS
+>
+>[`js_tweaker`](https://github.com/Jonius7/SteamUI-OldGlory/blob/Release_3/js_tweaker) and [`fixes.txt`](https://github.com/Jonius7/SteamUI-OldGlory/blob/Release_3/fixes.txt) reworked for readability
+>
 >
 >
 >[More details...](https://github.com/Jonius7/SteamUI-OldGlory/releases)
@@ -78,13 +114,23 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 ## steam-library Support
 
 https://github.com/AikoMidori/steam-library
+To use Shiina's **steam-library** CSS skin with **SteamUI-OldGlory**:
 
+- copy and paste into `Steam/steamui` from **SteamUI-OldGlory**: 
+  - `libraryroot.custom.css`
+  - `steam-library_compat.css` 
+  - `steam-library_compat.bat` 
+- copy and paste into `Steam/steamui` from **steam-library**:
+  - `config.css` 
+- run `steam-library_compat.bat`. It will prompt you asking you to confirm. Type Y and press Enter.
+- a backup of your `libraryroot.custom.css` will be made at `libraryroot.custom.css.backup`
+- Reload the Steam Library (either End Task on Steam Client WebHelper or trigger reload of `Steam/steamui` folder)
 
 You should be set to go!
 
 ![preview image](https://i.imgur.com/4gWzhj9.png)
 
-
+If you want to remove **steam-library's** changes, go into `libraryroot.custom.css` and delete the top lines up to and including `/* === END steam-library tweaks for SteamUI-OldGlory === */`
 
 ## Dev Notes
 
@@ -100,21 +146,16 @@ To debug the Steam Library yourself, run Steam with the ` -dev` tag.
 
 - Create a shortcut to `Steam` -> `Right Click` -> `Properties`.
 - In `Target`, after `Steam.exe"` add `  -dev` so the end of Target looks like this: `Steam.exe" -dev`
-- After opening Steam, open up the Dev Tools by clicking in the library window and pressing `F12`
+- After opening Steam, open up the Dev Tools by clicking in the library window and pressing `Ctrl + Shift + I`
 
-#### Build `old_glory`
+#### Build `js_tweaker.exe`
 
-Requires Python 3.8+
-
-`pyinstaller -w --hidden-import six --icon=steam_oldglory.ico --clean --onefile old_glory.spec`
+`pyinstaller --hidden-import six --onefile js_tweaker.py`
 The `.spec` file is included for redundancy's sake.
 
-Sometimes you may need to install `pyinstaller` like this:\
-[Building PyInstaller Bootloader](https://pyinstaller.readthedocs.io/en/stable/bootloader-building.html)	 [Windows Compilers](https://wiki.python.org/moin/WindowsCompilers#Which_Microsoft_Visual_C.2B-.2B-_compiler_to_use_with_a_specific_Python_version_.3F)
+Sometimes you may need to install `pyinstaller` like this: [Windows Compilers](https://wiki.python.org/moin/WindowsCompilers#Which_Microsoft_Visual_C.2B-.2B-_compiler_to_use_with_a_specific_Python_version_.3F)
 
 This is mainly for me to try and get an `.exe` that doesn't trigger false positives on [virustotal.com](virustotal.com)
-
-In the future, I may try to build using `cx_freeze` instead.
 
 #### What does `js_tweaker` do?
 
