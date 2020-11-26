@@ -502,6 +502,9 @@ def remove_current_css_themes(theme_filename, order):
         f1.close()
 
         if order == "before":
+            if not os.path.isfile("index.html.original"):
+                print("Making a copy of original .html file")
+                patch_html("dummy.css")
             print("Reset HTML file")
             reset_html()
 
@@ -702,12 +705,16 @@ config_replacements = {'--FontSize: 15px;' : '--FontSize: 13px;',
 
 def steam_library_compat_config():
     try:
+        if not os.path.isfile("themes\\config.css"):
+            shutil.copy2("themes\\config.css.original", "themes\\config.css")
         with open("themes\\config.css", "r", newline='', encoding="UTF-8") as f, \
              open("themes\\config.temp.css", "w", newline='', encoding="UTF-8") as f1:
 
             for line in f:
                 for key in config_replacements:
                     new_line = line.replace(key, config_replacements[key])
+                    if new_line != line:
+                        break
                 f1.write(new_line)
 
             print("A few values in steam-library's config.css have been changed.\n"\
@@ -717,10 +724,13 @@ def steam_library_compat_config():
             f1.close()
             
             shutil.move("themes\\config.css", "themes\\config.css.backup")
+            shutil.copy2("themes\\config.temp.css", library_dir() + "\\" + "config.css")
             shutil.move("themes\\config.temp.css", "themes\\config.css")
-            shutil.copy("themes\\config.css", library_dir() + "\\" + "config.css")
     except FileNotFoundError:
         print("config.css not found", file=sys.stderr)
+        print("~~~~~~~~~~")
+        print(traceback.print_exc(), file=sys.stderr)
+        print("~~~~~~~~~~")
 
 ### END 
 ### 

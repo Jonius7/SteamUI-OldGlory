@@ -56,6 +56,9 @@ def beautify_js():
     try:
         if not os.path.isfile("libraryroot.beaut.js"):
             print("Opening JS file and beautifying...")
+            if not os.path.isfile("libraryroot.js"):
+                shutil.copy2(library_dir() + "\\libraryroot.js", "libraryroot.js")
+            
             library = jsbeautifier.beautify_file("libraryroot.js")
 
             f = open("libraryroot.beaut.js", "wt", newline='', encoding="UTF-8")
