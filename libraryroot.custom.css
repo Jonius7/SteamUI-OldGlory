@@ -1,4 +1,4 @@
-/* SteamUI-OldGlory CSS Tweaks v1.3
+/* SteamUI-OldGlory CSS Tweaks v1.4
    by Jonius7 
 */
 
@@ -6,36 +6,35 @@
 :root {
   /* What's New */
   --WhatsNew: block;  /* Default: block. Set to none to hide What's New */
-  --WhatsNewOrder: 1;  /* Set 0 to put to top, 1 or higher to put to bottom */
+  --WhatsNewOrder: 2;  /* Default: 0. Set 0 to put to top, 1 or higher to put to bottom */
 
   /* Left Sidebar - Games List */
-  --HoverOverlayPosition: unset;  /* Set 0 if default JS, unset if tweaked JS */
-  --GameListEntrySize: 16px;  /* Default: 16px */
-  --CategoryNameHeaderSize: 13px;  /* Default: 13px */
-  --GameListZoomSize: 75%; /* Default: 100%. 75% highly recommended for Game List similar to old Library UI. Affects GameListEntrySize and CategoryNameHeaderSize */
-  --ShowLeftSidebar: flex;  /* Default: flex, Set to none to hide left sidebar */
-  
-  
+  --HoverOverlayPosition: unset;  /* Default: 0. Set 0 if default JS, unset if tweaked JS */
+  --GameListEntrySize: 16px;  /* Default: 16px.  */
+  --CategoryNameHeaderSize: 13px;  /* Default: 13px.  */
+  --GameListZoomSize: 75%;  /* Default: 100%. 75% highly recommended for Game List similar to old Library UI. Affects GameListEntrySize and CategoryNameHeaderSize */
+  --ShowLeftSidebar: flex;  /* Default: flex. Set to none to hide left sidebar */
+
   /* Right Click Context Menu */
-  --ContextMenuLineHeight: 16px; /* Default: inherit. Currently will override very long category names */
-  --ContextMenuFontSize: 14px; /* Default: 14px */
+  --ContextMenuLineHeight: 16px;  /* Default: inherit. Currently will override very long category names */
+  --ContextMenuFontSize: 13px;  /* Default: 14px.  */
 
   /* Game Grid */
   --RemoveShine: none;  /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
-  --GameImageTransition: 0s;  /* Grid Game Images transition time. 0s for instant, 2s for smooth.*/
-  --GameImageOpacity: 1;  /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5*/
-  --UninstalledGameImageOpacity: 0.5; /* Default: 1. Suggested values: 0.5, 0.2*/
-  --GameGridImageBackground: inherit;  /* Default is inherit, set #365d2d for a friendly green */
-  --GridRowGap: 8px; /* Default: 24px. Corresponds with JavaScript tweak.*/
-  --GridColumnGap:	5px; /* Default: 16px. Corresponds with JavaScript tweak.*/
+  --GameImageTransition: 2s;  /* Default: . 4s, .4s, .4s, .2s. Grid Game Images transition time. 0s for instant, 2s for smooth. */
+  --GameImageOpacity: 1;  /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5 */
+  --UninstalledGameImageOpacity: 0.5;  /* Default: 1. Suggested values: 0.5, 0.2 */
+  --GameGridImageBackground: inherit;  /* Default: inherit. Default is inherit, set #365d2d for a friendly green */
+  --GridRowGap: 8px;  /* Default: 24px. Corresponds with JavaScript tweak - Home Page Grid Spacing. */
+  --GridColumnGap: 5px;  /* Default: 16px. Corresponds with JavaScript tweak - Home Page Grid Spacing. */
 
   /* Game Page Background */
-  --AppPageBlur: 2px;  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look.*/
+  --AppPageBlur: 2px;  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look. */
   --AmbientBlur: black;  /* Default: black 80%. Set to rgba(0,0,0,0) to remove */
 
-  /* Other */	
-  --VerticalNavBarOffset: 0px;  /* Leave at 0, this var is for steam-library compatibility */
-  }
+  /* Other */
+  --VerticalNavBarOffset: 0px;  /* Default: 0px. Leave at 0px, this var is for steam-library compatibility and vertical nav bar */
+}
 /* ==================== GameList Sidebar ====================
    ========================================================================== */
 
@@ -52,6 +51,11 @@
   padding-top: 2px;
   padding-bottom: 2px;
   margin-top: -6px;
+}
+
+/* Round inner corners of Advanced Search filters button */
+.gamelistsearchbar_Container_20QAC .gamelistsearchbar_AdvancedSearchContainer_vCCmY {
+  border-radius: 0px 4px 4px 0px;
 }
 
 /* fix search bar sometimes flexing down a few pixels */
@@ -206,6 +210,10 @@
   width: 20%;
 }
 
+.gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx {
+  border-radius: 3px;
+}
+
 .gamelisthome_Bar_3pSPl.gamelisthome_CollectionButton_30KGS {
   margin-left: 6px;
 }
@@ -223,8 +231,8 @@
 
 /* Library Home padding and background */
 .libraryhome_LibraryHome_3Sb2o {
-    padding: 8px 12px 12px; /* default 8px 14px 14px */
-    /*background-image: linear-gradient(to bottom, #2d333c 0%, #24282f 20%);*/
+  padding: 8px 12px 12px; /* default 8px 14px 14px */
+  /*background-image: linear-gradient(to bottom, #2d333c 0%, #24282f 20%);*/
 }
 
 
@@ -351,6 +359,12 @@ div.appdetailsoverview_RightColumn_2aor4>div:nth-child(3) {
 /* ========================================================================== 
    END Game AppPage Header/Section Boundary */
 
+/* Game AppPage Info Panel ======================================== */
+.appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_SectionContainer_1uS70 .appdetailsgameinfopanel_GameDescription_3GkV1 {
+  color: rgba(195, 195, 195, 1);
+}
+
+
 /* Game AppPage Post-Game Summary & Spotlight
    ========================================================================== */
 /* Expand Post-Game summary to fill width */
@@ -379,7 +393,7 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 }
 
 .boxcarousel_BoxCarousel_3fiHs.appdetailsspotlight_NewDLCImages_ENdo7 {
-    height: unset !important;
+  height: unset !important;
 }
 
 /*Change Game Summary separator from small dot to thin line-clamp*/
@@ -473,6 +487,20 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   grid-template-columns: repeat(auto-fill, [col-start] minmax(140px, 48%) [col-end]) !important;
   gap: 8px 8px;
 }
+
+/* Game AppPage Activity - Broadcasts
+   ========================================================================== */
+.appdetailssection_Body_5uvIN.appdetailsbroadcastsection_Body_CFp7F {
+  align-content: flex-end;
+}
+
+.appdetailsbroadcastsection_BroadcastBox_9nwsC {
+  width: 50%;
+  height: 50%;
+  margin-left: auto;
+}
+
+
 
 /* Game AppPage Activity - Events
    ========================================================================== */
@@ -730,7 +758,7 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 }
 
 .appportrait_LibraryItemBoxSubscript_1LJqx {
-    margin-top: -16px;
+  margin-top: -16px;
 }
 
 *//*END HORIZONTAL GAME IMAGE TWEAKS*/
@@ -758,6 +786,9 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 
 
 /* PLAY BAR LAYOUT - BETA *//*
+:root {
+  --VerticalNavBarOffset: -70px;
+}
 
 .appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {
   transform: translate(calc(8vmax - 27%), calc(-8vmax - 42%));
@@ -926,27 +957,37 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
   z-index: 2;
 }
 
+.appdetailsgameinfocontainer_AppGameInfoContainer_25oBZ.appdetailsgameinfocontainer_AppDetailsExpanded_3s6_6.appdetailsgameinfocontainer_Glassy_2QAgO {
+  order: 2;
+}
+.appdetailsgameinfocontainer_AppGameInfoContainer_25oBZ.appdetailsgameinfocontainer_AppDetailsCollapsed_3yfoe.appdetailsgameinfocontainer_Glassy_2QAgO {
+  order: 2;
+}
+.appdetailsoverview_ColumnContainer_OhSdL {
+  order: 3;
+}
+
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
-  transform: translate(calc(100vw * 0.75 - (390px - 15vw * 1.30)), calc(var(--VerticalNavBarOffset) + -13.5vw * 0.95 - (2vw * 0.5)));
   margin-left: auto;
-  position: absolute;
+  transform: translate(-20px, -290px) translateY(var(--VerticalNavBarOffset));
+  position: sticky;
+  height: 0px !important;
   width: 170px;
   background: linear-gradient(rgba(40, 40, 40, 0.7) 95.8%, rgba(40, 40, 40, 0) 100%);
   border-radius: 4px;
-  height: 14.43vw;
   pointer-events: all;
   z-index: 5 !important;
   padding: 0px;
 }
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v>div {
-  background: none !important;
+  background: linear-gradient(rgba(40, 40, 40, 0.7) 95.8%, rgba(40, 40, 40, 0) 100%) !important;
+  height: 228.9px;
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB:before {
   content: '';
   min-height: 0px;
-  height: calc((1600px - 100vw) / 8);
 }
 
 .appdetailsoverview_ColumnContainer_OhSdL {}
@@ -994,7 +1035,7 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 }
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
-  transform: translate(-20px, -130px);
+  transform: translate(-20px, -60px) translateY(var(--VerticalNavBarOffset));
   position: sticky;
   height: 0px;
 
@@ -1006,12 +1047,46 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 
 *//* END CLASSIC LAYOUT */
 
-.appdetailssection_Body_5uvIN.appdetailsbroadcastsection_Body_CFp7F {
-    align-content: flex-end;
+
+.appactivityday_Event_UVeN0 {
+  margin-bottom: -26px;
 }
 
-.appdetailsbroadcastsection_BroadcastBox_9nwsC {
-    width: 50%;
-    height: 50%;
-    margin-left: auto;
+.appactivityday_PartnerEventMediumImage_Summary_Ru7OB {
+  max-width: unset;
 }
+
+.appdetailsactivitysection_ActivityFeedContainer_3yTl3 .appdetailsactivitysection_FetchMoreContainer_39Zur {
+  z-index: 2;
+}
+
+.appactivityday_PartnerEventMediumImage_Image_VytJz {
+  max-width: 130px;
+}
+
+.appactivityday_PartnerEventMediumImage_Title_1gljE {
+  max-width: unset;
+  width: 92%;
+  display: flex;
+  line-height: 20px;
+  max-height: 20px;
+}
+
+
+.appactivityday_PartnerEventMediumImage_TextColumn_3dJ4B {
+  width: 100%;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.appactivityday_PartnerEventMediumImage_Summary_Ru7OB {
+  padding-top: unset;
+  max-width: 600px;
+  height: 50%;
+}
+
+.appactivityday_PartnerEventType_1ujzu {
+  width: 5%;
+  display: flex;
+  max-height: 15px;
+  }
