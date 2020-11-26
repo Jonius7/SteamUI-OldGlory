@@ -1292,6 +1292,9 @@ def settings_window(event, controller):
                       "and provide some extra functionality where possible.\n\n" \
                       #"The main objective is to remove some clear annoyances the library has,\n" \
                       #"and bring back some of the usefulness that the Old Library UI had."
+                      "Github: github.com/Jonius7/SteamUI-OldGlory/\n\n" \
+                        "To be used with SteamFriendsPatcher\n" \
+                       "https://github.com/PhantomGamers/SteamFriendsPatcher/"
                    )
         
     message_about = tk.Message(frameAbout,
