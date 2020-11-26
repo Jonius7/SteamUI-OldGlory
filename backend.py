@@ -908,10 +908,12 @@ def clean_slate_css():
 
 def clear_js_working_files():
     try:
-        os.remove("libraryroot.beaut.js")
-        print("libraryroot.beaut.js deleted.")
+        files_to_remove = ["library.js", "libraryroot.js"]
+        for file in files_to_remove:
+            os.remove(file)
+            print(file + " deleted.")
     except:
-        print("Was not able to remove libraryroot.beaut.js", file=sys.stderr)
+        print("Was not able to remove " + file, file=sys.stderr)
         print("~~~~~~~~~~")
         print(traceback.print_exc(), file=sys.stderr)
         print("~~~~~~~~~~")

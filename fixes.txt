@@ -18,7 +18,7 @@ scrollTop: 0  scrollTop: 30
 e.m_nScrollTop = 0, e.m_elTarget  e.m_nScrollTop = 30, e.m_elTarget
 
 ### === Change Game Image Grid Sizes (optional) - default widths 111, 148, 222 ===
-(n = 111, r = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {  (n = 80, r = !0) : 2 == e ? n = 120 : 3 == e && (n = 280), {
+(n = 111, r = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {  (n = 160, r = !0) : 2 == e ? n = 120 : 3 == e && (n = 280), {
 for (var n = [], r = 2;  /*for (var n = [], r = 2;
 b.apply(console, Object(l.g)([e, t], n))  b.apply(console, Object(l.g)([e, t], n))*/
 

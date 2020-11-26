@@ -72,6 +72,8 @@ def beautify_js():
 #modify library.js to look for different libraryroot.js file
 def setup_library(reset=0):
     #if reset == 1 or LOCAL_DEBUG == 1:
+    if not os.path.isfile("library.js"):
+        shutil.copy2(library_dir() + "\\library.js", "library.js")
     modify_library(swap_js)
     print("Checked library.js")
 
@@ -83,16 +85,22 @@ def revert_library():
 def modify_library(swap_js_array):
     try:
         lines = []
+        modified = 0
         with open('library.js') as infile:
             for line in infile:
                 for src, target in swap_js_array.items():
-                    line = line.replace(src, target)
-                lines.append(line)
+                    new_line = line.replace(src, target)
+                    if new_line != line:
+                        modified = 1
+                lines.append(new_line)
         with open('library.js', 'w') as outfile:
             for line in lines:
                 outfile.write(line)
         infile.close()
         outfile.close()
+        if modified == 1:
+            shutil.copy2("library.js", library_dir() + "\\library.js")
+            print("library.js copied over to " + library_dir() + "\\library.js")
     except:
         error_exit("library.js not found")
 
