@@ -70,6 +70,14 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 >#### 4.0 Beta
 >
 >- NEW Graphical User Interface for installing SteamUI-OldGlory Tweaks
+>- Can select from Box Play Button, Vertical Nav Bar, Classic Layout configurations and any combination of them.
+>- Can enable Landscape Game Images and configure their size (Small, Medium, Large), in JS Tweaks.
+>- `js_tweaker` functionality from old versions integrated in.
+>- Includes 3 themes:
+>  - steam-library by Shiina
+>  - Dark Library by Thespikedballofdoom
+>  - Acrylic Theme (cooncept by EliteSkylu)
+>- Remake JS, Reset buttons
 >
 >
 >[More details...](https://github.com/Jonius7/SteamUI-OldGlory/releases)
@@ -78,9 +86,6 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 ## steam-library Support
 
 https://github.com/AikoMidori/steam-library
-
-
-You should be set to go!
 
 ![preview image](https://i.imgur.com/4gWzhj9.png)
 

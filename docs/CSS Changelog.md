@@ -1,5 +1,6 @@
 ## CSS Changelog
 
+**v1.4** Fix Vertical Nav Bar, release with GUI for SteamUI-OldGlory v4 \
 **v1.3** Some changes to work with GUI \
 **v1.2** Standardised CSS variable format \
 **v1.1** Whole new sections for Play Bar layout, Vertical Nav Bar and Classic layout \
