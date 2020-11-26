@@ -469,7 +469,6 @@ BEFORE_THEME = {"shiina.css" :
 
 ### Order: CSS before or after SteamUI-OldGlory's CSS
 def apply_css_theme(theme_filename, order, patchtext):
-    print("TODO apply Theme")
     theme_change_needed = remove_current_css_themes(theme_filename, order)
     if theme_change_needed:
         add_new_css_theme(theme_filename, order, patchtext)
@@ -523,7 +522,7 @@ def remove_current_css_themes(theme_filename, order):
 def add_new_css_theme(theme_filename, order, patchtext):
     try:
         if order == "before":
-            print("BEFORE")
+            print("Adding css at the start of libraryroot.custom.css...")
             with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
                  open("themes\\" + theme_filename, "r", newline='', encoding="UTF-8") as ft, \
                  open("libraryroot.custom.theme.css", "w", newline='', encoding="UTF-8") as f1:
@@ -566,7 +565,6 @@ def reset_html():
         print("Could not restore backup index.html.original. Is it missing?", file=sys.stderr)
 
 def patch_html(theme_filename):
-    print("TODO patchhtml")
     try:
         if len(theme_filename) > 20:
             raise Exception('Filename too long. Please keep it to 20 characters or less.')
@@ -692,8 +690,37 @@ def copy_theme_css_file(theme_filename):
         print(traceback.print_exc(), file=sys.stderr)
         print("~~~~~~~~~~")
 
+config_replacements = {'--FontSize: 15px;' : '--FontSize: 13px;',
+                       '--YourLibraryName: "YOUR LIBRARY"' : '--YourLibraryName: "HOME"',
+                       '--LetterSpacing: 3px' : '--LetterSpacing: 0px',
+                       '--ButtonPlayHover: #70d61d;' : '--ButtonPlayHover: var^(--libraryhome^)^;',
+                       '--ButtonPlayHover2: #01a75b;' : '--ButtonPlayHover2: var^(--libraryhome^)^;',
+                       '--ButtonInstallHover: #47bfff;' : '--ButtonInstallHover: var^(--libraryhome^)^;',
+                       '--ButtonInstallHover2: #1a44c2;' : '--ButtonInstallHover2: var^(--libraryhome^)^;'
+                       }
+
+
 def steam_library_compat_config():
-    print("TODO find and replace config.css")
+    try:
+        with open("themes\\config.css", "r", newline='', encoding="UTF-8") as f, \
+             open("themes\\config.temp.css", "w", newline='', encoding="UTF-8") as f1:
+
+            for line in f:
+                for key in config_replacements:
+                    new_line = line.replace(key, config_replacements[key])
+                f1.write(new_line)
+
+            print("A few values in steam-library's config.css have been changed.\n"\
+                  "A backup has been made at config.css.backup")
+            
+            f.close()
+            f1.close()
+            
+            shutil.move("themes\\config.css", "themes\\config.css.backup")
+            shutil.move("themes\\config.temp.css", "themes\\config.css")
+            shutil.copy("themes\\config.css", library_dir() + "\\" + "config.css")
+    except FileNotFoundError:
+        print("config.css not found", file=sys.stderr)
 
 ### END 
 ### 
@@ -856,8 +883,13 @@ def clean_slate_css():
         shutil.move(library_dir() + "\\libraryroot.custom.css", library_dir() + "\\libraryroot.custom.css.backup")
         shutil.move(library_dir() + "\\libraryroot.empty.css", library_dir() + "\\libraryroot.custom.css")
         print("libraryroot.custom.css in Steam directory emptied out, backup at libraryroot.custom.css.backup")
+        shutil.copy2("themes\\config.css.original", library_dir() + "\\config.css")
+        
     except:
         print("Was not able to completely reset libraryroot.custom.css.", file=sys.stderr)
+        print("~~~~~~~~~~")
+        print(traceback.print_exc(), file=sys.stderr)
+        print("~~~~~~~~~~")
 
 def clear_js_working_files():
     try:

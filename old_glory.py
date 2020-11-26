@@ -20,7 +20,7 @@ DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.1 Beta"
+        self.version = "v0.9.2 Beta"
 
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
@@ -1250,7 +1250,7 @@ def settings_window(event, controller):
     windowH = 300
     screen_width = controller.winfo_screenwidth()
     screen_height = controller.winfo_screenheight()
-    windowX = (screen_width / 2) - (windowW / 2) + 100
+    windowX = (screen_width / 2) - (windowW / 2) + 103
     windowY = (screen_height / 2) - (windowH / 2) + 30
     settings.geometry(f'{windowW}x{windowH}+{int(windowX)}+{int(windowY)}')
     settings.wm_title("Settings and About")
