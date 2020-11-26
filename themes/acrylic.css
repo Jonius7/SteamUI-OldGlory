@@ -1,0 +1,150 @@
+/* Acrylic Theme by Jonius7
+Original Design by EliteSkylu
+*/
+
+:root {
+	 /*--GameListZoomSize: 100%;*/
+	 /*--WhatsNewOrder:0;*/
+	 /*--UninstalledGameImageOpacity: 1;*/
+}
+
+/* Home and search buttons */
+.gamelisthome_Bar_3pSPl {
+    background-color: rgba(255,255,255,0);
+}
+
+.gamelisthome_CollectionIcon_nC-pL .gamelisthome_CollectionIconBox_2tyaV {
+    background: #aaaaaa;
+}
+
+.gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx .gamelisthome_CollectionIconBox_2tyaV {
+    background-color: #b0deea;
+}
+
+/* Home Label */
+.gamelisthome_Label_3O48L {
+    color: #aaaaaa;
+}
+.gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L {
+    color: #b0deea;
+	
+}
+
+.gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx {
+	background-color: rgba(255,255,255,0);
+}
+
+.gamelistdropdown_Bar_1ZS_x .gamelistdropdown_MenuHeader_2PF_m {
+	background-color: rgba(255,255,255,0);
+}
+
+/* Recent Search and Installed Game Buttons */
+.gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg path, .gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg line, .gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg polyline, .gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg circle {
+    stroke: #aaaaaa;
+}
+.gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg {
+    fill: #aaaaaa;
+}
+
+/* search bar color */
+.gamelistsearchbar_Container_20QAC .gamelistsearchbar_SearchInput_12vo5 .DialogTextInputBase, .gamelistsearchbar_Container_20QAC .gamelistsearchbar_AdvancedSearchContainer_vCCmY {
+    background-color: rgba(51, 55, 60, 0.6);
+}
+
+.gamelistsearchbar_Container_20QAC {
+	padding-left: 0px;
+    padding-right: 15px;
+}
+
+.gamelistdropdown_Bar_1ZS_x {
+    padding-right: 15px;
+}
+
+/* Sidebar container */
+.gamelistbar_Container_3x1Hk {
+    background-image: linear-gradient(to bottom, #525E6A 0%, #232C3B 20%, #0B151F 50%, #283D4E 75%, #556877 94%);/*, rgba(255,255,255,1) 100%);*/
+	padding-left: 15px;
+}
+
+.gamelistbar_GameListHomeAndSearch_2TKEa {
+    padding: 6px 3px 0px 0px;
+}
+
+.gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
+  transform: translateX(-6.75px);
+}
+
+.gamelistentry_FriendStatusHover_2iiN7 {
+  transform: translateX(-6.75px);
+}
+
+
+/* fade in out at edges */
+.gamelist_Container_1ijTa {
+    -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+}
+
+/* Section Header */
+.gamelistsectionheader_Container_2sYIg {
+    background: linear-gradient(to right, #015AFF 50%, rgba(62, 78, 105, 0) 100%);
+	border-radius: 3px;
+}
+
+.gamelistsectionheader_SectionName_2mZ8L {
+	font-size: 14px;
+    text-transform: unset;
+    letter-spacing: 1px;
+    overflow: unset;
+}
+
+/* Library Grid background */
+.libraryhome_LibraryHome_3Sb2o {
+    background-image: unset;
+}
+
+/* What's new Background */
+.libraryhome_UpdatesContainer_17uEB {
+    background: unset;
+}
+
+/* What's New rounded corners */
+.libraryhomenewupdates_PartnerEventRowCapsule_MainImageContainer_SPz0i {
+    border-radius: 10px;
+}
+
+/* Library background */
+.libraryhome_Container_2gSXC {
+    /*background-image: linear-gradient(to bottom, #272B2E 0%, #272B2E 27%, #32373A 31%, #131D26 50%, #1E2327 60%, #32373D 85%, #2B3035 100%);*/
+	background-image: linear-gradient(to right, #07110E 0%, #1B2228 15%, #25292C 50%, #272B2E 80%, #1A1F23 100%);
+}
+
+/* Shelf Title */
+.libraryhomeshowcases_CollectionDropDown_1YdRd ._DialogInputContainer, .pageablecontainer_HeaderPageControls_2ce8e .pageablecontainer_Name_EckfX {
+	text-transform: unset;
+}
+/* Sorting Labels */
+.appgrid_SortingDropDown_1tBzy .appgrid_SortingDropDownLabel_1ljKT, .libraryhomeshowcases_AddShowcaseRow_3SkuN .libraryhomeshowcases_AddShowcase_2aw5a {
+    text-transform: capitalize;
+}
+
+/* Rounded Game boxes */
+.appportrait_LibraryItemBox_WYgDg {
+    border-radius: 10px;
+}
+
+/*scrollbar*/
+
+.library_Container_3xRRJ *::-webkit-scrollbar-thumb, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar-thumb {
+  background-color: rgba(1,90,255,0.7);
+}
+
+.library_Container_3xRRJ *::-webkit-scrollbar-thumb:hover, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(1,90,255,0.9);
+}
+
+.library_Container_3xRRJ *::-webkit-scrollbar {
+	/*background-color: rgba(150,150,155,0.05);*/
+	background-image: linear-gradient(to bottom, transparent 0%, rgba(120,120,125,0.05) 15%, rgba(120,120,125,0.05) 85%, transparent 100%);
+}
+
+/* END CSS for Acrylic Theme */

@@ -1,0 +1,60 @@
+/* Dark Library by spikedballofdoom
+https://gamebanana.com/guis/35092
+*/
+
+.gamelistbar_GameListHomeAndSearch_2TKEa .gamelistbar_Container_3x1Hk {
+    background-color: #0c0c0c;
+}
+
+.gamelistsearchbar_Container_20QAC .gamelistsearchbar_SearchInput_12vo5 .DialogTextInputBase:hover {
+    background: #404040;
+}
+.gamelistsearchbar_Container_20QAC .gamelistsearchbar_SearchInput_12vo5 .DialogTextInputBase {
+    background: #2f2f2f;
+}
+.libraryhome_Container_2gSXC .libraryhome_UpdatesContainer_17uEB{
+    background: #111;
+}
+div.LowPerfMode .appdetailsplaysection_Glassy_3DeO9.appdetailsplaysection_PlayBar_3fLo1 {
+    background: linear-gradient(to top, rgba(36, 40, 47, 0) 0%, rgba(0, 0, 0, 0) calc( 100% - 2px), rgba(193, 202, 207, 0.1) calc( 100% - 1px), rgba(29, 29, 29, 0.3) 100%);
+}
+.appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
+    background: #00000000; 
+}
+.appdetailsoverview_Glassy_2OOzY > div {
+    z-index: 1;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.62) 0%, 82px, rgba(39, 44, 53, 0.3) 80%, rgba(39, 44, 53, 0) 100%);
+}
+.appdetailsoverview_Glassy_2OOzY .appdetailsoverview_ColumnContainer_OhSdL {
+    background: #000000a1;
+}
+.appactivityday_Event_UVeN0 .appactivityday_EventBody_NEMXh {
+    background: rgb(23, 23, 23); 
+}
+.libraryhome_LibraryHome_3Sb2o {
+    background-image: none;
+    background-color: #0c0c0c ;
+}
+
+.gamelistbar_Container_3x1Hk {
+    background-image: none; 
+    background-color: #0c0c0c !important;
+}
+
+.gamelistsectionheader_Container_2sYIg {
+    background: none;
+}
+
+.allcollections_Collection_3IWn- {
+    background: #0e203a;
+}
+
+.allcollections_ScrollContainer_u1xD3 {
+    background: radial-gradient(100% 100% at 33% 45%, #0c0c0b 0%, #101314 100%);
+}
+
+.collectionview_OuterContainer_2sNr7 {
+    background: radial-gradient(100% 100% at 33% 45%, #080808 0%, #101314 100%);
+}
+
+/* END Dark Library by spikedballofdoom */

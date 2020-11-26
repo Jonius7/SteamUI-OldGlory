@@ -9,7 +9,6 @@ import shutil
 from jsmin import jsmin
 import time
 
-
 LOCAL_DEBUG = 0 #Set to 1 to not copy files to/from Steam directory
 
 # Determine Steam Library Path
@@ -17,24 +16,27 @@ OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
     import winreg
 
+swap_js = {'"libraryroot"}[n=u]||n': '"libraryreet"}[n=u]||n'}
+swapback_js = {'"libraryreet"}[n=u]||n': '"libraryroot"}[n=u]||n'}
+
+fixes_dict = {}
+
+def initialise():
+    fixes_dict.clear() #not fixes_dict = {}
+
 def library_dir():
     steamui_path = ""
     if OS_TYPE == "Windows":
         key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
         steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
         steamui_path = steam_path.replace("/","\\") + "\steamui"
-        print(steamui_path)
+        #print(steamui_path)
     elif OS_TYPE ==  "Darwin":
         steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "\steamui"
     elif OS_TYPE ==  "Linux":
         steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "\steamui"
     return steamui_path
 ######
-
-swap_js = {'"libraryroot"}[n=u]||n': '"libraryreet"}[n=u]||n'}
-swapback_js = {'"libraryreet"}[n=u]||n': '"libraryroot"}[n=u]||n'}
-
-fixes_dict = {}
 
 def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fresh copy (useful for updates)
     try:
@@ -44,6 +46,7 @@ def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fres
                 if not os.path.isfile(filename):
                     print("Copying files from Steam\steamui...")
                     shutil.copy2(library_dir() + "\\" + filename, filename)
+            os.remove("libraryroot.beaut.js")
     except FileNotFoundError:
         print("Steam directory and/or files not found.\n" \
               "Please check Steam\steamui for library.js and libraryroot.js")
@@ -64,12 +67,15 @@ def beautify_js():
         error_exit("libraryroot.js not found") 
 
 #modify library.js to look for different libraryroot.js file
-def setup_library():
+def setup_library(reset=0):
+    #if reset == 1 or LOCAL_DEBUG == 1:
     modify_library(swap_js)
+    print("Checked library.js")
 
 #revert library.js to use original libraryroot.js file
 def revert_library():
     modify_library(swapback_js)
+    print("library.js reverted to use original JS.")
     
 def modify_library(swap_js_array):
     try:
@@ -144,6 +150,8 @@ def copy_files_to_steam():
             files_to_copy = ["libraryreet.js", "fixes.txt"]
             for filename in files_to_copy:
                 shutil.copy2(filename, library_dir() + "\\" + filename)
+                print("File " + filename + " written to " + library_dir())
+                
     except FileNotFoundError:
         print("Files not found!\n" \
               "Run the other functions in js_tweaker first.")
@@ -156,6 +164,7 @@ def error_exit(errormsg):
     
 def main():
     print("JS Tweaker for Steam Library UI by Jonius7\n")
+    initialise()
     copy_files_from_steam()
     beautify_js()
     setup_library()
