@@ -35,18 +35,38 @@ Check `/dev` branch for in-progress tweaks.
 #### Patching and CSS
 
 - Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). Run it, it will patch some files.
-- Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases) and run `old_glory.exe`
+- Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 
 #### Included files:
 
+- `old_glory.exe` - App to apply **SteamUI-OldGlory's** tweaks
+- `libraryroot.custom.css` - CSS tweaks
+
+- `fixes.txt` - JS tweaks
+
+- `\themes` - Folder containing theme files
+  - `shiina.css` and `config.css.original` - **Shiina's** [steam-library](https://github.com/AikoMidori/steam-library) dark theme
+  - `spiked.css` - **Thespikedballofdoom's** [Dark Library](https://gamebanana.com/guis/35092) theme
+  - `acrylic.css` - Theme based on **EliteSkylu's** [Acrylic Steam](https://www.reddit.com/r/Steam/comments/jot6vi/let_me_introduce_you_a_project_of_my_steam_ui/) concept
+
+​	
+
+Other files are copied from the`Steam\steamui` directory as required.
+
+![https://i.imgur.com/A85LCCn.png](https://i.imgur.com/A85LCCn.png)
+
 #### JavaScript Tweaks
 
-`fixes.txt`  contains the list of JavaScript tweaks.\
-Each tweak is under its own *Section Heading* marked with the line starting `###`.\
-Tweaked lines are the original JS separated by two spaces from the tweaked JS:\
-[original js]&#9608;&#9608;[new js]\
-Some tweaks are disabled by default. Remove the `###` for each line under the *Section Heading* to enable.\
-Commented lines with `###`, and blank lines are ignored. You can use this to make `fixes.txt` more readable.
+Some tweaks are disabled by default. Under JS Options, you can select which options to enable/disable.\
+
+**Manual Editing**
+
+<details><summary>More details</summary>`fixes.txt`  contains the list of JavaScript tweaks.<br>Each tweak is under its own *Section Heading* marked with the line starting `###`.<br>
+Tweaked lines are the original JS separated by two spaces from the tweaked JS:<br>
+[original js]&#9608;&#9608;[new js]<br>
+Remove the `###` for each line under the *Section Heading* to enable.<br>
+Commented lines with `###`, and blank lines are ignored. You can use this to make `fixes.txt` more readable.</details>
+
 
 #### Fix Blurred Game Images
 
@@ -85,6 +105,8 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 
 ## steam-library Support
 
+Shiina's steam-library theme is included as one of the starting themes you can choose from.
+
 https://github.com/AikoMidori/steam-library
 
 ![preview image](https://i.imgur.com/4gWzhj9.png)
@@ -112,7 +134,7 @@ To debug the Steam Library yourself, run Steam with the ` -dev` tag.
 Requires Python 3.8+
 
 `pyinstaller -w --hidden-import six --icon=steam_oldglory.ico --clean --onefile old_glory.spec`
-The `.spec` file is included for redundancy's sake.
+The `.spec` file is in the repository for redundancy's sake.
 
 Sometimes you may need to install `pyinstaller` like this:\
 [Building PyInstaller Bootloader](https://pyinstaller.readthedocs.io/en/stable/bootloader-building.html)	 [Windows Compilers](https://wiki.python.org/moin/WindowsCompilers#Which_Microsoft_Visual_C.2B-.2B-_compiler_to_use_with_a_specific_Python_version_.3F)

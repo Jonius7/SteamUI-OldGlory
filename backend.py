@@ -4,6 +4,7 @@ import sys
 import shutil
 import traceback
 import re
+from pathlib import Path
 
 OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
@@ -908,9 +909,10 @@ def clean_slate_css():
 
 def clear_js_working_files():
     try:
-        files_to_remove = ["library.js", "libraryroot.js"]
+        files_to_remove = ["library.js", "libraryroot.js", "libraryroot.beaut.js"]
         for file in files_to_remove:
-            os.remove(file)
+            w_file = Path(file)
+            w_file.unlink(missing_ok=True)
             print(file + " deleted.")
     except:
         print("Was not able to remove " + file, file=sys.stderr)
