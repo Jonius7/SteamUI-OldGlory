@@ -20,7 +20,7 @@ DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.4 Beta"
+        self.version = "v0.9.4.2 Beta"
 
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
@@ -1226,14 +1226,18 @@ class JSFrame(tk.Frame):
 
 ### Reset Functions
 ### ================================
-def reset_all_tweaks(event):
-    js_tweaker.revert_library()
+def reset_all_tweaks(event, controller):
+    js_tweaker.setup_library(1)
+    #controller.frames[StartPage].text1.update_idletasks()
     backend.clean_slate_css()
+    #controller.frames[StartPage].text1.update_idletasks()
     backend.reset_html()
+    #controller.frames[StartPage].text1.update_idletasks()
     backend.clear_js_working_files()
+    #controller.frames[StartPage].text1.update_idletasks()
 
 def remake_js(event, controller):
-    backend.clear_js_working_files()
+    backend.clear_js_working_files()    
     
     thread = Thread(target = run_js_tweaker, args = (controller.frames[StartPage].text1, ))
     thread.start()
@@ -1292,6 +1296,9 @@ def settings_window(event, controller):
                       "and provide some extra functionality where possible.\n\n" \
                       #"The main objective is to remove some clear annoyances the library has,\n" \
                       #"and bring back some of the usefulness that the Old Library UI had."
+                      "Github: github.com/Jonius7/SteamUI-OldGlory/\n\n" \
+                        "To be used with SteamFriendsPatcher\n" \
+                       "https://github.com/PhantomGamers/SteamFriendsPatcher/"
                    )
         
     message_about = tk.Message(frameAbout,
@@ -1322,7 +1329,7 @@ def settings_window(event, controller):
                        text="Reset",
                        width=10
     )
-    button_r.bind("<Triple-Button-1>", lambda event:reset_all_tweaks(event))
+    button_r.bind("<Triple-Button-1>", lambda event:reset_all_tweaks(event, controller))
     buttonr_tip = Detail_tooltip(button_r, "WARNING!\n" \
                                  "Triple click this button to revert JS and CSS modifications.", hover_delay=200)
     button_r.grid(row=0, column=1, padx=5)

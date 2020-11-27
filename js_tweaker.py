@@ -74,14 +74,15 @@ def setup_library(reset=0):
     #if reset == 1 or LOCAL_DEBUG == 1:
     if not os.path.isfile("library.js"):
         shutil.copy2(library_dir() + "\\library.js", "library.js")
-    modify_library(swap_js)
-    print("Checked library.js")
-
-#revert library.js to use original libraryroot.js file
-def revert_library():
-    modify_library(swapback_js)
-    print("library.js reverted to use original JS.")
+    if reset == 0:
+        modify_library(swap_js)
+        print("library.js changed to use tweaked JS.")
+    elif reset == 1: #revert library.js to use original libraryroot.js file
+        modify_library(swapback_js)
+        print("library.js reverted to use original JS.")
     
+
+
 def modify_library(swap_js_array):
     try:
         lines = []

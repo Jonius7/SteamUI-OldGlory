@@ -914,7 +914,7 @@ def clear_js_working_files():
         for file in files_to_remove:
             w_file = Path(file)
             w_file.unlink(missing_ok=True)
-            print(file + " deleted.")
+            print("Local " file + " deleted.")
     except:
         print("Was not able to remove " + file, file=sys.stderr)
         print("~~~~~~~~~~")
