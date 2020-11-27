@@ -374,7 +374,8 @@ def load_css_configurables():
                         if exists_key_value := CSS_CONFIG.get(sectionkey, {}).get(propkey):
                             loaded_css_config[sectionkey][propkey]["options"] = CSS_CONFIG[sectionkey][propkey]["options"]
                         else:
-                            print("Options not found in default, creating from default + current values")
+                            print("Custom CSS variable " + css_line_values["name"] + " found, creating options as\n    Default: " +
+                                  css_line_values["default"] + ", Current: " + css_line_values["current"])
                             loaded_css_config[sectionkey][propkey]["options"] = {css_line_values["default"], css_line_values["current"]}
                         loaded_css_config[sectionkey][propkey]["desc"] = css_line_values["desc"]
         infile.close()
