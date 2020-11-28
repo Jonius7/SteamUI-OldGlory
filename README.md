@@ -53,6 +53,8 @@ Check `/dev` branch for in-progress tweaks.
 
 Other files are copied from the`Steam\steamui` directory as required.
 
+`config.css` for Shiina's steam-library theme will be created from config.css.original the first time you enable the theme. Alternatively, you can put your existing `config.css` file here and the app will use it.
+
 ![https://i.imgur.com/A85LCCn.png](https://i.imgur.com/A85LCCn.png)
 
 #### JavaScript Tweaks

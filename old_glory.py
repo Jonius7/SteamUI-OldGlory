@@ -20,7 +20,7 @@ DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.4.2 Beta"
+        self.version = "v0.9.4.3 Beta"
 
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
@@ -283,7 +283,6 @@ class StartPage(tk.Frame):
         frameCheck.pack()
         frameLog.pack(pady=(10,0))
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
-        #frameConfirm.pack(pady=(7, 20), side="bottom")
         frameMode.pack(pady=(2, 0), side="bottom")
 
     ### Getters
@@ -639,15 +638,18 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
 def install_click(event, page, controller):
     print("=================")
     #get settings
-    settings_to_apply, settings_values = get_settings_from_gui(event, page)
+    settings_to_apply, settings_values = get_settings_from_gui(event, page) 
+
     #make any js_config enable/disable required
     settings_values = apply_changes_to_config(controller, settings_values)
+    
     #write fixes.txt before apply
-    #print(controller.js_config)
-    backend.write_js_fixes(controller.js_config, controller.special_js_config)
+    backend.write_js_fixes(controller.js_config, controller.special_js_config) 
+
     #applying settings
     apply_settings_from_gui(page, controller, settings_to_apply, settings_values)
     backend.write_config(settings_values)
+
     #add/remove theme
     apply_css_theme(controller.frames[StartPage])
     
@@ -690,20 +692,12 @@ def apply_changes_to_config(controller, settings_values):
     if "EnableVerticalNavBar" in settings_values.keys():
         controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])
         controller.frames[PageTwo].js_gui.checkvars["Vertical Nav Bar (beta, working)"].set(settings_values["EnableVerticalNavBar"])
-        #print("WOINGEI")
-        #print(controller.frames[PageTwo].js_gui.checkvars["Vertical Nav Bar (beta, working)"].get())
-        #print(settings_values)
-        #js_gui.checkvars["Vertical Nav Bar (beta, working)"] = settings_values["EnableVerticalNavBar"]
-        
-        #settings_values["EnableVerticalNavBar"] = str(controller.frames[PageTwo].js_gui.checkvars["Vertical Nav Bar (beta, working)"].get())
-        #print(settings_values["EnableVerticalNavBar"])
     if "EnableClassicLayout" in settings_values.keys():
         if settings_values["EnableClassicLayout"] == 1 and settings_values["EnableVerticalNavBar"] == 0:
             settings_values["EnableClassicLayout"] = 0        
     if "LandscapeImages" in settings_values.keys():
         controller.js_config["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"] = str(settings_values["LandscapeImages"])
         controller.frames[PageTwo].js_gui.checkvars["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"].set(settings_values["LandscapeImages"])
-    #print("WAOYGEION")
     for key in controller.special_js_config:
         if "Change Game Image Grid Sizes" in key:
             sizes = ["Small", "Medium", "Large"]
@@ -723,7 +717,6 @@ def apply_settings_from_gui(page, controller, settings_to_apply, settings_values
     ### Run js_tweaker if required
     
     change_javascript = 0
-    #print("~!)!(!~~)~~~~~~~~")
     #print(settings_values)
     for setting in settings_values:
         #print("javascript" in CONFIG_MAP[setting])
@@ -787,12 +780,8 @@ def apply_css_theme(page):
         print("Cleared current CSS Themes")
     page.change_theme = 0
 
+#update loaded_config on Install click
 def update_loaded_config(page):
-    #update loaded_config on Install click
-    #print("YOU ERROR?")
-    #print(page.getCheckbuttonVal("var1").get())
-    #print(page.loaded_config)
-    #print(page.getCheckbuttonVal(CONFIG_MAP[key]["value"])
     for key in page.loaded_config:
         if "value" in CONFIG_MAP[key]:
             page.loaded_config[key] = str(page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get())
@@ -803,7 +792,6 @@ def update_loaded_config(page):
 ### RELOAD Functions
 ### ================================
 def reload_click(event, controller):
-    #.frames[StartPage].text1
     print("=================")
     controller.css_config = backend.load_css_configurables()
     controller.js_config, controller.special_js_config = backend.load_js_fixes()
@@ -1070,14 +1058,9 @@ class PresetFrame(tk.Frame):
 ### change container.css_config
 ### Recursion
 def apply_css_config_values(controller, propValues):
-    #print("~~~pv~~~~~~~~~~")
-    #print(propValues)
     returns = []
     for key, value in propValues.items():
         controller.config_dict = replace_item(key, value, controller.css_config)
-    #print(controller.css_config)
-    #print("~~~g~")
-    #print(controller.css_config)
 
             
 ### Recursion 
@@ -1087,19 +1070,12 @@ def replace_item(key, value, config_dict):
         if isinstance(v, dict):
             config_dict[k] = replace_item(key, value, v)
     if key in config_dict:
-        #print("wAZOO")
-        #print(str(key) + "~~" + str(value))
-        #print(config_dict[key]["current"])
         config_dict[key]["current"] = value
-        #print("CHANGED")
-        #print(config_dict[key]["current"])
     return config_dict
 
 ### Recursion
 def get_item(key, config_dict):
-    if key in config_dict:
-        #print("WGOINGE")
-        
+    if key in config_dict:        
         return config_dict[key]["current"]
     for value in config_dict.values():
         if isinstance(value, dict):
@@ -1112,18 +1088,12 @@ def get_item(key, config_dict):
 
 
 def update_css_gui(page, controller, config):
-    #print(page.frameCSS)
-    #print(dir(page.frameCSS))
     test_css_gui_reach(page, controller, config)
-
     #for entrybox in page.css_gui.entryboxes:
         #config.get(sectionkey, {}).get(propkey)
 
 def test_css_gui_reach(page, controller, config):
     print("TODO")
-    #print(page.css_gui.labels[0]["text"])
-    #print(page.css_gui.entryboxes["--WhatsNew"].get())
-    #print(page.css_gui.entryboxes["--WhatsNew"].set("lamb"))
 
 def formatted_hover_text(default, desc):
     return "Default: " + default + ". " + desc
@@ -1146,13 +1116,11 @@ class JSFrame(tk.Frame):
             
         label_js_head = tk.Label(self.frameJSInner, text="JS Options")
         label_js_head.grid(row=0, column=0, columnspan=2)
-        #label_js_head.grid(row=0, column=0)
 
         self.checkvars = {}
         self.comboboxes = {}
         self.create_frameJSInner(self.controller)
         self.frameJSInner.pack()
-        #self.frameJSInner.grid()
         
     ### PRESET Click funtion
     def js_click(self, controller, fixname):
@@ -1169,8 +1137,6 @@ class JSFrame(tk.Frame):
         rownum = 1
         self.checkvars = {}
         for i, (fixname, value) in enumerate(self.controller.js_config.items()):
-            #print("WILD")
-            #print(type(value))
             _checkvar = tk.IntVar()
             self.checkvars[fixname] = _checkvar
             self.checkvars[fixname].set(int(value))
@@ -1190,7 +1156,6 @@ class JSFrame(tk.Frame):
             
             rownum += 1
             if fixname in self.controller.special_js_config:
-                #print("YOU GOT IT" + fixname)
                 #print(self.controller.special_js_config["Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"])
                 self.sizesFrame = tk.Frame(self.frameJSInner)
                 special_js_key_name = "Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"
@@ -1228,13 +1193,9 @@ class JSFrame(tk.Frame):
 ### ================================
 def reset_all_tweaks(event, controller):
     js_tweaker.setup_library(1)
-    #controller.frames[StartPage].text1.update_idletasks()
     backend.clean_slate_css()
-    #controller.frames[StartPage].text1.update_idletasks()
     backend.reset_html()
-    #controller.frames[StartPage].text1.update_idletasks()
     backend.clear_js_working_files()
-    #controller.frames[StartPage].text1.update_idletasks()
 
 def remake_js(event, controller):
     backend.clear_js_working_files()    
@@ -1242,7 +1203,6 @@ def remake_js(event, controller):
     thread = Thread(target = run_js_tweaker, args = (controller.frames[StartPage].text1, ))
     thread.start()
     #thread.join()
-    
     #run_js_tweaker(controller.frames[StartPage].text1)
 
 

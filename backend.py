@@ -115,6 +115,18 @@ CSS_CONFIG = {
             "options": {"16px", "5px"},
             "desc" : "Corresponds with JavaScript tweak - Home Page Grid Spacing."}
         },
+    "Game Page Layout" : {
+        "--FriendsDLCScreenshotsColumnWidth" : {
+            "default" : "33%",
+            "current" : "57%",
+            "options": {"33%", "57%"},
+            "desc" : "Determines width of the Friends Who Play/Achievements/Screenshots/DLC/Trading Cards column. Friend Activity/News column will fill the rest."},
+        "--SwapColumns" : {
+            "default" : "right",
+            "current" : "left",
+            "options": {"left", "right"},
+            "desc" : "Set left to swap columns."}
+        },
     "Game Page Background" : {
         "--AppPageBlur" : {
             "default" : "8px",
@@ -126,7 +138,7 @@ CSS_CONFIG = {
             "current" : "black",
             "options": {"black 80%", "black", "rgba(0,0,0,0)"},
             "desc" : "Set to rgba(0,0,0,0) to remove"}
-             },
+        },
     "Other" : {
         "--VerticalNavBarOffset" : {
             "default" : "0px",
@@ -914,7 +926,7 @@ def clear_js_working_files():
         for file in files_to_remove:
             w_file = Path(file)
             w_file.unlink(missing_ok=True)
-            print("Local " file + " deleted.")
+            print("Local " + file + " deleted.")
     except:
         print("Was not able to remove " + file, file=sys.stderr)
         print("~~~~~~~~~~")
