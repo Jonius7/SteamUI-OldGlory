@@ -36,6 +36,7 @@ Check `/dev` branch for in-progress tweaks.
 
 - Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). Run it, it will patch some files.
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
+- To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix).
 
 #### Included files:
 
@@ -49,11 +50,9 @@ Check `/dev` branch for in-progress tweaks.
   - `spiked.css` - **Thespikedballofdoom's** [Dark Library](https://gamebanana.com/guis/35092) theme
   - `acrylic.css` - Theme based on **EliteSkylu's** [Acrylic Steam](https://www.reddit.com/r/Steam/comments/jot6vi/let_me_introduce_you_a_project_of_my_steam_ui/) concept
 
-​	
-
 Other files are copied from the`Steam\steamui` directory as required.
 
-`config.css` for Shiina's steam-library theme will be created from config.css.original the first time you enable the theme. Alternatively, you can put your existing `config.css` file here and the app will use it.
+`config.css` for Shiina's steam-library theme will be created from `config.css.original` the first time you enable the theme. Alternatively, you can put your existing `config.css` file here and the app will use it.
 
 ![https://i.imgur.com/A85LCCn.png](https://i.imgur.com/A85LCCn.png)
 
@@ -79,6 +78,7 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 - [Video Guide](https://www.youtube.com/watch?v=7_3e9j8FFv8)
 - [SteamUI-OldGlory Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki)
 - [GIF of tweaks](https://gyazo.com/38d0101b493741501697b4a0f5f0818f)
+- [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix)
 - [(Images) More DLC and Screenshots, more info!](https://imgur.com/a/3WTdrXP)
 - [(Images) JS Tweaks](https://imgur.com/a/mL4QNYB)
 - [(Images) Is Steam Grid View Back?](https://imgur.com/gallery/qcIHx0l)
