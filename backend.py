@@ -178,13 +178,18 @@ def library_dir():
     if OS_TYPE == "Windows":
         key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
         steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
-        steamui_path = steam_path.replace("/","/") + "\steamui"
+        steamui_path = steam_path.replace("/","\\") + "\steamui"
         #print(steamui_path)
     elif OS_TYPE ==  "Darwin":
-        steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "\steamui"
+        steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "/steamui"
     elif OS_TYPE ==  "Linux":
-        steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "\steamui"
+        steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "/steamui"
     return steamui_path
+
+def print_traceback():
+    print("~~~~~~~~~~")
+    print(traceback.print_exc(), file=sys.stderr)
+    print("~~~~~~~~~~")
 
 #Working Directory
 #if not os.path.exists('config'):
@@ -394,9 +399,7 @@ def load_css_configurables():
         print("Loaded CSS Options.")
     except:
         print("Error loading CSS configurables from line: " + line, file=sys.stderr)
-        print("~~~~~~~~~~")
-        print(traceback.print_exc(), file=sys.stderr)
-        print("~~~~~~~~~~")
+        print_traceback()
         print("Using default CSS config.")
         loaded_css_config = CSS_CONFIG
     return loaded_css_config
@@ -431,9 +434,7 @@ def css_line_parser(line):
             return {"name" : name[0], "default" : default, "current" : value[0], "desc" : desc}
     except Exception as e:
         print("Some error in line: " + line, file=sys.stderr)
-        print("~~~~~~~~~~")
-        print(traceback.print_exc(), file=sys.stderr)
-        print("~~~~~~~~~~")
+        print_traceback()
         
 
 #root writer
@@ -532,9 +533,7 @@ def remove_current_css_themes(theme_filename, order):
             
     except:
         print("Error removing existing themes.", file=sys.stderr)
-        print("~~~~~~~~~~")
-        print(traceback.print_exc(), file=sys.stderr)
-        print("~~~~~~~~~~")
+        print_traceback()
         
 def add_new_css_theme(theme_filename, order, patchtext):
     try:
@@ -569,9 +568,7 @@ def add_new_css_theme(theme_filename, order, patchtext):
             
     except:
         print("Error applying theme from " + theme_filename, file=sys.stderr)
-        print("~~~~~~~~~~")
-        print(traceback.print_exc(), file=sys.stderr)
-        print("~~~~~~~~~~")
+        print_traceback()
 
 
 def reset_html():
@@ -580,6 +577,7 @@ def reset_html():
         print("HTML file restored from index.html.original")
     except:
         print("Could not restore backup index.html.original. Is it missing?", file=sys.stderr)
+        print_traceback()
 
 def patch_html(theme_filename):
     try:
@@ -661,9 +659,7 @@ def patch_html(theme_filename):
     except Exception as e:
         print("Error configuring index.html", file=sys.stderr)
         print(e, file=sys.stderr)
-        print("~~~~~~~~~~")
-        print(traceback.print_exc(), file=sys.stderr)
-        print("~~~~~~~~~~")
+        print_traceback()
 
 
     ### String Helper functions
@@ -698,14 +694,10 @@ def copy_theme_css_file(theme_filename):
         
     except FileNotFoundError:
         print("CSS Theme file " + theme_filename + " not found", file=sys.stderr)
-        print("~~~~~~~~~~")
-        print(traceback.print_exc(), file=sys.stderr)
-        print("~~~~~~~~~~")
+        print_traceback()
     except Exception as e:
         print("Error adding CSS Theme file", file=sys.stderr)
-        print("~~~~~~~~~~")
-        print(traceback.print_exc(), file=sys.stderr)
-        print("~~~~~~~~~~")
+        print_traceback()
 
 config_replacements = {'--FontSize: 15px;' : '--FontSize: 13px;',
                        '--YourLibraryName: "YOUR LIBRARY"' : '--YourLibraryName: "HOME"',
@@ -742,9 +734,7 @@ def steam_library_compat_config():
             shutil.move("themes/config.temp.css", "themes/config.css")
     except FileNotFoundError:
         print("config.css not found", file=sys.stderr)
-        print("~~~~~~~~~~")
-        print(traceback.print_exc(), file=sys.stderr)
-        print("~~~~~~~~~~")
+        print_traceback()
 
 ### END 
 ### 
@@ -812,9 +802,7 @@ def load_js_fixes():
         print("JS Tweaks file, 'fixes.txt' not found", file=sys.stderr)
     except Exception as e:
         print("Error loading JS Tweaks (fixes.txt) from line: " + line, file=sys.stderr)
-        print("~~~~~~~~~~")
-        print(traceback.print_exc(), file=sys.stderr)
-        print("~~~~~~~~~~")
+        print_traceback()
     return fixesdata, special_fixesdata
     
     
@@ -888,9 +876,7 @@ def write_js_fixes(fixesdata, special_fixesdata):
         print("JS Tweaks file, 'fixes.txt' not found", file=sys.stderr)
     except Exception as e:
         print("Error writing JS Tweaks (fixes.txt) from line: " + line, file=sys.stderr)
-        print("~~~~~~~~~~")
-        print(traceback.print_exc(), file=sys.stderr)
-        print("~~~~~~~~~~")
+        print_traceback()
                     
 def refresh_steam_dir():
     shutil.copy2("libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css")
@@ -916,9 +902,7 @@ def clean_slate_css():
         
     except:
         print("Was not able to completely reset libraryroot.custom.css.", file=sys.stderr)
-        print("~~~~~~~~~~")
-        print(traceback.print_exc(), file=sys.stderr)
-        print("~~~~~~~~~~")
+        print_traceback()
 
 def clear_js_working_files():
     try:
@@ -929,7 +913,5 @@ def clear_js_working_files():
             print("Local " + file + " deleted.")
     except:
         print("Was not able to remove " + file, file=sys.stderr)
-        print("~~~~~~~~~~")
-        print(traceback.print_exc(), file=sys.stderr)
-        print("~~~~~~~~~~")
+        print_traceback()
         

@@ -32,9 +32,9 @@ def library_dir():
         steamui_path = steam_path.replace("/","\\") + "\steamui"
         #print(steamui_path)
     elif OS_TYPE ==  "Darwin":
-        steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "\steamui"
+        steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "/steamui"
     elif OS_TYPE ==  "Linux":
-        steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "\steamui"
+        steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "/steamui"
     return steamui_path
 ######
 
@@ -45,7 +45,7 @@ def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fres
             for filename in files_to_copy:
                 if not os.path.isfile(filename):
                     print("Copying files from Steam\steamui...")
-                    shutil.copy2(library_dir() + "\\" + filename, filename)
+                    shutil.copy2(library_dir() + "/" + filename, filename)
             os.remove("libraryroot.beaut.js")
     except FileNotFoundError:
         print("Steam directory and/or files not found.\n" \
@@ -57,7 +57,7 @@ def beautify_js():
         if not os.path.isfile("libraryroot.beaut.js"):
             print("Opening JS file and beautifying...")
             if not os.path.isfile("libraryroot.js"):
-                shutil.copy2(library_dir() + "\\libraryroot.js", "libraryroot.js")
+                shutil.copy2(library_dir() + "/libraryroot.js", "libraryroot.js")
             
             library = jsbeautifier.beautify_file("libraryroot.js")
 
@@ -67,13 +67,13 @@ def beautify_js():
             f.close()
             print("Beautified file write finished")
     except:
-        error_exit("libraryroot.js not found") 
+        error_exit("libraryroot.js not found")
 
 #modify library.js to look for different libraryroot.js file
 def setup_library(reset=0):
     #if reset == 1 or LOCAL_DEBUG == 1:
     if not os.path.isfile("library.js"):
-        shutil.copy2(library_dir() + "\\library.js", "library.js")
+        shutil.copy2(library_dir() + "/library.js", "library.js")
     if reset == 0:
         modify_library(swap_js)
         print("library.js changed to use tweaked JS.")
@@ -100,8 +100,8 @@ def modify_library(swap_js_array):
         infile.close()
         outfile.close()
         if modified == 1:
-            shutil.copy2("library.js", library_dir() + "\\library.js")
-            print("library.js copied over to " + library_dir() + "\\library.js")
+            shutil.copy2("library.js", library_dir() + "/library.js")
+            print("library.js copied over to " + library_dir() + "/library.js")
     except:
         error_exit("library.js not found")
 
@@ -161,7 +161,7 @@ def copy_files_to_steam():
         if LOCAL_DEBUG == 0:
             files_to_copy = ["libraryreet.js", "fixes.txt"]
             for filename in files_to_copy:
-                shutil.copy2(filename, library_dir() + "\\" + filename)
+                shutil.copy2(filename, library_dir() + "/" + filename)
                 print("File " + filename + " written to " + library_dir())
                 
     except FileNotFoundError:
