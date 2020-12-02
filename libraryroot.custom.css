@@ -638,6 +638,8 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   gap: var(--GridRowGap) var(--GridColumnGap) !important;
 }
 
+}
+
 .appportrait_HoversEnabled_54PuC .appportrait_LibraryItemBox_WYgDg:hover .appportrait_UninstalledIcon_8YrRm {
   opacity: .9;
 }
@@ -672,6 +674,12 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 .appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(3) {
   opacity: var(--UninstalledGameImageOpacity);
 }
+
+/* CSS Grid height unset */
+.cssgrid_Container_DGRkX {
+  height: unset !important;
+}
+
 
 /*Responsive DLC Grid Columns */
 
