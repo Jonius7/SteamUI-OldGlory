@@ -178,7 +178,7 @@ def library_dir():
     if OS_TYPE == "Windows":
         key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
         steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
-        steamui_path = steam_path.replace("/","\\") + "\steamui"
+        steamui_path = steam_path.replace("/","/") + "\steamui"
         #print(steamui_path)
     elif OS_TYPE ==  "Darwin":
         steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "\steamui"
@@ -203,7 +203,7 @@ except FileNotFoundError:
 def is_css_patched():
     patched = False
     try:
-        with open(library_dir() + "\\css\\libraryroot.css", newline='', encoding="UTF-8") as f:
+        with open(library_dir() + "/css/libraryroot.css", newline='', encoding="UTF-8") as f:
             first_line = f.readline()
         if PATCHED_TEXT not in first_line:
             print("css\libraryroot.css not patched. Download SteamFriendsPatcher from\n" \
@@ -541,7 +541,7 @@ def add_new_css_theme(theme_filename, order, patchtext):
         if order == "before":
             print("Adding css at the start of libraryroot.custom.css...")
             with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
-                 open("themes\\" + theme_filename, "r", newline='', encoding="UTF-8") as ft, \
+                 open("themes/" + theme_filename, "r", newline='', encoding="UTF-8") as ft, \
                  open("libraryroot.custom.theme.css", "w", newline='', encoding="UTF-8") as f1:
                 for line in ft:
                     f1.write(line)
@@ -576,7 +576,7 @@ def add_new_css_theme(theme_filename, order, patchtext):
 
 def reset_html():
     try:
-        shutil.copy2("index.html.original", library_dir() + "\\" + "index.html")
+        shutil.copy2("index.html.original", library_dir() + "/" + "index.html")
         print("HTML file restored from index.html.original")
     except:
         print("Could not restore backup index.html.original. Is it missing?", file=sys.stderr)
@@ -585,14 +585,14 @@ def patch_html(theme_filename):
     try:
         if len(theme_filename) > 20:
             raise Exception('Filename too long. Please keep it to 20 characters or less.')
-        with open(library_dir() + "\\index.html", "r", newline='', encoding="UTF-8") as f, \
+        with open(library_dir() + "/index.html", "r", newline='', encoding="UTF-8") as f, \
              open("index.html", "w", newline='', encoding="UTF-8") as f1:
             first_line = f.readline()
             second_line = f.readline()
             if first_line == "<!doctype html>" + OS_line_ending() and \
                second_line == "<html style=\"width: 100%; height: 100%\">" + OS_line_ending():
                 print("Original HTML file detected.")
-                shutil.copy2(library_dir() + "\\" + "index.html", "index.html.original")
+                shutil.copy2(library_dir() + "/" + "index.html", "index.html.original")
                 ### return to start
                 f.seek(0)
                 theme_html_length = 0
@@ -608,17 +608,17 @@ def patch_html(theme_filename):
                         f1.write(stripped_line.strip())
                         theme_html_length += len(stripped_line.strip())
                 #check file sizes    
-                #print(os.stat(library_dir() + "\\index.html").st_size)
+                #print(os.stat(library_dir() + "/index.html").st_size)
                 #print(theme_html_length)
 
                 #Add filler
-                filler = filler_text(os.stat(library_dir() + "\\index.html").st_size,
+                filler = filler_text(os.stat(library_dir() + "/index.html").st_size,
                                           theme_html_length)
                 f1.write(filler)
                 
             else:
                 print("Patched HTML file detected.")
-                #print(os.stat(library_dir() + "\\index.html").st_size)
+                #print(os.stat(library_dir() + "/index.html").st_size)
                 
                 old_href = '<script src=\"library.js\"></script><link href=\"themes/.*\" rel="stylesheet\">'  
                 new_href = '<script src=\"library.js\"></script><link href=\"themes/' + theme_filename + '\" rel=\"stylesheet\">'
@@ -653,7 +653,7 @@ def patch_html(theme_filename):
         f.close()
         f1.close()
 
-        shutil.copy2("index.html", library_dir() + "\\" + "index.html")
+        shutil.copy2("index.html", library_dir() + "/" + "index.html")
         
         print("Patching HTML File successful.")
     except FileNotFoundError:
@@ -689,11 +689,11 @@ def href_rel_stylesheet(href):
 
 def copy_theme_css_file(theme_filename):
     try:
-        if not os.path.isdir(library_dir() + "\\" + "themes"):
-            os.mkdir(library_dir() + "\\" + "themes")
-            print("Created themes folder at: " + library_dir() + "\\" + "themes")
+        if not os.path.isdir(library_dir() + "/" + "themes"):
+            os.mkdir(library_dir() + "/" + "themes")
+            print("Created themes folder at: " + library_dir() + "/" + "themes")
         
-        shutil.copy2("themes\\" + theme_filename, library_dir() + "\\themes\\" + theme_filename)
+        shutil.copy2("themes/" + theme_filename, library_dir() + "/themes/" + theme_filename)
         print("Copied theme file " + theme_filename + " to " + library_dir())
         
     except FileNotFoundError:
@@ -719,10 +719,10 @@ config_replacements = {'--FontSize: 15px;' : '--FontSize: 13px;',
 
 def steam_library_compat_config():
     try:
-        if not os.path.isfile("themes\\config.css"):
-            shutil.copy2("themes\\config.css.original", "themes\\config.css")
-        with open("themes\\config.css", "r", newline='', encoding="UTF-8") as f, \
-             open("themes\\config.temp.css", "w", newline='', encoding="UTF-8") as f1:
+        if not os.path.isfile("themes/config.css"):
+            shutil.copy2("themes/config.css.original", "themes/config.css")
+        with open("themes/config.css", "r", newline='', encoding="UTF-8") as f, \
+             open("themes/config.temp.css", "w", newline='', encoding="UTF-8") as f1:
 
             for line in f:
                 for key in config_replacements:
@@ -737,9 +737,9 @@ def steam_library_compat_config():
             f.close()
             f1.close()
             
-            shutil.move("themes\\config.css", "themes\\config.css.backup")
-            shutil.copy2("themes\\config.temp.css", library_dir() + "\\" + "config.css")
-            shutil.move("themes\\config.temp.css", "themes\\config.css")
+            shutil.move("themes/config.css", "themes/config.css.backup")
+            shutil.copy2("themes/config.temp.css", library_dir() + "/" + "config.css")
+            shutil.move("themes/config.temp.css", "themes/config.css")
     except FileNotFoundError:
         print("config.css not found", file=sys.stderr)
         print("~~~~~~~~~~")
@@ -893,26 +893,26 @@ def write_js_fixes(fixesdata, special_fixesdata):
         print("~~~~~~~~~~")
                     
 def refresh_steam_dir():
-    shutil.copy2("libraryroot.custom.css", library_dir() + "\\" + "libraryroot.custom.css")
+    shutil.copy2("libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css")
     print("File " + "libraryroot.custom.css" + " written to " + library_dir())
     
-    #shutil.copy2(library_dir() + "\\licenses.txt", library_dir() + "\\licenses.txt.copy")
-    #os.remove(library_dir() + "\\licenses.txt.copy")
-    f = open(library_dir() + "\\refresh_dir.txt", "w", newline='', encoding="UTF-8")
+    #shutil.copy2(library_dir() + "/licenses.txt", library_dir() + "/licenses.txt.copy")
+    #os.remove(library_dir() + "/licenses.txt.copy")
+    f = open(library_dir() + "/refresh_dir.txt", "w", newline='', encoding="UTF-8")
     f.close()
-    os.remove(library_dir() + "\\refresh_dir.txt")
+    os.remove(library_dir() + "/refresh_dir.txt")
     
 
 def clean_slate_css():    
     try:
-        f = open(library_dir() + "\\libraryroot.empty.css", "w", newline='', encoding="UTF-8")
+        f = open(library_dir() + "/libraryroot.empty.css", "w", newline='', encoding="UTF-8")
         #f.write(OS_line_ending())
         f.close()
         
-        shutil.move(library_dir() + "\\libraryroot.custom.css", library_dir() + "\\libraryroot.custom.css.backup")
-        shutil.move(library_dir() + "\\libraryroot.empty.css", library_dir() + "\\libraryroot.custom.css")
+        shutil.move(library_dir() + "/libraryroot.custom.css", library_dir() + "/libraryroot.custom.css.backup")
+        shutil.move(library_dir() + "/libraryroot.empty.css", library_dir() + "/libraryroot.custom.css")
         print("libraryroot.custom.css in Steam directory emptied out, backup at libraryroot.custom.css.backup")
-        shutil.copy2("themes\\config.css.original", library_dir() + "\\config.css")
+        shutil.copy2("themes/config.css.original", library_dir() + "/config.css")
         
     except:
         print("Was not able to completely reset libraryroot.custom.css.", file=sys.stderr)
