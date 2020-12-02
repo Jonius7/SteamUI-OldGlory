@@ -587,8 +587,8 @@ def patch_html(theme_filename):
              open("index.html", "w", newline='', encoding="UTF-8") as f1:
             first_line = f.readline()
             second_line = f.readline()
-            if first_line == "<!doctype html>" + OS_line_ending() and \
-               second_line == "<html style=\"width: 100%; height: 100%\">" + OS_line_ending():
+            if first_line == "<!doctype html>" + "\r\n" and \
+               second_line == "<html style=\"width: 100%; height: 100%\">" + "\r\n":
                 print("Original HTML file detected.")
                 shutil.copy2(library_dir() + "/" + "index.html", "index.html.original")
                 ### return to start
