@@ -9,7 +9,7 @@ Check `/dev` branch for in-progress tweaks.
 
 <img src="https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif" alt="Alt Text" style="zoom:95%;" />
 
-[<img src="https://i.imgur.com/2TZn4ET.png" alt="Video Guide to Tweaking the Steam Library"/>](https://www.youtube.com/watch?v=7_3e9j8FFv8)
+[<img src="https://i.imgur.com/2TZn4ET.png" alt="Video Guide to Customising The Steam Library"/>](https://youtu.be/foCewvyOszQ)
 
 ### Showcase of Tweaks
 
@@ -75,7 +75,7 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 
 ## Quick Links
 
-- [Video Guide](https://www.youtube.com/watch?v=7_3e9j8FFv8)
+- [Video Guide](https://youtu.be/foCewvyOszQ)
 - [SteamUI-OldGlory Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki)
 - [GIF of tweaks](https://gyazo.com/38d0101b493741501697b4a0f5f0818f)
 - [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix)
@@ -83,7 +83,8 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 - [(Images) JS Tweaks](https://imgur.com/a/mL4QNYB)
 - [(Images) Is Steam Grid View Back?](https://imgur.com/gallery/qcIHx0l)
 - [(Images) Steam List View Proof of Concept](https://imgur.com/a/ZqvqrkR)
-- [Steam Discussions](https://steamcommunity.com/discussions/forum/0/2451595019863406679/)
+- [Steam Discussions [1]](https://steamcommunity.com/groups/for_a_better_steam_client/discussions/0/2970650017896633625/)
+- [Steam Discussions [2]](https://steamcommunity.com/discussions/forum/0/2451595019863406679/)
 
 
 
@@ -107,7 +108,7 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 
 ## steam-library Support
 
-Shiina's steam-library theme is included as one of the starting themes you can choose from.
+Shiina's **steam-library** theme is included as one of the starting themes you can choose from.
 
 https://github.com/AikoMidori/steam-library
 
@@ -129,14 +130,14 @@ To debug the Steam Library yourself, run Steam with the ` -dev` tag.
 
 - Create a shortcut to `Steam` -> `Right Click` -> `Properties`.
 - In `Target`, after `Steam.exe"` add `  -dev` so the end of Target looks like this: `Steam.exe" -dev`
-- After opening Steam, open up the Dev Tools by clicking in the library window and pressing `F12`
+- After opening Steam, open up the Dev Tools by clicking in the library window and pressing `F12`.
 
 #### Build `old_glory`
 
 Requires Python 3.8+
 
 `pyinstaller -w --hidden-import six --icon=steam_oldglory.ico --clean --onefile old_glory.spec`
-The `.spec` file is in the repository for redundancy's sake.
+The `.spec` file is included in the repository.
 
 Sometimes you may need to install `pyinstaller` like this:\
 [Building PyInstaller Bootloader](https://pyinstaller.readthedocs.io/en/stable/bootloader-building.html)	 [Windows Compilers](https://wiki.python.org/moin/WindowsCompilers#Which_Microsoft_Visual_C.2B-.2B-_compiler_to_use_with_a_specific_Python_version_.3F)
