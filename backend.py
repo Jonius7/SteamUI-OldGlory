@@ -191,19 +191,6 @@ def print_traceback():
     print(traceback.print_exc(), file=sys.stderr)
     print("~~~~~~~~~~")
 
-#Working Directory
-#if not os.path.exists('config'):
-#    os.makedirs('config')
-'''
-try:
-    directory = "\config"
-    os.chdir(os.getcwd() + directory)
-except FileNotFoundError:
-    print("Directory " + directory + " not found", file=sys.stderr)
-'''
-
-
-
 ### Check CSS Patched
 def is_css_patched():
     patched = False
@@ -218,6 +205,7 @@ def is_css_patched():
         f.close()
     except:
         print("css\libraryroot.css not found", file=sys.stderr)
+        print_traceback()
     return patched
 
 
@@ -421,13 +409,10 @@ def css_line_parser(line):
             default = ""
             if "/* Default: " in comment:
                 comment_m = comment.split("/* Default: ")[1].split(".", 1)
-                #print(comment_m)
                 default = comment_m[0].lstrip()
-                #print(comment_m[1].strip()[:-2])
                 desc = comment_m[1].split("*/")[0].strip()
             else:
                 default = value[0]
-                #print(comment)
                 desc = comment.split("/*")[1].split("*/")[0].strip()
                 
             #print(name[0] + "  |  " + default + "  |  " + value[0] + "  |  " + desc)
@@ -440,14 +425,13 @@ def css_line_parser(line):
 #root writer
 #from CSS_CONFIG dictionary to an array of lines of CSS to be written
 def css_root_writer(css_config):
-    #print("START ROOT WRITER")
     indent = "  "
     css_lines = []
     css_lines.append(":root {")
     for key in css_config:
         #print(key)
         css_lines.append(indent + "/* " + key + " */")
-        #
+
         for prop in css_config[key]:
             css_lines.append(indent + prop + ": "
                              + css_config[key][prop]["current"] + ";  "
@@ -456,7 +440,6 @@ def css_root_writer(css_config):
         css_lines.append("")
     del css_lines[-1]
     css_lines.append("}")
-    #print(css_lines)
     return css_lines
 
 '''
@@ -505,7 +488,6 @@ def remove_current_css_themes(theme_filename, order):
                 
                 for theme in BEFORE_THEME:
                     if BEFORE_THEME[theme]["start"] in line:
-                        #print("ROUND 1")
                         to_remove = 1
                         print("Removing existing themes in libraryroot.custom.css...")
                     elif BEFORE_THEME[theme]["end"] in line:
@@ -625,15 +607,9 @@ def patch_html(theme_filename):
                 f.seek(0)               
                 for line in f:
                     match = re.search(old_href, line)
-                    #print("MATCH")
-                    #print(match.string)
-                    #print(match)
                     if match:
                         theme_line = re.sub(old_href, new_href, line)
-                        #print(theme_line)
                         length_diff = len(theme_line) - len(match.string)
-                        #print("DIFF")
-                        #print(length_diff)
                         if length_diff <= 0:
                             theme_line += filler_text(len(match.string), len(theme_line))
                         elif length_diff > 0:
@@ -642,9 +618,6 @@ def patch_html(theme_filename):
                             else:
                                 theme_line = theme_line[0:-length_diff]
                         f1.write(theme_line)
-                        
-                        #print(len(theme_line))
-                        #print(len(theme_line.rstrip()))
                     else:
                         f1.write(line)
   
@@ -783,11 +756,6 @@ def load_js_fixes():
                         for i, value in enumerate(size_values):
                             sizes_dict[sizes[i]] = value
                         special_fixesdata[fixname] = sizes_dict
-                        #print(special_fixesdata)
-                        #print("!~!$!@$~!$!")
-                        #print(re.sub("n = ([0-9]+)", "n = AAA", line_segments[1]))
-                        #print("~~~~~~~~")
-                        #print("  ".join(line_segments))
         
                 elif readfix == 0:
                     state = 0
