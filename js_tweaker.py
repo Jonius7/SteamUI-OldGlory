@@ -6,6 +6,8 @@ import platform
 import os
 import sys
 import shutil
+import traceback
+import re
 from jsmin import jsmin
 import time
 
@@ -16,8 +18,8 @@ OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
     import winreg
 
-swap_js = {'"libraryroot"}[n=u]||n': '"libraryreet"}[n=u]||n'}
-swapback_js = {'"libraryreet"}[n=u]||n': '"libraryroot"}[n=u]||n'}
+swap_js = {'"libraryroot"\}\[([a-z])=([a-z])\]\|\|([a-z])': '"libraryreet"}[\\1=\\2]||\\3'}
+swapback_js = {'"libraryreet"\}\[([a-z])=([a-z])\]\|\|([a-z])': '"libraryroot"}[\\1=\\2]||\\3'}
 
 fixes_dict = {}
 
@@ -90,7 +92,8 @@ def modify_library(swap_js_array):
         with open('library.js') as infile:
             for line in infile:
                 for src, target in swap_js_array.items():
-                    new_line = line.replace(src, target)
+                    new_line = re.sub(src, target, line)
+                    #new_line = line.replace(src, target)
                     if new_line != line:
                         modified = 1
                 lines.append(new_line)
@@ -171,6 +174,9 @@ def copy_files_to_steam():
 
 def error_exit(errormsg):
     print(errormsg, file=sys.stderr)
+    print("~~~~~~~~~~")
+    print(traceback.print_exc(), file=sys.stderr)
+    print("~~~~~~~~~~")
     input("Press Enter to continue...")
     sys.exit()
     
