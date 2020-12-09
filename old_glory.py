@@ -197,9 +197,7 @@ class StartPage(tk.Frame):
         self.dropdown6_value = tk.IntVar()
         self.dropdown6 = ttk.Combobox(frameCheck,
                                  font="TkDefaultFont",
-                                 values=["steam-library (Shiina)",
-                                         "Dark Library (Thespikedballofdoom)",
-                                         "Acrylic Theme (EliteSkylu)"],
+                                 values=self.getListOfThemeNames(),
                                  state="readonly",
                                  textvariable=self.dropdown6_value,
                                  width=30)
@@ -292,6 +290,12 @@ class StartPage(tk.Frame):
         return getattr(self, getter)
     def setChangeTheme(self, event):
         self.change_theme = 1
+
+    def getListOfThemeNames(self):
+        themes = []
+        for theme in THEME_MAP:
+            themes.append(theme)
+        return themes
 
 class PageOne(tk.Frame):
     def __init__(self, parent, controller):
@@ -609,14 +613,23 @@ THEME_MAP = {"steam-library (Shiina)" :
               "order" : "after",
               "patchtext" :
                   {"start" : "Acrylic Theme by Jonius7",
-                  "end" : "END CSS for Acrylic Theme"}}
+                  "end" : "END CSS for Acrylic Theme"}},
+             "Crisp Cut" :
+             {"filename" : "crispcut.css",
+              "order" : "after",
+              "patchtext" :
+                  {"start" : "Crisp Cut Theme by Jonius7",
+                  "end" : "END CSS for Crisp Cut Theme"}},
              }
 
 def dropdown_click(event, page):
     theme_name = event.widget.get()
-    if theme_name in THEME_MAP:
+    theme_image_path = resource_path("theme_" + THEME_MAP[theme_name]["filename"][0:-4] + ".png")
+    if theme_name in THEME_MAP and os.path.isfile(theme_image_path):
         #change_image
-        change_image(page.image1, resource_path("theme_" + THEME_MAP[theme_name]["filename"][0:-4] + ".png"))  
+        change_image(page.image1, theme_image_path)
+    else:
+        change_image(page.image1, resource_path("no_preview.png"))
         
 ### INSTALL Functions
 ### ================================
