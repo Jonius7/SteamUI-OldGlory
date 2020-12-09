@@ -1,0 +1,94 @@
+:root {
+	--SectionHeaderColor: #dddddd;
+	--SectionFontColor1: #1d1d1d;
+	--SectionFontColor2: #0c0c0f;
+	--LinksFontColor: #0d0d0d;
+}
+
+
+/* full background color */
+.appdetails_Glassy_3Fmxx.appdetails_ScrollContainer_2l416 {
+    /*background-image: radial-gradient(100% 100% at 45% 35%, #095aef 0%, #151616 100%);*/
+	background-image: radial-gradient(100% 100% at top left, #e7ebf1 0%, #151616 100%);
+}
+
+/* background glass */
+.appdetailsoverview_Glassy_2OOzY .appdetailsoverview_Backdrop_1Qa-A {
+    /*background: linear-gradient(0deg, rgba(229, 230, 241, 0) 0%, rgba(217, 221, 232, 0.2) 35%, rgba(234, 233, 245, 0.5) 100%);*/
+}
+
+.appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
+    /*background: none;*/
+}
+
+
+/* section top gradient */
+.appdetailssection_Highlight_38t1m {
+    background: linear-gradient(to right, #5f7d82 0%, #0f2650 95%);
+}
+
+/* section bottom gradient */
+.appdetailssection_AppDetailsSectionContainer_31ptF.appdetailssection_RightColumnSection_3KfxI {
+	/*background: radial-gradient(100% 100% at top left, rgba(60,60,120,0.8) 50%, rgba(120,120,120,0.8) 100%);*/
+    background: radial-gradient(100% 100% at top left, rgba(240,240,240,0.8) 50%, rgba(120,120,120,0.8) 100%);
+	box-shadow: 6px 6px 2px #101010ee;
+	
+}
+
+div.appdetailsoverview_RightColumn_2aor4 * {
+	color: var(--SectionFontColor2) !important;
+}
+
+
+
+
+/* percent text */
+.appdetailsachievementssection_UnlockedLabelPercent_14kZV {
+    color: #111;
+	font-weight: 500;
+}
+
+
+.appdetailssectionheader_SectionHeader_1Q2q_ {
+    color: var(--SectionHeaderColor);
+}
+
+.appactivityday_AppActivityDay_S2Fu9 .appactivityday_AppActivityDate_19LfM {
+    color: var(--SectionHeaderColor);
+}
+
+/* font colors */
+.appdetailsfriendssection_Subsection_39bm0 .appdetailsfriendssection_SubsectionHeader_nTb1N {
+    color: var(--SectionFontColor1);
+    font-weight: 400;
+}
+
+button.DialogButton {
+    color: var(--SectionFontColor1) !important;
+}
+
+button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_BottomRight_3nJyY:hover {
+    background-color: rgba(50, 57, 66, 0.356);
+}
+
+.appdetailsprimarylinkssection_LinkInner_7k4qm .appdetailsprimarylinkssection_Text_2sNDj {
+    /*color: var(--LinksFontColor);
+	font-weight: 500;*/
+}
+
+.appdetailsachievementssection_UnachievedSection_3ca11 .appdetailsachievementssection_Label_uoFNF {
+    color: var(--SectionFontColor1);
+}
+
+.appdetailsachievementssection_Featured_1j_gj .appdetailsachievementssection_TextSection_1s_9c .appdetailsachievementssection_Desc_2gLHb {
+    color: var(--SectionFontColor1);
+}
+
+.appdetailsachievementssection_Featured_1j_gj .appdetailsachievementssection_TextSection_1s_9c .appdetailsachievementssection_Name_39Y01 {
+	color: var(--SectionFontColor2);
+}
+
+.appdetailsadditionalcontentsection_AdditionalItem_11iUU .appdetailsadditionalcontentsection_Title_QDrH3 {
+	color: var(--SectionFontColor2);
+}
+
