@@ -20,21 +20,20 @@ DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.4.5 Beta"
+        self.version = "v0.9.4.8-pre1 Beta"
 
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
         container = tk.Frame(self)
-        windowW = 740
-        windowH = 620
+        windowW = 760
+        windowH = 660
         screen_width = container.winfo_screenwidth()
         screen_height = container.winfo_screenheight()
         windowX = (screen_width / 2) - (windowW / 2)
         windowY = (screen_height / 2) - (windowH / 2)
-        #self.geometry((str(windowW)+'x'+str(windowH)+'+650+100'))
         self.geometry(f'{windowW}x{windowH}+{int(windowX)}+{int(windowY)}')
         self.minsize(width=windowW, height=windowH)
-        self.maxsize(width=windowW, height=windowH)
+        self.maxsize(width=screen_width, height=screen_height)
         container.pack(side="top", fill="both", expand = True)
         
         if OS_TYPE == "Windows":
