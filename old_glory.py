@@ -546,8 +546,7 @@ class StderrRedirector(IORedirector):
 
 ### Checkbox Validation - Disable
 ### ================================
-### may rewrite, so array of checkboxes instead of separate arguments
-### rewritten, but still the two functions
+### still the two functions, instead of 1, probably due to init
 def css_cb_check(event, var1, checks):
     if var1.get() == 0:
         for check in checks:
@@ -699,7 +698,6 @@ def get_settings_from_gui(event, page):
         print("libraryroot.custom.css not found", file=sys.stderr)
 
 def apply_changes_to_config(controller, settings_values):
-    #print("GOINGOEIGE")
     #print(settings_values.keys())
     if "EnableVerticalNavBar" in settings_values.keys():
         controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])

@@ -467,14 +467,21 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   color: rgba(255, 255, 255, 0.5);
 }
 
+
+/* LEFT COLUMN */
+
 /* Game AppPage Activity - Friends
    ========================================================================== */
 /* Remove Activity item margin */
 
 .appactivityday_AppActivityDay_S2Fu9 {
   margin-bottom: 0px;
+  margin-top: -29px;
 }
 
+.appdetailssection_AppDetailsSectionContainer_31ptF.appdetailssection_AppDetailsSectionHasLabel_2G5B7 > div > div:nth-child(2) {
+  margin-top: 0px;
+}
 
 /* Activity Achievement Unlocked to 2 columns */
 
@@ -496,14 +503,18 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   margin-left: auto;
 }
 
-
-
 /* Game AppPage Activity - Events
    ========================================================================== */
+   
+/* Activity Heading Padding */
+.appdetailsactivitysection_ActivityFeedContainer_3yTl3 > div {
+  padding-left: 0px;
+}
+
 /* Remove Activity Event margin */
 
 .appactivityday_Event_UVeN0 {
-  margin-top: 0px;
+  margin-top: 3px;
 }
 
 /* Font size for large event title */
@@ -560,6 +571,11 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 .appactivityday_PartnerEventMediumImage_TextColumn_3dJ4B {
   padding: 0px;
   display: flex;
+}
+
+/* margin bottom for trading card activity */
+.appactivityday_Event_UVeN0 .appactivityday_EventBody_NEMXh {
+    margin-bottom: 12px;
 }
 
 /* Game AppPage Navigation Bar
