@@ -1,4 +1,6 @@
 import unittest
+from pathlib import Path
+sys.path.append(str(Path('.').absolute().parent))
 import old_glory
 import backend
 
