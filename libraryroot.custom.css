@@ -9,7 +9,7 @@
   --WhatsNewOrder: 2;  /* Default: 0. Set 0 to put to top, 1 or higher to put to bottom */
 
   /* Left Sidebar - Games List */
-  --HoverOverlayPosition: unset;  /* Default: 0. Set 0 if default JS, unset if tweaked JS */
+  --HoverOverlayPosition: 0;  /* Default: 0. Set 0 if default JS, unset if tweaked JS */
   --GameListEntrySize: 16px;  /* Default: 16px.  */
   --CategoryNameHeaderSize: 13px;  /* Default: 13px.  */
   --GameListZoomSize: 75%;  /* Default: 100%. 75% highly recommended for Game List similar to old Library UI. Affects GameListEntrySize and CategoryNameHeaderSize */

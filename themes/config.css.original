@@ -78,7 +78,7 @@
     /**************/
     /* GAME ICONS */
     /**************/
-    --GameIcons: none; /* Set to [ none | block ] */
+    --GameIcons: block; /* Set to [ none | block ] */
 
 
     /**********************/
