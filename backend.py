@@ -271,7 +271,7 @@ def validate_settings(settings):
 
 ###
 ### CSS functions (libraryroot.custom.css)
-###
+### This writes more than just settings, maybe split or rename functions
 
 def write_css_settings(settings, settings_values, root_config):
     try:

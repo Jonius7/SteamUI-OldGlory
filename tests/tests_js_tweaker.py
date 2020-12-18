@@ -1,4 +1,5 @@
 import unittest
+import sys
 from pathlib import Path
 sys.path.append(str(Path('.').absolute().parent))
 import js_tweaker

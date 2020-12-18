@@ -22,7 +22,7 @@ DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.5 Beta"
+        self.version = "v0.9.5.1 Beta"
         self.release = "4.1"
 
         ### Window, Title, Icon setup
@@ -107,7 +107,7 @@ class StartPage(tk.Frame):
             parentFrame=frameCheck,
             page=self,
             name="Install CSS Tweaks",
-            image="full_layout.png",
+            image="images/full_layout.png",
             tags=["CSS"])
         mainoption1 = mo1.returnMainOption()
         mainoption1.grid(row=0, column=1, sticky=W)
@@ -123,7 +123,7 @@ class StartPage(tk.Frame):
             parentFrame=frameCheck,
             page=self,
             name="  \u2937 Box Play Button",
-            image="play_button_box.png",
+            image="images/play_button_box.png",
             tags=["CSS"])
         mainoption2 = mo2.returnMainOption()
         mainoption2.grid(row=1, column=1, sticky=W)
@@ -141,7 +141,7 @@ class StartPage(tk.Frame):
             parentFrame=frameCheck,
             page=self,
             name="  \u2937 Vertical Nav Bar",
-            image="vertical_nav_bar.png",
+            image="images/vertical_nav_bar.png",
             tags=["CSS", "JS"])
         mainoption3 = mo3.returnMainOption()
         mainoption3.grid(row=2, column=1, sticky=W)
@@ -159,7 +159,7 @@ class StartPage(tk.Frame):
             parentFrame=frameCheck,
             page=self,
             name="    \u2937 Classic Layout",
-            image="classic_layout.png",
+            image="images/classic_layout.png",
             tags=["CSS", "JS"])
         mainoption4 = mo4.returnMainOption()
         mainoption4.grid(row=3, column=1, sticky=W)
@@ -174,7 +174,7 @@ class StartPage(tk.Frame):
             parentFrame=frameCheck,
             page=self,
             name="  \u2937 Landscape Game Images",
-            image="landscape_images.png",
+            image="images/landscape_images.png",
             tags=["CSS", "JS"])
         mainoption5 = mo5.returnMainOption()
         mainoption5.grid(row=4, column=1, sticky=W)
@@ -191,7 +191,7 @@ class StartPage(tk.Frame):
             parentFrame=frameCheck,
             page=self,
             name="Library Theme",
-            image="theme_shiina.png",
+            image="images/theme_shiina.png",
             tags=["CSS"])
         mainoption6 = mo6.returnMainOption()
         mainoption6.grid(row=5, column=1, sticky=W)
@@ -213,7 +213,7 @@ class StartPage(tk.Frame):
         label_end.grid(row=7, column=0, columnspan=2)
 
         ###
-        self.image1 = add_img(frameCheck, resource_path('full_layout.png'))
+        self.image1 = add_img(frameCheck, resource_path('images/full_layout.png'))
         self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")
 
     ### LOG FRAME
@@ -222,7 +222,7 @@ class StartPage(tk.Frame):
 
         ### Text
         entry1 = ttk.Entry(frameLog)
-        self.text1 = tk.Text(entry1, height=12)
+        self.text1 = tk.Text(entry1, height=12, width=92)
         self.text1.configure(font=("Arial",10))
 
         ### REDIRECT STDOUT STDERR
@@ -230,7 +230,7 @@ class StartPage(tk.Frame):
             sys.stdout = StdoutRedirector(self.text1)
             sys.stderr = StderrRedirector(self.text1)
         
-        self.text1.pack()
+        self.text1.pack(expand="yes",fill="x")
         entry1.grid(row=0, column=0)
 
         ###
@@ -465,7 +465,7 @@ def confirm_frame(page, controller):
     button2.grid(row=0, column=2, padx=5, sticky="NSEW")
 
     ###
-    settings_image = open_img(globals()["resource_path"]('settings.png'), 24)
+    settings_image = open_img(globals()["resource_path"]('images/settings.png'), 24)
     button3 = ttk.Button(frameConfirm,
                        #text="GG",
                        image=settings_image,
@@ -608,7 +608,7 @@ class MainOption(tk.Frame):
 
         for i, tagName in enumerate(kwargs["tags"], start=1):
             leftPadding = (5, 0) if i == 1 else 0
-            tag = add_img(self.tagFrame, globals()["resource_path"]('tag_'+tagName+'.png'), width=50)
+            tag = add_img(self.tagFrame, globals()["resource_path"]('images/tag_'+tagName+'.png'), width=50)
             tag.grid(row=0, column=i, sticky=W, padx=leftPadding)
             self.tags[self.name]=tag
     def returnMainOption(self):
@@ -644,12 +644,12 @@ THEME_MAP = {"steam-library (Shiina)" :
 
 def dropdown_click(event, page):
     theme_name = event.widget.get()
-    theme_image_path = resource_path("theme_" + THEME_MAP[theme_name]["filename"][0:-4] + ".png")
+    theme_image_path = resource_path("images/theme_" + THEME_MAP[theme_name]["filename"][0:-4] + ".png")
     if theme_name in THEME_MAP and os.path.isfile(theme_image_path):
         #change_image
         change_image(page.image1, theme_image_path)
     else:
-        change_image(page.image1, resource_path("no_preview.png"))
+        change_image(page.image1, resource_path("images/no_preview.png"))
         
 ### INSTALL Functions
 ### ================================
@@ -740,16 +740,9 @@ def apply_changes_to_config(controller, settings_values):
 
 ### Write CSS settings (comment out sections) + run js_tweaker if needed
 def apply_settings_from_gui(page, controller, settings_to_apply, settings_values):
-    # Write to libraryroot.custom.css
-    print("Applying CSS settings...")
-    page.text1.update_idletasks()
-    backend.write_css_settings(settings_to_apply, settings_values, controller.css_config)
-    page.text1.update_idletasks()
 
-    ### Run js_tweaker if required
-    
+    ### Check if js required
     change_javascript = 0
-    #print(settings_values)
     for setting in settings_values:
         #print("javascript" in CONFIG_MAP[setting])
         if "javascript" in CONFIG_MAP[setting]:
@@ -757,10 +750,20 @@ def apply_settings_from_gui(page, controller, settings_to_apply, settings_values
             and int(page.loaded_config[setting]) != page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get():
                 #print(int(page.loaded_config[setting]))
                 #print(page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get())
+                css_config_js_enabled(controller.css_config)
                 change_javascript = 1
     if controller.js_gui_changed == 1:
+        css_config_js_enabled(controller.css_config)
         change_javascript = 1
-        
+
+    # Write to libraryroot.custom.css
+    print("Applying CSS settings...")
+    page.text1.update_idletasks()
+    backend.write_css_settings(settings_to_apply, settings_values, controller.css_config)
+    page.text1.update_idletasks()
+    
+    ### Run js_tweaker if required
+
     if change_javascript == 1:
         thread = Thread(target = run_js_tweaker, args = (page.text1, ))
         thread.start()
@@ -1226,6 +1229,7 @@ class JSFrame(tk.Frame):
 def reset_all_tweaks(event, controller):
     js_tweaker.setup_library(1)
     backend.clean_slate_css()
+    css_config_reset(controller.css_config)
     backend.reset_html()
     backend.clear_js_working_files()
 
@@ -1237,6 +1241,17 @@ def remake_js(event, controller):
     #thread.join()
     #run_js_tweaker(controller.frames[StartPage].text1)
 
+
+### Set some CSS values back to "default"
+### ================================
+### Mainly HoverPosition
+def css_config_reset(css_config):
+    css_config["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"] = "0"
+    return css_config
+
+def css_config_js_enabled(css_config):
+    css_config["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"] = "unset"
+    return css_config
 
 ### Hyperlinks
 

@@ -18,9 +18,9 @@ scrollTop: 0  scrollTop: 30
 e.m_nScrollTop = 0, e.m_elTarget  e.m_nScrollTop = 30, e.m_elTarget
 
 ### === Change Game Image Grid Sizes (optional) - default widths 111, 148, 222 ===
-(n = 111, r = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {  (n = 80, r = !0) : 2 == e ? n = 120 : 3 == e && (n = 160), {
-for (var n = [], r = 2;  /*for (var n = [], r = 2;
-.apply(console, Object(l.g)([e, t], n))  .apply(console, Object(l.g)([e, t], n))*/
+###(n = 111, r = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {  (n = 111, r = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {
+###for (var n = [], r = 2;  /*for (var n = [], r = 2;
+###.apply(console, Object(l.g)([e, t], n))  .apply(console, Object(l.g)([e, t], n))*/
 
 ### === Vertical Nav Bar (beta, working) ===
 ###x: c,  x: 0,
@@ -31,6 +31,11 @@ for (var n = [], r = 2;  /*for (var n = [], r = 2;
 ###eAssetType: 0,  eAssetType: 3,
 ###childHeight: 1.5 * n,  childHeight: n * 43 / 92,
 ###o = e.nHeight,  o = e.nWidth * 43 / 92,
+###height: l.nItemHeight + r + "px"  minHeight: 125 + "px"
+###height: s.nItemHeight + a + "px"  minHeight: 125 + "px"
+###2.108 * l.nItemWidth  Math.max(2.108 * l.nItemWidth, 270)
+###2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
+###height: o + "px"  height: i = 0 === (r = t) ? Math.max(o, 150) + "px" : o + "px"
 
 ### === Stop What's New Events from Loading (working, needs more testing) ===
 ###.b.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",

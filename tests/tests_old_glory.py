@@ -1,5 +1,7 @@
 import unittest
+
 from pathlib import Path
+import sys
 sys.path.append(str(Path('.').absolute().parent))
 import old_glory
 import backend
@@ -30,7 +32,7 @@ class TestApplyCssValues(unittest.TestCase):
             ["block", "black"])
     '''
 
-
+    '''
     def test_simple_get_item(self):
         self.assertEqual(
             old_glory.get_item("--WhatsNew", {"--WhatsNew" : "block"}),
@@ -41,7 +43,18 @@ class TestApplyCssValues(unittest.TestCase):
         self.assertEqual(
             old_glory.get_item("--WhatsNew", backend.CSS_CONFIG),
             "block")
+    '''
+    def test_css_config_reset(self):
+        previous_value = backend.CSS_CONFIG["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"]
+        self.assertEqual(
+            "0",
+            old_glory.css_config_reset(backend.CSS_CONFIG)["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"])
 
+    def test_css_config_js(self):
+        previous_value = backend.CSS_CONFIG["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"]
+        self.assertEqual(
+            "unset",
+            old_glory.css_config_js_enabled(backend.CSS_CONFIG)["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"])
 
         
 class BlankClass(object):
