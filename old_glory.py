@@ -22,7 +22,7 @@ DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.5.1 Beta"
+        self.version = "v0.9.5.2 Beta"
         self.release = "4.1"
 
         ### Window, Title, Icon setup
@@ -39,8 +39,7 @@ class OldGloryApp(tk.Tk):
         self.maxsize(width=screen_width, height=screen_height)
         container.pack(side="top", fill="both", expand = True)
         
-        if OS_TYPE == "Windows":
-            self.iconbitmap(resource_path('steam_oldglory.ico'))
+        add_window_icon(self)
         self.wm_title("SteamUI-OldGlory Configurer")        
 
         ### Default Font
@@ -649,7 +648,7 @@ def dropdown_click(event, page):
         #change_image
         change_image(page.image1, theme_image_path)
     else:
-        change_image(page.image1, resource_path("images/no_preview.png"))
+        change_image(page.image1, resource_path("images/crisp_cut.png"))
         
 ### INSTALL Functions
 ### ================================
@@ -840,20 +839,24 @@ def reload_click(event, controller):
 ### Image Functions
 ### ================================
 def open_img(filename, width=350):
-    x = filename
-    img = Image.open(x)
-    new_width = width
-    new_height = int(new_width * img.height / img.width)
-    img = img.resize((new_width, new_height), Image.ANTIALIAS)
-    img = ImageTk.PhotoImage(img)
-    return img
+    try:
+        x = filename
+        img = Image.open(x)
+        new_width = width
+        new_height = int(new_width * img.height / img.width)
+        img = img.resize((new_width, new_height), Image.ANTIALIAS)
+        img = ImageTk.PhotoImage(img)
+        return img
+    except:
+        print("Unable to add image: " + filename, file=sys.stderr)
+        print(traceback.print_exc(), file=sys.stderr)
 
 def add_img(frame, filename, width=350):
     img = open_img(filename, width)
     panel = tk.Label(frame, image=img)
     panel.image = img
-    return panel
-
+    return panel 
+        
 def change_image(label, filename):
     img = open_img(filename)
     label.configure(image=img)
@@ -1307,8 +1310,7 @@ def settings_window(event, controller):
     settings.geometry(f'{windowW}x{windowH}+{int(windowX)}+{int(windowY)}')
     settings.wm_title("Settings and About")
     
-    if OS_TYPE == "Windows":
-        settings.iconbitmap(resource_path('steam_oldglory.ico'))
+    add_window_icon(settings)
     
     settings.tkraise(controller)
 
@@ -1417,6 +1419,19 @@ def settings_window(event, controller):
     
     
 ### ================================
+
+def add_window_icon(window):
+    icon_filename = 'steam_oldglory.ico'
+    try:
+        if OS_TYPE == "Windows":
+            window.iconbitmap(resource_path(icon_filename))
+        elif OS_TYPE == "Linux":
+            icon = PhotoImage(file=icon_filename)   
+            root.tk.call('wm', 'iconphoto', root._w, icon)
+    except:
+        print("Failed to load icon: " + icon_filename, file=sys.stderr)
+        print(traceback.print_exc(), file=sys.stderr)
+        
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """

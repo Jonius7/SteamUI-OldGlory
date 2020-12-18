@@ -1,5 +1,6 @@
 :root {
-	--SectionHeaderColor: #dddddd;
+	--LightSectionColor1: #dddddd;
+	--LightSectionColor2: #8a8a8a;
 	--SectionFontColor1: #1d1d1d;
 	--SectionFontColor2: #0c0c0f;
 	--LinksFontColor: #0d0d0d;
@@ -9,12 +10,12 @@
 /* full background color */
 .appdetails_Glassy_3Fmxx.appdetails_ScrollContainer_2l416 {
     /*background-image: radial-gradient(100% 100% at 45% 35%, #095aef 0%, #151616 100%);*/
-	background-image: radial-gradient(100% 100% at top left, #e7ebf1 0%, #151616 100%);
+	background-image: radial-gradient(100% 100% at top left, rgba(231,235,241,0.2) 0%, rgba(160,162,168,0.4) 10%, rgba(21, 22, 22, 1) 100%);
 }
 
 /* background glass */
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_Backdrop_1Qa-A {
-    background: linear-gradient(180deg, rgba(40, 41, 49, 0.2) 0%, rgba(22,22,22, 1) 10%, rgba(0,0,0,1) 95%, rgba(22,22,23,0) 100%);
+	background: linear-gradient(180deg, rgba(40, 41, 49, 0.2) 0%, rgba(22,22,22, 0.7) 10%, rgba(33,33,35,0.7) 92%, rgba(22,22,23,0) 100%);
 }
 
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
@@ -42,15 +43,15 @@
 }
 
 .appdetailssectionheader_Label_1SQ30 {
-    color: var(--SectionHeaderColor) !important;
+    color: var(--LightSectionColor1) !important;
 }
 
 .appdetailssectionheader_Label_1SQ30 * {
-    color: var(--SectionHeaderColor) !important;
+    color: var(--LightSectionColor1) !important;
 }
 
 div.appactivityday_AppActivityDay_S2Fu9 .appactivityday_AppActivityDate_19LfM {
-    color: var(--SectionHeaderColor) !important;
+    color: var(--LightSectionColor1) !important;
 }
 
 /* Workshop */
@@ -60,16 +61,16 @@ div.appactivityday_AppActivityDay_S2Fu9 .appactivityday_AppActivityDate_19LfM {
 }
 
 button.DialogButton._DialogLayout.Secondary.appdetailsworkshopsection_SpacedButton_36eP4 {
-	color: var(--SectionHeaderColor) !important;
+	color: var(--LightSectionColor1) !important;
 }
 
 .appdetailsworkshopsection_ButtonContainer_2LXfs * {
-	color: var(--SectionHeaderColor) !important;
+	color: var(--LightSectionColor1) !important;
 }
 
 /* Event */
 
-.appactivityday_PartnerEvent_1AYE1 {
+.appactivityday_PartnerEvent_1AYE1, .appactivityday_PartnerEventLargeImage_Container_Libri {
 	background: radial-gradient(100% 100% at top left, rgba(240,240,240,0.8) 50%, rgba(120,120,120,0.8) 100%);
 	box-shadow: 6px 6px 2px #101010ee;
     border: 0;
@@ -90,9 +91,18 @@ button.DialogButton._DialogLayout.Secondary.appdetailsworkshopsection_SpacedButt
 }
 
 .comment_thread_RatingBar_1yWgP * {
-	color: var(--SectionHeaderColor) !important;
-	fill: var(--SectionHeaderColor) !important;
+	color: var(--LightSectionColor1) !important;
+	fill: var(--LightSectionColor1) !important;
 }
+
+.appactivityday_EventHeadline_QCKBq * {
+    color: var(--LightSectionColor2) !important;
+}	
+
+.appactivityday_ActorName_1t1iy > .personanameandstatus_playerName_nOdcT {
+    color: var(--LightSectionColor1) !important;
+}
+
 
 
 /* Play bar */
@@ -103,16 +113,30 @@ button.DialogButton._DialogLayout.Secondary.appdetailsworkshopsection_SpacedButt
 
 /* Navigation bar */
 
+.appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v > div {
+	margin: 0px 0px 8px 0px;
+}
+
+.appdetailsprimarylinkssection_LinksSection_3-V8v .appdetailsprimarylinkssection_LinksSectionBody_25f0f {
+    padding: 0px 26px 3px 20px !important;
+}
+
+.appdetailsprimarylinkssection_LinksSection_3-V8v {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+
 .appdetailssection_Body_5uvIN.appdetailsprimarylinkssection_LinksSectionBody_25f0f {
     /*background: radial-gradient(100% 100% at top left, rgba(240,240,240,0.4) 50%, rgba(120,120,120,0.2) 100%);*/
-	background: radial-gradient(100% 100% at top left, rgba(95,125,130,0.8) 0%, rgba(15,38,80,0.8) 95%);
+	background: radial-gradient(100% 100% at top left, rgba(15,38,80,0.8) 88%, rgba(10,33,75,0.8) 98%);
 	/*background-image: radial-gradient(100% 100% at top left, #e7ebf1 0%, #151616 100%);*/
     box-shadow: 6px 6px 2px #101010ee;
     
 }
 
 .appdetailssection_Body_5uvIN.appdetailsprimarylinkssection_LinksSectionBody_25f0f * {
-	color: #f0fcff;
+	color: var(--LightSectionColor1);
 }
 
 /* Achievements */
@@ -122,5 +146,10 @@ button.DialogButton._DialogLayout.Secondary.appdetailsworkshopsection_SpacedButt
 }
 
 .appdetailsachievementssection_AdditionalItem_2aVnD.appdetailsachievementssection_RemainderContainer_lZ2c4 * {
-    color: var(--SectionHeaderColor) !important;
+    color: var(--LightSectionColor1) !important;
+}
+
+/* Hover */
+button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_BottomRight_3nJyY:hover {
+	background-color: rgba(151, 163, 178, 0.358);
 }
