@@ -1,5 +1,6 @@
 ## CSS Changelog
 
+**v1.5** Fixes for Vertical Nav Bar, Classic Layout, HOME page shelf height \
 **v1.4** Fix Vertical Nav Bar, release with GUI for SteamUI-OldGlory v4 \
 **v1.3** Some changes to work with GUI \
 **v1.2** Standardised CSS variable format \

@@ -1,4 +1,4 @@
-/* SteamUI-OldGlory CSS Tweaks v1.4
+/* SteamUI-OldGlory CSS Tweaks v1.5
    by Jonius7 
 */
 
@@ -628,11 +628,6 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 
 }
 
-/* Home Page - Shelves height */
-.boxcarousel_BoxCarousel_3fiHs {
-  height: 210px !important;
-}
-
 /* Home Page - Steam Games Grid
    ========================================================================== */
 
@@ -973,11 +968,11 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
   margin-left: auto;
-  transform: translate(-20px, -290px) translateY(var(--VerticalNavBarOffset));
+  transform: translate(10px, -290px) translateY(var(--VerticalNavBarOffset));
   position: sticky;
   height: 0px !important;
-  width: 170px;
-  background: linear-gradient(rgba(40, 40, 40, 0.7) 95.8%, rgba(40, 40, 40, 0) 100%);
+  min-width: 185px;
+  max-width: 195px;
   border-radius: 4px;
   pointer-events: all;
   z-index: 5 !important;
@@ -986,6 +981,8 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v>div {
   background: linear-gradient(rgba(40, 40, 40, 0.7) 95.8%, rgba(40, 40, 40, 0) 100%) !important;
+  background-size: 89% 100% !important;
+  background-repeat: no-repeat !important;
   height: 228.9px;
 }
 
@@ -1002,6 +999,10 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
   pointer-events: all;
 }
 
+.sharedappdetailsheader_TopCapsule_NZMJ6 {
+    min-height: 240px;
+}
+
 *//* END VERTICAL NAV BAR */
 
 
@@ -1016,7 +1017,7 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_RightColumn_2aor4 {
-  width: calc(100% - 200px);
+  width: calc(100% - 195px);
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB {
@@ -1035,7 +1036,7 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 }
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
-  transform: translate(-20px, -60px) translateY(var(--VerticalNavBarOffset));
+  transform: translate(5px, 0px) translateY(calc(var(--VerticalNavBarOffset) * 1.7));
   position: sticky;
   height: 0px;
 

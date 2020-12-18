@@ -11,6 +11,8 @@ import os
 import subprocess
 import platform
 import traceback
+import requests
+import webbrowser
 #import queue
 from threading import Thread
 
@@ -20,7 +22,8 @@ DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.4.8-pre1 Beta"
+        self.version = "v0.9.5 Beta"
+        self.release = "4.1"
 
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
@@ -266,14 +269,16 @@ class StartPage(tk.Frame):
 
         ### Running functions after much of StartPage has been initialised
         ### Check if CSS Patched
+        ### Check for new version
         check_if_css_patched()
+        update_check(self, controller.release)        
         
         ### Set GUI from config
         self.loaded_config = set_selected_from_config(self)
         self.text1.config(state='disabled')
         init_cb_check(self.var1, [check2, check3, check5])
         init_cb_check(self.var3, [check4])
-
+        
     ### Pack frames
     ###
         self.frameHead.pack()
@@ -500,6 +505,23 @@ def check_if_css_patched():
     else:
         print("NO POPUP")
     '''
+
+### Check if newer version
+def update_check(page, current_release):
+    try:
+        response = requests.get("https://api.github.com/repos/jonius7/steamui-oldglory/releases/latest", timeout=0.4)
+        latest_release = response.json()["name"]
+        if latest_release == current_release:
+            print("You are up to date. Release " + latest_release)
+        else:
+            #print("New version available: Release " + latest_release)
+
+            hv = HyperlinkText(page.text1, 'New version available: <a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Release {0}</a>\n'.format(latest_release))
+    except requests.exceptions.ConnectionError:
+        print("No internet connection detected, Unable to check for latest release!", file=sys.stderr)
+    except:
+        print("Unable to check for latest release!", file=sys.stderr)
+        print(traceback.print_exc(), file=sys.stderr)
     
 ### StartPage
 def set_selected_from_config(page):
@@ -1216,12 +1238,53 @@ def remake_js(event, controller):
     #run_js_tweaker(controller.frames[StartPage].text1)
 
 
+### Hyperlinks
+
+
+class HyperlinkText():
+
+    hyperlinkPattern = re.compile(r'<a href="(?P<address>.*?)">(?P<title>.*?)'
+                                  '</a>')
+    def __init__(self, textbox, message):
+        self.text = textbox
+        self.message = message
+        self.parse_hyperlinks(self.text, self.message)
+    def parse_hyperlinks(self, text, message):
+        start = 0
+        for index, match in enumerate(self.hyperlinkPattern.finditer(message)):
+            groups = match.groupdict()
+            text.insert("end", message[start: match.start()])
+            #insert hyperlink tag here
+            text.insert("end", groups['title'])
+            text.tag_add(str(index),
+                         "end-%dc" % (len(groups['title']) + 1),
+                         "end-%dc" % 1,)
+            text.tag_config(str(index),
+                            foreground="blue",
+                            underline=1)
+            text.tag_bind(str(index),
+                          "<Enter>",
+                          lambda *a, **k: text.config(cursor="hand2"))
+            text.tag_bind(str(index),
+                          "<Leave>",
+                          lambda *a, **k: text.config(cursor="arrow"))
+            text.tag_bind(str(index),
+                          "<Button-1>",
+                          self._callback(groups['address']))
+            start = match.end()
+        else:
+            text.insert("end", message[start:])
+                
+    def _callback(self, url):
+        return lambda *args, **kwargs: webbrowser.open(url)
+
+
 ### Settings Window
 ### ================================
 def settings_window(event, controller):
     settings = tk.Toplevel(controller)
-    windowW = 500
-    windowH = 300
+    windowW = 530
+    windowH = 330
     screen_width = controller.winfo_screenwidth()
     screen_height = controller.winfo_screenheight()
     windowX = (screen_width / 2) - (windowW / 2) + 103
@@ -1242,9 +1305,10 @@ def settings_window(event, controller):
     titlefont.configure(size=16)
         
     labeltext_a = tk.StringVar()
-    labeltext_a.set("SteamUI-OldGlory Configurer " + controller.version)
-        
+    labeltext_a.set("SteamUI-OldGlory Configurer (Release " + controller.release + ")")
+    
     label_a = tk.Label(frameAbout, textvariable=labeltext_a, font=titlefont)
+    buttonr_tip = Detail_tooltip(label_a, "GUI version " + controller.version, hover_delay=200)
     label_a.grid(row=0, column=0)
 
     ###
@@ -1256,12 +1320,14 @@ def settings_window(event, controller):
     labeltext_b.set("Created by Jonius7")
         
     label_b = tk.Label(frameAbout, textvariable=labeltext_b, font=subheadfont)
-    label_b.grid(row=1, column=0, sticky="w", padx=5)
+    label_b.grid(row=1, column=0, sticky="w", pady=(0,15))
 
     paragraphfont = titlefont.copy()
     paragraphfont.configure(size=10)
 
+    ###
     about_text = tk.StringVar()
+    '''
     about_text.set("SteamUI-OldGlory is a set of tweaks that aim to improve the overall layout and appearance of the Steam Library, " \
                       "and provide some extra functionality where possible.\n\n" \
                       #"The main objective is to remove some clear annoyances the library has,\n" \
@@ -1276,6 +1342,32 @@ def settings_window(event, controller):
                                font=paragraphfont,
                                width=450)
     message_about.grid(row=2, column=0, sticky="w", pady=(0,15))
+    '''
+
+    
+    bg = ttk.Style().lookup('TFrame', 'background')
+    about = tk.Text(frameAbout,
+                    font=paragraphfont,
+                    bd=0,
+                    bg=bg,
+                    highlightthickness=0,
+                    wrap=WORD,
+                    width=70,
+                    height=8)
+    about.insert(tk.END, "SteamUI-OldGlory is a set of tweaks that aim to improve the overall layout and appearance of the Steam Library, ")
+    about.insert(tk.END, "and provide some extra functionality where possible.\n\n")
+    h1 = HyperlinkText(about, 'Github: <a href="https://github.com/Jonius7/SteamUI-OldGlory/">https://github.com/Jonius7/SteamUI-OldGlory/</a>\n\n')
+    #parse_hyperlinks(about, 'Github: <a href="https://github.com/Jonius7/SteamUI-OldGlory/">https://github.com/Jonius7/SteamUI-OldGlory/</a>\n\n')
+    about.insert(tk.END, "To be used with SteamFriendsPatcher\n")
+    h2 = HyperlinkText(about, '<a href="https://github.com/PhantomGamers/SteamFriendsPatcher/">https://github.com/PhantomGamers/SteamFriendsPatcher/</a>')
+    #parse_hyperlinks(about, '<a href="https://github.com/PhantomGamers/SteamFriendsPatcher/">https://github.com/PhantomGamers/SteamFriendsPatcher/</a>')
+    
+    about.config(state='disabled') 
+
+    about.grid(row=2, column=0, sticky="w", pady=(0,15))
+    
+    
+    
 
     
     ### Settings Frame

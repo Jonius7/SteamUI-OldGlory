@@ -385,6 +385,8 @@ def load_css_configurables():
                         loaded_css_config[sectionkey][propkey]["desc"] = css_line_values["desc"]
         infile.close()
         print("Loaded CSS Options.")
+    except FileNotFoundError:
+        print("libraryroot.custom.css not found", file=sys.stderr)
     except:
         print("Error loading CSS configurables from line: " + line, file=sys.stderr)
         print_traceback()
