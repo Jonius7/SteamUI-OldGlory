@@ -9,7 +9,7 @@
   --WhatsNewOrder: 2;  /* Default: 0. Set 0 to put to top, 1 or higher to put to bottom */
 
   /* Left Sidebar - Games List */
-  --HoverOverlayPosition: 0;  /* Default: 0. Set 0 if default JS, unset if tweaked JS */
+  --HoverOverlayPosition: unset;  /* Default: 0. Set 0 if default JS, unset if tweaked JS */
   --GameListEntrySize: 16px;  /* Default: 16px.  */
   --CategoryNameHeaderSize: 13px;  /* Default: 13px.  */
   --GameListZoomSize: 75%;  /* Default: 100%. 75% highly recommended for Game List similar to old Library UI. Affects GameListEntrySize and CategoryNameHeaderSize */
@@ -643,7 +643,11 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 
 /* Move small "Friend Playing" box on Steam Grid */
 .appportrait_FriendsBar_3dncO.appportrait_IconsView_1WWmQ:not(.appportrait_PortraitHover_301ft) {
-  transform: translateY(-12px);
+  transform: translateY(-13px);
+}
+
+.appportrait_Short_yGeS6 .appportrait_FriendsBar_3dncO.appportrait_IconsView_1WWmQ {
+    top: unset;
 }
 
 /* Recommended corresponding JS tweak: default gap is 24px 16px */
@@ -652,7 +656,6 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   gap: var(--GridRowGap) var(--GridColumnGap) !important;
 }
 
-}
 
 .appportrait_HoversEnabled_54PuC .appportrait_LibraryItemBox_WYgDg:hover .appportrait_UninstalledIcon_8YrRm {
   opacity: .9;
@@ -692,6 +695,11 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 /* CSS Grid height unset */
 .cssgrid_Container_DGRkX {
   height: unset !important;
+}
+
+/* Add bottom padding for shelf */
+.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG {
+  padding-bottom: 8px;
 }
 
 
@@ -745,7 +753,7 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 /* END DLC MANAGER */
 
 
-/*HORIZONTAL GAME IMAGE TWEAKS*//*
+/*HORIZONTAL GAME IMAGE TWEAKS*/
 
 .appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
   grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
@@ -760,7 +768,7 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 }
 
 
-*//*END HORIZONTAL GAME IMAGE TWEAKS*/
+/*END HORIZONTAL GAME IMAGE TWEAKS*/
 
 
 /* LIST VIEW ONLY TWEAKS - EXPERIMENTAL */
