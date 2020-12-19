@@ -197,11 +197,11 @@ def is_css_patched():
     try:
         with open(library_dir() + "/css/libraryroot.css", newline='', encoding="UTF-8") as f:
             first_line = f.readline()
-        if PATCHED_TEXT not in first_line:
-            print("css\libraryroot.css not patched. Download SteamFriendsPatcher from\n" \
-                  "https://github.com/PhantomGamers/SteamFriendsPatcher/releases", file=sys.stderr)
-        else:
+        if PATCHED_TEXT in first_line:
             patched = True
+        else:
+            pass
+            #print("css\libraryroot.css not patched.", file=sys.stderr)
         f.close()
     except:
         print("css\libraryroot.css not found", file=sys.stderr)

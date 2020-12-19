@@ -277,7 +277,7 @@ class StartPage(tk.Frame):
         ### Running functions after much of StartPage has been initialised
         ### Check if CSS Patched
         ### Check for new version
-        check_if_css_patched()
+        check_if_css_patched(self)
         update_check(self, controller.release)        
         
         ### Set GUI from config
@@ -504,14 +504,15 @@ def show_PageTwo(controller):
 ### Initialisation
 ### ================================
 ### Check SteamFriendsPatcher
-def check_if_css_patched():
-    backend.is_css_patched()
-    '''
+def check_if_css_patched(page):
+    
     if not backend.is_css_patched():
-        print("POPUP Here")
-    else:
-        print("NO POPUP")
-    '''
+        hyperlink = HyperlinkManager(page.text1)
+        page.text1.tag_configure("err", foreground="red")        
+        page.text1.insert(tk.INSERT, "css\libraryroot.css not patched. ", ("err"))
+        page.text1.insert(tk.INSERT, "Download ")
+        page.text1.insert(tk.INSERT, "SteamFriendsPatcher\n", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SteamFriendsPatcher/")))
+    
 
 ### Check if newer version
 def update_check(page, current_release):
@@ -1324,7 +1325,7 @@ def settings_window(event, controller):
     about.insert(tk.END, "and provide some extra functionality where possible.\n\n")
     about.insert(tk.END, 'Github: ')
     about.insert(tk.END, "github.com/Jonius7/SteamUI-OldGlory/", hyperlink.add(partial(webbrowser.open, "https://github.com/Jonius7/SteamUI-OldGlory/")))
-    about.insert(tk.END, "\n\nTo be used with SteamFriendsPatcher\n")
+    about.insert(tk.END, "\n\nTo be used with SteamFriendsPatcher:\n")
     about.insert(tk.END, "github.com/PhantomGamers/SteamFriendsPatcher/", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SteamFriendsPatcher/")))
 
     about.config(state='disabled') 
