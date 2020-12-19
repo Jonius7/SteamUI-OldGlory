@@ -116,6 +116,12 @@ https://github.com/AikoMidori/steam-library
 
 
 
+## Troubleshooting
+
+The program can't start because `api-ms-win-crt-math-l1-1-0.dll` is missing from your computer.
+
+- Install [Microsoft Visual C++ Redistributable 2015-2019](https://support.microsoft.com/en-au/help/2977003/the-latest-supported-visual-c-downloads)
+
 ## Dev Notes
 
 #### For more details, go to [Story](docs/story.md).
@@ -135,6 +141,11 @@ To debug the Steam Library yourself, run Steam with the ` -dev` tag.
 #### Build `old_glory`
 
 Requires Python 3.8+
+
+Install libraries using `pip`: 
+`pip install jsbeautifier` 
+`pip install jsmin`
+`pip install pillow`
 
 `pyinstaller -w --hidden-import six --icon=steam_oldglory.ico --clean --onefile old_glory.spec`
 The `.spec` file is included in the repository.

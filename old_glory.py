@@ -7,27 +7,35 @@ import sys
 import io
 import backend
 import js_tweaker
+import tkHyperlinkManager
 import os
 import subprocess
 import platform
 import traceback
 import requests
 import webbrowser
+from functools import partial
+from tkHyperlinkManager import HyperlinkManager
 #import queue
 from threading import Thread
 
 OS_TYPE = platform.system()
 DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
 
-
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.5.2 Beta"
-        self.release = "4.1"
-
+        self.version = "v0.9.5.5 Beta"
+        self.release = "4.1.1"
+      
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
         container = tk.Frame(self)
+
+        ### Fixed DPI Scaling on Windows
+        if OS_TYPE == "Windows":
+            #dpi = window.winfo_fpixels('1i')
+            self.call('tk', 'scaling', 1.3)
+        
         windowW = 760
         windowH = 660
         screen_width = container.winfo_screenwidth()
@@ -513,9 +521,9 @@ def update_check(page, current_release):
         if latest_release == current_release:
             print("You are up to date. Release " + latest_release)
         else:
-            #print("New version available: Release " + latest_release)
-
-            hv = HyperlinkText(page.text1, 'New version available: <a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Release {0}</a>\n'.format(latest_release))
+            hyperlink = HyperlinkManager(page.text1)
+            page.text1.insert(tk.END, 'New version available: ')
+            page.text1.insert(tk.END, "Release {0}\n".format(latest_release), hyperlink.add(partial(webbrowser.open, "https://github.com/Jonius7/SteamUI-OldGlory/releases/latest")))
     except requests.exceptions.ConnectionError:
         print("No internet connection detected, Unable to check for latest release!", file=sys.stderr)
     except:
@@ -1256,47 +1264,6 @@ def css_config_js_enabled(css_config):
     css_config["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"] = "unset"
     return css_config
 
-### Hyperlinks
-
-
-class HyperlinkText():
-
-    hyperlinkPattern = re.compile(r'<a href="(?P<address>.*?)">(?P<title>.*?)'
-                                  '</a>')
-    def __init__(self, textbox, message):
-        self.text = textbox
-        self.message = message
-        self.parse_hyperlinks(self.text, self.message)
-    def parse_hyperlinks(self, text, message):
-        start = 0
-        for index, match in enumerate(self.hyperlinkPattern.finditer(message)):
-            groups = match.groupdict()
-            text.insert("end", message[start: match.start()])
-            #insert hyperlink tag here
-            text.insert("end", groups['title'])
-            text.tag_add(str(index),
-                         "end-%dc" % (len(groups['title']) + 1),
-                         "end-%dc" % 1,)
-            text.tag_config(str(index),
-                            foreground="blue",
-                            underline=1)
-            text.tag_bind(str(index),
-                          "<Enter>",
-                          lambda *a, **k: text.config(cursor="hand2"))
-            text.tag_bind(str(index),
-                          "<Leave>",
-                          lambda *a, **k: text.config(cursor="arrow"))
-            text.tag_bind(str(index),
-                          "<Button-1>",
-                          self._callback(groups['address']))
-            start = match.end()
-        else:
-            text.insert("end", message[start:])
-                
-    def _callback(self, url):
-        return lambda *args, **kwargs: webbrowser.open(url)
-
-
 ### Settings Window
 ### ================================
 def settings_window(event, controller):
@@ -1311,7 +1278,6 @@ def settings_window(event, controller):
     settings.wm_title("Settings and About")
     
     add_window_icon(settings)
-    
     settings.tkraise(controller)
 
     ### About Frame
@@ -1323,19 +1289,16 @@ def settings_window(event, controller):
         
     labeltext_a = tk.StringVar()
     labeltext_a.set("SteamUI-OldGlory Configurer (Release " + controller.release + ")")
-    
     label_a = tk.Label(frameAbout, textvariable=labeltext_a, font=titlefont)
     buttonr_tip = Detail_tooltip(label_a, "GUI version " + controller.version, hover_delay=200)
     label_a.grid(row=0, column=0)
 
     ###
-
     subheadfont = titlefont.copy()
     subheadfont.configure(size=13)
     
     labeltext_b = tk.StringVar()
     labeltext_b.set("Created by Jonius7")
-        
     label_b = tk.Label(frameAbout, textvariable=labeltext_b, font=subheadfont)
     label_b.grid(row=1, column=0, sticky="w", pady=(0,15))
 
@@ -1344,24 +1307,7 @@ def settings_window(event, controller):
 
     ###
     about_text = tk.StringVar()
-    '''
-    about_text.set("SteamUI-OldGlory is a set of tweaks that aim to improve the overall layout and appearance of the Steam Library, " \
-                      "and provide some extra functionality where possible.\n\n" \
-                      #"The main objective is to remove some clear annoyances the library has,\n" \
-                      #"and bring back some of the usefulness that the Old Library UI had."
-                      "Github: github.com/Jonius7/SteamUI-OldGlory/\n\n" \
-                        "To be used with SteamFriendsPatcher\n" \
-                       "https://github.com/PhantomGamers/SteamFriendsPatcher/"
-                   )
-        
-    message_about = tk.Message(frameAbout,
-                               textvariable=about_text,
-                               font=paragraphfont,
-                               width=450)
-    message_about.grid(row=2, column=0, sticky="w", pady=(0,15))
-    '''
 
-    
     bg = ttk.Style().lookup('TFrame', 'background')
     about = tk.Text(frameAbout,
                     font=paragraphfont,
@@ -1371,14 +1317,16 @@ def settings_window(event, controller):
                     wrap=WORD,
                     width=70,
                     height=8)
+
+    hyperlink = HyperlinkManager(about)
+    
     about.insert(tk.END, "SteamUI-OldGlory is a set of tweaks that aim to improve the overall layout and appearance of the Steam Library, ")
     about.insert(tk.END, "and provide some extra functionality where possible.\n\n")
-    h1 = HyperlinkText(about, 'Github: <a href="https://github.com/Jonius7/SteamUI-OldGlory/">https://github.com/Jonius7/SteamUI-OldGlory/</a>\n\n')
-    #parse_hyperlinks(about, 'Github: <a href="https://github.com/Jonius7/SteamUI-OldGlory/">https://github.com/Jonius7/SteamUI-OldGlory/</a>\n\n')
-    about.insert(tk.END, "To be used with SteamFriendsPatcher\n")
-    h2 = HyperlinkText(about, '<a href="https://github.com/PhantomGamers/SteamFriendsPatcher/">https://github.com/PhantomGamers/SteamFriendsPatcher/</a>')
-    #parse_hyperlinks(about, '<a href="https://github.com/PhantomGamers/SteamFriendsPatcher/">https://github.com/PhantomGamers/SteamFriendsPatcher/</a>')
-    
+    about.insert(tk.END, 'Github: ')
+    about.insert(tk.END, "github.com/Jonius7/SteamUI-OldGlory/", hyperlink.add(partial(webbrowser.open, "https://github.com/Jonius7/SteamUI-OldGlory/")))
+    about.insert(tk.END, "\n\nTo be used with SteamFriendsPatcher\n")
+    about.insert(tk.END, "github.com/PhantomGamers/SteamFriendsPatcher/", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SteamFriendsPatcher/")))
+
     about.config(state='disabled') 
 
     about.grid(row=2, column=0, sticky="w", pady=(0,15))
@@ -1432,7 +1380,6 @@ def add_window_icon(window):
         print("Failed to load icon: " + icon_filename, file=sys.stderr)
         print(traceback.print_exc(), file=sys.stderr)
         
-
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:

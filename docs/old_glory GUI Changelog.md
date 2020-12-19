@@ -14,3 +14,5 @@
 
 **0.9.5.1**	Add some CSS changing depending on whether JS is being applied
 				Move Images into subfolder
+
+**0.9.5.4**	Add DPI scaling to be fixed to fit on Windows 8 125%
