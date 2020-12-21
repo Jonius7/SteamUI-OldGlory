@@ -1,0 +1,19 @@
+/*Responsive DLC Grid Columns */
+
+div.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  /*justify-content: center;*/
+}
+
+
+/*Shrink Screenshots size to show more (JS recommended)*/
+
+.appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-rows: auto auto auto;
+  overflow-y: scroll;
+}
+
+div.NarrowRightPanel .appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
+  grid-template-rows: auto auto;
+}

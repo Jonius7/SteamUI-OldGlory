@@ -1,0 +1,35 @@
+/* ==================== Game AppPage Sections ====================
+   ========================================================================== */
+   
+/*Remove Appdetail margins */
+
+.appdetailssection_AppDetailsSection_2r4TK {
+  padding-bottom: 6px;
+  margin: 0px;
+}
+
+.appdetailssection_AppDetailsSectionContainer_31ptF {
+  margin: 8px;
+}
+
+/* Section box background color */
+.appdetailssection_AppDetailsSectionContainer_31ptF.appdetailssection_RightColumnSection_3KfxI {
+  background: radial-gradient(100% 80% at 64% 95%, rgba(104, 112, 124, 0.5) 0%, rgba(91, 99, 112, 0.5) 40%, rgba(24, 35, 36, 0.5) 100%);
+}
+
+button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_BottomRight_3nJyY {
+  margin-top: -4px;
+  padding: 2px 8px;
+}
+
+.appdetailsfriendssection_Subsection_39bm0 {
+  margin-bottom: 6px;
+}
+
+/* Move Additional Content to bottom */
+div.appdetailsoverview_RightColumn_2aor4>div:nth-child(3) {
+  order: 5;
+}
+
+/* ========================================================================== 
+   END Game AppPage Sections */

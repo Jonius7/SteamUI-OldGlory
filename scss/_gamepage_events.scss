@@ -1,0 +1,74 @@
+/* Game AppPage Activity - Events
+   ========================================================================== */
+   
+/* Activity Heading Padding */
+.appdetailsactivitysection_ActivityFeedContainer_3yTl3 > div {
+  padding-left: 0px;
+}
+
+/* Remove Activity Event margin */
+
+.appactivityday_Event_UVeN0 {
+  margin-top: 3px;
+}
+
+/* Font size for large event title */
+
+.appactivityday_PartnerEventLargeImage_Title_3fsjz {
+  font-size: 16px;
+}
+
+
+/* Font size for medium event*/
+.appactivityday_PartnerEventMediumImage_Title_1gljE {
+  font-size: 16px;
+}
+
+.appactivityday_PartnerEventMediumImage_Contents_2gv3E {
+  padding: 10px;
+}
+
+/* Fix event image and text widths */
+
+.appactivityday_ImageContainer_1XpBI {
+  max-width: 260px;
+  min-width: 240px;
+  padding: unset;
+  padding: 0px 6px;
+}
+
+.appactivityday_PartnerEventLargeImage_Image_fGDsm {
+  max-width: 250px;
+}
+
+.appactivityday_PartnerEventLargeImage_TextColumn_2HzKE {
+  position: relative;
+  padding: 8px 12px 12px 0px;
+  margin-top: 0px;
+  flex: 1;
+  max-height: 130px;
+}
+
+.appactivityday_MediumImageContainer_ddB5G {
+  width: 200px;
+  height: unset;
+}
+
+.appactivityday_PartnerEventMediumImage_Image_VytJz {
+  max-width: 200px;
+}
+
+.appactivityday_PartnerEventMediumImage_Title_1gljE {
+  max-width: 600px;
+  -webkit-line-clamp: 3 !important;
+}
+
+.appactivityday_PartnerEventMediumImage_TextColumn_3dJ4B {
+  padding: 0px;
+  display: flex;
+}
+
+/* margin bottom for trading card activity */
+.appactivityday_TradingCardSection_2IS7Z {
+    margin-bottom: 12px;
+}

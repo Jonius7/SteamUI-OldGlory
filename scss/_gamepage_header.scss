@@ -1,0 +1,28 @@
+/* ==================== Game AppPage Header ====================
+   ========================================================================== */
+
+/* App Page main header - down to 60% the height */
+.sharedappdetailsheader_TopCapsule_NZMJ6 {
+  width: 60%;
+  height: 14.4vw !important;
+}
+
+/* Unset Header Image height to show top and bottom */
+.sharedappdetailsheader_ImgContainer_QlR9E {
+  height: unset;
+}
+
+/* App Page main header - expanding and resizing */
+.sharedappdetailsheader_ImgSrc_HNbe3 {
+  width: calc(180% + 128px);
+  height: 160%;
+  left: 300px;
+}
+
+.sharedappdetailsheader_ImgSrc_HNbe3.sharedappdetailsheader_ImgBlurBackdrop_3_IUV {
+  width: calc(180% + 128px);
+  -webkit-mask-image: linear-gradient(to bottom, var(--AmbientBlur) 80%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* ========================================================================== 
+   END Game AppPage Header */

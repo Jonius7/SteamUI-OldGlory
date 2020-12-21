@@ -1,0 +1,25 @@
+/* ================== Game AppPage Header/Section Boundary ==================
+   ========================================================================== */
+/* added a darker gradient to the top of the apppage below the Game Image */
+
+.appdetailsoverview_Glassy_2OOzY .appdetailsoverview_Backdrop_1Qa-A {
+    background: linear-gradient(0deg, rgba(40, 41, 49, 0) 0%, rgba(51, 51, 51, 0.2) 35%, rgba(51, 51, 51, 0.5) 100%);
+}
+
+/* Height of blur over background image. If a low value, most of the background will be clear. default: 450px
+     Background color
+  */
+
+.appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
+    height: 2000px;
+    background: linear-gradient(to bottom, rgba(40, 40, 40, 0.1) 0%, rgba(39, 44, 53, 0.5) 82px, rgba(40, 40, 40, 0.6) 92%, rgba(40, 40, 40, 0) 100%);
+    backdrop-filter: blur(var(--AppPageBlur));
+}
+
+/* Game AppPage Info Panel ======================================== */
+.appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_SectionContainer_1uS70 .appdetailsgameinfopanel_GameDescription_3GkV1 {
+    color: rgba(195, 195, 195, 1);
+}
+
+/* ========================================================================== 
+   END Game AppPage Header/Section Boundary */

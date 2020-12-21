@@ -1,55 +1,70 @@
-/* SteamUI-OldGlory CSS Tweaks v1.5
+/* Themes applied before CSS Tweaks */
+/*@import "../themes/_shiina";*/
+/* SteamUI-OldGlory CSS Tweaks v2.0
    by Jonius7 
 */
-
+/* Main CSS Tweaks */
 /* Configurable variables */
 :root {
   /* What's New */
-  --WhatsNew: block;  /* Default: block. Set to none to hide What's New */
-  --WhatsNewOrder: 2;  /* Default: 0. Set 0 to put to top, 1 or higher to put to bottom */
-
+  --WhatsNew: block;
+  /* Default: block. Set to none to hide What's New */
+  --WhatsNewOrder: 2;
+  /* Default: 0. Set 0 to put to top, 1 or higher to put to bottom */
   /* Left Sidebar - Games List */
-  --HoverOverlayPosition: unset;  /* Default: 0. Set 0 if default JS, unset if tweaked JS */
-  --GameListEntrySize: 16px;  /* Default: 16px.  */
-  --CategoryNameHeaderSize: 13px;  /* Default: 13px.  */
-  --GameListZoomSize: 75%;  /* Default: 100%. 75% highly recommended for Game List similar to old Library UI. Affects GameListEntrySize and CategoryNameHeaderSize */
-  --ShowLeftSidebar: flex;  /* Default: flex. Set to none to hide left sidebar */
-
+  --HoverOverlayPosition: unset;
+  /* Default: 0. Set 0 if default JS, unset if tweaked JS */
+  --GameListEntrySize: 16px;
+  /* Default: 16px.  */
+  --CategoryNameHeaderSize: 13px;
+  /* Default: 13px.  */
+  --GameListZoomSize: 75%;
+  /* Default: 100%. 75% highly recommended for Game List similar to old Library UI. Affects GameListEntrySize and CategoryNameHeaderSize */
+  --ShowLeftSidebar: flex;
+  /* Default: flex. Set to none to hide left sidebar */
   /* Right Click Context Menu */
-  --ContextMenuLineHeight: 16px;  /* Default: inherit. Currently will override very long category names */
-  --ContextMenuFontSize: 13px;  /* Default: 14px.  */
-
+  --ContextMenuLineHeight: 16px;
+  /* Default: inherit. Currently will override very long category names */
+  --ContextMenuFontSize: 13px;
+  /* Default: 14px.  */
   /* Game Grid */
-  --RemoveShine: none;  /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
-  --GameImageTransition: 1.5s;  /* Default: . 4s, .4s, .4s, .2s. Grid Game Images transition time. 0s for instant, 2s for smooth. */
-  --GameImageOpacity: 1;  /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5 */
-  --UninstalledGameImageOpacity: 0.5;  /* Default: 1. Suggested values: 0.5, 0.2 */
-  --GameGridImageBackground: inherit;  /* Default: inherit. Default is inherit, set #365d2d for a friendly green */
-  --GridRowGap: 8px;  /* Default: 24px. Corresponds with JavaScript tweak - Home Page Grid Spacing. */
-  --GridColumnGap: 5px;  /* Default: 16px. Corresponds with JavaScript tweak - Home Page Grid Spacing. */
-
+  --RemoveShine: none;
+  /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
+  --GameImageTransition: 1.5s;
+  /* Default: . 4s, .4s, .4s, .2s. Grid Game Images transition time. 0s for instant, 2s for smooth. */
+  --GameImageOpacity: 1;
+  /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5 */
+  --UninstalledGameImageOpacity: 0.5;
+  /* Default: 1. Suggested values: 0.5, 0.2 */
+  --GameGridImageBackground: inherit;
+  /* Default: inherit. Default is inherit, set #365d2d for a friendly green */
+  --GridRowGap: 8px;
+  /* Default: 24px. Corresponds with JavaScript tweak - Home Page Grid Spacing. */
+  --GridColumnGap: 5px;
+  /* Default: 16px. Corresponds with JavaScript tweak - Home Page Grid Spacing. */
   /* Game Page Layout */
-  --FriendsDLCScreenshotsColumnWidth: 61%;  /* Default: 33%. Determines width of the Friends Who Play/Achievements/Screenshots/DLC/Trading Cards column. Friend Activity/News column will fill the rest. */
-  --SwapColumns: left;  /* Default: right. Set left to swap columns. */
-
+  --FriendsDLCScreenshotsColumnWidth: 61%;
+  /* Default: 33%. Determines width of the Friends Who Play/Achievements/Screenshots/DLC/Trading Cards column. Friend Activity/News column will fill the rest. */
+  --SwapColumns: left;
+  /* Default: right. Set left to swap columns. */
   /* Game Page Background */
-  --AppPageBlur: 2px;  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look. */
-  --AmbientBlur: black;  /* Default: black 80%. Set to rgba(0,0,0,0) to remove */
-
+  --AppPageBlur: 2px;
+  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look. */
+  --AmbientBlur: black;
+  /* Default: black 80%. Set to rgba(0,0,0,0) to remove */
   /* Other */
-  --VerticalNavBarOffset: 0px;  /* Default: 0px. Leave at 0px, this var is for steam-library compatibility and vertical nav bar */
+  --VerticalNavBarOffset: 0px;
+  /* Default: 0px. Leave at 0px, this var is for steam-library compatibility and vertical nav bar */
 }
+
 /* ==================== GameList Sidebar ====================
    ========================================================================== */
-
 /* Games dropdown width increased */
 .gamelistdropdown_DropDown_EDl_m {
   width: 195px !important;
 }
 
-
 /* Search bar 100% width, padding especially top, reduced */
-
 .gamelistsearchbar_Container_20QAC {
   width: 100%;
   padding-top: 2px;
@@ -63,13 +78,11 @@
 }
 
 /* fix search bar sometimes flexing down a few pixels */
-
 .gamelistsearchbar_Container_20QAC .gamelistsearchbar_SearchInput_12vo5 {
   height: 10px;
 }
 
 /* Gamelist entry - font size */
-
 .gamelistentry_Container_2-O4Z {
   font-size: var(--GameListEntrySize);
 }
@@ -78,17 +91,13 @@
   height: 100%;
 }
 
-
 /* Gamelist entry - icon size */
-
 .gamelistentry_Container_2-O4Z .gamelistentry_GameIcon_ga1hy {
   height: 22px;
   width: 22px;
 }
 
-
 /* Fix hover text to the bottom. With JavaScript tweaks this can be dynamic.*/
-
 .gamelistentry_FriendStatusHover_2iiN7 {
   bottom: var(--HoverOverlayPosition) !important;
 }
@@ -104,13 +113,10 @@
   height: var(--ContextMenuLineHeight);
 }
 
-
-
-
 /* remove border */
-
 .gamelistsectionheader_Container_2sYIg {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   color: #707379;
   border: 0px solid rgba(0, 0, 0, 0);
 }
@@ -121,43 +127,30 @@
   padding: 0px 9px 5px 9px;
 }
 
-
 /* category name - font size and height*/
-
 .gamelistsectionheader_SectionName_2mZ8L {
   font-size: var(--CategoryNameHeaderSize);
   height: 15px;
 }
 
-
 /* category count - font size and height*/
-
 .gamelistsectionheader_SectionCount_29ute {
   font-size: 13px;
 }
 
-
 /* Make game list height constant so search bar doesn't "flex" down */
-
 .gamelist_Container_1ijTa {
   height: calc(94.4% - 76px + 0.017vmax * 65);
 }
 
-
-/*start new CSS sections */
-
-
 /* Zoom out both the gamelist container and the hover text for long game names */
-
 .gamelist_Container_1ijTa,
 .gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
   zoom: var(--GameListZoomSize);
   position: relative;
 }
 
-
 /* Fix hover text to the bottom if default JS, position dynamically if JS tweaked. */
-
 .gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
   position: fixed;
   height: 28px;
@@ -165,52 +158,64 @@
 }
 
 /* Make nosearchresults height constant so search bar doesn't "flex" down */
-
 .gamelist_NoSearchResultsContainer_1fbRp {
   margin: 2px;
   height: calc(97.8% - 76px + (1600px - 100vmax) * 0.007);
 }
 
-
-/*Gamelist dropdown and buttons width reduced to 50%, align with home bar*/
-
+/* Gamelist dropdown and buttons width reduced to 50%, align with home bar*/
 .gamelistdropdown_Bar_1ZS_x {
   width: 50%;
-  flex: 1 1 auto;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
   padding: 6px 3px 0px;
   height: 36px;
 }
-
 
 .library_LeftListSizableContainer_9sPoV {
   display: var(--ShowLeftSidebar);
 }
 
 /* remove height: 100% */
-
 .gamelistbar_Container_3x1Hk {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#2d333c), color-stop(20%, #24282f));
   background-image: linear-gradient(to bottom, #2d333c 0%, #24282f 20%);
   height: unset;
-  flex: 1;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   min-width: 0;
-  flex-direction: row;
-  flex-wrap: wrap;
-  user-select: none;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   outline: none;
 }
 
-
 /*Home bar width reduced to 20%, align with Gamelist dropdown and buttons*/
-
 .gamelistbar_GameListHomeAndSearch_2TKEa {
   padding: 6px 3px 0px 6px;
   background-color: unset;
-  box-shadow: 0 0 0px rgba(0, 0, 0, 0.8) !important;
+  -webkit-box-shadow: 0 0 0px rgba(0, 0, 0, 0.8) !important;
+          box-shadow: 0 0 0px rgba(0, 0, 0, 0.8) !important;
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   height: 36px;
-  flex: 1 1 auto;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
   width: 20%;
 }
 
@@ -229,30 +234,134 @@
 
 /* ========================================================================== 
    END GameList Sidebar */
-
-/* ==================== General Library and Scrollbar ====================
+/* ==================== Home and Collections ====================
    ========================================================================== */
-
 /* Library Home padding and background */
 .libraryhome_LibraryHome_3Sb2o {
-  padding: 8px 12px 12px; /* default 8px 14px 14px */
+  padding: 8px 12px 12px;
+  /* default 8px 14px 14px */
   /*background-image: linear-gradient(to bottom, #2d333c 0%, #24282f 20%);*/
 }
 
-
-/* Scrollbar tweaks */
-.library_Container_3xRRJ *::-webkit-scrollbar, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar {
-  width: 16px; /* default 12px */
-  
+/* Home Page - What's New
+   ========================================================================== */
+/* Height of What's New container */
+.LibraryDisplaySizeSmall .libraryhome_UpdatesContainer_17uEB {
+  height: 270px;
 }
+
+.smartscrollcontainer_Body_3lDcz.libraryhome_InnerContainer_2AUVZ {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+}
+
+/* Position What's New */
+.libraryhome_WhatsNewContainer_gdZT7 {
+  display: var(--WhatsNew);
+  -webkit-box-ordinal-group: var(--WhatsNewOrder);
+      -ms-flex-order: var(--WhatsNewOrder);
+          order: var(--WhatsNewOrder);
+}
+
+/* Home Page - Steam Games Grid
+   ========================================================================== */
+/* Move Hours Played/Size on Disk/Metacritic Score... text box up */
+.appportrait_LibraryItemBoxSubscript_1LJqx {
+  margin-top: -32px;
+  padding: 2px 8px;
+}
+
+/* Move small "Friend Playing" box on Steam Grid */
+.appportrait_FriendsBar_3dncO.appportrait_IconsView_1WWmQ:not(.appportrait_PortraitHover_301ft) {
+  -webkit-transform: translateY(-13px);
+          transform: translateY(-13px);
+}
+
+.appportrait_Short_yGeS6 .appportrait_FriendsBar_3dncO.appportrait_IconsView_1WWmQ {
+  top: unset;
+}
+
+/* Recommended corresponding JS tweak: default gap is 24px 16px */
+.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG,
+.appgrid_YourCollection_11p6F {
+  gap: var(--GridRowGap) var(--GridColumnGap) !important;
+}
+
+.appportrait_HoversEnabled_54PuC .appportrait_LibraryItemBox_WYgDg:hover .appportrait_UninstalledIcon_8YrRm {
+  opacity: .9;
+}
+
+/* Remove grid shine/glare */
+.appportrait_LibraryItemBoxShine_MyNb5 {
+  display: var(--RemoveShine);
+}
+
+/* Remove transitioning on game images when scrolling */
+.appportrait_PortraitImage_2IYf7 {
+  -webkit-transition-duration: var(--GameImageTransition) !important;
+          transition-duration: var(--GameImageTransition) !important;
+  -webkit-transition-timing-function: unset;
+          transition-timing-function: unset;
+}
+
+/* Background color behind game images */
+.appportrait_LibraryItemBox_WYgDg {
+  background-color: var(--GameGridImageBackground);
+}
+
+/* Grid game image opacity */
+.appportrait_PortraitImage_2IYf7.appportrait_Capsule_13w3S.appportrait_CapsuleVisible_3QIfJ {
+  opacity: var(--GameImageOpacity);
+}
+
+/* Grid - Uninstalled game image opacity */
+.appportrait_Draggable_1pwP4 > .appportrait_LibraryItemBox_WYgDg:nth-last-of-type(2) {
+  opacity: var(--UninstalledGameImageOpacity);
+}
+
+.appportrait_Draggable_1pwP4 > .appportrait_LibraryItemBox_WYgDg:nth-last-of-type(3) {
+  opacity: var(--UninstalledGameImageOpacity);
+}
+
+/* CSS Grid height unset */
+.cssgrid_Container_DGRkX {
+  height: unset !important;
+}
+
+/* Add bottom padding for shelf */
+.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG {
+  padding-bottom: 8px;
+}
+
+/* Your Collections header and side padding reduced*/
+.allcollections_ScrollContainer_u1xD3 {
+  padding: 10px 14px;
+}
+
+/* ========================================================================== 
+   END Home and Collections */
+/* ==================== Scrollbar Tweaks ====================
+   ========================================================================== */
+.library_Container_3xRRJ *::-webkit-scrollbar, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar {
+  width: 16px;
+  /* default 12px */
+}
+
 ::-webkit-scrollbar-thumb {
-  border-radius: 4px; /* default 10px */
+  border-radius: 4px;
+  /* default 10px */
 }
 
 .library_Container_3xRRJ *::-webkit-scrollbar-thumb, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar-thumb {
-  border: 1px solid transparent; /* default: 3px solid transparent */
+  border: 1px solid transparent;
+  /* default: 3px solid transparent */
   border-right: 0px solid transparent;
-  background-color: rgba(140,140,140,0.35);
+  background-color: rgba(140, 140, 140, 0.35);
 }
 
 .library_Container_3xRRJ *::-webkit-scrollbar-thumb:active, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar-thumb:active {
@@ -260,55 +369,39 @@
   border-right: 0px solid transparent;
 }
 
-/* ==================== Your Collections ====================
+/* ========================================================================== 
+   END Scrollbar Tweaks */
+/* ==================== Game AppPage Header ====================
    ========================================================================== */
-
-/* Your Collections header and side padding reduced*/
-
-.allcollections_ScrollContainer_u1xD3 {
-  padding: 10px 14px;
-}
-
-/* Game AppPage Header
-   ========================================================================== */
-
 /* App Page main header - down to 60% the height */
-
 .sharedappdetailsheader_TopCapsule_NZMJ6 {
   width: 60%;
   height: 14.4vw !important;
 }
 
-
 /* Unset Header Image height to show top and bottom */
-
 .sharedappdetailsheader_ImgContainer_QlR9E {
   height: unset;
 }
 
-
 /* App Page main header - expanding and resizing */
-
 .sharedappdetailsheader_ImgSrc_HNbe3 {
   width: calc(180% + 128px);
   height: 160%;
   left: 300px;
 }
 
-
 .sharedappdetailsheader_ImgSrc_HNbe3.sharedappdetailsheader_ImgBlurBackdrop_3_IUV {
   width: calc(180% + 128px);
+  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(80%, var(--AmbientBlur)), to(rgba(0, 0, 0, 0)));
   -webkit-mask-image: linear-gradient(to bottom, var(--AmbientBlur) 80%, rgba(0, 0, 0, 0) 100%);
 }
 
-
 /* ========================================================================== 
-   END Your Collections */
-
+   END Game AppPage Header */
 /* ==================== Game AppPage Sections ====================
    ========================================================================== */
 /*Remove Appdetail margins */
-
 .appdetailssection_AppDetailsSection_2r4TK {
   padding-bottom: 6px;
   margin: 0px;
@@ -323,7 +416,6 @@
   background: radial-gradient(100% 80% at 64% 95%, rgba(104, 112, 124, 0.5) 0%, rgba(91, 99, 112, 0.5) 40%, rgba(24, 35, 36, 0.5) 100%);
 }
 
-
 button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_BottomRight_3nJyY {
   margin-top: -4px;
   padding: 2px 8px;
@@ -333,61 +425,61 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_Bot
   margin-bottom: 6px;
 }
 
-
 /* Move Additional Content to bottom */
-div.appdetailsoverview_RightColumn_2aor4>div:nth-child(3) {
-  order: 5;
+div.appdetailsoverview_RightColumn_2aor4 > div:nth-child(3) {
+  -webkit-box-ordinal-group: 6;
+      -ms-flex-order: 5;
+          order: 5;
 }
 
 /* ========================================================================== 
    END Game AppPage Sections */
-
 /* ================== Game AppPage Header/Section Boundary ==================
    ========================================================================== */
 /* added a darker gradient to the top of the apppage below the Game Image */
-
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_Backdrop_1Qa-A {
+  background: -webkit-gradient(linear, left bottom, left top, from(rgba(40, 41, 49, 0)), color-stop(35%, rgba(51, 51, 51, 0.2)), to(rgba(51, 51, 51, 0.5)));
   background: linear-gradient(0deg, rgba(40, 41, 49, 0) 0%, rgba(51, 51, 51, 0.2) 35%, rgba(51, 51, 51, 0.5) 100%);
 }
 
 /* Height of blur over background image. If a low value, most of the background will be clear. default: 450px
-   Background color
-*/
-
+     Background color
+  */
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
   height: 2000px;
   background: linear-gradient(to bottom, rgba(40, 40, 40, 0.1) 0%, rgba(39, 44, 53, 0.5) 82px, rgba(40, 40, 40, 0.6) 92%, rgba(40, 40, 40, 0) 100%);
-  backdrop-filter: blur(var(--AppPageBlur));
+  -webkit-backdrop-filter: blur(var(--AppPageBlur));
+          backdrop-filter: blur(var(--AppPageBlur));
+}
+
+/* Game AppPage Info Panel ======================================== */
+.appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_SectionContainer_1uS70 .appdetailsgameinfopanel_GameDescription_3GkV1 {
+  color: #c3c3c3;
 }
 
 /* ========================================================================== 
    END Game AppPage Header/Section Boundary */
-
-/* Game AppPage Info Panel ======================================== */
-.appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_SectionContainer_1uS70 .appdetailsgameinfopanel_GameDescription_3GkV1 {
-  color: rgba(195, 195, 195, 1);
-}
-
-
-/* Game AppPage Post-Game Summary & Spotlight
+/* ================== Game AppPage Post-Game Summary & Spotlight ==================
    ========================================================================== */
 /* Expand Post-Game summary to fill width */
-
 .boxcarousel_BoxCarousel_3fiHs.spotlightgameplaysummary_SummaryCarouselContainer_wgbDI {
   /* height: 192.5px !important; */
   width: 163%;
 }
 
-div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appdetailsoverview_ColumnContainer_OhSdL>div.appdetailsoverview_Spotlights_11kuV>div>div>div>div.pageablecontainer_HeaderPageControls_2ce8e {
+.appdetailsoverview_Container_27RcN {
+  /* Adjust padding */
+  /* Reduce Spotlight width and size */
+}
+
+.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY > div.appdetailsoverview_ColumnContainer_OhSdL > div.appdetailsoverview_Spotlights_11kuV > div > div > div > div.pageablecontainer_HeaderPageControls_2ce8e {
   width: 163%;
 }
 
-/* Adjust padding */
 .appdetailsoverview_Container_27RcN .appdetailsoverview_ColumnContainer_OhSdL {
   padding: 4px 10px;
 }
 
-/* Reduce Spotlight width and size */
 .appdetailsoverview_Container_27RcN .appdetailsoverview_Spotlights_11kuV {
   width: 59.5%;
 }
@@ -401,19 +493,21 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 }
 
 /*Change Game Summary separator from small dot to thin line-clamp*/
-
 .spotlightgameplaysummary_TypeSeparator_11ner {
   background-color: rgba(132, 154, 182, 0.3);
   width: 1px;
   height: 160px;
   border-radius: 3%;
   margin: 10px 16px;
-  align-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
 }
 
-/* Game AppPage MAIN COLUMNS
+/* ========================================================================== 
+   END Game AppPage Post-Game Summary & Spotlight */
+/* ================== Game AppPage MAIN COLUMNS ==================
    ========================================================================== */
-
 .appdetailsoverview_Container_27RcN .appdetailsoverview_RightColumn_2aor4 {
   width: var(--FriendsDLCScreenshotsColumnWidth);
   margin-left: 0;
@@ -425,30 +519,16 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   max-width: unset;
 }
 
-
-/* Game AppPage Achievements Section ======================================== */
-/*
-.appdetailsachievementssection_Featured_1j_gj .appdetailsachievementssection_TextSection_1s_9c .appdetailsachievementssection_Name_39Y01 {
-  font-size: 12px;
-}
-
-.appdetailsachievementssection_Featured_1j_gj .appdetailsachievementssection_TextSection_1s_9c .appdetailsachievementssection_Desc_2gLHb {
-  font-size: 11px;
-}
-*/
-
-
+/* ========================================================================== 
+   END Game AppPage MAIN COLUMNS */
 /* Game AppPage Play Bar
    ========================================================================== */
-/* increase text opacity of heading fr Last Played, Play Time, Achievements*/
-
+/* increase text opacity of heading for Last Played, Play Time, Achievements*/
 .appdetailsplaysection_PlayBarLabel_34lrt {
   color: rgba(255, 255, 255, 0.9);
 }
 
-
 /* increase icon opacity of Play Time */
-
 .appdetailsplaysection_Playtime_1aKeg .appdetailsplaysection_PlaytimeIcon_1GZdo svg polyline,
 .appdetailsplaysection_Playtime_1aKeg .appdetailsplaysection_PlaytimeIcon_1GZdo svg path {
   stroke: rgba(255, 255, 255, 0.5);
@@ -459,23 +539,16 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   fill: rgba(255, 255, 255, 0.5);
 }
 
-
 /* increase text opacity of value for Last Played, Play Time*/
-
 .appdetailsplaysection_PlayBarDetailLabel_2TYVG,
 .appdetailsplaysection_LastPlayed_3pS8k .appdetailsplaysection_LastPlayedInfo_1nfJN {
   color: rgba(255, 255, 255, 0.5);
 }
 
-
-/* LEFT COLUMN */
-
 /* Game AppPage Activity - Friends
    ========================================================================== */
-   
 /* Compact News */
 /* Remove Activity item margin */
-
 .appactivityday_AppActivityDay_S2Fu9 {
   margin-bottom: 0px;
   margin-top: -29px;
@@ -487,17 +560,18 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 }
 
 /* Activity Achievement Unlocked to 2 columns */
-
 .appactivityday_ActivityAchievementUnlocked_yJLy7 {
   padding: 6px;
-  grid-template-columns: repeat(auto-fill, [col-start] minmax(140px, 48%) [col-end]) !important;
+  -ms-grid-columns: ([col-start] minmax(140px, 48%) [col-end])[auto-fill] !important;
+      grid-template-columns: repeat(auto-fill, [col-start] minmax(140px, 48%) [col-end]) !important;
   gap: 8px 8px;
 }
 
 /* Game AppPage Activity - Broadcasts
    ========================================================================== */
 .appdetailssection_Body_5uvIN.appdetailsbroadcastsection_Body_CFp7F {
-  align-content: flex-end;
+  -ms-flex-line-pack: end;
+      align-content: flex-end;
 }
 
 .appdetailsbroadcastsection_BroadcastBox_9nwsC {
@@ -508,24 +582,20 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 
 /* Game AppPage Activity - Events
    ========================================================================== */
-   
 /* Activity Heading Padding */
 .appdetailsactivitysection_ActivityFeedContainer_3yTl3 > div {
   padding-left: 0px;
 }
 
 /* Remove Activity Event margin */
-
 .appactivityday_Event_UVeN0 {
   margin-top: 3px;
 }
 
 /* Font size for large event title */
-
 .appactivityday_PartnerEventLargeImage_Title_3fsjz {
   font-size: 16px;
 }
-
 
 /* Font size for medium event*/
 .appactivityday_PartnerEventMediumImage_Title_1gljE {
@@ -537,7 +607,6 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 }
 
 /* Fix event image and text widths */
-
 .appactivityday_ImageContainer_1XpBI {
   max-width: 260px;
   min-width: 240px;
@@ -553,7 +622,9 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   position: relative;
   padding: 8px 12px 12px 0px;
   margin-top: 0px;
-  flex: 1;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
   max-height: 130px;
 }
 
@@ -573,18 +644,19 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
 
 .appactivityday_PartnerEventMediumImage_TextColumn_3dJ4B {
   padding: 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
 /* margin bottom for trading card activity */
 .appactivityday_TradingCardSection_2IS7Z {
-    margin-bottom: 12px;
+  margin-bottom: 12px;
 }
 
 /* Game AppPage Navigation Bar
    ========================================================================== */
 /* Tweak nav bar to be bigger and more opaque*/
-
 .appdetailsprimarylinkssection_LinksSection_3-V8v .appdetailsprimarylinkssection_Links_DgVQa {
   height: 35px !important;
 }
@@ -609,154 +681,61 @@ div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appde
   padding: 3px 12px 3px 12px;
 }
 
-
-
-/* Home Page - What's New
-   ========================================================================== */
-/* Height of What's New container */
-.LibraryDisplaySizeSmall .libraryhome_UpdatesContainer_17uEB {
-  height: 270px;
-}
-
-.smartscrollcontainer_Body_3lDcz.libraryhome_InnerContainer_2AUVZ {
-  display: flex;
-  flex-flow: column;
-}
-
-/* Move What's New to bottom */
-
-.libraryhome_WhatsNewContainer_gdZT7 {
-  display: var(--WhatsNew);
-  order: var(--WhatsNewOrder);
-
-}
-
-/* Home Page - Steam Games Grid
-   ========================================================================== */
-
-/* Move Hours Played/Size on Disk/Metacritic Score... text box up */
-
-.appportrait_LibraryItemBoxSubscript_1LJqx {
-  margin-top: -32px;
-  padding: 2px 8px;
-}
-
-/* Move small "Friend Playing" box on Steam Grid */
-.appportrait_FriendsBar_3dncO.appportrait_IconsView_1WWmQ:not(.appportrait_PortraitHover_301ft) {
-  transform: translateY(-13px);
-}
-
-.appportrait_Short_yGeS6 .appportrait_FriendsBar_3dncO.appportrait_IconsView_1WWmQ {
-    top: unset;
-}
-
-/* Recommended corresponding JS tweak: default gap is 24px 16px */
-.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG,
-.appgrid_YourCollection_11p6F {
-  gap: var(--GridRowGap) var(--GridColumnGap) !important;
-}
-
-
-.appportrait_HoversEnabled_54PuC .appportrait_LibraryItemBox_WYgDg:hover .appportrait_UninstalledIcon_8YrRm {
-  opacity: .9;
-}
-
-/* Remove grid shine/glare */
-.appportrait_LibraryItemBoxShine_MyNb5 {
-  display: var(--RemoveShine);
-}
-
-/* Remove transitioning on game images when scrolling */
-.appportrait_PortraitImage_2IYf7 {
-
-  transition-duration: var(--GameImageTransition) !important;
-  transition-timing-function: unset;
-}
-
-/* Background color behind game images */
-.appportrait_LibraryItemBox_WYgDg {
-  background-color: var(--GameGridImageBackground);
-}
-
-/* Grid game image opacity */
-.appportrait_PortraitImage_2IYf7.appportrait_Capsule_13w3S.appportrait_CapsuleVisible_3QIfJ {
-  opacity: var(--GameImageOpacity);
-}
-
-/* Grid - Uninstalled game image opacity */
-.appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(2) {
-  opacity: var(--UninstalledGameImageOpacity);
-}
-
-.appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(3) {
-  opacity: var(--UninstalledGameImageOpacity);
-}
-
-/* CSS Grid height unset */
-.cssgrid_Container_DGRkX {
-  height: unset !important;
-}
-
-/* Add bottom padding for shelf */
-.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG {
-  padding-bottom: 8px;
-}
-
-
 /*Responsive DLC Grid Columns */
-
 div.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  -ms-grid-columns: (minmax(200px, 1fr))[auto-fill];
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   /*justify-content: center;*/
 }
 
-
 /*Shrink Screenshots size to show more (JS recommended)*/
-
 .appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-template-rows: auto auto auto;
+  -ms-grid-columns: (minmax(200px, 1fr))[auto-fill];
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  -ms-grid-rows: auto auto auto;
+      grid-template-rows: auto auto auto;
   overflow-y: scroll;
 }
 
 div.NarrowRightPanel .appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
-  grid-template-rows: auto auto;
+  -ms-grid-rows: auto auto;
+      grid-template-rows: auto auto;
 }
 
+/* Modules */
 /*DLC MANAGER - JS Recommended
 - row height set to 40px from 90px with JS
 - gloss*/
-
 .managedlcdialog_Container_1Gc2g .managedlcdialog_NameAndArt_2Mxb5 {
   height: 40px;
 }
 
-div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div.libraryassetimage_Container_1R9r2.libraryassetimage_Visibility_3d_bT.libraryassetimage_Visible_yDr03.libraryassetimage_LandscapeImage_ZsU8n.appdetailsdlcsection_Art_3SQn1>img {
+div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.libraryassetimage_Container_1R9r2.libraryassetimage_Visibility_3d_bT.libraryassetimage_Visible_yDr03.libraryassetimage_LandscapeImage_ZsU8n.appdetailsdlcsection_Art_3SQn1 > img {
   width: 48%;
   margin: 0 auto;
   height: 40px;
 }
 
-.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div.appdetailsdlcsection_Gloss_HAvWs {
+.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div.appdetailsdlcsection_Gloss_HAvWs {
   width: 44%;
   left: 28%;
 }
 
-.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>img {
+.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > img {
   width: 44%;
 }
 
-div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
-  box-shadow: none !important;
+div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
 }
 
 /* END DLC MANAGER */
-
-
-/*HORIZONTAL GAME IMAGE TWEAKS*//*
-
+/*HORIZONTAL GAME IMAGE TWEAKS*/
 .appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
-  grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
+  -ms-grid-columns: 202px (minmax(0, 1fr))[2] max-content;
+      grid-template-columns: 202px repeat(2, minmax(0, 1fr)) -webkit-max-content;
+      grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
 }
 
 .appportrait_LibraryItemBoxSubscript_1LJqx {
@@ -764,15 +743,11 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 }
 
 .boxcarousel_BoxCarouselContents_3CJct.boxcarousel_MaskRight_1urF0 {
-    padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 
-
-*//*END HORIZONTAL GAME IMAGE TWEAKS*/
-
-
+/*END HORIZONTAL GAME IMAGE TWEAKS*/
 /* LIST VIEW ONLY TWEAKS - EXPERIMENTAL */
-
 /*
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
   grid-template-columns: repeat(auto-fill, 1000px) !important;
@@ -788,26 +763,26 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
   margin-left: 115px;
 }
 */
-
 /* END LIST VIEW ONLY TWEAKS */
-
-
-/* PLAY BAR LAYOUT - BETA *//*
+/* PLAY BAR LAYOUT - BETA */
 :root {
   --VerticalNavBarOffset: -70px;
 }
 
 .appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {
-  transform: translate(calc(8vmax - 27%), calc(-8vmax - 42%));
+  -webkit-transform: translate(calc(8vmax - 27%), calc(-8vmax - 42%));
+          transform: translate(calc(8vmax - 27%), calc(-8vmax - 42%));
   width: 33%;
   max-width: 345px;
   background: rgba(40, 40, 40, 0.7);
-  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
   border-radius: 4px;
 }
 
 .appdetailsplaysection_InnerContainer_3Y87Y {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   padding: 10px 12px 7px 12px;
   overflow-y: hidden;
 }
@@ -817,19 +792,25 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 }
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
-  transform: translateY(-140px);
+  -webkit-transform: translateY(-140px);
+          transform: translateY(-140px);
 }
 
-.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY> :nth-child(6) {
-  transform: translateY(-140px);
+.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY > :nth-child(6) {
+  -webkit-transform: translateY(-140px);
+          transform: translateY(-140px);
 }
 
 .appdetailsgameinfocontainer_AppGameInfoContainer_25oBZ {
-  transform: translateY(-140px);
+  -webkit-transform: translateY(-140px);
+          transform: translateY(-140px);
 }
 
 .appdetailsplaysection_Row_9EHg9 {
-  flex-flow: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
   width: 100%;
 }
 
@@ -844,7 +825,6 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
   pointer-events: all;
 }
 
-
 .appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe {
   width: 70%;
 }
@@ -858,16 +838,22 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 }
 
 .appdetailsplaysection_StatusAndStats_1YbtI .appdetailsplaysection_StatusNameContainer_zjtAI {
-  align-items: unset;
+  -webkit-box-align: unset;
+      -ms-flex-align: unset;
+          align-items: unset;
   overflow: visible;
 }
 
-
 .appdetailsplaysection_GameStatsSection_1mDAV {
   width: 100%;
-  flex-direction: column;
-  align-content: flex-start;
-  flex-wrap: wrap;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .appdetailsplaysection_StatusAndStats_1YbtI .appdetailsplaysection_GameStatsSection_1mDAV {
@@ -894,53 +880,57 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 
 .appdetailsplaysection_RightControls_1EAxK {
   margin-left: auto;
-  justify-content: flex-end;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
   z-index: 2;
 }
 
-
 .appdetailsplaysection_ActionSection_2zxzS {
   width: 50%;
-  transform: scale(1);
-  transform-origin: left;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  -webkit-transform-origin: left;
+          transform-origin: left;
 }
-
 
 .appdetailsplaysection_GameStat_1kiZK {
   margin: 0px;
 }
 
-.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe>div>div>div {
-  flex-direction: row;
+.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe > div > div > div {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
 }
 
-.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe>div>div>div>div.appdetailsplaysection_StatusAndStats_1YbtI>div.appdetailsplaysection_DetailsSection_1dg8h.appdetailsplaysection_Downloading_2F4Pc {
+.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe > div > div > div > div.appdetailsplaysection_StatusAndStats_1YbtI > div.appdetailsplaysection_DetailsSection_1dg8h.appdetailsplaysection_Downloading_2F4Pc {
   width: 32%;
 }
-
 
 .appdetailsplaysection_PlayBarLabel_34lrt {
   max-height: 16px;
 }
 
-
-.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe>div>div>div> :nth-child(1) {
+.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe > div > div > div > :nth-child(1) {
   width: unset;
 }
 
 .appdetailsplaysection_StickyHeaderShadow_2_86Q {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(40, 40, 40, 0.5)), color-stop(30%, rgba(40, 40, 40, 0.2)), to(rgba(40, 40, 40, 0)));
   background: linear-gradient(to bottom, rgba(40, 40, 40, 0.5) 0%, rgba(40, 40, 40, 0.2) 30%, rgba(40, 40, 40, 0) 100%);
 }
-
-
 
 .appdetailsplaysection_RightControls_1EAxK {
   margin-top: -90px;
 }
 
-
 .appdetailsplaysection_AppButtonsContainer_lO1IF {
-  flex-flow: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
   padding-bottom: 10px;
 }
 
@@ -949,45 +939,58 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
   margin-top: 5px;
 }
 
-.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe>div>div>div> :nth-child(3)>div {
-  flex-direction: row;
+.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe > div > div > div > :nth-child(3) > div {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
 }
 
-.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe>div>div>div> :nth-child(3)>div>div {
+.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe > div > div > div > :nth-child(3) > div > div {
   margin-right: 5px;
 }
-*//* END PLAY BAR LAYOUT */
 
-/* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS *//*
-
+/* END PLAY BAR LAYOUT */
+/* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS */
 .sharedappdetailsheader_BoxSizerContainer_A14yd {
   z-index: 2;
 }
 
 .appdetailsgameinfocontainer_AppGameInfoContainer_25oBZ.appdetailsgameinfocontainer_AppDetailsExpanded_3s6_6.appdetailsgameinfocontainer_Glassy_2QAgO {
-  order: 2;
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
 }
+
 .appdetailsgameinfocontainer_AppGameInfoContainer_25oBZ.appdetailsgameinfocontainer_AppDetailsCollapsed_3yfoe.appdetailsgameinfocontainer_Glassy_2QAgO {
-  order: 2;
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
 }
+
 .appdetailsoverview_ColumnContainer_OhSdL {
-  order: 3;
+  -webkit-box-ordinal-group: 4;
+      -ms-flex-order: 3;
+          order: 3;
 }
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
   margin-left: auto;
-  transform: translate(10px, -290px) translateY(var(--VerticalNavBarOffset));
+  -webkit-transform: translate(10px, -290px) translateY(var(--VerticalNavBarOffset));
+          transform: translate(10px, -290px) translateY(var(--VerticalNavBarOffset));
+  position: -webkit-sticky;
   position: sticky;
   height: 0px !important;
-  min-width: 185px;
-  max-width: 195px;
+  min-width: 220px;
+  max-width: 220px;
   border-radius: 4px;
   pointer-events: all;
   z-index: 5 !important;
   padding: 0px;
 }
 
-.appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v>div {
+.appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v > div {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(95.8%, rgba(40, 40, 40, 0.7)), to(rgba(40, 40, 40, 0))) !important;
   background: linear-gradient(rgba(40, 40, 40, 0.7) 95.8%, rgba(40, 40, 40, 0) 100%) !important;
   background-size: 89% 100% !important;
   background-repeat: no-repeat !important;
@@ -999,8 +1002,6 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
   min-height: 0px;
 }
 
-.appdetailsoverview_ColumnContainer_OhSdL {}
-
 .appdetailsheader_HeaderFeatures_2b6Wk,
 .sharedappdetailsheader_TitleSection_30acA {
   right: calc(122vw * 0.15);
@@ -1008,16 +1009,13 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 }
 
 .sharedappdetailsheader_TopCapsule_NZMJ6 {
-    min-height: 240px;
+  min-height: 240px;
 }
 
-*//* END VERTICAL NAV BAR */
-
-
-/* CLASSIC LAYOUT - BETA *//*
-
+/* END VERTICAL NAV BAR */
+/* CLASSIC LAYOUT - BETA */
 .sharedappdetailsheader_TopCapsule_NZMJ6 {
-    min-height: unset;
+  min-height: unset;
 }
 
 .appdetailsheader_HeaderFeatures_2b6Wk {
@@ -1026,6 +1024,14 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 
 .sharedappdetailsheader_TitleSection_30acA {
   right: 0;
+}
+
+.appdetailsoverview_Container_27RcN .appdetailsoverview_Spotlights_11kuV.appdetailsoverview_SpotlightLeftColumn_3wbnd {
+  width: unset;
+}
+
+.appdetailsoverview_Container_27RcN .appdetailsoverview_Spotlights_11kuV {
+  width: calc(103.4% - 258px);
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_RightColumn_2aor4 {
@@ -1044,14 +1050,16 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 }
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
-  transform: none;
+  -webkit-transform: none;
+          transform: none;
 }
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
-  transform: translate(5px, 0px) translateY(calc(var(--VerticalNavBarOffset) * 1.7));
+  -webkit-transform: translate(5px, 0px) translateY(calc(var(--VerticalNavBarOffset) * 1.7));
+          transform: translate(5px, 0px) translateY(calc(var(--VerticalNavBarOffset) * 1.7));
+  position: -webkit-sticky;
   position: sticky;
   height: 0px;
-
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB {
@@ -1059,11 +1067,173 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 }
 
 .boxcarousel_BoxCarousel_3fiHs.spotlightgameplaysummary_SummaryCarouselContainer_wgbDI {
-  width: 140%;
+  width: 100%;
 }
 
-div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appdetailsoverview_ColumnContainer_OhSdL>div.appdetailsoverview_Spotlights_11kuV>div>div>div>div.pageablecontainer_HeaderPageControls_2ce8e {
-  width: 140%;
+div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY > div.appdetailsoverview_ColumnContainer_OhSdL > div.appdetailsoverview_Spotlights_11kuV > div > div > div > div.pageablecontainer_HeaderPageControls_2ce8e {
+  width: 100%;
 }
 
-*//* END CLASSIC LAYOUT */
+/* END CLASSIC LAYOUT */
+/*@import "./module_homeicon";*/
+/* Themes applied after CSS Tweaks */
+/* @import "../themes/_spiked"; */
+/* Acrylic Theme by Jonius7
+Original Design by EliteSkylu
+*/
+:root {
+  /*--GameListZoomSize: 100%;*/
+  /*--WhatsNewOrder:0;*/
+  /*--UninstalledGameImageOpacity: 1;*/
+}
+
+/* Home and search buttons */
+.gamelisthome_Bar_3pSPl {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.gamelisthome_CollectionIcon_nC-pL .gamelisthome_CollectionIconBox_2tyaV {
+  background: #aaaaaa;
+}
+
+.gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx .gamelisthome_CollectionIconBox_2tyaV {
+  background-color: #b0deea;
+}
+
+/* Home Label */
+.gamelisthome_Label_3O48L {
+  color: #aaaaaa;
+}
+
+.gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L {
+  color: #b0deea;
+}
+
+.gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.gamelistdropdown_Bar_1ZS_x .gamelistdropdown_MenuHeader_2PF_m {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+/* Recent Search and Installed Game Buttons */
+.gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg path, .gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg line, .gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg polyline, .gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg circle {
+  stroke: #aaaaaa;
+}
+
+.gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg {
+  fill: #aaaaaa;
+}
+
+/* search bar color */
+.gamelistsearchbar_Container_20QAC .gamelistsearchbar_SearchInput_12vo5 .DialogTextInputBase, .gamelistsearchbar_Container_20QAC .gamelistsearchbar_AdvancedSearchContainer_vCCmY {
+  background-color: rgba(51, 55, 60, 0.6);
+}
+
+.gamelistsearchbar_Container_20QAC {
+  padding-left: 0px;
+  padding-right: 15px;
+}
+
+.gamelistdropdown_Bar_1ZS_x {
+  padding-right: 15px;
+}
+
+/* Sidebar container */
+.gamelistbar_Container_3x1Hk {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#525E6A), color-stop(20%, #232C3B), color-stop(50%, #0B151F), color-stop(75%, #283D4E), color-stop(94%, #556877));
+  background-image: linear-gradient(to bottom, #525E6A 0%, #232C3B 20%, #0B151F 50%, #283D4E 75%, #556877 94%);
+  /*, rgba(255,255,255,1) 100%);*/
+  padding-left: 15px;
+}
+
+.gamelistbar_GameListHomeAndSearch_2TKEa {
+  padding: 6px 3px 0px 0px;
+}
+
+.gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
+  -webkit-transform: translateX(-6.75px);
+          transform: translateX(-6.75px);
+}
+
+.gamelistentry_FriendStatusHover_2iiN7 {
+  -webkit-transform: translateX(-6.75px);
+          transform: translateX(-6.75px);
+}
+
+/* fade in out at edges */
+.gamelist_Container_1ijTa {
+  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(75%, black), to(transparent));
+  -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+}
+
+/* Section Header */
+.gamelistsectionheader_Container_2sYIg {
+  background: -webkit-gradient(linear, left top, right top, color-stop(50%, #015AFF), to(rgba(62, 78, 105, 0)));
+  background: linear-gradient(to right, #015AFF 50%, rgba(62, 78, 105, 0) 100%);
+  border-radius: 3px;
+}
+
+.gamelistsectionheader_SectionName_2mZ8L {
+  font-size: 14px;
+  text-transform: unset;
+  letter-spacing: 1px;
+  overflow: unset;
+}
+
+/* Library Grid background */
+.libraryhome_LibraryHome_3Sb2o {
+  background-image: unset;
+}
+
+/* What's new Background */
+.libraryhome_UpdatesContainer_17uEB {
+  background: unset;
+}
+
+/* What's New rounded corners */
+.libraryhomenewupdates_PartnerEventRowCapsule_MainImageContainer_SPz0i {
+  border-radius: 10px;
+}
+
+/* Library background */
+.libraryhome_Container_2gSXC {
+  /*background-image: linear-gradient(to bottom, #272B2E 0%, #272B2E 27%, #32373A 31%, #131D26 50%, #1E2327 60%, #32373D 85%, #2B3035 100%);*/
+  background-image: -webkit-gradient(linear, left top, right top, from(#07110E), color-stop(15%, #1B2228), color-stop(50%, #25292C), color-stop(80%, #272B2E), to(#1A1F23));
+  background-image: linear-gradient(to right, #07110E 0%, #1B2228 15%, #25292C 50%, #272B2E 80%, #1A1F23 100%);
+}
+
+/* Shelf Title */
+.libraryhomeshowcases_CollectionDropDown_1YdRd ._DialogInputContainer, .pageablecontainer_HeaderPageControls_2ce8e .pageablecontainer_Name_EckfX {
+  text-transform: unset;
+}
+
+/* Sorting Labels */
+.appgrid_SortingDropDown_1tBzy .appgrid_SortingDropDownLabel_1ljKT, .libraryhomeshowcases_AddShowcaseRow_3SkuN .libraryhomeshowcases_AddShowcase_2aw5a {
+  text-transform: capitalize;
+}
+
+/* Rounded Game boxes */
+.appportrait_LibraryItemBox_WYgDg {
+  border-radius: 10px;
+}
+
+/*scrollbar*/
+.library_Container_3xRRJ *::-webkit-scrollbar-thumb, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar-thumb {
+  background-color: rgba(1, 90, 255, 0.7);
+}
+
+.library_Container_3xRRJ *::-webkit-scrollbar-thumb:hover, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(1, 90, 255, 0.9);
+}
+
+.library_Container_3xRRJ *::-webkit-scrollbar {
+  /*background-color: rgba(150,150,155,0.05);*/
+  background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(15%, rgba(120, 120, 125, 0.05)), color-stop(85%, rgba(120, 120, 125, 0.05)), to(transparent));
+  background-image: linear-gradient(to bottom, transparent 0%, rgba(120, 120, 125, 0.05) 15%, rgba(120, 120, 125, 0.05) 85%, transparent 100%);
+}
+
+/* END CSS for Acrylic Theme */
+/* @import "../themes/_crispcut"; */
+/*# sourceMappingURL=libraryroot.custom.css.map */

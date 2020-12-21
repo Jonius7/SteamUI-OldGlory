@@ -1,0 +1,105 @@
+/* ==================== Home and Collections ====================
+   ========================================================================== */
+
+/* Library Home padding and background */
+.libraryhome_LibraryHome_3Sb2o {
+  padding: 8px 12px 12px; /* default 8px 14px 14px */
+  /*background-image: linear-gradient(to bottom, #2d333c 0%, #24282f 20%);*/
+}
+
+/* Home Page - What's New
+   ========================================================================== */
+/* Height of What's New container */
+.LibraryDisplaySizeSmall .libraryhome_UpdatesContainer_17uEB {
+  height: 270px;
+}
+
+.smartscrollcontainer_Body_3lDcz.libraryhome_InnerContainer_2AUVZ {
+  display: flex;
+  flex-flow: column;
+}
+
+/* Position What's New */
+.libraryhome_WhatsNewContainer_gdZT7 {
+  display: var(--WhatsNew);
+  order: var(--WhatsNewOrder);
+}
+
+/* Home Page - Steam Games Grid
+   ========================================================================== */
+
+/* Move Hours Played/Size on Disk/Metacritic Score... text box up */
+
+.appportrait_LibraryItemBoxSubscript_1LJqx {
+  margin-top: -32px;
+  padding: 2px 8px;
+}
+
+/* Move small "Friend Playing" box on Steam Grid */
+.appportrait_FriendsBar_3dncO.appportrait_IconsView_1WWmQ:not(.appportrait_PortraitHover_301ft) {
+  transform: translateY(-13px);
+}
+
+.appportrait_Short_yGeS6 .appportrait_FriendsBar_3dncO.appportrait_IconsView_1WWmQ {
+  top: unset;
+}
+
+/* Recommended corresponding JS tweak: default gap is 24px 16px */
+.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG,
+.appgrid_YourCollection_11p6F {
+  gap: var(--GridRowGap) var(--GridColumnGap) !important;
+}
+
+
+.appportrait_HoversEnabled_54PuC .appportrait_LibraryItemBox_WYgDg:hover .appportrait_UninstalledIcon_8YrRm {
+  opacity: .9;
+}
+
+/* Remove grid shine/glare */
+.appportrait_LibraryItemBoxShine_MyNb5 {
+  display: var(--RemoveShine);
+}
+
+/* Remove transitioning on game images when scrolling */
+.appportrait_PortraitImage_2IYf7 {
+
+  transition-duration: var(--GameImageTransition) !important;
+  transition-timing-function: unset;
+}
+
+/* Background color behind game images */
+.appportrait_LibraryItemBox_WYgDg {
+  background-color: var(--GameGridImageBackground);
+}
+
+/* Grid game image opacity */
+.appportrait_PortraitImage_2IYf7.appportrait_Capsule_13w3S.appportrait_CapsuleVisible_3QIfJ {
+  opacity: var(--GameImageOpacity);
+}
+
+/* Grid - Uninstalled game image opacity */
+.appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(2) {
+  opacity: var(--UninstalledGameImageOpacity);
+}
+
+.appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(3) {
+  opacity: var(--UninstalledGameImageOpacity);
+}
+
+/* CSS Grid height unset */
+.cssgrid_Container_DGRkX {
+  height: unset !important;
+}
+
+/* Add bottom padding for shelf */
+.cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG {
+  padding-bottom: 8px;
+}
+
+/* Your Collections header and side padding reduced*/
+.allcollections_ScrollContainer_u1xD3 {
+  padding: 10px 14px;
+}
+
+/* ========================================================================== 
+   END Home and Collections */

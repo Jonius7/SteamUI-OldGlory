@@ -1,0 +1,37 @@
+/* Configurable variables */
+:root {
+  /* What's New */
+  --WhatsNew: block;  /* Default: block. Set to none to hide What's New */
+  --WhatsNewOrder: 2;  /* Default: 0. Set 0 to put to top, 1 or higher to put to bottom */
+
+  /* Left Sidebar - Games List */
+  --HoverOverlayPosition: unset;  /* Default: 0. Set 0 if default JS, unset if tweaked JS */
+  --GameListEntrySize: 16px;  /* Default: 16px.  */
+  --CategoryNameHeaderSize: 13px;  /* Default: 13px.  */
+  --GameListZoomSize: 75%;  /* Default: 100%. 75% highly recommended for Game List similar to old Library UI. Affects GameListEntrySize and CategoryNameHeaderSize */
+  --ShowLeftSidebar: flex;  /* Default: flex. Set to none to hide left sidebar */
+
+  /* Right Click Context Menu */
+  --ContextMenuLineHeight: 16px;  /* Default: inherit. Currently will override very long category names */
+  --ContextMenuFontSize: 13px;  /* Default: 14px.  */
+
+  /* Game Grid */
+  --RemoveShine: none;  /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
+  --GameImageTransition: 1.5s;  /* Default: . 4s, .4s, .4s, .2s. Grid Game Images transition time. 0s for instant, 2s for smooth. */
+  --GameImageOpacity: 1;  /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5 */
+  --UninstalledGameImageOpacity: 0.5;  /* Default: 1. Suggested values: 0.5, 0.2 */
+  --GameGridImageBackground: inherit;  /* Default: inherit. Default is inherit, set #365d2d for a friendly green */
+  --GridRowGap: 8px;  /* Default: 24px. Corresponds with JavaScript tweak - Home Page Grid Spacing. */
+  --GridColumnGap: 5px;  /* Default: 16px. Corresponds with JavaScript tweak - Home Page Grid Spacing. */
+
+  /* Game Page Layout */
+  --FriendsDLCScreenshotsColumnWidth: 61%;  /* Default: 33%. Determines width of the Friends Who Play/Achievements/Screenshots/DLC/Trading Cards column. Friend Activity/News column will fill the rest. */
+  --SwapColumns: left;  /* Default: right. Set left to swap columns. */
+
+  /* Game Page Background */
+  --AppPageBlur: 2px;  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look. */
+  --AmbientBlur: black;  /* Default: black 80%. Set to rgba(0,0,0,0) to remove */
+
+  /* Other */
+  --VerticalNavBarOffset: 0px;  /* Default: 0px. Leave at 0px, this var is for steam-library compatibility and vertical nav bar */
+}

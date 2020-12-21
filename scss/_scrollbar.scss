@@ -1,0 +1,24 @@
+/* ==================== Scrollbar Tweaks ====================
+   ========================================================================== */
+
+.library_Container_3xRRJ *::-webkit-scrollbar, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar {
+  width: 16px; /* default 12px */
+  
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px; /* default 10px */
+}
+
+.library_Container_3xRRJ *::-webkit-scrollbar-thumb, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar-thumb {
+  border: 1px solid transparent; /* default: 3px solid transparent */
+  border-right: 0px solid transparent;
+  background-color: rgba(140,140,140,0.35);
+}
+
+.library_Container_3xRRJ *::-webkit-scrollbar-thumb:active, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar-thumb:active {
+  border: 1px solid transparent;
+  border-right: 0px solid transparent;
+}
+
+/* ========================================================================== 
+   END Scrollbar Tweaks */
