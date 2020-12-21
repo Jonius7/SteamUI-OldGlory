@@ -1055,8 +1055,8 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X > div {
 }
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
-  -webkit-transform: translate(5px, 0px) translateY(calc(var(--VerticalNavBarOffset) * 1.7));
-          transform: translate(5px, 0px) translateY(calc(var(--VerticalNavBarOffset) * 1.7));
+  -webkit-transform: translate(15px, 0px) translateY(calc(var(--VerticalNavBarOffset) * 1.7));
+          transform: translate(15px, 0px) translateY(calc(var(--VerticalNavBarOffset) * 1.7));
   position: -webkit-sticky;
   position: sticky;
   height: 0px;

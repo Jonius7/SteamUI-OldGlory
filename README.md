@@ -7,12 +7,16 @@ Check `/dev` branch for in-progress tweaks.
 
 ### Video Guide and GIF
 
-<img src="https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif" alt="Alt Text" style="zoom:95%;" /> | [<img src="https://i.imgur.com/NsoxgiA.png" alt="Video Guide to Customising The Steam Library"/>](https://youtu.be/foCewvyOszQ)
+<img src="https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif" alt="Alt Text" style="zoom:95%;" /> 
+
+[<img src="https://i.imgur.com/FYDDWVW.png" alt="Video Guide to Customising The Steam Library"/>](https://youtu.be/foCewvyOszQ)
 
 ### Showcase of Tweaks
 
 <details><summary>(click to expand)</summary><br>
-    Condensed sidebar buttons <br>
+    Co
+
+Condensed sidebar buttons <br>
     <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 40%;" /> <br><br>
     Show more games <br>
     <img src="https://i.imgur.com/c0AJnsn.png" alt="Show more games" style="zoom: 55%;" /> <br><br>
@@ -23,8 +27,11 @@ Check `/dev` branch for in-progress tweaks.
     Show more DLC and screenshots <br>
     <img src="https://media.giphy.com/media/cbPuBtJ1ez2v55SptR/giphy.gif" alt="Show more DLC" style="zoom:80%;" /> <br><br>
     Play bar moved up into box <br>
-    <img src="https://i.imgur.com/HrgBUPl.png" alt="Play bar moved up into box" style="zoom:80%;" />
+    <img src="https://i.imgur.com/HrgBUPl.png" alt="Play bar moved up into box" style="zoom:80%;" /> <br><br>
+    Classic Layout <br>
+    <img src="https://i.imgur.com/7FPUtlP.png" alt="Classic Layout" style="zoom:80%;" />
 </details>
+
 
 
 

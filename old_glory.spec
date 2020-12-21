@@ -4,7 +4,6 @@ block_cipher = None
 
 
 a = Analysis(['old_glory.py'],
-             pathex=['D:\\New Horizons\\Hearthstone\\SteamUI-OldGlory'],
              binaries=[],
              datas=[('images/*.png', './images'), ('steam_oldglory.ico', '.')],
              hiddenimports=['six'],

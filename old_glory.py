@@ -35,7 +35,8 @@ class OldGloryApp(tk.Tk):
         if OS_TYPE == "Windows":
             #dpi = window.winfo_fpixels('1i')
             self.call('tk', 'scaling', 1.3)
-        
+
+        ### Window Dimensions/Position
         windowW = 760
         windowH = 660
         screen_width = container.winfo_screenwidth()
@@ -45,8 +46,10 @@ class OldGloryApp(tk.Tk):
         self.geometry(f'{windowW}x{windowH}+{int(windowX)}+{int(windowY)}')
         self.minsize(width=windowW, height=windowH)
         self.maxsize(width=screen_width, height=screen_height)
+
         container.pack(side="top", fill="both", expand = True)
-        
+
+        ### Icon and Title
         add_window_icon(self)
         self.wm_title("SteamUI-OldGlory Configurer")        
 
@@ -64,15 +67,26 @@ class OldGloryApp(tk.Tk):
                 })]
             })]
         )
+
+        ### Notebook "tabs" styling
+        style.layout("Tab",
+        [('Notebook.tab', {'sticky': 'nswe', 'children':
+            [('Notebook.padding', {'side': 'top', 'sticky': 'nswe', 'children':
+                #[('Notebook.focus', {'side': 'top', 'sticky': 'nswe', 'children':
+                    [('Notebook.label', {'side': 'top', 'sticky': ''})],
+                #})],
+            })],
+        })]
+        )
         
-        ### Styling Combobox dropdown
+        ### Combobox dropdown - style to default font
         self.option_add("*TCombobox*Listbox*font", (self.default_font))
 
         ### Grid configure
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
-        ### Loaded CSS Configurables
+        ### Load config variables
         #self.css_config = backend.load_css_configurables()
         #self.js_config = backend.load_js_fixes()
         self.js_gui_changed = 0
@@ -97,9 +111,14 @@ class StartPage(tk.Frame):
     ###
         self.frameHead = head_frame(self, controller)
 
+    ### Tabs
+        tabs = ttk.Notebook(self,)
+        frameCheck = tk.Frame(tabs)
+        framePatch = tk.Frame(tabs)
+    
     ### CHECK FRAME
     ###
-        frameCheck = tk.Frame(self)
+        
         #frameCheck.grid_columnconfigure(2, weight=1)
 
         ######
@@ -290,6 +309,13 @@ class StartPage(tk.Frame):
     ###
         self.frameHead.pack()
         frameCheck.pack()
+        framePatch.pack()
+
+        ###tabs
+        tabs.add(frameCheck, text="Main Options")
+        tabs.add(framePatch, text="Patch")
+        tabs.pack(expand=1)
+        
         frameLog.pack(pady=(10,0))
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         frameMode.pack(pady=(2, 0), side="bottom")
