@@ -7,9 +7,7 @@ Check `/dev` branch for in-progress tweaks.
 
 ### Video Guide and GIF
 
-<img src="https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif" alt="Alt Text" style="zoom:95%;" />
-
-[<img src="https://i.imgur.com/2TZn4ET.png" alt="Video Guide to Customising The Steam Library"/>](https://youtu.be/foCewvyOszQ)
+<img src="https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif" alt="Alt Text" style="zoom:95%;" /> | [<img src="https://i.imgur.com/NsoxgiA.png" alt="Video Guide to Customising The Steam Library"/>](https://youtu.be/foCewvyOszQ)
 
 ### Showcase of Tweaks
 
@@ -35,8 +33,12 @@ Check `/dev` branch for in-progress tweaks.
 #### Patching and CSS
 
 - Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). Run it, it will patch some files.
+
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
+
 - To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix).
+
+  ![https://i.imgur.com/A85LCCn.png](https://i.imgur.com/A85LCCn.png)
 
 #### Included files:
 
@@ -54,7 +56,7 @@ Other files are copied from the`Steam\steamui` directory as required.
 
 `config.css` for Shiina's steam-library theme will be created from `config.css.original` the first time you enable the theme. Alternatively, you can put your existing `config.css` file here and the app will use it.
 
-![https://i.imgur.com/A85LCCn.png](https://i.imgur.com/A85LCCn.png)
+
 
 #### JavaScript Tweaks
 
@@ -142,15 +144,18 @@ To debug the Steam Library yourself, run Steam with the ` -dev` tag.
 
 Requires Python 3.8+
 
-Install libraries using `pip`: 
-`pip install jsbeautifier` 
-`pip install jsmin`
-`pip install pillow`
+Install pyinstaller:
+	`pip install pyinstaller`
 
-`pyinstaller -w --hidden-import six --icon=steam_oldglory.ico --clean --onefile old_glory.spec`
+Install libraries using `pip`: 
+	`pip install jsbeautifier jsmin pillow requests`
+
+Build `old_glory.exe`:
+	`pyinstaller -w --hidden-import six --icon=steam_oldglory.ico --clean --onefile old_glory.spec`
+
 The `.spec` file is included in the repository.
 
-Sometimes you may need to install `pyinstaller` like this:\
+Sometimes you may need to install `pyinstaller` like this:
 [Building PyInstaller Bootloader](https://pyinstaller.readthedocs.io/en/stable/bootloader-building.html)	 [Windows Compilers](https://wiki.python.org/moin/WindowsCompilers#Which_Microsoft_Visual_C.2B-.2B-_compiler_to_use_with_a_specific_Python_version_.3F)
 
 This is mainly for me to try and get an `.exe` that doesn't trigger false positives on [virustotal.com](virustotal.com)
