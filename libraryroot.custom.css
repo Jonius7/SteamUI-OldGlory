@@ -9,7 +9,7 @@
   --WhatsNewOrder: 2;  /* Default: 0. Set 0 to put to top, 1 or higher to put to bottom */
 
   /* Left Sidebar - Games List */
-  --HoverOverlayPosition: 0;  /* Default: 0. Set 0 if default JS, unset if tweaked JS */
+  --HoverOverlayPosition: unset;  /* Default: 0. Set 0 if default JS, unset if tweaked JS */
   --GameListEntrySize: 16px;  /* Default: 16px.  */
   --CategoryNameHeaderSize: 13px;  /* Default: 13px.  */
   --GameListZoomSize: 75%;  /* Default: 100%. 75% highly recommended for Game List similar to old Library UI. Affects GameListEntrySize and CategoryNameHeaderSize */
@@ -753,7 +753,7 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 /* END DLC MANAGER */
 
 
-/*HORIZONTAL GAME IMAGE TWEAKS*/
+/*HORIZONTAL GAME IMAGE TWEAKS*//*
 
 .appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
   grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
@@ -768,7 +768,7 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 }
 
 
-/*END HORIZONTAL GAME IMAGE TWEAKS*/
+*//*END HORIZONTAL GAME IMAGE TWEAKS*/
 
 
 /* LIST VIEW ONLY TWEAKS - EXPERIMENTAL */
@@ -1016,6 +1016,10 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 
 /* CLASSIC LAYOUT - BETA *//*
 
+.sharedappdetailsheader_TopCapsule_NZMJ6 {
+    min-height: unset;
+}
+
 .appdetailsheader_HeaderFeatures_2b6Wk {
   right: 16px;
 }
@@ -1052,6 +1056,14 @@ div.managedlcdialog_DLCArt_2sfDE.appdetailsdlcsection_DLCArt_2bF7X>div {
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB {
   margin-top: 30px;
+}
+
+.boxcarousel_BoxCarousel_3fiHs.spotlightgameplaysummary_SummaryCarouselContainer_wgbDI {
+  width: 140%;
+}
+
+div.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY>div.appdetailsoverview_ColumnContainer_OhSdL>div.appdetailsoverview_Spotlights_11kuV>div>div>div>div.pageablecontainer_HeaderPageControls_2ce8e {
+  width: 140%;
 }
 
 *//* END CLASSIC LAYOUT */
