@@ -10,14 +10,14 @@
     min-height: 47px;
   }
   
-  .appdetailssection_AppDetailsSectionContainer_31ptF.appdetailssection_AppDetailsSectionHasLabel_2G5B7 > div > div:nth-child(2) {
-    margin-top: 0px;
-  }
-  
-  /* Activity Achievement Unlocked to 2 columns */
-  
-  .appactivityday_ActivityAchievementUnlocked_yJLy7 {
-    padding: 6px;
-    grid-template-columns: repeat(auto-fill, [col-start] minmax(140px, 48%) [col-end]) !important;
-    gap: 8px 8px;
-  }
+.appdetailssection_AppDetailsSectionContainer_31ptF.appdetailssection_AppDetailsSectionHasLabel_2G5B7 > div > div:nth-child(2) {
+  margin-top: 0px;
+}
+
+/* Activity Achievement Unlocked to 2 columns */
+
+.appactivityday_ActivityAchievementUnlocked_yJLy7 {
+  padding: 6px;
+  grid-template-columns: repeat(auto-fill, [col-start] minmax(140px, 48%) [col-end]) !important;
+  gap: 8px 8px;
+}

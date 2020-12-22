@@ -5,6 +5,8 @@ import shutil
 import traceback
 import re
 from pathlib import Path
+import json
+import sass
 
 OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
@@ -165,6 +167,24 @@ ROOT_MAP = {"start" : ["Configurable variables", ":root {"],
 
 PATCHED_TEXT = "/*patched*/"
 
+def get_json_data():
+    json_data_filename = 'old_glory_data.json'
+    try:
+        with open(json_data_filename) as f:
+            global json_data
+            json_data = json.load(f)
+        print("Loaded JSON data. " + "(" + json_data_filename + ")")
+        return json_data
+    except FileNotFoundError:
+        print("JSON file " + json_data_filename + " not found.", file=sys.stderr)
+    except json.decoder.JSONDecodeError as e:
+        print("Error in JSON file format:", file=sys.stderr)
+        print(e, file=sys.stderr)
+        print_traceback()
+    except:
+        print("Error reading JSON file " + json_data_filename, file=sys.stderr)
+        print_traceback()
+
 def OS_line_ending():
     if OS_TYPE == "Windows":
         return "\r\n"
@@ -188,14 +208,14 @@ def library_dir():
 
 def print_traceback():
     print("~~~~~~~~~~")
-    print(traceback.print_exc(), file=sys.stderr)
+    print(traceback.format_exc(), end='', file=sys.stderr)
     print("~~~~~~~~~~")
 
 ### Check CSS Patched
 def is_css_patched():
     patched = False
     try:
-        with open(library_dir() + "/css/libraryroot.css", newline='', encoding="UTF-8") as f:
+        with open(library_dir() + "/css/5.css", newline='', encoding="UTF-8") as f:
             first_line = f.readline()
         if PATCHED_TEXT in first_line:
             patched = True
@@ -269,11 +289,14 @@ def validate_settings(settings):
 ###
 
 
+### Obsoleted, need to write to modify the scss/libraryroot.custom.scss
+
 ###
 ### CSS functions (libraryroot.custom.css)
 ### This writes more than just settings, maybe split or rename functions
 
 def write_css_settings(settings, settings_values, root_config):
+    '''
     try:
         with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
              open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
@@ -338,15 +361,43 @@ def write_css_settings(settings, settings_values, root_config):
         
     except FileNotFoundError:
         print("libraryroot.custom.css not found", file=sys.stderr)
+    '''
+    print("TODO")
+
+
+# Compiles libraryroot.custom.css from /scss directory
+# Adds variables.css
+def compile_css(json_data):
+    sass.compile(dirname=('scss','.'),
+                 output_style='expanded')
+    with open('libraryroot.custom.css', "r", newline='', encoding="UTF-8") as f, \
+         open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
+        for line in f:
+            if json_data["CSSVariableString"] in line:
+                #print(line)
+                with open('variables.css', "r", newline='', encoding="UTF-8") as v1:
+                    for variable_line in v1:
+                        f1.write(variable_line)
+                        #print(variable_line)
+                v1.close()
+                f1.write(OS_line_ending())
+            else:
+                f1.write(line)
+    f.close()
+    f1.close()
+
+    ###
+    shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
+    shutil.move("libraryroot.custom.temp.css", "libraryroot.custom.css")
 
 
 ### Triggers on Reload Config (button)
 ### From :root in css file -> CSS Config dict
 def load_css_configurables():
-
+    css_config_filename = "variables.css"
     loaded_css_config = {}
     try:
-        with open('libraryroot.custom.css', newline='', encoding="UTF-8") as infile:
+        with open(css_config_filename, newline='', encoding="UTF-8") as infile:
             lines = filter(None, (line.rstrip() for line in infile))
             prevline = ""
             startreading = 0
@@ -384,7 +435,7 @@ def load_css_configurables():
                             loaded_css_config[sectionkey][propkey]["options"] = {css_line_values["default"], css_line_values["current"]}
                         loaded_css_config[sectionkey][propkey]["desc"] = css_line_values["desc"]
         infile.close()
-        print("Loaded CSS Options.")
+        print("Loaded CSS Options. " + "(" + css_config_filename + ")")
     except FileNotFoundError:
         print("libraryroot.custom.css not found", file=sys.stderr)
     except:
@@ -467,6 +518,7 @@ BEFORE_THEME = {"shiina.css" :
                 }
 
 
+### NEEDS REWRITE - SIMPLER WITH SCSS
 ### Order: CSS before or after SteamUI-OldGlory's CSS
 def apply_css_theme(theme_filename, order, patchtext):
     theme_change_needed = remove_current_css_themes(theme_filename, order)
@@ -720,6 +772,7 @@ def steam_library_compat_config():
 ### JS functions (fixes.txt)
 ### Load state of JS Fixes (enabled, disabled) from file
 def load_js_fixes():
+    js_fixes_filename = 'fixes.txt'
     try:
         fixesdata = {}
         special_fixesdata = {}
@@ -728,7 +781,7 @@ def load_js_fixes():
         sectionhead = 0
         state = 3 #0 = disabled(commented out), 1 = enabled, 2 = mixed, starting
 
-        with open('fixes.txt', newline='', encoding="UTF-8") as infile:
+        with open(js_fixes_filename, newline='', encoding="UTF-8") as infile:
             for line in infile:
                 if re.match("### ===.*===", line):
                     readfix = 1
@@ -764,14 +817,14 @@ def load_js_fixes():
                 sectionhead = 0               
         infile.close()
         
-        print("Loaded JS Tweaks.")
+        print("Loaded JS Tweaks. " + "(" + js_fixes_filename + ")")
     except ValueError:
-        print("(fixes.txt) Problem in line format from line: " + line + \
+        print("(" + js_fixes_filename + ") Problem in line format from line: " + line + \
               "Is the line missing a double space?", file=sys.stderr)
     except FileNotFoundError:
-        print("JS Tweaks file, 'fixes.txt' not found", file=sys.stderr)
+        print("JS Tweaks file, '" + js_fixes_filename + "' not found", file=sys.stderr)
     except Exception as e:
-        print("Error loading JS Tweaks (fixes.txt) from line: " + line, file=sys.stderr)
+        print("Error loading JS Tweaks (" + js_fixes_filename + ") from line: " + line, file=sys.stderr)
         print_traceback()
     return fixesdata, special_fixesdata
     

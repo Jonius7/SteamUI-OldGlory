@@ -1,13 +1,12 @@
 import tkinter as tk
 import tkinter.font as TkFont
 from tkinter import ttk
-from idlelib.tooltip import *
+from idlelib.tooltip import Hovertip, OnHoverTooltipBase, Message
 from PIL import ImageTk, Image
 import sys
 import io
 import backend
 import js_tweaker
-import tkHyperlinkManager
 import os
 import subprocess
 import platform
@@ -20,12 +19,12 @@ from tkHyperlinkManager import HyperlinkManager
 from threading import Thread
 
 OS_TYPE = platform.system()
-DEBUG_STDOUT_STDERR = False  # Only useful for debugging purposes, set to True
+DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.5.5 Beta"
-        self.release = "4.1.1"
+        self.version = "v0.9.6.3-pre2 Beta"
+        self.release = "5.0"
       
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
@@ -103,9 +102,38 @@ class OldGloryApp(tk.Tk):
     def show_frame(self, cont):
         self.frames[cont].tkraise()
 
+    #init text log
+
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)           
+
+    ### LOG FRAME
+    ### Initialised first even though it will be packed after the CHECK FRAME
+    ###
+        frameLog = tk.Frame(self)
+
+        ### Text
+        entry1 = ttk.Entry(frameLog)
+        self.text1 = tk.Text(entry1, height=12, width=92)
+        self.text1.configure(font=("Arial",10))
+
+        ### REDIRECT STDOUT STDERR
+        if not DEBUG_STDOUT_STDERR:
+            sys.stdout = StdoutRedirector(self.text1)
+            sys.stderr = StderrRedirector(self.text1)
+        
+        self.text1.pack(expand="yes",fill="x")
+        entry1.grid(row=0, column=0)
+
+        ###
+        scroll_1 = ttk.Scrollbar(frameLog, command=self.text1.yview)
+        scroll_1.grid(row=0, column=1, sticky='ns')
+        self.text1['yscrollcommand'] = scroll_1.set
+
+        ### load JSON
+        controller.json_data = backend.get_json_data()
+
 
     ### HEAD FRAME
     ###
@@ -136,7 +164,7 @@ class StartPage(tk.Frame):
             image="images/full_layout.png",
             tags=["CSS"])
         mainoption1 = mo1.returnMainOption()
-        mainoption1.grid(row=0, column=1, sticky=W)
+        mainoption1.grid(row=0, column=1, sticky='w')
         
         ######
         self.var2 = tk.IntVar()
@@ -152,7 +180,7 @@ class StartPage(tk.Frame):
             image="images/play_button_box.png",
             tags=["CSS"])
         mainoption2 = mo2.returnMainOption()
-        mainoption2.grid(row=1, column=1, sticky=W)
+        mainoption2.grid(row=1, column=1, sticky='w')
 
         
         ######
@@ -170,7 +198,7 @@ class StartPage(tk.Frame):
             image="images/vertical_nav_bar.png",
             tags=["CSS", "JS"])
         mainoption3 = mo3.returnMainOption()
-        mainoption3.grid(row=2, column=1, sticky=W)
+        mainoption3.grid(row=2, column=1, sticky='w')
         
         
         ######
@@ -188,7 +216,7 @@ class StartPage(tk.Frame):
             image="images/classic_layout.png",
             tags=["CSS", "JS"])
         mainoption4 = mo4.returnMainOption()
-        mainoption4.grid(row=3, column=1, sticky=W)
+        mainoption4.grid(row=3, column=1, sticky='w')
         
         ######
         self.var5 = tk.IntVar()
@@ -203,7 +231,7 @@ class StartPage(tk.Frame):
             image="images/landscape_images.png",
             tags=["CSS", "JS"])
         mainoption5 = mo5.returnMainOption()
-        mainoption5.grid(row=4, column=1, sticky=W)
+        mainoption5.grid(row=4, column=1, sticky='w')
 
         ######
         self.change_theme = 0
@@ -220,7 +248,7 @@ class StartPage(tk.Frame):
             image="images/theme_shiina.png",
             tags=["CSS"])
         mainoption6 = mo6.returnMainOption()
-        mainoption6.grid(row=5, column=1, sticky=W)
+        mainoption6.grid(row=5, column=1, sticky='w')
         ###
         self.dropdown6_value = tk.IntVar()
         self.dropdown6 = ttk.Combobox(frameCheck,
@@ -240,30 +268,7 @@ class StartPage(tk.Frame):
 
         ###
         self.image1 = add_img(frameCheck, resource_path('images/full_layout.png'))
-        self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")
-
-    ### LOG FRAME
-    ###
-        frameLog = tk.Frame(self)
-
-        ### Text
-        entry1 = ttk.Entry(frameLog)
-        self.text1 = tk.Text(entry1, height=12, width=92)
-        self.text1.configure(font=("Arial",10))
-
-        ### REDIRECT STDOUT STDERR
-        if not DEBUG_STDOUT_STDERR:
-            sys.stdout = StdoutRedirector(self.text1)
-            sys.stderr = StderrRedirector(self.text1)
-        
-        self.text1.pack(expand="yes",fill="x")
-        entry1.grid(row=0, column=0)
-
-        ###
-        scroll_1 = ttk.Scrollbar(frameLog, command=self.text1.yview)
-        scroll_1.grid(row=0, column=1, sticky='ns')
-        self.text1['yscrollcommand'] = scroll_1.set
-        
+        self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")      
 
     ### MODE FRAME
     ###
@@ -298,12 +303,12 @@ class StartPage(tk.Frame):
         ### Check for new version
         check_if_css_patched(self)
         update_check(self, controller.release)        
-        
+        #print(controller.json_data)
         ### Set GUI from config
         self.loaded_config = set_selected_from_config(self)
         self.text1.config(state='disabled')
         init_cb_check(self.var1, [check2, check3, check5])
-        init_cb_check(self.var3, [check4])
+        init_cb_check(self.var3, [check4])        
         
     ### Pack frames
     ###
@@ -316,7 +321,7 @@ class StartPage(tk.Frame):
         tabs.add(framePatch, text="Patch")
         tabs.pack(expand=1)
         
-        frameLog.pack(pady=(10,0))
+        frameLog.pack(pady=(10,7))
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         frameMode.pack(pady=(2, 0), side="bottom")
 
@@ -397,9 +402,6 @@ class PageTwo(tk.Frame):
         self.frameJS = tk.Frame(self)
         self.js_gui = JSFrame(self, controller)
         self.frameJS = self.js_gui.returnframeJS()
-        
-        
-        
         
     ### MODE Frame
     ###
@@ -535,10 +537,9 @@ def check_if_css_patched(page):
     if not backend.is_css_patched():
         hyperlink = HyperlinkManager(page.text1)
         page.text1.tag_configure("err", foreground="red")        
-        page.text1.insert(tk.INSERT, "css\libraryroot.css not patched. ", ("err"))
+        page.text1.insert(tk.INSERT, "css\5.css not patched. ", ("err"))
         page.text1.insert(tk.INSERT, "Download ")
-        page.text1.insert(tk.INSERT, "SteamFriendsPatcher\n", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SteamFriendsPatcher/")))
-    
+        page.text1.insert(tk.INSERT, "SteamFriendsPatcher\n", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SteamFriendsPatcher/")))    
 
 ### Check if newer version
 def update_check(page, current_release):
@@ -555,20 +556,22 @@ def update_check(page, current_release):
         print("No internet connection detected, Unable to check for latest release!", file=sys.stderr)
     except:
         print("Unable to check for latest release!", file=sys.stderr)
-        print(traceback.print_exc(), file=sys.stderr)
+        print(traceback.format_exc(), file=sys.stderr)
     
 ### StartPage
+### Select checkboxes based on config
 def set_selected_from_config(page):
     ### grab stdout, stderr from function in backend
     f = io.StringIO()
     loaded_config = backend.load_config()
-    #with contextlib.redirect_stdout(f):   
     for key in loaded_config:
-        if key in CONFIG_MAP :
+        if key in CONFIG_MAP:
             if loaded_config[key] == '0' :
                 page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(0)
-            if loaded_config[key] == '1' :
+            elif loaded_config[key] == '1' :
                 page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
+            elif key == "ThemeSelected":
+                print(loaded_config[key])
     return loaded_config
 ### ================================
    
@@ -638,12 +641,12 @@ class MainOption(tk.Frame):
                               text=self.name,
                               cursor="hand2")
         self.label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
-        self.label.grid(row=0, column=0, sticky=W)
+        self.label.grid(row=0, column=0, sticky='w')
 
         for i, tagName in enumerate(kwargs["tags"], start=1):
             leftPadding = (5, 0) if i == 1 else 0
             tag = add_img(self.tagFrame, globals()["resource_path"]('images/tag_'+tagName+'.png'), width=50)
-            tag.grid(row=0, column=i, sticky=W, padx=leftPadding)
+            tag.grid(row=0, column=i, sticky='w', padx=leftPadding)
             self.tags[self.name]=tag
     def returnMainOption(self):
         return self.tagFrame
@@ -884,7 +887,7 @@ def open_img(filename, width=350):
         return img
     except:
         print("Unable to add image: " + filename, file=sys.stderr)
-        print(traceback.print_exc(), file=sys.stderr)
+        print(traceback.format_exc(), file=sys.stderr)
 
 def add_img(frame, filename, width=350):
     img = open_img(filename, width)
@@ -906,8 +909,8 @@ class Detail_tooltip(OnHoverTooltipBase):
         self.text = text
         
     def showcontents(self):
-        message = Message(self.tipwindow, text=self.text, justify=LEFT,
-                      background="#ffffe0", width=590, relief=SOLID, borderwidth=1)
+        message = Message(self.tipwindow, text=self.text, justify='left',
+                      background="#ffffe0", width=590, relief='solid', borderwidth=1)
         message.pack()
 ### ================================
 
@@ -1036,7 +1039,7 @@ class CSSConfigRow(tk.Frame):
             self.combobox.grid(row=0, column=1, pady=1)
         
         except Exception as e:
-            print(traceback.print_exc(), file=sys.stderr)
+            print(traceback.format_exc(), file=sys.stderr)
             print("CSS config in libraryroot.custom.css not configured correctly.\n", file=sys.stderr)
             print("Either the format of configurable variables is incorrect or this feature is not fully implemented yet.\n", file=sys.stderr)
 
@@ -1088,7 +1091,6 @@ class PresetFrame(tk.Frame):
             self.radios.append(_radio)
 
     def set_preset_default(self):
-        selected_key = "0"
         #print(self.controller.css_config)
         key_set = 0
         for key in self.radios_config:
@@ -1224,7 +1226,7 @@ class JSFrame(tk.Frame):
             #_label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
 
             _checkbutton.grid(row=rownum, column=0, padx=(5,0), sticky='w')
-            _label.grid(row=rownum, column=1, sticky=W)
+            _label.grid(row=rownum, column=1, sticky='w')
             
             
             rownum += 1
@@ -1246,7 +1248,7 @@ class JSFrame(tk.Frame):
                     _combolabel.grid(row=0, column=2*i, padx=(0,5))
                     _combobox.grid(row=0, column=2*i+1, padx=(0,15))
                     self.comboboxes[key] = _combobox
-                self.sizesFrame.grid(row=rownum, column=1, sticky=W)
+                self.sizesFrame.grid(row=rownum, column=1, sticky='w')
                 rownum += 1
         
     def combobox_changed(self, event, controller):
@@ -1341,7 +1343,7 @@ def settings_window(event, controller):
                     bd=0,
                     bg=bg,
                     highlightthickness=0,
-                    wrap=WORD,
+                    wrap='word',
                     width=70,
                     height=8)
 
@@ -1405,7 +1407,7 @@ def add_window_icon(window):
             root.tk.call('wm', 'iconphoto', root._w, icon)
     except:
         print("Failed to load icon: " + icon_filename, file=sys.stderr)
-        print(traceback.print_exc(), file=sys.stderr)
+        print(traceback.format_exc(), file=sys.stderr)
         
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """

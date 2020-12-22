@@ -1,6 +1,8 @@
 ## SteamUI-OldGlory GUI Changelog
 
+0.9.6.3	 Add JSON parsing
 
+0.9.6.0	 Add tabs to main page
 
 **0.9.5.5** 	Remove `HyperlinkText` class flawed implementation and used `tkHyperlinkManager`
 
