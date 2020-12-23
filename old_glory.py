@@ -23,7 +23,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.6.6-pre3 Beta"
+        self.version = "v0.9.6.9 Beta"
         self.release = "5.0"
       
         ### Window, Title, Icon setup
@@ -268,6 +268,15 @@ class StartPage(tk.Frame):
         self.image1 = add_img(frameCheck, resource_path('images/full_layout.png'))
         self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")      
 
+    ### PATCH FRAME
+    ###
+        labeltext_a = tk.StringVar()
+        labeltext_a.set("Nothing much here... yet")
+        
+        label_a = tk.Label(framePatch, textvariable=labeltext_a)
+        label_a.grid(row=0, column=0)
+
+
     ### MODE FRAME
     ###
         frameMode = tk.Frame(self)
@@ -299,6 +308,7 @@ class StartPage(tk.Frame):
         ### Running functions after much of StartPage has been initialised
         ### Check if CSS Patched
         ### Check for new version
+        self.text1.config(state='normal')
         check_if_css_patched(self)
         update_check(self, controller.release)
         
@@ -542,13 +552,14 @@ def show_PageTwo(controller):
 ### ================================
 ### Check SteamFriendsPatcher
 def check_if_css_patched(page):
-    
     if not backend.is_css_patched():
         hyperlink = HyperlinkManager(page.text1)
-        page.text1.tag_configure("err", foreground="red")        
-        page.text1.insert(tk.INSERT, "css\5.css not patched. ", ("err"))
+        page.text1.tag_configure("err", foreground="red")
+        page.text1.insert(tk.END, '==============================\n')
+        page.text1.insert(tk.INSERT, "css/5.css (previously known as libraryroot.css) not patched.\n", ("err"))
         page.text1.insert(tk.INSERT, "Download ")
-        page.text1.insert(tk.INSERT, "SteamFriendsPatcher\n", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SteamFriendsPatcher/")))    
+        page.text1.insert(tk.INSERT, "SteamFriendsPatcher\n", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SteamFriendsPatcher/")))
+        page.text1.insert(tk.INSERT, "\n")
 
 ### Check if newer version
 def update_check(page, current_release):
@@ -556,11 +567,14 @@ def update_check(page, current_release):
         response = requests.get("https://api.github.com/repos/jonius7/steamui-oldglory/releases/latest", timeout=0.4)
         latest_release = response.json()["name"]
         if latest_release == current_release:
-            print("You are up to date. Release " + latest_release)
+            print("You are up to date. Release " + latest_release + "\n")
         else:
             hyperlink = HyperlinkManager(page.text1)
             page.text1.insert(tk.END, 'New version available: ')
             page.text1.insert(tk.END, "Release {0}\n".format(latest_release), hyperlink.add(partial(webbrowser.open, "https://github.com/Jonius7/SteamUI-OldGlory/releases/latest")))
+            page.text1.insert(tk.END, 'Current version: ')
+            page.text1.insert(tk.END, "Release {0}\n".format(current_release))
+            page.text1.insert(tk.INSERT, "\n")
     except requests.exceptions.ConnectionError:
         print("No internet connection detected, Unable to check for latest release!", file=sys.stderr)
     except:
@@ -580,7 +594,7 @@ def set_selected_from_config(page, controller):
             elif loaded_config[key] == '1' :
                 page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
             elif key == "ThemeSelected":
-                print(loaded_config[key])
+                #print(loaded_config[key])
                 try:
                     theme_entry = controller.json_data["themes"][loaded_config[key]]
                     if (theme_entry):
@@ -719,7 +733,7 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
 
 ### Install Click
 def install_click(event, page, controller):
-    print("=================")
+    print("==============================")
     #get settings
     settings_to_apply, settings_values = get_settings_from_gui(event, page) 
 
@@ -836,7 +850,7 @@ def apply_settings_from_gui(page, controller, settings_to_apply, settings_values
    
 def run_js_tweaker(text_area):
     try:
-        print("==================")
+        print("==============================")
         print("Running js_tweaker")
         text_area.update_idletasks()
 
@@ -882,10 +896,13 @@ def apply_css_theme(page, controller):
         theme_full_name = page.dropdown6.get()
         print("Applying CSS Theme: " + theme_full_name)
         theme_name = theme_full_name.split(" (")[0]
+        #print(controller.json_data["themes"][theme_name]["filename"])
         backend.enable_css_theme(controller.json_data["themes"][theme_name]["filename"],
                          controller.json_data["themes"][theme_name]["order"],
                          controller.json_data)
-        
+    elif page.var6.get() == 0 and page.change_theme == 1:
+        backend.enable_css_theme("none", "after", controller.json_data)
+    page.change_theme = 0    
                                 
 #update loaded_config on Install click
 def update_loaded_config(page, controller):
@@ -908,12 +925,11 @@ def update_loaded_config(page, controller):
 ### RELOAD Functions
 ### ================================
 def reload_click(event, controller):
-    print("=================")
+    print("==============================")
     controller.css_config = backend.load_css_configurables()
     controller.js_config, controller.special_js_config = backend.load_js_fixes()
     controller.frames[PageTwo].js_gui.update_js_gui(controller)
     controller.frames[PageOne].css_gui.PresetFrame.set_preset_default()
-    
     print("Config Reloaded.")
 ### ================================
 
@@ -1212,7 +1228,7 @@ def update_css_gui(page, controller, config):
         #config.get(sectionkey, {}).get(propkey)
 
 def test_css_gui_reach(page, controller, config):
-    print("TODO")
+    pass
 
 def formatted_hover_text(default, desc):
     return "Default: " + default + ". " + desc
@@ -1314,7 +1330,7 @@ def reset_all_tweaks(event, controller):
     js_tweaker.setup_library(1)
     backend.clean_slate_css()
     css_config_reset(controller.css_config)
-    backend.reset_html()
+    #backend.reset_html()
     backend.clear_js_working_files()
 
 def remake_js(event, controller):

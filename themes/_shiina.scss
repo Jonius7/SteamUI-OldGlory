@@ -50,4 +50,9 @@
 	display: flex !important;
 }
 
+/* Fix play button small arrow dropdown color */
+.appactionbutton_Green_3cI5T > .appactionbutton_ButtonChild_2AzIX.appactionbutton_StreamingSelector_2q-gZ {
+    background: linear-gradient(to right, var(--ButtonPlay) 0%, var(--ButtonPlay2)) 60% !important;
+}
+
 /* === END steam-library tweaks for SteamUI-OldGlory === */

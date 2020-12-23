@@ -227,7 +227,7 @@ def is_css_patched():
             #print("css\libraryroot.css not patched.", file=sys.stderr)
         f.close()
     except:
-        print("css\libraryroot.css not found", file=sys.stderr)
+        print("css\5.css (previously known as libraryroot.css), not found", file=sys.stderr)
         print_traceback()
     return patched
 
@@ -305,20 +305,26 @@ def write_css_settings(settings, settings_values, root_config):
 
             import_prefix = '@import "./'
             start_comment = '//'
+            modify = 0
+            startreading = 0
             for line in f:
-                for setting in settings_values:
-                    if 'filename' in SETTING_MAP[setting]:
-                        if import_prefix + SETTING_MAP[setting]['filename'] in line:
-                            if line.startswith(start_comment):
-                                if settings_values[setting] == 1 and setting in settings:
-                                    modify = 1
-                                    f1.write(line.split(start_comment)[1].lstrip() + OS_line_ending())
-                            else:    
-                                if settings_values[setting] == 0:
-                                    modify = 1
-                                    f1.write(start_comment + " " + line + OS_line_ending())
-                        else:
-                            f1.write(line)
+                if "../themes/" not in line or import_prefix in line:
+                    for setting in settings_values:
+                        if 'filename' in SETTING_MAP[setting]:
+                            if import_prefix + SETTING_MAP[setting]['filename'] in line:
+                                if line.startswith(start_comment):
+                                    if settings_values[setting] == 1 and setting in settings:
+                                        modify = 1
+                                        f1.write(line.split(start_comment)[1].lstrip())
+                                else:    
+                                    if settings_values[setting] == 0:
+                                        modify = 1
+                                        f1.write(start_comment + " " + line)
+                    if modify == 0:
+                        f1.write(line)
+                    modify = 0
+                else:
+                    f1.write(line)
         f.close()
         f1.close()
         
@@ -479,20 +485,20 @@ def enable_css_theme(theme_filename, order, json_data):
             for line in f:
                 if themereading == 1:
                     if line != OS_line_ending():
-                        print("delete line")
+                        pass
                     else:
-                        if order == "before":
-                            print("theme line")
+                        if order == "before" and os.path.exists("themes/" + theme_filename):
+                            #print("theme line")
                             # [1:-5] is to truncate the _ and .scss
                             f1.write('@import "../themes/' + theme_filename[1:-5] + '";' + OS_line_ending())
                         f1.write(OS_line_ending())
                         themereading = 0
                 elif themereading == 2:
                     if line != OS_line_ending():
-                        print("empty line")
+                        pass
                     else:
-                        if order == "after":
-                            print("theme line")
+                        if order == "after" and os.path.exists("themes/" + theme_filename):
+                            #print("theme line")
                             f1.write('@import "../themes/' + theme_filename[1:-5] + '";' + OS_line_ending())
                         f1.write(OS_line_ending())
                         themereading = 0
@@ -518,10 +524,11 @@ def enable_css_theme(theme_filename, order, json_data):
     except:
         print("Error removing existing themes.", file=sys.stderr)
         print_traceback()
+    
+    #print("TODO")
 
 
-
-
+'''
 config_replacements = {'--FontSize: 15px;' : '--FontSize: 13px;',
                        '--YourLibraryName: "YOUR LIBRARY"' : '--YourLibraryName: "HOME"',
                        '--LetterSpacing: 3px' : '--LetterSpacing: 0px',
@@ -530,34 +537,34 @@ config_replacements = {'--FontSize: 15px;' : '--FontSize: 13px;',
                        '--ButtonInstallHover: #47bfff;' : '--ButtonInstallHover: var^(--libraryhome^)^;',
                        '--ButtonInstallHover2: #1a44c2;' : '--ButtonInstallHover2: var^(--libraryhome^)^;'
                        }
-
+'''
 
 def steam_library_compat_config():
+    
     try:
         if not os.path.isfile("themes/config.css"):
             shutil.copy2("themes/config.css.original", "themes/config.css")
-        with open("themes/config.css", "r", newline='', encoding="UTF-8") as f, \
-             open("themes/config.temp.css", "w", newline='', encoding="UTF-8") as f1:
+            '''
+            with open("themes/config.css", "r", newline='', encoding="UTF-8") as f, \
+                 open("themes/config.temp.css", "w", newline='', encoding="UTF-8") as f1:
 
-            for line in f:
-                for key in config_replacements:
-                    new_line = line.replace(key, config_replacements[key])
-                    if new_line != line:
-                        break
-                f1.write(new_line)
+                for line in f:   
+                    f1.write(line)
 
-            print("A few values in steam-library's config.css have been changed.\n"\
-                  "A backup has been made at config.css.backup")
-            
-            f.close()
-            f1.close()
-            
-            shutil.move("themes/config.css", "themes/config.css.backup")
-            shutil.copy2("themes/config.temp.css", library_dir() + "/" + "config.css")
-            shutil.move("themes/config.temp.css", "themes/config.css")
+                f.close()
+                f1.close()
+               
+                shutil.move("themes/config.css", "themes/config.css.backup")
+                shutil.copy2("themes/config.temp.css", library_dir() + "/" + "config.css")
+                shutil.move("themes/config.temp.css", "themes/config.css")
+            '''
+        shutil.copy2("themes/config.css", library_dir() + "/" + "config.css")
+        print("themes/config.css copied to: " + library_dir())
     except FileNotFoundError:
         print("config.css not found", file=sys.stderr)
         print_traceback()
+    
+    pass
 
 ### END 
 ### 

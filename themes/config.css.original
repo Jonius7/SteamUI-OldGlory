@@ -56,11 +56,11 @@
     /*************************/
     /* SET LIBRARY TEXT PART */
     /*************************/
-    --FontSize: 15px; /* The size of the font */
+    --FontSize: 13px; /* The size of the font */
     --Font: "Motiva Sans", Arial, Helvetica, sans-serif;; /* Any font on the system */
     --FontStyle: uppercase; /* Set to [ lowercase | uppercase | none ] */
-    --LetterSpacing: 3px !important; /* Set 3px or more */
-    --YourLibraryName: "YOUR LIBRARY" !important; /* Set your own library name */
+    --LetterSpacing: 0px !important; /* Set 3px or more */
+    --YourLibraryName: "HOME" !important; /* Set your own library name */
     --BackgroundColor: transparent; /* Button background color */
     --LibraryButton: flex; /* Hide/Show Library Button, Set to [ none | flex ] */
     --LibrarySearch: flex; /* Hide/Show Library Button, Set to [ none | flex ] */
