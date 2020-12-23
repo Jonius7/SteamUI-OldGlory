@@ -790,8 +790,8 @@ def get_settings_from_gui(event, page):
         return settings_to_apply, settings_values
         
     except FileNotFoundError:
-        pass
         print("libraryroot.custom.css not found", file=sys.stderr)
+        print_traceback()
 
 # Rather not have this as hard coded as it currently is
 def apply_changes_to_config(controller, settings_values):

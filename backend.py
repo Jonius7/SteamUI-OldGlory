@@ -341,6 +341,7 @@ def write_css_settings(settings, settings_values, root_config):
 def compile_css(json_data):
     sass.compile(dirname=('scss','.'),
                  output_style='expanded')
+                #output_style='compact')
     with open('libraryroot.custom.css', "r", newline='', encoding="UTF-8") as f, \
          open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
         for line in f:
@@ -408,7 +409,7 @@ def load_css_configurables():
         infile.close()
         print("Loaded CSS Options. " + "(" + css_config_filename + ")")
     except FileNotFoundError:
-        print("libraryroot.custom.css not found", file=sys.stderr)
+        print(css_config_filename + " not found", file=sys.stderr)
     except:
         print("Error loading CSS configurables from line: " + line, file=sys.stderr)
         print_traceback()
@@ -705,7 +706,15 @@ def write_js_fixes(fixesdata, special_fixesdata):
         print_traceback()
                     
 def refresh_steam_dir():
-    shutil.copy2("libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css")
+    if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css") and os.stat(library_dir() + "/" + "libraryroot.custom.css").st_size > 15:
+        if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css.backup"):
+            shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup2")
+            print("backed up steamui/libraryroot.custom.css to libraryroot.custom.css.backup2")
+        else:
+            shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup")
+            print("backed up steamui/libraryroot.custom.css to libraryroot.custom.css.backup")
+        
+        shutil.copy2("libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css")
     print("File " + "libraryroot.custom.css" + " written to " + library_dir())
     
     #shutil.copy2(library_dir() + "/licenses.txt", library_dir() + "/licenses.txt.copy")
