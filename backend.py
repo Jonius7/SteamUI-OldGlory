@@ -20,7 +20,8 @@ DEFAULT_CONFIG = {"SteamLibraryPath" : "",
                   "EnableVerticalNavBar" : "0",
                   "EnableClassicLayout" : "0",
                   "LandscapeImages" : "0",
-                  "InstallWithDarkLibrary" : "0"}
+                  "InstallWithDarkLibrary" : "0",
+                  "ThemeSelected" : "Crisp Cut"}
 user_config = {}
 
 
@@ -154,11 +155,13 @@ SETTING_MAP = {"SteamLibraryPath" : "",
                   "PatcherPath" : "",
                   "" : "",
                   "InstallCSSTweaks" : "",
-                  "EnablePlayButtonBox" : {"start" : "/* PLAY BAR LAYOUT - BETA */", "end" : "/* END PLAY BAR LAYOUT */"},
-                  "EnableVerticalNavBar" : {"start" : "/* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS */", "end" : "/* END VERTICAL NAV BAR */"},
-                  "EnableClassicLayout" : {"start" : "/* CLASSIC LAYOUT - BETA */", "end" : "/* END CLASSIC LAYOUT */"},
-                  "LandscapeImages" : {"start" : "/*HORIZONTAL GAME IMAGE TWEAKS*/", "end" : "/*END HORIZONTAL GAME IMAGE TWEAKS*/"},                
-                  "InstallWithDarkLibrary" : ""
+                  "EnablePlayButtonBox" : {"filename" : "module_playbarbox"},
+                  "EnableVerticalNavBar" : {"filename" : "module_verticalnavbar"},
+                  "EnableClassicLayout" : {"filename" : "module_classiclayout"},
+                  "LandscapeImages" : {"filename" : "module_landscapegameimages"},                
+                  "InstallWithDarkLibrary" : "",
+                  "ThemeSelected" : ""
+                
             }
 
 ROOT_MAP = {"start" : ["Configurable variables", ":root {"],
@@ -291,81 +294,41 @@ def validate_settings(settings):
 ###
 
 
-### Obsoleted, need to write to modify the scss/libraryroot.custom.scss
-
 ###
 ### CSS functions (libraryroot.custom.css)
-### This writes more than just settings, maybe split or rename functions
+### if/for loops could be reduced
 
-def write_css_settings(settings, settings_values, root_config):
-    '''
+def write_css_settings(settings, settings_values, root_config): 
     try:
-        with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
-             open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
-            #lines = filter(None, (line.rstrip() for line in f))
-            prevline = ""
-            startreading = 0
-            for line in f:
-                modify = 0
-                ###
-                
-                if ROOT_MAP["start"][0] in prevline and ROOT_MAP["start"][1] in line:
-                    #print("YAHOO " + line)
-                    startreading = 1
-                    for line in css_root_writer(root_config):
-                        f1.write(line + OS_line_ending())
-                    
-                elif ROOT_MAP["end"][0] in prevline and ROOT_MAP["end"][1] in line:
-                    #print("PARTYEND")
-                    startreading = 0
-                prevline = line
+        with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
+             open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
 
-                if startreading == 0:
-                    for setting in settings_values:
-                        ###
-                        if 'start' in SETTING_MAP[setting]:
-                            start_string = SETTING_MAP[setting]['start']
-                            end_string = SETTING_MAP[setting]['end']
-                            if start_string in line:
-                                if start_string + "/*" in line:
-                                    #print(setting + " CSS Start commented out")
-                                    #print("Current Line | " + line)
-                                    if settings_values[setting] == 1 and setting in settings:
-                                        modify = 1
-                                        f1.write(start_string + OS_line_ending())
-                                else:
-                                    if settings_values[setting] == 0:
-                                        modify = 1
-                                        f1.write(start_string + "/*" + OS_line_ending())
-                                        #print(setting + " CSS Start not commented out (enabled)")
-                            if end_string in line:
-                                if "*/" + end_string in line:
-                                    #print(setting + " CSS End commented out")
-                                    #print("Current Line | " + line)
-                                    if settings_values[setting] == 1 and setting in settings:
-                                        modify = 1
-                                        f1.write(end_string + OS_line_ending())
-                                else:
-                                    if settings_values[setting] == 0:
-                                        modify = 1
-                                        f1.write("*/" + end_string + OS_line_ending())
-                                        #print(setting + " CSS End not commented out (enabled)")
-                elif startreading == 1:
-                    modify = 1
-                if modify == 0:
-                    f1.write(line)
+            import_prefix = '@import "./'
+            start_comment = '//'
+            for line in f:
+                for setting in settings_values:
+                    if 'filename' in SETTING_MAP[setting]:
+                        if import_prefix + SETTING_MAP[setting]['filename'] in line:
+                            if line.startswith(start_comment):
+                                if settings_values[setting] == 1 and setting in settings:
+                                    modify = 1
+                                    f1.write(line.split(start_comment)[1].lstrip() + OS_line_ending())
+                            else:    
+                                if settings_values[setting] == 0:
+                                    modify = 1
+                                    f1.write(start_comment + " " + line + OS_line_ending())
+                        else:
+                            f1.write(line)
         f.close()
         f1.close()
-
-        ###
-        shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
-        shutil.move("libraryroot.custom.temp.css", "libraryroot.custom.css")
         
-    except FileNotFoundError:
-        print("libraryroot.custom.css not found", file=sys.stderr)
-    '''
-    print("TODO")
-
+        ###
+        shutil.move("scss/libraryroot.custom.scss", "scss/libraryroot.custom.scss.backup1")
+        shutil.move("scss/libraryroot.custom.temp.scss", "scss/libraryroot.custom.scss")
+            
+    except:
+        print("Error enabling/disabling CSS modules.", file=sys.stderr)
+        print_traceback()
 
 # Compiles libraryroot.custom.css from /scss directory
 # Adds variables.css
@@ -497,14 +460,7 @@ def css_root_writer(css_config):
     css_lines.append("}")
     return css_lines
 
-'''
-def css_root_writer_example():
-    indent = "  "
-    file = open("rootfile.css", "w", newline='', encoding="UTF-8")
-    for line in css_root_writer(CSS_CONFIG):
-        file.write(line + OS_line_ending())
-    file.close()
-'''
+
 ### END
 ###
 
@@ -512,17 +468,7 @@ def css_root_writer_example():
 
 ###
 ### APPLY CSS THEME Functions
-###
-
-BEFORE_THEME = {"shiina.css" :
-                {"start" : "DO NOT EDIT THESE !!! DO NOT EDIT THESE",
-                  "end" : "END steam-library tweaks for SteamUI-OldGlory"}
-                }
-
-
-### NEEDS REWRITE - SIMPLER WITH SCSS
-### Order: CSS before or after SteamUI-OldGlory's CSS
-
+### Simplified due to use of SCSS
 
 ### Now removes existing theme imports and adds current ones to be enabled
 def enable_css_theme(theme_filename, order, json_data):
@@ -559,220 +505,20 @@ def enable_css_theme(theme_filename, order, json_data):
                     themereading = 2
                 else:
                     f1.write(line)
+            if theme_filename == "_shiina.scss":
+                steam_library_compat_config()
         
         f.close()
         f1.close()
         
         ###
-        shutil.move("scss/libraryroot.custom.scss", "scss/libraryroot.custom.scss.backup")
+        shutil.move("scss/libraryroot.custom.scss", "scss/libraryroot.custom.scss.backup2")
         shutil.move("scss/libraryroot.custom.temp.scss", "scss/libraryroot.custom.scss")
             
     except:
         print("Error removing existing themes.", file=sys.stderr)
         print_traceback()
 
-
-'''
-def remove_current_css_themes(theme_filename, order):
-    try:
-        ### This is specifically for steam-library(shiina) or any theme that adds CSS "before"
-        ### Would want a rewrite with some better conditional code
-        with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
-             open("libraryroot.custom.theme.css", "w", newline='', encoding="UTF-8") as f1:
-            to_remove = 0
-            last_line = 0
-            change_theme = True #If False, theme will be added in add_new_css_theme.
-            for line in f:
-                if last_line == 1 and line.strip(' ') != OS_line_ending():
-                    to_remove = 0
-                    last_line = 0
-                
-                for theme in BEFORE_THEME:
-                    if BEFORE_THEME[theme]["start"] in line:
-                        to_remove = 1
-                        print("Removing existing themes in libraryroot.custom.css...")
-                    elif BEFORE_THEME[theme]["end"] in line:
-                        last_line = 1
-                    
-                if to_remove == 0:
-                    f1.write(line)
-        f.close()
-        f1.close()
-
-        if order == "before":
-            if not os.path.isfile("index.html.original"):
-                print("Making a copy of original .html file")
-                patch_html("dummy.css")
-            print("Reset HTML file")
-            reset_html()
-
-        
-        ###
-        shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
-        shutil.move("libraryroot.custom.theme.css", "libraryroot.custom.css")
-
-        return change_theme
-
-            
-    except:
-        print("Error removing existing themes.", file=sys.stderr)
-        print_traceback()
-        
-def add_new_css_theme(theme_filename, order, patchtext):
-    try:
-        if order == "before":
-            print("Adding css at the start of libraryroot.custom.css...")
-            with open("libraryroot.custom.css", "r", newline='', encoding="UTF-8") as f, \
-                 open("themes/" + theme_filename, "r", newline='', encoding="UTF-8") as ft, \
-                 open("libraryroot.custom.theme.css", "w", newline='', encoding="UTF-8") as f1:
-                for line in ft:
-                    f1.write(line)
-                f1.write(OS_line_ending())
-                f1.write(OS_line_ending())
-                for line in f:
-                    f1.write(line)
-            f.close()
-            ft.close()
-            f1.close()
-            
-            ###
-            shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
-            shutil.move("libraryroot.custom.theme.css", "libraryroot.custom.css")
-
-            ###
-            if theme_filename == "shiina.css":
-                steam_library_compat_config()
-            
-            
-        elif order == "after":
-            patch_html(theme_filename)
-            copy_theme_css_file(theme_filename)
-
-            
-    except:
-        print("Error applying theme from " + theme_filename, file=sys.stderr)
-        print_traceback()
-
-
-def reset_html():
-    try:
-        shutil.copy2("index.html.original", library_dir() + "/" + "index.html")
-        print("HTML file restored from index.html.original")
-    except:
-        print("Could not restore backup index.html.original. Is it missing?", file=sys.stderr)
-        print_traceback()
-
-def patch_html(theme_filename):
-    try:
-        if len(theme_filename) > 20:
-            raise Exception('Filename too long. Please keep it to 20 characters or less.')
-        with open(library_dir() + "/index.html", "r", newline='', encoding="UTF-8") as f, \
-             open("index.html", "w", newline='', encoding="UTF-8") as f1:
-            first_line = f.readline()
-            second_line = f.readline()
-            if first_line == "<!doctype html>" + "\r\n" and \
-               second_line == "<html style=\"width: 100%; height: 100%\">" + "\r\n":
-                print("Original HTML file detected.")
-                shutil.copy2(library_dir() + "/" + "index.html", "index.html.original")
-                ### return to start
-                f.seek(0)
-                theme_html_length = 0
-                for line in f:
-                    #Strip spacing from : and ;
-                    stripped_line = strip_spacing(line)
-                    #print(stripped_line)
-                    if stripped_line.strip() == '<script src="library.js"></script>':
-                        theme_line = stripped_line.strip() + href_rel_stylesheet(theme_filename)
-                        f1.write(theme_line)
-                        theme_html_length += len(theme_line)
-                    else:
-                        f1.write(stripped_line.strip())
-                        theme_html_length += len(stripped_line.strip())
-                #check file sizes    
-                #print(os.stat(library_dir() + "/index.html").st_size)
-                #print(theme_html_length)
-
-                #Add filler
-                filler = filler_text(os.stat(library_dir() + "/index.html").st_size,
-                                          theme_html_length)
-                f1.write(filler)
-                
-            else:
-                print("Patched HTML file detected.")
-                #print(os.stat(library_dir() + "/index.html").st_size)
-                
-                old_href = '<script src=\"library.js\"></script><link href=\"themes/.*\" rel="stylesheet\">'  
-                new_href = '<script src=\"library.js\"></script><link href=\"themes/' + theme_filename + '\" rel=\"stylesheet\">'
-                
-                ### return to start
-                f.seek(0)               
-                for line in f:
-                    match = re.search(old_href, line)
-                    if match:
-                        theme_line = re.sub(old_href, new_href, line)
-                        length_diff = len(theme_line) - len(match.string)
-                        if length_diff <= 0:
-                            theme_line += filler_text(len(match.string), len(theme_line))
-                        elif length_diff > 0:
-                            if length_diff > len(theme_line) - len(theme_line.rstrip()):
-                                raise Exception('Unable to trim enough characters! Is filename too long?')
-                            else:
-                                theme_line = theme_line[0:-length_diff]
-                        f1.write(theme_line)
-                    else:
-                        f1.write(line)
-  
-        f.close()
-        f1.close()
-
-        shutil.copy2("index.html", library_dir() + "/" + "index.html")
-        
-        print("Patching HTML File successful.")
-    except FileNotFoundError:
-        print("index.html.original not found, and could not be created.", file=sys.stderr)
-    except Exception as e:
-        print("Error configuring index.html", file=sys.stderr)
-        print(e, file=sys.stderr)
-        print_traceback()
-
-
-    ### String Helper functions
-        
-def strip_spacing(line):
-    c_line = line.replace(": ", ":").replace("; ", ";")
-    return c_line
-
-def filler_text(original_length, new_length):
-    length = original_length - new_length
-    if length >= 0:
-        filler_text = "\t" * length
-        return filler_text
-    else:
-        raise Exception("Something is wrong with the length of the file. It's too long!\n" \
-                        "Changes won't be applied (hopefully).")
-
-def href_rel_stylesheet(href):
-    return '<link href=\"themes/' + href + '\" rel=\"stylesheet\">'
-
-    #########
-
-
-def copy_theme_css_file(theme_filename):
-    try:
-        if not os.path.isdir(library_dir() + "/" + "themes"):
-            os.mkdir(library_dir() + "/" + "themes")
-            print("Created themes folder at: " + library_dir() + "/" + "themes")
-        
-        shutil.copy2("themes/" + theme_filename, library_dir() + "/themes/" + theme_filename)
-        print("Copied theme file " + theme_filename + " to " + library_dir())
-        
-    except FileNotFoundError:
-        print("CSS Theme file " + theme_filename + " not found", file=sys.stderr)
-        print_traceback()
-    except Exception as e:
-        print("Error adding CSS Theme file", file=sys.stderr)
-        print_traceback()
-'''
 
 
 

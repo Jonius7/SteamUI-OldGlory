@@ -1,17 +1,28 @@
 /* Home Icon */
+
+.gamelisthome_Label_3O48L:after {
+    content: '🏠';
+    color: transparent;
+    visibility: visible;
+    display: block;
+    position: absolute;
+    padding: 5px 11px;
+    top: 2px;
+}
+
+.gamelisthome_Label_3O48L {
+    visibility: hidden;
+}
+
 .gamelisthome_Label_3O48L {
 	color: transparent;text-shadow: 0 0 0 #4c4d50;
 }
 
-.gamelisthome_Label_3O48L:hover {
-    text-shadow: 0 0 0 #white;
-}
-
-.gamelisthome_Bar_3pSPl > div:hover {
+.gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L {
+    color: transparent;
     text-shadow: 0 0 0 white;
 }
 
-.gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L {
-    color: transparent;
+.gamelisthome_Bar_3pSPl:hover .gamelisthome_Label_3O48L {
     text-shadow: 0 0 0 white;
 }

@@ -24,5 +24,76 @@
 			"filename": "_crispcut.scss",
 			"order": "after"
 		}
+	},
+	"sections": {
+		"sidebar": {
+			"description": "CSS for the Left Sidebar - Games List"
+		},
+		"home_collections": {
+			"description": "CSS for HOME and COLLECTIONS page layout"
+		},
+		"scrollbar": {
+			"description": "CSS for a thicker scrollbar"
+		},
+		"gamepage_header": {
+			"description": "CSS for the top gamepage header and game image"
+		},
+		"gamepage_sections": {
+			"description": "CSS for the section boxes (Achievements, Friends Who Play, Screenshots, DLC...)"
+		},
+		"gamepage_boundary": {
+			"description": "CSS for the glass/blur, and more details panel"
+		},
+		"gamepage_spotlight": {
+			"description": "CSS for the gamepage spotlight"
+		},
+		"gamepage_columns": {
+			"description": "CSS for swapping the columns and their widths"
+		},
+		"gamepage_playbar": {
+			"description": "CSS for the Play Bar"
+		},
+		"gamepage_activitynews": {
+			"description": "CSS for the compact Friends Activity/News"
+		},
+		"gamepage_broadcasts": {
+			"description": "CSS for the Broadcasts section"
+		},
+		"gamepage_events": {
+			"description": "CSS affecting size of event boxes and images"
+		},
+		"gamepage_navbar": {
+			"description": "CSS for the navigation bar"
+		},
+		"gamepage_dlcscreenshots": {
+			"description": "CSS for DLC/Screenshots sections sizes"
+		},
+		"module_dlcmanager": {
+			"description": "CSS for DLC Manager layout and row height"
+		},
+		"module_horizontalgameimages": {
+			"description": "(Requires JS) CSS for Horizontal Game Images"
+		},
+		"module_listview": {
+			"description": "(EXPERIMENTAL) (Requires JS) CSS for List view implementation"
+		},
+		"module_playbarbox": {
+			"description": "CSS for Play Bar pulled up into box (in gamepage header)"
+		},
+		"module_verticalnavbar": {
+			"description": "(Requires JS) CSS for enabling a vertical navigation bar"
+		},
+		"module_classiclayout": {
+			"description": "(Requires JS) (Requires Vertical Nav Bar) CSS for enabling classic layout"
+		},
+		"module_homeicon": {
+			"description": "CSS for turning HOME button text into an icon"
+		},
+		"user_module1": {
+			"description": "Your custom CSS module 1"
+		},
+		"user_module2": {
+			"description": "Your custom CSS module 2"
+		}
 	}
 }

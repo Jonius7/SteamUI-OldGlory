@@ -1,5 +1,7 @@
 ## SteamUI-OldGlory GUI Changelog
 
+0.9.6.6     Redid Theme selection
+
 0.9.6.3	 Add JSON parsing
 
 0.9.6.0	 Add tabs to main page

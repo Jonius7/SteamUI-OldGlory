@@ -19,7 +19,7 @@ from tkHyperlinkManager import HyperlinkManager
 from threading import Thread
 
 OS_TYPE = platform.system()
-DEBUG_STDOUT_STDERR = True # Only useful for debugging purposes, set to True
+DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):

@@ -1,3 +1,7 @@
+/* Crisp Cut Theme
+   by Jonius7
+*/
+
 :root {
 	--LightSectionColor1: #dddddd;
 	--LightSectionColor2: #8a8a8a;
@@ -5,7 +9,6 @@
 	--SectionFontColor2: #0c0c0f;
 	--LinksFontColor: #0d0d0d;
 }
-
 
 /* full background color */
 .appdetails_Glassy_3Fmxx.appdetails_ScrollContainer_2l416 {
@@ -22,7 +25,6 @@
     /*background: none;*/
 }
 
-
 /* section top gradient */
 .appdetailssection_Highlight_38t1m {
     background: linear-gradient(to right, #5f7d82 0%, #0f2650 95%);
@@ -33,7 +35,6 @@
 	/*background: radial-gradient(100% 100% at top left, rgba(60,60,120,0.8) 50%, rgba(120,120,120,0.8) 100%);*/
     background: radial-gradient(100% 100% at top left, rgba(240,240,240,0.8) 50%, rgba(120,120,120,0.8) 100%);
 	box-shadow: 6px 6px 2px #101010ee;
-	
 }
 
 .appdetailsoverview_RightColumn_2aor4 * {
@@ -102,7 +103,6 @@ button.DialogButton._DialogLayout.Secondary.appdetailsworkshopsection_SpacedButt
 .appactivityday_ActorName_1t1iy > .personanameandstatus_playerName_nOdcT {
     color: var(--LightSectionColor1) !important;
 }
-
 
 
 /* Play bar */
