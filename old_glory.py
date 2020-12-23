@@ -23,7 +23,7 @@ DEBUG_STDOUT_STDERR = True # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.6.5-pre3 Beta"
+        self.version = "v0.9.6.6-pre3 Beta"
         self.release = "5.0"
       
         ### Window, Title, Icon setup
@@ -670,31 +670,24 @@ class MainOption(tk.Frame):
 
 ### Dropdown click (theme)
 ###
-THEME_MAP = {"steam-library (Shiina)" :
-             {"filename" : "shiina.css",
-              "order" : "before",
-              "patchtext" :
-                  {"start" : "DO NOT EDIT THESE !!! DO NOT EDIT THESE",
-                  "end" : "END steam-library tweaks for SteamUI-OldGlory"}},
-             "Dark Library (Thespikedballofdoom)" :
-             {"filename" : "spiked.css",
-              "order" : "after",
-              "patchtext" :
-                  {"start" : "Dark Library by spikedballofdoom",
-                  "end" : "END Dark Library by spikedballofdoom"}},
-             "Acrylic Theme (EliteSkylu)" :
-             {"filename" : "acrylic.css",
-              "order" : "after",
-              "patchtext" :
-                  {"start" : "Acrylic Theme by Jonius7",
-                  "end" : "END CSS for Acrylic Theme"}},
-             "Crisp Cut" :
-             {"filename" : "crispcut.css",
-              "order" : "after",
-              "patchtext" :
-                  {"start" : "Crisp Cut Theme by Jonius7",
-                  "end" : "END CSS for Crisp Cut Theme"}},
-             }
+THEME_MAP = {
+    "steam-library (Shiina)" : {
+        "filename" : "shiina.css",
+        "order" : "before",
+    },
+    "Dark Library (Thespikedballofdoom)" : {
+        "filename" : "spiked.css",
+        "order" : "after"
+    },
+    "Acrylic Theme (EliteSkylu)" : {
+        "filename" : "acrylic.css",
+        "order" : "after"
+    },
+    "Crisp Cut" : {
+        "filename" : "crispcut.css",
+        "order" : "after"
+    }
+}
 
 def dropdown_click(event, page, controller):
     theme_name = event.widget.get()
@@ -742,11 +735,18 @@ def install_click(event, page, controller):
 
     #add/remove theme
     apply_css_theme(controller.frames[StartPage], controller)
+
+    #enable/disable modules (TODO)
+
+    #compile css from scss
+    #print(controller.json_data)
+    #backend.compile_css(controller.json_data)
+    backend.compile_css(backend.get_json_data())
     
     #reset state of js gui to "unchanged"
-    #controller.js_gui_changed = 0
-    #backend.refresh_steam_dir()
-    #update_loaded_config(page)
+    controller.js_gui_changed = 0
+    backend.refresh_steam_dir()
+    update_loaded_config(page, controller)
 
 ### Get settings to apply (with validation), and values
 ### some of this needs to be changed to account for "unchecking" options
@@ -879,16 +879,28 @@ def apply_css_theme(page, controller):
     '''
 
     if page.var6.get() == 1:
-        theme_name = page.dropdown6.get()
-        print("Applying CSS Theme: " + theme_name)
-        print(theme_name.split(" (")[0])
+        theme_full_name = page.dropdown6.get()
+        print("Applying CSS Theme: " + theme_full_name)
+        theme_name = theme_full_name.split(" (")[0]
+        backend.enable_css_theme(controller.json_data["themes"][theme_name]["filename"],
+                         controller.json_data["themes"][theme_name]["order"],
+                         controller.json_data)
         
                                 
 #update loaded_config on Install click
-def update_loaded_config(page):
+def update_loaded_config(page, controller):
     for key in page.loaded_config:
         if "value" in CONFIG_MAP[key]:
             page.loaded_config[key] = str(page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get())
+        elif "set" in CONFIG_MAP[key]:
+            if key == "ThemeSelected":
+                theme_full_name = page.dropdown6.get()
+                theme_name = theme_full_name.split(" (")[0]
+                page.loaded_config[key] = theme_name
+
+                #settings_values[key] = page.dropdown6.get().split(" (")[0]
+            #else:
+                #settings_values[key] = CONFIG_MAP[key]["set"]
 
 ### ================================
 

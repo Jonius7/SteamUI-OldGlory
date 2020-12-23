@@ -522,12 +522,57 @@ BEFORE_THEME = {"shiina.css" :
 
 ### NEEDS REWRITE - SIMPLER WITH SCSS
 ### Order: CSS before or after SteamUI-OldGlory's CSS
-def apply_css_theme(theme_filename, order, patchtext):
-    theme_change_needed = remove_current_css_themes(theme_filename, order)
-    if theme_change_needed:
-        add_new_css_theme(theme_filename, order, patchtext)
 
 
+### Now removes existing theme imports and adds current ones to be enabled
+def enable_css_theme(theme_filename, order, json_data):
+    try:
+        with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
+             open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
+            themereading = 0
+            for line in f:
+                if themereading == 1:
+                    if line != OS_line_ending():
+                        print("delete line")
+                    else:
+                        if order == "before":
+                            print("theme line")
+                            # [1:-5] is to truncate the _ and .scss
+                            f1.write('@import "../themes/' + theme_filename[1:-5] + '";' + OS_line_ending())
+                        f1.write(OS_line_ending())
+                        themereading = 0
+                elif themereading == 2:
+                    if line != OS_line_ending():
+                        print("empty line")
+                    else:
+                        if order == "after":
+                            print("theme line")
+                            f1.write('@import "../themes/' + theme_filename[1:-5] + '";' + OS_line_ending())
+                        f1.write(OS_line_ending())
+                        themereading = 0
+                        
+                elif json_data["CSSBeforeThemes"] in line:
+                    f1.write(line)
+                    themereading = 1
+                elif json_data["CSSAfterThemes"] in line:
+                    f1.write(line)
+                    themereading = 2
+                else:
+                    f1.write(line)
+        
+        f.close()
+        f1.close()
+        
+        ###
+        shutil.move("scss/libraryroot.custom.scss", "scss/libraryroot.custom.scss.backup")
+        shutil.move("scss/libraryroot.custom.temp.scss", "scss/libraryroot.custom.scss")
+            
+    except:
+        print("Error removing existing themes.", file=sys.stderr)
+        print_traceback()
+
+
+'''
 def remove_current_css_themes(theme_filename, order):
     try:
         ### This is specifically for steam-library(shiina) or any theme that adds CSS "before"
@@ -727,6 +772,9 @@ def copy_theme_css_file(theme_filename):
     except Exception as e:
         print("Error adding CSS Theme file", file=sys.stderr)
         print_traceback()
+'''
+
+
 
 config_replacements = {'--FontSize: 15px;' : '--FontSize: 13px;',
                        '--YourLibraryName: "YOUR LIBRARY"' : '--YourLibraryName: "HOME"',

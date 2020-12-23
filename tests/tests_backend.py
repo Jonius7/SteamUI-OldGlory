@@ -57,10 +57,13 @@ class TestCSSLineParser(unittest.TestCase):
     def test_write_after_theme(self):
         backend.add_new_css_theme("acrylic.css", "after", {"start" : "DO NOT EDIT THESE !!! DO NOT EDIT THESE",
                   "end" : "END steam-library tweaks for SteamUI-OldGlory"})
-    '''
+    
     def test_filename_too_long_for_html(self):
         self.assertRaises(Exception, backend.patch_html("aaaabbbbccccdddde.css"))
-        
+    '''
+
+    def test_get_json(self):
+        backend.get_json_data()
 
 if __name__ == '__main__':
     unittest.main()
