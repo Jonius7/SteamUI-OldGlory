@@ -1,29 +1,26 @@
 {
 	"CSSVariableString": "/* ===== SteamUI-OldGlory will insert CSS Variables from variables.css here ==== */",
-	"themes": [
-		{
-			"name": "steam-library",
+	"themes": {
+		"steam-library": {
 			"author": "Shiina",
-			"filename" : "shiina.css",
-			"order" : "before"
+			"filename": "_shiina.scss",
+			"order": "before"
 		},
-		{
+		"Dark Library": {
 			"name": "Dark Library",
 			"author": "Thespikedballofdoom",
-			"filename" : "spiked.css",
-			"order" : "after"
+			"filename": "_spiked.scss",
+			"order": "after"
 		},
-		{
-			"name": "Acrylic Theme",
+		"Acrylic Theme": {
 			"author": "EliteSkylu",
-			"filename" : "spiked.css",
-			"order" : "after"
+			"filename": "_acrylic.scss",
+			"order": "after"
 		},
-		{
-			"name": "Crisp Cut",
+		"Crisp Cut": {
 			"author": "Jonius7",
-			"filename" : "spiked.css",
-			"order" : "after"
+			"filename": "_crispcut.scss",
+			"order": "after"
 		}
-	]
+	}
 }

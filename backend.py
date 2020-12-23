@@ -247,7 +247,9 @@ def load_config():
             for line in lines:
                 if not line.startswith('###'):
                     try:
-                        (key, val) = line.rstrip().replace(" ", "").split("=")
+                        #spaces?
+                        #(key, val) = line.rstrip().replace(" ", "").split("=")
+                        (key, val) = line.rstrip().split("=")
                         config_dict[key] = val
                     except Exception as e:
                         print("Error with line in config: " + line + " Skipping.", file=sys.stderr)

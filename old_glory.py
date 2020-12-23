@@ -19,11 +19,11 @@ from tkHyperlinkManager import HyperlinkManager
 from threading import Thread
 
 OS_TYPE = platform.system()
-DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
+DEBUG_STDOUT_STDERR = True # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.6.3-pre2 Beta"
+        self.version = "v0.9.6.5-pre3 Beta"
         self.release = "5.0"
       
         ### Window, Title, Icon setup
@@ -86,8 +86,6 @@ class OldGloryApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         ### Load config variables
-        #self.css_config = backend.load_css_configurables()
-        #self.js_config = backend.load_js_fixes()
         self.js_gui_changed = 0
         
         ### Frames/Pages configure
@@ -106,10 +104,10 @@ class OldGloryApp(tk.Tk):
 
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)           
-
+        tk.Frame.__init__(self, parent)
+        
     ### LOG FRAME
-    ### Initialised first even though it will be packed after the CHECK FRAME
+    ### Defined first even though it will be packed after the CHECK FRAME, due to redirecting StdOut
     ###
         frameLog = tk.Frame(self)
 
@@ -250,15 +248,15 @@ class StartPage(tk.Frame):
         mainoption6 = mo6.returnMainOption()
         mainoption6.grid(row=5, column=1, sticky='w')
         ###
-        self.dropdown6_value = tk.IntVar()
+        self.dropdown6_value = tk.StringVar()
         self.dropdown6 = ttk.Combobox(frameCheck,
                                  font="TkDefaultFont",
-                                 values=self.getListOfThemeNames(),
+                                 values=self.getListOfThemeNames(controller),
                                  state="readonly",
                                  textvariable=self.dropdown6_value,
                                  width=30)
         self.dropdown6.current(0)
-        self.dropdown6.bind("<<ComboboxSelected>>", lambda event: dropdown_click(event, self))
+        self.dropdown6.bind("<<ComboboxSelected>>", lambda event: dropdown_click(event, self, controller))
         self.dropdown6.grid(row=6, column=1, columnspan=2, sticky="w")
         
         
@@ -302,10 +300,10 @@ class StartPage(tk.Frame):
         ### Check if CSS Patched
         ### Check for new version
         check_if_css_patched(self)
-        update_check(self, controller.release)        
-        #print(controller.json_data)
+        update_check(self, controller.release)
+        
         ### Set GUI from config
-        self.loaded_config = set_selected_from_config(self)
+        self.loaded_config = set_selected_from_config(self, controller)
         self.text1.config(state='disabled')
         init_cb_check(self.var1, [check2, check3, check5])
         init_cb_check(self.var3, [check4])        
@@ -318,7 +316,7 @@ class StartPage(tk.Frame):
 
         ###tabs
         tabs.add(frameCheck, text="Main Options")
-        tabs.add(framePatch, text="Patch")
+        tabs.add(framePatch, text="Advanced Options")
         tabs.pack(expand=1)
         
         frameLog.pack(pady=(10,7))
@@ -330,13 +328,24 @@ class StartPage(tk.Frame):
         return getattr(self, getter)
     def getTextArea(self, getter):
         return getattr(self, getter)
+    def getDropdownVal(self, getter):
+        return getattr(self, getter)
     def setChangeTheme(self, event):
         self.change_theme = 1
 
-    def getListOfThemeNames(self):
+    def getListOfThemeNames(self, controller):
         themes = []
-        for theme in THEME_MAP:
-            themes.append(theme)
+        try:
+            for theme in controller.json_data["themes"].keys():
+                #print(theme)
+                themes.append(theme + " (" + controller.json_data["themes"][theme]["author"] + ")")
+        except Exception as e:
+            print("Error loading themes from JSON file. Loading default themes data.",file=sys.stderr)
+            print(traceback.format_exc(), file=sys.stderr)
+            #default theme data
+            for theme in THEME_MAP:
+                themes.append(theme)
+        
         return themes
 
 class PageOne(tk.Frame):
@@ -560,7 +569,7 @@ def update_check(page, current_release):
     
 ### StartPage
 ### Select checkboxes based on config
-def set_selected_from_config(page):
+def set_selected_from_config(page, controller):
     ### grab stdout, stderr from function in backend
     f = io.StringIO()
     loaded_config = backend.load_config()
@@ -572,6 +581,14 @@ def set_selected_from_config(page):
                 page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
             elif key == "ThemeSelected":
                 print(loaded_config[key])
+                try:
+                    theme_entry = controller.json_data["themes"][loaded_config[key]]
+                    if (theme_entry):
+                        #could be fragile but otherwise works
+                        page.getDropdownVal("dropdown6").set(loaded_config[key] + " (" + theme_entry["author"] + ")")
+                except KeyError:
+                    print("Could not auto-select current theme.", file=sys.stderr)
+                #page.getDropdownVal("dropdown6").set(loaded_config[key])
     return loaded_config
 ### ================================
    
@@ -679,14 +696,16 @@ THEME_MAP = {"steam-library (Shiina)" :
                   "end" : "END CSS for Crisp Cut Theme"}},
              }
 
-def dropdown_click(event, page):
+def dropdown_click(event, page, controller):
     theme_name = event.widget.get()
-    theme_image_path = resource_path("images/theme_" + THEME_MAP[theme_name]["filename"][0:-4] + ".png")
-    if theme_name in THEME_MAP and os.path.isfile(theme_image_path):
+    #print(theme_name)
+    #print(controller.json_data["themes"][theme_name.split(" (")[0]]["filename"])
+    theme_image_path = resource_path("images/theme_" + controller.json_data["themes"][theme_name.split(" (")[0]]["filename"][1:-5] + ".png")
+    if os.path.isfile(theme_image_path):
         #change_image
         change_image(page.image1, theme_image_path)
     else:
-        change_image(page.image1, resource_path("images/crisp_cut.png"))
+        change_image(page.image1, resource_path("images/no_preview.png"))
         
 ### INSTALL Functions
 ### ================================
@@ -699,7 +718,8 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
               "EnableVerticalNavBar" : {"value" : "var3", "javascript" : True},
               "EnableClassicLayout" : {"value" : "var4", "javascript" : True},
               "LandscapeImages" : {"value" : "var5", "javascript" : True},
-              "InstallWithDarkLibrary" : {"value" : "var6", "javascript" : False}
+              "InstallWithDarkLibrary" : {"value" : "var6", "javascript" : False},
+              "ThemeSelected" : {"set" : ""}
               }
 
 
@@ -710,7 +730,7 @@ def install_click(event, page, controller):
     #get settings
     settings_to_apply, settings_values = get_settings_from_gui(event, page) 
 
-    #make any js_config enable/disable required
+    #make any js_config enable/disable required based on main options
     settings_values = apply_changes_to_config(controller, settings_values)
     
     #write fixes.txt before apply
@@ -721,12 +741,12 @@ def install_click(event, page, controller):
     backend.write_config(settings_values)
 
     #add/remove theme
-    apply_css_theme(controller.frames[StartPage])
+    apply_css_theme(controller.frames[StartPage], controller)
     
     #reset state of js gui to "unchanged"
-    controller.js_gui_changed = 0
-    backend.refresh_steam_dir()
-    update_loaded_config(page)
+    #controller.js_gui_changed = 0
+    #backend.refresh_steam_dir()
+    #update_loaded_config(page)
 
 ### Get settings to apply (with validation), and values
 ### some of this needs to be changed to account for "unchecking" options
@@ -743,7 +763,10 @@ def get_settings_from_gui(event, page):
                     #print("BOX UNSELECTED")
                     settings.append(key)
             elif "set" in CONFIG_MAP[key]:
-                settings_values[key] = CONFIG_MAP[key]["set"]    
+                if key == "ThemeSelected":
+                    settings_values[key] = page.dropdown6.get().split(" (")[0]
+                else:
+                    settings_values[key] = CONFIG_MAP[key]["set"]    
             else:
                 settings_values[""] = ""
         #print("ARRAY ")
@@ -756,6 +779,7 @@ def get_settings_from_gui(event, page):
         pass
         print("libraryroot.custom.css not found", file=sys.stderr)
 
+# Rather not have this as hard coded as it currently is
 def apply_changes_to_config(controller, settings_values):
     #print(settings_values.keys())
     if "EnableVerticalNavBar" in settings_values.keys():
@@ -837,8 +861,9 @@ def run_js_tweaker(text_area):
     except Exception as e:
         print(e, file=sys.stderr)
 
-
-def apply_css_theme(page):
+#need rewrite
+def apply_css_theme(page, controller):
+    '''
     if page.var6.get() == 1:
         theme_name = page.dropdown6.get()
         print("Applying CSS Theme: " + theme_name)
@@ -851,7 +876,14 @@ def apply_css_theme(page):
         page.text1.update_idletasks()
         print("Cleared current CSS Themes")
     page.change_theme = 0
+    '''
 
+    if page.var6.get() == 1:
+        theme_name = page.dropdown6.get()
+        print("Applying CSS Theme: " + theme_name)
+        print(theme_name.split(" (")[0])
+        
+                                
 #update loaded_config on Install click
 def update_loaded_config(page):
     for key in page.loaded_config:
