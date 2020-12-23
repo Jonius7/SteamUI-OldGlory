@@ -1,5 +1,7 @@
 ## SteamUI-OldGlory GUI Changelog
 
+**0.9.6.9** 	Theme and module selection functionality working
+
 0.9.6.6     Redid Theme selection
 
 0.9.6.3	 Add JSON parsing

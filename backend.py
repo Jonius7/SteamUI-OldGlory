@@ -210,9 +210,9 @@ def library_dir():
     return steamui_path
 
 def print_traceback():
-    print("~~~~~~~~~~")
+    print("~~~~~~~~~~~~~~~~~~~~")
     print(traceback.format_exc(), end='', file=sys.stderr)
-    print("~~~~~~~~~~")
+    print("~~~~~~~~~~~~~~~~~~~~")
 
 ### Check CSS Patched
 def is_css_patched():

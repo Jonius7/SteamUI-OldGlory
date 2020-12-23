@@ -351,7 +351,7 @@ class StartPage(tk.Frame):
                 themes.append(theme + " (" + controller.json_data["themes"][theme]["author"] + ")")
         except Exception as e:
             print("Error loading themes from JSON file. Loading default themes data.",file=sys.stderr)
-            print(traceback.format_exc(), file=sys.stderr)
+            print_traceback()
             #default theme data
             for theme in THEME_MAP:
                 themes.append(theme)
@@ -579,7 +579,7 @@ def update_check(page, current_release):
         print("No internet connection detected, Unable to check for latest release!", file=sys.stderr)
     except:
         print("Unable to check for latest release!", file=sys.stderr)
-        print(traceback.format_exc(), file=sys.stderr)
+        print_traceback()
     
 ### StartPage
 ### Select checkboxes based on config
@@ -600,7 +600,7 @@ def set_selected_from_config(page, controller):
                     if (theme_entry):
                         #could be fragile but otherwise works
                         page.getDropdownVal("dropdown6").set(loaded_config[key] + " (" + theme_entry["author"] + ")")
-                except KeyError:
+                except:
                     print("Could not auto-select current theme.", file=sys.stderr)
                 #page.getDropdownVal("dropdown6").set(loaded_config[key])
     return loaded_config
@@ -925,12 +925,15 @@ def update_loaded_config(page, controller):
 ### RELOAD Functions
 ### ================================
 def reload_click(event, controller):
-    print("==============================")
-    controller.css_config = backend.load_css_configurables()
-    controller.js_config, controller.special_js_config = backend.load_js_fixes()
-    controller.frames[PageTwo].js_gui.update_js_gui(controller)
-    controller.frames[PageOne].css_gui.PresetFrame.set_preset_default()
-    print("Config Reloaded.")
+    try:
+        print("==============================")
+        controller.css_config = backend.load_css_configurables()
+        controller.js_config, controller.special_js_config = backend.load_js_fixes()
+        controller.frames[PageTwo].js_gui.update_js_gui(controller)
+        controller.frames[PageOne].css_gui.PresetFrame.set_preset_default()
+        print("Config Reloaded.")
+    except:
+        print("Config could not be completely reloaded.", file=sys.stderr)
 ### ================================
 
 
@@ -947,7 +950,7 @@ def open_img(filename, width=350):
         return img
     except:
         print("Unable to add image: " + filename, file=sys.stderr)
-        print(traceback.format_exc(), file=sys.stderr)
+        print_traceback()
 
 def add_img(frame, filename, width=350):
     img = open_img(filename, width)
@@ -1099,9 +1102,9 @@ class CSSConfigRow(tk.Frame):
             self.combobox.grid(row=0, column=1, pady=1)
         
         except Exception as e:
-            print(traceback.format_exc(), file=sys.stderr)
             print("CSS config in libraryroot.custom.css not configured correctly.\n", file=sys.stderr)
             print("Either the format of configurable variables is incorrect or this feature is not fully implemented yet.\n", file=sys.stderr)
+            print_traceback()
 
     def returnCSSConfigRow(self):
         return self.frameCSSRow
@@ -1467,7 +1470,7 @@ def add_window_icon(window):
             root.tk.call('wm', 'iconphoto', root._w, icon)
     except:
         print("Failed to load icon: " + icon_filename, file=sys.stderr)
-        print(traceback.format_exc(), file=sys.stderr)
+        print_traceback()
         
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -1477,6 +1480,11 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
+
+def print_traceback():
+    print("~~~~~~~~~~~~~~~~~~~~")
+    print(traceback.format_exc(), end='', file=sys.stderr)
+    print("~~~~~~~~~~~~~~~~~~~~")
 
 def main():
     app = OldGloryApp()

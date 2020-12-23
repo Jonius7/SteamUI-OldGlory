@@ -1,0 +1,10 @@
+/* Have game images on Home page game grid not zoom/expand when hovered */
+
+.appportrait_Draggable_1pwP4 {
+    perspective: unset;
+}
+
+.appportrait_HoversEnabled_54PuC .appportrait_LibraryItemBox_WYgDg:hover:not(.appportrait_Landscape_3VOR2) {
+    transform: unset;
+    filter: unset;
+}

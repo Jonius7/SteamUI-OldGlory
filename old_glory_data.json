@@ -71,7 +71,7 @@
 		"module_dlcmanager": {
 			"description": "CSS for DLC Manager layout and row height"
 		},
-		"module_horizontalgameimages": {
+		"module_landscapegameimages": {
 			"description": "(Requires JS) CSS for Horizontal Game Images"
 		},
 		"module_listview": {
@@ -88,6 +88,9 @@
 		},
 		"module_homeicon": {
 			"description": "CSS for turning HOME button text into an icon"
+		},
+		"tweak_nozoom": {
+			"description": "CSS for removing zoom/expand on game images when hovered"
 		},
 		"user_module1": {
 			"description": "Your custom CSS module 1"

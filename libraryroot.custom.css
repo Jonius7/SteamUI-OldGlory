@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* SteamUI-OldGlory CSS Tweaks v2.0
    by Jonius7 
 */
@@ -643,6 +644,35 @@ div.NarrowRightPanel .appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .app
 .appproperties_AppProperties_1FyBL .appproperties_Page_1SvWY .appproperties_DlcGrid_3sXdO .appproperties_Name_bP2Ip .appproperties_DlcArt_3vsfp {
   /* default 0 0 130px */
   flex: 0 0 60px;
+}
+
+/* Home Icon */
+.gamelisthome_Label_3O48L:after {
+  content: '🏠';
+  color: transparent;
+  visibility: visible;
+  display: block;
+  position: absolute;
+  padding: 5px 11px;
+  top: 2px;
+}
+
+.gamelisthome_Label_3O48L {
+  visibility: hidden;
+}
+
+.gamelisthome_Label_3O48L {
+  color: transparent;
+  text-shadow: 0 0 0 #4c4d50;
+}
+
+.gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L {
+  color: transparent;
+  text-shadow: 0 0 0 white;
+}
+
+.gamelisthome_Bar_3pSPl:hover .gamelisthome_Label_3O48L {
+  text-shadow: 0 0 0 white;
 }
 
 /* User CSS (module 1)
