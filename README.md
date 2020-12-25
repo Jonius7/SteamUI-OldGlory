@@ -14,7 +14,6 @@ Check `/dev` branch for in-progress tweaks.
 ### Showcase of Tweaks
 
 <details><summary>(click to expand)</summary><br>
-    Co
 
 Condensed sidebar buttons <br>
     <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 40%;" /> <br><br>
@@ -50,14 +49,19 @@ Condensed sidebar buttons <br>
 #### Included files:
 
 - `old_glory.exe` - App to apply **SteamUI-OldGlory's** tweaks
-- `libraryroot.custom.css` - CSS tweaks
-
+- `variables.css` - CSS variables to customise
 - `fixes.txt` - JS tweaks
+- `libraryroot.custom.css` - output CSS file. Do not edit this directly, use the `/scss` folder files
+- `\scss` - (New in Release 5.0)
+  - `libraryroot.custom.scss` - contains all the `@imports` for smaller `.scss` files. The GUI handles enabling/disabling `_module_playbarbox`, `_module_verticalnavbar`, `_module_landscapegameimages`, `_module_classiclayou`t. Manually comment out the other modules (for now)
+  - `_user_module1.scss`- put your custom CSS code here
+  - `_user_module2.scss` - put your custom CSS code here
 
 - `\themes` - Folder containing theme files
-  - `shiina.css` and `config.css.original` - **Shiina's** [steam-library](https://github.com/AikoMidori/steam-library) dark theme
-  - `spiked.css` - **Thespikedballofdoom's** [Dark Library](https://gamebanana.com/guis/35092) theme
-  - `acrylic.css` - Theme based on **EliteSkylu's** [Acrylic Steam](https://www.reddit.com/r/Steam/comments/jot6vi/let_me_introduce_you_a_project_of_my_steam_ui/) concept
+  - `_shiina.scss` and `config.css.original` - **Shiina's** [steam-library](https://github.com/AikoMidori/steam-library) dark theme
+  - `_spiked.scss` - **Thespikedballofdoom's** [Dark Library](https://gamebanana.com/guis/35092) theme
+  - `_acrylic.scss` - Theme based on **EliteSkylu's** [Acrylic Steam](https://www.reddit.com/r/Steam/comments/jot6vi/let_me_introduce_you_a_project_of_my_steam_ui/) concept
+  - `_crispcut.scss` - (WIP) Theme by **Jonius7**, emphasising white app section boxes
 
 Other files are copied from the`Steam\steamui` directory as required.
 
@@ -99,17 +103,28 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 
 ## What's New?
 >
->#### 4.0 Beta
+>#### 5.0
 >
->- NEW Graphical User Interface for installing SteamUI-OldGlory Tweaks
->- Can select from Box Play Button, Vertical Nav Bar, Classic Layout configurations and any combination of them.
->- Can enable Landscape Game Images and configure their size (Small, Medium, Large), in JS Tweaks.
->- `js_tweaker` functionality from old versions integrated in.
->- Includes 3 themes:
->  - steam-library by Shiina
->  - Dark Library by Thespikedballofdoom
->  - Acrylic Theme (cooncept by EliteSkylu)
->- Remake JS, Reset buttons
+>- Themes working again with 22 Dec Steam Client Update.
+>
+>- SteamUI-OldGlory now uses [Sassy CSS (Sass)](https://github.com/Jonius7/SteamUI-OldGlory/wiki/Chrome-DevTools).
+>   Particular components such as scrollbar, a HOME icon, sidebar, play bar, navbar are now in their own `.scss` files.
+>
+>- **Use `variables.css` instead of `libraryroot.custom.css` to edit CSS variables**
+>
+>- GUI `v0.9.5.5` -> `v0.9.6.9`
+>   The GUI is now using JSON to store some of the data. This has the benefit of being editable outside of having to rebuild the .exe
+>
+> - Issues fixed from #5
+>  - Themes working again
+>     - Auto-select current theme on startup
+>     - New DLC Manager scss - no longer requires JavaScript for row height
+>
+> ###Future Releases
+> Now that Sass is implemented, time to add more toggleable features.
+> Continue building the auto-updating system. The ideal state is to be able to push out .scss, fixes.txt, or old_glory_data.json hotfixes smoothly, and leave the GUI changes as the major updates.
+>
+> [Compare with Release 4.1.1](https://github.com/Jonius7/SteamUI-OldGlory/compare/Release_4.1.1...Release_5.0) | [Changelog](https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_4.1.1)
 >
 >
 >[More details...](https://github.com/Jonius7/SteamUI-OldGlory/releases)
