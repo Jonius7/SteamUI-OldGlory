@@ -51,9 +51,11 @@ Condensed sidebar buttons <br>
 - `old_glory.exe` - App to apply **SteamUI-OldGlory's** tweaks
 - `variables.css` - CSS variables to customise
 - `fixes.txt` - JS tweaks
-- `libraryroot.custom.css` - output CSS file
-
-
+- `libraryroot.custom.css` - output CSS file. Do not edit this directly, use the `/scss` folder files
+- `\scss` - (New in Release 5.0)
+  - `libraryroot.custom.scss` - contains all the `@imports` for smaller `.scss` files. The GUI handles enabling/disabling _module_playbarbox, _verticalnavbar, _landscapegameimages, _classiclayout. Manually comment out the other modules (for now)
+  - `_user_module1.scss`- put your custom CSS code here
+  - `_user_module2.scss` - put your custom CSS code here
 
 - `\themes` - Folder containing theme files
   - `shiina.css` and `config.css.original` - **Shiina's** [steam-library](https://github.com/AikoMidori/steam-library) dark theme

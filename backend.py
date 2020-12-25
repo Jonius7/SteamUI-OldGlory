@@ -709,10 +709,10 @@ def refresh_steam_dir():
     if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css") and os.stat(library_dir() + "/" + "libraryroot.custom.css").st_size > 15:
         if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css.backup"):
             shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup2")
-            print("backed up steamui/libraryroot.custom.css to libraryroot.custom.css.backup2")
+            print("backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup2")
         else:
             shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup")
-            print("backed up steamui/libraryroot.custom.css to libraryroot.custom.css.backup")
+            print("backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup")
         
         shutil.copy2("libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css")
     print("File " + "libraryroot.custom.css" + " written to " + library_dir())
