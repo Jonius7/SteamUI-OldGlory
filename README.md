@@ -7,7 +7,7 @@ Check `/dev` branch for in-progress tweaks.
 
 ### Video Guide and GIF
 
-<img src="https://media.giphy.com/media/OjD2H5dci42cYRVvWN/source.gif" alt="Alt Text" style="zoom:95%;" /> 
+<img src="https://media.giphy.com/media/ehn6NIV3ZzVWaLyiDv/giphy.gif" alt="Alt Text" style="zoom:95%;" /> 
 
 [<img src="https://i.imgur.com/FYDDWVW.png" alt="Video Guide to Customising The Steam Library"/>](https://youtu.be/foCewvyOszQ)
 
@@ -38,7 +38,7 @@ Condensed sidebar buttons <br>
 
 #### Patching and CSS
 
-- Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). NOTE (if running v0.1.36-beta, [**"Steam Beta"** in Settings, needs to be ticked.](https://i.imgur.com/jmSaoEE.png)) Run it, it will patch some files.
+- Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). Run it, it will patch some files.
 
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 
@@ -53,15 +53,14 @@ Condensed sidebar buttons <br>
 - `fixes.txt` - JS tweaks
 - `libraryroot.custom.css` - output CSS file. Do not edit this directly, use the `/scss` folder files
 - `\scss` - (New in Release 5.0)
-  - `libraryroot.custom.scss` - contains all the `@imports` for smaller `.scss` files. The GUI handles enabling/disabling `_module_playbarbox`, `_module_verticalnavbar`, `_module_landscapegameimages`, `_module_classiclayou`t. Manually comment out the other modules (for now)
+  - `libraryroot.custom.scss` - contains all the `@imports` for smaller `.scss` files. The GUI handles enabling/disabling _module_playbarbox, _verticalnavbar, _landscapegameimages, _classiclayout. Manually comment out the other modules (for now)
   - `_user_module1.scss`- put your custom CSS code here
   - `_user_module2.scss` - put your custom CSS code here
 
 - `\themes` - Folder containing theme files
-  - `_shiina.scss` and `config.css.original` - **Shiina's** [steam-library](https://github.com/AikoMidori/steam-library) dark theme
-  - `_spiked.scss` - **Thespikedballofdoom's** [Dark Library](https://gamebanana.com/guis/35092) theme
-  - `_acrylic.scss` - Theme based on **EliteSkylu's** [Acrylic Steam](https://www.reddit.com/r/Steam/comments/jot6vi/let_me_introduce_you_a_project_of_my_steam_ui/) concept
-  - `_crispcut.scss` - (WIP) Theme by **Jonius7**, emphasising white app section boxes
+  - `shiina.css` and `config.css.original` - **Shiina's** [steam-library](https://github.com/AikoMidori/steam-library) dark theme
+  - `spiked.css` - **Thespikedballofdoom's** [Dark Library](https://gamebanana.com/guis/35092) theme
+  - `acrylic.css` - Theme based on **EliteSkylu's** [Acrylic Steam](https://www.reddit.com/r/Steam/comments/jot6vi/let_me_introduce_you_a_project_of_my_steam_ui/) concept
 
 Other files are copied from the`Steam\steamui` directory as required.
 
@@ -108,24 +107,30 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 >- Themes working again with 22 Dec Steam Client Update.
 >
 >- SteamUI-OldGlory now uses [Sassy CSS (Sass)](https://github.com/Jonius7/SteamUI-OldGlory/wiki/Chrome-DevTools).
->   Particular components such as scrollbar, a HOME icon, sidebar, play bar, navbar are now in their own `.scss` files.
+>  Particular components such as scrollbar, a HOME icon, sidebar, play bar, navbar are now in their own `.scss` files.
 >
->- **Use `variables.css` instead of `libraryroot.custom.css` to edit CSS variables**
+>- ---
+>
+>    **Use `variables.css` instead of `libraryroot.custom.css` to manually edit CSS variables**
+>    `libraryroot.custom.css` is completely generated now. Editing it manually and trying to **Install** will likely not apply your changes. Instead look for stuff to change in `variables.css`, and the `scss` folder.  
+>    If things are still too confusing, I may look at simplifying the folder structure next release.
+>
+>    ---
 >
 >- GUI `v0.9.5.5` -> `v0.9.6.9`
->   The GUI is now using JSON to store some of the data. This has the benefit of being editable outside of having to rebuild the .exe
+>  The GUI is now using JSON to store some of the data. This has the benefit of being editable outside of having to rebuild the .exe
 >
-> - Issues fixed from #5
->  - Themes working again
->     - Auto-select current theme on startup
->     - New DLC Manager scss - no longer requires JavaScript for row height
+>- Issues fixed from #5
 >
-> ###Future Releases
-> Now that Sass is implemented, time to add more toggleable features.
-> Continue building the auto-updating system. The ideal state is to be able to push out .scss, fixes.txt, or old_glory_data.json hotfixes smoothly, and leave the GUI changes as the major updates.
+> - Themes working again
+>    - Auto-select current theme on startup
+>    - New DLC Manager scss - no longer requires JavaScript for row height
 >
-> [Compare with Release 4.1.1](https://github.com/Jonius7/SteamUI-OldGlory/compare/Release_4.1.1...Release_5.0) | [Changelog](https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_4.1.1)
+>###Future Releases
+>Now that Sass is implemented, time to add more toggleable features.
+>Continue building the auto-updating system. The ideal state is to be able to push out .scss, fixes.txt, or old_glory_data.json hotfixes smoothly, and leave the GUI changes as the major updates.
 >
+>[Compare with Release 4.1.1](https://github.com/Jonius7/SteamUI-OldGlory/compare/Release_4.1.1...Release_5.0) | [Changelog](https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_4.1.1)
 >
 >[More details...](https://github.com/Jonius7/SteamUI-OldGlory/releases)
 
