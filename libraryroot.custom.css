@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* SteamUI-OldGlory CSS Tweaks v2.0
    by Jonius7 
 */
@@ -58,9 +59,9 @@
   border-radius: 0px 4px 4px 0px;
 }
 
-/* fix search bar sometimes flexing down a few pixels */
-.gamelistsearchbar_Container_20QAC .gamelistsearchbar_SearchInput_12vo5 {
-  height: 10px;
+/* fix search bar default height to match Advanced Search filters height */
+.DialogInput_Wrapper._DialogLayout {
+  height: 32px;
 }
 
 /* Gamelist entry - font size */
@@ -340,6 +341,10 @@
 .sharedappdetailsheader_ImgSrc_HNbe3.sharedappdetailsheader_ImgBlurBackdrop_3_IUV {
   width: calc(180% + 128px);
   -webkit-mask-image: linear-gradient(to bottom, var(--AmbientBlur) 80%, rgba(0, 0, 0, 0) 100%);
+}
+
+.appdetailsheader_HeaderFeatures_2b6Wk {
+  pointer-events: all;
 }
 
 /* ========================================================================== 
@@ -813,6 +818,26 @@ div.NarrowRightPanel .appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .app
 /* END PLAY BAR LAYOUT */
 /* User CSS (module 1)
    ========================================================================== */
+.gamelistbar_CollectionsButton_2CEKF {
+  display: none;
+  /* Remove collections button */
+}
+
+.gamelistbar_GameListHomeAndSearch_2TKEa {
+  width: 5%;
+  /* set total width of HOME + Collections buttons. Choose something between 2-10% */
+}
+
+.gamelistdropdown_Bar_1ZS_x .gamelistdropdown_MenuHeader_2PF_m .gamelistdropdown_Arrow_15aGn {
+  display: none;
+  /* remove GAMES, SOFTWARE... dropdown arrow */
+}
+
+.gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo {
+  display: none;
+  /* Remove recent activity and "ready to play" button filters */
+}
+
 /* ========================================================================== 
    END User CSS (module 1) */
 /* User CSS (module 2)

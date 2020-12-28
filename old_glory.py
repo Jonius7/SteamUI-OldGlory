@@ -564,7 +564,7 @@ def check_if_css_patched(page):
 ### Check if newer version
 def update_check(page, current_release):
     try:
-        response = requests.get("https://api.github.com/repos/jonius7/steamui-oldglory/releases/latest", timeout=0.4)
+        response = requests.get("https://api.github.com/repos/jonius7/steamui-oldglory/releases/latest", timeout=0.5)
         latest_release = response.json()["name"]
         if latest_release == current_release:
             print("You are up to date. Release " + latest_release + "\n")
@@ -576,7 +576,7 @@ def update_check(page, current_release):
             page.text1.insert(tk.END, "Release {0}\n".format(current_release))
             page.text1.insert(tk.INSERT, "\n")
     except requests.exceptions.ConnectionError:
-        print("No internet connection detected, Unable to check for latest release!", file=sys.stderr)
+        print("Could not connect to Github, Unable to check for latest release!", file=sys.stderr)
     except:
         print("Unable to check for latest release!", file=sys.stderr)
         print_traceback()

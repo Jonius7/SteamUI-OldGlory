@@ -1,4 +1,5 @@
 // Themes applied before CSS Tweaks
+@import "../themes/shiina";
 
 /* SteamUI-OldGlory CSS Tweaks v2.0
    by Jonius7 
@@ -23,9 +24,9 @@
 
 // Modules
 @import "./module_dlcmanager";
-// @import "./module_landscapegameimages";
+@import "./module_landscapegameimages";
 // @import "./module_listview";
-// @import "./module_playbarbox";
+@import "./module_playbarbox";
 // @import "./module_verticalnavbar";
 // @import "./module_classiclayout";
 // @import "./module_homeicon";

@@ -336,6 +336,8 @@ def write_css_settings(settings, settings_values, root_config):
         print("Error enabling/disabling CSS modules.", file=sys.stderr)
         print_traceback()
 
+
+
 # Compiles libraryroot.custom.css from /scss directory
 # Adds variables.css
 def compile_css(json_data):
@@ -708,8 +710,9 @@ def write_js_fixes(fixesdata, special_fixesdata):
 def refresh_steam_dir():
     if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css") and os.stat(library_dir() + "/" + "libraryroot.custom.css").st_size > 15:
         if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css.backup"):
+            print("Existing libraryroot.custom.css code detected.")
             shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup2")
-            print("backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup2")
+            print("Backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup2")
         else:
             shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup")
             print("backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup")

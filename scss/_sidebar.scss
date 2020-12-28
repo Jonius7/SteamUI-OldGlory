@@ -19,10 +19,9 @@
   border-radius: 0px 4px 4px 0px;
 }
 
-/* fix search bar sometimes flexing down a few pixels */
-
-.gamelistsearchbar_Container_20QAC .gamelistsearchbar_SearchInput_12vo5 {
-  height: 10px;
+/* fix search bar default height to match Advanced Search filters height */
+.DialogInput_Wrapper._DialogLayout {
+  height: 32px;
 }
 
 /* Gamelist entry - font size */
