@@ -49,6 +49,9 @@ for (var n = [], r = 2;  /*for (var n = [], r = 2;
 ###c = 4 != i;  c = 4 != i; return null; /*
 ###}, Object(j.c)([se.a], e.prototype, "OnIncrementalError", null), Object(j.c)([se.a], e.prototype, "OnImageLoaded", null)  */}, Object(j.c)([se.a], e.prototype, "OnIncrementalError", null), Object(j.c)([se.a], e.prototype, "OnImageLoaded", null)
 
-### === Try alt image loading ===
-###D.createElement(aa.a, Object(j.a)({}, o, {  D.createElement(aa.a, Object(j.a)({}, o, {/*
-###className: ha.a.Image,  */className: ha.a.Image,
+### === Don't load HOME game images, only alt text ===
+###!!t && this.BDisplayTitle() && D.createElement("span"  D.createElement("span"
+
+### === oncompute ===
+###t.bottom && this.ComputeLayout()))  t.bottom && t.top ? this.ComputeLayout() : null))
+
