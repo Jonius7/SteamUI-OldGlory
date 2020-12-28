@@ -53,7 +53,7 @@ Condensed sidebar buttons <br>
 - `fixes.txt` - JS tweaks
 - `libraryroot.custom.css` - output CSS file. Do not edit this directly, use the `/scss` folder files
 - `\scss` - (New in Release 5.0)
-  - `libraryroot.custom.scss` - contains all the `@imports` for smaller `.scss` files. The GUI handles enabling/disabling `_module_playbarbox`, `_module_verticalnavbar`, `_module_landscapegameimages`, `_module_classiclayou`t. Manually comment out the other modules (for now)
+  - `libraryroot.custom.scss` - contains all the `@imports` for smaller `.scss` files. The GUI handles enabling/disabling `_module_playbarbox`, `_module_verticalnavbar`, `_module_landscapegameimages`, `_module_classiclayout`. Manually comment out the other modules (for now)
   - `_user_module1.scss`- put your custom CSS code here
   - `_user_module2.scss` - put your custom CSS code here
 
@@ -119,20 +119,20 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 >    ---
 >
 >- GUI `v0.9.5.5` -> `v0.9.6.9`
->  The GUI is now using JSON to store some of the data. This has the benefit of being editable outside of having to rebuild the .exe
+>  The GUI is now using JSON to store some of the data. This has the benefit of being editable outside of having to rebuild the `.exe`
 >
->- Issues fixed from #5
->
+> Issues fixed from #5
 > - Themes working again
->    - Auto-select current theme on startup
->    - New DLC Manager scss - no longer requires JavaScript for row height
->
->###Future Releases
->Now that Sass is implemented, time to add more toggleable features.
->Continue building the auto-updating system. The ideal state is to be able to push out .scss, fixes.txt, or old_glory_data.json hotfixes smoothly, and leave the GUI changes as the major updates.
+>  - Auto-select current theme on startup
+>  - New DLC Manager scss - no longer requires JavaScript for row height
+>  
+> ### Future Releases
+> Now that Sass is implemented, time to add more toggleable features.
+> Continue building the auto-updating system. The ideal state is to be able to push out `.scss`, `fixes.txt`, or `old_glory_data.json` hotfixes smoothly, and leave the GUI changes as the major updates.
+> 
+> **r1** - Minor change to create backups of existing `libraryroot.custom.css` in `steamui` folder. Use this if you have existing code already in `libraryroot.custom.css` that you want to save.
 >
 >[Compare with Release 4.1.1](https://github.com/Jonius7/SteamUI-OldGlory/compare/Release_4.1.1...Release_5.0) | [Changelog](https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_4.1.1)
->
 >
 >[More details...](https://github.com/Jonius7/SteamUI-OldGlory/releases)
 

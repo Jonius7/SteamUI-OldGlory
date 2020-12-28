@@ -15,7 +15,7 @@ scrollTop: 0  scrollTop: 30
 e.m_nScrollTop = 0, e.m_elTarget  e.m_nScrollTop = 30, e.m_elTarget
 
 ### === Change Game Image Grid Sizes (optional) - default widths 111, 148, 222 ===
-(n = 111, r = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {  (n = 115, r = !0) : 2 == e ? n = 160 : 3 == e && (n = 200), {
+(n = 111, r = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {  (n = 80, r = !0) : 2 == e ? n = 160 : 3 == e && (n = 200), {
 for (var n = [], r = 2;  /*for (var n = [], r = 2;
 .apply(console, Object(l.g)([e, t], n))  .apply(console, Object(l.g)([e, t], n))*/
 
@@ -25,17 +25,30 @@ for (var n = [], r = 2;  /*for (var n = [], r = 2;
 ###= c = 0), l < i ?   = c = 0), true ?
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
-eAssetType: 0,  eAssetType: 3,
-childHeight: 1.5 * n,  childHeight: n * 43 / 92,
-o = e.nHeight,  o = e.nWidth * 43 / 92,
-height: l.nItemHeight + r + "px"  minHeight: 125 + "px"
-height: s.nItemHeight + a + "px"  minHeight: 125 + "px"
-2.108 * l.nItemWidth  Math.max(2.108 * l.nItemWidth, 270)
-2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
-height: o + "px"  height: i = 0 === (r = t) ? Math.max(o, 150) + "px" : o + "px"
+###eAssetType: 0,  eAssetType: 3,
+###childHeight: 1.5 * n,  childHeight: n * 43 / 92,
+###o = e.nHeight,  o = e.nWidth * 43 / 92,
+###height: l.nItemHeight + r + "px"  minHeight: 125 + "px"
+###height: s.nItemHeight + a + "px"  minHeight: 125 + "px"
+###2.108 * l.nItemWidth  Math.max(2.108 * l.nItemWidth, 270)
+###2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
+###height: o + "px"  height: i = 0 === (r = t) ? Math.max(o, 150) + "px" : o + "px"
 
 ### === Stop What's New Events from Loading (working, needs more testing) ===
 ###.b.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",
 
 ### === Reduce ComputeLayout time (buggy, may improve performance) ===
 ###d == this.state.iFirstRenderableRow && o == this.state.iRows && m == this.state.iLastRenderableRow && p == this.state.iFirstRenderableChild && u == this.state.iLastRenderableChild && i == this.state.iItemsPerRow || this.setState({  (d ? d == this.state.iFirstRenderableRow : o ? o == this.state.iRows : m ? m == this.state.iLastRenderableRow : p ? p == this.state.iFirstRenderableChild : u ? u == this.state.iLastRenderableChild : i ? i == this.state.iItemsPerRow : true) || this.setState({
+
+### === Experimental REMOVE GAME PAGE BLOAT ===
+###D.createElement(Ds, {  /*D.createElement(Ds, {
+###}, D.createElement(Ws, {  },*/ D.createElement(Ws, {
+
+
+### === Experimental REMOVE HOME PAGE LOAD IMAGES ===
+###c = 4 != i;  c = 4 != i; return null; /*
+###}, Object(j.c)([se.a], e.prototype, "OnIncrementalError", null), Object(j.c)([se.a], e.prototype, "OnImageLoaded", null)  */}, Object(j.c)([se.a], e.prototype, "OnIncrementalError", null), Object(j.c)([se.a], e.prototype, "OnImageLoaded", null)
+
+### === Try alt image loading ===
+###D.createElement(aa.a, Object(j.a)({}, o, {  D.createElement(aa.a, Object(j.a)({}, o, {/*
+###className: ha.a.Image,  */className: ha.a.Image,
