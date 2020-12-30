@@ -1,0 +1,65 @@
+/* Classic Arial font and color */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.gamelistentry_Container_2-O4Z.gamelistentry_Installed_2ws8D {
+    color: #CFCFCF;
+}
+
+.gamelistentry_Container_2-O4Z.gamelistentry_Selected_1UBpA.gamelistentry_Installed_2ws8D {
+    background-color: #193754;
+}
+
+.gamelistentry_Container_2-O4Z.gamelistentry_Uninstalled_5YTBr {
+    color: #737373;
+    &:hover {
+        color: #a8a8a8;
+    }
+}
+
+.gamelistentry_Selected_1UBpA.gamelistentry_Container_2-O4Z :hover {
+    background-color: #193754;
+}
+
+.gamelistentry_Container_2-O4Z.gamelistentry_Installed_2ws8D:hover, .gamelistentry_Container_2-O4Z.gamelistentry_Uninstalled_5YTBr:hover {
+    background: none;
+}
+
+.gamelistentry_Container_2-O4Z {
+    color: #cfcfcf;
+}
+.gamelistentry_Container_2-O4Z:hover, .gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
+    color: white;
+    background: rgb(30,30,30);
+}
+
+/* Classic sidebar background */
+.gamelistbar_Container_3x1Hk {
+    background: unset;
+}
+
+.library_LeftListSizableContainer_9sPoV {
+    background-image: linear-gradient(to right, #1e1e1e 75%, rgba(40,40,40,0.2) 100%);
+}
+
+.library_AppDetailsMain_2Nq6o {
+    background: none;
+}
+
+/* Removing grey backgrounds up to the top level, as much as possible */
+.sharedappdetailsheader_TopCapsule_NZMJ6 {
+    background-color: unset;
+}
+
+.library_AppDetailsTransitionGroup_2Dd4T {
+    background: none;
+}
+
+.appdetails_ScrollContainer_2l416 {
+    background-color: none;
+}
+
+.appdetails_Glassy_3Fmxx.appdetails_ScrollContainer_2l416 {
+    background: none;
+}
