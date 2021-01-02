@@ -51,9 +51,7 @@ for (var n = [], r = 2;  /*for (var n = [], r = 2;
 ###onLoad: this.OnImageLoaded,  */rgSources: "", onIncrementalError: this.OnIncrementalError, onLoad: this.OnImageLoaded,
 
 ### === CLASSIC Sticky image background and spillover into sidebar ===
-ref: this.m_refBackgroundImage,  ref: this.m_refBackgroundImage, src: "",
+rgSources: this.props.rgHeaderImages,  rgSources: "",
 strMedium: "MediumWindow"~~};  }; var sURL,appId=Lo.currentGameListSelection.nAppId,sURL2="";Math.log10(appId)>7?(sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png"):sURL="assets/"+appId+"_library_hero.jpg";
-className: t.join(" "),  className: t.join(" "), style: {background: "-webkit-linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,1) 80%), url(" + sURL2 + ")" + ", url(" + sURL + ")"},
-
-### === Simple ===
-###ref: this.m_refBackgroundImage,  ref: this.m_refBackgroundImage, src: "",
+className: t.join(" "),  className: t.join(" "), style: {background: "-webkit-linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,1) 80%), url(" + sURL + ")" + ", url(" + sURL2 + ")"},
+src: this.props.rgBlurImages[this.state.nBlurImageIndex],  src: "",
