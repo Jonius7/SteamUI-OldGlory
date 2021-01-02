@@ -96,6 +96,7 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 - [(Images) JS Tweaks](https://imgur.com/a/mL4QNYB)
 - [(Images) Is Steam Grid View Back?](https://imgur.com/gallery/qcIHx0l)
 - [(Images) Steam List View Proof of Concept](https://imgur.com/a/ZqvqrkR)
+- [(Images) Sticky Header background and Left Sidebar font](https://imgur.com/a/XzMAlxr)
 - [Steam Discussions [1]](https://steamcommunity.com/groups/for_a_better_steam_client/discussions/0/2970650017896633625/)
 - [Steam Discussions [2]](https://steamcommunity.com/discussions/forum/0/2451595019863406679/)
 
