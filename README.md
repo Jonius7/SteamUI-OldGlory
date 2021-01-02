@@ -75,11 +75,22 @@ Some tweaks are disabled by default. Under JS Options, you can select which opti
 
 **Manual Editing**
 
-<details><summary>More details</summary>`fixes.txt`  contains the list of JavaScript tweaks.<br>Each tweak is under its own *Section Heading* marked with the line starting `###`.<br>
-Tweaked lines are the original JS separated by two spaces from the tweaked JS:<br>
-[original js]&#9608;&#9608;[new js]<br>
-Remove the `###` for each line under the *Section Heading* to enable.<br>
-Commented lines with `###`, and blank lines are ignored. You can use this to make `fixes.txt` more readable.</details>
+<details><summary>More details</summary>
+<ul>   
+<li><tt>fixes.txt</tt>  contains the list of JavaScript tweaks.</li>
+<li>Each tweak is under its own <b>Section Heading</b> marked with the line starting <tt>###</tt>.</li>
+    <li>Tweaked lines are the original JS separated by <b>two spaces</b> from the tweaked JS:</li>
+<li><tt>[original js]&#9608;&#9608;[tweaked js]</tt></li>
+<li>Remove the <tt>###</tt> for each line under the Section Heading to enable.</li>
+<li>When <tt>old_glory</tt> applies the JS tweaks, commented lines with <tt>###</tt>, and blank lines are ignored. You can use this to make <tt>fixes.txt</tt> more readable.</li>
+    <li>NEW (Release 5.1): You can now use the previous line of JS to search for the line you want. Just separate the two lines with <tt>~~</tt></li>
+    <li>Format: <tt>[previous line JS]~~[original JS]&#9608;&#9608;[tweaked JS]</tt></li>
+</ul>
+</details>
+
+
+
+
 
 
 #### Fix Blurred Game Images

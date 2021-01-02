@@ -40,20 +40,20 @@ for (var n = [], r = 2;  /*for (var n = [], r = 2;
 ### === Reduce ComputeLayout time (buggy, may improve performance) ===
 ###d == this.state.iFirstRenderableRow && o == this.state.iRows && m == this.state.iLastRenderableRow && p == this.state.iFirstRenderableChild && u == this.state.iLastRenderableChild && i == this.state.iItemsPerRow || this.setState({  (d ? d == this.state.iFirstRenderableRow : o ? o == this.state.iRows : m ? m == this.state.iLastRenderableRow : p ? p == this.state.iFirstRenderableChild : u ? u == this.state.iLastRenderableChild : i ? i == this.state.iItemsPerRow : true) || this.setState({
 
-### === Experimental REMOVE GAME PAGE BLOAT ===
+### === **Experimental** REMOVE GAME PAGE BLOAT ===
 ###D.createElement(Ds, {  /*D.createElement(Ds, {
 ###}, D.createElement(Ws, {  },*/ D.createElement(Ws, {
+###this.GetAppsCollectionList(t))))  this.GetAppsCollectionList(t)))
 
-### === Experimental REMOVE HOME PAGE LOAD IMAGES ===
-###c = 4 != i;  c = 4 != i; return null; /*
-###}, Object(j.c)([se.a], e.prototype, "OnIncrementalError", null), Object(j.c)([se.a], e.prototype, "OnImageLoaded", null)  */}, Object(j.c)([se.a], e.prototype, "OnIncrementalError", null), Object(j.c)([se.a], e.prototype, "OnImageLoaded", null)
-
-### === Don't load HOME game images, only alt text ===
+### === **Experimental** Don't load HOME game images, only alt text ===
 ###!!t && this.BDisplayTitle() && D.createElement("span"  D.createElement("span"
+###className: ha.a.Image,  className: ha.a.Image, /*
+###onLoad: this.OnImageLoaded,  */rgSources: "", onIncrementalError: this.OnIncrementalError, onLoad: this.OnImageLoaded,
 
-### === oncompute ===
-###t.bottom && this.ComputeLayout()))  t.bottom && t.top ? this.ComputeLayout() : null))
+### === CLASSIC Sticky image background and spillover into sidebar ===
+ref: this.m_refBackgroundImage,  ref: this.m_refBackgroundImage, src: "",
+strMedium: "MediumWindow"~~};  }; var sURL,appId=Lo.currentGameListSelection.nAppId,sURL2="";Math.log10(appId)>7?(sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png"):sURL="assets/"+appId+"_library_hero.jpg";
+className: t.join(" "),  className: t.join(" "), style: {background: "-webkit-linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,1) 80%), url(" + sURL2 + ")" + ", url(" + sURL + ")"},
 
-### === Test onScroll ===
-###this.props.maxRows < 2 ||  console.log("SCROLLBLOAT"); /* this.props.maxRows < 2
-###t.bottom && this.ComputeLayout()))  t.bottom && this.ComputeLayout()))*/
+### === Simple ===
+###ref: this.m_refBackgroundImage,  ref: this.m_refBackgroundImage, src: "",
