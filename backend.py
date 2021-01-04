@@ -740,10 +740,10 @@ def clean_slate_css():
         #f.write(OS_line_ending())
         f.close()
         if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css"):
-            shutil.move(library_dir() + "/libraryroot.custom.css", library_dir() + "/libraryroot.custom.css.backup")
-        shutil.move(library_dir() + "/libraryroot.empty.css", library_dir() + "/libraryroot.custom.css")
+            shutil.move(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup")
+        shutil.move(library_dir() + "/" + "libraryroot.empty.css", library_dir() + "/" + "libraryroot.custom.css")
         print("libraryroot.custom.css in Steam directory emptied out, backup at libraryroot.custom.css.backup")
-        shutil.copy2("themes/config.css.original", library_dir() + "/config.css")
+        shutil.copy2("themes/config.css.original", library_dir() + "/" + "config.css")
         
     except:
         print("Was not able to completely reset libraryroot.custom.css.", file=sys.stderr)
