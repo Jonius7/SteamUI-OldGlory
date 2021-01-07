@@ -5,6 +5,7 @@ import sys
 sys.path.append(str(Path('.').absolute().parent))
 import old_glory
 import backend
+import tkinter as tk
 
 #Test recursion for finding values in css_config
 class TestApplyCssValues(unittest.TestCase):
@@ -43,7 +44,7 @@ class TestApplyCssValues(unittest.TestCase):
         self.assertEqual(
             old_glory.get_item("--WhatsNew", backend.CSS_CONFIG),
             "block")
-    '''
+    
     def test_css_config_reset(self):
         previous_value = backend.CSS_CONFIG["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"]
         self.assertEqual(
@@ -55,7 +56,21 @@ class TestApplyCssValues(unittest.TestCase):
         self.assertEqual(
             "unset",
             old_glory.css_config_js_enabled(backend.CSS_CONFIG)["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"])
+    '''
 
+    def test_getpresetoptions(self):
+        dummyController = old_glory.OldGloryApp()
+        dummyFrame = tk.Frame(dummyController)
+        json_data = backend.get_json_data()
+        presetFrame = tk.Frame(dummyFrame)
+        x = old_glory.PresetFrame(dummyFrame, dummyController, json_data)
+        presetFrame = x.returnPresetFrame()
+        presetFrame.pack()
+
+        dummyFrame.pack()
+
+        x.getPresetOptions()
+        
         
 class BlankClass(object):
     def __init__(self, string):

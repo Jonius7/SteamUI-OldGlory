@@ -91,8 +91,6 @@ Some tweaks are disabled by default. Under JS Options, you can select which opti
 
 
 
-
-
 #### Fix Blurred Game Images
 
 - Download [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix) and run `missing_cover_downloader`

@@ -9,7 +9,6 @@
 			"order": "before"
 		},
 		"Dark Library": {
-			"name": "Dark Library",
 			"author": "Thespikedballofdoom",
 			"filename": "_spiked.scss",
 			"order": "after"
@@ -97,6 +96,34 @@
 		},
 		"user_module2": {
 			"description": "Your custom CSS module 2"
+		}
+	},
+	"quickCSS": {
+		"What's New": {
+			"Top of page": {
+				"value": "1",
+				"config": {
+					"--WhatsNew" : "block",
+					"--WhatsNewOrder" : "0"
+				}
+			},
+			"Bottom of page": {
+				"value": "2",
+				"config": {
+					"--WhatsNew" : "block",
+					"--WhatsNewOrder" : "2"
+				}
+			},
+			"Hide entirely": {
+				"value": "3",
+				"config": {
+					"--WhatsNew" : "none",
+					"--WhatsNewOrder" : "0"
+				}
+			},
+			"Custom value": {
+				"value": "4"
+			}
 		}
 	}
 }

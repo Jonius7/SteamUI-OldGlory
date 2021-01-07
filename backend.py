@@ -177,6 +177,7 @@ def get_json_data():
             global json_data
             json_data = json.load(f)
         print("Loaded JSON data. " + "(" + json_data_filename + ")")
+        f.close()
         return json_data
     except FileNotFoundError:
         print("JSON file " + json_data_filename + " not found.", file=sys.stderr)
@@ -336,30 +337,31 @@ def write_css_settings(settings, settings_values, root_config):
         print("Error enabling/disabling CSS modules.", file=sys.stderr)
         print_traceback()
 
-
-
 # Compiles libraryroot.custom.css from /scss directory
 # Adds variables.css
 def compile_css(json_data):
-    sass.compile(dirname=('scss','.'),
-                 output_style='expanded')
-                #output_style='compact')
-    with open('libraryroot.custom.css', "r", newline='', encoding="UTF-8") as f, \
-         open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
-        for line in f:
-            if json_data["CSSVariableString"] in line:
-                #print(line)
-                with open('variables.css', "r", newline='', encoding="UTF-8") as v1:
-                    for variable_line in v1:
-                        f1.write(variable_line)
-                        #print(variable_line)
-                v1.close()
-                f1.write(OS_line_ending())
-            else:
-                f1.write(line)
-    f.close()
-    f1.close()
-
+    try:
+        sass.compile(dirname=('scss','.'),
+                     output_style='expanded')
+        with open('libraryroot.custom.css', "r", newline='', encoding="UTF-8") as f, \
+             open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
+            for line in f:
+                if json_data["CSSVariableString"] in line:
+                    #print(line)
+                    with open('variables.css', "r", newline='', encoding="UTF-8") as v1:
+                        for variable_line in v1:
+                            f1.write(variable_line)
+                            #print(variable_line)
+                    v1.close()
+                    f1.write(OS_line_ending())
+                else:
+                    f1.write(line)
+        f.close()
+        f1.close()
+    except:
+        print("Error compiling SCSS to CSS", file=sys.stderr)
+        print_traceback()
+        
     ###
     shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
     shutil.move("libraryroot.custom.temp.css", "libraryroot.custom.css")
@@ -449,25 +451,42 @@ def css_line_parser(line):
         print_traceback()
         
 
-#root writer
-#from CSS_CONFIG dictionary to an array of lines of CSS to be written
-def css_root_writer(css_config):
-    indent = "  "
-    css_lines = []
-    css_lines.append(":root {")
-    for key in css_config:
-        #print(key)
-        css_lines.append(indent + "/* " + key + " */")
+def write_css_configurables(css_config):
+    css_config_filename = "variables.css"
+    to_write_lines = create_css_variables_lines(css_config)
+    try:
+        with open(css_config_filename, "w", newline='', encoding="UTF-8") as f:
+            for line in to_write_lines[:-1]:
+                f.write(line + OS_line_ending())
+            f.write(to_write_lines[-1])
+    except:
+        print("Error writing to " + css_config_filename, file=sys.stderr)
+        print_traceback()
 
-        for prop in css_config[key]:
-            css_lines.append(indent + prop + ": "
-                             + css_config[key][prop]["current"] + ";  "
-                             + "/* Default: " + css_config[key][prop]["default"] + ". "
-                             + css_config[key][prop]["desc"] + " */")
-        css_lines.append("")
-    del css_lines[-1]
-    css_lines.append("}")
-    return css_lines
+#create css variables
+#from CSS_CONFIG dictionary to an array of lines of CSS to be written
+def create_css_variables_lines(css_config):
+    try:
+        indent = "  "
+        css_lines = []
+        css_lines.append("/* Configurable variables */")
+        css_lines.append(":root {")
+        for key in css_config:
+            #print(key)
+            css_lines.append(indent + "/* " + key + " */")
+
+            for prop in css_config[key]:
+                css_lines.append(indent + prop + ": "
+                                 + css_config[key][prop]["current"] + ";  "
+                                 + "/* Default: " + css_config[key][prop]["default"] + ". "
+                                 + css_config[key][prop]["desc"] + " */")
+            css_lines.append("")
+        del css_lines[-1]
+        css_lines.append("}")
+        return css_lines
+    except:
+        print("Unable to generate css variables", file=sys.stderr)
+        print_traceback()
 
 
 ### END
@@ -708,35 +727,40 @@ def write_js_fixes(fixesdata, special_fixesdata):
         print_traceback()
                     
 def refresh_steam_dir():
-    if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css") and os.stat(library_dir() + "/" + "libraryroot.custom.css").st_size > 15:
-        if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css.backup"):
-            print("Existing libraryroot.custom.css code detected.")
-            shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup2")
-            print("Backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup2")
-        else:
-            shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup")
-            print("backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup")
+    try:
+        if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css"):# and os.stat(library_dir() + "/" + "libraryroot.custom.css").st_size > 15:
+            if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css.backup"):
+                print("Existing libraryroot.custom.css code detected.")
+                shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup2")
+                print("Backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup2")
+            else:
+                shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup")
+                print("backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup")
+            shutil.copy2("libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css")
+        elif not os.path.isfile(library_dir() + "/" + "libraryroot.custom.css"):
+            shutil.copy2("libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css")
+        print("File " + "libraryroot.custom.css" + " written to " + library_dir())
         
-        shutil.copy2("libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css")
-    print("File " + "libraryroot.custom.css" + " written to " + library_dir())
-    
-    #shutil.copy2(library_dir() + "/licenses.txt", library_dir() + "/licenses.txt.copy")
-    #os.remove(library_dir() + "/licenses.txt.copy")
-    f = open(library_dir() + "/refresh_dir.txt", "w", newline='', encoding="UTF-8")
-    f.close()
-    os.remove(library_dir() + "/refresh_dir.txt")
+        #shutil.copy2(library_dir() + "/licenses.txt", library_dir() + "/licenses.txt.copy")
+        #os.remove(library_dir() + "/licenses.txt.copy")
+        f = open(library_dir() + "/refresh_dir.txt", "w", newline='', encoding="UTF-8")
+        f.close()
+        os.remove(library_dir() + "/refresh_dir.txt")
+    except:
+        print("Unable to copy libraryroot.custom.css to Steam directory.", file=sys.stderr)
+        print_traceback()
     
 
 def clean_slate_css():    
     try:
-        f = open(library_dir() + "/libraryroot.empty.css", "w", newline='', encoding="UTF-8")
+        f = open(library_dir() + "/" + "libraryroot.empty.css", "w", newline='', encoding="UTF-8")
         #f.write(OS_line_ending())
         f.close()
-        
-        shutil.move(library_dir() + "/libraryroot.custom.css", library_dir() + "/libraryroot.custom.css.backup")
-        shutil.move(library_dir() + "/libraryroot.empty.css", library_dir() + "/libraryroot.custom.css")
+        if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css"):
+            shutil.move(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup")
+        shutil.move(library_dir() + "/" + "libraryroot.empty.css", library_dir() + "/" + "libraryroot.custom.css")
         print("libraryroot.custom.css in Steam directory emptied out, backup at libraryroot.custom.css.backup")
-        shutil.copy2("themes/config.css.original", library_dir() + "/config.css")
+        shutil.copy2("themes/config.css.original", library_dir() + "/" + "config.css")
         
     except:
         print("Was not able to completely reset libraryroot.custom.css.", file=sys.stderr)

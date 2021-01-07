@@ -37,8 +37,18 @@ for (var n = [], r = 2;  /*for (var n = [], r = 2;
 ### === Stop What's New Events from Loading (working, needs more testing) ===
 ###.b.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",
 
-### === Reduce ComputeLayout time (buggy, may improve performance) ===
-###d == this.state.iFirstRenderableRow && o == this.state.iRows && m == this.state.iLastRenderableRow && p == this.state.iFirstRenderableChild && u == this.state.iLastRenderableChild && i == this.state.iItemsPerRow || this.setState({  (d ? d == this.state.iFirstRenderableRow : o ? o == this.state.iRows : m ? m == this.state.iLastRenderableRow : p ? p == this.state.iFirstRenderableChild : u ? u == this.state.iLastRenderableChild : i ? i == this.state.iItemsPerRow : true) || this.setState({
+### === HOME game images, reduce number of ComputeLayout calls ===
+this.props.maxRows < 2  var timeSince;t=this.m_elGrid.current.getBoundingClientRect(),timeSince=performance.now()-this.lastTime,this.lastTime=performance.now(),console.log(timeSince),setTimeout(function(){timeSince>60&&(console.log("ACTUALLY COMPUTING LAYOUT"),this.ComputeLayout())}.bind(this),200); /*this.props.maxRows < 2
+}, e.prototype.OnRestoreScroll = function() {   */}, e.prototype.OnRestoreScroll = function() {
+
+### === CLASSIC Sticky image background and spillover into sidebar (beta) ===
+rgSources: this.props.rgHeaderImages,  rgSources: "",
+strMedium: "MediumWindow"~~};  }; var sURL,appId=Lo.currentGameListSelection.nAppId,sURL2="",sURL3="";sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png",sURL3="assets/"+appId+"_library_hero.jpg";
+className: t.join(" "),  className: t.join(" "), style: {background: "-webkit-linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,1) 80%), url(" + sURL + ")" + ", url(" + sURL2 + ")" + ", url(" + sURL3 + ")"},
+src: this.props.rgBlurImages[this.state.nBlurImageIndex],  src: "",
+(this.is_hero_custom_image ? "#CustomArt_ClearCustomBackground" : "#CustomArt_SetCustomBackground")),  ("#CustomArt_SetCustomBackground")), D.createElement(Ri.d, {is_hero_current_image: !1, onSelected: this.OnRemoveHero}, Object(xe.f)("#CustomArt_ClearCustomBackground")),
+}, e.prototype.OnChangeLogo = function(e) {  }, e.prototype.OnRemoveHero = function(e) {this.OnChangeArtwork(Object.create({src: "src"}), this.m_refFileInputHero, 1)}, e.prototype.OnChangeLogo = function(e) {
+Object(j.c)([se.a], e.prototype, "OnChangeHero", null),  Object(j.c)([se.a], e.prototype, "OnChangeHero", null), Object(j.c)([se.a], e.prototype, "OnRemoveHero", null),
 
 ### === **Experimental** REMOVE GAME PAGE BLOAT ===
 ###D.createElement(Ds, {  /*D.createElement(Ds, {
@@ -49,12 +59,3 @@ for (var n = [], r = 2;  /*for (var n = [], r = 2;
 ###!!t && this.BDisplayTitle() && D.createElement("span"  D.createElement("span"
 ###className: ha.a.Image,  className: ha.a.Image, /*
 ###onLoad: this.OnImageLoaded,  */rgSources: "", onIncrementalError: this.OnIncrementalError, onLoad: this.OnImageLoaded,
-
-### === CLASSIC Sticky image background and spillover into sidebar ===
-rgSources: this.props.rgHeaderImages,  rgSources: "",
-strMedium: "MediumWindow"~~};  }; var sURL,appId=Lo.currentGameListSelection.nAppId,sURL2="",sURL3="";sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png",sURL3="assets/"+appId+"_library_hero.jpg";
-className: t.join(" "),  className: t.join(" "), style: {background: "-webkit-linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,1) 80%), url(" + sURL + ")" + ", url(" + sURL2 + ")" + ", url(" + sURL3 + ")"},
-src: this.props.rgBlurImages[this.state.nBlurImageIndex],  src: "",
-(this.is_hero_custom_image ? "#CustomArt_ClearCustomBackground" : "#CustomArt_SetCustomBackground")),  ("#CustomArt_SetCustomBackground")), D.createElement(Ri.d, {is_hero_current_image: !1, onSelected: this.OnRemoveHero}, Object(xe.f)("#CustomArt_ClearCustomBackground")),
-}, e.prototype.OnChangeLogo = function(e) {  }, e.prototype.OnRemoveHero = function(e) {var p = {src: "src"}; this.OnChangeArtwork(Object.create(p), this.m_refFileInputHero, 1)}, e.prototype.OnChangeLogo = function(e) {
-Object(j.c)([se.a], e.prototype, "OnChangeHero", null),  Object(j.c)([se.a], e.prototype, "OnChangeHero", null), Object(j.c)([se.a], e.prototype, "OnRemoveHero", null),

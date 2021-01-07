@@ -23,8 +23,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.6.10 Beta"
-        self.release = "5.0"
+        self.version = "v0.9.7 Beta"
+        self.release = "5.1-pre"
       
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
@@ -365,6 +365,11 @@ class PageOne(tk.Frame):
     ### HEAD FRAME
     ###
         self.frameHead = head_frame(self, controller)
+
+    ### Tabs
+        tabs = ttk.Notebook(self,)
+        frameQuick = tk.Frame(tabs)
+        frameModules = tk.Frame(tabs)
 
     ### CSS Frame
     ###
@@ -735,13 +740,16 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
 def install_click(event, page, controller):
     print("==============================")
     #get settings
-    settings_to_apply, settings_values = get_settings_from_gui(event, page) 
+    settings_to_apply, settings_values = get_settings_from_gui(event, page)
 
     #make any js_config enable/disable required based on main options
     settings_values = apply_changes_to_config(controller, settings_values)
     
     #write fixes.txt before apply
-    backend.write_js_fixes(controller.js_config, controller.special_js_config) 
+    backend.write_js_fixes(controller.js_config, controller.special_js_config)
+
+    #write css configurables
+    backend.write_css_configurables(controller.css_config)
 
     #applying settings
     apply_settings_from_gui(page, controller, settings_to_apply, settings_values)
@@ -1113,21 +1121,7 @@ class CSSConfigRow(tk.Frame):
 ### END ConfigurablesFrame
 
 
-### START PresetFrame
-class PresetFrame(tk.Frame):
-    def __init__(self, parent, controller, config):
-        self.parent = parent
-        self.framePreset = tk.Frame(self.parent)
-        self.controller = controller
-        self.config = config
-            
-        label_preset_head = tk.Label(self.framePreset, text="Quick CSS Options (more coming soon)")
-        label_preset_head.grid(row=0, column=0)
-
-        label1 = tk.Label(self.framePreset, text="What's New")
-        label1.grid(row=1, column=0, padx=(5,0))
-
-        self.radios_config = {"Top of Page" : {"value" : "1", "config" :
+DEFAULT_QUICK_CSS = {"Top of Page" : {"value" : "1", "config" :
                             {"--WhatsNew" : "block",
                             "--WhatsNewOrder" : "0"}},
                               "Bottom of page" : {"value" : "2", "config" : 
@@ -1137,46 +1131,32 @@ class PresetFrame(tk.Frame):
                             {"--WhatsNew" : "none",
                             "--WhatsNewOrder" : "0"}},
                     "Custom value" : {"value" : "4"}
-                  }
-        self.radiovar = tk.StringVar()
-        #self.radiovar.set("2")
-        self.set_preset_default()
-        self.radios = []
+                    }
+
+
+### START PresetFrame
+class PresetFrame(tk.Frame):
+    def __init__(self, parent, controller, config):
+        self.parent = parent
+        self.framePreset = tk.Frame(self.parent)
+        self.controller = controller
+        self.config = config #unused?
+            
+        label_preset_head = tk.Label(self.framePreset, text="Quick CSS Options (more coming soon)")
+        label_preset_head.grid(row=0, column=0)
+
+
+    def getPresetOptions(self):
+        print("TODO")
+        try:
+            if "quickCSS" in self.controller.json_data:
+                print("quickCSS found")
+            else:
+                print("ERROR")
+        except:
+            print_traceback()
         
-        for i, (textv, value) in enumerate(self.radios_config.items(), 1):
-            _radio = ttk.Radiobutton(self.framePreset,
-                            text = textv, 
-                            variable = self.radiovar,
-                            value = value["value"],
-                            command = lambda textv = textv: self.preset_click(controller, textv)
-                            )
-            _radio.grid(row=i+1, column=0, padx=(5,0), sticky='w')
-            self.radios.append(_radio)
-
-    def set_preset_default(self):
-        #print(self.controller.css_config)
-        key_set = 0
-        for key in self.radios_config:
-            equal = False
-            if "config" in self.radios_config[key]:
-                equal = True
-                for prop in self.radios_config[key]["config"]:
-                    #print(prop)
-                    #print("KEY : VALUE")
-
-                    
-                    #if value in self.radios_config matches value in css_config
-                    equal = (self.radios_config[key]["config"][prop] == get_item(prop, self.controller.css_config)) and equal
-                    #print((self.radios_config[key]["config"][prop] == get_item(prop, self.controller.css_config)))
-                    #print(self.radios_config[key]["config"][prop])
-                    #print(get_item(prop, self.controller.css_config))
-                    ##print(prop + " : " + get_item(prop, self.controller.css_config))
-            #print(key + " | " + str(equal))
-            if equal:
-                self.radiovar.set(self.radios_config[key]["value"])
-                key_set = 1
-        if key_set == 0:
-            self.radiovar.set(self.radios_config["Custom value"]["value"])
+        
                 
         
     
@@ -1187,7 +1167,9 @@ class PresetFrame(tk.Frame):
         if radioText != "Custom value":
             globals()["apply_css_config_values"](controller, self.radios_config[radioText]["config"])
         #print(controller.css_config)
-        
+
+    
+    ###    
     def returnPresetFrame(self):
         return self.framePreset
 
@@ -1223,6 +1205,77 @@ def get_item(key, config_dict):
 
 ###
 ### END PresetFrame
+
+
+### START PresetOption
+
+def PresetOption(self, parent, controller, optiondata):
+
+    def __init__(self, parent, controller, config):
+    ###
+        self.preset_title = tk.Label(self.framePreset, text="What's New")
+        self.preset_title.grid(row=1, column=0, padx=(5,0))
+
+
+        
+        self.radios_config = {"Top of Page" : {"value" : "1", "config" :
+                            {"--WhatsNew" : "block",
+                            "--WhatsNewOrder" : "0"}},
+                              "Bottom of page" : {"value" : "2", "config" : 
+                            {"--WhatsNew" : "block",
+                            "--WhatsNewOrder" : "2"}},
+                  "Hide entirely" : {"value" : "3", "config" :
+                            {"--WhatsNew" : "none",
+                            "--WhatsNewOrder" : "0"}},
+                    "Custom value" : {"value" : "4"}
+                  }
+        self.radiovar = tk.StringVar()
+        #self.radiovar.set("2")
+        self.set_preset_default()
+        self.radios = []
+        
+        for i, (textv, value) in enumerate(self.radios_config.items(), 1):
+            _radio = ttk.Radiobutton(self.framePreset,
+                            text = textv, 
+                            variable = self.radiovar,
+                            value = value["value"],
+                            command = lambda textv = textv: self.preset_click(controller, textv)
+                            )
+            _radio.grid(row=i+1, column=0, padx=(5,0), sticky='w')
+            self.radios.append(_radio)
+
+
+    ### set selected based on value in css_config
+    def set_preset_default(self):
+        #print(self.controller.css_config)
+        key_set = 0
+        for key in self.radios_config:
+            equal = False
+            if "config" in self.radios_config[key]:
+                equal = True
+                for prop in self.radios_config[key]["config"]:
+                    #print(prop)
+                    #print("KEY : VALUE")
+                    
+                    #if value in self.radios_config matches value in css_config
+                    equal = (self.radios_config[key]["config"][prop] == get_item(prop, self.controller.css_config)) and equal
+                    #print((self.radios_config[key]["config"][prop] == get_item(prop, self.controller.css_config)))
+                    #print(self.radios_config[key]["config"][prop])
+                    #print(get_item(prop, self.controller.css_config))
+                    ##print(prop + " : " + get_item(prop, self.controller.css_config))
+            #print(key + " | " + str(equal))
+            if equal:
+                self.radiovar.set(self.radios_config[key]["value"])
+                key_set = 1
+        if key_set == 0:
+            self.radiovar.set(self.radios_config["Custom value"]["value"])
+
+
+
+
+###
+### END PresetOption
+
 
 
 def update_css_gui(page, controller, config):
@@ -1274,6 +1327,7 @@ class JSFrame(tk.Frame):
     def create_frameJSInner(self, controller):
         rownum = 1
         self.checkvars = {}
+        self.comboboxes = {}
         for i, (fixname, value) in enumerate(self.controller.js_config.items()):
             _checkvar = tk.IntVar()
             self.checkvars[fixname] = _checkvar
@@ -1313,12 +1367,17 @@ class JSFrame(tk.Frame):
                     self.comboboxes[key] = _combobox
                 self.sizesFrame.grid(row=rownum, column=1, sticky='w')
                 rownum += 1
-        
+                
+    def clear_frameJSInner(self, controller):
+        for widget in self.frameJSInner.winfo_children():
+            widget.destroy()
+    
     def combobox_changed(self, event, controller):
         #controller.special_js_config[fixname][propname] = str(self.comboboxes[propname].get())
         self.controller.js_gui_changed = 1
     
     def update_js_gui(self, controller):
+        self.clear_frameJSInner(self.controller)
         self.create_frameJSInner(self.controller)
         #for checkvar in self.checkvars:
             #print(checkvar.get())
