@@ -4,6 +4,45 @@
   /* margin-top: 10px; */
 }
 
+/* Adjust X position */
+.title-area .title-bar-actions {
+  top: 4px;
+}
+
+/* padding */
+.pagedsettings_PagedSettingsDialog_PageListColumn_2kwFF {
+  padding-top: 10px;
+}
+
+.DialogContent {
+  padding: 14px;
+}
+
+.DialogContentTransition {
+  flex: 5.3;
+  margin-top: -50px;
+  width: unset;
+  max-width: unset;
+}
+
+.pagedsettings_PagedSettingsDialog_2sssI.appproperties_AppProperties_1FyBL {
+  flex-direction: column;
+}
+
+.pagedsettings_PagedSettingsDialog_PageListColumn_2kwFF {
+  min-width: unset;
+  max-width: unset;
+  flex-direction: column;
+}
+.pagedsettings_PagedSettingsDialog_PageList_18QCu {
+  line-height: 126px;
+  display: flex;
+}
+
+.pagedsettings_PagedSettingsDialog_PageListItem_1-vlr {
+  padding: 0px 10px;
+}
+
 /* DLC MANAGER - No longer needs JS */
 .appproperties_AppProperties_1FyBL .appproperties_Page_1SvWY .appproperties_DlcGrid_3sXdO .appproperties_Name_bP2Ip .appproperties_DlcArt_3vsfp {
   /* default 0 0 130px */

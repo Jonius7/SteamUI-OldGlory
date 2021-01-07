@@ -56,9 +56,22 @@ class TestApplyCssValues(unittest.TestCase):
         self.assertEqual(
             "unset",
             old_glory.css_config_js_enabled(backend.CSS_CONFIG)["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"])
-    '''
+    
 
     def test_getpresetoptions(self):
+        dummyController = old_glory.OldGloryApp()
+        dummyFrame = tk.Frame(dummyController)
+        json_data = backend.get_json_data()
+        presetFrame = tk.Frame(dummyFrame)
+        x = old_glory.PresetFrame(dummyFrame, dummyController, json_data)
+        presetFrame = x.returnPresetFrame()
+        presetFrame.pack()
+
+        dummyFrame.pack()
+
+        x.getPresetOptions()
+    '''
+    def test_showpresetoptions(self):
         dummyController = old_glory.OldGloryApp()
         dummyFrame = tk.Frame(dummyController)
         json_data = backend.get_json_data()

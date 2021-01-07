@@ -5,18 +5,22 @@ from idlelib.tooltip import Hovertip, OnHoverTooltipBase, Message
 from PIL import ImageTk, Image
 import sys
 import io
-import backend
-import js_tweaker
 import os
 import subprocess
 import platform
 import traceback
 import requests
 import webbrowser
+import socket
 from functools import partial
-from tkHyperlinkManager import HyperlinkManager
-#import queue
+#import re
 from threading import Thread
+
+import backend
+import js_tweaker
+from tkHyperlinkManager import HyperlinkManager
+
+
 
 OS_TYPE = platform.system()
 DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
@@ -309,8 +313,11 @@ class StartPage(tk.Frame):
         ### Check if CSS Patched
         ### Check for new version
         self.text1.config(state='normal')
-        check_if_css_patched(self)
-        update_check(self, controller.release)
+        if is_connected():            
+            check_if_css_patched(self)
+            update_check(self, controller.release)
+        else:
+            print("You are offline, cannot automatically check for updates.", file=sys.stderr)
         
         ### Set GUI from config
         self.loaded_config = set_selected_from_config(self, controller)
@@ -327,7 +334,7 @@ class StartPage(tk.Frame):
         ###tabs
         tabs.add(frameCheck, text="Main Options")
         tabs.add(framePatch, text="Advanced Options")
-        tabs.pack(expand=1)
+        tabs.pack(fill="y", expand=1)
         
         frameLog.pack(pady=(10,7))
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
@@ -374,8 +381,8 @@ class PageOne(tk.Frame):
     ### CSS Frame
     ###
         controller.css_config = backend.load_css_configurables()
-        self.frameCSS = tk.Frame(self)
-        self.css_gui = CSSGUICreator(self, controller, controller.css_config)
+        self.frameCSS = tk.Frame(frameQuick)
+        self.css_gui = CSSGUICreator(frameQuick, controller, controller.css_config)
         self.frameCSS = self.css_gui.returnframeCSS()
         
     ### MODE Frame
@@ -407,6 +414,15 @@ class PageOne(tk.Frame):
     ### Pack frames
         self.frameHead.pack()
         self.frameCSS.pack(padx=10, fill="x")
+        
+        frameQuick.pack()
+        frameModules.pack()
+
+        ###tabs
+        tabs.add(frameQuick, text="Quick CSS")
+        tabs.add(frameModules, text="CSS Modules")
+        tabs.pack(fill="both", expand=1, padx=(10,9))
+        
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         frameMode.pack(pady=(2, 0), side="bottom")
 
@@ -555,31 +571,49 @@ def show_PageTwo(controller):
 ### ================================
 ### Initialisation
 ### ================================
+
+### Check Internet
+def is_connected():
+    try:
+        socket.create_connection(("1.1.1.1", 53))
+        return True
+    except OSError:
+        pass
+    return False
+
 ### Check SteamFriendsPatcher
 def check_if_css_patched(page):
     if not backend.is_css_patched():
         hyperlink = HyperlinkManager(page.text1)
         page.text1.tag_configure("err", foreground="red")
-        page.text1.insert(tk.END, '==============================\n')
+        page.text1.insert(tk.INSERT, '\n==============================\n')
         page.text1.insert(tk.INSERT, "css/5.css (previously known as libraryroot.css) not patched.\n", ("err"))
         page.text1.insert(tk.INSERT, "Download ")
         page.text1.insert(tk.INSERT, "SteamFriendsPatcher\n", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SteamFriendsPatcher/")))
-        page.text1.insert(tk.INSERT, "\n")
-
+        page.text1.insert(tk.INSERT, '==============================\n')
 ### Check if newer version
 def update_check(page, current_release):
     try:
-        response = requests.get("https://api.github.com/repos/jonius7/steamui-oldglory/releases/latest", timeout=0.5)
+        username = ''
+        token = ''
+        session = requests.Session()
+        session.auth = (username, token)
+        
+        response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/releases/latest", timeout=0.5)
         latest_release = response.json()["name"]
+        #print(re.sub("[^0-9.]+", "", current_release))
         if latest_release == current_release:
-            print("You are up to date. Release " + latest_release + "\n")
+            page.text1.insert(tk.INSERT, "You are up to date. Release " + latest_release + "\n")
         else:
             hyperlink = HyperlinkManager(page.text1)
+            page.text1.insert(tk.INSERT, '\n==============================\n')
             page.text1.insert(tk.END, 'New version available: ')
-            page.text1.insert(tk.END, "Release {0}\n".format(latest_release), hyperlink.add(partial(webbrowser.open, "https://github.com/Jonius7/SteamUI-OldGlory/releases/latest")))
-            page.text1.insert(tk.END, 'Current version: ')
+            page.text1.insert(tk.END, "Release {0}".format(latest_release), hyperlink.add(partial(webbrowser.open, "https://github.com/Jonius7/SteamUI-OldGlory/releases/latest")))
+            page.text1.insert(tk.END, '\nCurrent version: ')
             page.text1.insert(tk.END, "Release {0}\n".format(current_release))
-            page.text1.insert(tk.INSERT, "\n")
+            page.text1.insert(tk.INSERT, '==============================\n\n')
+    except KeyError:
+        print("Unable to get latest version number, too many requests! Please try again later.", file=sys.stderr)
     except requests.exceptions.ConnectionError:
         print("Could not connect to Github, Unable to check for latest release!", file=sys.stderr)
     except:
@@ -1003,6 +1037,7 @@ class CSSGUICreator(tk.Frame):
         #    print(label["text"])
         self.PresetFrame = PresetFrame(self.frameCSS, controller, config)
         self.framePreset = self.PresetFrame.returnPresetFrame()
+        self.PresetFrame.getPresetOptions()
 
         #Configure grid expand
         self.frameCSS.columnconfigure(0, weight=2)
@@ -1141,37 +1176,166 @@ class PresetFrame(tk.Frame):
         self.framePreset = tk.Frame(self.parent)
         self.controller = controller
         self.config = config #unused?
+        self.presetOptions = {}
             
-        label_preset_head = tk.Label(self.framePreset, text="Quick CSS Options (more coming soon)")
-        label_preset_head.grid(row=0, column=0)
+        #label_preset_head = tk.Label(self.framePreset, text="Quick CSS Options (more coming soon)")
+        #label_preset_head.grid(row=0, column=0, sticky="nsew")
 
 
     def getPresetOptions(self):
         print("TODO")
+        self.presetOptions.clear()
         try:
             if "quickCSS" in self.controller.json_data:
-                print("quickCSS found")
+                #print("quickCSS found")
+                #print(self.controller.json_data)
+
+                for i, presetOption in enumerate(self.controller.json_data["quickCSS"]):
+                    #print(self.controller.json_data["quickCSS"][presetOption])
+                    _p = PresetOption(self.framePreset, self.controller, presetOption, self.controller.json_data["quickCSS"][presetOption])
+                    _p.returnPresetOption().grid(row=i, column=0, padx=(5,0), sticky="w")
+                    self.presetOptions[presetOption] = _p
+                    
             else:
-                print("ERROR")
+                raise Exception("Property quickCSS in JSON file not found.\n"\
+                                "Unable to load Quick CSS Options.")
         except:
             print_traceback()
-        
-        
-                
-        
-    
-    ### PRESET Click funtion
-    def preset_click(self, controller, radioText):
-        #print("~~~pcccc~~~~~~")
-        #print(radioText)
-        if radioText != "Custom value":
-            globals()["apply_css_config_values"](controller, self.radios_config[radioText]["config"])
-        #print(controller.css_config)
-
     
     ###    
     def returnPresetFrame(self):
         return self.framePreset
+
+###
+### END PresetFrame
+
+
+### START PresetOption
+
+class PresetOption(tk.Frame):
+
+    def __init__(self, parent, controller, name, data):
+        self.parent = parent
+        self.framePresetOption = tk.Frame(self.parent)
+        self.controller = controller
+        self.name = name
+        self.data = data
+
+        #
+        smallfont = controller.default_font.copy()
+        smallfont.configure(size=12)
+
+        style = ttk.Style()
+        style.configure("TRadiobutton", font=smallfont)
+        
+    ###
+        self.preset_title = tk.Label(self.framePresetOption, text=name, font=smallfont)
+        self.preset_title.grid(row=0, column=0, padx=(5,0))
+
+
+    ###
+        self.radiovar = tk.StringVar()
+        self.set_preset_default()
+
+        self.radios = []
+        
+        for i, (textv, value) in enumerate(self.data.items(), 1):
+            _radio = ttk.Radiobutton(self.framePresetOption,
+                            text = textv, 
+                            variable = self.radiovar,
+                            value = value["value"],
+                            command = lambda textv = textv: self.preset_click(controller, textv)
+                            )
+            _radio.grid(row=i+1, column=0, padx=(5,0), sticky='w')
+            #
+            tip = Detail_tooltip(_radio, self.radio_hover_text(textv, value), hover_delay=200)
+            #
+            self.radios.append(_radio)
+
+    def radio_hover_text(self, key, value):
+        tip = ""
+        if "config" in value:
+            '''
+            print(value["config"])
+            tip += str(value["config"])
+            
+            for prop in value["config"]:
+                tip += prop + ": " + value["config"][prop]
+            '''
+            for prop in value["config"]:
+                tip += prop + ": " + value["config"][prop] + "\n"
+            tip = tip[0:-1]
+        elif key == "[Current value]":
+            tip += "Keep current value. Can be a custom value set manually in file."
+        else:
+            tip += "No description."
+        return tip
+        
+    '''
+
+        
+        self.radios_config = {"Top of Page" : {"value" : "1", "config" :
+                            {"--WhatsNew" : "block",
+                            "--WhatsNewOrder" : "0"}},
+                              "Bottom of page" : {"value" : "2", "config" : 
+                            {"--WhatsNew" : "block",
+                            "--WhatsNewOrder" : "2"}},
+                  "Hide entirely" : {"value" : "3", "config" :
+                            {"--WhatsNew" : "none",
+                            "--WhatsNewOrder" : "0"}},
+                    "Custom value" : {"value" : "4"}
+                  }
+        self.radiovar = tk.StringVar()
+        #self.radiovar.set("2")
+        self.set_preset_default()
+        self.radios = []
+        
+        for i, (textv, value) in enumerate(self.radios_config.items(), 1):
+            _radio = ttk.Radiobutton(self.framePreset,
+                            text = textv, 
+                            variable = self.radiovar,
+                            value = value["value"],
+                            command = lambda textv = textv: self.preset_click(controller, textv)
+                            )
+            _radio.grid(row=i+1, column=0, padx=(5,0), sticky='w')
+            self.radios.append(_radio)
+    '''
+
+    ### set selected based on value in css_config
+    def set_preset_default(self):
+        #print(self.controller.css_config)
+        key_set = 0
+        for key in self.data:
+            equal = False
+            if "config" in self.data[key]:
+                equal = True
+                for prop in self.data[key]["config"]:
+                    #print(prop)
+                    #print("KEY : VALUE")
+                    
+                    #if value in self.radios_config matches value in css_config
+                    equal = (self.data[key]["config"][prop] == get_item(prop, self.controller.css_config)) and equal
+                    #print((self.radios_config[key]["config"][prop] == get_item(prop, self.controller.css_config)))
+                    #print(self.radios_config[key]["config"][prop])
+                    #print(get_item(prop, self.controller.css_config))
+                    ##print(prop + " : " + get_item(prop, self.controller.css_config))
+            #print(key + " | " + str(equal))
+            if equal:
+                self.radiovar.set(self.data[key]["value"])
+                key_set = 1
+        if key_set == 0:
+            self.radiovar.set(self.data["Custom value"]["value"])
+
+        ### PRESET Click funtion
+    def preset_click(self, controller, radioText):
+        #print("~~~pcccc~~~~~~")
+        #print(radioText)
+        if radioText != "[Current value]":
+            globals()["apply_css_config_values"](controller, self.data[radioText]["config"])
+        #print(controller.css_config)
+
+    def returnPresetOption(self):
+        return self.framePresetOption
 
 ### Preset
 ### ~~~~~~~~~~
@@ -1202,75 +1366,6 @@ def get_item(key, config_dict):
             ret = get_item(key, value)
             if ret:
                 return ret
-
-###
-### END PresetFrame
-
-
-### START PresetOption
-
-def PresetOption(self, parent, controller, optiondata):
-
-    def __init__(self, parent, controller, config):
-    ###
-        self.preset_title = tk.Label(self.framePreset, text="What's New")
-        self.preset_title.grid(row=1, column=0, padx=(5,0))
-
-
-        
-        self.radios_config = {"Top of Page" : {"value" : "1", "config" :
-                            {"--WhatsNew" : "block",
-                            "--WhatsNewOrder" : "0"}},
-                              "Bottom of page" : {"value" : "2", "config" : 
-                            {"--WhatsNew" : "block",
-                            "--WhatsNewOrder" : "2"}},
-                  "Hide entirely" : {"value" : "3", "config" :
-                            {"--WhatsNew" : "none",
-                            "--WhatsNewOrder" : "0"}},
-                    "Custom value" : {"value" : "4"}
-                  }
-        self.radiovar = tk.StringVar()
-        #self.radiovar.set("2")
-        self.set_preset_default()
-        self.radios = []
-        
-        for i, (textv, value) in enumerate(self.radios_config.items(), 1):
-            _radio = ttk.Radiobutton(self.framePreset,
-                            text = textv, 
-                            variable = self.radiovar,
-                            value = value["value"],
-                            command = lambda textv = textv: self.preset_click(controller, textv)
-                            )
-            _radio.grid(row=i+1, column=0, padx=(5,0), sticky='w')
-            self.radios.append(_radio)
-
-
-    ### set selected based on value in css_config
-    def set_preset_default(self):
-        #print(self.controller.css_config)
-        key_set = 0
-        for key in self.radios_config:
-            equal = False
-            if "config" in self.radios_config[key]:
-                equal = True
-                for prop in self.radios_config[key]["config"]:
-                    #print(prop)
-                    #print("KEY : VALUE")
-                    
-                    #if value in self.radios_config matches value in css_config
-                    equal = (self.radios_config[key]["config"][prop] == get_item(prop, self.controller.css_config)) and equal
-                    #print((self.radios_config[key]["config"][prop] == get_item(prop, self.controller.css_config)))
-                    #print(self.radios_config[key]["config"][prop])
-                    #print(get_item(prop, self.controller.css_config))
-                    ##print(prop + " : " + get_item(prop, self.controller.css_config))
-            #print(key + " | " + str(equal))
-            if equal:
-                self.radiovar.set(self.radios_config[key]["value"])
-                key_set = 1
-        if key_set == 0:
-            self.radiovar.set(self.radios_config["Custom value"]["value"])
-
-
 
 
 ###

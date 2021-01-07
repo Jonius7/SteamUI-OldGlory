@@ -121,7 +121,33 @@
 					"--WhatsNewOrder" : "0"
 				}
 			},
-			"Custom value": {
+			"[Current value]": {
+				"value": "4"
+			}
+		},
+		"Game List Zoom": {
+			"75%": {
+				"value": "1",
+				"config": {
+					"--HoverOverlayPosition" : "unset",
+					"--GameListZoomSize" : "75%"
+				}
+			},
+			"75% (Hover to bottom)": {
+				"value": "2",
+				"config": {
+					"--HoverOverlayPosition" : "0",
+					"--GameListZoomSize" : "75%"
+				}
+			},
+			"100%": {
+				"value": "3",
+				"config": {
+					"--HoverOverlayPosition" : "unset",
+					"--GameListZoomSize" : "100%"
+				}
+			},
+			"[Current value]": {
 				"value": "4"
 			}
 		}

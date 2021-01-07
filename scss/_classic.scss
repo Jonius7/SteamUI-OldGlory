@@ -1,8 +1,17 @@
-/* Classic Arial font and color */
+/* Classic Arial font*/
 body {
     font-family: Arial, Helvetica, sans-serif;
 }
+/* Classic Arial font for game page*/
+.appdetailssection_AppDetailsSection_2r4TK {
+    font-family: Arial, Helvetica, sans-serif;
+} 
 
+button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin {
+    font-family: Arial, Helvetica, sans-serif;
+} 
+
+/* Classic font color*/
 .gamelistentry_Container_2-O4Z.gamelistentry_Installed_2ws8D {
     color: #CFCFCF;
 }
@@ -32,6 +41,11 @@ body {
 .gamelistentry_Container_2-O4Z:hover, .gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
     color: white;
     background: rgb(30,30,30);
+}
+
+/* Header Background size */
+.library_Container_3xRRJ {
+    background-size: contain !important;
 }
 
 /* Classic sidebar background */
