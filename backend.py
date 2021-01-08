@@ -1,6 +1,7 @@
 import platform
 import os
 import sys
+import subprocess
 import shutil
 import traceback
 import re
@@ -196,6 +197,19 @@ def OS_line_ending():
         return "\n"
     elif OS_TYPE ==  "Linux":
         return "\n"
+
+# could use testing
+def OS_open_file(path):
+    try:
+        if OS_TYPE == "Windows":
+            subprocess.Popen(["explorer", path])
+        elif OS_TYPE ==  "Darwin":
+            subprocess.Popen(["open", "--", path])
+        elif OS_TYPE ==  "Linux":
+            subprocess.Popen(["xdg-open", "--", path])
+        print("Opened file at: " + path)
+    except:
+        print_traceback()
     
 def library_dir():
     steamui_path = ""
@@ -437,7 +451,7 @@ def css_line_parser(line):
             comment = value[1].lstrip()
             default = ""
             if "/* Default: " in comment:
-                comment_m = comment.split("/* Default: ")[1].split(".", 1)
+                comment_m = comment.split("/* Default: ")[1].split(". ", 1)
                 default = comment_m[0].lstrip()
                 desc = comment_m[1].split("*/")[0].strip()
             else:

@@ -6,7 +6,6 @@ from PIL import ImageTk, Image
 import sys
 import io
 import os
-import subprocess
 import platform
 import traceback
 import requests
@@ -27,8 +26,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.7 Beta"
-        self.release = "5.1-pre"
+        self.version = "v0.9.7.12 Beta"
+        self.release = "5.5-pre"
       
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
@@ -376,7 +375,7 @@ class PageOne(tk.Frame):
     ### Tabs
         tabs = ttk.Notebook(self,)
         frameQuick = tk.Frame(tabs)
-        frameModules = tk.Frame(tabs)
+        frameSections = tk.Frame(tabs)
 
     ### CSS Frame
     ###
@@ -416,11 +415,11 @@ class PageOne(tk.Frame):
         self.frameCSS.pack(padx=10, fill="x")
         
         frameQuick.pack()
-        frameModules.pack()
+        frameSections.pack()
 
         ###tabs
         tabs.add(frameQuick, text="Quick CSS")
-        tabs.add(frameModules, text="CSS Modules")
+        tabs.add(frameSections, text="CSS Sections")
         tabs.pack(fill="both", expand=1, padx=(10,9))
         
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
@@ -435,6 +434,8 @@ class PageTwo(tk.Frame):
     ### HEAD FRAME
     ###
         self.frameHead = head_frame(self, controller)
+
+        label_js_head = tk.Label(self, text="JS Options")
 
     ### JS FRAME
     ###
@@ -472,6 +473,7 @@ class PageTwo(tk.Frame):
     ### Pack frames
     ###
         self.frameHead.pack()
+        label_js_head.pack()
         self.frameJS.pack(padx=10, expand=1, fill="both")
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         frameMode.pack(pady=(2, 0), side="bottom")
@@ -761,12 +763,12 @@ class ScrollFrame(tk.Frame):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        self.canvas = canvas = tk.Canvas(self)
+        self.canvas = canvas = tk.Canvas(self, highlightthickness=0)
         canvas.grid(row=0, column=0, sticky='nsew')
 
-        scroll = AutoScrollbar(self, command=canvas.yview, orient=tk.VERTICAL)
-        canvas.config(yscrollcommand=scroll.set)
-        scroll.grid(row=0, column=1, sticky='nsew')
+        self.scroll = AutoScrollbar(self, command=self.canvas.yview, orient=tk.VERTICAL)
+        self.canvas.config(yscrollcommand=self.scroll.set)
+        self.scroll.grid(row=0, column=1, sticky='nsew')     
 
         self.content = tk.Frame(canvas)
         self.canvas.create_window(0, 0, window=self.content, anchor="nw")
@@ -780,6 +782,9 @@ class ScrollFrame(tk.Frame):
 
     def on_mousewheel(self, event):
         self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+    def reconfigure_autoscrollbar(self):
+        self.canvas.config(yscrollcommand=self.scroll.set)
 
 class AutoScrollbar(tk.Scrollbar): 
     def set(self, low, high): 
@@ -1017,10 +1022,13 @@ def update_loaded_config(page, controller):
 def reload_click(event, controller):
     try:
         print("==============================")
+        ### Reload Data
+        controller.json_data = backend.get_json_data()
         controller.css_config = backend.load_css_configurables()
         controller.js_config, controller.special_js_config = backend.load_js_fixes()
+        ### Update GUI
+        controller.frames[PageOne].css_gui.PresetFrame.update_presets_gui()
         controller.frames[PageTwo].js_gui.update_js_gui(controller)
-        #controller.frames[PageOne].css_gui.PresetFrame.set_preset_default()
         print("Config Reloaded.")
     except:
         print("Config could not be completely reloaded.", file=sys.stderr)
@@ -1214,7 +1222,7 @@ DEFAULT_QUICK_CSS = {"Top of Page" : {"value" : "1", "config" :
                   "Hide entirely" : {"value" : "3", "config" :
                             {"--WhatsNew" : "none",
                             "--WhatsNewOrder" : "0"}},
-                    "Custom value" : {"value" : "4"}
+                    "[Current value]" : {"value" : "4"}
                     }
 
 
@@ -1232,7 +1240,6 @@ class PresetFrame(tk.Frame):
 
 
     def getPresetOptions(self):
-        self.presetOptions.clear()
         try:
             if "quickCSS" in self.controller.json_data:
                 #print("quickCSS found")
@@ -1243,13 +1250,32 @@ class PresetFrame(tk.Frame):
                     _p = PresetOption(self.framePreset, self.controller, presetOption, self.controller.json_data["quickCSS"][presetOption])
                     _p.returnPresetOption().grid(row=i % 3, column=i // 3, padx=(5,0), pady=(0,18), sticky="nw")
                     self.presetOptions[presetOption] = _p
+
+
+                var_file_path = os.path.join(os.getcwd(), "variables.css")
+                self.var_vars = tk.IntVar()
+                button_vars = ttk.Button(self.framePreset,
+                                   text="Open variables file",
+                                   width=16
+                )
+                button_vars.bind("<Button-1>", lambda event:backend.OS_open_file(var_file_path))
+                button_vars.grid(row=2, column=2, padx=(5,0))
                     
             else:
                 raise Exception("Property quickCSS in JSON file not found.\n"\
                                 "Unable to load Quick CSS Options.")
         except:
             print_traceback()
-    
+
+    def clearPresetOptions(self):
+        self.presetOptions.clear()
+        for widget in self.framePreset.winfo_children():
+            widget.destroy()
+
+    def update_presets_gui(self):
+        self.clearPresetOptions()
+        self.getPresetOptions()
+        
     ###    
     def returnPresetFrame(self):
         return self.framePreset
@@ -1337,7 +1363,7 @@ class PresetOption(tk.Frame):
                 self.radiovar.set(self.data[key]["value"])
                 key_set = 1
         if key_set == 0:
-            self.radiovar.set(self.data["Custom value"]["value"])
+            self.radiovar.set(self.data["[Current value]"]["value"])
 
         ### PRESET Click funtion
     def preset_click(self, controller, radioText):
@@ -1415,8 +1441,11 @@ class JSFrame(tk.Frame):
 
         self.checkvars = {}
         self.comboboxes = {}
+        
         self.create_frameJSInner(self.controller)
-        self.frameJSInner.grid(row=0, column=0)
+        self.frameJSInner.grid(row=1, column=0)
+
+        
         
     ### PRESET Click funtion
     def js_click(self, controller, fixname):
@@ -1430,9 +1459,6 @@ class JSFrame(tk.Frame):
                   "Value: " + str(value), file=sys.stderr)
             
     def create_frameJSInner(self, controller):
-        label_js_head = tk.Label(self.frameJSInner, text="JS Options")
-        label_js_head.grid(row=0, column=0, columnspan=2)
-        
         rownum = 1
         self.checkvars = {}
         self.comboboxes = {}
@@ -1487,8 +1513,7 @@ class JSFrame(tk.Frame):
     def update_js_gui(self, controller):
         self.clear_frameJSInner(self.controller)
         self.create_frameJSInner(self.controller)
-        #for checkvar in self.checkvars:
-            #print(checkvar.get())
+        #self.frameJS.reconfigure_autoscrollbar()      
         
     def returnframeJS(self):
         return self.frameJS

@@ -1,15 +1,16 @@
 ## CSS Changelog
 
-**v1.5** Fixes for Vertical Nav Bar, Classic Layout, HOME page shelf height \
-**v1.4** Fix Vertical Nav Bar, release with GUI for SteamUI-OldGlory v4 \
-**v1.3** Some changes to work with GUI \
-**v1.2** Standardised CSS variable format \
-**v1.1** Whole new sections for Play Bar layout, Vertical Nav Bar and Classic layout \
-**v1.0** Rewrite/Pass ordering the CSS classes into sections \
-      Add compatibility with Shiina's `steam-library` \
-**v0.9** Tidy up and separate CSS tweaks \
-**v0.8** Added Horizontal Game Image tweaks, to be used with JS \
-**v0.7** Fixed some values so these tweaks work with webkit.css \
-**v0.6** Shortened to only modified lines (removed unmodified ones) \
-**v0.5** Added in new tweaks to Apppages, padding and headers \
+**v2.0** Rewritten in SCSS, easy enable/disable certain sections or functions.
+**v1.5** Fixes for Vertical Nav Bar, Classic Layout, HOME page shelf height
+**v1.4** Fix Vertical Nav Bar, release with GUI for SteamUI-OldGlory v4
+**v1.3** Some changes to work with GUI
+**v1.2** Standardised CSS variable format
+**v1.1** Whole new sections for Play Bar layout, Vertical Nav Bar and Classic layout
+**v1.0** Rewrite/Pass ordering the CSS classes into sections
+      Add compatibility with Shiina's `steam-library`
+**v0.9** Tidy up and separate CSS tweaks
+**v0.8** Added Horizontal Game Image tweaks, to be used with JS
+**v0.7** Fixed some values so these tweaks work with webkit.css
+**v0.6** Shortened to only modified lines (removed unmodified ones)
+**v0.5** Added in new tweaks to Apppages, padding and headers
 **v0.4** initial version

@@ -25,6 +25,9 @@
 		}
 	},
 	"sections": {
+		"classic": {
+			"description": "CSS for Old UI font and colors"
+		},
 		"sidebar": {
 			"description": "CSS for the Left Sidebar - Games List"
 		},
@@ -126,21 +129,21 @@
 			}
 		},
 		"Game List Zoom": {
-			"75%": {
+			"Compact": {
 				"value": "1",
 				"config": {
 					"--HoverOverlayPosition" : "unset",
 					"--GameListZoomSize" : "75%"
 				}
 			},
-			"75% (Hover to bottom)": {
+			"Compact (Hover to bottom)": {
 				"value": "2",
 				"config": {
 					"--HoverOverlayPosition" : "0",
 					"--GameListZoomSize" : "75%"
 				}
 			},
-			"100%": {
+			"Default": {
 				"value": "3",
 				"config": {
 					"--HoverOverlayPosition" : "unset",
@@ -200,6 +203,63 @@
 			},
 			"[Current value]": {
 				"value": "4"
+			}
+		},
+		"Home Page Grid Spacing": {
+			"Compact (8px 5px)": {
+				"value": "1",
+				"config": {
+					"--GridRowGap": "8px",
+					"--GridColumnGap": "5px"
+				}
+			},
+			"Default (24px 16px)": {
+				"value": "2",
+				"config": {
+					"--GridRowGap": "24px",
+					"--GridColumnGap": "16px"
+				}
+			},
+			"[Current value]": {
+				"value": "3"
+			}
+		},
+		"Game Page Layout": {
+			"SteamUI-OldGlory": {
+				"value": "1",
+				"config": {
+					"--FriendsDLCScreenshotsColumnWidth": "61%",
+					"--SwapColumns": "left"
+				}
+			},
+			"Default": {
+				"value": "2",
+				"config": {
+					"--FriendsDLCScreenshotsColumnWidth": "33%",
+					"--SwapColumns": "right"
+				}
+			},
+			"[Current value]": {
+				"value": "3"
+			}
+		},
+		"Game Image Opacity": {
+			"Dim Uninstalled Games": {
+				"value": "1",
+				"config": {
+					"--GameImageOpacity": "1",
+					"--UninstalledGameImageOpacity": "0.5"
+				}
+			},
+			"Default (Full Opacity)": {
+				"value": "2",
+				"config": {
+					"--GameImageOpacity": "1",
+					"--UninstalledGameImageOpacity": "1"
+				}
+			},
+			"[Current value]": {
+				"value": "3"
 			}
 		}
 	}
