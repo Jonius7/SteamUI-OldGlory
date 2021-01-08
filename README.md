@@ -1,7 +1,7 @@
 # SteamUI-OldGlory
 
 A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. \
-Check `/dev` branch for in-progress tweaks.
+Check [`/dev`](https://github.com/Jonius7/SteamUI-OldGlory/tree/dev) branch for in-progress tweaks.
 
 #### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest)
 

@@ -1232,7 +1232,6 @@ class PresetFrame(tk.Frame):
 
 
     def getPresetOptions(self):
-        print("TODO")
         self.presetOptions.clear()
         try:
             if "quickCSS" in self.controller.json_data:
@@ -1242,7 +1241,7 @@ class PresetFrame(tk.Frame):
                 for i, presetOption in enumerate(self.controller.json_data["quickCSS"]):
                     #print(self.controller.json_data["quickCSS"][presetOption])
                     _p = PresetOption(self.framePreset, self.controller, presetOption, self.controller.json_data["quickCSS"][presetOption])
-                    _p.returnPresetOption().grid(row=i % 3, column=i // 3, padx=(5,0), sticky="w")
+                    _p.returnPresetOption().grid(row=i % 3, column=i // 3, padx=(5,0), pady=(0,18), sticky="nw")
                     self.presetOptions[presetOption] = _p
                     
             else:
@@ -1278,8 +1277,10 @@ class PresetOption(tk.Frame):
         style.configure("TRadiobutton", font=smallfont)
         
     ###
-        self.preset_title = tk.Label(self.framePresetOption, text=name, font=smallfont)
-        self.preset_title.grid(row=0, column=0, padx=(24,0), sticky='w')
+        self.preset_title = tk.Label(self.framePresetOption,
+                                     text="\u23af\u23af\u23af " + name + " \u23af\u23af\u23af",
+                                     font=smallfont)
+        self.preset_title.grid(row=0, column=0, sticky='w')
 
 
     ###

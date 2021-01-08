@@ -164,6 +164,43 @@
 					"--ShowLeftSidebar" : "none"
 				}
 			}
+		},
+		"Remove Glare/Shine": {
+			"Visible": {
+				"value": "1",
+				"config": {
+					"--RemoveShine": "block"
+				}
+			},
+			"Hidden": {
+				"value": "2",
+				"config": {
+					"--RemoveShine": "none"
+				}
+			}
+		},
+		"Game Image Transition": {
+			"Default": {
+				"value": "1",
+				"config": {
+					"--GameImageTransition": ".4s, .4s, .4s, .2s"
+				}
+			},
+			"1 sec": {
+				"value": "2",
+				"config": {
+					"--GameImageTransition": "1s"
+				}
+			},
+			"0 sec": {
+				"value": "3",
+				"config": {
+					"--GameImageTransition": "0s"
+				}
+			},
+			"[Current value]": {
+				"value": "4"
+			}
 		}
 	}
 }
