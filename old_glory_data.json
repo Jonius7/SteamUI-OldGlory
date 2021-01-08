@@ -150,6 +150,20 @@
 			"[Current value]": {
 				"value": "4"
 			}
+		},
+		"Show Left Sidebar": {
+			"Visible": {
+				"value": "1",
+				"config": {
+					"--ShowLeftSidebar" : "flex"
+				}
+			},
+			"Hidden": {
+				"value": "2",
+				"config": {
+					"--ShowLeftSidebar" : "none"
+				}
+			}
 		}
 	}
 }

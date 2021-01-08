@@ -472,7 +472,7 @@ class PageTwo(tk.Frame):
     ### Pack frames
     ###
         self.frameHead.pack()
-        self.frameJS.pack()
+        self.frameJS.pack(padx=10, expand=1, fill="both")
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         frameMode.pack(pady=(2, 0), side="bottom")
 
@@ -752,7 +752,55 @@ def dropdown_click(event, page, controller):
         change_image(page.image1, theme_image_path)
     else:
         change_image(page.image1, resource_path("images/no_preview.png"))
+
+### ScrollFrame
+
+class ScrollFrame(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+
+        self.canvas = canvas = tk.Canvas(self)
+        canvas.grid(row=0, column=0, sticky='nsew')
+
+        scroll = AutoScrollbar(self, command=canvas.yview, orient=tk.VERTICAL)
+        canvas.config(yscrollcommand=scroll.set)
+        scroll.grid(row=0, column=1, sticky='nsew')
+
+        self.content = tk.Frame(canvas)
+        self.canvas.create_window(0, 0, window=self.content, anchor="nw")
+
+        self.bind('<Configure>', self.on_configure)
+        self.canvas.bind('<MouseWheel>', self.on_mousewheel)
+
+    def on_configure(self, event):
+        bbox = self.content.bbox('ALL')
+        self.canvas.config(scrollregion=bbox)
+
+    def on_mousewheel(self, event):
+        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+class AutoScrollbar(tk.Scrollbar): 
+    def set(self, low, high): 
+        if float(low) <= 0.0 and float(high) >= 1.0: 
+            self.tk.call("grid", "remove", self) 
+        else: 
+            self.grid() 
+        tk.Scrollbar.set(self, low, high)
         
+    def pack(self, **kw): 
+        raise (TclError,"pack cannot be used with "\
+        "this widget") 
+
+    def place(self, **kw): 
+        raise (TclError, "place cannot be used with "\
+        "this widget") 
+
+###
+### END ScrollFrame
+
+      
 ### INSTALL Functions
 ### ================================
 ### Map config values to selected checkboxes
@@ -972,10 +1020,11 @@ def reload_click(event, controller):
         controller.css_config = backend.load_css_configurables()
         controller.js_config, controller.special_js_config = backend.load_js_fixes()
         controller.frames[PageTwo].js_gui.update_js_gui(controller)
-        controller.frames[PageOne].css_gui.PresetFrame.set_preset_default()
+        #controller.frames[PageOne].css_gui.PresetFrame.set_preset_default()
         print("Config Reloaded.")
     except:
         print("Config could not be completely reloaded.", file=sys.stderr)
+        print_traceback()
 ### ================================
 
 
@@ -1028,7 +1077,7 @@ class CSSGUICreator(tk.Frame):
         self.controller = controller
         self.config = config
         ###Outer frame and canvas
-        self.frameCSS = tk.Frame(page)
+        self.frameCSS = ScrollFrame(page)
         #x = ConfigurablesFrame(self.frameCSS, controller, config)
         #self.frameConfigurables = x.returnFrame()
         #self.labels = x.returnCSSFrame().returnLabels()
@@ -1193,7 +1242,7 @@ class PresetFrame(tk.Frame):
                 for i, presetOption in enumerate(self.controller.json_data["quickCSS"]):
                     #print(self.controller.json_data["quickCSS"][presetOption])
                     _p = PresetOption(self.framePreset, self.controller, presetOption, self.controller.json_data["quickCSS"][presetOption])
-                    _p.returnPresetOption().grid(row=i, column=0, padx=(5,0), sticky="w")
+                    _p.returnPresetOption().grid(row=i % 3, column=i // 3, padx=(5,0), sticky="w")
                     self.presetOptions[presetOption] = _p
                     
             else:
@@ -1230,7 +1279,7 @@ class PresetOption(tk.Frame):
         
     ###
         self.preset_title = tk.Label(self.framePresetOption, text=name, font=smallfont)
-        self.preset_title.grid(row=0, column=0, padx=(5,0))
+        self.preset_title.grid(row=0, column=0, padx=(24,0), sticky='w')
 
 
     ###
@@ -1255,13 +1304,6 @@ class PresetOption(tk.Frame):
     def radio_hover_text(self, key, value):
         tip = ""
         if "config" in value:
-            '''
-            print(value["config"])
-            tip += str(value["config"])
-            
-            for prop in value["config"]:
-                tip += prop + ": " + value["config"][prop]
-            '''
             for prop in value["config"]:
                 tip += prop + ": " + value["config"][prop] + "\n"
             tip = tip[0:-1]
@@ -1270,36 +1312,6 @@ class PresetOption(tk.Frame):
         else:
             tip += "No description."
         return tip
-        
-    '''
-
-        
-        self.radios_config = {"Top of Page" : {"value" : "1", "config" :
-                            {"--WhatsNew" : "block",
-                            "--WhatsNewOrder" : "0"}},
-                              "Bottom of page" : {"value" : "2", "config" : 
-                            {"--WhatsNew" : "block",
-                            "--WhatsNewOrder" : "2"}},
-                  "Hide entirely" : {"value" : "3", "config" :
-                            {"--WhatsNew" : "none",
-                            "--WhatsNewOrder" : "0"}},
-                    "Custom value" : {"value" : "4"}
-                  }
-        self.radiovar = tk.StringVar()
-        #self.radiovar.set("2")
-        self.set_preset_default()
-        self.radios = []
-        
-        for i, (textv, value) in enumerate(self.radios_config.items(), 1):
-            _radio = ttk.Radiobutton(self.framePreset,
-                            text = textv, 
-                            variable = self.radiovar,
-                            value = value["value"],
-                            command = lambda textv = textv: self.preset_click(controller, textv)
-                            )
-            _radio.grid(row=i+1, column=0, padx=(5,0), sticky='w')
-            self.radios.append(_radio)
-    '''
 
     ### set selected based on value in css_config
     def set_preset_default(self):
@@ -1396,17 +1408,14 @@ def get_prop_options_as_array(propDict):
 ###
 class JSFrame(tk.Frame):
     def __init__(self, page, controller):
-        self.frameJS = tk.Frame(page)
+        self.frameJS = ScrollFrame(page)
         self.controller = controller
-        self.frameJSInner = tk.Frame(self.frameJS)
-            
-        label_js_head = tk.Label(self.frameJSInner, text="JS Options")
-        label_js_head.grid(row=0, column=0, columnspan=2)
+        self.frameJSInner = tk.Frame(self.frameJS.content)
 
         self.checkvars = {}
         self.comboboxes = {}
         self.create_frameJSInner(self.controller)
-        self.frameJSInner.pack()
+        self.frameJSInner.grid(row=0, column=0)
         
     ### PRESET Click funtion
     def js_click(self, controller, fixname):
@@ -1420,6 +1429,9 @@ class JSFrame(tk.Frame):
                   "Value: " + str(value), file=sys.stderr)
             
     def create_frameJSInner(self, controller):
+        label_js_head = tk.Label(self.frameJSInner, text="JS Options")
+        label_js_head.grid(row=0, column=0, columnspan=2)
+        
         rownum = 1
         self.checkvars = {}
         self.comboboxes = {}
