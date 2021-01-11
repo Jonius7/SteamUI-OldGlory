@@ -1,7 +1,7 @@
 # SteamUI-OldGlory
 
 A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. \
-Check `/dev` branch for in-progress tweaks.
+Check [`/dev`](https://github.com/Jonius7/SteamUI-OldGlory/tree/dev) branch for in-progress tweaks.
 
 #### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest)
 
@@ -53,7 +53,7 @@ Condensed sidebar buttons <br>
 - `fixes.txt` - JS tweaks
 - `libraryroot.custom.css` - output CSS file. Do not edit this directly, use the `/scss` folder files
 - `\scss` - (New in Release 5.0)
-  - `libraryroot.custom.scss` - contains all the `@imports` for smaller `.scss` files. The GUI handles enabling/disabling `_module_playbarbox`, `_module_verticalnavbar`, `_module_landscapegameimages`, `_module_classiclayou`t. Manually comment out the other modules (for now)
+  - `libraryroot.custom.scss` - contains all the `@imports` for smaller `.scss` files. The GUI handles enabling/disabling `_module_playbarbox`, `_module_verticalnavbar`, `_module_landscapegameimages`, `_module_classiclayout`. Manually comment out the other modules (for now)
   - `_user_module1.scss`- put your custom CSS code here
   - `_user_module2.scss` - put your custom CSS code here
 
@@ -75,11 +75,20 @@ Some tweaks are disabled by default. Under JS Options, you can select which opti
 
 **Manual Editing**
 
-<details><summary>More details</summary>`fixes.txt`  contains the list of JavaScript tweaks.<br>Each tweak is under its own *Section Heading* marked with the line starting `###`.<br>
-Tweaked lines are the original JS separated by two spaces from the tweaked JS:<br>
-[original js]&#9608;&#9608;[new js]<br>
-Remove the `###` for each line under the *Section Heading* to enable.<br>
-Commented lines with `###`, and blank lines are ignored. You can use this to make `fixes.txt` more readable.</details>
+<details><summary>More details</summary>
+<ul>   
+<li><tt>fixes.txt</tt>  contains the list of JavaScript tweaks.</li>
+<li>Each tweak is under its own <b>Section Heading</b> marked with the line starting <tt>###</tt>.</li>
+    <li>Tweaked lines are the original JS separated by <b>two spaces</b> from the tweaked JS:</li>
+<li><tt>[original js]&#9608;&#9608;[tweaked js]</tt></li>
+<li>Remove the <tt>###</tt> for each line under the Section Heading to enable.</li>
+<li>When <tt>old_glory</tt> applies the JS tweaks, commented lines with <tt>###</tt>, and blank lines are ignored. You can use this to make <tt>fixes.txt</tt> more readable.</li>
+    <li>NEW (Release 5.1): You can now use the previous line of JS to search for the line you want. Just separate the two lines with <tt>~~</tt></li>
+    <li>Format: <tt>[previous line JS]~~[original JS]&#9608;&#9608;[tweaked JS]</tt></li>
+</ul>
+</details>
+
+
 
 
 #### Fix Blurred Game Images
@@ -96,6 +105,7 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 - [(Images) JS Tweaks](https://imgur.com/a/mL4QNYB)
 - [(Images) Is Steam Grid View Back?](https://imgur.com/gallery/qcIHx0l)
 - [(Images) Steam List View Proof of Concept](https://imgur.com/a/ZqvqrkR)
+- [(Images) Sticky Header background and Left Sidebar font](https://imgur.com/a/XzMAlxr)
 - [Steam Discussions [1]](https://steamcommunity.com/groups/for_a_better_steam_client/discussions/0/2970650017896633625/)
 - [Steam Discussions [2]](https://steamcommunity.com/discussions/forum/0/2451595019863406679/)
 
@@ -119,20 +129,20 @@ Commented lines with `###`, and blank lines are ignored. You can use this to mak
 >    ---
 >
 >- GUI `v0.9.5.5` -> `v0.9.6.9`
->  The GUI is now using JSON to store some of the data. This has the benefit of being editable outside of having to rebuild the .exe
+>  The GUI is now using JSON to store some of the data. This has the benefit of being editable outside of having to rebuild the `.exe`
 >
->- Issues fixed from #5
->
+> Issues fixed from #5
 > - Themes working again
->    - Auto-select current theme on startup
->    - New DLC Manager scss - no longer requires JavaScript for row height
->
->###Future Releases
->Now that Sass is implemented, time to add more toggleable features.
->Continue building the auto-updating system. The ideal state is to be able to push out .scss, fixes.txt, or old_glory_data.json hotfixes smoothly, and leave the GUI changes as the major updates.
+>  - Auto-select current theme on startup
+>  - New DLC Manager scss - no longer requires JavaScript for row height
+>  
+> ### Future Releases
+> Now that Sass is implemented, time to add more toggleable features.
+> Continue building the auto-updating system. The ideal state is to be able to push out `.scss`, `fixes.txt`, or `old_glory_data.json` hotfixes smoothly, and leave the GUI changes as the major updates.
+> 
+> **r1** - Minor change to create backups of existing `libraryroot.custom.css` in `steamui` folder. Use this if you have existing code already in `libraryroot.custom.css` that you want to save.
 >
 >[Compare with Release 4.1.1](https://github.com/Jonius7/SteamUI-OldGlory/compare/Release_4.1.1...Release_5.0) | [Changelog](https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_4.1.1)
->
 >
 >[More details...](https://github.com/Jonius7/SteamUI-OldGlory/releases)
 
