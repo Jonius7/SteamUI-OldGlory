@@ -1,0 +1,17 @@
+{
+	"CSS_Update" : [
+		"scss/_.*.scss",
+		"variables.css"
+	],
+	"Themes_Update" : [
+		"themes/_.*.scss",
+		"themes/config.css.original"
+	]
+	"JS_Update" : [
+		"fixes.txt"
+	],
+	"JSON_Update" : [
+		"old_glory_data.json"
+	]
+}
+		
