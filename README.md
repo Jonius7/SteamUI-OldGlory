@@ -62,6 +62,7 @@ Condensed sidebar buttons <br>
   - `_spiked.scss` - **Thespikedballofdoom's** [Dark Library](https://gamebanana.com/guis/35092) theme
   - `_acrylic.scss` - Theme based on **EliteSkylu's** [Acrylic Steam](https://www.reddit.com/r/Steam/comments/jot6vi/let_me_introduce_you_a_project_of_my_steam_ui/) concept
   - `_crispcut.scss` - (WIP) Theme by **Jonius7**, emphasising white app section boxes
+- `old_glory_data.json` data for `old_glory.exe`. Editing it is not required but it allows some data to be updated/hotfixed outside of having to rebuild the `.exe`
 
 Other files are copied from the`Steam\steamui` directory as required.
 
