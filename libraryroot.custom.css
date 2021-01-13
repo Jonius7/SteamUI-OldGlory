@@ -20,7 +20,7 @@
 
   /* Game Grid */
   --RemoveShine: none;  /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
-  --GameImageTransition: 1s;  /* Default: . 4s, .4s, .4s, .2s. Grid Game Images transition time. 0s for instant, 2s for smooth. */
+  --GameImageTransition: 1s;  /* Default: .4s, .4s, .4s, .2s. Grid Game Images transition time. 0s for instant, 2s for smooth. */
   --GameImageOpacity: 1;  /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5 */
   --UninstalledGameImageOpacity: 0.5;  /* Default: 1. Suggested values: 0.5, 0.2 */
   --GameGridImageBackground: inherit;  /* Default: inherit. Default is inherit, set #365d2d for a friendly green */
@@ -726,14 +726,31 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin {
   backdrop-filter: blur(1px);
 }
 
-/* Game properties */
+/* ==================== Game Properties ====================
+   ========================================================================== */
+:root {
+  --TabColor: rgba(58, 58, 58, var(--TabColorOpacity));
+  --TabColorOpacity: 0.8;
+  --HoverTabColor: rgba(95, 95, 95, var(--HoverTabColorOpacity));
+  --HoverTabColorOpacity: 0.8;
+  --ActiveTabColor: linear-gradient(to bottom, rgba(84, 84, 84, var(--ActiveTabColorOpacity)) 0%, rgb(44, 44, 44, var(--ActiveTabColorOpacity)) 100%);
+  --ActiveTabColorOpacity: 0.5;
+}
+
 .appproperties_AppProperties_1FyBL .DialogHeader {
   /* margin-top: 10px; */
+  display: none;
 }
 
 /* Adjust X position */
 .title-area .title-bar-actions {
   top: 4px;
+}
+
+/* title bar X, draggable area */
+.ModalDialogPopup .ModalDialogBody .title-area {
+  height: 0px;
+  padding-bottom: 14px;
 }
 
 /* padding */
@@ -742,14 +759,15 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin {
 }
 
 .DialogContent {
-  padding: 14px;
+  padding: 20px 24px;
 }
 
 .DialogContentTransition {
   flex: 5.3;
-  margin-top: -50px;
+  margin-top: -51px;
   width: unset;
   max-width: unset;
+  height: 70%;
 }
 
 .pagedsettings_PagedSettingsDialog_2sssI.appproperties_AppProperties_1FyBL {
@@ -763,12 +781,46 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin {
 }
 
 .pagedsettings_PagedSettingsDialog_PageList_18QCu {
-  line-height: 126px;
+  line-height: 26px;
   display: flex;
 }
 
 .pagedsettings_PagedSettingsDialog_PageListItem_1-vlr {
   padding: 0px 10px;
+}
+
+/* Game properties title */
+.pagedsettings_PagedSettingsDialog_Title_2rjVT {
+  text-transform: unset;
+  margin-bottom: 5px;
+  font-size: unset;
+}
+
+/* bottom app properties */
+.appproperties_AppId_38R2f {
+  bottom: 11px;
+}
+
+/* Bottom margin so App ID doesn't get covered up */
+.DialogContent_InnerWidth {
+  margin-bottom: 24px;
+}
+
+/* tab title font size */
+.pagedsettings_PagedSettingsDialog_PageListItem_1-vlr {
+  font-size: 14px;
+  margin-bottom: 2px;
+  background-color: var(--TabColor);
+  /* border-radius: 5px 5px 0px 0px; //rounded tabs */
+  margin-right: 2px;
+}
+
+.pagedsettings_PagedSettingsDialog_PageListItem_1-vlr:hover {
+  background-color: var(--HoverTabColor);
+}
+
+.pagedsettings_PagedSettingsDialog_PageListItem_1-vlr.pagedsettings_Active_2DpXj {
+  background: var(--ActiveTabColor);
 }
 
 /* DLC MANAGER - No longer needs JS */
@@ -777,6 +829,8 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin {
   flex: 0 0 60px;
 }
 
+/* ========================================================================== 
+   END Game Properties */
 /*HORIZONTAL GAME IMAGE TWEAKS*/
 .appdetailsgameinfopanel_Container_2jPMy .appdetailsgameinfopanel_InnerContainer_37mmO {
   grid-template-columns: 202px repeat(2, minmax(0, 1fr)) max-content;
@@ -795,3 +849,150 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin {
    ========================================================================== */
 /* ========================================================================== 
    END User CSS (module 2) */
+/* Crisp Cut Theme
+   by Jonius7
+*/
+:root {
+  --LightSectionColor1: #dddddd;
+  --LightSectionColor2: #8a8a8a;
+  --SectionFontColor1: #1d1d1d;
+  --SectionFontColor2: #0c0c0f;
+  --LinksFontColor: #0d0d0d;
+}
+
+/* full background color */
+.appdetails_Glassy_3Fmxx.appdetails_ScrollContainer_2l416 {
+  /*background-image: radial-gradient(100% 100% at 45% 35%, #095aef 0%, #151616 100%);*/
+  /*background-image: radial-gradient(100% 100% at top left, rgba(231,235,241,0.2) 0%, rgba(160,162,168,0.4) 10%, rgba(21, 22, 22, 1) 100%);*/
+  background-image: none;
+}
+
+/* background glass */
+.appdetailsoverview_Glassy_2OOzY .appdetailsoverview_Backdrop_1Qa-A {
+  background: linear-gradient(180deg, rgba(40, 41, 49, 0.2) 0%, rgba(22, 22, 22, 0.7) 10%, rgba(33, 33, 35, 0.7) 92%, rgba(22, 22, 23, 0) 100%);
+}
+
+.appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
+  /*background: none;*/
+}
+
+/* section top gradient */
+.appdetailssection_Highlight_38t1m {
+  background: linear-gradient(to right, #5f7d82 0%, #0f2650 95%);
+}
+
+/* rightcolumn section bottom gradient */
+.appdetailssection_AppDetailsSectionContainer_31ptF.appdetailssection_RightColumnSection_3KfxI {
+  /*background: radial-gradient(100% 100% at top left, rgba(60,60,120,0.8) 50%, rgba(120,120,120,0.8) 100%);*/
+  background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
+  box-shadow: 6px 6px 2px #101010ee;
+}
+
+.appdetailsoverview_RightColumn_2aor4 * {
+  color: var(--SectionFontColor2) !important;
+  fill: var(--SectionFontColor2) !important;
+  stroke: var(--SectionFontColor2) !important;
+}
+
+.appdetailssectionheader_Label_1SQ30 {
+  color: var(--LightSectionColor1) !important;
+}
+
+.appdetailssectionheader_Label_1SQ30 * {
+  color: var(--LightSectionColor1) !important;
+}
+
+div.appactivityday_AppActivityDay_S2Fu9 .appactivityday_AppActivityDate_19LfM {
+  color: var(--LightSectionColor1) !important;
+}
+
+/* Workshop */
+.appdetailssection_Highlight_38t1m.appdetailsworkshopsection_WorkshopHightlight_1zmwc {
+  background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
+}
+
+button.DialogButton._DialogLayout.Secondary.appdetailsworkshopsection_SpacedButton_36eP4 {
+  color: var(--LightSectionColor1) !important;
+}
+
+.appdetailsworkshopsection_ButtonContainer_2LXfs * {
+  color: var(--LightSectionColor1) !important;
+}
+
+/* Event */
+.appactivityday_PartnerEvent_1AYE1, .appactivityday_PartnerEventLargeImage_Container_Libri {
+  background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
+  box-shadow: 6px 6px 2px #101010ee;
+  border: 0;
+}
+
+.appactivityday_Event_UVeN0 .appactivityday_EventBody_NEMXh {
+  background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
+}
+
+.appactivityday_PartnerEventMediumImage_Container_1HZy7 {
+  background: none;
+  transition: all 0.2s ease-out;
+}
+
+.appactivityday_Event_UVeN0 * {
+  color: var(--SectionFontColor2) !important;
+  fill: var(--SectionFontColor2) !important;
+}
+
+.comment_thread_RatingBar_1yWgP * {
+  color: var(--LightSectionColor1) !important;
+  fill: var(--LightSectionColor1) !important;
+}
+
+.appactivityday_EventHeadline_QCKBq * {
+  color: var(--LightSectionColor2) !important;
+}
+
+.appactivityday_ActorName_1t1iy > .personanameandstatus_playerName_nOdcT {
+  color: var(--LightSectionColor1) !important;
+}
+
+/* Play bar */
+.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {
+  background: radial-gradient(100% 100% at top left, rgba(95, 125, 130, 0.8) 0%, rgba(15, 38, 80, 0.8) 95%);
+}
+
+/* Navigation bar */
+.appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v > div {
+  margin: 0px 0px 8px 0px;
+}
+
+.appdetailsprimarylinkssection_LinksSection_3-V8v .appdetailsprimarylinkssection_LinksSectionBody_25f0f {
+  padding: 0px 26px 3px 20px !important;
+}
+
+.appdetailsprimarylinkssection_LinksSection_3-V8v {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.appdetailssection_Body_5uvIN.appdetailsprimarylinkssection_LinksSectionBody_25f0f {
+  /*background: radial-gradient(100% 100% at top left, rgba(240,240,240,0.4) 50%, rgba(120,120,120,0.2) 100%);*/
+  background: radial-gradient(100% 100% at top left, rgba(15, 38, 80, 0.8) 88%, rgba(10, 33, 75, 0.8) 98%);
+  /*background-image: radial-gradient(100% 100% at top left, #e7ebf1 0%, #151616 100%);*/
+  box-shadow: 6px 6px 2px #101010ee;
+}
+
+.appdetailssection_Body_5uvIN.appdetailsprimarylinkssection_LinksSectionBody_25f0f * {
+  color: var(--LightSectionColor1);
+}
+
+/* Achievements */
+.appdetailstradingcardssection_Badge_RPcyJ.appdetailstradingcardssection_EmptyCircle_2feGA {
+  border: 2px dashed #313131;
+}
+
+.appdetailsachievementssection_AdditionalItem_2aVnD.appdetailsachievementssection_RemainderContainer_lZ2c4 * {
+  color: var(--LightSectionColor1) !important;
+}
+
+/* Hover */
+button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin.appdetailsbutton_BottomRight_3nJyY:hover {
+  background-color: rgba(151, 163, 178, 0.358);
+}
