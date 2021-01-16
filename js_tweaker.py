@@ -146,6 +146,12 @@ def find_fix(line, fix):
     print("FIX: " + m_line.strip())
     return m_line
 
+def find_fix_with_variable(line, fix):
+    #res = [i.start() for i in re.finditer("\$\^", st)]
+    #for lv in res:
+    print("todo")
+        
+
 def write_modif_file():
     with open("libraryroot.beaut.js", "r", newline='', encoding="UTF-8") as f, \
          open("libraryroot.modif.js", "w", newline='', encoding="UTF-8") as f1:

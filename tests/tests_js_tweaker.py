@@ -52,5 +52,8 @@ class TestCopyFilesFromSteam(unittest.TestCase):
         a, b = backend.load_js_fixes()
         backend.write_js_fixes(a, b)
 
+    def test_find_fixes_variables(self):
+        js_tweaker.find_fix_with_variable("$^: $^ * $^", "\\1: (\\3 - 10) * $^")
+
 if __name__ == '__main__':
     unittest.main()

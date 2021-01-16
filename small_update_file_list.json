@@ -1,12 +1,11 @@
 {
 	"CSS_Update" : [
-		"scss/_.*.scss",
+		"scss",
 		"variables.css"
 	],
 	"Themes_Update" : [
-		"themes/_.*.scss",
-		"themes/config.css.original"
-	]
+		"themes"
+	],
 	"JS_Update" : [
 		"fixes.txt"
 	],

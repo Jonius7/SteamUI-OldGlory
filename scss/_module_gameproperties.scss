@@ -2,12 +2,15 @@
    ========================================================================== */
 
 :root {
+  
   --TabColor: rgba(58, 58, 58, var(--TabColorOpacity));
-  --TabColorOpacity: 0.8;
+  --TabColorOpacity: 1;
   --HoverTabColor: rgba(95, 95, 95, var(--HoverTabColorOpacity));
-  --HoverTabColorOpacity: 0.8;
+  --HoverTabColorOpacity: 1;
   --ActiveTabColor: linear-gradient(to bottom, rgba(84, 84, 84, var(--ActiveTabColorOpacity)) 0%, rgb(44, 44, 44, var(--ActiveTabColorOpacity)) 100%);
   --ActiveTabColorOpacity: 0.5;
+  
+  --TabRowHeight: 26px;
 }
 
 .appproperties_AppProperties_1FyBL .DialogHeader {
@@ -37,7 +40,7 @@
 
 .DialogContentTransition {
   flex: 5.3;
-  margin-top: -51px;
+  margin-top: calc(var(--TabRowHeight) - 70px);
   width: unset;
   max-width: unset;
   height: 70%
@@ -53,7 +56,7 @@
   flex-direction: column;
 }
 .pagedsettings_PagedSettingsDialog_PageList_18QCu {
-  line-height: 26px;
+  line-height: var(--TabRowHeight);
   display: flex;
 }
 
@@ -64,7 +67,7 @@
 /* Game properties title */
 .pagedsettings_PagedSettingsDialog_Title_2rjVT {
   text-transform: unset;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-size: unset;
 }
 

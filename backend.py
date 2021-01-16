@@ -8,6 +8,8 @@ import re
 from pathlib import Path
 import json
 import sass
+from datetime import datetime
+import requests
 
 OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
@@ -171,6 +173,8 @@ ROOT_MAP = {"start" : ["Configurable variables", ":root {"],
 
 PATCHED_TEXT = "/*patched*/"
 
+SMALL_UPDATE_FILE_LIST = {}
+
 def get_json_data():
     json_data_filename = 'old_glory_data.json'
     try:
@@ -246,6 +250,10 @@ def is_css_patched():
         print_traceback()
     return patched
 
+def get_current_datetime():
+    date = datetime.now()
+    date_f = date.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return date_f
 
 ###
 ### CONFIG Functions
@@ -791,3 +799,16 @@ def clear_js_working_files():
         print("Was not able to remove " + file, file=sys.stderr)
         print_traceback()
         
+### Auto-update functions
+def get_small_update_file_list():
+    list_filename = 'small_update_file_list.json'
+    branch = 'dev'
+    
+    username = ''
+    token = ''
+    session = requests.Session()
+    session.auth = (username, token)
+    
+    response = session.get('https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/' + \
+                           branch + "/" + list_filename)
+    print(response.json())

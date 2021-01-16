@@ -85,9 +85,12 @@ Some tweaks are disabled by default. Under JS Options, you can select which opti
 <li>Remove the <tt>###</tt> for each line under the Section Heading to enable.</li>
 <li>When <tt>old_glory</tt> applies the JS tweaks, commented lines with <tt>###</tt>, and blank lines are ignored. You can use this to make <tt>fixes.txt</tt> more readable.</li>
     <li>NEW (Release 5.1): You can now use the previous line of JS to search for the line you want. Just separate the two lines with <tt>~~</tt></li>
+    <li>(Planned, coming soon): Using any single variable letter with <tt>$^</tt></li>
+    <ul><li>Eg: <tt>Lo.searchSuggestions</tt> becomes <tt>$^$^.searchSuggestions</tt></li></ul>
     <li>Format: <tt>[previous line JS]~~[original JS]&#9608;&#9608;[tweaked JS]</tt></li>
-</ul>
-</details>
+    </ul>
+    </details>
+
 
 
 
