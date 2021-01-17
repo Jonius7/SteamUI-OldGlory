@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 import json
 import sass
-from datetime import datetime
+from datetime import datetime, timezone
 import requests
 
 OS_TYPE = platform.system()
@@ -173,7 +173,7 @@ ROOT_MAP = {"start" : ["Configurable variables", ":root {"],
 
 PATCHED_TEXT = "/*patched*/"
 
-SMALL_UPDATE_FILE_LIST = {}
+#SMALL_UPDATE_FILE_LIST = get_small_update_file_list()
 
 def get_json_data():
     json_data_filename = 'old_glory_data.json'
@@ -251,7 +251,7 @@ def is_css_patched():
     return patched
 
 def get_current_datetime():
-    date = datetime.now()
+    date = datetime.now(timezone.utc)
     date_f = date.strftime("%Y-%m-%dT%H:%M:%SZ")
     return date_f
 
@@ -800,15 +800,53 @@ def clear_js_working_files():
         print_traceback()
         
 ### Auto-update functions
+
+def create_session():
+    try:
+        username = ''
+        token = '5d6ecfc25f9f2b5cb1c1d88b316bd0bf11b0a101'
+        session = requests.Session()
+        session.auth = (username, token)
+        return session
+    except:
+        print("Unable to request Github API session.", file=sys.stderr)
+        print_traceback()
+        
 def get_small_update_file_list():
-    list_filename = 'small_update_file_list.json'
-    branch = 'dev'
-    
-    username = ''
-    token = ''
-    session = requests.Session()
-    session.auth = (username, token)
-    
-    response = session.get('https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/' + \
-                           branch + "/" + list_filename)
-    print(response.json())
+    try:
+        list_filename = 'small_update_file_list.json'
+        branch = 'dev'
+        session = create_session()        
+        response = session.get('https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/' + \
+                               branch + "/" + list_filename)
+        return response.json()
+    except json.decoder.JSONDecodeError as e:
+        print("Error in update filelist JSON format.\nThis is an issue with " + list_filename + " on Github.", file=sys.stderr)
+        print_traceback()
+    except:
+        print("Unable to load update filelist", file=sys.stderr)
+        print_traceback()
+
+def check_new_commit_dates(json_data):
+    try:
+        file_dates = {}
+        file_list = get_small_update_file_list()
+        for f in file_list:
+            for pathname in file_list[f]:
+                session = create_session()
+                response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/commits?path=" + \
+                                       pathname + "&page=1&per_page=1")
+                #print(json_data["lastPatchedDate"] < response.json()[0]["commit"]["committer"]["date"])
+                
+                if json_data["lastPatchedDate"] < response.json()[0]["commit"]["committer"]["date"]:
+                    print(f.replace("_", " ") + " found: " + pathname)
+                #print(pathname + " | " + response.json()[0]["commit"]["committer"]["date"])
+                #print(response.json())
+                #file_dates {pathname}
+                #if 
+    except:
+        print("Unable to check for latest small update files on Github.", file=sys.stderr)
+        print_traceback()
+
+def update_json_last_patched_date():
+    print("TODO")

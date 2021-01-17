@@ -104,6 +104,8 @@ class OldGloryApp(tk.Tk):
         self.frames[cont].tkraise()
 
     #init text log
+    def update_check(self):
+        print("TODO")
 
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -308,7 +310,8 @@ class StartPage(tk.Frame):
         frameConfirm = confirm_frame(self, controller)
 
 
-        ### Running functions after much of StartPage has been initialised
+    ### Running functions after much of StartPage has been initialised
+    ###
         ### Check if CSS Patched
         ### Check for new version
         self.text1.config(state='normal')
@@ -322,7 +325,7 @@ class StartPage(tk.Frame):
         self.loaded_config = set_selected_from_config(self, controller)
         self.text1.config(state='disabled')
         init_cb_check(self.var1, [check2, check3, check5])
-        init_cb_check(self.var3, [check4])        
+        init_cb_check(self.var3, [check4])     
         
     ### Pack frames
     ###
@@ -338,6 +341,8 @@ class StartPage(tk.Frame):
         frameLog.pack(pady=(10,7))
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         frameMode.pack(pady=(2, 0), side="bottom")
+
+    
 
     ### Getters
     def getCheckbuttonVal(self, getter):
@@ -596,11 +601,7 @@ def check_if_css_patched(page):
 ### Check if newer version
 def update_check(page, current_release):
     try:
-        username = ''
-        token = ''
-        session = requests.Session()
-        session.auth = (username, token)
-        
+        session = backend.create_session()        
         response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/releases/latest", timeout=0.5)
         latest_release = response.json()["name"]
         #print(re.sub("[^0-9.]+", "", current_release))
