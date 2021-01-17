@@ -10,6 +10,7 @@ import json
 import sass
 from datetime import datetime, timezone
 import requests
+from hashlib import sha1
 
 OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
@@ -211,7 +212,7 @@ def OS_open_file(path):
             subprocess.Popen(["open", "--", path])
         elif OS_TYPE ==  "Linux":
             subprocess.Popen(["xdg-open", "--", path])
-        print("Opened file at: " + path)
+        print("Opened: " + path)
     except:
         print_traceback()
     
@@ -232,6 +233,31 @@ def print_traceback():
     print("~~~~~~~~~~~~~~~~~~~~")
     print(traceback.format_exc(), end='', file=sys.stderr)
     print("~~~~~~~~~~~~~~~~~~~~")
+
+# Returns the git sha hash of a file
+def get_file_hash(filepath):
+    try:
+        with open(filepath, 'r', encoding="UTF-8") as f, \
+            open(filepath + ".temp", 'w', newline='\n') as f1:
+            f1.writelines(f.readlines())
+        f.close()
+        f1.close()
+
+        filesize_bytes = os.path.getsize(filepath + ".temp")
+
+        s = sha1()
+        s.update(b"blob %u\0" % filesize_bytes)
+        
+        with open(filepath + ".temp", 'rb') as g:
+            s.update(g.read())
+        g.close()
+
+        os.remove(filepath + ".temp")
+        
+        return s.hexdigest()
+    except:
+        print("Unable to get hash of file: " + filepath, file=sys.stderr)
+        print_traceback()
 
 ### Check CSS Patched
 def is_css_patched():
@@ -827,26 +853,50 @@ def get_small_update_file_list():
         print("Unable to load update filelist", file=sys.stderr)
         print_traceback()
 
+
+#returns a list of files from small_update_file_list that are newer on Github than the last patched date (found in old_glory_data.json)
 def check_new_commit_dates(json_data):
     try:
         file_dates = {}
         file_list = get_small_update_file_list()
-        for f in file_list:
-            for pathname in file_list[f]:
+        
+        '''
+        #use local version of file for debugging purposes
+        with open('small_update_file_list.json') as f:
+            file_list = json.load(f)
+        f.close()
+        '''
+        
+        for k, v in file_list.items():
+            file_dates_item = {}
+            for pathname in file_list[k]:
                 session = create_session()
                 response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/commits?path=" + \
                                        pathname + "&page=1&per_page=1")
                 #print(json_data["lastPatchedDate"] < response.json()[0]["commit"]["committer"]["date"])
+
+                # if commit date is newer than last patched dated
+                commit_date = response.json()[0]["commit"]["committer"]["date"]
                 
-                if json_data["lastPatchedDate"] < response.json()[0]["commit"]["committer"]["date"]:
-                    print(f.replace("_", " ") + " found: " + pathname)
+                if json_data["lastPatchedDate"] < commit_date:
+                    #print(k.replace("_", " ") + " found: " + pathname)
+                    file_dates_item[pathname] = commit_date
                 #print(pathname + " | " + response.json()[0]["commit"]["committer"]["date"])
                 #print(response.json())
-                #file_dates {pathname}
-                #if 
+                #if
+            file_dates.update({k : file_dates_item})
+        return file_dates
     except:
         print("Unable to check for latest small update files on Github.", file=sys.stderr)
         print_traceback()
+
+def download_file(filename):
+    url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
+    branch = 'dev'
+    r = requests.get(url + branch + "/" + filename, allow_redirects=True)
+
+    open('_test_com.scss', 'wb').write(r.content)
+    
 
 def update_json_last_patched_date():
     print("TODO")

@@ -20,13 +20,12 @@ import js_tweaker
 from tkHyperlinkManager import HyperlinkManager
 
 
-
 OS_TYPE = platform.system()
 DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.7.12 Beta"
+        self.version = "v0.9.7.15 Beta"
         self.release = "5.5-pre"
       
         ### Window, Title, Icon setup
@@ -100,12 +99,35 @@ class OldGloryApp(tk.Tk):
             self.frames[F] = frame
         self.show_frame(StartPage)
 
+        ### Run Update Checks with show frame
+        #thread = Thread(target = self.frames[StartPage].text1.bind, args = ('<Visibility>', self.init_show_frame(StartPage)))
+        thread = Thread(target = self.update_check, args = ())
+        thread.start()
+        #self.frames[StartPage].text1.bind('<Visibility>', self.init_show_frame(StartPage))
+        
+    def init_show_frame(self, cont):
+        self.frames[cont].tkraise()
+        self.frames[cont].update()
+        self.frames[StartPage].text1.bind('<Visibility>', self.update_check())
+        
     def show_frame(self, cont):
         self.frames[cont].tkraise()
 
     #init text log
     def update_check(self):
-        print("TODO")
+        
+        ### Check if CSS Patched
+        ### Check for new version
+        self.frames[StartPage].text1.config(state='normal')
+        if is_connected():            
+            check_if_css_patched(self)
+            release_check(self.frames[StartPage], self.release)
+            print("Checking for small updates...")
+            backend.check_new_commit_dates(self.json_data)
+        else:
+            print("You are offline, cannot automatically check for updates.", file=sys.stderr)
+
+        #self.frames[StartPage].text1.unbind('<Visibility>')   
 
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -275,11 +297,26 @@ class StartPage(tk.Frame):
 
     ### PATCH FRAME
     ###
+        
         labeltext_a = tk.StringVar()
-        labeltext_a.set("Nothing much here... yet")
+        labeltext_a.set("Quick Links")
         
         label_a = tk.Label(framePatch, textvariable=labeltext_a)
         label_a.grid(row=0, column=0)
+        
+        pbutton1 = ttk.Button(framePatch,
+                              text="Open OldGlory folder",
+                              width=22
+        )
+        pbutton1.bind("<Button-1>", lambda event:backend.OS_open_file(os.getcwd()))
+        pbutton1.grid(row=1, column=0, padx=(5,0), pady=5)
+
+        pbutton2 = ttk.Button(framePatch,
+                              text="Open steamui folder",
+                              width=22
+        )
+        pbutton2.bind("<Button-1>", lambda event:backend.OS_open_file(backend.library_dir()))
+        pbutton2.grid(row=2, column=0, padx=(5,0), pady=5)
 
 
     ### MODE FRAME
@@ -312,20 +349,11 @@ class StartPage(tk.Frame):
 
     ### Running functions after much of StartPage has been initialised
     ###
-        ### Check if CSS Patched
-        ### Check for new version
-        self.text1.config(state='normal')
-        if is_connected():            
-            check_if_css_patched(self)
-            update_check(self, controller.release)
-        else:
-            print("You are offline, cannot automatically check for updates.", file=sys.stderr)
-        
         ### Set GUI from config
         self.loaded_config = set_selected_from_config(self, controller)
         self.text1.config(state='disabled')
         init_cb_check(self.var1, [check2, check3, check5])
-        init_cb_check(self.var3, [check4])     
+        init_cb_check(self.var3, [check4])
         
     ### Pack frames
     ###
@@ -342,7 +370,7 @@ class StartPage(tk.Frame):
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         frameMode.pack(pady=(2, 0), side="bottom")
 
-    
+  
 
     ### Getters
     def getCheckbuttonVal(self, getter):
@@ -470,7 +498,7 @@ class PageTwo(tk.Frame):
         )
         button_n.bind("<Button-1>", lambda event:show_PageOne(controller))
         button_n.grid(row=0, column=1, padx=5)
-
+    
     ### CONFIRM FRAME
     ###
         frameConfirm = confirm_frame(self, controller)
@@ -599,7 +627,7 @@ def check_if_css_patched(page):
         page.text1.insert(tk.INSERT, "SteamFriendsPatcher\n", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SteamFriendsPatcher/")))
         page.text1.insert(tk.INSERT, '==============================\n')
 ### Check if newer version
-def update_check(page, current_release):
+def release_check(page, current_release):
     try:
         session = backend.create_session()        
         response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/releases/latest", timeout=0.5)
