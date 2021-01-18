@@ -1,6 +1,6 @@
 # SteamUI-OldGlory
 
-A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks. \
+A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks.
 Check [`/dev`](https://github.com/Jonius7/SteamUI-OldGlory/tree/dev) branch for in-progress tweaks.
 
 #### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest)
@@ -52,12 +52,17 @@ Condensed sidebar buttons <br>
 
 ##### Main Options
 
-- **Install CSS Tweaks** - applies main layout tweaks to Steam Library
+- **Install CSS Tweaks** - main layout tweaks will be applied to Steam Library
 - **Box Play Button** - turns the Play Bar into a floating box in the header
 - **Vertical Nav Bar** - turns the Navigation/Links bar into a floating vertical menu in the header, on the right side
 - **Classic Layout** - Vertical Nav Bar is now aligned with the game page content, with the Friends Activity/News column pushed to the bottom of the page.
 - **Landscape Game Images** - changes Portrait Game Images in the HOME page to Landscape ones.
 - **Library Theme**
+
+**All Pages**
+
+- **Install** - Will install selected CSS and JS tweaks. If no JS options have changed, will just install the CSS tweaks (which is somewhat faster than installing both CSS and JS)
+- **Reload Config** - If you have modified `fixes.txt` `variables.css` or `old_glory.json` manually, then Reload Config will grab these new values and update the checkboxes and values in the GUI (CSS Options + JS Options), without having to restart the GUI app. Changing files in `/scss` or `/themes` doesn't require Reload Config. 
 
 ##### CSS Options
 
@@ -76,7 +81,10 @@ Condensed sidebar buttons <br>
 - **Increase Number of Screenshots and DLC displayed** - On game page: Screenshots: 4 -> 8, DLC 6 -> 12
 - **HoverPostion Fix for GameListEntry** - Hover position fix if using 75% **Game List Zoom** in CSS Options
 - **Scrolling Tweak** - Scroll past ADD SHELF Button on load
-- **Change Game Image Grid Sizes**
+- **Change Game Image Grid Sizes** - Change the size of Game Images on the HOME page, based on <u>width in pixels</u>. There are 3 values here to change, corresponding to Small, Medium, Large sizes in settings. Defaults are:
+  - <u>Small</u>		  `111`
+  - <u>Medium</u>	 `148`
+  - <u>Large</u>		  `222`
 - **Vertical Nav Bar** - corresponds to Main Option **Vertical Nav Bar**. No need to configure manually.
 - **Landscape Images JS Tweaks**  - corresponds to Main Option **Landscape Game Images**. No need to configure manually.
 - **Stop What's New Events from Loading** - removes loading of What's New Events
@@ -85,6 +93,17 @@ Condensed sidebar buttons <br>
 - **CLASSIC Sticky image background and spillover into sidebar** - Game Header image will stay in background as you scroll, and is visible through the Left Sidebar (Games List)
 - **\*\*Experimental\*\* Don't load HOME game images, only alt text** - Can improve performance by not loading images and only the alt text
 - **\*\*Experimental\*\* Remove Game Page Bloat** - Game pages will only load the Play and Navigation bars. May improve performance.
+
+In **Settings and About**:
+
+- **Remake JS** - use this after a Steam Client update, where some JS tweaks may not apply due to new JavaScript.
+  - Technical details: 
+    `clear_js_working_files` - deletes local `library.js`, `libraryroot.js`, `libraryroot.beaut.js`
+    `run_js_tweaker` - recreates `libraryroot.beaut.js` and applies JS tweaks
+
+- **Reset** - triple click to reset the `steamui` directory back to using default library theme. Useful is something screws up or you want to test a clean slate.
+
+
 
 #### Included files:
 
@@ -112,9 +131,9 @@ Other files are copied from the`Steam\steamui` directory as required.
 
 #### JavaScript Tweaks
 
-Some tweaks are disabled by default. Under JS Options, you can select which options to enable/disable.\
+Some tweaks are disabled by default. Under JS Options, you can select which options to enable/disable.
 
-**Manual Editing**
+##### **Manual Editing**
 
 <details><summary>More details</summary>
 <ul>   
@@ -125,11 +144,12 @@ Some tweaks are disabled by default. Under JS Options, you can select which opti
 <li>Remove the <tt>###</tt> for each line under the Section Heading to enable.</li>
 <li>When <tt>old_glory</tt> applies the JS tweaks, commented lines with <tt>###</tt>, and blank lines are ignored. You can use this to make <tt>fixes.txt</tt> more readable.</li>
     <li>NEW (Release 5.1): You can now use the previous line of JS to search for the line you want. Just separate the two lines with <tt>~~</tt></li>
+    <ul><li>Format: <tt>[previous line JS]~~[original JS]&#9608;&#9608;[tweaked JS]</tt></li></ul>
     <li>(Planned, coming soon): Using any single variable letter with <tt>$^</tt></li>
     <ul><li>Eg: <tt>Lo.searchSuggestions</tt> becomes <tt>$^$^.searchSuggestions</tt></li></ul>
-    <li>Format: <tt>[previous line JS]~~[original JS]&#9608;&#9608;[tweaked JS]</tt></li>
     </ul>
     </details>
+
 
 
 
@@ -237,6 +257,8 @@ Build `old_glory.exe`:
 	`pyinstaller -w --hidden-import six --icon=steam_oldglory.ico --clean --onefile old_glory.spec`
 
 The `.spec` file is included in the repository.
+
+##### Advanced
 
 Sometimes you may need to install `pyinstaller` like this:
 [Building PyInstaller Bootloader](https://pyinstaller.readthedocs.io/en/stable/bootloader-building.html)	 [Windows Compilers](https://wiki.python.org/moin/WindowsCompilers#Which_Microsoft_Visual_C.2B-.2B-_compiler_to_use_with_a_specific_Python_version_.3F)

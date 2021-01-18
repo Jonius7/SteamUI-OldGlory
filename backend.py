@@ -13,6 +13,9 @@ import requests
 from requests_oauthlib import OAuth1Session
 from hashlib import sha1
 
+##########################################
+### CONSTANTS
+
 OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
     import winreg
@@ -27,7 +30,6 @@ DEFAULT_CONFIG = {"SteamLibraryPath" : "",
                   "LandscapeImages" : "0",
                   "InstallWithDarkLibrary" : "0",
                   "ThemeSelected" : "Crisp Cut"}
-user_config = {}
 
 
 ###Structure as follows
@@ -175,7 +177,12 @@ ROOT_MAP = {"start" : ["Configurable variables", ":root {"],
 
 PATCHED_TEXT = "/*patched*/"
 
-#SMALL_UPDATE_FILE_LIST = get_small_update_file_list()
+### [END OF] CONSTANTS
+##########################################
+
+
+##########################################
+### GENERAL UTILITY Functions
 
 def get_json_data():
     json_data_filename = 'old_glory_data.json'
@@ -289,9 +296,12 @@ def get_local_datetime():
     return date_f
 
 
-###
+### [END OF] GENERAL UTILITY Functions
+##########################################
+
+
+##########################################
 ### CONFIG Functions
-###
 
 ### Loading config
 def load_config():
@@ -325,9 +335,15 @@ def write_config(config_dict):
             config_file.write(line_to_write)
     config_file.close()
 
+### [END OF] CONFIG Functions
+##########################################
 
-### Settings (checkboxes) functions
-# Need to change logic to cover "unchecking" options
+
+##########################################
+### SETTINGS Functions
+###   GUI Checkboxes
+###   Need to change logic to cover "unchecking" options
+
 def validate_settings(settings):
     validated_settings = []
     if "InstallCSSTweaks" not in settings:
@@ -347,13 +363,14 @@ def validate_settings(settings):
     #print(validated_settings)
     return validated_settings
 
-### END
-###
+### [END OF] SETTINGS Functions
+##########################################
 
 
-###
-### CSS functions (libraryroot.custom.css)
-### if/for loops could be reduced
+##########################################
+### CSS Functions
+###   (scss/libraryroot.custom.scss)
+###   if/for loops could be reduced
 
 def write_css_settings(settings, settings_values, root_config): 
     try:
@@ -457,8 +474,8 @@ def load_css_configurables():
                         loaded_css_config[sectionkey][propkey] = {}
                         loaded_css_config[sectionkey][propkey]["default"] = css_line_values["default"]
                         loaded_css_config[sectionkey][propkey]["current"] = css_line_values["current"]
-                        ### create options attr
-                        #print(CSS_CONFIG.get(sectionkey, {}).get(propkey))
+                        ### create options attr                        
+                        #load options for dropdown (currently unused)
                         if exists_key_value := CSS_CONFIG.get(sectionkey, {}).get(propkey):
                             loaded_css_config[sectionkey][propkey]["options"] = CSS_CONFIG[sectionkey][propkey]["options"]
                         else:
@@ -520,7 +537,7 @@ def write_css_configurables(css_config):
         print_traceback()
 
 #create css variables
-#from CSS_CONFIG dictionary to an array of lines of CSS to be written
+#from css_config dictionary to an array of lines of CSS to be written
 def create_css_variables_lines(css_config):
     try:
         indent = "  "
@@ -545,12 +562,11 @@ def create_css_variables_lines(css_config):
         print_traceback()
 
 
-### END
-###
+### [END OF] CSS Functions
+##########################################
 
 
-
-###
+##########################################
 ### APPLY CSS THEME Functions
 ### Simplified due to use of SCSS
 
@@ -606,52 +622,29 @@ def enable_css_theme(theme_filename, order, json_data):
     #print("TODO")
 
 
-'''
-config_replacements = {'--FontSize: 15px;' : '--FontSize: 13px;',
-                       '--YourLibraryName: "YOUR LIBRARY"' : '--YourLibraryName: "HOME"',
-                       '--LetterSpacing: 3px' : '--LetterSpacing: 0px',
-                       '--ButtonPlayHover: #70d61d;' : '--ButtonPlayHover: var^(--libraryhome^)^;',
-                       '--ButtonPlayHover2: #01a75b;' : '--ButtonPlayHover2: var^(--libraryhome^)^;',
-                       '--ButtonInstallHover: #47bfff;' : '--ButtonInstallHover: var^(--libraryhome^)^;',
-                       '--ButtonInstallHover2: #1a44c2;' : '--ButtonInstallHover2: var^(--libraryhome^)^;'
-                       }
-'''
-
 def steam_library_compat_config():
-    
-    try:
-        if not os.path.isfile("themes/config.css"):
-            shutil.copy2("themes/config.css.original", "themes/config.css")
-            '''
-            with open("themes/config.css", "r", newline='', encoding="UTF-8") as f, \
-                 open("themes/config.temp.css", "w", newline='', encoding="UTF-8") as f1:
-
-                for line in f:   
-                    f1.write(line)
-
-                f.close()
-                f1.close()
-               
-                shutil.move("themes/config.css", "themes/config.css.backup")
-                shutil.copy2("themes/config.temp.css", library_dir() + "/" + "config.css")
-                shutil.move("themes/config.temp.css", "themes/config.css")
-            '''
-        shutil.copy2("themes/config.css", library_dir() + "/" + "config.css")
-        print("themes/config.css copied to: " + library_dir())
+    try:   
+        if not os.path.isfile(library_dir() + "/" + "config.css"):                  # if config.css in steamui/ doesn't exist
+            if not os.path.isfile("themes/config.css"):                             # if config.css in OldGlory themes/ doesn't exist
+                shutil.copy2("themes/config.css.original", "themes/config.css")     # make a copy from config.css.original
+            shutil.copy2("themes/config.css", library_dir() + "/" + "config.css")   # copy config.css from OldGlory themes/ to steamui/
+            print("themes/config.css copied to: " + library_dir())
+        else:
+            print("Existing config.css found at: " + library_dir())
     except FileNotFoundError:
         print("config.css not found", file=sys.stderr)
         print_traceback()
-    
     pass
 
-### END 
-### 
+### [END OF] APPLY CSS THEME Functions
+##########################################
 
 
+##########################################
+### JS Functions
+### fixes.txt
 
-###
-### JS functions (fixes.txt)
-### Load state of JS Fixes (enabled, disabled) from file
+### Load state of JS Fixes (enabled, disabled) from file fixes.txt
 def load_js_fixes():
     js_fixes_filename = 'fixes.txt'
     try:
@@ -678,12 +671,13 @@ def load_js_fixes():
                         state = 1
                     if state == 2:
                         print("Mixed enabled/disabled tweak found in fix:", file=sys.stderr)
-                        print("  " + fixesname, file=sys.stderr)
-                        print("Please check the lines in fixes.txt and see if\n"\
-                              "they are all commented out (with ###) or enabled (without ###).", file=sys.stderr)
+                        print("  " + fixname, file=sys.stderr)
+                        print("Please check the lines in " + js_fixes_filename + " and see if\n"\
+                              "they are all commented out (with ###) or enabled (without ###).\n", file=sys.stderr)
                     fixesdata[fixname] = str(state)
                     (key, val) = line.rstrip().split("  ") #validation
                     ### special fixes data, line to look out for has n = [number] in it
+                    ### could rewrite in the future
                     if "Change Game Image Grid Sizes" in fixname and re.search("n = ([0-9]+)", line):
                         line_segments = line.split("  ")
                         sizes_dict = {}
@@ -692,7 +686,7 @@ def load_js_fixes():
                         for i, value in enumerate(size_values):
                             sizes_dict[sizes[i]] = value
                         special_fixesdata[fixname] = sizes_dict
-        
+
                 elif readfix == 0:
                     state = 0
                 sectionhead = 0               
@@ -713,8 +707,6 @@ def load_js_fixes():
 
 def write_js_fixes(fixesdata, special_fixesdata):
     try:
-        #print("~0~~")
-        #print(fixesdata)
         writefix = 0
         current_fixname = ""
         sectionhead = 0
@@ -781,24 +773,36 @@ def write_js_fixes(fixesdata, special_fixesdata):
     except Exception as e:
         print("Error writing JS Tweaks (fixes.txt) from line: " + line, file=sys.stderr)
         print_traceback()
+
+### [END OF] JS Functions
+##########################################
+
+
+##########################################
+### STEAM DIRECTORY AND CLEAR Functions
+
                     
 def refresh_steam_dir():
     try:
-        if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css"):# and os.stat(library_dir() + "/" + "libraryroot.custom.css").st_size > 15:
-            if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css.backup"):
-                print("Existing libraryroot.custom.css code detected.")
-                shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup2")
+        local_libraryroot_custom_css = "libraryroot.custom.css"
+        libraryroot_custom_css = library_dir() + "/" + "libraryroot.custom.css"
+        libraryroot_custom_css_backup = library_dir() + "/" + "libraryroot.custom.css.backup"
+        libraryroot_custom_css_backup2 = library_dir() + "/" + "libraryroot.custom.css.backup2"
+        
+        if os.path.isfile(libraryroot_custom_css):
+            print("Existing libraryroot.custom.css code detected.")
+            if os.path.isfile(libraryroot_custom_css_backup):
+                shutil.copy2(libraryroot_custom_css, libraryroot_custom_css_backup2)
                 print("Backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup2")
             else:
-                shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup")
+                shutil.copy2(libraryroot_custom_css, libraryroot_custom_css_backup)
                 print("backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup")
-            shutil.copy2("libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css")
-        elif not os.path.isfile(library_dir() + "/" + "libraryroot.custom.css"):
-            shutil.copy2("libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css")
-        print("File " + "libraryroot.custom.css" + " written to " + library_dir())
+            shutil.copy2(local_libraryroot_custom_css, libraryroot_custom_css)
+        elif not os.path.isfile(libraryroot_custom_css):
+            shutil.copy2(local_libraryroot_custom_css, libraryroot_custom_css)
+        print("File " + local_libraryroot_custom_css + " written to " + libraryroot_custom_css)
         
-        #shutil.copy2(library_dir() + "/licenses.txt", library_dir() + "/licenses.txt.copy")
-        #os.remove(library_dir() + "/licenses.txt.copy")
+        #refresh steam library
         f = open(library_dir() + "/refresh_dir.txt", "w", newline='', encoding="UTF-8")
         f.close()
         os.remove(library_dir() + "/refresh_dir.txt")
@@ -832,21 +836,30 @@ def clear_js_working_files():
     except:
         print("Was not able to remove " + file, file=sys.stderr)
         print_traceback()
-        
-### Auto-update functions
 
+### [END OF] STEAM DIRECTORY AND CLEAR Functions
+##########################################
+
+
+##########################################
+### AUTO-UPDATE functions
 def create_session():
     try:
-        session = OAuth1Session('3b63dd986b99625a6575',
-                               client_secret='b34ec12653632828c1b0a801c36bcf87a58f4f93')
-        #username = ''
-        #token = '31934f8febaec9c9a5552daa23e83ef087095192'
-        #session = requests.Session()
-        #session.auth = (username, token)
+        username = ''
+        token = unscramble_token('knqcpp7j7vqg1z1c2jovzwjocpp27o2oapvzwtnp')
+        session = requests.Session()
+        session.auth = (username, token)
         return session
     except:
         print("Unable to request Github API session.", file=sys.stderr)
         print_traceback()
+
+def unscramble_token(scrambled_token):
+    charset = '0123456789abcdef'
+    keyset = '7oqngcwvjtka21pz'
+    key_indices = [keyset.index(k) for k in scrambled_token]
+    plain_token = ''.join(charset[keyIndex] for keyIndex in key_indices)
+    return plain_token
         
 def get_small_update_file_list():
     try:
@@ -920,3 +933,7 @@ def update_json_last_patched_date():
 def backup_small_update_files(filedates):
     print("TODO")
     local_time = get_local_datetime().replace("T", " ").replace(":", "-").replace("Z", "")
+
+
+### [END OF] AUTO-UPDATE Functions
+##########################################
