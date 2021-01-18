@@ -42,16 +42,47 @@ Condensed sidebar buttons <br>
 
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 
+- Select the options you want to use, then click **Install**.
+
 - To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix).
 
   ![https://i.imgur.com/A85LCCn.png](https://i.imgur.com/A85LCCn.png)
+
+#### OldGlory Configurer (GUI)
+
+##### Main Options
+
+- **Install CSS Tweaks** - applies main layout tweaks to Steam Library
+- **Box Play Button** - turns the Play Bar into a floating box in the header
+- **Vertical Nav Bar** - turns the Navigation/Links bar into a floating vertical menu in the header, on the right side
+- **Classic Layout** - Vertical Nav Bar is now aligned with the game page content, with the Friends Activity/News column pushed to the bottom of the page.
+- **Landscape Game Images** - changes Portrait Game Images in the HOME page to Landscape ones.
+- **Library Theme**
+
+##### CSS Options
+
+- **What's New** - Changes position and display of What's New
+- **Game List Zoom** - Compact rows for Left Sidebar (Games List)
+- **Show Left Sidebar** - Show/Hide Left Sidebar (Games List)
+- **Glare/Shine** - Removes glare/reflection on HOME page images
+- **Game Image Transition** - Fade in time for HOME page images
+- **Home Page Grid Spacing**
+- **Game Page Layout** - Swap Game page columns or default
+- **Game Image Opacity** - HOME page: Dim Game Images, or Uninstalled Game Images
+
+**JS Options**
+
+- **Home Page Grid Spacing** - sets grid spacing to 8px 5px (default 24px 16px)
+- **Increase Number of Screenshots and DLC displayed** - On game page: Screenshots: 4 -> 8, DLC 6 -> 12
+- **HoverPostion Fix for GameListEntry** - Hover position fix if using 75% **Game List Zoom** in CSS Options
+- 
 
 #### Included files:
 
 - `old_glory.exe` - App to apply **SteamUI-OldGlory's** tweaks
 - `variables.css` - CSS variables to customise
 - `fixes.txt` - JS tweaks
-- `libraryroot.custom.css` - output CSS file. Do not edit this directly, use the `/scss` folder files
+- `libraryroot.custom.css` - output CSS file. Do not edit this directly, use the `\scss` folder files
 - `\scss` - (New in Release 5.0)
   - `libraryroot.custom.scss` - contains all the `@imports` for smaller `.scss` files. The GUI handles enabling/disabling `_module_playbarbox`, `_module_verticalnavbar`, `_module_landscapegameimages`, `_module_classiclayout`. Manually comment out the other modules (for now)
   - `_user_module1.scss`- put your custom CSS code here

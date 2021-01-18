@@ -830,7 +830,7 @@ def clear_js_working_files():
 def create_session():
     try:
         username = ''
-        token = '5d6ecfc25f9f2b5cb1c1d88b316bd0bf11b0a101'
+        token = '02bd2da12557d146369de7b43db22dba7912b775'
         session = requests.Session()
         session.auth = (username, token)
         return session
@@ -847,7 +847,9 @@ def get_small_update_file_list():
                                branch + "/" + list_filename)
         return response.json()
     except json.decoder.JSONDecodeError as e:
-        print("Error in update filelist JSON format.\nThis is an issue with " + list_filename + " on Github.", file=sys.stderr)
+        print("Error in update filelist JSON format.\nThis could be an issue with:\n" \
+              "- " + list_filename + " on Github.\n" \
+              "- Too many Github API requests (access token could have been removed)", file=sys.stderr)
         print_traceback()
     except:
         print("Unable to load update filelist", file=sys.stderr)
@@ -858,14 +860,14 @@ def get_small_update_file_list():
 def check_new_commit_dates(json_data):
     try:
         file_dates = {}
-        file_list = get_small_update_file_list()
+        #file_list = get_small_update_file_list()
         
-        '''
+        
         #use local version of file for debugging purposes
         with open('small_update_file_list.json') as f:
             file_list = json.load(f)
         f.close()
-        '''
+        
         
         for k, v in file_list.items():
             file_dates_item = {}
@@ -886,11 +888,14 @@ def check_new_commit_dates(json_data):
                 #if
             file_dates.update({k : file_dates_item})
         return file_dates
+    except AttributeError as e:
+        print("No commit dates found", file=sys.stderr)
     except:
         print("Unable to check for latest small update files on Github.", file=sys.stderr)
         print_traceback()
 
-def download_file(filename):
+### Debug version (not used for GUI)
+def download_file(filename, branch='master'):
     url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
     branch = 'dev'
     r = requests.get(url + branch + "/" + filename, allow_redirects=True)

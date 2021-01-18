@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.7.15 Beta"
+        self.version = "v0.9.7.16"
         self.release = "5.5-pre"
       
         ### Window, Title, Icon setup
@@ -38,14 +38,14 @@ class OldGloryApp(tk.Tk):
             self.call('tk', 'scaling', 1.3)
 
         ### Window Dimensions/Position
-        windowW = 760
-        windowH = 660
+        self.windowW = 760
+        self.windowH = 660
         screen_width = container.winfo_screenwidth()
         screen_height = container.winfo_screenheight()
-        windowX = (screen_width / 2) - (windowW / 2)
-        windowY = (screen_height / 2) - (windowH / 2)
-        self.geometry(f'{windowW}x{windowH}+{int(windowX)}+{int(windowY)}')
-        self.minsize(width=windowW, height=windowH)
+        windowX = (screen_width / 2) - (self.windowW / 2)
+        windowY = (screen_height / 2) - (self.windowH / 2)
+        self.geometry(f'{self.windowW}x{self.windowH}+{int(windowX)}+{int(windowY)}')
+        self.minsize(width=self.windowW, height=self.windowH)
         self.maxsize(width=screen_width, height=screen_height)
 
         container.pack(side="top", fill="both", expand = True)
@@ -100,15 +100,8 @@ class OldGloryApp(tk.Tk):
         self.show_frame(StartPage)
 
         ### Run Update Checks with show frame
-        #thread = Thread(target = self.frames[StartPage].text1.bind, args = ('<Visibility>', self.init_show_frame(StartPage)))
         thread = Thread(target = self.update_check, args = ())
         thread.start()
-        #self.frames[StartPage].text1.bind('<Visibility>', self.init_show_frame(StartPage))
-        
-    def init_show_frame(self, cont):
-        self.frames[cont].tkraise()
-        self.frames[cont].update()
-        self.frames[StartPage].text1.bind('<Visibility>', self.update_check())
         
     def show_frame(self, cont):
         self.frames[cont].tkraise()
@@ -120,10 +113,11 @@ class OldGloryApp(tk.Tk):
         ### Check for new version
         self.frames[StartPage].text1.config(state='normal')
         if is_connected():            
-            check_if_css_patched(self)
+            check_if_css_patched(self.frames[StartPage])
             release_check(self.frames[StartPage], self.release)
             print("Checking for small updates...")
-            backend.check_new_commit_dates(self.json_data)
+            file_dates = backend.check_new_commit_dates(self.json_data)
+            print("Done.")
         else:
             print("You are offline, cannot automatically check for updates.", file=sys.stderr)
 
@@ -136,11 +130,14 @@ class StartPage(tk.Frame):
     ### LOG FRAME
     ### Defined first even though it will be packed after the CHECK FRAME, due to redirecting StdOut
     ###
-        frameLog = tk.Frame(self)
+        frameLog = tk.Frame(self, width=controller.windowW-50, height=controller.windowH-450)
+        frameLog.grid_propagate(False)
+        frameLog.columnconfigure(0, weight=1)
+        frameLog.rowconfigure(0, weight=1)
 
         ### Text
         entry1 = ttk.Entry(frameLog)
-        self.text1 = tk.Text(entry1, height=12, width=92)
+        self.text1 = tk.Text(entry1, width=500)
         self.text1.configure(font=("Arial",10))
 
         ### REDIRECT STDOUT STDERR
@@ -148,7 +145,7 @@ class StartPage(tk.Frame):
             sys.stdout = StdoutRedirector(self.text1)
             sys.stderr = StderrRedirector(self.text1)
         
-        self.text1.pack(expand="yes",fill="x")
+        self.text1.pack(expand="yes")
         entry1.grid(row=0, column=0)
 
         ###
@@ -364,9 +361,9 @@ class StartPage(tk.Frame):
         ###tabs
         tabs.add(frameCheck, text="Main Options")
         tabs.add(framePatch, text="Advanced Options")
-        tabs.pack(fill="y", expand=1)
+        tabs.pack(expand=1)
         
-        frameLog.pack(pady=(10,7))
+        frameLog.pack(padx=17, pady=(10,7), expand=1, fill='both')
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         frameMode.pack(pady=(2, 0), side="bottom")
 
@@ -1277,18 +1274,32 @@ class PresetFrame(tk.Frame):
                 for i, presetOption in enumerate(self.controller.json_data["quickCSS"]):
                     #print(self.controller.json_data["quickCSS"][presetOption])
                     _p = PresetOption(self.framePreset, self.controller, presetOption, self.controller.json_data["quickCSS"][presetOption])
-                    _p.returnPresetOption().grid(row=i % 3, column=i // 3, padx=(5,0), pady=(0,18), sticky="nw")
+                    _p.returnPresetOption().grid(row=i // 3, column=i % 3, padx=(5,0), pady=(0,18), sticky="nw")
                     self.presetOptions[presetOption] = _p
 
-
+                ### Links frame
+                frameLinks = tk.Frame(self.framePreset)
+                #
                 var_file_path = os.path.join(os.getcwd(), "variables.css")
-                self.var_vars = tk.IntVar()
-                button_vars = ttk.Button(self.framePreset,
+                button_vars = ttk.Button(frameLinks,
                                    text="Open variables file",
                                    width=16
                 )
                 button_vars.bind("<Button-1>", lambda event:backend.OS_open_file(var_file_path))
-                button_vars.grid(row=2, column=2, padx=(5,0))
+                button_vars.grid(row=0, column=0, padx=(5,0), pady=(0,5))
+
+                #
+                scss_file_path = os.path.join(os.getcwd(), "scss", "libraryroot.custom.scss")
+                button_scss = ttk.Button(frameLinks,
+                                   text="Open scss file",
+                                   width=16
+                )
+                button_scss.bind("<Button-1>", lambda event:backend.OS_open_file(scss_file_path))
+                button_scss.grid(row=1, column=0, padx=(5,0), pady=(0,5))
+
+                #
+                last_option_num = len(self.controller.json_data["quickCSS"])
+                frameLinks.grid(row=last_option_num // 3, column=last_option_num % 3, padx=(5,0))
                     
             else:
                 raise Exception("Property quickCSS in JSON file not found.\n"\

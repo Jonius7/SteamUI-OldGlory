@@ -1,6 +1,6 @@
 // Themes applied before CSS Tweaks
 
-/* SteamUI-OldGlory CSS Tweaks v2.0
+/* SteamUI-OldGlory CSS Tweaks v2.1
    by Jonius7 
 */
 
@@ -22,16 +22,16 @@
 @import "./gamepage_dlc_screenshots";
 
 // Modules
-@import "./classic";
 // @import "./smooth";
 @import "./module_gameproperties";
 @import "./module_landscapegameimages";
 // @import "./module_listview";
-// @import "./module_playbarbox";
+@import "./module_playbarbox";
 // @import "./module_verticalnavbar";
 // @import "./module_classiclayout";
 // @import "./module_homeicon";
 // @import "./tweak_nozoom";
+@import "./classic";
 
 //User Modules
 // @import "./user_module1";
