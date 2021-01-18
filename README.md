@@ -75,7 +75,16 @@ Condensed sidebar buttons <br>
 - **Home Page Grid Spacing** - sets grid spacing to 8px 5px (default 24px 16px)
 - **Increase Number of Screenshots and DLC displayed** - On game page: Screenshots: 4 -> 8, DLC 6 -> 12
 - **HoverPostion Fix for GameListEntry** - Hover position fix if using 75% **Game List Zoom** in CSS Options
-- 
+- **Scrolling Tweak** - Scroll past ADD SHELF Button on load
+- **Change Game Image Grid Sizes**
+- **Vertical Nav Bar** - corresponds to Main Option **Vertical Nav Bar**. No need to configure manually.
+- **Landscape Images JS Tweaks**  - corresponds to Main Option **Landscape Game Images**. No need to configure manually.
+- **Stop What's New Events from Loading** - removes loading of What's New Events
+- **HOME page Scrolling, reduce number of ComputeLayout calls** - Improve smoothness of HOME page Scrolling
+- **Game Properties Window Size** - Reduce width of Game Properties window to closely match old one
+- **CLASSIC Sticky image background and spillover into sidebar** - Game Header image will stay in background as you scroll, and is visible through the Left Sidebar (Games List)
+- **\*\*Experimental\*\* Don't load HOME game images, only alt text** - Can improve performance by not loading images and only the alt text
+- **\*\*Experimental\*\* Remove Game Page Bloat** - Game pages will only load the Play and Navigation bars. May improve performance.
 
 #### Included files:
 

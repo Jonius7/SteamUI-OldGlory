@@ -116,7 +116,9 @@ class OldGloryApp(tk.Tk):
             check_if_css_patched(self.frames[StartPage])
             release_check(self.frames[StartPage], self.release)
             print("Checking for small updates...")
+            #
             file_dates = backend.check_new_commit_dates(self.json_data)
+            
             print("Done.")
         else:
             print("You are offline, cannot automatically check for updates.", file=sys.stderr)

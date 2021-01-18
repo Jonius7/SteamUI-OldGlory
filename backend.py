@@ -10,6 +10,7 @@ import json
 import sass
 from datetime import datetime, timezone
 import requests
+from requests_oauthlib import OAuth1Session
 from hashlib import sha1
 
 OS_TYPE = platform.system()
@@ -276,10 +277,17 @@ def is_css_patched():
         print_traceback()
     return patched
 
-def get_current_datetime():
-    date = datetime.now(timezone.utc)
+### datetime
+def get_remote_datetime(timezone=timezone.utc):
+    date = datetime.now(timezone)
     date_f = date.strftime("%Y-%m-%dT%H:%M:%SZ")
     return date_f
+
+def get_local_datetime():
+    date = datetime.now()
+    date_f = date.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return date_f
+
 
 ###
 ### CONFIG Functions
@@ -829,10 +837,12 @@ def clear_js_working_files():
 
 def create_session():
     try:
-        username = ''
-        token = '02bd2da12557d146369de7b43db22dba7912b775'
-        session = requests.Session()
-        session.auth = (username, token)
+        session = OAuth1Session('client_key',
+                               client_secret='b34ec12653632828c1b0a801c36bcf87a58f4f93')
+        #username = ''
+        #token = '31934f8febaec9c9a5552daa23e83ef087095192'
+        #session = requests.Session()
+        #session.auth = (username, token)
         return session
     except:
         print("Unable to request Github API session.", file=sys.stderr)
@@ -860,14 +870,14 @@ def get_small_update_file_list():
 def check_new_commit_dates(json_data):
     try:
         file_dates = {}
-        #file_list = get_small_update_file_list()
+        file_list = get_small_update_file_list()
         
-        
+        '''
         #use local version of file for debugging purposes
         with open('small_update_file_list.json') as f:
             file_list = json.load(f)
         f.close()
-        
+        '''
         
         for k, v in file_list.items():
             file_dates_item = {}
@@ -905,3 +915,8 @@ def download_file(filename, branch='master'):
 
 def update_json_last_patched_date():
     print("TODO")
+
+### file management functions as part of auto-update
+def backup_small_update_files(filedates):
+    print("TODO")
+    local_time = get_local_datetime().replace("T", " ").replace(":", "-").replace("Z", "")
