@@ -837,7 +837,7 @@ def clear_js_working_files():
 
 def create_session():
     try:
-        session = OAuth1Session('client_key',
+        session = OAuth1Session('3b63dd986b99625a6575',
                                client_secret='b34ec12653632828c1b0a801c36bcf87a58f4f93')
         #username = ''
         #token = '31934f8febaec9c9a5552daa23e83ef087095192'
