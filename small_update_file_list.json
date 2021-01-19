@@ -1,0 +1,15 @@
+{
+	"CSS_Update" : [
+		"scss",
+		"variables.css"
+	],
+	"Themes_Update" : [
+		"themes"
+	],
+	"JS_Update" : [
+		"fixes.txt"
+	],
+	"JSON_Update" : [
+		"old_glory_data.json"
+	]
+}
