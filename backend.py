@@ -875,7 +875,9 @@ def unscramble_token(scrambled_token):
     key_indices = [keyset.index(k) for k in scrambled_token]
     plain_token = ''.join(charset[keyIndex] for keyIndex in key_indices)
     return plain_token
-        
+
+
+# returns a dictionary in the form: {'Update_Type1': ['file1', 'file2', ...],  'Update_Type2': ['file1', 'file2', ...], ... }
 def get_small_update_file_list():
     try:
         list_filename = 'small_update_file_list.json'
@@ -895,6 +897,9 @@ def get_small_update_file_list():
 
 
 #returns a list of files from small_update_file_list that are newer on Github than the last patched date (found in old_glory_data.json)
+# returns a dictionary in the form: {'Update_Type1': ['file1': 'date1', 'file2': 'date2', ...],
+#                                    'Update_Type2': ['file1': 'date1', 'file2': 'date2', ...],
+# date is a string in the format "%Y-%m-%dT%H:%M:%SZ" aka "YYYY-mm-ddTHH:MM:SSZ"
 def check_new_commit_dates(json_data):
     try:
         file_dates = {}
@@ -940,65 +945,81 @@ def download_file(filename, branch='master'):
 
     open('_test_com.scss', 'wb').write(r.content)
 
-### don't name any folders in repo like a filename. Or this might break.
+### don't name any folders in repo with a period. Or this might cause unexpected behaviour.
 def is_file_or_directory(name):
     s_name = name.split(".")
-    if 2 <= len(s_name[-1]) <= 4 and len(s_name) >= 2:
-        print("File found with extension: " + s_name[-1] + " | " + '.'.join(s_name))
-        return True
+    if len(s_name[-1]) >= 2 and len(s_name) >= 2:
+        #print("File found with extension: " + s_name[-1] + " | " + '.'.join(s_name))
+        return "file"
     else:
-        print("Folder found: " + '.'.join(s_name))
-        return False
+        #print("Folder found: " + '.'.join(s_name))
+        return "dir"
         
 def update_json_last_patched_date():
     print("TODO")
 
 ### file management functions as part of auto-update
-### filedates - dictionary of filenames with their dates
+### file_dates - dictionary of filenames with their dates
 ### return list of files (with path) that are different/needing download
-def hash_compare_small_update_files(filedates, json_data):
+def hash_compare_small_update_files(file_dates, json_data):
     print("TODO")
     try:
         backups_folder = "backups/"
-
         files_to_download = []
         local_time = get_local_datetime().replace("T", " ").replace(":", "-").replace("Z", "")
-        for k, v in filedates.items():
-            for filename in filedates[k]:
-                if not is_file_or_directory(filename): #if directory
-                    contents = get_repo_directory_contents(filename)
-                    for i, filedata in enumerate(contents):
+        
+        for k, v in file_dates.items():
+            for filename in v: # for each filename in Update type
+                file_or_directory = is_file_or_directory(filename)
+                if file_or_directory == "dir": #if directory
+                    contents = get_repo_directory_contents(filename) # github /contents
+                    for filedata in contents:
                         #print(filedata["name"], end='\t')
                         
                         local_filepath = filename + "/" + filedata["name"]
+                        print(local_filepath)
                         if os.path.exists(local_filepath):
-                            if local_filepath == "scss/libraryroot.custom.scss":
-                                print("libraryroot gets different rules")
-                                session = create_session()
-                                response = session.get(
-                                    "https://api.github.com/repos/jonius7/steamui-oldglory/commits?path=" + local_filepath)
-                                #print(response.json())
-                                date = response.json()[0]["commit"]["committer"]["date"]
-            #                    if 
-                                date_obj_remote = datetime_string_to_obj(date)
-                                date_obj_local = datetime_string_to_obj(json_data["lastPatchedDate"])
-                                if date_obj_remote > date_obj_local:
-                                    print("ADDED " + local_filepath)
-                                    files_to_download.append(local_filepath)
-                                #print(date_obj_remote)
-                                #print(date_obj_local)
-                                
-                                print("~~~~~~~~~~~")
-                            elif get_file_hash(local_filepath) != filedata["sha"]: #compare local hash to remote                 
+                            #if local hash != remote hash
+                            if (get_file_hash(local_filepath) != filedata["sha"] and
+                                 local_filepath != "scss/libraryroot.custom.scss" and
+                                 local_filepath != "scss/_user_module1.scss" and
+                                 local_filepath != "scss/_user_module2.scss"):                
                                 #print("Different file hashes " + local_filepath)
                                 #print(get_file_hash(local_filepath) + "  |  " + filedata["sha"])
                                 print("ADDED " + local_filepath)
                                 files_to_download.append(local_filepath)
+                            
+                            print("", end="")
                         else:
                             print("File at " + local_filepath + " exists on remote but not locally")
-                else: #if file
-                    print("ADDED " + local_filepath)
-                    files_to_download.append(local_filepath)
+                elif file_or_directory == "file": #if file
+                    date_obj_remote = datetime_string_to_obj(file_dates[k][filename])
+                    date_obj_local = datetime_string_to_obj(json_data["lastPatchedDate"])
+                    #print(date_obj_remote)
+                    #print(date_obj_local)
+                    #print("~~~~~~~~~~(~")
+                    if date_obj_remote > date_obj_local:
+                        print("ADDED " + local_filepath)
+                        files_to_download.append(local_filepath)
+
+
+        '''
+        #print("libraryroot gets different rules")
+        session = create_session()
+        response = session.get(
+            "https://api.github.com/repos/jonius7/steamui-oldglory/commits?path=" + local_filepath)
+        #print(response.json())
+        date = response.json()[0]["commit"]["committer"]["date"]
+        date_obj_remote = datetime_string_to_obj(date)
+        date_obj_local = datetime_string_to_obj(json_data["lastPatchedDate"])
+        if date_obj_remote > date_obj_local:
+            print("ADDED " + local_filepath)
+            files_to_download.append(local_filepath)
+        #print(date_obj_remote)
+        #print(date_obj_local)
+        '''
+
+                        
         return files_to_download
     except:
         print("Unable to compare file hashes for small update files.", file=sys.stderr)
