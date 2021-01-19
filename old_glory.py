@@ -52,7 +52,7 @@ class OldGloryApp(tk.Tk):
 
         ### Icon and Title
         add_window_icon(self)
-        self.wm_title("SteamUI-OldGlory Configurer")        
+        self.wm_title("SteamUI-OldGlory Configurer")
 
         ### Default Font
         self.default_font = TkFont.nametofont("TkDefaultFont")
@@ -119,7 +119,7 @@ class OldGloryApp(tk.Tk):
             #
             file_dates = backend.check_new_commit_dates(self.json_data)
 
-            
+            messages = {}
             update_window(messages, self)
             
             print("Done.")
@@ -129,7 +129,7 @@ class OldGloryApp(tk.Tk):
         #self.frames[StartPage].text1.unbind('<Visibility>')
 
     def prepop_update_window(self):
-        
+        print("TODO")
 
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):

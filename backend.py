@@ -276,6 +276,10 @@ def get_local_datetime():
     date_f = date.strftime("%Y-%m-%dT%H:%M:%SZ")
     return date_f
 
+# of the format "%Y-%m-%dT%H:%M:%SZ"
+def datetime_string_to_obj(date_string):
+    return datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%SZ")
+
 
 ### [END OF] GENERAL UTILITY Functions
 ##########################################
@@ -852,6 +856,8 @@ def clear_js_working_files():
 
 ##########################################
 ### AUTO-UPDATE functions
+BRANCH = "dev"
+        
 def create_session():
     try:
         username = ''
@@ -873,7 +879,7 @@ def unscramble_token(scrambled_token):
 def get_small_update_file_list():
     try:
         list_filename = 'small_update_file_list.json'
-        branch = 'dev'
+        branch = BRANCH
         session = create_session()        
         response = session.get('https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/' + \
                                branch + "/" + list_filename)
@@ -929,7 +935,7 @@ def check_new_commit_dates(json_data):
 ### Debug version (not used for GUI)
 def download_file(filename, branch='master'):
     url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
-    branch = 'dev'
+    branch = BRANCH
     r = requests.get(url + branch + "/" + filename, allow_redirects=True)
 
     open('_test_com.scss', 'wb').write(r.content)
@@ -938,7 +944,7 @@ def download_file(filename, branch='master'):
 def is_file_or_directory(name):
     s_name = name.split(".")
     if 2 <= len(s_name[-1]) <= 4 and len(s_name) >= 2:
-        print("File found with extension: " + s_name[-1])
+        print("File found with extension: " + s_name[-1] + " | " + '.'.join(s_name))
         return True
     else:
         print("Folder found: " + '.'.join(s_name))
@@ -948,37 +954,65 @@ def update_json_last_patched_date():
     print("TODO")
 
 ### file management functions as part of auto-update
-def backup_small_update_files(filedates):
+### filedates - dictionary of filenames with their dates
+### return list of files (with path) that are different/needing download
+def hash_compare_small_update_files(filedates, json_data):
     print("TODO")
-    local_time = get_local_datetime().replace("T", " ").replace(":", "-").replace("Z", "")
-    for k, v in filedates.items():
-        for filename in filedates[k]:
-            if not is_file_or_directory(filename): #if directory
-                contents = get_repo_directory_contents(filename)
-                for i, filedata in enumerate(contents):
-                    #print(filedata["name"], end='\t')
-                    
-                    local_filepath = filename + "/" + filedata["name"]
-                    if os.path.exists(local_filepath):
-                        #print("MATCH")
-                        if get_file_hash(local_filepath) != filedata["sha"]:
-                            print("Different file hashes " + local_filepath)
-                            print(get_file_hash(local_filepath) + "  |  " + filedata["sha"])
-                    else:
-                        print("NO EXISTS")
+    try:
+        backups_folder = "backups/"
+
+        files_to_download = []
+        local_time = get_local_datetime().replace("T", " ").replace(":", "-").replace("Z", "")
+        for k, v in filedates.items():
+            for filename in filedates[k]:
+                if not is_file_or_directory(filename): #if directory
+                    contents = get_repo_directory_contents(filename)
+                    for i, filedata in enumerate(contents):
+                        #print(filedata["name"], end='\t')
                         
+                        local_filepath = filename + "/" + filedata["name"]
+                        if os.path.exists(local_filepath):
+                            if local_filepath == "scss/libraryroot.custom.scss":
+                                print("libraryroot gets different rules")
+                                session = create_session()
+                                response = session.get(
+                                    "https://api.github.com/repos/jonius7/steamui-oldglory/commits?path=" + local_filepath)
+                                #print(response.json())
+                                date = response.json()[0]["commit"]["committer"]["date"]
+            #                    if 
+                                date_obj_remote = datetime_string_to_obj(date)
+                                date_obj_local = datetime_string_to_obj(json_data["lastPatchedDate"])
+                                if date_obj_remote > date_obj_local:
+                                    print("ADDED " + local_filepath)
+                                    files_to_download.append(local_filepath)
+                                #print(date_obj_remote)
+                                #print(date_obj_local)
+                                
+                                print("~~~~~~~~~~~")
+                            elif get_file_hash(local_filepath) != filedata["sha"]: #compare local hash to remote                 
+                                #print("Different file hashes " + local_filepath)
+                                #print(get_file_hash(local_filepath) + "  |  " + filedata["sha"])
+                                print("ADDED " + local_filepath)
+                                files_to_download.append(local_filepath)
+                        else:
+                            print("File at " + local_filepath + " exists on remote but not locally")
+                else: #if file
+                    print("ADDED " + local_filepath)
+                    files_to_download.append(local_filepath)
+        return files_to_download
+    except:
+        print("Unable to compare file hashes for small update files.", file=sys.stderr)
+        print_traceback()
+
                         
                 
 def get_repo_directory_contents(directory_name):
-    branch = 'dev'
+    branch = BRANCH
     
     session = create_session()
     response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/contents/" + \
                            directory_name + "?ref=" + branch)
     return response.json()
-
-def compare_local_remote_hash(local_hash, remote_hash):
-    print("TODO")
 
 ### [END OF] AUTO-UPDATE Functions
 ##########################################
