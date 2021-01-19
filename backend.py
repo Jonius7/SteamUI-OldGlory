@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 import requests
 from requests_oauthlib import OAuth1Session
 from hashlib import sha1
+import time
 
 ##########################################
 ### CONSTANTS
@@ -897,7 +898,8 @@ def get_small_update_file_list():
 
 
 #returns a list of files from small_update_file_list that are newer on Github than the last patched date (found in old_glory_data.json)
-# returns a dictionary in the form: {'Update_Type1': ['file1': 'date1', 'file2': 'date2', ...],
+# returns file_dates
+# a dictionary in the form: {'Update_Type1': ['file1': 'date1', 'file2': 'date2', ...],
 #                                    'Update_Type2': ['file1': 'date1', 'file2': 'date2', ...],
 # date is a string in the format "%Y-%m-%dT%H:%M:%SZ" aka "YYYY-mm-ddTHH:MM:SSZ"
 def check_new_commit_dates(json_data):
@@ -945,15 +947,12 @@ def download_file(filename, branch='master'):
 
     open('_test_com.scss', 'wb').write(r.content)
 
-### don't name any folders in repo with a period. Or this might cause unexpected behaviour.
-def is_file_or_directory(name):
-    s_name = name.split(".")
-    if len(s_name[-1]) >= 2 and len(s_name) >= 2:
-        #print("File found with extension: " + s_name[-1] + " | " + '.'.join(s_name))
-        return "file"
-    else:
-        #print("Folder found: " + '.'.join(s_name))
-        return "dir"
+### only for root directory on repo
+def is_file_or_directory(name, contents):
+    for i, data in enumerate(contents):
+        if data["name"] == name:
+            #print("AHA " + name)
+            return contents[i]["type"]
         
 def update_json_last_patched_date():
     print("TODO")
@@ -967,10 +966,16 @@ def hash_compare_small_update_files(file_dates, json_data):
         backups_folder = "backups/"
         files_to_download = []
         local_time = get_local_datetime().replace("T", " ").replace(":", "-").replace("Z", "")
+        #
+        start_time = time.time()
+        session = create_session()
+        response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/contents?ref=" + BRANCH)
+        root_contents = response.json()
+        print("--- %s seconds ---" % (time.time() - start_time))
         
         for k, v in file_dates.items():
             for filename in v: # for each filename in Update type
-                file_or_directory = is_file_or_directory(filename)
+                file_or_directory = is_file_or_directory(filename, root_contents)
                 if file_or_directory == "dir": #if directory
                     contents = get_repo_directory_contents(filename) # github /contents
                     for filedata in contents:
