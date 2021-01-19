@@ -1,5 +1,5 @@
 /* !!! DO NOT EDIT THESE !!! DO NOT EDIT THESE !!! */
-@import url('https://shiinaskins.com/steam-library/remote!url=master&css/live.css');
+@import url('https://shiinaskins.com/steam-library/remote!url=beta&css/live.css');
 @import url('config.css');
 /* !!! DO NOT EDIT THESE !!! DO NOT EDIT THESE !!! */
 
@@ -58,6 +58,15 @@
 
 .appactionbutton_ButtonChild_2AzIX.appactionbutton_StreamingSelector_2q-gZ {
     background: linear-gradient(to right, var(--ButtonPlay) 0%, var(--ButtonPlay2)) 60% !important;
+}
+
+/* Remove some background so sticky header image JS will work */
+.library_AppDetailsTransitionGroup_2Dd4T {
+    background: none !important;
+}
+
+.appdetails_Glassy_3Fmxx.appdetails_ScrollContainer_2l416 {
+    background: none !important;
 }
 
 /* === END steam-library tweaks for SteamUI-OldGlory === */
