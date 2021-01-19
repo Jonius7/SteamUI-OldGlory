@@ -184,25 +184,6 @@ PATCHED_TEXT = "/*patched*/"
 ##########################################
 ### GENERAL UTILITY Functions
 
-def get_json_data():
-    json_data_filename = 'old_glory_data.json'
-    try:
-        with open(json_data_filename) as f:
-            global json_data
-            json_data = json.load(f)
-        print("Loaded JSON data. " + "(" + json_data_filename + ")")
-        f.close()
-        return json_data
-    except FileNotFoundError:
-        print("JSON file " + json_data_filename + " not found.", file=sys.stderr)
-    except json.decoder.JSONDecodeError as e:
-        print("Error in JSON file format:", file=sys.stderr)
-        print(e, file=sys.stderr)
-        print_traceback()
-    except:
-        print("Error reading JSON file " + json_data_filename, file=sys.stderr)
-        print_traceback()
-
 def OS_line_ending():
     if OS_TYPE == "Windows":
         return "\r\n"
@@ -246,7 +227,7 @@ def print_traceback():
 def get_file_hash(filepath):
     try:
         with open(filepath, 'r', encoding="UTF-8") as f, \
-            open(filepath + ".temp", 'w', newline='\n') as f1:
+            open(filepath + ".temp", 'w', encoding="UTF-8", newline='\n') as f1:
             f1.writelines(f.readlines())
         f.close()
         f1.close()
@@ -299,6 +280,34 @@ def get_local_datetime():
 ### [END OF] GENERAL UTILITY Functions
 ##########################################
 
+
+##########################################
+### JSON Functions
+def get_json_data():
+    json_data_filename = 'old_glory_data.json'
+    try:
+        with open(json_data_filename) as f:
+            global json_data
+            json_data = json.load(f)
+        print("Loaded JSON data. " + "(" + json_data_filename + ")")
+        f.close()
+        return json_data
+    except FileNotFoundError:
+        print("JSON file " + json_data_filename + " not found.", file=sys.stderr)
+    except json.decoder.JSONDecodeError as e:
+        print("Error in JSON file format:", file=sys.stderr)
+        print(e, file=sys.stderr)
+        print_traceback()
+    except:
+        print("Error reading JSON file " + json_data_filename, file=sys.stderr)
+        print_traceback()
+
+def write_json_data_to_file(json_data):
+    print("TODO")
+        
+### [END OF] JSON Functions
+##########################################
+        
 
 ##########################################
 ### CONFIG Functions
@@ -924,8 +933,17 @@ def download_file(filename, branch='master'):
     r = requests.get(url + branch + "/" + filename, allow_redirects=True)
 
     open('_test_com.scss', 'wb').write(r.content)
-    
 
+### don't name any folders in repo like a filename. Or this might break.
+def is_file_or_directory(name):
+    s_name = name.split(".")
+    if 2 <= len(s_name[-1]) <= 4 and len(s_name) >= 2:
+        print("File found with extension: " + s_name[-1])
+        return True
+    else:
+        print("Folder found: " + '.'.join(s_name))
+        return False
+        
 def update_json_last_patched_date():
     print("TODO")
 
@@ -933,7 +951,34 @@ def update_json_last_patched_date():
 def backup_small_update_files(filedates):
     print("TODO")
     local_time = get_local_datetime().replace("T", " ").replace(":", "-").replace("Z", "")
+    for k, v in filedates.items():
+        for filename in filedates[k]:
+            if not is_file_or_directory(filename): #if directory
+                contents = get_repo_directory_contents(filename)
+                for i, filedata in enumerate(contents):
+                    #print(filedata["name"], end='\t')
+                    
+                    local_filepath = filename + "/" + filedata["name"]
+                    if os.path.exists(local_filepath):
+                        #print("MATCH")
+                        if get_file_hash(local_filepath) != filedata["sha"]:
+                            print("Different file hashes " + local_filepath)
+                            print(get_file_hash(local_filepath) + "  |  " + filedata["sha"])
+                    else:
+                        print("NO EXISTS")
+                        
+                        
+                
+def get_repo_directory_contents(directory_name):
+    branch = 'dev'
+    
+    session = create_session()
+    response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/contents/" + \
+                           directory_name + "?ref=" + branch)
+    return response.json()
 
+def compare_local_remote_hash(local_hash, remote_hash):
+    print("TODO")
 
 ### [END OF] AUTO-UPDATE Functions
 ##########################################

@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.7.16"
+        self.version = "v0.9.7.17"
         self.release = "5.5-pre"
       
         ### Window, Title, Icon setup
@@ -118,12 +118,18 @@ class OldGloryApp(tk.Tk):
             print("Checking for small updates...")
             #
             file_dates = backend.check_new_commit_dates(self.json_data)
+
+            
+            update_window(messages, self)
             
             print("Done.")
         else:
             print("You are offline, cannot automatically check for updates.", file=sys.stderr)
 
-        #self.frames[StartPage].text1.unbind('<Visibility>')   
+        #self.frames[StartPage].text1.unbind('<Visibility>')
+
+    def prepop_update_window(self):
+        
 
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -1589,6 +1595,19 @@ def css_config_reset(css_config):
 def css_config_js_enabled(css_config):
     css_config["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"] = "unset"
     return css_config
+
+### Update Window
+### ================================
+def update_window(messages, controller):
+    settings = tk.Toplevel(controller)
+    windowW = 530
+    windowH = 200
+    screen_width = controller.winfo_screenwidth()
+    screen_height = controller.winfo_screenheight()
+    windowX = (screen_width / 2) - (windowW / 2)
+    windowY = (screen_height / 2) - (windowH / 2) + 30
+    settings.geometry(f'{windowW}x{windowH}+{int(windowX)}+{int(windowY)}')
+    settings.wm_title("Small Update")
 
 ### Settings Window
 ### ================================
