@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.8.5"
+        self.version = "v0.9.8.6"
         self.release = "5.5"
       
         ### Window, Title, Icon setup
@@ -330,6 +330,23 @@ class StartPage(tk.Frame):
         pbutton2.grid(row=2, column=0, padx=(5,0), pady=5)
 
 
+        labeltext_b = tk.StringVar()
+        labeltext_b.set("steam-library (Shiina)")
+        
+        label_b = tk.Label(framePatch, textvariable=labeltext_b)
+        label_b.grid(row=3, column=0)
+        
+        pbutton3 = ttk.Button(framePatch,
+                              text="Apply config.css",
+                              width=22
+        )
+        button3_tip = Detail_tooltip(pbutton3,
+                                     "If you have modifed themes/config.css for steam-library,\n" \
+                                     "click here to copy it over to steamui",
+                                     hover_delay=200)
+        pbutton3.bind("<Button-1>", lambda event:backend.steam_library_compat_config(1))
+        pbutton3.grid(row=4, column=0, padx=(5,0), pady=5)
+        
     ### MODE FRAME
     ###
         frameMode = tk.Frame(self)

@@ -2,7 +2,7 @@
 	"CSSVariableString": "/* ===== SteamUI-OldGlory will insert CSS Variables from variables.css here ==== */",
 	"CSSBeforeThemes": "// Themes applied before CSS Tweaks",
 	"CSSAfterThemes": "// Themes applied after CSS Tweaks",
-	"lastPatchedDate": "2021-01-20T20:21:00Z",
+	"lastPatchedDate": "2021-01-20T20:41:20Z",
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",
