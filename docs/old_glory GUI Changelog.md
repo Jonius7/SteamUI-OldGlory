@@ -1,8 +1,8 @@
 ## SteamUI-OldGlory GUI Changelog
 
-0.9.8.5 	Linux - Fix icon not loading, and xdg-open not opening path
+0.9.8.5 	Linux - Fix icon not loading, and `xdg-open` not opening path
 
-0.9.8.4	 Add Check for Updates button
+0.9.8.3	 Add Check for Updates button
 
 0.9.8.1     Small File Update Check and Download working
 
