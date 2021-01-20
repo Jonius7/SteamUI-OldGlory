@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.8.1"
+        self.version = "v0.9.8.4"
         self.release = "5.5-pre"
       
         ### Window, Title, Icon setup
@@ -107,8 +107,7 @@ class OldGloryApp(tk.Tk):
         self.frames[cont].tkraise()
 
     #init text log
-    def update_check(self):
-        
+    def update_check(self):        
         ### Check if CSS Patched
         ### Check for new version
         self.frames[StartPage].text1.config(state='normal')
@@ -118,7 +117,6 @@ class OldGloryApp(tk.Tk):
             print("Checking for small updates...")
             thread = Thread(target = self.small_update_check, args = ())
             thread.start()
-            print("Done.")
         else:
             print("You are offline, cannot automatically check for updates.", file=sys.stderr)
 
@@ -127,15 +125,15 @@ class OldGloryApp(tk.Tk):
         file_dates = backend.hash_compare_small_update_files(
             backend.check_new_commit_dates(self.json_data),
             self.json_data)
-        print(file_dates)
+        #print(file_dates)
         files_no = 0
         for update_type in file_dates:
             files_no += len(file_dates[update_type])
         if files_no > 0:
             thread = Thread(target = UpdateWindow, kwargs = ({'controller': self, 'file_dates': file_dates}))
             thread.start()
-
-        #self.frames[StartPage].text1.unbind('<Visibility>')
+        else:
+            print("Done.")
 
 
 
@@ -1673,7 +1671,7 @@ class UpdateWindow(tk.Toplevel):
                               width=4
         )
         ybutton.bind("<Button-1>", lambda event:self.yes_update_click())
-        ybutton.pack(pady=(0,5))
+        ybutton.pack(pady=5)
 
         nbutton = ttk.Button(ynFrame,
                               text="No",
@@ -1682,7 +1680,7 @@ class UpdateWindow(tk.Toplevel):
         nbutton.bind("<Button-1>", lambda event:self.destroy())
         nbutton.pack(pady=(0,5)) 
         
-        ynFrame.grid(row=0, column=1, rowspan=totalrows)
+        ynFrame.grid(row=0, column=1, padx=(20,0), rowspan=totalrows, sticky="e")
         print("TODO")
 
     def yes_update_click(self):
@@ -1695,8 +1693,8 @@ class UpdateWindow(tk.Toplevel):
             #print("==============================")
             backend.download_file(filepath, backend.BRANCH)
             self.controller.frames[StartPage].text1.update_idletasks()
-
-            
+        #Update LastPatchedDate
+        update_json_last_patched_date(self.controller.json_data)
         self.destroy()
         
 
@@ -1773,7 +1771,10 @@ def settings_window(event, controller):
     
     ### Settings Frame
     frameGeneral = tk.Frame(settings)
-
+    frameGeneral.grid_columnconfigure(0, weight=0)
+    frameGeneral.grid_columnconfigure(1, weight=0)
+    frameGeneral.grid_columnconfigure(2, weight=1)
+    frameGeneral.grid_columnconfigure(3, weight=2)
 
     ###
     var_q = tk.IntVar()
@@ -1797,10 +1798,25 @@ def settings_window(event, controller):
                                  "Triple click this button to revert JS and CSS modifications.", hover_delay=200)
     button_r.grid(row=0, column=1, padx=5)
 
+    ###
+    var_s = tk.IntVar()
+    button_s = ttk.Button(frameGeneral,
+                       text="Check for Updates",
+                       width=16
+    )
+    button_s.bind("<Button-1>", lambda event:start_update_check(event, controller))
+    buttons_tip = Detail_tooltip(button_r, "Check for updates.\n" \
+                                 "Small updates can be downloaded automatically.", hover_delay=200)
+    button_s.grid(row=0, column=3, padx=5, sticky=tk.E)
+
     ###Pack Frames
     frameAbout.pack(fill="x", padx=10)
     frameGeneral.pack(fill="x", padx=10, pady=(0,30), side="bottom")
-    
+
+
+def start_update_check(event, controller):
+    thread = Thread(target = controller.update_check, args = ())
+    thread.start()
     
 ### ================================
 

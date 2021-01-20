@@ -291,8 +291,7 @@ def datetime_string_to_obj(date_string):
 def get_json_data():
     json_data_filename = 'old_glory_data.json'
     try:
-        with open(json_data_filename) as f:
-            global json_data
+        with open(json_data_filename, encoding="UTF-8") as f:
             json_data = json.load(f)
         print("Loaded JSON data. " + "(" + json_data_filename + ")")
         f.close()
@@ -307,8 +306,21 @@ def get_json_data():
         print("Error reading JSON file " + json_data_filename, file=sys.stderr)
         print_traceback()
 
-def write_json_data_to_file(json_data):
-    print("TODO")
+def write_json_data(json_data):
+    json_data_filename = 'old_glory_data.json'
+    try:
+        with open(json_data_filename, "r", newline=OS_line_ending(), encoding="UTF-8") as f, \
+             open(json_data_filename + ".temp", "w", newline=OS_line_ending(), encoding="UTF-8") as f1:
+            w_json = json.dump(json_data, f1, indent="\t")
+        f.close()
+
+        shutil.move(json_data_filename, json_data_filename + ".backup")
+        shutil.move(json_data_filename + ".temp", json_data_filename)
+            
+    except:
+        print("Error writing/updating " + json_data_filename, file=sys.stderr)
+        print_traceback()
+
         
 ### [END OF] JSON Functions
 ##########################################
@@ -941,7 +953,7 @@ def check_new_commit_dates(json_data):
 def format_file_dates_to_strings(file_dates):
     messages = []
     for k, v in file_dates.items():
-        messages.append("--- " + k.replace("_", " ") + " Found: ---")
+        messages.append("--- " + k.replace("_", " ") + " found: ---")
         for fp in v:
             messages.append(fp)
     return messages
@@ -954,8 +966,11 @@ def is_file_or_directory(name, contents):
             #print("AHA " + name)
             return contents[i]["type"]
         
-def update_json_last_patched_date():
-    print("TODO")
+def update_json_last_patched_date(json_data):
+    #print(json_data)
+    json_data["lastPatchedDate"] = get_remote_datetime()
+    #print(json_data)
+    write_json_data(json_data)
 
 ### file management functions as part of auto-update
 ### file_dates - dictionary of filenames with their dates
@@ -991,10 +1006,9 @@ def hash_compare_small_update_files(file_dates, json_data):
                                  local_filepath != "scss/_user_module1.scss" and
                                  local_filepath != "scss/_user_module2.scss"):                
                                 #print("Different file hashes " + local_filepath)
-                                #print(get_file_hash(local_filepath) + "  |  " + filedata["sha"])
-                                print("ADDED " + local_filepath)
+                                #print(local_filepath + " | " + get_file_hash(local_filepath) + "  |  " + filedata["sha"])
+                                print("New Version | " + local_filepath)
                                 updatetype_files.append(local_filepath)
-                            
                             #print("", end="")
                         else:
                             print("File at " + local_filepath + " exists on remote but not locally")
@@ -1005,7 +1019,8 @@ def hash_compare_small_update_files(file_dates, json_data):
                     #print(date_obj_local)
                     #print("~~~~~~~~~~(~")
                     if date_obj_remote > date_obj_local:
-                        print("ADDED " + filename)
+                        #print(filename + " | " + get_file_hash(filename))
+                        print("New Version | " + filename)
                         updatetype_files.append(filename)
             files_to_download[k] = updatetype_files
 
