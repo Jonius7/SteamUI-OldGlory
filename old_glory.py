@@ -1826,8 +1826,8 @@ def add_window_icon(window):
         if OS_TYPE == "Windows":
             window.iconbitmap(resource_path(icon_filename))
         elif OS_TYPE == "Linux":
-            icon = PhotoImage(file=icon_filename)   
-            root.tk.call('wm', 'iconphoto', root._w, icon)
+            icon = ImageTk.PhotoImage(file=icon_filename)   
+            window.tk.call('wm', 'iconphoto', window._w, icon)
     except:
         print("Failed to load icon: " + icon_filename, file=sys.stderr)
         print_traceback()

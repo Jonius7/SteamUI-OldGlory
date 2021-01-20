@@ -199,9 +199,9 @@ def OS_open_file(path):
         if OS_TYPE == "Windows":
             subprocess.Popen(["explorer", path])
         elif OS_TYPE ==  "Darwin":
-            subprocess.Popen(["open", "--", path])
+            subprocess.Popen(["open", path])
         elif OS_TYPE ==  "Linux":
-            subprocess.Popen(["xdg-open", "--", path])
+            subprocess.Popen(["xdg-open", path])
         print("Opened: " + path)
     except:
         print_traceback()
@@ -262,7 +262,7 @@ def is_css_patched():
             #print("css\libraryroot.css not patched.", file=sys.stderr)
         f.close()
     except:
-        print("css\5.css (previously known as libraryroot.css), not found", file=sys.stderr)
+        print("css/5.css (previously known as libraryroot.css), not found", file=sys.stderr)
         print_traceback()
     return patched
 
