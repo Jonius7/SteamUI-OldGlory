@@ -720,6 +720,7 @@ def load_js_fixes():
     except ValueError:
         print("(" + js_fixes_filename + ") Problem in line format from line: " + line + \
               "Is the line missing a double space?", file=sys.stderr)
+        print_traceback()
     except FileNotFoundError:
         print("JS Tweaks file, '" + js_fixes_filename + "' not found", file=sys.stderr)
     except Exception as e:
@@ -1088,7 +1089,8 @@ def download_file(filepath, branch=BRANCH):
     url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
     r = requests.get(url + branch + "/" + filepath, allow_redirects=True)
     if not os.path.exists(filepath):
-        open(filepath, 'wb').write(r.content)
+        #open(filepath, 'wb').write(r.context)
+        open(filepath, 'w').write(r.text)
         print("File " + filepath + " downloaded.")
     else:
         print("File at " + filepath + " already exists!")
