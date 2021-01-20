@@ -654,7 +654,7 @@ def steam_library_compat_config():
             shutil.copy2("themes/config.css", library_dir() + "/" + "config.css")   # copy config.css from OldGlory themes/ to steamui/
             print("themes/config.css copied to: " + library_dir())
         else:
-            print("Existing config.css found at: " + library_dir())
+            print("Existing config.css found at: " + library_dir() + ". Keeping file.")
     except FileNotFoundError:
         print("config.css not found", file=sys.stderr)
         print_traceback()
