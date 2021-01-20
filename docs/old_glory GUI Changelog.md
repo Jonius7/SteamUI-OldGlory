@@ -1,5 +1,7 @@
 ## SteamUI-OldGlory GUI Changelog
 
+0.9.8.1     Small File Update Check and Download working
+
 0.9.7.16   Log box now expands with window resize.
 
 0.9.7.12   Added working Expanded CSS Options

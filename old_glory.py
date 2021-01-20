@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.7.22"
+        self.version = "v0.9.8.1"
         self.release = "5.5-pre"
       
         ### Window, Title, Icon setup
@@ -116,17 +116,24 @@ class OldGloryApp(tk.Tk):
             check_if_css_patched(self.frames[StartPage])
             release_check(self.frames[StartPage], self.release)
             print("Checking for small updates...")
-            #
-            file_dates = backend.hash_compare_small_update_files(
-                backend.check_new_commit_dates(self.json_data),
-                self.json_data)
-
-            messages = {}
-            x = UpdateWindow(controller=self, file_dates=file_dates)
-            
+            thread = Thread(target = self.small_update_check, args = ())
+            thread.start()
             print("Done.")
         else:
             print("You are offline, cannot automatically check for updates.", file=sys.stderr)
+
+
+    def small_update_check(self):
+        file_dates = backend.hash_compare_small_update_files(
+            backend.check_new_commit_dates(self.json_data),
+            self.json_data)
+        print(file_dates)
+        files_no = 0
+        for update_type in file_dates:
+            files_no += len(file_dates[update_type])
+        if files_no > 0:
+            thread = Thread(target = UpdateWindow, kwargs = ({'controller': self, 'file_dates': file_dates}))
+            thread.start()
 
         #self.frames[StartPage].text1.unbind('<Visibility>')
 
@@ -1666,7 +1673,7 @@ class UpdateWindow(tk.Toplevel):
                               width=4
         )
         ybutton.bind("<Button-1>", lambda event:self.yes_update_click())
-        ybutton.pack(pady=(0,5)) 
+        ybutton.pack(pady=(0,5))
 
         nbutton = ttk.Button(ynFrame,
                               text="No",
@@ -1679,9 +1686,18 @@ class UpdateWindow(tk.Toplevel):
         print("TODO")
 
     def yes_update_click(self):
-        print("TODO")
-        files_list = files_to_download_dtol(self.file_dates)
-        print(files_list)
+        files_list = backend.files_to_download_dtol(self.file_dates)
+        backend.backup_old_versions(files_list)
+        print("==============================")
+        self.controller.frames[StartPage].text1.update_idletasks()
+
+        for filepath in files_list:
+            #print("==============================")
+            backend.download_file(filepath, backend.BRANCH)
+            self.controller.frames[StartPage].text1.update_idletasks()
+
+            
+        self.destroy()
         
 
 ### Settings Window

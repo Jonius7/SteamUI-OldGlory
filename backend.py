@@ -632,8 +632,6 @@ def enable_css_theme(theme_filename, order, json_data):
     except:
         print("Error removing existing themes.", file=sys.stderr)
         print_traceback()
-    
-    #print("TODO")
 
 
 def steam_library_compat_config():
@@ -857,7 +855,7 @@ def clear_js_working_files():
 
 ##########################################
 ### AUTO-UPDATE functions
-BRANCH = "dev"
+BRANCH = "master"
         
 def create_session():
     try:
@@ -965,21 +963,20 @@ def update_json_last_patched_date():
 ### a dictionary in the form: {'Update_Type1': ['file1': 'date1', 'file2': 'date2', ...],
 #                              'Update_Type2': ['file1': 'date1', 'file2': 'date2', ...],
 def hash_compare_small_update_files(file_dates, json_data):
-    print("TODO")
     try:
         files_to_download = {}
         #
-        start_time = time.time()
+        #start_time = time.time()
         session = create_session()
         response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/contents?ref=" + BRANCH)
         root_contents = response.json()
-        print("--- %s seconds ---" % (time.time() - start_time))
+        #print("--- %s seconds ---" % (time.time() - start_time))
         
         for k, v in file_dates.items():
             updatetype_files = []
             for filename in v: # for each filename in Update type
                 file_or_directory = is_file_or_directory(filename, root_contents)
-                print(filename)
+                #print(filename)
                 if file_or_directory == "dir": #if directory
                     contents = get_repo_directory_contents(filename) # github /contents
                     for filedata in contents:
@@ -998,7 +995,7 @@ def hash_compare_small_update_files(file_dates, json_data):
                                 print("ADDED " + local_filepath)
                                 updatetype_files.append(local_filepath)
                             
-                            print("", end="")
+                            #print("", end="")
                         else:
                             print("File at " + local_filepath + " exists on remote but not locally")
                 elif file_or_directory == "file": #if file
@@ -1071,12 +1068,13 @@ def backup_old_versions(filelist):
         print("Unable to backup old versions of small update files.", file=sys.stderr)
         print_traceback()
 
-### Debug version (not used for GUI)
+### in the future could try to preserve date modified (optional)
 def download_file(filepath, branch=BRANCH):
     url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
     r = requests.get(url + branch + "/" + filepath, allow_redirects=True)
     if not os.path.exists(filepath):
         open(filepath, 'wb').write(r.content)
+        print("File " + filepath + " downloaded.")
     else:
         print("File at " + filepath + " already exists!")
 
