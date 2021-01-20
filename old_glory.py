@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.8.4"
+        self.version = "v0.9.8.5"
         self.release = "5.5"
       
         ### Window, Title, Icon setup
@@ -1681,7 +1681,6 @@ class UpdateWindow(tk.Toplevel):
         nbutton.pack(pady=(0,5)) 
         
         ynFrame.grid(row=0, column=1, padx=(20,0), rowspan=totalrows, sticky="e")
-        print("TODO")
 
     def yes_update_click(self):
         files_list = backend.files_to_download_dtol(self.file_dates)
@@ -1694,7 +1693,7 @@ class UpdateWindow(tk.Toplevel):
             backend.download_file(filepath, backend.BRANCH)
             self.controller.frames[StartPage].text1.update_idletasks()
         #Update LastPatchedDate
-        update_json_last_patched_date(self.controller.json_data)
+        backend.update_json_last_patched_date(self.controller.json_data)
         self.destroy()
         
 
