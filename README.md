@@ -4,7 +4,7 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 Check [`/dev`](https://github.com/Jonius7/SteamUI-OldGlory/tree/dev) branch for in-progress tweaks.
 On Steam Beta? Check [`/beta`](https://github.com/Jonius7/SteamUI-OldGlory/tree/beta) branch for some files you may need.
 
-#### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest)
+#### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) 
 
 ### Video Guide and GIF
 
@@ -40,14 +40,24 @@ Condensed sidebar buttons <br>
 #### Patching and CSS
 
 - Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). NOTE (if running v0.1.36-beta, [**"Steam Beta"** in Settings, needs to be ticked.](https://i.imgur.com/jmSaoEE.png)) Run it, it will patch some files.
-
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
-
 - Select the options you want to use, then click **Install**.
-
 - To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix).
 
-  ![https://i.imgur.com/A85LCCn.png](https://i.imgur.com/A85LCCn.png)
+##### **Manual Editing** (CSS/SCSS)
+
+<details><summary>More details</summary>
+<ul>   
+<li><tt>variables.css</tt>  contains a list of CSS variables that tweak certain parts of the Library.</li>
+  <li>A few of these can be configured using the GUI, but there are additional options here you can set manually.</li>
+  <li>If you manually edit the file, use the <b>Reload Config</b> button to load them into the Configurer. </li><br>
+<li><tt>scss/libraryroot.custom.scss</tt> contains the @imports for each of the CSS "modules", that each cover a different part of the Steam library.</li>
+    <li>You can enable and disable certain modules by adding <tt>// </tt>tt> to the beginning of the line</li>
+    <li>Click <b>Install</b> in the Configurer to apply your changes.</li>
+</ul>
+</details>
+
+![https://i.imgur.com/A85LCCn.png](https://i.imgur.com/A85LCCn.png)
 
 #### OldGlory Configurer (GUI)
 
@@ -60,10 +70,28 @@ Condensed sidebar buttons <br>
 - **Landscape Game Images** - changes Portrait Game Images in the HOME page to Landscape ones.
 - **Library Theme**
 
-**All Pages**
+**Actions**
 
 - **Install** - Will install selected CSS and JS tweaks. If no JS options have changed, will just install the CSS tweaks (which is somewhat faster than installing both CSS and JS)
+  - The app will copy the needed files to and from `steamui` folder as need.
 - **Reload Config** - If you have modified `fixes.txt` `variables.css` or `old_glory.json` manually, then Reload Config will grab these new values and update the checkboxes and values in the GUI (CSS Options + JS Options), without having to restart the GUI app. Changing files in `/scss` or `/themes` doesn't require Reload Config. 
+
+In **Advanced -> Quick Links**:
+
+- **Open OldGlory folder**: open the OS file explorer to the main folder where OldGlory and files are located . 
+- **Open steamui folder**: open the `steamui` folder within ` Program Files/Steam` where the library files are located.
+
+In **Settings and About**:
+
+- **Remake JS** - Deletes local JS files and re-applies JS tweaks. 
+  Use this when some JS tweaks may not apply due to new JavaScript. Usually:
+  - after a Steam Client update, or 
+  - switching between Steam Stable and Steam Beta
+  - Technical details: 
+    `clear_js_working_files` - deletes local `library.js`, `libraryroot.js`, `libraryroot.beaut.js`
+    `run_js_tweaker` - recreates `libraryroot.beaut.js` and applies JS tweaks
+
+- **Reset** - triple click to reset the `steamui` directory back to using default library theme. Useful if something screws up or you want to test a clean slate.
 
 ##### CSS Options
 
@@ -75,6 +103,8 @@ Condensed sidebar buttons <br>
 - **Home Page Grid Spacing**
 - **Game Page Layout** - Swap Game page columns or default
 - **Game Image Opacity** - HOME page: Dim Game Images, or Uninstalled Game Images
+- **[Open variables file]** - opens `variables.css` using OS default text editor
+- **[Open scss file]** - opens `scss/libraryroot.custom.scss` using OS default text editor
 
 **JS Options**
 
@@ -86,23 +116,14 @@ Condensed sidebar buttons <br>
   - <u>Small</u>		  `111`
   - <u>Medium</u>	 `148`
   - <u>Large</u>		  `222`
-- **Vertical Nav Bar** - corresponds to Main Option **Vertical Nav Bar**. No need to configure manually.
-- **Landscape Images JS Tweaks**  - corresponds to Main Option **Landscape Game Images**. No need to configure manually.
+- ***Vertical Nav Bar*** - corresponds to Main Option **Vertical Nav Bar**. No need to configure manually.
+- ***Landscape Images JS Tweaks***  - corresponds to Main Option **Landscape Game Images**. No need to configure manually.
 - **Stop What's New Events from Loading** - removes loading of What's New Events
 - **HOME page Scrolling, reduce number of ComputeLayout calls** - Improve smoothness of HOME page Scrolling
 - **Game Properties Window Size** - Reduce width of Game Properties window to closely match old one
 - **CLASSIC Sticky image background and spillover into sidebar** - Game Header image will stay in background as you scroll, and is visible through the Left Sidebar (Games List)
 - **\*\*Experimental\*\* Don't load HOME game images, only alt text** - Can improve performance by not loading images and only the alt text
 - **\*\*Experimental\*\* Remove Game Page Bloat** - Game pages will only load the Play and Navigation bars. May improve performance.
-
-In **Settings and About**:
-
-- **Remake JS** - use this after a Steam Client update, where some JS tweaks may not apply due to new JavaScript.
-  - Technical details: 
-    `clear_js_working_files` - deletes local `library.js`, `libraryroot.js`, `libraryroot.beaut.js`
-    `run_js_tweaker` - recreates `libraryroot.beaut.js` and applies JS tweaks
-
-- **Reset** - triple click to reset the `steamui` directory back to using default library theme. Useful is something screws up or you want to test a clean slate.
 
 
 
@@ -132,9 +153,9 @@ Other files are copied from the`Steam\steamui` directory as required.
 
 #### JavaScript Tweaks
 
-Some tweaks are disabled by default. Under JS Options, you can select which options to enable/disable.
+Some tweaks are disabled by default. Under **JS Options**, you can select which options to enable/disable.
 
-##### **Manual Editing**
+##### **Manual Editing** (JS - fixes.txt)
 
 <details><summary>More details</summary>
 <ul>   
@@ -144,15 +165,12 @@ Some tweaks are disabled by default. Under JS Options, you can select which opti
 <li><tt>[original js]&#9608;&#9608;[tweaked js]</tt></li>
 <li>Remove the <tt>###</tt> for each line under the Section Heading to enable.</li>
 <li>When <tt>old_glory</tt> applies the JS tweaks, commented lines with <tt>###</tt>, and blank lines are ignored. You can use this to make <tt>fixes.txt</tt> more readable.</li>
-    <li>NEW (Release 5.1): You can now use the previous line of JS to search for the line you want. Just separate the two lines with <tt>~~</tt></li>
+    <li>NEW (Release 5.5): You can now use the previous line of JS to search for the line you want. Just separate the two lines with <tt>~~</tt></li>
     <ul><li>Format: <tt>[previous line JS]~~[original JS]&#9608;&#9608;[tweaked JS]</tt></li></ul>
     <li>(Planned, coming soon): Using any single variable letter with <tt>$^</tt></li>
     <ul><li>Eg: <tt>Lo.searchSuggestions</tt> becomes <tt>$^$^.searchSuggestions</tt></li></ul>
     </ul>
     </details>
-
-
-
 
 
 
@@ -179,38 +197,35 @@ Some tweaks are disabled by default. Under JS Options, you can select which opti
 
 ## What's New?
 >
->#### 5.0
+>#### Release 5.5
 >
->- Themes working again with 22 Dec Steam Client Update.
->
->- SteamUI-OldGlory now uses [Sassy CSS (Sass)](https://github.com/Jonius7/SteamUI-OldGlory/wiki/Chrome-DevTools).
->  Particular components such as scrollbar, a HOME icon, sidebar, play bar, navbar are now in their own `.scss` files.
->
->- ---
->
->    **Use `variables.css` instead of `libraryroot.custom.css` to manually edit CSS variables**
->    `libraryroot.custom.css` is completely generated now. Editing it manually and trying to **Install** will likely not apply your changes. Instead look for stuff to change in `variables.css`, and the `scss` folder.  
->    If things are still too confusing, I may look at simplifying the folder structure next release.
->
->    ---
->
->- GUI `v0.9.5.5` -> `v0.9.6.9`
->  The GUI is now using JSON to store some of the data. This has the benefit of being editable outside of having to rebuild the `.exe`
->
-> Issues fixed from #5
-> - Themes working again
->  - Auto-select current theme on startup
->  - New DLC Manager scss - no longer requires JavaScript for row height
+>- (GUI) NEW Expanded CSS Options page:
+>   - **What's New** 	**Game List Zoom** 	**Show Left Sidebar** 	**Glare/Shine** 
+>   - **Game Image Transition** 	**Home Page Grid Spacing**
+>   - **Game Page Layout** 	**Game Image Opacity** 
+>- CSS enhancements
+>  - NEW Classic Steam appearance CSS (WIP)
+>  - NEW Game Properties - horizontal tab bar
 >  
-> ### Future Releases
-> Now that Sass is implemented, time to add more toggleable features.
-> Continue building the auto-updating system. The ideal state is to be able to push out `.scss`, `fixes.txt`, or `old_glory_data.json` hotfixes smoothly, and leave the GUI changes as the major updates.
-> 
-> **r1** - Minor change to create backups of existing `libraryroot.custom.css` in `steamui` folder. Use this if you have existing code already in `libraryroot.custom.css` that you want to save.
+>- NEW JS tweaks:
+>  - Smoother HOME page Scrolling
+>  - Game Header: sticky background position and spillover into sidebar
+>  - (*Experimental*) Don't load HOME game images, only alt text
+>  - (*Experimental*) Load only essential parts of Game Page (Play Bar and Navigation Bar)
+>  
+>- JS tweaks `fixes.txt` can now use previous line of JS to search for the line you want. Just separate the two lines with `~~`
 >
->[Compare with Release 4.1.1](https://github.com/Jonius7/SteamUI-OldGlory/compare/Release_4.1.1...Release_5.0) | [Changelog](https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_4.1.1)
+>- NEW Auto-update feature for small file updates 
+>  - CSS: `scss/` folder, `variables.css`, `themes/` folder	
+>  - JS: `fixes.txt`		JSON: `old_glory_data.json`
 >
 >[More details...](https://github.com/Jonius7/SteamUI-OldGlory/releases)
+>
+>---
+>
+>[Compare with Release 5.0.1](https://github.com/Jonius7/SteamUI-OldGlory/compare/Release_5.0.1...Release_5.5) | [Changelog](https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_5.5)
+>
+>
 
 
 ## steam-library Support
