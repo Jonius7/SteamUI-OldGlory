@@ -588,6 +588,8 @@ def create_css_variables_lines(css_config):
         print_traceback()
 
 
+
+
 ### [END OF] CSS Functions
 ##########################################
 
@@ -646,15 +648,14 @@ def enable_css_theme(theme_filename, order, json_data):
         print_traceback()
 
 
-def steam_library_compat_config():
-    try:   
-        if not os.path.isfile(library_dir() + "/" + "config.css"):                  # if config.css in steamui/ doesn't exist
-            if not os.path.isfile("themes/config.css"):                             # if config.css in OldGlory themes/ doesn't exist
-                shutil.copy2("themes/config.css.original", "themes/config.css")     # make a copy from config.css.original
+def steam_library_compat_config(overwrite=0):
+    try:
+        if not os.path.isfile("themes/config.css"):                             # if config.css in OldGlory themes/ doesn't exist
+            shutil.copy2("themes/config.css.original", "themes/config.css")     # make a copy from config.css.original
+            print("created themes/config.css from themes/config.css.original")
+        if overwrite == 1:
             shutil.copy2("themes/config.css", library_dir() + "/" + "config.css")   # copy config.css from OldGlory themes/ to steamui/
             print("themes/config.css copied to: " + library_dir())
-        else:
-            print("Existing config.css found at: " + library_dir() + ". Keeping file.")
     except FileNotFoundError:
         print("config.css not found", file=sys.stderr)
         print_traceback()
@@ -720,6 +721,7 @@ def load_js_fixes():
     except ValueError:
         print("(" + js_fixes_filename + ") Problem in line format from line: " + line + \
               "Is the line missing a double space?", file=sys.stderr)
+        print_traceback()
     except FileNotFoundError:
         print("JS Tweaks file, '" + js_fixes_filename + "' not found", file=sys.stderr)
     except Exception as e:
@@ -953,7 +955,8 @@ def check_new_commit_dates(json_data):
 def format_file_dates_to_strings(file_dates):
     messages = []
     for k, v in file_dates.items():
-        messages.append("--- " + k.replace("_", " ") + " found: ---")
+        if len(v) > 0:
+            messages.append("--- " + k.replace("_", " ") + " found: ---")
         for fp in v:
             messages.append(fp)
     return messages
@@ -1088,7 +1091,8 @@ def download_file(filepath, branch=BRANCH):
     url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
     r = requests.get(url + branch + "/" + filepath, allow_redirects=True)
     if not os.path.exists(filepath):
-        open(filepath, 'wb').write(r.content)
+        #open(filepath, 'wb').write(r.context)
+        open(filepath, 'w').write(r.text)
         print("File " + filepath + " downloaded.")
     else:
         print("File at " + filepath + " already exists!")
