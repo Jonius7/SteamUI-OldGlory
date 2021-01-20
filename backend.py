@@ -939,13 +939,15 @@ def check_new_commit_dates(json_data):
         print("Unable to check for latest small update files on Github.", file=sys.stderr)
         print_traceback()
 
-### Debug version (not used for GUI)
-def download_file(filename, branch='master'):
-    url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
-    branch = BRANCH
-    r = requests.get(url + branch + "/" + filename, allow_redirects=True)
-
-    open('_test_com.scss', 'wb').write(r.content)
+#returns a list of strings
+def format_file_dates_to_strings(file_dates):
+    messages = []
+    for k, v in file_dates.items():
+        messages.append("--- " + k.replace("_", " ") + " Found: ---")
+        for fp in v:
+            messages.append(fp)
+    return messages
+        
 
 ### only for root directory on repo
 def is_file_or_directory(name, contents):
@@ -959,13 +961,13 @@ def update_json_last_patched_date():
 
 ### file management functions as part of auto-update
 ### file_dates - dictionary of filenames with their dates
-### return list of files (with path) that are different/needing download
+### return dictionary of files that are different/needing download
+### a dictionary in the form: {'Update_Type1': ['file1': 'date1', 'file2': 'date2', ...],
+#                              'Update_Type2': ['file1': 'date1', 'file2': 'date2', ...],
 def hash_compare_small_update_files(file_dates, json_data):
     print("TODO")
     try:
-        backups_folder = "backups/"
-        files_to_download = []
-        local_time = get_local_datetime().replace("T", " ").replace(":", "-").replace("Z", "")
+        files_to_download = {}
         #
         start_time = time.time()
         session = create_session()
@@ -974,15 +976,17 @@ def hash_compare_small_update_files(file_dates, json_data):
         print("--- %s seconds ---" % (time.time() - start_time))
         
         for k, v in file_dates.items():
+            updatetype_files = []
             for filename in v: # for each filename in Update type
                 file_or_directory = is_file_or_directory(filename, root_contents)
+                print(filename)
                 if file_or_directory == "dir": #if directory
                     contents = get_repo_directory_contents(filename) # github /contents
                     for filedata in contents:
                         #print(filedata["name"], end='\t')
                         
                         local_filepath = filename + "/" + filedata["name"]
-                        print(local_filepath)
+                        #print(local_filepath)
                         if os.path.exists(local_filepath):
                             #if local hash != remote hash
                             if (get_file_hash(local_filepath) != filedata["sha"] and
@@ -992,7 +996,7 @@ def hash_compare_small_update_files(file_dates, json_data):
                                 #print("Different file hashes " + local_filepath)
                                 #print(get_file_hash(local_filepath) + "  |  " + filedata["sha"])
                                 print("ADDED " + local_filepath)
-                                files_to_download.append(local_filepath)
+                                updatetype_files.append(local_filepath)
                             
                             print("", end="")
                         else:
@@ -1004,9 +1008,9 @@ def hash_compare_small_update_files(file_dates, json_data):
                     #print(date_obj_local)
                     #print("~~~~~~~~~~(~")
                     if date_obj_remote > date_obj_local:
-                        print("ADDED " + local_filepath)
-                        files_to_download.append(local_filepath)
-
+                        print("ADDED " + filename)
+                        updatetype_files.append(filename)
+            files_to_download[k] = updatetype_files
 
         '''
         #print("libraryroot gets different rules")
@@ -1030,8 +1034,13 @@ def hash_compare_small_update_files(file_dates, json_data):
         print("Unable to compare file hashes for small update files.", file=sys.stderr)
         print_traceback()
 
-                        
-                
+def files_to_download_dtol(files_dict):
+    files_list = []
+    for k, v in files_dict.items():
+        for filename in v:
+            files_list.append(filename)
+    return files_list
+              
 def get_repo_directory_contents(directory_name):
     branch = BRANCH
     
@@ -1039,6 +1048,37 @@ def get_repo_directory_contents(directory_name):
     response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/contents/" + \
                            directory_name + "?ref=" + branch)
     return response.json()
+
+# moves files in filelist to backups/[YYYY-mm-dd HH:MM:ss]
+# filelist = list of strings ['filepath1', 'filepath2']
+def backup_old_versions(filelist):
+    try:
+        backups_folder = "backups"
+        local_time = get_local_datetime().replace("T", " ").replace(":", "-").replace("Z", "")
+        
+        backup_path = os.path.join(backups_folder, local_time)
+        if not os.path.exists(backup_path):
+            os.makedirs(backup_path)
+        for filepath in filelist:
+            sp_filepath = filepath.split("/")
+            sp_dir = sp_filepath[:-1]
+            filedir = os.path.join('', *sp_dir)
+            if not os.path.exists(os.path.join(backup_path, filedir)):
+                os.makedirs(os.path.join(backup_path, filedir))
+            shutil.move(filepath, os.path.join(backup_path, filedir, sp_filepath[-1]))
+            print("File " + sp_filepath[-1] + " moved to " + os.path.join(backup_path, filedir, sp_filepath[-1]))
+    except:
+        print("Unable to backup old versions of small update files.", file=sys.stderr)
+        print_traceback()
+
+### Debug version (not used for GUI)
+def download_file(filepath, branch=BRANCH):
+    url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
+    r = requests.get(url + branch + "/" + filepath, allow_redirects=True)
+    if not os.path.exists(filepath):
+        open(filepath, 'wb').write(r.content)
+    else:
+        print("File at " + filepath + " already exists!")
 
 ### [END OF] AUTO-UPDATE Functions
 ##########################################

@@ -171,6 +171,7 @@ Some tweaks are disabled by default. Under JS Options, you can select which opti
 - [(Images) Is Steam Grid View Back?](https://imgur.com/gallery/qcIHx0l)
 - [(Images) Steam List View Proof of Concept](https://imgur.com/a/ZqvqrkR)
 - [(Images) Sticky Header background and Left Sidebar font](https://imgur.com/a/XzMAlxr)
+- [(Images) Game Properties Horizontal Tabs](https://imgur.com/a/mqRCPc8)
 - [Steam Discussions [1]](https://steamcommunity.com/groups/for_a_better_steam_client/discussions/0/2970650017896633625/)
 - [Steam Discussions [2]](https://steamcommunity.com/discussions/forum/0/2451595019863406679/)
 

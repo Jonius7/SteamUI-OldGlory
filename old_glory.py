@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.7.17"
+        self.version = "v0.9.7.22"
         self.release = "5.5-pre"
       
         ### Window, Title, Icon setup
@@ -117,10 +117,12 @@ class OldGloryApp(tk.Tk):
             release_check(self.frames[StartPage], self.release)
             print("Checking for small updates...")
             #
-            file_dates = backend.check_new_commit_dates(self.json_data)
+            file_dates = backend.hash_compare_small_update_files(
+                backend.check_new_commit_dates(self.json_data),
+                self.json_data)
 
             messages = {}
-            update_window(messages, self)
+            x = UpdateWindow(controller=self, file_dates=file_dates)
             
             print("Done.")
         else:
@@ -128,8 +130,7 @@ class OldGloryApp(tk.Tk):
 
         #self.frames[StartPage].text1.unbind('<Visibility>')
 
-    def prepop_update_window(self):
-        print("TODO")
+
 
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -1598,16 +1599,90 @@ def css_config_js_enabled(css_config):
 
 ### Update Window
 ### ================================
-def update_window(messages, controller):
-    settings = tk.Toplevel(controller)
-    windowW = 530
-    windowH = 200
-    screen_width = controller.winfo_screenwidth()
-    screen_height = controller.winfo_screenheight()
-    windowX = (screen_width / 2) - (windowW / 2)
-    windowY = (screen_height / 2) - (windowH / 2) + 30
-    settings.geometry(f'{windowW}x{windowH}+{int(windowX)}+{int(windowY)}')
-    settings.wm_title("Small Update")
+
+class UpdateWindow(tk.Toplevel):
+    def __init__(self, *args, **kwargs):
+        self.controller = kwargs["controller"]
+        
+        ### Window, Title, Icon setup
+        tk.Toplevel.__init__(self)
+        self.container = ScrollFrame(self)
+        windowW = 430
+        windowH = 400
+        screen_width = self.controller.winfo_screenwidth()
+        screen_height = self.controller.winfo_screenheight()
+        windowX = (screen_width / 2) - (windowW / 2)
+        windowY = (screen_height / 2) - (windowH / 2) + 30
+        self.geometry(f'{windowW}x{windowH}+{int(windowX)}+{int(windowY)}')
+        self.wm_title("Small Update")
+        add_window_icon(self)
+        
+        self.file_dates = kwargs["file_dates"]
+        self.body = tk.Frame(self.container.content)
+
+        self.defaultfont = self.controller.default_font.copy()
+        self.smallfont = self.defaultfont.copy()
+        self.smallfont.configure(size=12)
+        
+        self.messages = []
+        self.labels = []
+        
+        self.prepop_update_window_text()
+        total_rows = self.add_update_window_text()
+        self.add_yes_no_frame(total_rows)
+        
+        self.body.grid(row=0, column=0, padx=10, sticky="n")
+        self.container.pack(side="top", fill="both", expand=1)
+        
+    def prepop_update_window_text(self):
+        #print(backend.format_file_dates_to_strings(self.file_dates))
+        self.messages = backend.format_file_dates_to_strings(self.file_dates)
+
+    def add_update_window_text(self):        
+        for i, message in enumerate(self.messages):
+            _labeltext = tk.StringVar()
+            _labeltext.set(message)
+            _label = tk.Label(self.body,
+                              textvariable=_labeltext,
+                              font=self.smallfont)
+            #buttonr_tip = Detail_tooltip(label_a, "", hover_delay=200)
+            _label.grid(row=i, column=0)
+            self.labels.append(_label)
+        return i
+            
+    def add_yes_no_frame(self, totalrows):
+        ynFrame = tk.Frame(self.body)
+        
+        _labeltext = tk.StringVar()
+        _labeltext.set("Update Files?")
+        _label = tk.Label(ynFrame,
+                          textvariable=_labeltext,
+                          font=self.smallfont)
+        #buttonr_tip = Detail_tooltip(label_a, "", hover_delay=200)
+        _label.pack(padx=5)
+
+        ybutton = ttk.Button(ynFrame,
+                              text="Yes",
+                              width=4
+        )
+        ybutton.bind("<Button-1>", lambda event:self.yes_update_click())
+        ybutton.pack(pady=(0,5)) 
+
+        nbutton = ttk.Button(ynFrame,
+                              text="No",
+                              width=4
+        )
+        nbutton.bind("<Button-1>", lambda event:self.destroy())
+        nbutton.pack(pady=(0,5)) 
+        
+        ynFrame.grid(row=0, column=1, rowspan=totalrows)
+        print("TODO")
+
+    def yes_update_click(self):
+        print("TODO")
+        files_list = files_to_download_dtol(self.file_dates)
+        print(files_list)
+        
 
 ### Settings Window
 ### ================================
