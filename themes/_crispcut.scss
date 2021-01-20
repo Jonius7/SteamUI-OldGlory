@@ -13,8 +13,11 @@
 /* full background color */
 .appdetails_Glassy_3Fmxx.appdetails_ScrollContainer_2l416 {
     /*background-image: radial-gradient(100% 100% at 45% 35%, #095aef 0%, #151616 100%);*/
-	background-image: radial-gradient(100% 100% at top left, rgba(231,235,241,0.2) 0%, rgba(160,162,168,0.4) 10%, rgba(21, 22, 22, 1) 100%);
+	/*background-image: radial-gradient(100% 100% at top left, rgba(231,235,241,0.2) 0%, rgba(160,162,168,0.4) 10%, rgba(21, 22, 22, 1) 100%);*/
+	background-image: none;
 }
+
+
 
 /* background glass */
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_Backdrop_1Qa-A {
@@ -103,7 +106,6 @@ button.DialogButton._DialogLayout.Secondary.appdetailsworkshopsection_SpacedButt
 .appactivityday_ActorName_1t1iy > .personanameandstatus_playerName_nOdcT {
     color: var(--LightSectionColor1) !important;
 }
-
 
 /* Play bar */
 .appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {

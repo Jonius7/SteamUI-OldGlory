@@ -1,25 +1,35 @@
-libraryroot beautified, snippets regarding scrolling on the HOME page
+/* libraryroot beautified, snippets regarding scrolling on the HOME page */
 
-===
-SNIPPET OnScroll
-===
+/*
+==========
+NEW (Dec 2020) SNIPPET OnScroll 
+==========
+*/
 
 
-}, e.prototype.OnScroll = function (e) {
-console.log("scroll | " + performance.now());
-var t, i, v;
-t = this.m_elGrid.current.getBoundingClientRect();
-v = Math.abs(t.top - this.m_fLastScrollTop);
-if (v > 70) {
-    this.props.maxRows < 2 || (i = Math.abs(t.top - this.m_fLastScrollTop), this.props.childHeight * this.props.scaleGridItems / 8 < i && (this.m_fLastScrollTop = t.top, t.top < window.innerHeight && 0 < t.bottom && this.ComputeLayout()));
-    console.log("scroll2 | " + performance.now());
-}
+e.prototype.OnScroll = function(e) {
+	var t, n;
+	t = this.m_elGrid.current.getBoundingClientRect();
+	var timeSince;
+	timeSince = performance.now() - this.lastTime, this.lastTime = performance.now();
+	console.log(timeSince);
+	setTimeout(function(){
+		if(timeSince > 60) {
+			console.log("ACTUALLY COMPUTING LAYOUT");
+			this.ComputeLayout();
+		}
+	}.bind(this), 200);
+	
+	/*this.props.maxRows < 2 || (t = this.m_elGrid.current.getBoundingClientRect(), n = Math.abs(t.top - this.m_fLastScrollTop), this.props.childHeight * this.props.scaleGridItems / 8 < n && (this.m_fLastScrollTop = t.top, t.top < window.innerHeight && 0 < t.bottom && this.ComputeLayout()))*/
+},
 
-===
+/*
+==========
 SNIPPET ComputeLayout
-===
+==========
+*/
 
-}), e.prototype.ComputeLayout = function () {
+e.prototype.ComputeLayout = function () {
     console.log("b4 var | " + performance.now());
     var e = this.fScaledPaddedChildWidth,
         t = this.fScaledPaddedChildHeight,

@@ -1,12 +1,16 @@
 import platform
 import os
 import sys
+import subprocess
 import shutil
 import traceback
 import re
 from pathlib import Path
 import json
 import sass
+from datetime import datetime, timezone
+import requests
+from hashlib import sha1
 
 OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
@@ -170,6 +174,8 @@ ROOT_MAP = {"start" : ["Configurable variables", ":root {"],
 
 PATCHED_TEXT = "/*patched*/"
 
+#SMALL_UPDATE_FILE_LIST = get_small_update_file_list()
+
 def get_json_data():
     json_data_filename = 'old_glory_data.json'
     try:
@@ -196,6 +202,19 @@ def OS_line_ending():
         return "\n"
     elif OS_TYPE ==  "Linux":
         return "\n"
+
+# could use testing
+def OS_open_file(path):
+    try:
+        if OS_TYPE == "Windows":
+            subprocess.Popen(["explorer", path])
+        elif OS_TYPE ==  "Darwin":
+            subprocess.Popen(["open", "--", path])
+        elif OS_TYPE ==  "Linux":
+            subprocess.Popen(["xdg-open", "--", path])
+        print("Opened: " + path)
+    except:
+        print_traceback()
     
 def library_dir():
     steamui_path = ""
@@ -215,6 +234,31 @@ def print_traceback():
     print(traceback.format_exc(), end='', file=sys.stderr)
     print("~~~~~~~~~~~~~~~~~~~~")
 
+# Returns the git sha hash of a file
+def get_file_hash(filepath):
+    try:
+        with open(filepath, 'r', encoding="UTF-8") as f, \
+            open(filepath + ".temp", 'w', newline='\n') as f1:
+            f1.writelines(f.readlines())
+        f.close()
+        f1.close()
+
+        filesize_bytes = os.path.getsize(filepath + ".temp")
+
+        s = sha1()
+        s.update(b"blob %u\0" % filesize_bytes)
+        
+        with open(filepath + ".temp", 'rb') as g:
+            s.update(g.read())
+        g.close()
+
+        os.remove(filepath + ".temp")
+        
+        return s.hexdigest()
+    except:
+        print("Unable to get hash of file: " + filepath, file=sys.stderr)
+        print_traceback()
+
 ### Check CSS Patched
 def is_css_patched():
     patched = False
@@ -232,6 +276,10 @@ def is_css_patched():
         print_traceback()
     return patched
 
+def get_current_datetime():
+    date = datetime.now(timezone.utc)
+    date_f = date.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return date_f
 
 ###
 ### CONFIG Functions
@@ -361,7 +409,7 @@ def compile_css(json_data):
     except:
         print("Error compiling SCSS to CSS", file=sys.stderr)
         print_traceback()
-
+        
     ###
     shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
     shutil.move("libraryroot.custom.temp.css", "libraryroot.custom.css")
@@ -413,7 +461,7 @@ def load_css_configurables():
         infile.close()
         print("Loaded CSS Options. " + "(" + css_config_filename + ")")
     except FileNotFoundError:
-        print("libraryroot.custom.css not found", file=sys.stderr)
+        print(css_config_filename + " not found", file=sys.stderr)
     except:
         print("Error loading CSS configurables from line: " + line, file=sys.stderr)
         print_traceback()
@@ -437,7 +485,7 @@ def css_line_parser(line):
             comment = value[1].lstrip()
             default = ""
             if "/* Default: " in comment:
-                comment_m = comment.split("/* Default: ")[1].split(".", 1)
+                comment_m = comment.split("/* Default: ")[1].split(". ", 1)
                 default = comment_m[0].lstrip()
                 desc = comment_m[1].split("*/")[0].strip()
             else:
@@ -451,25 +499,42 @@ def css_line_parser(line):
         print_traceback()
         
 
-#root writer
-#from CSS_CONFIG dictionary to an array of lines of CSS to be written
-def css_root_writer(css_config):
-    indent = "  "
-    css_lines = []
-    css_lines.append(":root {")
-    for key in css_config:
-        #print(key)
-        css_lines.append(indent + "/* " + key + " */")
+def write_css_configurables(css_config):
+    css_config_filename = "variables.css"
+    to_write_lines = create_css_variables_lines(css_config)
+    try:
+        with open(css_config_filename, "w", newline='', encoding="UTF-8") as f:
+            for line in to_write_lines[:-1]:
+                f.write(line + OS_line_ending())
+            f.write(to_write_lines[-1])
+    except:
+        print("Error writing to " + css_config_filename, file=sys.stderr)
+        print_traceback()
 
-        for prop in css_config[key]:
-            css_lines.append(indent + prop + ": "
-                             + css_config[key][prop]["current"] + ";  "
-                             + "/* Default: " + css_config[key][prop]["default"] + ". "
-                             + css_config[key][prop]["desc"] + " */")
-        css_lines.append("")
-    del css_lines[-1]
-    css_lines.append("}")
-    return css_lines
+#create css variables
+#from CSS_CONFIG dictionary to an array of lines of CSS to be written
+def create_css_variables_lines(css_config):
+    try:
+        indent = "  "
+        css_lines = []
+        css_lines.append("/* Configurable variables */")
+        css_lines.append(":root {")
+        for key in css_config:
+            #print(key)
+            css_lines.append(indent + "/* " + key + " */")
+
+            for prop in css_config[key]:
+                css_lines.append(indent + prop + ": "
+                                 + css_config[key][prop]["current"] + ";  "
+                                 + "/* Default: " + css_config[key][prop]["default"] + ". "
+                                 + css_config[key][prop]["desc"] + " */")
+            css_lines.append("")
+        del css_lines[-1]
+        css_lines.append("}")
+        return css_lines
+    except:
+        print("Unable to generate css variables", file=sys.stderr)
+        print_traceback()
 
 
 ### END
@@ -760,3 +825,78 @@ def clear_js_working_files():
         print("Was not able to remove " + file, file=sys.stderr)
         print_traceback()
         
+### Auto-update functions
+
+def create_session():
+    try:
+        username = ''
+        token = '5d6ecfc25f9f2b5cb1c1d88b316bd0bf11b0a101'
+        session = requests.Session()
+        session.auth = (username, token)
+        return session
+    except:
+        print("Unable to request Github API session.", file=sys.stderr)
+        print_traceback()
+        
+def get_small_update_file_list():
+    try:
+        list_filename = 'small_update_file_list.json'
+        branch = 'dev'
+        session = create_session()        
+        response = session.get('https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/' + \
+                               branch + "/" + list_filename)
+        return response.json()
+    except json.decoder.JSONDecodeError as e:
+        print("Error in update filelist JSON format.\nThis is an issue with " + list_filename + " on Github.", file=sys.stderr)
+        print_traceback()
+    except:
+        print("Unable to load update filelist", file=sys.stderr)
+        print_traceback()
+
+
+#returns a list of files from small_update_file_list that are newer on Github than the last patched date (found in old_glory_data.json)
+def check_new_commit_dates(json_data):
+    try:
+        file_dates = {}
+        file_list = get_small_update_file_list()
+        
+        '''
+        #use local version of file for debugging purposes
+        with open('small_update_file_list.json') as f:
+            file_list = json.load(f)
+        f.close()
+        '''
+        
+        for k, v in file_list.items():
+            file_dates_item = {}
+            for pathname in file_list[k]:
+                session = create_session()
+                response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/commits?path=" + \
+                                       pathname + "&page=1&per_page=1")
+                #print(json_data["lastPatchedDate"] < response.json()[0]["commit"]["committer"]["date"])
+
+                # if commit date is newer than last patched dated
+                commit_date = response.json()[0]["commit"]["committer"]["date"]
+                
+                if json_data["lastPatchedDate"] < commit_date:
+                    #print(k.replace("_", " ") + " found: " + pathname)
+                    file_dates_item[pathname] = commit_date
+                #print(pathname + " | " + response.json()[0]["commit"]["committer"]["date"])
+                #print(response.json())
+                #if
+            file_dates.update({k : file_dates_item})
+        return file_dates
+    except:
+        print("Unable to check for latest small update files on Github.", file=sys.stderr)
+        print_traceback()
+
+def download_file(filename):
+    url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
+    branch = 'dev'
+    r = requests.get(url + branch + "/" + filename, allow_redirects=True)
+
+    open('_test_com.scss', 'wb').write(r.content)
+    
+
+def update_json_last_patched_date():
+    print("TODO")

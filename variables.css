@@ -17,7 +17,7 @@
 
   /* Game Grid */
   --RemoveShine: none;  /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
-  --GameImageTransition: 1.5s;  /* Default: . 4s, .4s, .4s, .2s. Grid Game Images transition time. 0s for instant, 2s for smooth. */
+  --GameImageTransition: 1s;  /* Default: .4s, .4s, .4s, .2s. Grid Game Images transition time. 0s for instant, 2s for smooth. */
   --GameImageOpacity: 1;  /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5 */
   --UninstalledGameImageOpacity: 0.5;  /* Default: 1. Suggested values: 0.5, 0.2 */
   --GameGridImageBackground: inherit;  /* Default: inherit. Default is inherit, set #365d2d for a friendly green */

@@ -1,0 +1,109 @@
+/* ==================== Game Properties ====================
+   ========================================================================== */
+
+:root {
+  
+  --TabColor: rgba(58, 58, 58, var(--TabColorOpacity));
+  --TabColorOpacity: 1;
+  --HoverTabColor: rgba(95, 95, 95, var(--HoverTabColorOpacity));
+  --HoverTabColorOpacity: 1;
+  --ActiveTabColor: linear-gradient(to bottom, rgba(84, 84, 84, var(--ActiveTabColorOpacity)) 0%, rgb(44, 44, 44, var(--ActiveTabColorOpacity)) 100%);
+  --ActiveTabColorOpacity: 0.5;
+  
+  --TabRowHeight: 26px;
+}
+
+.appproperties_AppProperties_1FyBL .DialogHeader {
+  /* margin-top: 10px; */
+  display: none;
+}
+
+/* Adjust X position */
+.title-area .title-bar-actions {
+  top: 4px;
+}
+
+/* title bar X, draggable area */
+.ModalDialogPopup .ModalDialogBody .title-area {
+  height: 0px;
+  padding-bottom: 14px;
+}
+
+/* padding */
+.pagedsettings_PagedSettingsDialog_PageListColumn_2kwFF {
+  padding-top: 10px;
+}
+
+.DialogContent {
+  padding: 20px 24px;
+}
+
+.DialogContentTransition {
+  flex: 5.3;
+  margin-top: calc(var(--TabRowHeight) - 70px);
+  width: unset;
+  max-width: unset;
+  height: 70%
+}
+
+.pagedsettings_PagedSettingsDialog_2sssI.appproperties_AppProperties_1FyBL {
+  flex-direction: column;
+}
+
+.pagedsettings_PagedSettingsDialog_PageListColumn_2kwFF {
+  min-width: unset;
+  max-width: unset;
+  flex-direction: column;
+}
+.pagedsettings_PagedSettingsDialog_PageList_18QCu {
+  line-height: var(--TabRowHeight);
+  display: flex;
+}
+
+.pagedsettings_PagedSettingsDialog_PageListItem_1-vlr {
+  padding: 0px 10px;
+}
+
+/* Game properties title */
+.pagedsettings_PagedSettingsDialog_Title_2rjVT {
+  text-transform: unset;
+  margin-bottom: 10px;
+  font-size: unset;
+}
+
+/* bottom app properties */
+.appproperties_AppId_38R2f {
+  bottom: 11px;
+}
+
+/* Bottom margin so App ID doesn't get covered up */
+.DialogContent_InnerWidth {
+  margin-bottom: 24px;
+}
+
+/* tab title font size */
+.pagedsettings_PagedSettingsDialog_PageListItem_1-vlr {
+  font-size: 14px;
+  margin-bottom: 2px;
+  background-color: var(--TabColor);
+  /* border-radius: 5px 5px 0px 0px; //rounded tabs */
+  margin-right: 2px;
+
+  &:hover{
+    background-color: var(--HoverTabColor);
+  }
+}
+
+.pagedsettings_PagedSettingsDialog_PageListItem_1-vlr.pagedsettings_Active_2DpXj {
+  background: var(--ActiveTabColor);
+}
+
+/* DLC MANAGER - No longer needs JS */
+.appproperties_AppProperties_1FyBL .appproperties_Page_1SvWY .appproperties_DlcGrid_3sXdO .appproperties_Name_bP2Ip .appproperties_DlcArt_3vsfp {
+  /* default 0 0 130px */
+  flex: 0 0 60px; 
+}
+
+/* ========================================================================== 
+   END Game Properties */
+

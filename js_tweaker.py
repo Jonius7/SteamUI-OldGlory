@@ -83,8 +83,6 @@ def setup_library(reset=0):
         print("library.js reverting to use original JS.")
         modify_library(swapback_js)
         
-    
-
 
 def modify_library(swap_js_array):
     try:
@@ -111,16 +109,26 @@ def modify_library(swap_js_array):
 
 def parse_fixes_file(filename):
     print("Finding Fixes...\n")
+    global fixes_dict
+    fixes_dict = {}
     try:
-        with open("fixes.txt", newline='', encoding="UTF-8") as fi:
+        with open(filename, newline='', encoding="UTF-8") as fi:
             lines = filter(None, (line.rstrip() for line in fi))
             try:
                 for line in lines:
                     if not line.startswith('###'):
                         (key, val) = line.rstrip().split("  ")
-                        fixes_dict[key] = val
+                        if "~~" in key:
+                            t = key.split("~~")
+                            if len(t) == 2:
+                                fixes_dict[t[1]] = {"prev" : t[0],
+                                                    "replace" : val}
+                            else:
+                                error_exit("Unexpected number of ~~ in line: " + line)
+                        else:
+                            fixes_dict[key] = {"replace" : val}
             except Exception as e:
-                print("Error in line" + line, file=sys.stderr)
+                print("Error in line: " + line, file=sys.stderr)
                 print(e, file=sys.stderr)
                 fi.close()                
                 error_exit("Invalid file format")
@@ -131,23 +139,36 @@ def parse_fixes_file(filename):
         error_exit("Unknown error: " + e)
 
 def find_fix(line, fix):
-    m_line = line.replace(fix, fixes_dict[fix])
+    m_line = line.replace(fix, fixes_dict[fix]["replace"])
     #print("FIX: ", end = '')
     #print(m_line.strip())
+    #print(fixes_dict[fix]["replace"])
     print("FIX: " + m_line.strip())
     return m_line
+
+def find_fix_with_variable(line, fix):
+    #res = [i.start() for i in re.finditer("\$\^", st)]
+    #for lv in res:
+    print("todo")
+        
 
 def write_modif_file():
     with open("libraryroot.beaut.js", "r", newline='', encoding="UTF-8") as f, \
          open("libraryroot.modif.js", "w", newline='', encoding="UTF-8") as f1:
+        prev_line = ""
         for line in f:
             modified = 0
             for fix in fixes_dict:
-                if fix in line:
+                if "prev" in fixes_dict[fix]:
+                    if fixes_dict[fix]["prev"] in prev_line and fix in line:
+                        f1.write(find_fix(line, fix))
+                        modified = 1
+                elif fix in line:
                     f1.write(find_fix(line, fix))
                     modified = 1
             if modified == 0:
                 f1.write(line)
+            prev_line = line
     f.close()
     f1.close()
 

@@ -1,5 +1,9 @@
 ## SteamUI-OldGlory GUI Changelog
 
+**0.9.8**
+
+**0.9.7.12**   Working Expanded CSS Options
+
 **0.9.6.9** 	Theme and module selection functionality working
 
 0.9.6.6     Redid Theme selection
@@ -8,7 +12,7 @@
 
 0.9.6.0	 Add tabs to main page
 
-**0.9.5.5** 	Remove `HyperlinkText` class flawed implementation and used `tkHyperlinkManager`
+**0.9.5.5**    Remove `HyperlinkText` class flawed implementation and used `tkHyperlinkManager`
 
 **0.9.5.4**	Add DPI scaling to be fixed to fit on Windows 8 125%
 

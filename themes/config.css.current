@@ -26,14 +26,14 @@
     --backdropblur: var(--invisiblegrey); /* Blur color */
     --libraryhome: var(--purple); /* Main library color */
     --progressbar: var(--purple); /* Progressbar color */
-    --gamelist: var(--purple); /* Gamelist selected color */
+    --gamelist: var(--purple); /* Game list selected color */
     --titlehover: var(--invisibleblack); /* Title hover background color */
     --titlenamehover: var(--purple); /* Game list title hover name color */
     --gamehover: var(--white); /* Game hover color */
     --textcolor: var(--purple); /* Text color */
     --pending: var(--red); /* Text color for pending updates/downloads */
     --offline: var(--offlinegrey);; /* Offline avatar color */
-    --ingame: var(--ingamegreen); /* In-game avatar color */
+    --ingame: var(--ingamegreen); /* Ing-ame avatar color */
     --online: var(--onlineblue); /* Online avatar color */
 
 }
@@ -75,6 +75,12 @@
     --TitleFont: 500; /* Set to [ 1 > 1000 ] */
 
 
+    /**************/
+    /* GAME ICONS */
+    /**************/
+    --GameIcons: block; /* Set to [ none | block ] */
+
+
     /**********************/
     /* INGAME FRIEND ICON */
     /**********************/
@@ -111,13 +117,13 @@
     /*********************/
     --ButtonPlay: var(--libraryhome); /* Play button color shade 1 */
     --ButtonPlay2: var(--libraryhome); /* Play button color shade 2 */
-    --ButtonPlayHover: #70d61d; /* Play button hover color shade 1 */
-    --ButtonPlayHover2: #01a75b; /* Play button hover color shade 2 */
+    --ButtonPlayHover: #FFCC00; /* Play button hover color shade 1 */
+    --ButtonPlayHover2: #FF0000; /* Play button hover color shade 2 */
     
     --ButtonInstall: var(--libraryhome); /* Install button color shade 1 */
     --ButtonInstall2: var(--libraryhome); /* Install button color shade 2 */
-    --ButtonInstallHover: #47bfff; /* Install button hover color shade 1 */
-    --ButtonInstallHover2: #1a44c2; /* Install button hover color shade 2 */
+    --ButtonInstallHover: #FFCC00; /* Install button hover color shade 1 */
+    --ButtonInstallHover2: #FF0000; /* Install button hover color shade 2 */
 
 }
 

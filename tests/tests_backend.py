@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path('.').absolute().parent))
 import backend
+import time
 
 #CSS Line Parser
 class TestCSSLineParser(unittest.TestCase):
@@ -62,8 +63,13 @@ class TestCSSLineParser(unittest.TestCase):
         self.assertRaises(Exception, backend.patch_html("aaaabbbbccccdddde.css"))
     '''
 
-    def test_get_json(self):
-        backend.get_json_data()
+    #def test_get_json(self):
+    #    backend.get_json_data()
+
+    def test_get_function_performance(self):
+        start_time = time.time()
+        print(backend.get_file_hash("../scss/_sidebar.scss"))
+        print("--- %s seconds ---" % (time.time() - start_time))
 
 if __name__ == '__main__':
     unittest.main()

@@ -2,6 +2,7 @@
 	"CSSVariableString": "/* ===== SteamUI-OldGlory will insert CSS Variables from variables.css here ==== */",
 	"CSSBeforeThemes": "// Themes applied before CSS Tweaks",
 	"CSSAfterThemes": "// Themes applied after CSS Tweaks",
+	"lastPatchedDate": "2020-12-23T14:01:27Z",
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",
@@ -9,7 +10,6 @@
 			"order": "before"
 		},
 		"Dark Library": {
-			"name": "Dark Library",
 			"author": "Thespikedballofdoom",
 			"filename": "_spiked.scss",
 			"order": "after"
@@ -26,6 +26,9 @@
 		}
 	},
 	"sections": {
+		"classic": {
+			"description": "CSS for Old UI font and colors"
+		},
 		"sidebar": {
 			"description": "CSS for the Left Sidebar - Games List"
 		},
@@ -97,6 +100,168 @@
 		},
 		"user_module2": {
 			"description": "Your custom CSS module 2"
+		}
+	},
+	"quickCSS": {
+		"What's New": {
+			"Top of page": {
+				"value": "1",
+				"config": {
+					"--WhatsNew" : "block",
+					"--WhatsNewOrder" : "0"
+				}
+			},
+			"Bottom of page": {
+				"value": "2",
+				"config": {
+					"--WhatsNew" : "block",
+					"--WhatsNewOrder" : "2"
+				}
+			},
+			"Hide entirely": {
+				"value": "3",
+				"config": {
+					"--WhatsNew" : "none",
+					"--WhatsNewOrder" : "0"
+				}
+			},
+			"[Current value]": {
+				"value": "4"
+			}
+		},
+		"Game List Zoom": {
+			"Compact": {
+				"value": "1",
+				"config": {
+					"--HoverOverlayPosition" : "unset",
+					"--GameListZoomSize" : "75%"
+				}
+			},
+			"Compact (Hover to bottom)": {
+				"value": "2",
+				"config": {
+					"--HoverOverlayPosition" : "0",
+					"--GameListZoomSize" : "75%"
+				}
+			},
+			"Default": {
+				"value": "3",
+				"config": {
+					"--HoverOverlayPosition" : "unset",
+					"--GameListZoomSize" : "100%"
+				}
+			},
+			"[Current value]": {
+				"value": "4"
+			}
+		},
+		"Show Left Sidebar": {
+			"Visible": {
+				"value": "1",
+				"config": {
+					"--ShowLeftSidebar" : "flex"
+				}
+			},
+			"Hidden": {
+				"value": "2",
+				"config": {
+					"--ShowLeftSidebar" : "none"
+				}
+			}
+		},
+		"Remove Glare/Shine": {
+			"Visible": {
+				"value": "1",
+				"config": {
+					"--RemoveShine": "block"
+				}
+			},
+			"Hidden": {
+				"value": "2",
+				"config": {
+					"--RemoveShine": "none"
+				}
+			}
+		},
+		"Game Image Transition": {
+			"Default": {
+				"value": "1",
+				"config": {
+					"--GameImageTransition": ".4s, .4s, .4s, .2s"
+				}
+			},
+			"1 sec": {
+				"value": "2",
+				"config": {
+					"--GameImageTransition": "1s"
+				}
+			},
+			"0 sec": {
+				"value": "3",
+				"config": {
+					"--GameImageTransition": "0s"
+				}
+			},
+			"[Current value]": {
+				"value": "4"
+			}
+		},
+		"Home Page Grid Spacing": {
+			"Compact (8px 5px)": {
+				"value": "1",
+				"config": {
+					"--GridRowGap": "8px",
+					"--GridColumnGap": "5px"
+				}
+			},
+			"Default (24px 16px)": {
+				"value": "2",
+				"config": {
+					"--GridRowGap": "24px",
+					"--GridColumnGap": "16px"
+				}
+			},
+			"[Current value]": {
+				"value": "3"
+			}
+		},
+		"Game Page Layout": {
+			"SteamUI-OldGlory": {
+				"value": "1",
+				"config": {
+					"--FriendsDLCScreenshotsColumnWidth": "61%",
+					"--SwapColumns": "left"
+				}
+			},
+			"Default": {
+				"value": "2",
+				"config": {
+					"--FriendsDLCScreenshotsColumnWidth": "33%",
+					"--SwapColumns": "right"
+				}
+			},
+			"[Current value]": {
+				"value": "3"
+			}
+		},
+		"Game Image Opacity": {
+			"Dim Uninstalled Games": {
+				"value": "1",
+				"config": {
+					"--GameImageOpacity": "1",
+					"--UninstalledGameImageOpacity": "0.5"
+				}
+			},
+			"Default (Full Opacity)": {
+				"value": "2",
+				"config": {
+					"--GameImageOpacity": "1",
+					"--UninstalledGameImageOpacity": "1"
+				}
+			},
+			"[Current value]": {
+				"value": "3"
+			}
 		}
 	}
 }
