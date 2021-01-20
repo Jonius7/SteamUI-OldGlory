@@ -1,55 +1,72 @@
 /* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS */
 
 .sharedappdetailsheader_BoxSizerContainer_A14yd {
-    z-index: 2;
-  }
-  
-  .appdetailsgameinfocontainer_AppGameInfoContainer_25oBZ.appdetailsgameinfocontainer_AppDetailsExpanded_3s6_6.appdetailsgameinfocontainer_Glassy_2QAgO {
-    order: 2;
-  }
-  .appdetailsgameinfocontainer_AppGameInfoContainer_25oBZ.appdetailsgameinfocontainer_AppDetailsCollapsed_3yfoe.appdetailsgameinfocontainer_Glassy_2QAgO {
-    order: 2;
-  }
-  .appdetailsoverview_ColumnContainer_OhSdL {
-    order: 3;
-  }
-  
-  .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
-    margin-left: auto;
-    transform: translate(10px, -290px) translateY(var(--VerticalNavBarOffset));
-    position: sticky;
-    height: 0px !important;
-    min-width: 220px;
-    max-width: 220px;
-    border-radius: 4px;
-    pointer-events: all;
-    z-index: 5 !important;
-    padding: 0px;
-  }
-  
-  .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v>div {
-    background: linear-gradient(rgba(40, 40, 40, 0.7) 95.8%, rgba(40, 40, 40, 0) 100%) !important;
-    background-size: 89% 100% !important;
-    background-repeat: no-repeat !important;
-    height: 228.9px;
-  }
-  
-  .appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB:before {
-    content: '';
-    min-height: 0px;
-  }
-  
-  .appdetailsoverview_ColumnContainer_OhSdL {}
-  
-  .appdetailsheader_HeaderFeatures_2b6Wk,
-  .sharedappdetailsheader_TitleSection_30acA {
-    right: calc(122vw * 0.15);
-    pointer-events: all;
-  }
-  
-  .sharedappdetailsheader_TopCapsule_NZMJ6 {
-      min-height: 240px;
-  }
-  
-  /* END VERTICAL NAV BAR */
+  z-index: 2;
+}
+
+.appdetailsgameinfocontainer_AppGameInfoContainer_25oBZ.appdetailsgameinfocontainer_AppDetailsExpanded_3s6_6.appdetailsgameinfocontainer_Glassy_2QAgO {
+  order: 2;
+}
+.appdetailsgameinfocontainer_AppGameInfoContainer_25oBZ.appdetailsgameinfocontainer_AppDetailsCollapsed_3yfoe.appdetailsgameinfocontainer_Glassy_2QAgO {
+  order: 2;
+}
+.appdetailsoverview_ColumnContainer_OhSdL {
+  order: 3;
+}
+
+.appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
+  margin-left: auto;
+  transform: translate(-2px, -290px) translateY(var(--VerticalNavBarOffset));
+  position: sticky;
+  height: 0px !important;
+  min-width: 180px;
+  max-width: 190px;
+  border-radius: 4px;
+  pointer-events: all;
+  z-index: 5 !important;
+  padding: 0px;
+}
+
+.appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v>div {
+  background: linear-gradient(rgba(40, 40, 40, 0.7) 95.8%, rgba(40, 40, 40, 0) 100%) !important;
+  background-size: 89% 100% !important;
+  background-repeat: no-repeat !important;
+  height: 228.9px;
+}
+
+.appdetailsprimarylinkssection_LinkInner_7k4qm {
+  max-width: 170px;
+  overflow: visible;
+}
+
+.appdetailsprimarylinkssection_LinksSection_3-V8v .appdetailsprimarylinkssection_Links_DgVQa {
+  height: unset !important;
+}
+
+.appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB:before {
+  content: '';
+  min-height: 0px;
+}
+
+.appdetailsoverview_ColumnContainer_OhSdL {}
+
+.appdetailsprimarylinkssection_LinkInner_7k4qm {
+  padding: 4px 4px 4px 0px !important;
+}
+
+.appdetailsprimarylinkssection_Links_DgVQa {
+  width: fit-content;
+}
+
+.appdetailsheader_HeaderFeatures_2b6Wk,
+.sharedappdetailsheader_TitleSection_30acA {
+  right: calc(122vw * 0.15);
+  pointer-events: all;
+}
+
+.sharedappdetailsheader_TopCapsule_NZMJ6 {
+    min-height: 240px;
+}
+
+/* END VERTICAL NAV BAR */
   

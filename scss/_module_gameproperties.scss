@@ -2,15 +2,14 @@
    ========================================================================== */
 
 :root {
-  
-  --TabColor: rgba(58, 58, 58, var(--TabColorOpacity));
+  --TabColor: none;
   --TabColorOpacity: 1;
-  --HoverTabColor: rgba(95, 95, 95, var(--HoverTabColorOpacity));
+  --HoverTabColor: none;
   --HoverTabColorOpacity: 1;
-  --ActiveTabColor: linear-gradient(to bottom, rgba(84, 84, 84, var(--ActiveTabColorOpacity)) 0%, rgb(44, 44, 44, var(--ActiveTabColorOpacity)) 100%);
+  --ActiveTabColor: none;
   --ActiveTabColorOpacity: 0.5;
-  
-  --TabRowHeight: 26px;
+  --TabRowHeight: 51px;
+  --TabFontSize: 14px;
 }
 
 .appproperties_AppProperties_1FyBL .DialogHeader {
@@ -83,7 +82,7 @@
 
 /* tab title font size */
 .pagedsettings_PagedSettingsDialog_PageListItem_1-vlr {
-  font-size: 14px;
+  font-size: var(--TabFontSize);
   margin-bottom: 2px;
   background-color: var(--TabColor);
   /* border-radius: 5px 5px 0px 0px; //rounded tabs */
