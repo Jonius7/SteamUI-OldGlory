@@ -10,7 +10,12 @@ import json
 import sass
 from datetime import datetime, timezone
 import requests
+from requests_oauthlib import OAuth1Session
 from hashlib import sha1
+import time
+
+##########################################
+### CONSTANTS
 
 OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
@@ -26,7 +31,6 @@ DEFAULT_CONFIG = {"SteamLibraryPath" : "",
                   "LandscapeImages" : "0",
                   "InstallWithDarkLibrary" : "0",
                   "ThemeSelected" : "Crisp Cut"}
-user_config = {}
 
 
 ###Structure as follows
@@ -174,26 +178,12 @@ ROOT_MAP = {"start" : ["Configurable variables", ":root {"],
 
 PATCHED_TEXT = "/*patched*/"
 
-#SMALL_UPDATE_FILE_LIST = get_small_update_file_list()
+### [END OF] CONSTANTS
+##########################################
 
-def get_json_data():
-    json_data_filename = 'old_glory_data.json'
-    try:
-        with open(json_data_filename) as f:
-            global json_data
-            json_data = json.load(f)
-        print("Loaded JSON data. " + "(" + json_data_filename + ")")
-        f.close()
-        return json_data
-    except FileNotFoundError:
-        print("JSON file " + json_data_filename + " not found.", file=sys.stderr)
-    except json.decoder.JSONDecodeError as e:
-        print("Error in JSON file format:", file=sys.stderr)
-        print(e, file=sys.stderr)
-        print_traceback()
-    except:
-        print("Error reading JSON file " + json_data_filename, file=sys.stderr)
-        print_traceback()
+
+##########################################
+### GENERAL UTILITY Functions
 
 def OS_line_ending():
     if OS_TYPE == "Windows":
@@ -209,9 +199,9 @@ def OS_open_file(path):
         if OS_TYPE == "Windows":
             subprocess.Popen(["explorer", path])
         elif OS_TYPE ==  "Darwin":
-            subprocess.Popen(["open", "--", path])
+            subprocess.Popen(["open", path])
         elif OS_TYPE ==  "Linux":
-            subprocess.Popen(["xdg-open", "--", path])
+            subprocess.Popen(["xdg-open", path])
         print("Opened: " + path)
     except:
         print_traceback()
@@ -238,7 +228,7 @@ def print_traceback():
 def get_file_hash(filepath):
     try:
         with open(filepath, 'r', encoding="UTF-8") as f, \
-            open(filepath + ".temp", 'w', newline='\n') as f1:
+            open(filepath + ".temp", 'w', encoding="UTF-8", newline='\n') as f1:
             f1.writelines(f.readlines())
         f.close()
         f1.close()
@@ -272,18 +262,72 @@ def is_css_patched():
             #print("css\libraryroot.css not patched.", file=sys.stderr)
         f.close()
     except:
-        print("css\5.css (previously known as libraryroot.css), not found", file=sys.stderr)
+        print("css/5.css (previously known as libraryroot.css), not found", file=sys.stderr)
         print_traceback()
     return patched
 
-def get_current_datetime():
-    date = datetime.now(timezone.utc)
+### datetime
+def get_remote_datetime(timezone=timezone.utc):
+    date = datetime.now(timezone)
     date_f = date.strftime("%Y-%m-%dT%H:%M:%SZ")
     return date_f
 
-###
+def get_local_datetime():
+    date = datetime.now()
+    date_f = date.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return date_f
+
+# of the format "%Y-%m-%dT%H:%M:%SZ"
+def datetime_string_to_obj(date_string):
+    return datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%SZ")
+
+
+### [END OF] GENERAL UTILITY Functions
+##########################################
+
+
+##########################################
+### JSON Functions
+def get_json_data():
+    json_data_filename = 'old_glory_data.json'
+    try:
+        with open(json_data_filename, encoding="UTF-8") as f:
+            json_data = json.load(f)
+        print("Loaded JSON data. " + "(" + json_data_filename + ")")
+        f.close()
+        return json_data
+    except FileNotFoundError:
+        print("JSON file " + json_data_filename + " not found.", file=sys.stderr)
+    except json.decoder.JSONDecodeError as e:
+        print("Error in JSON file format:", file=sys.stderr)
+        print(e, file=sys.stderr)
+        print_traceback()
+    except:
+        print("Error reading JSON file " + json_data_filename, file=sys.stderr)
+        print_traceback()
+
+def write_json_data(json_data):
+    json_data_filename = 'old_glory_data.json'
+    try:
+        with open(json_data_filename, "r", newline=OS_line_ending(), encoding="UTF-8") as f, \
+             open(json_data_filename + ".temp", "w", newline=OS_line_ending(), encoding="UTF-8") as f1:
+            w_json = json.dump(json_data, f1, indent="\t")
+        f.close()
+
+        shutil.move(json_data_filename, json_data_filename + ".backup")
+        shutil.move(json_data_filename + ".temp", json_data_filename)
+            
+    except:
+        print("Error writing/updating " + json_data_filename, file=sys.stderr)
+        print_traceback()
+
+        
+### [END OF] JSON Functions
+##########################################
+        
+
+##########################################
 ### CONFIG Functions
-###
 
 ### Loading config
 def load_config():
@@ -317,9 +361,15 @@ def write_config(config_dict):
             config_file.write(line_to_write)
     config_file.close()
 
+### [END OF] CONFIG Functions
+##########################################
 
-### Settings (checkboxes) functions
-# Need to change logic to cover "unchecking" options
+
+##########################################
+### SETTINGS Functions
+###   GUI Checkboxes
+###   Need to change logic to cover "unchecking" options
+
 def validate_settings(settings):
     validated_settings = []
     if "InstallCSSTweaks" not in settings:
@@ -339,13 +389,14 @@ def validate_settings(settings):
     #print(validated_settings)
     return validated_settings
 
-### END
-###
+### [END OF] SETTINGS Functions
+##########################################
 
 
-###
-### CSS functions (libraryroot.custom.css)
-### if/for loops could be reduced
+##########################################
+### CSS Functions
+###   (scss/libraryroot.custom.scss)
+###   if/for loops could be reduced
 
 def write_css_settings(settings, settings_values, root_config): 
     try:
@@ -449,8 +500,8 @@ def load_css_configurables():
                         loaded_css_config[sectionkey][propkey] = {}
                         loaded_css_config[sectionkey][propkey]["default"] = css_line_values["default"]
                         loaded_css_config[sectionkey][propkey]["current"] = css_line_values["current"]
-                        ### create options attr
-                        #print(CSS_CONFIG.get(sectionkey, {}).get(propkey))
+                        ### create options attr                        
+                        #load options for dropdown (currently unused)
                         if exists_key_value := CSS_CONFIG.get(sectionkey, {}).get(propkey):
                             loaded_css_config[sectionkey][propkey]["options"] = CSS_CONFIG[sectionkey][propkey]["options"]
                         else:
@@ -512,7 +563,7 @@ def write_css_configurables(css_config):
         print_traceback()
 
 #create css variables
-#from CSS_CONFIG dictionary to an array of lines of CSS to be written
+#from css_config dictionary to an array of lines of CSS to be written
 def create_css_variables_lines(css_config):
     try:
         indent = "  "
@@ -537,12 +588,11 @@ def create_css_variables_lines(css_config):
         print_traceback()
 
 
-### END
-###
+### [END OF] CSS Functions
+##########################################
 
 
-
-###
+##########################################
 ### APPLY CSS THEME Functions
 ### Simplified due to use of SCSS
 
@@ -594,56 +644,31 @@ def enable_css_theme(theme_filename, order, json_data):
     except:
         print("Error removing existing themes.", file=sys.stderr)
         print_traceback()
-    
-    #print("TODO")
 
-
-'''
-config_replacements = {'--FontSize: 15px;' : '--FontSize: 13px;',
-                       '--YourLibraryName: "YOUR LIBRARY"' : '--YourLibraryName: "HOME"',
-                       '--LetterSpacing: 3px' : '--LetterSpacing: 0px',
-                       '--ButtonPlayHover: #70d61d;' : '--ButtonPlayHover: var^(--libraryhome^)^;',
-                       '--ButtonPlayHover2: #01a75b;' : '--ButtonPlayHover2: var^(--libraryhome^)^;',
-                       '--ButtonInstallHover: #47bfff;' : '--ButtonInstallHover: var^(--libraryhome^)^;',
-                       '--ButtonInstallHover2: #1a44c2;' : '--ButtonInstallHover2: var^(--libraryhome^)^;'
-                       }
-'''
 
 def steam_library_compat_config():
-    
-    try:
-        if not os.path.isfile("themes/config.css"):
-            shutil.copy2("themes/config.css.original", "themes/config.css")
-            '''
-            with open("themes/config.css", "r", newline='', encoding="UTF-8") as f, \
-                 open("themes/config.temp.css", "w", newline='', encoding="UTF-8") as f1:
-
-                for line in f:   
-                    f1.write(line)
-
-                f.close()
-                f1.close()
-               
-                shutil.move("themes/config.css", "themes/config.css.backup")
-                shutil.copy2("themes/config.temp.css", library_dir() + "/" + "config.css")
-                shutil.move("themes/config.temp.css", "themes/config.css")
-            '''
-        shutil.copy2("themes/config.css", library_dir() + "/" + "config.css")
-        print("themes/config.css copied to: " + library_dir())
+    try:   
+        if not os.path.isfile(library_dir() + "/" + "config.css"):                  # if config.css in steamui/ doesn't exist
+            if not os.path.isfile("themes/config.css"):                             # if config.css in OldGlory themes/ doesn't exist
+                shutil.copy2("themes/config.css.original", "themes/config.css")     # make a copy from config.css.original
+            shutil.copy2("themes/config.css", library_dir() + "/" + "config.css")   # copy config.css from OldGlory themes/ to steamui/
+            print("themes/config.css copied to: " + library_dir())
+        else:
+            print("Existing config.css found at: " + library_dir() + ". Keeping file.")
     except FileNotFoundError:
         print("config.css not found", file=sys.stderr)
         print_traceback()
-    
     pass
 
-### END 
-### 
+### [END OF] APPLY CSS THEME Functions
+##########################################
 
 
+##########################################
+### JS Functions
+### fixes.txt
 
-###
-### JS functions (fixes.txt)
-### Load state of JS Fixes (enabled, disabled) from file
+### Load state of JS Fixes (enabled, disabled) from file fixes.txt
 def load_js_fixes():
     js_fixes_filename = 'fixes.txt'
     try:
@@ -670,12 +695,13 @@ def load_js_fixes():
                         state = 1
                     if state == 2:
                         print("Mixed enabled/disabled tweak found in fix:", file=sys.stderr)
-                        print("  " + fixesname, file=sys.stderr)
-                        print("Please check the lines in fixes.txt and see if\n"\
-                              "they are all commented out (with ###) or enabled (without ###).", file=sys.stderr)
+                        print("  " + fixname, file=sys.stderr)
+                        print("Please check the lines in " + js_fixes_filename + " and see if\n"\
+                              "they are all commented out (with ###) or enabled (without ###).\n", file=sys.stderr)
                     fixesdata[fixname] = str(state)
                     (key, val) = line.rstrip().split("  ") #validation
                     ### special fixes data, line to look out for has n = [number] in it
+                    ### could rewrite in the future
                     if "Change Game Image Grid Sizes" in fixname and re.search("n = ([0-9]+)", line):
                         line_segments = line.split("  ")
                         sizes_dict = {}
@@ -684,7 +710,7 @@ def load_js_fixes():
                         for i, value in enumerate(size_values):
                             sizes_dict[sizes[i]] = value
                         special_fixesdata[fixname] = sizes_dict
-        
+
                 elif readfix == 0:
                     state = 0
                 sectionhead = 0               
@@ -705,8 +731,6 @@ def load_js_fixes():
 
 def write_js_fixes(fixesdata, special_fixesdata):
     try:
-        #print("~0~~")
-        #print(fixesdata)
         writefix = 0
         current_fixname = ""
         sectionhead = 0
@@ -773,24 +797,36 @@ def write_js_fixes(fixesdata, special_fixesdata):
     except Exception as e:
         print("Error writing JS Tweaks (fixes.txt) from line: " + line, file=sys.stderr)
         print_traceback()
+
+### [END OF] JS Functions
+##########################################
+
+
+##########################################
+### STEAM DIRECTORY AND CLEAR Functions
+
                     
 def refresh_steam_dir():
     try:
-        if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css"):# and os.stat(library_dir() + "/" + "libraryroot.custom.css").st_size > 15:
-            if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css.backup"):
-                print("Existing libraryroot.custom.css code detected.")
-                shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup2")
+        local_libraryroot_custom_css = "libraryroot.custom.css"
+        libraryroot_custom_css = library_dir() + "/" + "libraryroot.custom.css"
+        libraryroot_custom_css_backup = library_dir() + "/" + "libraryroot.custom.css.backup"
+        libraryroot_custom_css_backup2 = library_dir() + "/" + "libraryroot.custom.css.backup2"
+        
+        if os.path.isfile(libraryroot_custom_css):
+            print("Existing libraryroot.custom.css code detected.")
+            if os.path.isfile(libraryroot_custom_css_backup):
+                shutil.copy2(libraryroot_custom_css, libraryroot_custom_css_backup2)
                 print("Backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup2")
             else:
-                shutil.copy2(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup")
+                shutil.copy2(libraryroot_custom_css, libraryroot_custom_css_backup)
                 print("backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup")
-            shutil.copy2("libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css")
-        elif not os.path.isfile(library_dir() + "/" + "libraryroot.custom.css"):
-            shutil.copy2("libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css")
-        print("File " + "libraryroot.custom.css" + " written to " + library_dir())
+            shutil.copy2(local_libraryroot_custom_css, libraryroot_custom_css)
+        elif not os.path.isfile(libraryroot_custom_css):
+            shutil.copy2(local_libraryroot_custom_css, libraryroot_custom_css)
+        print("File " + local_libraryroot_custom_css + " written to " + libraryroot_custom_css)
         
-        #shutil.copy2(library_dir() + "/licenses.txt", library_dir() + "/licenses.txt.copy")
-        #os.remove(library_dir() + "/licenses.txt.copy")
+        #refresh steam library
         f = open(library_dir() + "/refresh_dir.txt", "w", newline='', encoding="UTF-8")
         f.close()
         os.remove(library_dir() + "/refresh_dir.txt")
@@ -824,30 +860,47 @@ def clear_js_working_files():
     except:
         print("Was not able to remove " + file, file=sys.stderr)
         print_traceback()
-        
-### Auto-update functions
 
+### [END OF] STEAM DIRECTORY AND CLEAR Functions
+##########################################
+
+
+##########################################
+### AUTO-UPDATE functions
+BRANCH = "master"
+        
 def create_session():
     try:
         username = ''
-        token = '5d6ecfc25f9f2b5cb1c1d88b316bd0bf11b0a101'
+        token = unscramble_token('knqcpp7j7vqg1z1c2jovzwjocpp27o2oapvzwtnp')
         session = requests.Session()
         session.auth = (username, token)
         return session
     except:
         print("Unable to request Github API session.", file=sys.stderr)
         print_traceback()
-        
+
+def unscramble_token(scrambled_token):
+    charset = '0123456789abcdef'
+    keyset = '7oqngcwvjtka21pz'
+    key_indices = [keyset.index(k) for k in scrambled_token]
+    plain_token = ''.join(charset[keyIndex] for keyIndex in key_indices)
+    return plain_token
+
+
+# returns a dictionary in the form: {'Update_Type1': ['file1', 'file2', ...],  'Update_Type2': ['file1', 'file2', ...], ... }
 def get_small_update_file_list():
     try:
         list_filename = 'small_update_file_list.json'
-        branch = 'dev'
+        branch = BRANCH
         session = create_session()        
         response = session.get('https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/' + \
                                branch + "/" + list_filename)
         return response.json()
     except json.decoder.JSONDecodeError as e:
-        print("Error in update filelist JSON format.\nThis is an issue with " + list_filename + " on Github.", file=sys.stderr)
+        print("Error in update filelist JSON format.\nThis could be an issue with:\n" \
+              "- " + list_filename + " on Github.\n" \
+              "- Too many Github API requests (access token could have been removed)", file=sys.stderr)
         print_traceback()
     except:
         print("Unable to load update filelist", file=sys.stderr)
@@ -855,6 +908,10 @@ def get_small_update_file_list():
 
 
 #returns a list of files from small_update_file_list that are newer on Github than the last patched date (found in old_glory_data.json)
+# returns file_dates
+# a dictionary in the form: {'Update_Type1': ['file1': 'date1', 'file2': 'date2', ...],
+#                                    'Update_Type2': ['file1': 'date1', 'file2': 'date2', ...],
+# date is a string in the format "%Y-%m-%dT%H:%M:%SZ" aka "YYYY-mm-ddTHH:MM:SSZ"
 def check_new_commit_dates(json_data):
     try:
         file_dates = {}
@@ -886,17 +943,155 @@ def check_new_commit_dates(json_data):
                 #if
             file_dates.update({k : file_dates_item})
         return file_dates
+    except AttributeError as e:
+        print("No commit dates found", file=sys.stderr)
     except:
         print("Unable to check for latest small update files on Github.", file=sys.stderr)
         print_traceback()
 
-def download_file(filename):
-    url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
-    branch = 'dev'
-    r = requests.get(url + branch + "/" + filename, allow_redirects=True)
+#returns a list of strings
+def format_file_dates_to_strings(file_dates):
+    messages = []
+    for k, v in file_dates.items():
+        messages.append("--- " + k.replace("_", " ") + " found: ---")
+        for fp in v:
+            messages.append(fp)
+    return messages
+        
 
-    open('_test_com.scss', 'wb').write(r.content)
+### only for root directory on repo
+def is_file_or_directory(name, contents):
+    for i, data in enumerate(contents):
+        if data["name"] == name:
+            #print("AHA " + name)
+            return contents[i]["type"]
+        
+def update_json_last_patched_date(json_data):
+    #print(json_data)
+    json_data["lastPatchedDate"] = get_remote_datetime()
+    #print(json_data)
+    write_json_data(json_data)
+
+### file management functions as part of auto-update
+### file_dates - dictionary of filenames with their dates
+### return dictionary of files that are different/needing download
+### a dictionary in the form: {'Update_Type1': ['file1': 'date1', 'file2': 'date2', ...],
+#                              'Update_Type2': ['file1': 'date1', 'file2': 'date2', ...],
+def hash_compare_small_update_files(file_dates, json_data):
+    try:
+        files_to_download = {}
+        #
+        #start_time = time.time()
+        session = create_session()
+        response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/contents?ref=" + BRANCH)
+        root_contents = response.json()
+        #print("--- %s seconds ---" % (time.time() - start_time))
+        
+        for k, v in file_dates.items():
+            updatetype_files = []
+            for filename in v: # for each filename in Update type
+                file_or_directory = is_file_or_directory(filename, root_contents)
+                #print(filename)
+                if file_or_directory == "dir": #if directory
+                    contents = get_repo_directory_contents(filename) # github /contents
+                    for filedata in contents:
+                        #print(filedata["name"], end='\t')
+                        
+                        local_filepath = filename + "/" + filedata["name"]
+                        #print(local_filepath)
+                        if os.path.exists(local_filepath):
+                            #if local hash != remote hash
+                            if (get_file_hash(local_filepath) != filedata["sha"] and
+                                 local_filepath != "scss/libraryroot.custom.scss" and
+                                 local_filepath != "scss/_user_module1.scss" and
+                                 local_filepath != "scss/_user_module2.scss"):                
+                                #print("Different file hashes " + local_filepath)
+                                #print(local_filepath + " | " + get_file_hash(local_filepath) + "  |  " + filedata["sha"])
+                                print("New Version | " + local_filepath)
+                                updatetype_files.append(local_filepath)
+                            #print("", end="")
+                        else:
+                            print("File at " + local_filepath + " exists on remote but not locally")
+                elif file_or_directory == "file": #if file
+                    date_obj_remote = datetime_string_to_obj(file_dates[k][filename])
+                    date_obj_local = datetime_string_to_obj(json_data["lastPatchedDate"])
+                    #print(date_obj_remote)
+                    #print(date_obj_local)
+                    #print("~~~~~~~~~~(~")
+                    if date_obj_remote > date_obj_local:
+                        #print(filename + " | " + get_file_hash(filename))
+                        print("New Version | " + filename)
+                        updatetype_files.append(filename)
+            files_to_download[k] = updatetype_files
+
+        '''
+        #print("libraryroot gets different rules")
+        session = create_session()
+        response = session.get(
+            "https://api.github.com/repos/jonius7/steamui-oldglory/commits?path=" + local_filepath)
+        #print(response.json())
+        date = response.json()[0]["commit"]["committer"]["date"]
+        date_obj_remote = datetime_string_to_obj(date)
+        date_obj_local = datetime_string_to_obj(json_data["lastPatchedDate"])
+        if date_obj_remote > date_obj_local:
+            print("ADDED " + local_filepath)
+            files_to_download.append(local_filepath)
+        #print(date_obj_remote)
+        #print(date_obj_local)
+        '''
+
+                        
+        return files_to_download
+    except:
+        print("Unable to compare file hashes for small update files.", file=sys.stderr)
+        print_traceback()
+
+def files_to_download_dtol(files_dict):
+    files_list = []
+    for k, v in files_dict.items():
+        for filename in v:
+            files_list.append(filename)
+    return files_list
+              
+def get_repo_directory_contents(directory_name):
+    branch = BRANCH
     
+    session = create_session()
+    response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/contents/" + \
+                           directory_name + "?ref=" + branch)
+    return response.json()
 
-def update_json_last_patched_date():
-    print("TODO")
+# moves files in filelist to backups/[YYYY-mm-dd HH:MM:ss]
+# filelist = list of strings ['filepath1', 'filepath2']
+def backup_old_versions(filelist):
+    try:
+        backups_folder = "backups"
+        local_time = get_local_datetime().replace("T", " ").replace(":", "-").replace("Z", "")
+        
+        backup_path = os.path.join(backups_folder, local_time)
+        if not os.path.exists(backup_path):
+            os.makedirs(backup_path)
+        for filepath in filelist:
+            sp_filepath = filepath.split("/")
+            sp_dir = sp_filepath[:-1]
+            filedir = os.path.join('', *sp_dir)
+            if not os.path.exists(os.path.join(backup_path, filedir)):
+                os.makedirs(os.path.join(backup_path, filedir))
+            shutil.move(filepath, os.path.join(backup_path, filedir, sp_filepath[-1]))
+            print("File " + sp_filepath[-1] + " moved to " + os.path.join(backup_path, filedir, sp_filepath[-1]))
+    except:
+        print("Unable to backup old versions of small update files.", file=sys.stderr)
+        print_traceback()
+
+### in the future could try to preserve date modified (optional)
+def download_file(filepath, branch=BRANCH):
+    url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
+    r = requests.get(url + branch + "/" + filepath, allow_redirects=True)
+    if not os.path.exists(filepath):
+        open(filepath, 'wb').write(r.content)
+        print("File " + filepath + " downloaded.")
+    else:
+        print("File at " + filepath + " already exists!")
+
+### [END OF] AUTO-UPDATE Functions
+##########################################

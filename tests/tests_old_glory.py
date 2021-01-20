@@ -83,7 +83,14 @@ class TestApplyCssValues(unittest.TestCase):
         dummyFrame.pack()
 
         x.getPresetOptions()
-        
+    
+    '''
+    def test_updatewindow(self):
+        dummyController = old_glory.OldGloryApp()
+        dummyUpdate = old_glory.UpdateWindow(
+            controller=self,
+            file_dates=backend.check_new_commit_dates(dummyController.json_data))
+    '''   
         
 class BlankClass(object):
     def __init__(self, string):

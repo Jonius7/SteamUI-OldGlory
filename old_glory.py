@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.7.15 Beta"
+        self.version = "v0.9.8.4"
         self.release = "5.5-pre"
       
         ### Window, Title, Icon setup
@@ -38,21 +38,21 @@ class OldGloryApp(tk.Tk):
             self.call('tk', 'scaling', 1.3)
 
         ### Window Dimensions/Position
-        windowW = 760
-        windowH = 660
+        self.windowW = 760
+        self.windowH = 660
         screen_width = container.winfo_screenwidth()
         screen_height = container.winfo_screenheight()
-        windowX = (screen_width / 2) - (windowW / 2)
-        windowY = (screen_height / 2) - (windowH / 2)
-        self.geometry(f'{windowW}x{windowH}+{int(windowX)}+{int(windowY)}')
-        self.minsize(width=windowW, height=windowH)
+        windowX = (screen_width / 2) - (self.windowW / 2)
+        windowY = (screen_height / 2) - (self.windowH / 2)
+        self.geometry(f'{self.windowW}x{self.windowH}+{int(windowX)}+{int(windowY)}')
+        self.minsize(width=self.windowW, height=self.windowH)
         self.maxsize(width=screen_width, height=screen_height)
 
         container.pack(side="top", fill="both", expand = True)
 
         ### Icon and Title
         add_window_icon(self)
-        self.wm_title("SteamUI-OldGlory Configurer")        
+        self.wm_title("SteamUI-OldGlory Configurer")
 
         ### Default Font
         self.default_font = TkFont.nametofont("TkDefaultFont")
@@ -100,34 +100,42 @@ class OldGloryApp(tk.Tk):
         self.show_frame(StartPage)
 
         ### Run Update Checks with show frame
-        #thread = Thread(target = self.frames[StartPage].text1.bind, args = ('<Visibility>', self.init_show_frame(StartPage)))
         thread = Thread(target = self.update_check, args = ())
         thread.start()
-        #self.frames[StartPage].text1.bind('<Visibility>', self.init_show_frame(StartPage))
-        
-    def init_show_frame(self, cont):
-        self.frames[cont].tkraise()
-        self.frames[cont].update()
-        self.frames[StartPage].text1.bind('<Visibility>', self.update_check())
         
     def show_frame(self, cont):
         self.frames[cont].tkraise()
 
     #init text log
-    def update_check(self):
-        
+    def update_check(self):        
         ### Check if CSS Patched
         ### Check for new version
         self.frames[StartPage].text1.config(state='normal')
         if is_connected():            
-            check_if_css_patched(self)
+            check_if_css_patched(self.frames[StartPage])
             release_check(self.frames[StartPage], self.release)
             print("Checking for small updates...")
-            backend.check_new_commit_dates(self.json_data)
+            thread = Thread(target = self.small_update_check, args = ())
+            thread.start()
         else:
             print("You are offline, cannot automatically check for updates.", file=sys.stderr)
 
-        #self.frames[StartPage].text1.unbind('<Visibility>')   
+
+    def small_update_check(self):
+        file_dates = backend.hash_compare_small_update_files(
+            backend.check_new_commit_dates(self.json_data),
+            self.json_data)
+        #print(file_dates)
+        files_no = 0
+        for update_type in file_dates:
+            files_no += len(file_dates[update_type])
+        if files_no > 0:
+            thread = Thread(target = UpdateWindow, kwargs = ({'controller': self, 'file_dates': file_dates}))
+            thread.start()
+        else:
+            print("Done.")
+
+
 
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -136,11 +144,14 @@ class StartPage(tk.Frame):
     ### LOG FRAME
     ### Defined first even though it will be packed after the CHECK FRAME, due to redirecting StdOut
     ###
-        frameLog = tk.Frame(self)
+        frameLog = tk.Frame(self, width=controller.windowW-50, height=controller.windowH-450)
+        frameLog.grid_propagate(False)
+        frameLog.columnconfigure(0, weight=1)
+        frameLog.rowconfigure(0, weight=1)
 
         ### Text
         entry1 = ttk.Entry(frameLog)
-        self.text1 = tk.Text(entry1, height=12, width=92)
+        self.text1 = tk.Text(entry1, width=500)
         self.text1.configure(font=("Arial",10))
 
         ### REDIRECT STDOUT STDERR
@@ -148,7 +159,7 @@ class StartPage(tk.Frame):
             sys.stdout = StdoutRedirector(self.text1)
             sys.stderr = StderrRedirector(self.text1)
         
-        self.text1.pack(expand="yes",fill="x")
+        self.text1.pack(expand="yes")
         entry1.grid(row=0, column=0)
 
         ###
@@ -364,9 +375,9 @@ class StartPage(tk.Frame):
         ###tabs
         tabs.add(frameCheck, text="Main Options")
         tabs.add(framePatch, text="Advanced Options")
-        tabs.pack(fill="y", expand=1)
+        tabs.pack(expand=1)
         
-        frameLog.pack(pady=(10,7))
+        frameLog.pack(padx=17, pady=(10,7), expand=1, fill='both')
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         frameMode.pack(pady=(2, 0), side="bottom")
 
@@ -1277,18 +1288,32 @@ class PresetFrame(tk.Frame):
                 for i, presetOption in enumerate(self.controller.json_data["quickCSS"]):
                     #print(self.controller.json_data["quickCSS"][presetOption])
                     _p = PresetOption(self.framePreset, self.controller, presetOption, self.controller.json_data["quickCSS"][presetOption])
-                    _p.returnPresetOption().grid(row=i % 3, column=i // 3, padx=(5,0), pady=(0,18), sticky="nw")
+                    _p.returnPresetOption().grid(row=i // 3, column=i % 3, padx=(5,0), pady=(0,18), sticky="nw")
                     self.presetOptions[presetOption] = _p
 
-
+                ### Links frame
+                frameLinks = tk.Frame(self.framePreset)
+                #
                 var_file_path = os.path.join(os.getcwd(), "variables.css")
-                self.var_vars = tk.IntVar()
-                button_vars = ttk.Button(self.framePreset,
+                button_vars = ttk.Button(frameLinks,
                                    text="Open variables file",
                                    width=16
                 )
                 button_vars.bind("<Button-1>", lambda event:backend.OS_open_file(var_file_path))
-                button_vars.grid(row=2, column=2, padx=(5,0))
+                button_vars.grid(row=0, column=0, padx=(5,0), pady=(0,5))
+
+                #
+                scss_file_path = os.path.join(os.getcwd(), "scss", "libraryroot.custom.scss")
+                button_scss = ttk.Button(frameLinks,
+                                   text="Open scss file",
+                                   width=16
+                )
+                button_scss.bind("<Button-1>", lambda event:backend.OS_open_file(scss_file_path))
+                button_scss.grid(row=1, column=0, padx=(5,0), pady=(0,5))
+
+                #
+                last_option_num = len(self.controller.json_data["quickCSS"])
+                frameLinks.grid(row=last_option_num // 3, column=last_option_num % 3, padx=(5,0))
                     
             else:
                 raise Exception("Property quickCSS in JSON file not found.\n"\
@@ -1577,6 +1602,102 @@ def css_config_js_enabled(css_config):
     css_config["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"] = "unset"
     return css_config
 
+### Update Window
+### ================================
+
+class UpdateWindow(tk.Toplevel):
+    def __init__(self, *args, **kwargs):
+        self.controller = kwargs["controller"]
+        
+        ### Window, Title, Icon setup
+        tk.Toplevel.__init__(self)
+        self.container = ScrollFrame(self)
+        windowW = 430
+        windowH = 400
+        screen_width = self.controller.winfo_screenwidth()
+        screen_height = self.controller.winfo_screenheight()
+        windowX = (screen_width / 2) - (windowW / 2)
+        windowY = (screen_height / 2) - (windowH / 2) + 30
+        self.geometry(f'{windowW}x{windowH}+{int(windowX)}+{int(windowY)}')
+        self.wm_title("Small Update")
+        add_window_icon(self)
+        
+        self.file_dates = kwargs["file_dates"]
+        self.body = tk.Frame(self.container.content)
+
+        self.defaultfont = self.controller.default_font.copy()
+        self.smallfont = self.defaultfont.copy()
+        self.smallfont.configure(size=12)
+        
+        self.messages = []
+        self.labels = []
+        
+        self.prepop_update_window_text()
+        total_rows = self.add_update_window_text()
+        self.add_yes_no_frame(total_rows)
+        
+        self.body.grid(row=0, column=0, padx=10, sticky="n")
+        self.container.pack(side="top", fill="both", expand=1)
+        
+    def prepop_update_window_text(self):
+        #print(backend.format_file_dates_to_strings(self.file_dates))
+        self.messages = backend.format_file_dates_to_strings(self.file_dates)
+
+    def add_update_window_text(self):        
+        for i, message in enumerate(self.messages):
+            _labeltext = tk.StringVar()
+            _labeltext.set(message)
+            _label = tk.Label(self.body,
+                              textvariable=_labeltext,
+                              font=self.smallfont)
+            #buttonr_tip = Detail_tooltip(label_a, "", hover_delay=200)
+            _label.grid(row=i, column=0)
+            self.labels.append(_label)
+        return i
+            
+    def add_yes_no_frame(self, totalrows):
+        ynFrame = tk.Frame(self.body)
+        
+        _labeltext = tk.StringVar()
+        _labeltext.set("Update Files?")
+        _label = tk.Label(ynFrame,
+                          textvariable=_labeltext,
+                          font=self.smallfont)
+        #buttonr_tip = Detail_tooltip(label_a, "", hover_delay=200)
+        _label.pack(padx=5)
+
+        ybutton = ttk.Button(ynFrame,
+                              text="Yes",
+                              width=4
+        )
+        ybutton.bind("<Button-1>", lambda event:self.yes_update_click())
+        ybutton.pack(pady=5)
+
+        nbutton = ttk.Button(ynFrame,
+                              text="No",
+                              width=4
+        )
+        nbutton.bind("<Button-1>", lambda event:self.destroy())
+        nbutton.pack(pady=(0,5)) 
+        
+        ynFrame.grid(row=0, column=1, padx=(20,0), rowspan=totalrows, sticky="e")
+        print("TODO")
+
+    def yes_update_click(self):
+        files_list = backend.files_to_download_dtol(self.file_dates)
+        backend.backup_old_versions(files_list)
+        print("==============================")
+        self.controller.frames[StartPage].text1.update_idletasks()
+
+        for filepath in files_list:
+            #print("==============================")
+            backend.download_file(filepath, backend.BRANCH)
+            self.controller.frames[StartPage].text1.update_idletasks()
+        #Update LastPatchedDate
+        update_json_last_patched_date(self.controller.json_data)
+        self.destroy()
+        
+
 ### Settings Window
 ### ================================
 def settings_window(event, controller):
@@ -1650,7 +1771,10 @@ def settings_window(event, controller):
     
     ### Settings Frame
     frameGeneral = tk.Frame(settings)
-
+    frameGeneral.grid_columnconfigure(0, weight=0)
+    frameGeneral.grid_columnconfigure(1, weight=0)
+    frameGeneral.grid_columnconfigure(2, weight=1)
+    frameGeneral.grid_columnconfigure(3, weight=2)
 
     ###
     var_q = tk.IntVar()
@@ -1674,10 +1798,25 @@ def settings_window(event, controller):
                                  "Triple click this button to revert JS and CSS modifications.", hover_delay=200)
     button_r.grid(row=0, column=1, padx=5)
 
+    ###
+    var_s = tk.IntVar()
+    button_s = ttk.Button(frameGeneral,
+                       text="Check for Updates",
+                       width=16
+    )
+    button_s.bind("<Button-1>", lambda event:start_update_check(event, controller))
+    buttons_tip = Detail_tooltip(button_r, "Check for updates.\n" \
+                                 "Small updates can be downloaded automatically.", hover_delay=200)
+    button_s.grid(row=0, column=3, padx=5, sticky=tk.E)
+
     ###Pack Frames
     frameAbout.pack(fill="x", padx=10)
     frameGeneral.pack(fill="x", padx=10, pady=(0,30), side="bottom")
-    
+
+
+def start_update_check(event, controller):
+    thread = Thread(target = controller.update_check, args = ())
+    thread.start()
     
 ### ================================
 
@@ -1687,8 +1826,8 @@ def add_window_icon(window):
         if OS_TYPE == "Windows":
             window.iconbitmap(resource_path(icon_filename))
         elif OS_TYPE == "Linux":
-            icon = PhotoImage(file=icon_filename)   
-            root.tk.call('wm', 'iconphoto', root._w, icon)
+            icon = ImageTk.PhotoImage(file=icon_filename)   
+            window.tk.call('wm', 'iconphoto', window._w, icon)
     except:
         print("Failed to load icon: " + icon_filename, file=sys.stderr)
         print_traceback()

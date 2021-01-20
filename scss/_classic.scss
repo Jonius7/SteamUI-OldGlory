@@ -1,3 +1,17 @@
+/* ==================== Classic Styling ====================
+   ========================================================================== */
+
+:root {
+    /* Game Properties */
+    --TabColor: rgba(58, 58, 58, var(--TabColorOpacity));
+    --TabColorOpacity: 1;
+    --HoverTabColor: rgba(95, 95, 95, var(--HoverTabColorOpacity));
+    --HoverTabColorOpacity: 1;
+    --ActiveTabColor: linear-gradient(to bottom, rgba(84, 84, 84, var(--ActiveTabColorOpacity)) 0%, rgb(44, 44, 44, var(--ActiveTabColorOpacity)) 100%);
+    --ActiveTabColorOpacity: 1;
+    --TabRowHeight: 26px;
+}
+
 /* Classic Arial font*/
 body {
     font-family: Arial, Helvetica, sans-serif;

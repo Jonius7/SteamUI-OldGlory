@@ -25,14 +25,14 @@ for (var n = [], r = 2;  /*for (var n = [], r = 2;
 ###= c = 0), l < i ?   = c = 0), true ?
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
-eAssetType: 0,  eAssetType: 3,
-childHeight: 1.5 * n,  childHeight: n * 43 / 92,
-o = e.nHeight,  o = e.nWidth * 43 / 92,
-height: l.nItemHeight + r + "px"  minHeight: 125 + "px"
-height: s.nItemHeight + a + "px"  minHeight: 125 + "px"
-2.108 * l.nItemWidth  Math.max(2.108 * l.nItemWidth, 270)
-2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
-height: o + "px"  height: i = 0 === (r = t) ? Math.max(o, 150) + "px" : o + "px"
+###eAssetType: 0,  eAssetType: 3,
+###childHeight: 1.5 * n,  childHeight: n * 43 / 92,
+###o = e.nHeight,  o = e.nWidth * 43 / 92,
+###height: l.nItemHeight + r + "px"  minHeight: 125 + "px"
+###height: s.nItemHeight + a + "px"  minHeight: 125 + "px"
+###2.108 * l.nItemWidth  Math.max(2.108 * l.nItemWidth, 270)
+###2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
+###height: o + "px"  height: i = 0 === (r = t) ? Math.max(o, 150) + "px" : o + "px"
 
 ### === Stop What's New Events from Loading (working, needs more testing) ===
 ###.b.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",
@@ -40,6 +40,9 @@ height: o + "px"  height: i = 0 === (r = t) ? Math.max(o, 150) + "px" : o + "px"
 ### === HOME page Scrolling, reduce number of ComputeLayout calls ===
 this.props.maxRows < 2  var timeSince;t=this.m_elGrid.current.getBoundingClientRect(),timeSince=performance.now()-this.lastTime,this.lastTime=performance.now(),console.log(timeSince),setTimeout(function(){timeSince>60&&(console.log("ACTUALLY COMPUTING LAYOUT"),this.ComputeLayout())}.bind(this),200); /*this.props.maxRows < 2
 }, e.prototype.OnRestoreScroll = function() {   */}, e.prototype.OnRestoreScroll = function() {
+
+### === Game Properties Window Size ===
+bForcePopOut: !0,~~popupWidth: 842,  popupWidth: 672,
 
 ### === CLASSIC Sticky image background and spillover into sidebar (beta) ===
 ###rgSources: this.props.rgHeaderImages,  rgSources: "",
@@ -59,6 +62,3 @@ this.props.maxRows < 2  var timeSince;t=this.m_elGrid.current.getBoundingClientR
 ###D.createElement(Ds, {  /*D.createElement(Ds, {
 ###}, D.createElement(Ws, {  },*/ D.createElement(Ws, {
 ###this.GetAppsCollectionList(t))))  this.GetAppsCollectionList(t)))
-
-### === Game Properties Window Size ===
-bForcePopOut: !0,~~popupWidth: 842,  popupWidth: 672,

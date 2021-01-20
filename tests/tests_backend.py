@@ -4,10 +4,14 @@ from pathlib import Path
 sys.path.append(str(Path('.').absolute().parent))
 import backend
 import time
+import os
 
 #CSS Line Parser
 class TestCSSLineParser(unittest.TestCase):
 
+    os.chdir("..")
+    #unittest.main(warnings='ignore')
+    
     '''
     def test_withdefault(self):
         self.assertEqual(
@@ -71,5 +75,12 @@ class TestCSSLineParser(unittest.TestCase):
         print(backend.get_file_hash("../scss/_sidebar.scss"))
         print("--- %s seconds ---" % (time.time() - start_time))
 
+    
+    def test_check_directory(self):
+        j = backend.get_json_data()
+        c = backend.check_new_commit_dates(j)        
+        print(backend.hash_compare_small_update_files(c, j))
+    
+    
 if __name__ == '__main__':
     unittest.main()
