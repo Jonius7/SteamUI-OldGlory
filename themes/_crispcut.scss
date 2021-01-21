@@ -105,6 +105,35 @@ button.DialogButton._DialogLayout.Secondary.appdetailsworkshopsection_SpacedButt
     color: var(--LightSectionColor1) !important;
 }
 
+/* Review */
+.appactivityday_ReviewIconThumbsUpColor_3AXaY *, .appdetailsreviewsection_ReviewIconThumbsUpColor_3QZfw * {
+    fill: #61b6e8 !important;
+}
+
+.appactivityday_ReviewIconThumbsDownColor_1vUp7 *, .appdetailsreviewsection_ReviewIconThumbsDownColor_GUO5K * {
+    fill: #ec666d !important;
+}
+
+/* Post button text color */
+.posttextentry_PostTextEntry_3x31A .posttextentry_Controls_37e7D .posttextentry_PostButton_2JSyA .posttextentry_Label_3jvEk {
+	color: #888 !important;
+}
+
+.posttextentry_PostTextEntry_3x31A .posttextentry_Controls_37e7D .posttextentry_PostButton_2JSyA.posttextentry_Enabled_bGfja .posttextentry_Label_3jvEk {
+    color: white !important;
+}
+
+.posttextentry_PostTextEntry_3x31A .posttextentry_PostTextEntryArea_1JlC2 {
+	color: #b1b0b0 !important;
+}
+
+.appactivityday_CaptionQuote_IYDCY {
+    color: rgba(45, 185, 255, 0.521) !important;
+}
+.appactivityday_CaptionQuoteContainer_1iGSG {
+    color: #2db9ff !important;
+}
+
 /* Play bar */
 .appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {
 	background: radial-gradient(100% 100% at top left, rgba(95,125,130,0.8) 0%, rgba(15,38,80,0.8) 95%);
