@@ -894,10 +894,9 @@ def unscramble_token(scrambled_token):
 def get_small_update_file_list():
     try:
         list_filename = 'small_update_file_list.json'
-        branch = BRANCH
         session = create_session()        
         response = session.get('https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/' + \
-                               branch + "/" + list_filename)
+                               BRANCH + "/" + list_filename)
         return response.json()
     except json.decoder.JSONDecodeError as e:
         print("Error in update filelist JSON format.\nThis could be an issue with:\n" \
@@ -931,7 +930,7 @@ def check_new_commit_dates(json_data):
             for pathname in file_list[k]:
                 session = create_session()
                 response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/commits?path=" + \
-                                       pathname + "&page=1&per_page=1")
+                                       pathname + "&page=1&per_page=1&sha=" + BRANCH)
                 #print(json_data["lastPatchedDate"] < response.json()[0]["commit"]["committer"]["date"])
 
                 # if commit date is newer than last patched dated
@@ -1057,11 +1056,9 @@ def files_to_download_dtol(files_dict):
     return files_list
               
 def get_repo_directory_contents(directory_name):
-    branch = BRANCH
-    
     session = create_session()
     response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/contents/" + \
-                           directory_name + "?ref=" + branch)
+                           directory_name + "?ref=" + BRANCH)
     return response.json()
 
 # moves files in filelist to backups/[YYYY-mm-dd HH:MM:ss]
