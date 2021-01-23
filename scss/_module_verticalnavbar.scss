@@ -16,8 +16,9 @@
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
   margin-left: auto;
-  transform: translate(-2px, -290px) translateY(var(--VerticalNavBarOffset));
-  position: sticky;
+  right: 10px;
+  transform: translate(0, -230px) translateY(var(--VerticalNavBarOffset));
+  position: absolute;
   height: 0px !important;
   min-width: 180px;
   max-width: 190px;
@@ -37,6 +38,9 @@
 .appdetailsprimarylinkssection_LinkInner_7k4qm {
   max-width: 170px;
   overflow: visible;
+  & .appdetailsprimarylinkssection_Link_1b6LY {
+    padding: 2px 12px 2px 12px;
+  }
 }
 
 .appdetailsprimarylinkssection_LinksSection_3-V8v .appdetailsprimarylinkssection_Links_DgVQa {
