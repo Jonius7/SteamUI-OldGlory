@@ -15,5 +15,34 @@
   pointer-events: all;
 }
 
+/* Removing grey backgrounds up to the top level, as much as possible */
+.sharedappdetailsheader_TopCapsule_NZMJ6 {
+  background-color: unset;
+}
+
+.library_AppDetailsTransitionGroup_2Dd4T {
+  background: none;
+}
+
+.appdetails_ScrollContainer_2l416 {
+  background-color: none;
+}
+
+.appdetails_Glassy_3Fmxx.appdetails_ScrollContainer_2l416 {
+  background: none;
+}
+
+/* alttextimg - broken link image in top left annoyance */
+#alttext-image {
+  display: none;
+}
+img.sharedappdetailsheader_ImgSrc_HNbe3.sharedappdetailsheader_ImgBlur_HSQWw {
+  display: none;
+}
+.sharedappdetailsheader_ImgSrc_HNbe3 {
+  text-indent: -10000px;
+}
+
+
 /* ========================================================================== 
    END Game AppPage Header */
