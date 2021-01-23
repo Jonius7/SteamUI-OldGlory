@@ -1,7 +1,7 @@
 /* VERTICAL NAV BAR - BETA - REQUIRES JS TWEAKS */
 
 .sharedappdetailsheader_BoxSizerContainer_A14yd {
-  z-index: -1;
+  z-index: 2 !important;
 }
 
 .appdetailsgameinfocontainer_AppGameInfoContainer_25oBZ.appdetailsgameinfocontainer_AppDetailsExpanded_3s6_6.appdetailsgameinfocontainer_Glassy_2QAgO {
@@ -17,8 +17,8 @@
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
   margin-left: auto;
   right: 10px;
-  transform: translate(0, -230px) translateY(var(--VerticalNavBarOffset));
-  position: absolute;
+  transform: translate(0, -295px) translateY(var(--VerticalNavBarOffset));
+  position: sticky;
   height: 0px !important;
   min-width: 180px;
   max-width: 190px;
