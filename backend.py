@@ -1089,7 +1089,7 @@ def download_file(filepath, branch=BRANCH):
     r = requests.get(url + branch + "/" + filepath, allow_redirects=True)
     if not os.path.exists(filepath):
         #open(filepath, 'wb').write(r.context)
-        open(filepath, 'w').write(r.text)
+        open(filepath, 'w', encoding="UTF-8").write(r.text)
         print("File " + filepath + " downloaded.")
     else:
         print("File at " + filepath + " already exists!")

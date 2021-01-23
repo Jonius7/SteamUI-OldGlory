@@ -6,6 +6,7 @@ sys.path.append(str(Path('.').absolute().parent))
 import old_glory
 import backend
 import tkinter as tk
+import os
 
 #Test recursion for finding values in css_config
 class TestApplyCssValues(unittest.TestCase):
@@ -90,7 +91,13 @@ class TestApplyCssValues(unittest.TestCase):
         dummyUpdate = old_glory.UpdateWindow(
             controller=self,
             file_dates=backend.check_new_commit_dates(dummyController.json_data))
-    '''   
+    '''
+
+    def test_is_connected(self):
+        old_glory.is_connected()
+
+    def test_open(self):
+        backend.OS_open_file(os.getcwd())
         
 class BlankClass(object):
     def __init__(self, string):
