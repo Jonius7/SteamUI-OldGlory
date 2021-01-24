@@ -15,7 +15,6 @@ On Steam Beta? Check [`/beta`](https://github.com/Jonius7/SteamUI-OldGlory/tree/
 ### Showcase of Tweaks
 
 <details><summary>(click to expand)</summary><br>
-
 Condensed sidebar buttons <br>
     <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 40%;" /> <br><br>
     Show more games <br>
@@ -52,12 +51,11 @@ Condensed sidebar buttons <br>
   <li>A few of these can be configured using the GUI, but there are additional options here you can set manually.</li>
   <li>If you manually edit the file, use the <b>Reload Config</b> button to load them into the Configurer. </li><br>
 <li><tt>scss/libraryroot.custom.scss</tt> contains the @imports for each of the CSS "modules", that each cover a different part of the Steam library.</li>
-    <li>You can enable and disable certain modules by adding <tt>// </tt>tt> to the beginning of the line</li>
+    <li>You can enable and disable certain modules by adding <tt>// </tt> to the beginning of the line</li>
     <li>Click <b>Install</b> in the Configurer to apply your changes.</li>
 </ul>
 </details>
-
-![https://i.imgur.com/A85LCCn.png](https://i.imgur.com/A85LCCn.png)
+![https://media.giphy.com/media/5ZiZcGpMvRyEdOliSk/giphy.gif](https://media.giphy.com/media/5ZiZcGpMvRyEdOliSk/giphy.gif)
 
 #### OldGlory Configurer (GUI)
 
