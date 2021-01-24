@@ -15,7 +15,6 @@ On Steam Beta? Check [`/beta`](https://github.com/Jonius7/SteamUI-OldGlory/tree/
 ### Showcase of Tweaks
 
 <details><summary>(click to expand)</summary><br>
-
 Condensed sidebar buttons <br>
     <img src="https://i.imgur.com/YDCDMD1.png" alt="img" style="zoom: 40%;" /> <br><br>
     Show more games <br>
@@ -56,7 +55,7 @@ Condensed sidebar buttons <br>
     <li>Click <b>Install</b> in the Configurer to apply your changes.</li>
 </ul>
 </details>
-![](https://media.giphy.com/media/5ZiZcGpMvRyEdOliSk/giphy.gif)
+![https://media.giphy.com/media/5ZiZcGpMvRyEdOliSk/giphy.gif](https://media.giphy.com/media/5ZiZcGpMvRyEdOliSk/giphy.gif)
 
 #### OldGlory Configurer (GUI)
 
