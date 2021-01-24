@@ -56,9 +56,7 @@ Condensed sidebar buttons <br>
     <li>Click <b>Install</b> in the Configurer to apply your changes.</li>
 </ul>
 </details>
-
-
-![https://i.imgur.com/A85LCCn.png](https://i.imgur.com/A85LCCn.png)
+![](https://media.giphy.com/media/5ZiZcGpMvRyEdOliSk/giphy.gif)
 
 #### OldGlory Configurer (GUI)
 
