@@ -1,4 +1,7 @@
 /* CLASSIC LAYOUT - BETA */
+:root {
+  --ClassicWidth: calc(100% - 195px);
+}
 
 .sharedappdetailsheader_TopCapsule_NZMJ6 {
     min-height: unset;
@@ -13,15 +16,15 @@
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_Spotlights_11kuV.appdetailsoverview_SpotlightLeftColumn_3wbnd {
-  width: unset;
+  width: calc(100% - 201px);
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_Spotlights_11kuV {
-  width: calc(103.4% - 258px);
+  width: calc(100% - 212px);
 }
 
-.appdetailsoverview_Container_27RcN .appdetailsoverview_RightColumn_2aor4 {
-  width: calc(100% - 195px);
+.appdetailsoverview_Container_27RcN .appdetailsoverview_RightColumn_2aor4{
+  width: var(--ClassicWidth);
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB {
