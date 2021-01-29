@@ -62,10 +62,16 @@
   width: fit-content;
 }
 
-.sharedappdetailsheader_TitleSection_30acA .sharedappdetailsheader_Features_fqwOy {
-  padding-right: 210px;
+/* single/multiplayer/controller support icons */
+.sharedappdetailsheader_TitleSection_30acA {
+  z-index: 4;
+
+  & .sharedappdetailsheader_Features_fqwOy {
+    padding-right: 210px;
+  }
 }
 
+/* categories */
 .appdetailsheader_HeaderFeatures_2b6Wk{
   right: 210px;
   pointer-events: all;
