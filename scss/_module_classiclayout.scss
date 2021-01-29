@@ -1,6 +1,6 @@
 /* CLASSIC LAYOUT - BETA */
 :root {
-  --ClassicWidth: calc(100% - 195px);
+  --ClassicWidth: calc(100% - 185px);
 }
 
 .sharedappdetailsheader_TopCapsule_NZMJ6 {
@@ -43,10 +43,10 @@
 }
 
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
-  transform: translate(-2px, 5px) translateY(calc(var(--VerticalNavBarOffset) * 1.7));
+  transform: translate(8px, 5px) translateY(calc(var(--VerticalNavBarOffset) * 1.7));
   position: sticky;
   height: 0px;
-
+  order: 3;
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_LeftColumn_1sZgB {

@@ -1014,6 +1014,7 @@ def hash_compare_small_update_files(file_dates, json_data):
                             #print("", end="")
                         else:
                             print("File at " + local_filepath + " exists on remote but not locally")
+                            updatetype_files.append(local_filepath)
                 elif file_or_directory == "file": #if file
                     date_obj_remote = datetime_string_to_obj(file_dates[k][filename])
                     date_obj_local = datetime_string_to_obj(json_data["lastPatchedDate"])

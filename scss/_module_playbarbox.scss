@@ -5,7 +5,9 @@
 }
 
 .appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {
-  transform: translate(calc(8vmax - 27%), calc(-8vmax - 42%));
+  position: relative;
+  top: calc(-141px - 3vw);
+  left: 15px;
   width: 33%;
   max-width: 345px;
   background: rgba(40, 40, 40, 0.7);
@@ -168,5 +170,27 @@
   }
 }
 
+/* Narrow */
+div.NarrowRightPanel .appdetailsplaysection_PlayBarLabel_34lrt {
+  min-width: 94px;
+}
 
-  /* END PLAY BAR LAYOUT */
+.library_MainPanel_3BFcm.NarrowRightPanel.MediumRightPanel > div > div > div > div > div > div > div > div > div > div >
+ div.appdetailsplaysection_RightControls_1EAxK {
+  margin-top: -70px;
+}
+
+div.NarrowRightPanel .appdetailsplaysection_DetailsSection_1dg8h.appdetailsplaysection_Downloading_2F4Pc {
+  margin-top: 5px;
+}
+
+div.NarrowRightPanel .appdetailsplaysection_DetailsSection_1dg8h .appdetailsplaysection_DetailsProgressContainer_25YVD {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.sharedappdetailsheader_TextNameSpace_3sUYx {
+  transform: translateX(23.5vw);
+}
+
+/* END PLAY BAR LAYOUT */

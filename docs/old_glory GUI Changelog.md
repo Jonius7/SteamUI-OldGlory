@@ -1,5 +1,7 @@
 ## SteamUI-OldGlory GUI Changelog
 
+0.9.8.8	  Downloads new files from remote
+
 **0.9.8.7**	 **(Release 5.5.1)** Fix UnicodeEncodeError: 'charmap' codec can't encode character `'\u266a'`
 
 **0.9.8.6** 	**(Release 5.5)** Added `Apply config.css` button for shiina's `steam-library`
