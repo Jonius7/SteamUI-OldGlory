@@ -10,7 +10,8 @@
     --ActiveTabColor: linear-gradient(to bottom, rgba(84, 84, 84, var(--ActiveTabColorOpacity)) 0%, rgb(44, 44, 44, var(--ActiveTabColorOpacity)) 100%);
     --ActiveTabColorOpacity: 1;
     --TabRowHeight: 26px;
-    --VerticalNavBarOffset: -88.5px;
+    --VerticalNavBarOffset: -88.5px; 
+    --FriendsDLCScreenshotsColumnWidth: -0.5%;
 }
 
 /* Classic Arial font*/
@@ -168,4 +169,15 @@ div.NarrowRightPanel .appdetailsplaysection_PlayBarLabel_34lrt {
 /* Activity Heading Padding */
 .appdetailsactivitysection_ActivityFeedContainer_3yTl3 > div {
   padding-left: 10px;
+}
+
+/* collection tags */
+.appdetailsheader_HeaderFeatures_2b6Wk {
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+.appdetailsheader_InCollection_1HS4t {
+    text-align: left;
+    width: 174px;
 }
