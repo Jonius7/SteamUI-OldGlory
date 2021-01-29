@@ -17,7 +17,7 @@
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
   margin-left: auto;
   right: 10px;
-  transform: translate(0, -295px) translateY(var(--VerticalNavBarOffset));
+  transform: translate(5px, -295px) translateY(var(--VerticalNavBarOffset));
   position: sticky;
   height: 0px !important;
   min-width: 180px;
@@ -62,14 +62,21 @@
   width: fit-content;
 }
 
-.appdetailsheader_HeaderFeatures_2b6Wk,
-.sharedappdetailsheader_TitleSection_30acA {
-  right: calc(122vw * 0.15);
+.sharedappdetailsheader_TitleSection_30acA .sharedappdetailsheader_Features_fqwOy {
+  padding-right: 210px;
+}
+
+.appdetailsheader_HeaderFeatures_2b6Wk{
+  right: 210px;
   pointer-events: all;
 }
 
 .sharedappdetailsheader_TopCapsule_NZMJ6 {
     min-height: 240px;
+}
+
+div.NarrowRightPanel .appdetailsprimarylinkssection_LinksSection_3-V8v {
+  margin-top: 8px;
 }
 
 /* END VERTICAL NAV BAR */
