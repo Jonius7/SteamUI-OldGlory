@@ -54,7 +54,7 @@ src: this.props.rgBlurImages[this.state.nBlurImageIndex],  src: "",
 Object(j.c)([se.a], e.prototype, "OnChangeHero", null),  Object(j.c)([se.a], e.prototype, "OnChangeHero", null), Object(j.c)([se.a], e.prototype, "OnRemoveHero", null),
 
 ### === Press Enter to launch games ===
-switch (t) {~~case 38:  case 13: return this.RunApp(Lo.currentGameListSelection.nAppId), void e.preventDefault();case 38:
+switch (t) {~~case 38:  case 13: return this.RunApp(ko.currentGameListSelection.nAppId), void e.preventDefault();case 38:
 }, e.prototype.MoveRangeSelectUpOneRow = function() {  }, e.prototype.RunApp = function(e) {window.location.href = "steam://rungameid/" + e;}, e.prototype.MoveRangeSelectUpOneRow = function() {
 
 ### === **Experimental** Don't load HOME game images, only alt text ===
