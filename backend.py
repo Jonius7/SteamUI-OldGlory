@@ -1078,8 +1078,9 @@ def backup_old_versions(filelist):
             filedir = os.path.join('', *sp_dir)
             if not os.path.exists(os.path.join(backup_path, filedir)):
                 os.makedirs(os.path.join(backup_path, filedir))
-            shutil.move(filepath, os.path.join(backup_path, filedir, sp_filepath[-1]))
-            print("File " + sp_filepath[-1] + " moved to " + os.path.join(backup_path, filedir, sp_filepath[-1]))
+            if os.path.exists(filepath):
+                shutil.move(filepath, os.path.join(backup_path, filedir, sp_filepath[-1]))
+                print("File " + sp_filepath[-1] + " moved to " + os.path.join(backup_path, filedir, sp_filepath[-1]))
     except:
         print("Unable to backup old versions of small update files.", file=sys.stderr)
         print_traceback()
@@ -1089,6 +1090,10 @@ def download_file(filepath, branch=BRANCH):
     url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
     r = requests.get(url + branch + "/" + filepath, allow_redirects=True)
     if not os.path.exists(filepath):
+        # split
+        dirs = filepath.split("/")
+        if len(dirs) == 2:
+            os.makedirs(dirs[0])            
         #open(filepath, 'wb').write(r.context)
         open(filepath, 'w', encoding="UTF-8").write(r.text)
         print("File " + filepath + " downloaded.")
