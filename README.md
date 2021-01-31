@@ -47,6 +47,8 @@ Condensed sidebar buttons <br>
 
 ##### **Manual Editing** (CSS/SCSS)
 
+[HOW TO: Enable/Disable CSS modules and features](https://imgur.com/a/PocNfPE)
+
 <details><summary>More details</summary>
 <ul>   
 <li><tt>variables.css</tt>  contains a list of CSS variables that tweak certain parts of the Library.</li>
@@ -57,7 +59,6 @@ Condensed sidebar buttons <br>
     <li>Click <b>Install</b> in the Configurer to apply your changes.</li>
 </ul>
 </details>
-
 <img src="https://media.giphy.com/media/5ZiZcGpMvRyEdOliSk/giphy.gif" alt="GUI Images" style="zoom:95%;" />
 
 #### OldGlory Configurer (GUI)
@@ -185,6 +186,7 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
 - [SteamUI-OldGlory Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki)
 - [GIF of tweaks](https://gyazo.com/38d0101b493741501697b4a0f5f0818f)
 - [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix)
+- [(Images) Collapse Game Page Sections](https://imgur.com/a/2GNoC3u)
 - [(Images) More DLC and Screenshots, more info!](https://imgur.com/a/3WTdrXP)
 - [(Images) JS Tweaks](https://imgur.com/a/mL4QNYB)
 - [(Images) Is Steam Grid View Back?](https://imgur.com/gallery/qcIHx0l)
