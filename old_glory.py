@@ -1821,7 +1821,7 @@ def settings_window(event, controller):
                        width=16
     )
     button_s.bind("<Button-1>", lambda event:start_update_check(event, controller))
-    buttons_tip = Detail_tooltip(button_r, "Check for updates.\n" \
+    buttons_tip = Detail_tooltip(button_s, "Check for updates.\n" \
                                  "Small updates can be downloaded automatically.", hover_delay=200)
     button_s.grid(row=0, column=3, padx=5, sticky=tk.E)
 
