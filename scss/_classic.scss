@@ -11,7 +11,7 @@
     --ActiveTabColorOpacity: 1;
     --TabRowHeight: 26px;
     --VerticalNavBarOffset: -88.5px; 
-    --FriendsDLCScreenshotsColumnWidth: -0.5%;
+    //--ClassicStyleBackgroundWidth: -0.5%;
 }
 
 /* Classic Arial font*/
@@ -162,7 +162,7 @@ div.NarrowRightPanel .appdetailsplaysection_PlayBarLabel_34lrt {
 }
 
 .appdetailsoverview_LeftColumn_1sZgB > div > .appdetailssection_AppDetailsSection_2r4TK {
-    background-image: linear-gradient(to right, rgba(30, 30, 30, 0) calc(var(--FriendsDLCScreenshotsColumnWidth) + 0.5%), rgba(30, 30, 30, 0.7) calc(var(--FriendsDLCScreenshotsColumnWidth) + 0.5%), rgba(30, 30, 30, 0.7) 100%);
+    background-image: linear-gradient(to right, rgba(30, 30, 30, 0) calc(var(--ClassicStyleBackgroundWidth) + 0.5%), rgba(30, 30, 30, 0.7) calc(var(--ClassicStyleBackgroundWidth) + 0.5%), rgba(30, 30, 30, 0.7) 100%);
     //background: rgba(30,30,30,0.7);
 }
 
@@ -180,4 +180,8 @@ div.NarrowRightPanel .appdetailsplaysection_PlayBarLabel_34lrt {
 .appdetailsheader_InCollection_1HS4t {
     text-align: left;
     width: 174px;
+}
+
+.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {
+    top: calc(-128px - 3vw);
 }
