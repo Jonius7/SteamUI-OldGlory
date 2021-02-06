@@ -1092,7 +1092,7 @@ def download_file(filepath, branch=BRANCH):
     if not os.path.exists(filepath):
         # split
         dirs = filepath.split("/")
-        if len(dirs) == 2:
+        if len(dirs) == 2 and not os.path.exists(dirs[0]):
             os.makedirs(dirs[0])            
         #open(filepath, 'wb').write(r.context)
         open(filepath, 'w', encoding="UTF-8").write(r.text)
