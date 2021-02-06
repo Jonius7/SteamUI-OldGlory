@@ -6,7 +6,7 @@ Check [`/dev`](https://github.com/Jonius7/SteamUI-OldGlory/tree/dev) branch for 
 
 On Steam Beta? Check [`/beta`](https://github.com/Jonius7/SteamUI-OldGlory/tree/beta) branch for some files you may need.
 
-#### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) 
+#### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) |[Quick Guide](https://github.com/Jonius7/SteamUI-OldGlory#quick-guide) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) 
 
 ### Video Guide and GIF
 
@@ -36,13 +36,14 @@ Condensed sidebar buttons <br>
 
 
 
-## Quick Usage
+## Quick Guide
 
 #### Patching and CSS
 
-- Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). NOTE (if running v0.1.36-beta, [**"Steam Beta"** in Settings, needs to be ticked.](https://i.imgur.com/jmSaoEE.png)) Run it, it will patch some files.
+- Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). NOTE (Since v0.1.36-beta, [**"Steam Beta"** in Settings, needs to be ticked.](https://i.imgur.com/jmSaoEE.png)) Run it, it will patch some files.
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 - Select the options you want to use, then click **Install**.
+- [7 Feb] Steam Client update is out. OldGlory should prompt you to download the new `fixes.txt` file. You'll also need to use the "Remake JS" option in Settings if you were previously using any JS tweaks.
 - To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix).
 
 ##### **Manual Editing** (CSS/SCSS)
