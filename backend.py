@@ -1087,18 +1087,25 @@ def backup_old_versions(filelist):
 
 ### in the future could try to preserve date modified (optional)
 def download_file(filepath, branch=BRANCH):
-    url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
-    r = requests.get(url + branch + "/" + filepath, allow_redirects=True)
-    if not os.path.exists(filepath):
-        # split
-        dirs = filepath.split("/")
-        if len(dirs) == 2 and not os.path.exists(dirs[0]):
-            os.makedirs(dirs[0])            
-        #open(filepath, 'wb').write(r.context)
-        open(filepath, 'w', encoding="UTF-8").write(r.text)
-        print("File " + filepath + " downloaded.")
-    else:
-        print("File at " + filepath + " already exists!")
+    try:
+        url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
+        r = requests.get(url + branch + "/" + filepath, allow_redirects=True)
+        if not os.path.exists(filepath):
+            if r.ok:
+                # split
+                dirs = filepath.split("/")
+                if len(dirs) == 2 and not os.path.exists(dirs[0]):
+                    os.makedirs(dirs[0])            
+                #open(filepath, 'wb').write(r.context)
+                open(filepath, 'w', encoding="UTF-8").write(r.text)
+                print("File " + filepath + " downloaded.")
+            else:
+                print("Invalid request URL")
+        else:
+            print("File at " + filepath + " already exists!")
+    except:
+        print("Unable to download file " + str(filepath), file=sys.stderr)
+        print_traceback()
 
 ### [END OF] AUTO-UPDATE Functions
 ##########################################

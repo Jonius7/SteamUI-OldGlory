@@ -26,7 +26,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
         self.version = "v0.9.8.10"
-        self.release = "5.5.3-pre"
+        self.release = "5.5.3"
       
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
@@ -882,37 +882,41 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
 
 ### Install Click
 def install_click(event, page, controller):
-    print("==============================")
-    #get settings
-    settings_to_apply, settings_values = get_settings_from_gui(event, page)
+    try:
+        print("==============================")
+        #get settings
+        settings_to_apply, settings_values = get_settings_from_gui(event, page)
 
-    #make any js_config enable/disable required based on main options
-    settings_values = apply_changes_to_config(controller, settings_values)
-    
-    #write fixes.txt before apply
-    backend.write_js_fixes(controller.js_config, controller.special_js_config)
+        #make any js_config enable/disable required based on main options
+        settings_values = apply_changes_to_config(controller, settings_values)
+        
+        #write fixes.txt before apply
+        backend.write_js_fixes(controller.js_config, controller.special_js_config)
 
-    #write css configurables
-    backend.write_css_configurables(controller.css_config)
+        #write css configurables
+        backend.write_css_configurables(controller.css_config)
 
-    #applying settings
-    apply_settings_from_gui(page, controller, settings_to_apply, settings_values)
-    backend.write_config(settings_values)
+        #applying settings
+        apply_settings_from_gui(page, controller, settings_to_apply, settings_values)
+        backend.write_config(settings_values)
 
-    #add/remove theme
-    apply_css_theme(controller.frames[StartPage], controller)
+        #add/remove theme
+        apply_css_theme(controller.frames[StartPage], controller)
 
-    #enable/disable modules (TODO)
+        #enable/disable modules (TODO)
 
-    #compile css from scss
-    #print(controller.json_data)
-    #backend.compile_css(controller.json_data)
-    backend.compile_css(backend.get_json_data())
-    
-    #reset state of js gui to "unchanged"
-    controller.js_gui_changed = 0
-    backend.refresh_steam_dir()
-    update_loaded_config(page, controller)
+        #compile css from scss
+        #print(controller.json_data)
+        #backend.compile_css(controller.json_data)
+        backend.compile_css(backend.get_json_data())
+        
+        #reset state of js gui to "unchanged"
+        controller.js_gui_changed = 0
+        backend.refresh_steam_dir()
+        update_loaded_config(page, controller)
+    except:
+        print("Error while installing tweaks.", file=sys.stderr)
+        print_traceback()
 
 ### Get settings to apply (with validation), and values
 ### some of this needs to be changed to account for "unchecking" options
