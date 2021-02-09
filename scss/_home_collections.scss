@@ -78,11 +78,11 @@
 }
 
 /* Grid - Uninstalled game image opacity */
-.appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(2) {
+.appportrait_Draggable_1pwP4 > :nth-last-of-type(3) {
   opacity: var(--UninstalledGameImageOpacity);
 }
 
-.appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(3) {
+.appportrait_LibraryItemBox_WYgDg > .libraryassetimage_Container_1R9r2:nth-last-of-type(3) {
   opacity: var(--UninstalledGameImageOpacity);
 }
 
