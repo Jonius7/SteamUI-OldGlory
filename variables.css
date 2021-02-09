@@ -23,6 +23,7 @@
   --GameGridImageBackground: inherit;  /* Default: inherit. Default is inherit, set #365d2d for a friendly green */
   --GridRowGap: 8px;  /* Default: 24px. Corresponds with JavaScript tweak - Home Page Grid Spacing. */
   --GridColumnGap: 5px;  /* Default: 16px. Corresponds with JavaScript tweak - Home Page Grid Spacing. */
+  --RemoveGameHover: block;  /* Default: block. Set to none to remove game preview box when hovering over game */
 
   /* Game Page Layout */
   --FriendsDLCScreenshotsColumnWidth: 61%;  /* Default: 33%. Determines width of the Friends Who Play/Achievements/Screenshots/DLC/Trading Cards column. Friend Activity/News column will fill the rest. */
