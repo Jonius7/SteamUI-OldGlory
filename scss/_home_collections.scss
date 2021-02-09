@@ -86,6 +86,11 @@
   opacity: var(--UninstalledGameImageOpacity);
 }
 
+/* More precise uninstalled game image opacity but "broken images" annoyance - disabled by default */
+.appportrait_Draggable_1pwP4 > :nth-last-of-type(3) {
+  //opacity: var(--UninstalledGameImageOpacity);
+}
+
 /* Add bottom padding for shelf */
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG {
   padding-bottom: 8px;
@@ -94,6 +99,11 @@
 /* Your Collections header and side padding reduced*/
 .allcollections_ScrollContainer_u1xD3 {
   padding: 10px 14px;
+}
+
+/* Game Hover Preview */
+.appportraithover_AppPortraitHover_2sGn0 {
+  display: var(--RemoveGameHover);
 }
 
 /* ========================================================================== 
