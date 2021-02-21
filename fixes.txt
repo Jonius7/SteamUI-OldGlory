@@ -57,6 +57,10 @@ Object(j.c)([C.a], e.prototype, "OnChangeHero", null),  Object(j.c)([C.a], e.pro
 switch (t) {~~case 38:  case 13: return this.RunApp(ko.currentGameListSelection.nAppId), void e.preventDefault();case 38:
 }, e.prototype.MoveRangeSelectUpOneRow = function() {  }, e.prototype.RunApp = function(e) {window.location.href = "steam://rungameid/" + e;}, e.prototype.MoveRangeSelectUpOneRow = function() {
 
+### === Expand Show more Details panel by default ===
+###var e = this.props.expand ? k_.a.AppDetailsExpanded : k_.a.AppDetailsCollapsed,  var e = this.props.expand ? k_.a.AppDetailsCollapsed : k_.a.AppDetailsExpanded,
+###t = this.props.expand ? this.state.gameInfoHeight : 0;  t = this.props.expand ? 0 : this.state.gameInfoHeight;
+
 ### === **Experimental** Don't load HOME game images, only alt text ===
 ###!!t && this.BDisplayTitle() && D.createElement("span"  D.createElement("span"
 ###className: ha.a.Image,  className: ha.a.Image, /*
