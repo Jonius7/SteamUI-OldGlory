@@ -44,7 +44,7 @@ Condensed sidebar buttons <br>
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 - Select the options you want to use, then click **Install**.
 - [7 Feb] Steam Client update is out. OldGlory should prompt you to download the new `fixes.txt` file. You'll also need to use the "Remake JS" option in Settings if you were previously using any JS tweaks.
-- To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix).
+- To fix all your blurry game portrait images, use [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/).
 
 ##### **Manual Editing** (CSS/SCSS)
 
@@ -299,8 +299,8 @@ the JS goes through this process:
 - `libraryroot.modif.js` - beautified js with modified tweaks from `fixes.txt`
 - `libraryreet.js` - minified `libraryroot.modif.js` using `jsmin`
 
-Limitation that the script only reads from `libraryroot.beaut.js` one line at a time, so you cannot use multiple lines as your search criteria to "find and replace", at the moment.
+Limitation that the script reads `libraryroot.beaut.js` line by line, so some complex tweaks are unavailable to be added at the moment.
 
 `js_tweaker` will use `libraryroot.beaut.js` if it already exists. This means:
 
-- you can experiment in `libraryroot.modif.js` and delete it afterwards if you want to go back to the clean version `libraryroot.beaut.js
+- you can experiment in `libraryroot.beaut.js` (make a backup first) and delete it afterwards if you want to go back to the clean version `libraryroot.beaut.js`

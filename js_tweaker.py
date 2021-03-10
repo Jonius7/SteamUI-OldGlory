@@ -28,7 +28,7 @@ def initialise():
 
 def library_dir():
     try:
-    steamui_path = ""
+        steamui_path = ""
         if OS_TYPE == "Windows":
             key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
             steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
