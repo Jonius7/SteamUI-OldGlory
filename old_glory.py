@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.8.10"
-        self.release = "5.5.3"
+        self.version = "v0.9.8.11"
+        self.release = "5.5.4-pre1"
       
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
@@ -675,9 +675,9 @@ def release_check(page, current_release):
         print("Unable to get latest version number, too many requests! Please try again later.", file=sys.stderr)
     except requests.exceptions.ConnectionError:
         print("Could not connect to Github, Unable to check for latest release!", file=sys.stderr)
-    except:
+    except Exception as e:
         print("Unable to check for latest release!", file=sys.stderr)
-        print_traceback()
+        print(e.message, file=sys.stderr)
     
 ### StartPage
 ### Select checkboxes based on config

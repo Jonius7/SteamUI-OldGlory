@@ -1,8 +1,8 @@
 ## SteamUI-OldGlory GUI Changelog
 
-0.9.8.10    Fix `os_makedirs` download file
+**0.9.8.10**   **(Release 5.5.3)** Fix `os_makedirs` download file
 
-**0.9.8.8**	  **(Release 5.5.2)** Downloads new files from remote
+**0.9.8.8**	 **(Release 5.5.2)** Downloads new files from remote
 
 **0.9.8.7**	 **(Release 5.5.1)** Fix UnicodeEncodeError: 'charmap' codec can't encode character `'\u266a'`
 

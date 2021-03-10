@@ -207,17 +207,21 @@ def OS_open_file(path):
         print_traceback()
     
 def library_dir():
-    steamui_path = ""
-    if OS_TYPE == "Windows":
-        key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
-        steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
-        steamui_path = steam_path.replace("/","\\") + "\steamui"
-        #print(steamui_path)
-    elif OS_TYPE ==  "Darwin":
-        steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "/steamui"
-    elif OS_TYPE ==  "Linux":
-        steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "/steamui"
-    return steamui_path
+    try:
+        steamui_path = ""
+        if OS_TYPE == "Windows":
+            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
+            steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
+            steamui_path = steam_path.replace("/","\\") + "\steamui"
+            #print(steamui_path)
+        elif OS_TYPE ==  "Darwin":
+            steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "/steamui"
+        elif OS_TYPE ==  "Linux":
+            steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "/steamui"
+        return steamui_path
+    except:
+        print("Steam Library directory not found. Is Steam installed/has been run under this User?", file=sys.stderr)
+        print_traceback()
 
 def print_traceback():
     print("~~~~~~~~~~~~~~~~~~~~")

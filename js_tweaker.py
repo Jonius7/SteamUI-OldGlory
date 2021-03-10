@@ -27,18 +27,24 @@ def initialise():
     fixes_dict.clear() #not fixes_dict = {}
 
 def library_dir():
+    try:
     steamui_path = ""
-    if OS_TYPE == "Windows":
-        key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
-        steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
-        steamui_path = steam_path.replace("/","\\") + "\steamui"
-        #print(steamui_path)
-    elif OS_TYPE ==  "Darwin":
-        steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "/steamui"
-    elif OS_TYPE ==  "Linux":
-        steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "/steamui"
-    return steamui_path
+        if OS_TYPE == "Windows":
+            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
+            steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
+            steamui_path = steam_path.replace("/","\\") + "\steamui"
+            #print(steamui_path)
+        elif OS_TYPE ==  "Darwin":
+            steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "/steamui"
+        elif OS_TYPE ==  "Linux":
+            steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "/steamui"
+        return steamui_path
+    except:
+        error_exit("Steam library directory could not be found.")
+
+
 ######
+
 
 def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fresh copy (useful for updates)
     try:
@@ -51,7 +57,7 @@ def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fres
             os.remove("libraryroot.beaut.js")
     except FileNotFoundError:
         print("Steam directory and/or files not found.\n" \
-              "Please check Steam\steamui for library.js and libraryroot.js")
+              "Please check Steam\steamui for library.js and libraryroot.js", file=sys.stderr())
             
 
 def beautify_js():
@@ -73,15 +79,18 @@ def beautify_js():
 
 #modify library.js to look for different libraryroot.js file
 def setup_library(reset=0):
-    #if reset == 1 or LOCAL_DEBUG == 1:
-    if not os.path.isfile("library.js"):
-        shutil.copy2(library_dir() + "/library.js", "library.js")
-    if reset == 0:
-        print("library.js changing to use tweaked JS.")
-        modify_library(swap_js)        
-    elif reset == 1: #revert library.js to use original libraryroot.js file
-        print("library.js reverting to use original JS.")
-        modify_library(swapback_js)
+    try:
+        #if reset == 1 or LOCAL_DEBUG == 1:
+        if not os.path.isfile("library.js"):
+            shutil.copy2(library_dir() + "/library.js", "library.js")
+        if reset == 0:
+            print("library.js changing to use tweaked JS.")
+            modify_library(swap_js)        
+        elif reset == 1: #revert library.js to use original libraryroot.js file
+            print("library.js reverting to use original JS.")
+            modify_library(swapback_js)
+    except:
+        error_exit("Error setting up library.js")
         
 
 def modify_library(swap_js_array):
@@ -136,7 +145,7 @@ def parse_fixes_file(filename):
     except FileNotFoundError:
         error_exit("fixes.txt not found")
     except Exception as e:
-        error_exit("Unknown error: " + e)
+        error_exit("Error found while parsing fixes file: " + e)
 
 def find_fix(line, fix):
     m_line = line.replace(fix, fixes_dict[fix]["replace"])
@@ -153,33 +162,39 @@ def find_fix_with_variable(line, fix):
         
 
 def write_modif_file():
-    with open("libraryroot.beaut.js", "r", newline='', encoding="UTF-8") as f, \
-         open("libraryroot.modif.js", "w", newline='', encoding="UTF-8") as f1:
-        prev_line = ""
-        for line in f:
-            modified = 0
-            for fix in fixes_dict:
-                if "prev" in fixes_dict[fix]:
-                    if fixes_dict[fix]["prev"] in prev_line and fix in line:
+    try:
+        with open("libraryroot.beaut.js", "r", newline='', encoding="UTF-8") as f, \
+             open("libraryroot.modif.js", "w", newline='', encoding="UTF-8") as f1:
+            prev_line = ""
+            for line in f:
+                modified = 0
+                for fix in fixes_dict:
+                    if "prev" in fixes_dict[fix]:
+                        if fixes_dict[fix]["prev"] in prev_line and fix in line:
+                            f1.write(find_fix(line, fix))
+                            modified = 1
+                    elif fix in line:
                         f1.write(find_fix(line, fix))
                         modified = 1
-                elif fix in line:
-                    f1.write(find_fix(line, fix))
-                    modified = 1
-            if modified == 0:
-                f1.write(line)
-            prev_line = line
-    f.close()
-    f1.close()
+                if modified == 0:
+                    f1.write(line)
+                prev_line = line
+        f.close()
+        f1.close()
+    except:
+        error_exit("Error writing libraryroot.modif.js")
 
 def re_minify_file():
-    print("\nRe-minify JS file")
-    with open("libraryroot.modif.js", "r", newline='', encoding="UTF-8") as js_file:
-        minified = jsmin(js_file.read())
-    with open("libraryreet.js", "w", newline='', encoding="UTF-8") as js_min_file:
-        js_min_file.write(minified)
-    js_file.close()
-    js_min_file.close()
+    try:
+        print("\nRe-minify JS file")
+        with open("libraryroot.modif.js", "r", newline='', encoding="UTF-8") as js_file:
+            minified = jsmin(js_file.read())
+        with open("libraryreet.js", "w", newline='', encoding="UTF-8") as js_min_file:
+            js_min_file.write(minified)
+        js_file.close()
+        js_min_file.close()
+    except:
+        error_exit("Error completing JS minify.")
     
 def copy_files_to_steam():
     try:
@@ -190,8 +205,10 @@ def copy_files_to_steam():
                 print("File " + filename + " written to " + library_dir())
                 
     except FileNotFoundError:
-        print("Files not found!\n" \
+        error_exit("Files not found!\n" \
               "Run the other functions in js_tweaker first.")
+    except Exception as e:
+        error_exit("Error found while copying files to Steam: " + e)
 
 
 def error_exit(errormsg):
@@ -199,7 +216,6 @@ def error_exit(errormsg):
     print("~~~~~~~~~~")
     print(traceback.print_exc(), file=sys.stderr)
     print("~~~~~~~~~~")
-    input("Press Enter to continue...")
     sys.exit()
     
 def main():

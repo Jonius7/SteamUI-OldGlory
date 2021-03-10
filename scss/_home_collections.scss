@@ -79,16 +79,16 @@
 
 /* Grid - Uninstalled game image opacity */
 .appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(2) {
-  opacity: var(--UninstalledGameImageOpacity);
+  //opacity: var(--UninstalledGameImageOpacity);
 }
 
 .appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(3) {
-  opacity: var(--UninstalledGameImageOpacity);
+  //opacity: var(--UninstalledGameImageOpacity);
 }
 
 /* More precise uninstalled game image opacity but "broken images" annoyance - disabled by default */
 .appportrait_Draggable_1pwP4 > :nth-last-of-type(3) {
-  //opacity: var(--UninstalledGameImageOpacity);
+  opacity: var(--UninstalledGameImageOpacity);
 }
 
 /* Add bottom padding for shelf */
