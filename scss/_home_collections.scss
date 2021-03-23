@@ -86,7 +86,7 @@
   opacity: var(--UninstalledGameImageOpacity);
 }
 
-/* More precise uninstalled game image opacity but "broken images" annoyance - disabled by default */
+/* More precise uninstalled game image opacity but doesn't cover all areas */
 .appportrait_Draggable_1pwP4 > :nth-last-of-type(3) {
   //opacity: var(--UninstalledGameImageOpacity);
 }

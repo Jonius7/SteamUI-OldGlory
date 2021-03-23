@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.8.10"
-        self.release = "5.5.3"
+        self.version = "v0.9.8.11"
+        self.release = "5.5.3.1"
       
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
@@ -675,9 +675,9 @@ def release_check(page, current_release):
         print("Unable to get latest version number, too many requests! Please try again later.", file=sys.stderr)
     except requests.exceptions.ConnectionError:
         print("Could not connect to Github, Unable to check for latest release!", file=sys.stderr)
-    except:
+    except Exception as e:
         print("Unable to check for latest release!", file=sys.stderr)
-        print_traceback()
+        print(e.message, file=sys.stderr)
     
 ### StartPage
 ### Select checkboxes based on config
@@ -1004,7 +1004,7 @@ def apply_settings_from_gui(page, controller, settings_to_apply, settings_values
     print("Settings applied.")
 
    
-def run_js_tweaker(text_area):
+def run_js_tweaker(text_area, reset=0):
     try:
         print("==============================")
         print("Running js_tweaker")
@@ -1012,7 +1012,7 @@ def run_js_tweaker(text_area):
 
         ###
         js_tweaker.initialise()
-        js_tweaker.copy_files_from_steam()
+        js_tweaker.copy_files_from_steam(reset)
         text_area.update_idletasks()
         js_tweaker.beautify_js()
         text_area.update_idletasks()
@@ -1606,7 +1606,7 @@ def reset_all_tweaks(event, controller):
 def remake_js(event, controller):
     backend.clear_js_working_files()    
     
-    thread = Thread(target = run_js_tweaker, args = (controller.frames[StartPage].text1, ))
+    thread = Thread(target = run_js_tweaker, args = (controller.frames[StartPage].text1, 1,))
     thread.start()
     #thread.join()
     #run_js_tweaker(controller.frames[StartPage].text1)
