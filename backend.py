@@ -246,7 +246,8 @@ def get_file_hash(filepath):
             s.update(g.read())
         g.close()
 
-        os.remove(filepath + ".temp")
+        if os.path.exists(filepath + ".temp"):
+            os.remove(filepath + ".temp")
         
         return s.hexdigest()
     except:
@@ -659,7 +660,7 @@ def steam_library_compat_config(overwrite=0):
             print("created themes/config.css from themes/config.css.original")
         if overwrite == 1:
             shutil.copy2("themes/config.css", library_dir() + "/" + "config.css")   # copy config.css from OldGlory themes/ to steamui/
-            print("themes/config.css copied to: " + library_dir())
+            print("themes/config.css copied to: " + library_dir() + "/" + "config.css")
     except FileNotFoundError:
         print("config.css not found", file=sys.stderr)
         print_traceback()
@@ -835,7 +836,8 @@ def refresh_steam_dir():
         #refresh steam library
         f = open(library_dir() + "/refresh_dir.txt", "w", newline='', encoding="UTF-8")
         f.close()
-        os.remove(library_dir() + "/refresh_dir.txt")
+        if os.path.exists(library_dir() + "/refresh_dir.txt"):
+            os.remove(library_dir() + "/refresh_dir.txt")
     except:
         print("Unable to copy libraryroot.custom.css to Steam directory.", file=sys.stderr)
         print_traceback()

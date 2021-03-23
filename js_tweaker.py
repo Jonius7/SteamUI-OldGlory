@@ -52,12 +52,14 @@ def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fres
             files_to_copy = ["library.js", "libraryroot.js"]
             for filename in files_to_copy:
                 if not os.path.isfile(filename):
-                    print("Copying files from Steam\steamui...")
+                    print("Copying file " + filename + "from Steam\steamui...")
                     shutil.copy2(library_dir() + "/" + filename, filename)
-            os.remove("libraryroot.beaut.js")
+            if os.path.exists("libraryroot.beaut.js"):
+                os.remove("libraryroot.beaut.js")
+            
     except FileNotFoundError:
-        print("Steam directory and/or files not found.\n" \
-              "Please check Steam\steamui for library.js and libraryroot.js", file=sys.stderr())
+        error_exit("Steam directory and/or files not found.\n" \
+              "Please check Steam\steamui for library.js and libraryroot.js")
             
 
 def beautify_js():
@@ -193,6 +195,7 @@ def re_minify_file():
             js_min_file.write(minified)
         js_file.close()
         js_min_file.close()
+        print("\nJS Minify complete.")
     except:
         error_exit("Error completing JS minify.")
     

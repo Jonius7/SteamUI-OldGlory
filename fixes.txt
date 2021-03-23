@@ -17,7 +17,8 @@ e.m_nScrollTop = 0, e.m_elTarget  e.m_nScrollTop = 30, e.m_elTarget
 ### === Change Game Image Grid Sizes (optional) - default widths 111, 148, 222 ===
 (n = 111, r = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {  (n = 120, r = !0) : 2 == e ? n = 160 : 3 == e && (n = 200), {
 for (var n = [], r = 2;  /*for (var n = [], r = 2;
-.apply(console, Object(l.g)([e, t], n))  .apply(console, Object(l.g)([e, t], n))*/
+.apply(console, Object(p.g)([e, t], n))  .apply(console, Object(p.g)([e, t], n))*/
+
 
 ### === Vertical Nav Bar (beta, working) ===
 x: c,  x: 0,
@@ -38,23 +39,22 @@ height: o + "px"  height: i = 0 === (r = t) ? Math.max(o, 150) + "px" : o + "px"
 ###.b.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",
 
 ### === HOME page Scrolling, reduce number of ComputeLayout calls ===
-this.props.maxRows < 2  var timeSince;t=this.m_elGrid.current.getBoundingClientRect(),timeSince=performance.now()-this.lastTime,this.lastTime=performance.now(),console.log(timeSince),setTimeout(function(){timeSince>60&&(console.log("ACTUALLY COMPUTING LAYOUT"),this.ComputeLayout())}.bind(this),200); /*this.props.maxRows < 2
-}, e.prototype.OnRestoreScroll = function() {   */}, e.prototype.OnRestoreScroll = function() {
+this.props.maxRows < 2 || (t = this.m_elGrid.current.getBoundingClientRect(), n = Math.abs(t.top - this.m_fLastScrollTop), this.props.childHeight * this.props.scaleGridItems / 8 < n && (this.m_fLastScrollTop = t.top, t.top < window.innerHeight && 0 < t.bottom && this.ComputeLayout()))  var timeSince;t=this.m_elGrid.current.getBoundingClientRect(),timeSince=performance.now()-this.lastTime,this.lastTime=performance.now(),console.log(timeSince),setTimeout(function(){timeSince>60,this.ComputeLayout()}.bind(this),200)
 
 ### === Game Properties Window Size ===
 bForcePopOut: !0,~~popupWidth: 842,  popupWidth: 672,
 
 ### === CLASSIC Sticky image background and spillover into sidebar (beta) ===
-rgSources: this.props.rgHeaderImages,  rgSources: "",
-strMedium: "MediumWindow"~~};  }; var sURL,appId=ko.currentGameListSelection.nAppId,sURL2="",sURL3="", sURL4="";sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png",sURL3="assets/"+appId+"_library_hero.jpg", sURL4="https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/library_hero.jpg";
-className: t.join(" "),  className: t.join(" "), style: {background: "-webkit-linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,1) 60%), url(" + sURL + ")" + ", url(" + sURL2 + ")" + ", url(" + sURL3 + ")" + ", url(" + sURL4 + ")"},
-src: this.props.rgBlurImages[this.state.nBlurImageIndex],  src: "",
-(this.is_hero_custom_image ? "#CustomArt_ClearCustomBackground" : "#CustomArt_SetCustomBackground")),  ("#CustomArt_SetCustomBackground")), D.createElement(Mi.d, {is_hero_current_image: !1, onSelected: this.OnRemoveHero}, Object(R.f)("#CustomArt_ClearCustomBackground")),
-}, e.prototype.OnChangeLogo = function(e) {  }, e.prototype.OnRemoveHero = function(e) {this.OnChangeArtwork(Object.create({src: "src"}), this.m_refFileInputHero, 1)}, e.prototype.OnChangeLogo = function(e) {
-Object(j.c)([C.a], e.prototype, "OnChangeHero", null),  Object(j.c)([C.a], e.prototype, "OnChangeHero", null), Object(j.c)([C.a], e.prototype, "OnRemoveHero", null),
+###rgSources: this.props.rgHeaderImages,  rgSources: "",
+###strMedium: "MediumWindow"~~};  }; var sURL,appId=Qa.currentGameListSelection.nAppId,sURL2="",sURL3="", sURL4="";sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png",sURL3="assets/"+appId+"_library_hero.jpg", sURL4="https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/library_hero.jpg";
+###className: t.join(" "),  className: t.join(" "), style: {background: "-webkit-linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,1) 60%), url(" + sURL + ")" + ", url(" + sURL2 + ")" + ", url(" + sURL3 + ")" + ", url(" + sURL4 + ")"},
+###src: this.props.rgBlurImages[this.state.nBlurImageIndex],  src: "",
+###(this.is_hero_custom_image ? "#CustomArt_ClearCustomBackground" : "#CustomArt_SetCustomBackground")),  ("#CustomArt_SetCustomBackground")), D.createElement(Mi.d, {is_hero_current_image: !1, onSelected: this.OnRemoveHero}, Object(R.f)("#CustomArt_ClearCustomBackground")),
+###}, e.prototype.OnChangeLogo = function(e) {  }, e.prototype.OnRemoveHero = function(e) {this.OnChangeArtwork(Object.create({src: "src"}), this.m_refFileInputHero, 1)}, e.prototype.OnChangeLogo = function(e) {
+###Object(j.c)([C.a], e.prototype, "OnChangeHero", null),  Object(j.c)([C.a], e.prototype, "OnChangeHero", null), Object(j.c)([C.a], e.prototype, "OnRemoveHero", null),
 
 ### === Press Enter to launch games ===
-switch (t) {~~case 38:  case 13: return this.RunApp(ko.currentGameListSelection.nAppId), void e.preventDefault();case 38:
+switch (t) {~~case 38:  case 13: return this.RunApp(Qa.currentGameListSelection.nAppId), void e.preventDefault();case 38:
 }, e.prototype.MoveRangeSelectUpOneRow = function() {  }, e.prototype.RunApp = function(e) {window.location.href = "steam://rungameid/" + e;}, e.prototype.MoveRangeSelectUpOneRow = function() {
 
 ### === Expand Show more Details panel by default ===
