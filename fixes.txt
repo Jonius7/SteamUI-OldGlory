@@ -45,13 +45,13 @@ this.props.maxRows < 2 || (t = this.m_elGrid.current.getBoundingClientRect(), n 
 bForcePopOut: !0,~~popupWidth: 842,  popupWidth: 672,
 
 ### === CLASSIC Sticky image background and spillover into sidebar (beta) ===
-###rgSources: this.props.rgHeaderImages,  rgSources: "",
-###strMedium: "MediumWindow"~~};  }; var sURL,appId=Qa.currentGameListSelection.nAppId,sURL2="",sURL3="", sURL4="";sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png",sURL3="assets/"+appId+"_library_hero.jpg", sURL4="https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/library_hero.jpg";
-###className: t.join(" "),  className: t.join(" "), style: {background: "-webkit-linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,1) 60%), url(" + sURL + ")" + ", url(" + sURL2 + ")" + ", url(" + sURL3 + ")" + ", url(" + sURL4 + ")"},
-###src: this.props.rgBlurImages[this.state.nBlurImageIndex],  src: "",
-###(this.is_hero_custom_image ? "#CustomArt_ClearCustomBackground" : "#CustomArt_SetCustomBackground")),  ("#CustomArt_SetCustomBackground")), D.createElement(Mi.d, {is_hero_current_image: !1, onSelected: this.OnRemoveHero}, Object(R.f)("#CustomArt_ClearCustomBackground")),
-###}, e.prototype.OnChangeLogo = function(e) {  }, e.prototype.OnRemoveHero = function(e) {this.OnChangeArtwork(Object.create({src: "src"}), this.m_refFileInputHero, 1)}, e.prototype.OnChangeLogo = function(e) {
-###Object(j.c)([C.a], e.prototype, "OnChangeHero", null),  Object(j.c)([C.a], e.prototype, "OnChangeHero", null), Object(j.c)([C.a], e.prototype, "OnRemoveHero", null),
+rgSources: this.props.rgHeaderImages,  rgSources: "",
+strMedium: "MediumWindow"~~};  }; var sURL,appId=Qa.currentGameListSelection.nAppId,sURL2="",sURL3="", sURL4="";sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png",sURL3="assets/"+appId+"_library_hero.jpg", sURL4="https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/library_hero.jpg";
+className: t.join(" "),  className: t.join(" "), style: {background: "-webkit-linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,1) 60%), url(" + sURL + ")" + ", url(" + sURL2 + ")" + ", url(" + sURL3 + ")" + ", url(" + sURL4 + ")"},
+src: this.props.rgBlurImages[this.state.nBlurImageIndex],  src: "",
+(this.is_hero_custom_image ? "#CustomArt_ClearCustomBackground" : "#CustomArt_SetCustomBackground")),  ("#CustomArt_SetCustomBackground")), D.createElement(Hi.d, {is_hero_current_image: !1, onSelected: this.OnRemoveHero}, Object(R.f)("#CustomArt_ClearCustomBackground")),
+}, e.prototype.OnChangeLogo = function(e) {  }, e.prototype.OnRemoveHero = function(e) {this.OnChangeArtwork(Object.create({src: "src"}), this.m_refFileInputHero, 1)}, e.prototype.OnChangeLogo = function(e) {
+Object(j.c)([E.a], e.prototype, "OnChangeHero", null),  Object(j.c)([E.a], e.prototype, "OnChangeHero", null), Object(j.c)([E.a], e.prototype, "OnRemoveHero", null),
 
 ### === Press Enter to launch games ===
 switch (t) {~~case 38:  case 13: return this.RunApp(Qa.currentGameListSelection.nAppId), void e.preventDefault();case 38:
