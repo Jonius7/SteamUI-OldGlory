@@ -6,6 +6,7 @@ import shutil
 import traceback
 import re
 from pathlib import Path
+import configparser
 import json
 import sass
 from datetime import datetime, timezone
@@ -31,6 +32,22 @@ DEFAULT_CONFIG = {"SteamLibraryPath" : "",
                   "LandscapeImages" : "0",
                   "InstallWithDarkLibrary" : "0",
                   "ThemeSelected" : "Crisp Cut"}
+
+DEFAULT_CONFIG2 = {
+    "Filepaths" : {
+        "SteamLibraryPath" : "",
+        "PatcherPath" : "",
+        },
+    "Main_Settings" : {
+        "InstallCSSTweaks" : "1",
+        "EnablePlayButtonBox" : "0",
+        "EnableVerticalNavBar" : "0",
+        "EnableClassicLayout" : "0",
+        "LandscapeImages" : "0",
+        "InstallWithLibraryTheme" : "0",
+        "ThemeSelected" : "Crisp Cut"
+        }
+    }
 
 
 ###Structure as follows
@@ -186,6 +203,9 @@ PATCHED_TEXT = "/*patched*/"
 ### GENERAL UTILITY Functions
 
 def OS_line_ending():
+    '''
+    UTILITY: Returns line ending for Windows, Mac, Linux.
+    '''
     if OS_TYPE == "Windows":
         return "\r\n"
     elif OS_TYPE ==  "Darwin":
@@ -195,6 +215,9 @@ def OS_line_ending():
 
 # could use testing
 def OS_open_file(path):
+    '''
+    UTILITY: Returns file explorer path for Windows, Mac, Linux.
+    '''
     try:
         if OS_TYPE == "Windows":
             subprocess.Popen(["explorer", path])
@@ -207,6 +230,9 @@ def OS_open_file(path):
         print_traceback()
     
 def library_dir():
+    '''
+    UTILITY: Returns Steam library path (/steamui) for Windows, Mac, Linux.
+    '''
     try:
         steamui_path = ""
         if OS_TYPE == "Windows":
@@ -224,12 +250,29 @@ def library_dir():
         print_traceback()
 
 def print_traceback():
+    '''
+    UTILITY: Prints error traceback.
+    '''
     print("~~~~~~~~~~~~~~~~~~~~")
     print(traceback.format_exc(), end='', file=sys.stderr)
     print("~~~~~~~~~~~~~~~~~~~~")
 
-# Returns the git sha hash of a file
+def help():
+    '''
+    UTILITY: Prints a list of functions and their descriptions.
+    '''
+    l = []
+    for key, value in globals().items():
+        if callable(value) and value.__module__ == __name__:
+            l.append(key)
+            print("{0}() {1}".format(key, globals()[key].__doc__))
+    #for item in l:
+        
+    
 def get_file_hash(filepath):
+    '''
+    UTILITY: Returns the git SHA hash of a file.
+    '''
     try:
         with open(filepath, 'r', encoding="UTF-8") as f, \
             open(filepath + ".temp", 'w', encoding="UTF-8", newline='\n') as f1:
@@ -256,6 +299,9 @@ def get_file_hash(filepath):
 
 ### Check CSS Patched
 def is_css_patched():
+    '''
+    UTILITY: Returns whether the Steam Library CSS has been patched.
+    '''
     patched = False
     try:
         with open(library_dir() + "/css/5.css", newline='', encoding="UTF-8") as f:
@@ -273,17 +319,26 @@ def is_css_patched():
 
 ### datetime
 def get_remote_datetime(timezone=timezone.utc):
+    '''
+    UTILITY: Return datetime string in UTC.
+    '''
     date = datetime.now(timezone)
     date_f = date.strftime("%Y-%m-%dT%H:%M:%SZ")
     return date_f
 
 def get_local_datetime():
+    '''
+    UTILITY: Return datetime string in local time.
+    '''
     date = datetime.now()
     date_f = date.strftime("%Y-%m-%dT%H:%M:%SZ")
     return date_f
 
 # of the format "%Y-%m-%dT%H:%M:%SZ"
 def datetime_string_to_obj(date_string):
+    '''
+    UTILITY: Convert datetime string to object.
+    '''
     return datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%SZ")
 
 
@@ -294,6 +349,9 @@ def datetime_string_to_obj(date_string):
 ##########################################
 ### JSON Functions
 def get_json_data():
+    '''
+    JSON: load data from JSON file and return it as an object
+    '''
     json_data_filename = 'old_glory_data.json'
     try:
         with open(json_data_filename, encoding="UTF-8") as f:
@@ -312,6 +370,8 @@ def get_json_data():
         print_traceback()
 
 def write_json_data(json_data):
+    '''
+    '''
     json_data_filename = 'old_glory_data.json'
     try:
         with open(json_data_filename, "r", newline=OS_line_ending(), encoding="UTF-8") as f, \
@@ -343,7 +403,7 @@ def load_config():
         write_config(DEFAULT_CONFIG)
         return DEFAULT_CONFIG
     else :
-        with open("oldglory_config.cfg", newline='', encoding="UTF-8") as fi:
+        with open(config_filename, newline='', encoding="UTF-8") as fi:
             lines = filter(None, (line.rstrip() for line in fi))
             for line in lines:
                 if not line.startswith('###'):
@@ -365,6 +425,15 @@ def write_config(config_dict):
                 line_to_write = OS_line_ending()
             config_file.write(line_to_write)
     config_file.close()
+
+
+def write_config2(config_dict = DEFAULT_CONFIG2):
+    config = configparser.ConfigParser()
+    config.optionxform = str
+    for section in config_dict:
+        config[section] = config_dict[section]
+    print(config.sections())
+    print(config.options("Main_Settings"))
 
 ### [END OF] CONFIG Functions
 ##########################################
