@@ -320,7 +320,7 @@ def is_css_patched():
 ### datetime
 def get_remote_datetime(timezone=timezone.utc):
     '''
-    UTILITY: Return datetime string in UTC.
+    UTILITY: Return datetime string in timezone (default UTC).
     '''
     date = datetime.now(timezone)
     date_f = date.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -432,8 +432,13 @@ def write_config2(config_dict = DEFAULT_CONFIG2):
     config.optionxform = str
     for section in config_dict:
         config[section] = config_dict[section]
-    print(config.sections())
-    print(config.options("Main_Settings"))
+    #print(config.sections())
+    #print(config.options("Main_Settings"))
+
+    with open("oldglory_config2.cfg", "w", newline='', encoding="UTF-8") as config_file:
+        config.write(config_file)
+    config_file.close()
+    
 
 ### [END OF] CONFIG Functions
 ##########################################
@@ -510,9 +515,12 @@ def write_css_settings(settings, settings_values, root_config):
         print("Error enabling/disabling CSS modules.", file=sys.stderr)
         print_traceback()
 
-# Compiles libraryroot.custom.css from /scss directory
-# Adds variables.css
+
 def compile_css(json_data):
+    '''
+    Compiles libraryroot.custom.css from /scss directory
+    Adds variables.css
+    '''
     try:
         sass.compile(dirname=('scss','.'),
                      output_style='expanded')
@@ -594,8 +602,10 @@ def load_css_configurables():
         loaded_css_config = CSS_CONFIG
     return loaded_css_config
 
-###Parses one line of CSS file into dictionary values
 def css_line_parser(line):
+    '''
+    Parses one line of CSS file into dictionary values
+    '''
     try:
         if line.lstrip()[:2] == "/*":
             section = line.lstrip()[3:-3]
@@ -660,8 +670,6 @@ def create_css_variables_lines(css_config):
     except:
         print("Unable to generate css variables", file=sys.stderr)
         print_traceback()
-
-
 
 
 ### [END OF] CSS Functions
