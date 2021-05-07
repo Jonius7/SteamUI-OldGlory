@@ -77,12 +77,6 @@
   bottom: var(--HoverOverlayPosition);
 }
 
-/* Make nosearchresults height constant so search bar doesn't "flex" down */
-.gamelist_NoSearchResultsContainer_1fbRp {
-  margin: 2px;
-  height: calc(97.8% - 76px + (1600px - 100vmax) * 0.007);
-}
-
 .library_LeftListSizableContainer_9sPoV {
   display: var(--ShowLeftSidebar);
 }
