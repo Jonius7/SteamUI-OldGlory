@@ -21,12 +21,12 @@ from tkHyperlinkManager import HyperlinkManager
 
 
 OS_TYPE = platform.system()
-DEBUG_STDOUT_STDERR = True # Only useful for debugging purposes, set to True
+DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
         self.version = "v0.9.8.13"
-        self.release = "5.5.5-pre1"
+        self.release = "5.5.5-pre2"
       
         ### Window, Title, Icon setup
         tk.Tk.__init__(self, *args, **kwargs)
@@ -176,7 +176,7 @@ class StartPage(tk.Frame):
         self.frameHead = head_frame(self, controller)
 
     ### Tabs
-        tabs = ttk.Notebook(self,)
+        tabs = ttk.Notebook(self,width=722)
         frameCheck = tk.Frame(tabs)
         framePatch = tk.Frame(tabs)
     
@@ -303,9 +303,24 @@ class StartPage(tk.Frame):
         label_end = tk.Label(frameCheck, height=0)
         label_end.grid(row=7, column=0, columnspan=2)
 
+
+        ######
+        self.var7 = tk.IntVar()
+        check7 = ttk.Checkbutton(frameCheck,
+                                 variable=self.var7)
+        check7.grid(row=0, column=2)
         ###
-        self.image1 = add_img(frameCheck, resource_path('images/full_layout.png'))
-        self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")      
+        mo7 = MainOption(
+            parentFrame=frameCheck,
+            page=self,
+            name="Classic Styling (WIP)",
+            image="images/classic_styling.png",
+            tags=["CSS"])
+        mainoption7 = mo7.returnMainOption()
+        mainoption7.grid(row=0, column=3, sticky='w')
+        ###
+        #self.image1 = add_img(frameCheck, resource_path('images/full_layout.png'))
+        #self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")      
 
     ### PATCH FRAME
     ###
@@ -770,10 +785,12 @@ class MainOption(tk.Frame):
         self.label = tk.Label(self.tagFrame,
                               text=self.name,
                               cursor="hand2")
-        self.label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
-        self.label.grid(row=0, column=0, sticky='w')
-
+        
+        #self.label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
+        #self.label.bind("<Enter>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
         self.tip = Image_tooltip(self.label, globals()["open_img"](self.image), hover_delay=400)
+    
+        self.label.grid(row=0, column=0, sticky='w')
 
         for i, tagName in enumerate(kwargs["tags"], start=1):
             leftPadding = (5, 0) if i == 1 else 0

@@ -1,29 +1,6 @@
 /* ==================== GameList Sidebar ====================
    ========================================================================== */
 
-/* Games dropdown width increased */
-.gamelistdropdown_DropDown_EDl_m {
-  width: 195px !important;
-}
-
-/* Search bar 100% width, padding especially top, reduced */
-.gamelistsearchbar_Container_20QAC {
-  width: 100%;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  margin-top: -6px;
-}
-
-/* Round inner corners of Advanced Search filters button */
-.gamelistsearchbar_Container_20QAC .gamelistsearchbar_AdvancedSearchContainer_vCCmY {
-  border-radius: 0px 4px 4px 0px;
-}
-
-/* fix search bar default height to match Advanced Search filters height */
-.DialogInput_Wrapper._DialogLayout {
-  height: 32px;
-}
-
 /* Gamelist entry - font size */
 
 .gamelistentry_Container_2-O4Z {
@@ -34,14 +11,12 @@
   height: 100%;
 }
 
-
 /* Gamelist entry - icon size */
 
 .gamelistentry_Container_2-O4Z .gamelistentry_GameIcon_ga1hy {
   height: 22px;
   width: 22px;
 }
-
 
 /* Fix hover text to the bottom. With JavaScript tweaks this can be dynamic.*/
 
@@ -59,9 +34,6 @@
   line-height: var(--ContextMenuLineHeight);
   height: var(--ContextMenuLineHeight);
 }
-
-
-
 
 /* remove border */
 
@@ -88,12 +60,7 @@
 /* category count - font size and height*/
 .gamelistsectionheader_SectionCount_29ute {
   font-size: 13px;
-}
-
-
-/* Make game list height constant so search bar doesn't "flex" down */
-.gamelist_Container_1ijTa {
-  height: calc(94.4% - 76px + 0.017vmax * 65);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* Zoom out both the gamelist container and the hover text for long game names */
@@ -116,44 +83,8 @@
   height: calc(97.8% - 76px + (1600px - 100vmax) * 0.007);
 }
 
-
-/* Gamelist dropdown and buttons width reduced to 50%, align with home bar*/
-.gamelistdropdown_Bar_1ZS_x {
-  width: 50%;
-  flex: 1 1 auto;
-  padding: 6px 3px 0px;
-  height: 36px;
-}
-
-
 .library_LeftListSizableContainer_9sPoV {
   display: var(--ShowLeftSidebar);
-}
-
-/* remove height: 100% */
-.gamelistbar_Container_3x1Hk {
-  background-image: linear-gradient(to bottom, #2d333c 0%, #24282f 20%);
-  height: unset;
-  flex: 1;
-  display: flex;
-  min-width: 0;
-  flex-direction: row;
-  flex-wrap: wrap;
-  user-select: none;
-  outline: none;
-}
-
-
-/*Home bar width reduced to 20%, align with Gamelist dropdown and buttons*/
-.gamelistbar_GameListHomeAndSearch_2TKEa {
-  padding: 6px 3px 0px 6px;
-  background-color: unset;
-  box-shadow: 0 0 0px rgba(0, 0, 0, 0.8) !important;
-  position: relative;
-  display: flex;
-  height: 36px;
-  flex: 1 1 auto;
-  width: 20%;
 }
 
 .gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx {
