@@ -29,6 +29,30 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+
+button.DialogButton {
+    width: 50%;
+    background: linear-gradient(to bottom, rgba(80, 80, 80, var(--ActiveTabColorOpacity)) 0%, rgba(60, 60, 60, var(--ActiveTabColorOpacity)) 100%);
+    border-radius: 0;
+    text-transform: uppercase;
+    color: #CFCFCF;
+    font-size: 11px;
+    line-height: 28px;
+    text-align: left;
+    padding: 0px 10px;
+
+    &:hover {
+        background: linear-gradient(to bottom, rgba(98, 98, 98, var(--ActiveTabColorOpacity)) 0%, rgba(60, 60, 60, var(--ActiveTabColorOpacity)) 100%);
+    }
+    &:active {
+        background: linear-gradient(to bottom, rgba(38, 38, 38, var(--ActiveTabColorOpacity)) 0%, rgba(57, 57, 57, var(--ActiveTabColorOpacity)) 100%);
+    }
+}
+
+.appproperties_AppProperties_1FyBL .DialogBody .appproperties_TopGapLarge_1FyDt {
+    margin-top: 10px;
+}
+
 button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin {
     background: linear-gradient(to bottom, rgba(80, 80, 80, var(--ActiveTabColorOpacity)) 0%, rgba(60, 60, 60, var(--ActiveTabColorOpacity)) 100%);
     border-radius: 0;
@@ -46,6 +70,9 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin {
         background: linear-gradient(to bottom, rgba(38, 38, 38, var(--ActiveTabColorOpacity)) 0%, rgba(57, 57, 57, var(--ActiveTabColorOpacity)) 100%);
     }
 }
+
+button.DialogButton::before {
+    box-shadow: 0;
 
 .appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_ButtonContainer_3VNB7 {
     padding-top: 3px;
