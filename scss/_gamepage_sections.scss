@@ -30,5 +30,42 @@ div.appdetailsoverview_RightColumn_2aor4>div:nth-child(3) {
   order: 5;
 }
 
+/* Section Highlight */
+.appdetailsoverview_Seeking_3wz2S {
+  /* Don't do anything yet */
+  opacity: 1.0;
+  animation-name: var(--AchievementsClickHighlight);
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+  animation-delay: .6s; }
+
+@keyframes appdetailsoverview_HighlightMe_25jnp {
+  0% {
+    filter: brightness(1); }
+  30% {
+    filter: brightness(2); }
+  100% {
+    filter: brightness(1); }
+  }
+
+@keyframes Highlight_opacity {
+  0% {
+    filter: opacity(100%); }
+  30% {
+    filter: opacity(0%); }
+  100% {
+    filter: opacity(100%); }
+}
+
+@keyframes Highlight_border {
+  0% {
+    border: 0px; }
+  30% {
+    border: 2px solid black; }
+  100% {
+    border: 0px; }
+}
+
 /* ========================================================================== 
    END Game AppPage Sections */

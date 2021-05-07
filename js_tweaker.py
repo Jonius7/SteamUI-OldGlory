@@ -52,7 +52,7 @@ def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fres
             files_to_copy = ["library.js", "libraryroot.js"]
             for filename in files_to_copy:
                 if not os.path.isfile(filename):
-                    print("Copying file " + filename + "from Steam\steamui...")
+                    print("Copying file " + filename + " from Steam\steamui...")
                     shutil.copy2(library_dir() + "/" + filename, filename)
             if os.path.exists("libraryroot.beaut.js"):
                 os.remove("libraryroot.beaut.js")

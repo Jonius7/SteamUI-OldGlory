@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter.font as TkFont
 from tkinter import ttk
-from idlelib.tooltip import Hovertip, OnHoverTooltipBase, Message
+from idlelib.tooltip import Hovertip, OnHoverTooltipBase
 from PIL import ImageTk, Image
 import sys
 import io
@@ -21,7 +21,7 @@ from tkHyperlinkManager import HyperlinkManager
 
 
 OS_TYPE = platform.system()
-DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
+DEBUG_STDOUT_STDERR = True # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -294,6 +294,7 @@ class StartPage(tk.Frame):
                                  textvariable=self.dropdown6_value,
                                  width=30)
         self.dropdown6.current(0)
+        
         self.dropdown6.bind("<<ComboboxSelected>>", lambda event: dropdown_click(event, self, controller))
         self.dropdown6.grid(row=6, column=1, columnspan=2, sticky="w")
         
@@ -772,6 +773,8 @@ class MainOption(tk.Frame):
         self.label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
         self.label.grid(row=0, column=0, sticky='w')
 
+        self.tip = Image_tooltip(self.label, globals()["open_img"](self.image), hover_delay=400)
+
         for i, tagName in enumerate(kwargs["tags"], start=1):
             leftPadding = (5, 0) if i == 1 else 0
             tag = add_img(self.tagFrame, globals()["resource_path"]('images/tag_'+tagName+'.png'), width=50)
@@ -781,6 +784,7 @@ class MainOption(tk.Frame):
         return self.tagFrame
 
 ### Dropdown click (theme)
+### This is a backup list - .json provides an updated theme list
 ###
 THEME_MAP = {
     "steam-library (Shiina)" : {
@@ -806,11 +810,15 @@ def dropdown_click(event, page, controller):
     #print(theme_name)
     #print(controller.json_data["themes"][theme_name.split(" (")[0]]["filename"])
     theme_image_path = resource_path("images/theme_" + controller.json_data["themes"][theme_name.split(" (")[0]]["filename"][1:-5] + ".png")
+    
+    
     if os.path.isfile(theme_image_path):
         #change_image
-        change_image(page.image1, theme_image_path)
+        #change_image(page.image1, theme_image_path)
+        tip = Image_tooltip(event.widget, open_img(theme_image_path), hover_delay=100)
     else:
-        change_image(page.image1, resource_path("images/no_preview.png"))
+        #change_image(page.image1, resource_path("images/no_preview.png"))
+        tip = Image_tooltip(event.widget, open_img(resource_path("images/no_preview.png")), hover_delay=100)
 
 ### ScrollFrame
 
@@ -1132,9 +1140,21 @@ class Detail_tooltip(OnHoverTooltipBase):
         self.text = text
         
     def showcontents(self):
-        message = Message(self.tipwindow, text=self.text, justify='left',
+        message = tk.Message(self.tipwindow, text=self.text, justify='left',
                       background="#ffffe0", width=590, relief='solid', borderwidth=1)
         message.pack()
+
+class Image_tooltip(OnHoverTooltipBase):
+    def __init__(self, anchor_widget, image, hover_delay=1000):
+        super(Image_tooltip, self).__init__(anchor_widget, hover_delay=hover_delay)
+        #self.text = text
+        self.image = image
+
+    def showcontents(self):
+        label = tk.Label(self.tipwindow, image=self.image, justify='left',
+                      background="#ffffe0", width=350, relief='solid', borderwidth=1)
+        label.pack()   
+    
 ### ================================
 
 ### CSS Options Functions
@@ -1805,6 +1825,7 @@ def settings_window(event, controller):
     button_q.bind("<Button-1>", lambda event:remake_js(event, controller))
     buttonr_tip = Detail_tooltip(button_q, "Deletes libraryroot.beaut.js and reruns js_tweaker functions.\n" \
                                  "Most useful when something changes with a Steam Client Update", hover_delay=200)
+    #buttonr_tip.add_image(open_img("images/full_layout.png"))
     button_q.grid(row=0, column=0, padx=5)
 
     ###
