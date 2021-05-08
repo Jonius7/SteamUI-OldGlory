@@ -46,8 +46,25 @@ DEFAULT_CONFIG2 = {
         "LandscapeImages" : "0",
         "InstallWithLibraryTheme" : "0",
         "ThemeSelected" : "Crisp Cut"
-        }
-    }
+        },
+    "JS_Settings" : {
+        "HomePageGridSpacing" : "1",
+        "MoreScreenshotsAndDLC" : "1",
+        "HoverPositionFix" : "1",
+        "ScrollPastAddShelf" : "1",
+        "ChangeGameImageGridSizes" : "1",
+        "VerticalNavBar" : "1",
+        "LandscapeGameImages" : "1",
+        "StopWhatsNewLoad" : "0",
+        "SmootherHomePageScrolling" : "1",
+        "GamePropertiesWindowSize" : "1",
+        "StickyBackgroundImage" : "1",
+        "PressEnterToLaunchGames" : "1",
+        "ExpandShowMoreDetails" : "0",
+        "DontLoadHomeGameImages" : "0",
+        "DontLoadGamePageSections" : "0",
+    } 
+}
 
 
 ###Structure as follows
@@ -434,11 +451,10 @@ def write_config2(config_dict = DEFAULT_CONFIG2):
         config[section] = config_dict[section]
     #print(config.sections())
     #print(config.options("Main_Settings"))
-
     with open("oldglory_config2.cfg", "w", newline='', encoding="UTF-8") as config_file:
         config.write(config_file)
     config_file.close()
-    
+    print("Config file written.")
 
 ### [END OF] CONFIG Functions
 ##########################################

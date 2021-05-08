@@ -691,6 +691,8 @@ def release_check(page, current_release):
         print("Unable to get latest version number, too many requests! Please try again later.", file=sys.stderr)
     except requests.exceptions.ConnectionError:
         print("Could not connect to Github, Unable to check for latest release!", file=sys.stderr)
+    except socket.timeout:
+        print("Update check timeout!", file=sys.stderr)
     except Exception as e:
         print("Unable to check for latest release!", file=sys.stderr)
         print(e.message, file=sys.stderr)
@@ -828,14 +830,24 @@ def dropdown_click(event, page, controller):
     #print(controller.json_data["themes"][theme_name.split(" (")[0]]["filename"])
     theme_image_path = resource_path("images/theme_" + controller.json_data["themes"][theme_name.split(" (")[0]]["filename"][1:-5] + ".png")
     
-    
+
     if os.path.isfile(theme_image_path):
-        #change_image
-        #change_image(page.image1, theme_image_path)
         tip = Image_tooltip(event.widget, open_img(theme_image_path), hover_delay=100)
     else:
-        #change_image(page.image1, resource_path("images/no_preview.png"))
         tip = Image_tooltip(event.widget, open_img(resource_path("images/no_preview.png")), hover_delay=100)
+
+
+def dropdown_hover(event, page, controller):
+    theme_name = event.widget.get()
+    theme_image_path = resource_path("images/theme_" + controller.json_data["themes"][theme_name.split(" (")[0]]["filename"][1:-5] + ".png")
+    print(theme_image_path)
+    if os.path.isfile(theme_image_path):
+        tip = Image_tooltip(event.widget, open_img(theme_image_path), hover_delay=100)
+    else:
+        tip = Image_tooltip(event.widget, open_img(resource_path("images/no_preview.png")), hover_delay=100)
+
+def dropdown_leave(event, page, controller):
+    pass
 
 ### ScrollFrame
 
