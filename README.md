@@ -6,7 +6,7 @@ Check [`/dev`](https://github.com/Jonius7/SteamUI-OldGlory/tree/dev) branch for 
 
 On Steam Beta? Check [`/beta`](https://github.com/Jonius7/SteamUI-OldGlory/tree/beta) branch for some files you may need.
 
-#### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) | [Quick Guide](https://github.com/Jonius7/SteamUI-OldGlory#quick-guide) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) 
+#### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) | [Quick Guide](https://github.com/Jonius7/SteamUI-OldGlory#quick-guide) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) | [Troubleshooting](https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting)
 
 ### Video Guide and GIF
 
@@ -245,6 +245,22 @@ https://github.com/AikoMidori/steam-library
 
 
 ## Troubleshooting
+
+If Library is not working, try one of these things (and **restart Steam**). If it still doesn't work, try the next thing in the list.
+
+- Check **SteamFriendsPatcher** has patched the library CSS
+  - use the **Clear Steam Cache** button if necessary.
+- Try these **Steam Settings** (and restart Steam)
+  - **Downloads** -> **Clear Download Cache**
+  - **Delete Web Browser Cache**
+
+- Use **Remake JS** button under **Settings and About** (this should also be done when Steam Client updates and the JS has changed)
+
+- Use **Reset** button under **Settings and About**
+
+- Delete `steamui` folder
+
+  
 
 The program can't start because `api-ms-win-crt-math-l1-1-0.dll` is missing from your computer.
 

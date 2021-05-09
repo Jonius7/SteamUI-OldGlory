@@ -119,6 +119,9 @@ def modify_library(swap_js_array):
         error_exit("library.js not found")
 
 def parse_fixes_file(filename):
+    '''
+    look through fixes file and add fixes to fixes_dict
+    '''
     print("Finding Fixes...\n")
     global fixes_dict
     fixes_dict = {}
@@ -136,6 +139,9 @@ def parse_fixes_file(filename):
                                                     "replace" : val}
                             else:
                                 error_exit("Unexpected number of ~~ in line: " + line)
+                        #elif re.search(r"\d\$", key):
+                        #    print("V")
+                        #    print(key)
                         else:
                             fixes_dict[key] = {"replace" : val}
             except Exception as e:
@@ -202,7 +208,7 @@ def re_minify_file():
 def copy_files_to_steam():
     try:
         if LOCAL_DEBUG == 0:
-            files_to_copy = ["libraryreet.js", "fixes.txt"]
+            files_to_copy = ["libraryreet.js"]
             for filename in files_to_copy:
                 shutil.copy2(filename, library_dir() + "/" + filename)
                 print("File " + filename + " written to " + library_dir())
