@@ -6,7 +6,7 @@ Check [`/dev`](https://github.com/Jonius7/SteamUI-OldGlory/tree/dev) branch for 
 
 On Steam Beta? Check [`/beta`](https://github.com/Jonius7/SteamUI-OldGlory/tree/beta) branch for some files you may need.
 
-#### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) | [Quick Guide](https://github.com/Jonius7/SteamUI-OldGlory#quick-guide) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) | [Troubleshooting](https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting)
+### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) | [Quick Guide](https://github.com/Jonius7/SteamUI-OldGlory#quick-guide) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) | [Troubleshooting](https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting)
 
 ### Video Guide and GIF
 
@@ -185,7 +185,8 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
 
 ## Quick Links
 
-- [Video Guide](https://youtu.be/foCewvyOszQ)
+- [Video Guide 2](https://youtu.be/foCewvyOszQ)
+- [Video Guide 1](https://youtu.be/7_3e9j8FFv8)
 - [SteamUI-OldGlory Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki)
 - [GIF of tweaks](https://gyazo.com/38d0101b493741501697b4a0f5f0818f)
 - [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix)
@@ -246,13 +247,14 @@ https://github.com/AikoMidori/steam-library
 
 ## Troubleshooting
 
-If Library is not working, try one of these things (and **restart Steam**). If it still doesn't work, try the next thing in the list.
+If Library is not working, try one of these things (and **restart Steam** if necessary). If it still doesn't work, try the next thing in the list.
 
 - Check **SteamFriendsPatcher** has patched the library CSS
   - use the **Clear Steam Cache** button if necessary.
+- Go to Task Manager and End Task on **Steam Client WebHelper** (let it restart)
 - Try these **Steam Settings** (and restart Steam)
   - **Downloads** -> **Clear Download Cache**
-  - **Delete Web Browser Cache**
+  - **Web Browser** -> **Delete Web Browser Cache**
 
 - Use **Remake JS** button under **Settings and About** (this should also be done when Steam Client updates and the JS has changed)
 
