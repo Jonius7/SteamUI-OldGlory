@@ -30,7 +30,7 @@ DEFAULT_CONFIG = {"SteamLibraryPath" : "",
                   "EnableVerticalNavBar" : "0",
                   "EnableClassicLayout" : "0",
                   "LandscapeImages" : "0",
-                  "InstallWithDarkLibrary" : "0",
+                  "InstallWithLibraryTheme" : "0",
                   "ThemeSelected" : "Crisp Cut"}
 
 DEFAULT_CONFIG2 = {
@@ -158,7 +158,12 @@ CSS_CONFIG = {
             "default" : "16px",
             "current" : "5px",
             "options": {"16px", "5px"},
-            "desc" : "Corresponds with JavaScript tweak - Home Page Grid Spacing."}
+            "desc" : "Corresponds with JavaScript tweak - Home Page Grid Spacing."},
+        "--RemoveGameHover" : {
+            "default" : "block",
+            "current" : "block",
+            "options": {"block", "none"},
+            "desc" : "Set to none to remove game preview box when hovering over game."}
         },
     "Game Page Layout" : {
         "--FriendsDLCScreenshotsColumnWidth" : {
@@ -170,7 +175,19 @@ CSS_CONFIG = {
             "default" : "right",
             "current" : "left",
             "options": {"left", "right"},
-            "desc" : "Set left to swap columns."}
+            "desc" : "Set left to swap columns."},
+        "--AchievementsClickHighlight" : {
+            "default" : "appdetailsoverview_HighlightMe_25jnp",
+            "current" : "Highlight_opacity",
+            "options": {"appdetailsoverview_HighlightMe_25jnp", "Highlight_opacity", "Highlight_border", "disabled"},
+            "desc" : "Options: Highlight_opacity Highlight_border. Set to disabled to disable."}
+        },
+    "Game Page Elements" : {
+        "--RecommendGame" : {
+            "default" : "block",
+            "current" : "block",
+            "options": {"block", "none"},
+            "desc" : "Set to none to hide 'Recommond this game' box on game page."},
         },
     "Game Page Background" : {
         "--AppPageBlur" : {
@@ -201,7 +218,7 @@ SETTING_MAP = {"SteamLibraryPath" : "",
                   "EnableVerticalNavBar" : {"filename" : "module_verticalnavbar"},
                   "EnableClassicLayout" : {"filename" : "module_classiclayout"},
                   "LandscapeImages" : {"filename" : "module_landscapegameimages"},                
-                  "InstallWithDarkLibrary" : "",
+                  "InstallWithLibraryTheme" : "",
                   "ThemeSelected" : ""
                 
             }
@@ -419,7 +436,7 @@ def load_config():
         print("Config file " + config_filename + " not found. Creating copy with default options.", file=sys.stderr)
         write_config(DEFAULT_CONFIG)
         return DEFAULT_CONFIG
-    else :
+    else:
         with open(config_filename, newline='', encoding="UTF-8") as fi:
             lines = filter(None, (line.rstrip() for line in fi))
             for line in lines:
@@ -432,7 +449,26 @@ def load_config():
                     except Exception as e:
                         print("Error with line in config: " + line + " Skipping.", file=sys.stderr)
         fi.close()
-    return config_dict  
+    return config_dict
+
+def load_config2():
+    config_dict = {}
+    config_filename = "oldglory_config2.cfg"
+    if not os.path.isfile(config_filename) :
+        print("Config file " + config_filename + " not found. Creating copy with default options.", file=sys.stderr)
+        write_config2(DEFAULT_CONFIG2)
+        return DEFAULT_CONFIG2
+    else:
+        config = configparser.ConfigParser()
+        config.optionxform = str
+        config.read(config_filename)
+        for section in config.sections():
+            options = config.options(section)
+            temp_dict = {}
+            for option in options:
+                temp_dict[option] = config.get(section, option)
+            config_dict[section] = temp_dict
+        return config_dict
 
 def write_config(config_dict):
     with open("oldglory_config.cfg", "w", newline='', encoding="UTF-8") as config_file:
@@ -479,8 +515,8 @@ def validate_settings(settings):
             validated_settings.extend(["EnableVerticalNavBar"])
         if "LandscapeImages" in settings: #2
             validated_settings.extend(["LandscapeImages"])
-        if "InstallWithDarkLibrary" in settings: #6
-            validated_settings.extend(["InstallWithDarkLibrary"])
+        if "InstallWithLibraryTheme" in settings: #6
+            validated_settings.extend(["InstallWithLibraryTheme"])
     #print(validated_settings)
     return validated_settings
 

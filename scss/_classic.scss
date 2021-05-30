@@ -73,6 +73,7 @@ button.DialogButton.appdetailsbutton_AppDetailsButton_3Cdin {
 
 button.DialogButton::before {
     box-shadow: 0;
+}
 
 .appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_ButtonContainer_3VNB7 {
     padding-top: 3px;
@@ -166,6 +167,14 @@ div.NarrowRightPanel .appdetailsplaysection_PlayBarLabel_34lrt {
     min-width: 98px;
 }
 
+div.NarrowRightPanel .appdetailsplaysection_ActionSection_2zxzS {
+    height: 44px;
+}
+div.NarrowRightPanel .appactionbutton_PlayButtonContainer_1FnJ6:not(.appactionbutton_LongButton_20gjC) {
+    height: 28px;
+}
+
+
 .appdetailsplaysection_PlayBarLabel_34lrt {
     letter-spacing: 0px;
 }
@@ -186,16 +195,20 @@ div.NarrowRightPanel .appdetailsplaysection_PlayBarLabel_34lrt {
     max-width: 100px;
 }
 
+.appdetails_PlayBar_2L3s2.appdetails_ShowPlayBar_jnXtv.appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_StickyHeader_39Rhe > div > div > div > :nth-child(1) {
+    width: 120px;
+}
+
 /* Background and sections */
 .appdetailsoverview_Glassy_2OOzY .appdetailsoverview_Backdrop_1Qa-A {
     background: none;
 }
 
 .appdetailssectionheader_SectionHeader_1Q2q_ {
-    
     letter-spacing: 0px;
     font-weight: bold;
     color: var(--ClassicBlue);
+    padding-top: 10px;
 }
 
 .appdetailssection_AppDetailsSectionContainer_31ptF.appdetailssection_AppDetailsSectionHasLabel_2G5B7 {
@@ -211,7 +224,6 @@ div.NarrowRightPanel .appdetailsplaysection_PlayBarLabel_34lrt {
 
 .appdetailsoverview_RightColumn_2aor4 > div > .appdetailssection_AppDetailsSection_2r4TK {
     background: rgba(30,30,30,0.7);
-    padding-top: 10px;
 }
 
 .appdetailsoverview_LeftColumn_2aor4 > div > .appdetailssection_AppDetailsSection_2r4TK {
@@ -255,5 +267,5 @@ div.NarrowRightPanel .appdetailsplaysection_PlayBarLabel_34lrt {
 }
 
 .appdetailsplaysection_Container_3Yf8b.appdetailsplaysection_InPage_1U7LK {
-    top: calc(-128px - 3vw);
+    top: calc(-125px - 3vw);
 }

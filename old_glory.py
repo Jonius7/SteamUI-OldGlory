@@ -25,35 +25,62 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.8.13"
-        self.release = "5.5.5-pre2"
+        self.version = "v0.9.8.20"
+        self.release = "5.6-pre1"
       
-        ### Window, Title, Icon setup
+        ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
-        container = tk.Frame(self)
+        self.container = tk.Frame(self)
 
         ### Fixed DPI Scaling on Windows
         if OS_TYPE == "Windows":
             #dpi = window.winfo_fpixels('1i')
             self.call('tk', 'scaling', 1.3)
 
-        ### Window Dimensions/Position
-        self.windowW = 760
-        self.windowH = 660
-        screen_width = container.winfo_screenwidth()
-        screen_height = container.winfo_screenheight()
+        ### Window Dimensions/Position (width, height)
+        self.set_window_dimensions(760, 660)
+
+        ### Icon and Title
+        add_window_icon(self)
+        self.wm_title("SteamUI-OldGlory Configurer")
+        
+        ### Custom tk Styling
+        self.set_tk_styles()
+
+        ### Grid configure
+        self.container.grid_rowconfigure(0, weight=1)
+        self.container.grid_columnconfigure(0, weight=1)
+
+        ### Load config variables
+        self.js_gui_changed = 0
+        
+        ### Frames/Pages configure
+        self.frames = {}
+        
+        for F in (StartPage, PageOne, PageTwo):
+            frame = F(self.container, self)
+            frame.grid(row=0, column=0, sticky="nsew")
+            self.frames[F] = frame
+        self.show_frame(StartPage)
+
+        ### Run Update Checks with show frame
+        thread = Thread(target = self.update_check, args = ())
+        thread.start()
+        
+    def set_window_dimensions(self, width, height):
+        self.windowW = width
+        self.windowH = height
+        screen_width = self.container.winfo_screenwidth()
+        screen_height = self.container.winfo_screenheight()
         windowX = (screen_width / 2) - (self.windowW / 2)
         windowY = (screen_height / 2) - (self.windowH / 2)
         self.geometry(f'{self.windowW}x{self.windowH}+{int(windowX)}+{int(windowY)}')
         self.minsize(width=self.windowW, height=self.windowH)
         self.maxsize(width=screen_width, height=screen_height)
 
-        container.pack(side="top", fill="both", expand = True)
-
-        ### Icon and Title
-        add_window_icon(self)
-        self.wm_title("SteamUI-OldGlory Configurer")
-
+        self.container.pack(side="top", fill="both", expand = True)
+        
+    def set_tk_styles(self):
         ### Default Font
         self.default_font = TkFont.nametofont("TkDefaultFont")
         self.default_font.configure(size=13)      
@@ -82,26 +109,6 @@ class OldGloryApp(tk.Tk):
         
         ### Combobox dropdown - style to default font
         self.option_add("*TCombobox*Listbox*font", (self.default_font))
-
-        ### Grid configure
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
-
-        ### Load config variables
-        self.js_gui_changed = 0
-        
-        ### Frames/Pages configure
-        self.frames = {}
-        
-        for F in (StartPage, PageOne, PageTwo):
-            frame = F(container, self)
-            frame.grid(row=0, column=0, sticky="nsew")
-            self.frames[F] = frame
-        self.show_frame(StartPage)
-
-        ### Run Update Checks with show frame
-        thread = Thread(target = self.update_check, args = ())
-        thread.start()
         
     def show_frame(self, cont):
         self.frames[cont].tkraise()
@@ -142,9 +149,12 @@ class StartPage(tk.Frame):
         tk.Frame.__init__(self, parent)
         
     ### LOG FRAME
-    ### Defined first even though it will be packed after the CHECK FRAME, due to redirecting StdOut
+    ### Defined first even though it will be packed after the CHECK FRAME,
+    ### due to redirecting StdOut
     ###
-        frameLog = tk.Frame(self, width=controller.windowW-50, height=controller.windowH-450)
+        frameLog = tk.Frame(self, 
+                            width=controller.windowW-50, 
+                            height=controller.windowH-450)
         frameLog.grid_propagate(False)
         frameLog.columnconfigure(0, weight=1)
         frameLog.rowconfigure(0, weight=1)
@@ -285,6 +295,7 @@ class StartPage(tk.Frame):
             tags=["CSS"])
         mainoption6 = mo6.returnMainOption()
         mainoption6.grid(row=5, column=1, sticky='w')
+        
         ###
         self.dropdown6_value = tk.StringVar()
         self.dropdown6 = ttk.Combobox(frameCheck,
@@ -294,14 +305,13 @@ class StartPage(tk.Frame):
                                  textvariable=self.dropdown6_value,
                                  width=30)
         self.dropdown6.current(0)
-        
         self.dropdown6.bind("<<ComboboxSelected>>", lambda event: dropdown_click(event, self, controller))
         self.dropdown6.grid(row=6, column=1, columnspan=2, sticky="w")
         
         
         ###
-        label_end = tk.Label(frameCheck, height=0)
-        label_end.grid(row=7, column=0, columnspan=2)
+        #label_end = tk.Label(frameCheck, height=0)
+        #label_end.grid(row=7, column=0, columnspan=2)
 
 
         ######
@@ -394,7 +404,7 @@ class StartPage(tk.Frame):
     ### Running functions after much of StartPage has been initialised
     ###
         ### Set GUI from config
-        self.loaded_config = set_selected_from_config(self, controller)
+        self.loaded_config = set_selected_main_options(self, controller)
         self.text1.config(state='disabled')
         init_cb_check(self.var1, [check2, check3, check5])
         init_cb_check(self.var3, [check4])
@@ -699,27 +709,31 @@ def release_check(page, current_release):
     
 ### StartPage
 ### Select checkboxes based on config
-def set_selected_from_config(page, controller):
-    ### grab stdout, stderr from function in backend
-    f = io.StringIO()
-    loaded_config = backend.load_config()
-    for key in loaded_config:
-        if key in CONFIG_MAP:
-            if loaded_config[key] == '0' :
-                page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(0)
-            elif loaded_config[key] == '1' :
-                page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
-            elif key == "ThemeSelected":
-                #print(loaded_config[key])
-                try:
-                    theme_entry = controller.json_data["themes"][loaded_config[key]]
-                    if (theme_entry):
-                        #could be fragile but otherwise works
-                        page.getDropdownVal("dropdown6").set(loaded_config[key] + " (" + theme_entry["author"] + ")")
-                except:
-                    print("Could not auto-select current theme.", file=sys.stderr)
-                #page.getDropdownVal("dropdown6").set(loaded_config[key])
-    return loaded_config
+def set_selected_main_options(page, controller):
+    try:
+        ### grab stdout, stderr from function in backend
+        f = io.StringIO()
+        loaded_config = backend.load_config2()["Main_Settings"]
+        for key in loaded_config:
+            if key in CONFIG_MAP:
+                if loaded_config[key] == '0' :
+                    page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(0)
+                elif loaded_config[key] == '1' :
+                    page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
+                elif key == "ThemeSelected":
+                    #print(loaded_config[key])
+                    try:
+                        theme_entry = controller.json_data["themes"][loaded_config[key]]
+                        if (theme_entry):
+                            #could be fragile but otherwise works
+                            page.getDropdownVal("dropdown6").set(loaded_config[key] + " (" + theme_entry["author"] + ")")
+                    except:
+                        print("Could not auto-select current theme.", file=sys.stderr)
+                    #page.getDropdownVal("dropdown6").set(loaded_config[key])
+        return loaded_config
+    except Exception as e:
+        print(e.message, file=sys.stderr)
+        
 ### ================================
    
 
@@ -828,26 +842,15 @@ def dropdown_click(event, page, controller):
     theme_name = event.widget.get()
     #print(theme_name)
     #print(controller.json_data["themes"][theme_name.split(" (")[0]]["filename"])
-    theme_image_path = resource_path("images/theme_" + controller.json_data["themes"][theme_name.split(" (")[0]]["filename"][1:-5] + ".png")
     
-
-    if os.path.isfile(theme_image_path):
-        tip = Image_tooltip(event.widget, open_img(theme_image_path), hover_delay=100)
-    else:
-        tip = Image_tooltip(event.widget, open_img(resource_path("images/no_preview.png")), hover_delay=100)
-
-
-def dropdown_hover(event, page, controller):
-    theme_name = event.widget.get()
     theme_image_path = resource_path("images/theme_" + controller.json_data["themes"][theme_name.split(" (")[0]]["filename"][1:-5] + ".png")
-    print(theme_image_path)
-    if os.path.isfile(theme_image_path):
-        tip = Image_tooltip(event.widget, open_img(theme_image_path), hover_delay=100)
-    else:
-        tip = Image_tooltip(event.widget, open_img(resource_path("images/no_preview.png")), hover_delay=100)
+    dropdown_hover(theme_image_path, event.widget)
 
-def dropdown_leave(event, page, controller):
-    pass
+def dropdown_hover(image_path, widget):
+    if os.path.isfile(image_path):
+        tip = Image_tooltip(widget, open_img(image_path), hover_delay=100)
+    else:
+        tip = Image_tooltip(widget, open_img(resource_path("images/no_preview.png")), hover_delay=100)
 
 ### ScrollFrame
 
@@ -911,7 +914,7 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
               "EnableVerticalNavBar" : {"value" : "var3", "javascript" : True},
               "EnableClassicLayout" : {"value" : "var4", "javascript" : True},
               "LandscapeImages" : {"value" : "var5", "javascript" : True},
-              "InstallWithDarkLibrary" : {"value" : "var6", "javascript" : False},
+              "InstallWithLibraryTheme" : {"value" : "var6", "javascript" : False},
               "ThemeSelected" : {"set" : ""}
               }
 
@@ -1121,6 +1124,8 @@ def reload_click(event, controller):
     try:
         print("==============================")
         ### Reload Data
+        controller.frames[StartPage].loaded_config = set_selected_main_options(controller.frames[StartPage], controller)
+        print("Loaded config data. (oldglory_config2.cfg)")
         controller.json_data = backend.get_json_data()
         controller.css_config = backend.load_css_configurables()
         controller.js_config, controller.special_js_config = backend.load_js_fixes()
@@ -1176,7 +1181,6 @@ class Detail_tooltip(OnHoverTooltipBase):
 class Image_tooltip(OnHoverTooltipBase):
     def __init__(self, anchor_widget, image, hover_delay=1000):
         super(Image_tooltip, self).__init__(anchor_widget, hover_delay=hover_delay)
-        #self.text = text
         self.image = image
 
     def showcontents(self):
@@ -1224,6 +1228,7 @@ class CSSGUICreator(tk.Frame):
 ### START ConfigurablesFrame
 ###
 # Currently unused
+'''
 class ConfigurablesFrame(tk.Frame):
     def __init__(self, parent, controller, config):
         self.parent = parent
@@ -1321,7 +1326,7 @@ class CSSConfigRow(tk.Frame):
 
 ###
 ### END ConfigurablesFrame
-
+'''
 
 DEFAULT_QUICK_CSS = {"Top of Page" : {"value" : "1", "config" :
                             {"--WhatsNew" : "block",
@@ -1409,7 +1414,6 @@ class PresetFrame(tk.Frame):
 
 
 ### START PresetOption
-
 class PresetOption(tk.Frame):
 
     def __init__(self, parent, controller, name, data):
@@ -1491,7 +1495,6 @@ class PresetOption(tk.Frame):
 
         ### PRESET Click funtion
     def preset_click(self, controller, radioText):
-        #print("~~~pcccc~~~~~~")
         #print(radioText)
         if radioText != "[Current value]":
             globals()["apply_css_config_values"](controller, self.data[radioText]["config"])
@@ -1499,6 +1502,9 @@ class PresetOption(tk.Frame):
 
     def returnPresetOption(self):
         return self.framePresetOption
+    
+###
+### END PresetOption
 
 ### Preset
 ### ~~~~~~~~~~
@@ -1602,7 +1608,6 @@ class JSFrame(tk.Frame):
 
             _checkbutton.grid(row=rownum, column=0, padx=(5,0), sticky='w')
             _label.grid(row=rownum, column=1, sticky='w')
-            
             
             rownum += 1
             if fixname in self.controller.special_js_config:
