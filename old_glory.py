@@ -148,19 +148,21 @@ class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         
+        self.controller = controller
+        
     ### LOG FRAME
     ### Defined first even though it will be packed after the CHECK FRAME,
     ### due to redirecting StdOut
     ###
-        frameLog = tk.Frame(self, 
+        self.frameLog = tk.Frame(self, 
                             width=controller.windowW-50, 
                             height=controller.windowH-450)
-        frameLog.grid_propagate(False)
-        frameLog.columnconfigure(0, weight=1)
-        frameLog.rowconfigure(0, weight=1)
+        self.frameLog.grid_propagate(False)
+        self.frameLog.columnconfigure(0, weight=1)
+        self.frameLog.rowconfigure(0, weight=1)
 
         ### Text
-        entry1 = ttk.Entry(frameLog)
+        entry1 = ttk.Entry(self.frameLog)
         self.text1 = tk.Text(entry1, width=500)
         self.text1.configure(font=("Arial",10))
 
@@ -173,7 +175,7 @@ class StartPage(tk.Frame):
         entry1.grid(row=0, column=0)
 
         ###
-        scroll_1 = ttk.Scrollbar(frameLog, command=self.text1.yview)
+        scroll_1 = ttk.Scrollbar(self.frameLog, command=self.text1.yview)
         scroll_1.grid(row=0, column=1, sticky='ns')
         self.text1['yscrollcommand'] = scroll_1.set
 
@@ -186,25 +188,25 @@ class StartPage(tk.Frame):
         self.frameHead = head_frame(self, controller)
 
     ### Tabs
-        tabs = ttk.Notebook(self,width=722)
-        frameCheck = tk.Frame(tabs)
-        framePatch = tk.Frame(tabs)
+        self.tabs = ttk.Notebook(self,width=722)
+        self.frameCheck = tk.Frame(self.tabs)
+        self.framePatch = tk.Frame(self.tabs)
     
     ### CHECK FRAME
     ###
         
-        #frameCheck.grid_columnconfigure(2, weight=1)
+        #self.frameCheck.grid_columnconfigure(2, weight=1)
 
         ######
         self.var1 = tk.IntVar()
-        check1 = ttk.Checkbutton(frameCheck,
+        self.check1 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var1
                                  )                        
-        check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, [check2, check3, check5]))
-        check1.grid(row=0, column=0)
+        self.check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, [self.check2, self.check3, self.check5]))
+        self.check1.grid(row=0, column=0)
         ###        
         mo1 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="Install CSS Tweaks",
             image="images/full_layout.png",
@@ -214,13 +216,13 @@ class StartPage(tk.Frame):
         
         ######
         self.var2 = tk.IntVar()
-        check2 = ttk.Checkbutton(frameCheck,
+        self.check2 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var2,
                                  state='disabled')
-        check2.grid(row=1, column=0)
+        self.check2.grid(row=1, column=0)
         ###
         mo2 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="  \u2937 Box Play Button",
             image="images/play_button_box.png",
@@ -231,14 +233,14 @@ class StartPage(tk.Frame):
         
         ######
         self.var3 = tk.IntVar()
-        check3 = ttk.Checkbutton(frameCheck,
+        self.check3 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var3,
                                  state='disabled')
-        check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, [check4]))
-        check3.grid(row=2, column=0)
+        self.check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, [self.check4]))
+        self.check3.grid(row=2, column=0)
         ###
         mo3 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="  \u2937 Vertical Nav Bar",
             image="images/vertical_nav_bar.png",
@@ -249,14 +251,14 @@ class StartPage(tk.Frame):
         
         ######
         self.var4 = tk.IntVar()
-        check4 = ttk.Checkbutton(frameCheck,
+        self.check4 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var4,
                                  state='disabled'
                                  )
-        check4.grid(row=3, column=0)
+        self.check4.grid(row=3, column=0)
         ###
         mo4 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="    \u2937 Classic Layout",
             image="images/classic_layout.png",
@@ -266,12 +268,12 @@ class StartPage(tk.Frame):
         
         ######
         self.var5 = tk.IntVar()
-        check5 = ttk.Checkbutton(frameCheck,
+        self.check5 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var5)
-        check5.grid(row=4, column=0)
+        self.check5.grid(row=4, column=0)
         ###
         mo5 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="  \u2937 Landscape Game Images",
             image="images/landscape_images.png",
@@ -282,13 +284,13 @@ class StartPage(tk.Frame):
         ######
         self.change_theme = 0
         self.var6 = tk.IntVar()
-        check6 = ttk.Checkbutton(frameCheck,
+        self.check6 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var6)
-        check6.bind("<Button-1>", lambda event: self.setChangeTheme(event))
-        check6.grid(row=5, column=0)
+        self.check6.bind("<Button-1>", lambda event: self.setChangeTheme(event))
+        self.check6.grid(row=5, column=0)
         ###
         mo6 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="Library Theme",
             image="images/theme_shiina.png",
@@ -298,7 +300,7 @@ class StartPage(tk.Frame):
         
         ###
         self.dropdown6_value = tk.StringVar()
-        self.dropdown6 = ttk.Combobox(frameCheck,
+        self.dropdown6 = ttk.Combobox(self.frameCheck,
                                  font="TkDefaultFont",
                                  values=self.getListOfThemeNames(controller),
                                  state="readonly",
@@ -310,18 +312,18 @@ class StartPage(tk.Frame):
         
         
         ###
-        #label_end = tk.Label(frameCheck, height=0)
+        #label_end = tk.Label(self.frameCheck, height=0)
         #label_end.grid(row=7, column=0, columnspan=2)
 
 
         ######
         self.var7 = tk.IntVar()
-        check7 = ttk.Checkbutton(frameCheck,
+        self.check7 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var7)
-        check7.grid(row=0, column=2)
+        self.check7.grid(row=0, column=2)
         ###
         mo7 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="Classic Styling (WIP)",
             image="images/classic_styling.png",
@@ -329,26 +331,37 @@ class StartPage(tk.Frame):
         mainoption7 = mo7.returnMainOption()
         mainoption7.grid(row=0, column=3, sticky='w')
         ###
-        #self.image1 = add_img(frameCheck, resource_path('images/full_layout.png'))
+        #self.image1 = add_img(self.frameCheck, resource_path('images/full_layout.png'))
         #self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")      
-
+        
+        
+        #####
+        self.create_patch_frame()
+        self.create_mode_frame()
+        ### CONFIRM FRAME
+        self.frameConfirm = confirm_frame(self, controller)        
+        
+        self.set_gui_from_config()
+        self.pack_frames()
+    
+    def create_patch_frame(self):
     ### PATCH FRAME
     ###
         
         labeltext_a = tk.StringVar()
         labeltext_a.set("Quick Links")
         
-        label_a = tk.Label(framePatch, textvariable=labeltext_a)
+        label_a = tk.Label(self.framePatch, textvariable=labeltext_a)
         label_a.grid(row=0, column=0)
         
-        pbutton1 = ttk.Button(framePatch,
+        pbutton1 = ttk.Button(self.framePatch,
                               text="Open OldGlory folder",
                               width=22
         )
         pbutton1.bind("<Button-1>", lambda event:backend.OS_open_file(os.getcwd()))
         pbutton1.grid(row=1, column=0, padx=(5,0), pady=5)
 
-        pbutton2 = ttk.Button(framePatch,
+        pbutton2 = ttk.Button(self.framePatch,
                               text="Open steamui folder",
                               width=22
         )
@@ -359,10 +372,10 @@ class StartPage(tk.Frame):
         labeltext_b = tk.StringVar()
         labeltext_b.set("steam-library (Shiina)")
         
-        label_b = tk.Label(framePatch, textvariable=labeltext_b)
+        label_b = tk.Label(self.framePatch, textvariable=labeltext_b)
         label_b.grid(row=3, column=0)
         
-        pbutton3 = ttk.Button(framePatch,
+        pbutton3 = ttk.Button(self.framePatch,
                               text="Apply config.css",
                               width=22
         )
@@ -372,57 +385,51 @@ class StartPage(tk.Frame):
                                      hover_delay=200)
         pbutton3.bind("<Button-1>", lambda event:backend.steam_library_compat_config(1))
         pbutton3.grid(row=4, column=0, padx=(5,0), pady=5)
-        
-    ### MODE FRAME
-    ###
-        frameMode = tk.Frame(self)
+    
+    
+    def create_mode_frame(self):
+        self.frameMode = tk.Frame(self)
 
         ###
         self.var_m = tk.IntVar()
-        button_m = ttk.Button(frameMode,
+        button_m = ttk.Button(self.frameMode,
                            text="CSS Options",
                            width=16
         )
-        button_m.bind("<Button-1>", lambda event:show_PageOne(controller))
+        button_m.bind("<Button-1>", lambda event:show_PageOne(self.controller))
         button_m.grid(row=0, column=0, padx=5)
 
         ###
         self.var_n = tk.IntVar()
-        button_n = ttk.Button(frameMode,
+        button_n = ttk.Button(self.frameMode,
                            text="JS Options",
                            width=16
         )
-        button_n.bind("<Button-1>", lambda event:show_PageTwo(controller))
+        button_n.bind("<Button-1>", lambda event:show_PageTwo(self.controller))
         button_n.grid(row=0, column=1, padx=5)
 
-        
-    ### CONFIRM FRAME
-    ###
-        frameConfirm = confirm_frame(self, controller)
-
-
-    ### Running functions after much of StartPage has been initialised
-    ###
+    
+    def set_gui_from_config(self):
         ### Set GUI from config
-        self.loaded_config = set_selected_main_options(self, controller)
+        self.loaded_config = set_selected_main_options(self, self.controller)
         self.text1.config(state='disabled')
-        init_cb_check(self.var1, [check2, check3, check5])
-        init_cb_check(self.var3, [check4])
-        
-    ### Pack frames
-    ###
-        self.frameHead.pack()
-        frameCheck.pack()
-        framePatch.pack()
+        init_cb_check(self.var1, [self.check2, self.check3, self.check5])
+        init_cb_check(self.var3, [self.check4])
 
-        ###tabs
-        tabs.add(frameCheck, text="Main Options")
-        tabs.add(framePatch, text="Advanced Options")
-        tabs.pack(expand=1)
+    def pack_frames(self):
+        ###places frames into the page
+        self.frameHead.pack()
+        self.frameCheck.pack()
+        self.framePatch.pack()
+
+        ###self.tabs
+        self.tabs.add(self.frameCheck, text="Main Options")
+        self.tabs.add(self.framePatch, text="Advanced Options")
+        self.tabs.pack(expand=1)
         
-        frameLog.pack(padx=17, pady=(10,7), expand=1, fill='both')
-        frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
-        frameMode.pack(pady=(2, 0), side="bottom")
+        self.frameLog.pack(padx=17, pady=(10,7), expand=1, fill='both')
+        self.frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
+        self.frameMode.pack(pady=(2, 0), side="bottom")
 
   
 
@@ -460,9 +467,9 @@ class PageOne(tk.Frame):
         self.frameHead = head_frame(self, controller)
 
     ### Tabs
-        tabs = ttk.Notebook(self,)
-        frameQuick = tk.Frame(tabs)
-        frameSections = tk.Frame(tabs)
+        self.tabs = ttk.Notebook(self,)
+        frameQuick = tk.Frame(self.tabs)
+        frameSections = tk.Frame(self.tabs)
 
     ### CSS Frame
     ###
@@ -473,11 +480,11 @@ class PageOne(tk.Frame):
         
     ### MODE Frame
     ###
-        frameMode = tk.Frame(self)
+        self.frameMode = tk.Frame(self)
 
         ###
         self.var_m = tk.IntVar()
-        button_m = ttk.Button(frameMode,
+        button_m = ttk.Button(self.frameMode,
                            text="Back to Home",
                            width=16
         )
@@ -486,7 +493,7 @@ class PageOne(tk.Frame):
 
         ###
         self.var_n = tk.IntVar()
-        button_n = ttk.Button(frameMode,
+        button_n = ttk.Button(self.frameMode,
                            text="JS Options",
                            width=16
         )
@@ -495,7 +502,7 @@ class PageOne(tk.Frame):
 
     ### CONFIRM FRAME
     ###
-        frameConfirm = confirm_frame(self, controller)
+        self.frameConfirm = confirm_frame(self, controller)
         
     ### Pack frames
         self.frameHead.pack()
@@ -504,13 +511,13 @@ class PageOne(tk.Frame):
         frameQuick.pack()
         frameSections.pack()
 
-        ###tabs
-        tabs.add(frameQuick, text="Quick CSS")
-        tabs.add(frameSections, text="CSS Sections")
-        tabs.pack(fill="both", expand=1, padx=(10,9))
+        ###self.tabs
+        self.tabs.add(frameQuick, text="Quick CSS")
+        self.tabs.add(frameSections, text="CSS Sections")
+        self.tabs.pack(fill="both", expand=1, padx=(10,9))
         
-        frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
-        frameMode.pack(pady=(2, 0), side="bottom")
+        self.frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
+        self.frameMode.pack(pady=(2, 0), side="bottom")
 
         #self.frameCSS = create_css_gui(self, controller, backend.load_css_configurables())
 
@@ -533,11 +540,11 @@ class PageTwo(tk.Frame):
         
     ### MODE Frame
     ###
-        frameMode = tk.Frame(self)
+        self.frameMode = tk.Frame(self)
 
         ###
         self.var_m = tk.IntVar()
-        button_m = ttk.Button(frameMode,
+        button_m = ttk.Button(self.frameMode,
                            text="Back to Home",
                            width=16
         )
@@ -546,7 +553,7 @@ class PageTwo(tk.Frame):
 
         ###
         self.var_n = tk.IntVar()
-        button_n = ttk.Button(frameMode,
+        button_n = ttk.Button(self.frameMode,
                            text="CSS Options",
                            width=16
         )
@@ -555,15 +562,15 @@ class PageTwo(tk.Frame):
     
     ### CONFIRM FRAME
     ###
-        frameConfirm = confirm_frame(self, controller)
+        self.frameConfirm = confirm_frame(self, controller)
 
     ### Pack frames
     ###
         self.frameHead.pack()
         label_js_head.pack()
         self.frameJS.pack(padx=10, expand=1, fill="both")
-        frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
-        frameMode.pack(pady=(2, 0), side="bottom")
+        self.frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
+        self.frameMode.pack(pady=(2, 0), side="bottom")
 
 ### FRAME functions
 ### ================================
@@ -850,6 +857,7 @@ def dropdown_hover(image_path, widget):
     if os.path.isfile(image_path):
         tip = Image_tooltip(widget, open_img(image_path), hover_delay=100)
     else:
+        print("Theme preview image not found at: " + image_path + ",\n  using default No Preview image")
         tip = Image_tooltip(widget, open_img(resource_path("images/no_preview.png")), hover_delay=100)
 
 ### ScrollFrame
@@ -965,7 +973,7 @@ def get_settings_from_gui(event, page):
         settings = []
         settings_values = {}
         for key in CONFIG_MAP:
-            if "value" in CONFIG_MAP[key]:         
+            if "value" in CONFIG_MAP[key]:       
                 settings_values[key] = page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get()
                 if page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get() == 1:
                     settings.append(key)
