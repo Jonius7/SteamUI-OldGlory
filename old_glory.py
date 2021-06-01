@@ -850,6 +850,7 @@ def dropdown_hover(image_path, widget):
     if os.path.isfile(image_path):
         tip = Image_tooltip(widget, open_img(image_path), hover_delay=100)
     else:
+        print("Theme preview image not found at: " + image_path + ",\n  using default No Preview image")
         tip = Image_tooltip(widget, open_img(resource_path("images/no_preview.png")), hover_delay=100)
 
 ### ScrollFrame

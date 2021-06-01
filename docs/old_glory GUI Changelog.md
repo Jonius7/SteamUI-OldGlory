@@ -1,10 +1,12 @@
 ## SteamUI-OldGlory GUI Changelog
 
-0.9.8.20	5.5.6-pre1	Updated to use new config version
+0.9.8.20	5.6-pre1	Updated to use new config version
 
-0.9.8.13
+0.9.8.14	5.5.5
 
-**0.9.8.11**   **(Release 5.5.4)** More print output messages, fix `copy_files_from_steam` Reset bug
+0.9.8.13	*(5.5.5-pre1)*
+
+**0.9.8.11**   *(5.5.4)* More print output messages, fix `copy_files_from_steam` Reset bug
 
 **0.9.8.10**   **(Release 5.5.3)** Fix `os_makedirs` download file
 
