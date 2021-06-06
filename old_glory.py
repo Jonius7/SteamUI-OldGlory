@@ -1,7 +1,6 @@
 import tkinter as tk
 import tkinter.font as TkFont
 from tkinter import ttk
-from idlelib.tooltip import Hovertip, OnHoverTooltipBase
 from PIL import ImageTk, Image
 import sys
 import io
@@ -17,20 +16,25 @@ from threading import Thread
 
 import backend
 import js_tweaker
-from tkHyperlinkManager import HyperlinkManager
+import custom_tk
 
 
 OS_TYPE = platform.system()
-DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
+DEBUG_STDOUT_STDERR = True # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.8.20"
-        self.release = "5.6-pre1"
+        self.version = "v0.9.9.01"
+        self.release = "5.6.5-pre1"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
         self.container = tk.Frame(self)
+        
+        ### Data and Config (will be populated)
+        self.json_data = None
+        self.css_config = None
+        self.js_config = None
 
         ### Fixed DPI Scaling on Windows
         if OS_TYPE == "Windows":
@@ -152,28 +156,28 @@ class StartPage(tk.Frame):
     ### Defined first even though it will be packed after the CHECK FRAME,
     ### due to redirecting StdOut
     ###
-        frameLog = tk.Frame(self, 
+        self.frameLog = tk.Frame(self, 
                             width=controller.windowW-50, 
                             height=controller.windowH-450)
-        frameLog.grid_propagate(False)
-        frameLog.columnconfigure(0, weight=1)
-        frameLog.rowconfigure(0, weight=1)
+        self.frameLog.grid_propagate(False)
+        self.frameLog.columnconfigure(0, weight=1)
+        self.frameLog.rowconfigure(0, weight=1)
 
         ### Text
-        entry1 = ttk.Entry(frameLog)
+        entry1 = ttk.Entry(self.frameLog)
         self.text1 = tk.Text(entry1, width=500)
         self.text1.configure(font=("Arial",10))
 
         ### REDIRECT STDOUT STDERR
         if not DEBUG_STDOUT_STDERR:
-            sys.stdout = StdoutRedirector(self.text1)
-            sys.stderr = StderrRedirector(self.text1)
+            sys.stdout = custom_tk.StdoutRedirector(self.text1)
+            sys.stderr = custom_tk.StderrRedirector(self.text1)
         
         self.text1.pack(expand="yes")
         entry1.grid(row=0, column=0)
 
         ###
-        scroll_1 = ttk.Scrollbar(frameLog, command=self.text1.yview)
+        scroll_1 = ttk.Scrollbar(self.frameLog, command=self.text1.yview)
         scroll_1.grid(row=0, column=1, sticky='ns')
         self.text1['yscrollcommand'] = scroll_1.set
 
@@ -186,25 +190,25 @@ class StartPage(tk.Frame):
         self.frameHead = head_frame(self, controller)
 
     ### Tabs
-        tabs = ttk.Notebook(self,width=722)
-        frameCheck = tk.Frame(tabs)
-        framePatch = tk.Frame(tabs)
+        self.tabs = ttk.Notebook(self,width=722)
+        self.frameCheck = tk.Frame(self.tabs)
+        self.framePatch = tk.Frame(self.tabs)
     
     ### CHECK FRAME
     ###
         
-        #frameCheck.grid_columnconfigure(2, weight=1)
+        #self.frameCheck.grid_columnconfigure(2, weight=1)
 
         ######
         self.var1 = tk.IntVar()
-        check1 = ttk.Checkbutton(frameCheck,
+        check1 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var1
                                  )                        
         check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, [check2, check3, check5]))
         check1.grid(row=0, column=0)
         ###        
         mo1 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="Install CSS Tweaks",
             image="images/full_layout.png",
@@ -214,13 +218,13 @@ class StartPage(tk.Frame):
         
         ######
         self.var2 = tk.IntVar()
-        check2 = ttk.Checkbutton(frameCheck,
+        check2 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var2,
                                  state='disabled')
         check2.grid(row=1, column=0)
         ###
         mo2 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="  \u2937 Box Play Button",
             image="images/play_button_box.png",
@@ -231,14 +235,14 @@ class StartPage(tk.Frame):
         
         ######
         self.var3 = tk.IntVar()
-        check3 = ttk.Checkbutton(frameCheck,
+        check3 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var3,
                                  state='disabled')
         check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, [check4]))
         check3.grid(row=2, column=0)
         ###
         mo3 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="  \u2937 Vertical Nav Bar",
             image="images/vertical_nav_bar.png",
@@ -249,14 +253,14 @@ class StartPage(tk.Frame):
         
         ######
         self.var4 = tk.IntVar()
-        check4 = ttk.Checkbutton(frameCheck,
+        check4 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var4,
                                  state='disabled'
                                  )
         check4.grid(row=3, column=0)
         ###
         mo4 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="    \u2937 Classic Layout",
             image="images/classic_layout.png",
@@ -266,12 +270,12 @@ class StartPage(tk.Frame):
         
         ######
         self.var5 = tk.IntVar()
-        check5 = ttk.Checkbutton(frameCheck,
+        check5 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var5)
         check5.grid(row=4, column=0)
         ###
         mo5 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="  \u2937 Landscape Game Images",
             image="images/landscape_images.png",
@@ -282,13 +286,13 @@ class StartPage(tk.Frame):
         ######
         self.change_theme = 0
         self.var6 = tk.IntVar()
-        check6 = ttk.Checkbutton(frameCheck,
+        check6 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var6)
         check6.bind("<Button-1>", lambda event: self.setChangeTheme(event))
         check6.grid(row=5, column=0)
         ###
         mo6 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="Library Theme",
             image="images/theme_shiina.png",
@@ -298,7 +302,7 @@ class StartPage(tk.Frame):
         
         ###
         self.dropdown6_value = tk.StringVar()
-        self.dropdown6 = ttk.Combobox(frameCheck,
+        self.dropdown6 = ttk.Combobox(self.frameCheck,
                                  font="TkDefaultFont",
                                  values=self.getListOfThemeNames(controller),
                                  state="readonly",
@@ -310,18 +314,18 @@ class StartPage(tk.Frame):
         
         
         ###
-        #label_end = tk.Label(frameCheck, height=0)
+        #label_end = tk.Label(self.frameCheck, height=0)
         #label_end.grid(row=7, column=0, columnspan=2)
 
 
         ######
         self.var7 = tk.IntVar()
-        check7 = ttk.Checkbutton(frameCheck,
+        check7 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var7)
         check7.grid(row=0, column=2)
         ###
         mo7 = MainOption(
-            parentFrame=frameCheck,
+            parentFrame=self.frameCheck,
             page=self,
             name="Classic Styling (WIP)",
             image="images/classic_styling.png",
@@ -329,7 +333,7 @@ class StartPage(tk.Frame):
         mainoption7 = mo7.returnMainOption()
         mainoption7.grid(row=0, column=3, sticky='w')
         ###
-        #self.image1 = add_img(frameCheck, resource_path('images/full_layout.png'))
+        #self.image1 = add_img(self.frameCheck, resource_path('images/full_layout.png'))
         #self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")      
 
     ### PATCH FRAME
@@ -338,17 +342,17 @@ class StartPage(tk.Frame):
         labeltext_a = tk.StringVar()
         labeltext_a.set("Quick Links")
         
-        label_a = tk.Label(framePatch, textvariable=labeltext_a)
+        label_a = tk.Label(self.framePatch, textvariable=labeltext_a)
         label_a.grid(row=0, column=0)
         
-        pbutton1 = ttk.Button(framePatch,
+        pbutton1 = ttk.Button(self.framePatch,
                               text="Open OldGlory folder",
                               width=22
         )
         pbutton1.bind("<Button-1>", lambda event:backend.OS_open_file(os.getcwd()))
         pbutton1.grid(row=1, column=0, padx=(5,0), pady=5)
 
-        pbutton2 = ttk.Button(framePatch,
+        pbutton2 = ttk.Button(self.framePatch,
                               text="Open steamui folder",
                               width=22
         )
@@ -359,14 +363,14 @@ class StartPage(tk.Frame):
         labeltext_b = tk.StringVar()
         labeltext_b.set("steam-library (Shiina)")
         
-        label_b = tk.Label(framePatch, textvariable=labeltext_b)
+        label_b = tk.Label(self.framePatch, textvariable=labeltext_b)
         label_b.grid(row=3, column=0)
         
-        pbutton3 = ttk.Button(framePatch,
+        pbutton3 = ttk.Button(self.framePatch,
                               text="Apply config.css",
                               width=22
         )
-        button3_tip = Detail_tooltip(pbutton3,
+        button3_tip = custom_tk.Detail_tooltip(pbutton3,
                                      "If you have modifed themes/config.css for steam-library,\n" \
                                      "click here to copy it over to steamui",
                                      hover_delay=200)
@@ -375,11 +379,11 @@ class StartPage(tk.Frame):
         
     ### MODE FRAME
     ###
-        frameMode = tk.Frame(self)
+        self.frameMode = tk.Frame(self)
 
         ###
         self.var_m = tk.IntVar()
-        button_m = ttk.Button(frameMode,
+        button_m = ttk.Button(self.frameMode,
                            text="CSS Options",
                            width=16
         )
@@ -388,7 +392,7 @@ class StartPage(tk.Frame):
 
         ###
         self.var_n = tk.IntVar()
-        button_n = ttk.Button(frameMode,
+        button_n = ttk.Button(self.frameMode,
                            text="JS Options",
                            width=16
         )
@@ -398,7 +402,8 @@ class StartPage(tk.Frame):
         
     ### CONFIRM FRAME
     ###
-        frameConfirm = confirm_frame(self, controller)
+        ConfirmObject = ConfirmFrame(self, controller)
+        self.frameConfirm = ConfirmObject.get_frame_confirm()
 
 
     ### Running functions after much of StartPage has been initialised
@@ -409,20 +414,22 @@ class StartPage(tk.Frame):
         init_cb_check(self.var1, [check2, check3, check5])
         init_cb_check(self.var3, [check4])
         
-    ### Pack frames
-    ###
+        self.pack_frames()
+
+    def pack_frames(self):
+        '''Place frames into page'''
         self.frameHead.pack()
-        frameCheck.pack()
-        framePatch.pack()
+        self.frameCheck.pack()
+        self.framePatch.pack()
 
         ###tabs
-        tabs.add(frameCheck, text="Main Options")
-        tabs.add(framePatch, text="Advanced Options")
-        tabs.pack(expand=1)
+        self.tabs.add(self.frameCheck, text="Main Options")
+        self.tabs.add(self.framePatch, text="Advanced Options")
+        self.tabs.pack(expand=1)
         
-        frameLog.pack(padx=17, pady=(10,7), expand=1, fill='both')
-        frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
-        frameMode.pack(pady=(2, 0), side="bottom")
+        self.frameLog.pack(padx=17, pady=(10,7), expand=1, fill='both')
+        self.frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
+        self.frameMode.pack(pady=(2, 0), side="bottom")
 
   
 
@@ -473,11 +480,11 @@ class PageOne(tk.Frame):
         
     ### MODE Frame
     ###
-        frameMode = tk.Frame(self)
+        self.frameMode = tk.Frame(self)
 
         ###
         self.var_m = tk.IntVar()
-        button_m = ttk.Button(frameMode,
+        button_m = ttk.Button(self.frameMode,
                            text="Back to Home",
                            width=16
         )
@@ -486,7 +493,7 @@ class PageOne(tk.Frame):
 
         ###
         self.var_n = tk.IntVar()
-        button_n = ttk.Button(frameMode,
+        button_n = ttk.Button(self.frameMode,
                            text="JS Options",
                            width=16
         )
@@ -495,7 +502,8 @@ class PageOne(tk.Frame):
 
     ### CONFIRM FRAME
     ###
-        frameConfirm = confirm_frame(self, controller)
+        ConfirmObject = ConfirmFrame(self, controller)
+        frameConfirm = ConfirmObject.get_frame_confirm()
         
     ### Pack frames
         self.frameHead.pack()
@@ -510,7 +518,7 @@ class PageOne(tk.Frame):
         tabs.pack(fill="both", expand=1, padx=(10,9))
         
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
-        frameMode.pack(pady=(2, 0), side="bottom")
+        self.frameMode.pack(pady=(2, 0), side="bottom")
 
         #self.frameCSS = create_css_gui(self, controller, backend.load_css_configurables())
 
@@ -533,11 +541,11 @@ class PageTwo(tk.Frame):
         
     ### MODE Frame
     ###
-        frameMode = tk.Frame(self)
+        self.frameMode = tk.Frame(self)
 
         ###
         self.var_m = tk.IntVar()
-        button_m = ttk.Button(frameMode,
+        button_m = ttk.Button(self.frameMode,
                            text="Back to Home",
                            width=16
         )
@@ -546,7 +554,7 @@ class PageTwo(tk.Frame):
 
         ###
         self.var_n = tk.IntVar()
-        button_n = ttk.Button(frameMode,
+        button_n = ttk.Button(self.frameMode,
                            text="CSS Options",
                            width=16
         )
@@ -555,7 +563,8 @@ class PageTwo(tk.Frame):
     
     ### CONFIRM FRAME
     ###
-        frameConfirm = confirm_frame(self, controller)
+        ConfirmObject = ConfirmFrame(self, controller)
+        frameConfirm = ConfirmObject.get_frame_confirm()
 
     ### Pack frames
     ###
@@ -563,7 +572,7 @@ class PageTwo(tk.Frame):
         label_js_head.pack()
         self.frameJS.pack(padx=10, expand=1, fill="both")
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
-        frameMode.pack(pady=(2, 0), side="bottom")
+        self.frameMode.pack(pady=(2, 0), side="bottom")
 
 ### FRAME functions
 ### ================================
@@ -594,56 +603,72 @@ def head_frame(self, controller):
 
 ### CONFIRM FRAME
 ###
-def confirm_frame(page, controller):
-    frameConfirm = tk.Frame(page)
-    
-    frameConfirm.grid_columnconfigure(0, weight=1)
-    frameConfirm.grid_columnconfigure(1, weight=0)
-    frameConfirm.grid_columnconfigure(2, weight=0)
-    frameConfirm.grid_columnconfigure(3, weight=1)
+class ConfirmFrame(tk.Frame):
+    def __init__(self, page, controller):
+        self.frameConfirm = tk.Frame(page)        
+        self.frameConfirm.grid_columnconfigure(0, weight=2)
+        self.frameConfirm.grid_columnconfigure(1, weight=1)
+        self.frameConfirm.grid_columnconfigure(2, weight=0)
+        self.frameConfirm.grid_columnconfigure(3, weight=1)
+        self.frameConfirm.grid_columnconfigure(4, weight=2)
 
-    ###
-    label_left = tk.Label(frameConfirm, width=3)
-    label_left.grid(row=0, column=0, padx=(5,14))
-    
-    ###
-    button1 = ttk.Button(frameConfirm,
-                       text="Install",
-                       width=15                       
-    )
-    button1.bind("<Button-1>",
-                 lambda event:globals()["install_click"](event, controller.frames[StartPage], controller)
-                 )
-    button1.grid(row=0, column=1, padx=5, sticky="NSEW")
-    
-    ###
-    button2 = ttk.Button(frameConfirm,
-                       text="Reload Config",
-                       width=15#,
-                       ###state='disabled'
-    )
-    button2_tip = Detail_tooltip(button2, "If you have modified the files manually,\nclick here to reload their values into the program.", hover_delay=200)
-    button2.bind("<Button-1>",
-                 lambda event:reload_click(event, controller)
-                 )
-    button2.grid(row=0, column=2, padx=5, sticky="NSEW")
+        ###
+        label_left = tk.Label(self.frameConfirm, width=3)
+        label_left.grid(row=0, column=0, padx=(5,14))
+        
+        ###
+        button1 = ttk.Button(self.frameConfirm,
+                        text="Install",
+                        width=10                       
+        )
+        button1.bind("<Button-1>",
+                    lambda event:globals()["install_click"](event, controller.frames[StartPage], controller)
+                    )
+        button1.grid(row=0, column=1, padx=5, sticky="NSEW")
+        
+        
+        install_modes = ("CSS Only", "CSS + JS")
+        vard = tk.StringVar()
+        
+        buttond = ttk.OptionMenu(self.frameConfirm,
+                        vard,
+                        install_modes[0],
+                        *install_modes,           
+        )
+        #button1.bind("<Button-1>",
+        #             lambda event:globals()["install_click"](event, controller.frames[StartPage], controller)
+        #             )
+        buttond.grid(row=0, column=2, padx=5, sticky="NSEW")
+        
+        ###
+        button2 = ttk.Button(self.frameConfirm,
+                        text="Reload Config",
+                        width=10#,
+                        ###state='disabled'
+        )
+        button2_tip = custom_tk.Detail_tooltip(button2, "If you have modified the files manually,\nclick here to reload their values into the program.", hover_delay=200)
+        button2.bind("<Button-1>",
+                    lambda event:reload_click(event, controller)
+                    )
+        button2.grid(row=0, column=3, padx=5, sticky="NSEW")
 
-    ###
-    settings_image = open_img(globals()["resource_path"]('images/settings.png'), 24)
-    button3 = ttk.Button(frameConfirm,
-                       #text="GG",
-                       image=settings_image,
-                       width=3#,
-                       ###state='disabled'
-    )
-    button3.image = settings_image
-    button3_tip = Detail_tooltip(button3, "Settings and About", hover_delay=200)
-    button3.bind("<Button-1>",
-                 lambda event:settings_window(event, controller)
-                 )
-    button3.grid(row=0, column=3, padx=(5,15), sticky=tk.E)
-    
-    return frameConfirm
+        ###
+        settings_image = open_img(globals()["resource_path"]('images/settings.png'), 24)
+        button3 = ttk.Button(self.frameConfirm,
+                        #text="GG",
+                        image=settings_image,
+                        width=3#,
+                        ###state='disabled'
+        )
+        button3.image = settings_image
+        button3_tip = custom_tk.Detail_tooltip(button3, "Settings and About", hover_delay=200)
+        button3.bind("<Button-1>",
+                    lambda event:settings_window(event, controller)
+                    )
+        button3.grid(row=0, column=4, padx=(5,15), sticky=tk.E)
+        
+    def get_frame_confirm(self):
+        return self.frameConfirm
 ### ================================
 
 ### Show Page Functions
@@ -673,7 +698,7 @@ def is_connected():
 ### Check SteamFriendsPatcher
 def check_if_css_patched(page):
     if not backend.is_css_patched():
-        hyperlink = HyperlinkManager(page.text1)
+        hyperlink = custom_tk.HyperlinkManager(page.text1)
         page.text1.tag_configure("err", foreground="red")
         page.text1.insert(tk.INSERT, '\n==============================\n')
         page.text1.insert(tk.INSERT, "css/5.css (previously known as libraryroot.css) not patched.\n", ("err"))
@@ -690,7 +715,7 @@ def release_check(page, current_release):
         if latest_release == current_release:
             page.text1.insert(tk.INSERT, "You are up to date. Release " + latest_release + "\n")
         else:
-            hyperlink = HyperlinkManager(page.text1)
+            hyperlink = custom_tk.HyperlinkManager(page.text1)
             page.text1.insert(tk.INSERT, '\n==============================\n')
             page.text1.insert(tk.END, 'New version available: ')
             page.text1.insert(tk.END, "Release {0}".format(latest_release), hyperlink.add(partial(webbrowser.open, "https://github.com/Jonius7/SteamUI-OldGlory/releases/latest")))
@@ -713,6 +738,7 @@ def set_selected_main_options(page, controller):
     try:
         ### grab stdout, stderr from function in backend
         f = io.StringIO()
+        #loaded_config = backend.load_config()
         loaded_config = backend.load_config2()["Main_Settings"]
         for key in loaded_config:
             if key in CONFIG_MAP:
@@ -736,34 +762,6 @@ def set_selected_main_options(page, controller):
         
 ### ================================
    
-
-### Redirect Stdout, Stderr
-### ================================
-class IORedirector(object):
-    def __init__(self, text_area):
-        self.text_area = text_area
-
-class StdoutRedirector(IORedirector):
-    def write(self, text):
-        self.text_area.config(state='normal')
-        self.text_area.config(foreground="black")
-        self.text_area.insert(tk.END, text)
-        self.text_area.yview_pickplace("end")
-        self.text_area.config(state='disabled')        
-    def flush(self):
-        pass
-
-class StderrRedirector(IORedirector):
-    def write(self, text):
-        self.text_area.config(state='normal')
-        self.text_area.tag_configure("err", foreground="red")
-        self.text_area.insert(tk.END, text, ("err"))
-        self.text_area.yview_pickplace("end")
-        self.text_area.config(state='disabled')        
-    def flush(self):
-        pass
-### ================================
-
 ### Checkbox Validation - Disable
 ### ================================
 ### still the two functions, instead of 1, probably due to init
@@ -804,7 +802,7 @@ class MainOption(tk.Frame):
         
         #self.label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
         #self.label.bind("<Enter>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
-        self.tip = Image_tooltip(self.label, globals()["open_img"](self.image), hover_delay=400)
+        self.tip = custom_tk.Image_tooltip(self.label, globals()["open_img"](self.image), hover_delay=400)
     
         self.label.grid(row=0, column=0, sticky='w')
 
@@ -848,78 +846,16 @@ def dropdown_click(event, page, controller):
 
 def dropdown_hover(image_path, widget):
     if os.path.isfile(image_path):
-        tip = Image_tooltip(widget, open_img(image_path), hover_delay=100)
+        tip = custom_tk.Image_tooltip(widget, open_img(image_path), hover_delay=100)
     else:
         print("Theme preview image not found at: " + image_path + ",\n  using default No Preview image")
-        tip = Image_tooltip(widget, open_img(resource_path("images/no_preview.png")), hover_delay=100)
+        tip = custom_tk.Image_tooltip(widget, open_img(resource_path("images/no_preview.png")), hover_delay=100)
 
-### ScrollFrame
 
-class ScrollFrame(tk.Frame):
-    def __init__(self, parent, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_columnconfigure(0, weight=1)
-
-        self.canvas = canvas = tk.Canvas(self, highlightthickness=0)
-        canvas.grid(row=0, column=0, sticky='nsew')
-
-        self.scroll = AutoScrollbar(self, command=self.canvas.yview, orient=tk.VERTICAL)
-        self.canvas.config(yscrollcommand=self.scroll.set)
-        self.scroll.grid(row=0, column=1, sticky='nsew')     
-
-        self.content = tk.Frame(canvas)
-        self.canvas.create_window(0, 0, window=self.content, anchor="nw")
-
-        self.bind('<Configure>', self.on_configure)
-        self.canvas.bind('<MouseWheel>', self.on_mousewheel)
-
-    def on_configure(self, event):
-        bbox = self.content.bbox('ALL')
-        self.canvas.config(scrollregion=bbox)
-
-    def on_mousewheel(self, event):
-        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
-
-    def reconfigure_autoscrollbar(self):
-        self.canvas.config(yscrollcommand=self.scroll.set)
-
-class AutoScrollbar(tk.Scrollbar): 
-    def set(self, low, high): 
-        if float(low) <= 0.0 and float(high) >= 1.0: 
-            self.tk.call("grid", "remove", self) 
-        else: 
-            self.grid() 
-        tk.Scrollbar.set(self, low, high)
-        
-    def pack(self, **kw): 
-        raise (TclError,"pack cannot be used with "\
-        "this widget") 
-
-    def place(self, **kw): 
-        raise (TclError, "place cannot be used with "\
-        "this widget") 
-
-###
-### END ScrollFrame
 
       
 ### INSTALL Functions
 ### ================================
-### Map config values to selected checkboxes
-CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
-              "PatcherPath" : {"set" : ""},
-              "" : {},
-              "InstallCSSTweaks" : {"value" : "var1", "javascript" : False},
-              "EnablePlayButtonBox" : {"value" : "var2", "javascript" : False},
-              "EnableVerticalNavBar" : {"value" : "var3", "javascript" : True},
-              "EnableClassicLayout" : {"value" : "var4", "javascript" : True},
-              "LandscapeImages" : {"value" : "var5", "javascript" : True},
-              "InstallWithLibraryTheme" : {"value" : "var6", "javascript" : False},
-              "ThemeSelected" : {"set" : ""}
-              }
-
-
 
 ### Install Click
 def install_click(event, page, controller):
@@ -959,6 +895,19 @@ def install_click(event, page, controller):
         print("Error while installing tweaks.", file=sys.stderr)
         print_traceback()
 
+### Map config values to selected checkboxes
+CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
+              "PatcherPath" : {"set" : ""},
+              "" : {},
+              "InstallCSSTweaks" : {"value" : "var1", "javascript" : False},
+              "EnablePlayButtonBox" : {"value" : "var2", "javascript" : False},
+              "EnableVerticalNavBar" : {"value" : "var3", "javascript" : True},
+              "EnableClassicLayout" : {"value" : "var4", "javascript" : True},
+              "LandscapeImages" : {"value" : "var5", "javascript" : True},
+              "InstallWithLibraryTheme" : {"value" : "var6", "javascript" : False},
+              "ThemeSelected" : {"set" : ""}
+              }
+
 ### Get settings to apply (with validation), and values
 ### some of this needs to be changed to account for "unchecking" options
 def get_settings_from_gui(event, page):
@@ -987,7 +936,7 @@ def get_settings_from_gui(event, page):
         return settings_to_apply, settings_values
         
     except FileNotFoundError:
-        print("libraryroot.custom.css not found", file=sys.stderr)
+        print("Error: Unable to get settings from checkboxes.", file=sys.stderr)
         print_traceback()
 
 # Rather not have this as hard coded as it currently is
@@ -1167,30 +1116,6 @@ def change_image(label, filename):
     label.image = img
 ### ================================
 
-### Tooltip
-### ================================
-class Detail_tooltip(OnHoverTooltipBase):
-    def __init__(self, anchor_widget, text, hover_delay=1000):
-        super(Detail_tooltip, self).__init__(anchor_widget, hover_delay=hover_delay)
-        self.text = text
-        
-    def showcontents(self):
-        message = tk.Message(self.tipwindow, text=self.text, justify='left',
-                      background="#ffffe0", width=590, relief='solid', borderwidth=1)
-        message.pack()
-
-class Image_tooltip(OnHoverTooltipBase):
-    def __init__(self, anchor_widget, image, hover_delay=1000):
-        super(Image_tooltip, self).__init__(anchor_widget, hover_delay=hover_delay)
-        self.image = image
-
-    def showcontents(self):
-        label = tk.Label(self.tipwindow, image=self.image, justify='left',
-                      background="#ffffe0", width=350, relief='solid', borderwidth=1)
-        label.pack()   
-    
-### ================================
-
 ### CSS Options Functions
 ### ================================
 ### CSS Config to GUI
@@ -1200,7 +1125,7 @@ class CSSGUICreator(tk.Frame):
         self.controller = controller
         self.config = config
         ###Outer frame and canvas
-        self.frameCSS = ScrollFrame(page)
+        self.frameCSS = custom_tk.ScrollFrame(page)
         #x = ConfigurablesFrame(self.frameCSS, controller, config)
         #self.frameConfigurables = x.returnFrame()
         #self.labels = x.returnCSSFrame().returnLabels()
@@ -1306,7 +1231,7 @@ class CSSConfigRow(tk.Frame):
             
             self.label = tk.Label(self.frameCSSRow,
                               text=self.propName,anchor='w',width=25)
-            tip = Detail_tooltip(self.label, formatted_hover_text(self.propDict['default'], self.propDict['desc']), hover_delay=200)
+            tip = custom_tk.Detail_tooltip(self.label, formatted_hover_text(self.propDict['default'], self.propDict['desc']), hover_delay=200)
             
             self.label.grid(row=0, column=0)
             
@@ -1453,7 +1378,7 @@ class PresetOption(tk.Frame):
                             )
             _radio.grid(row=i+1, column=0, padx=(5,0), sticky='w')
             #
-            tip = Detail_tooltip(_radio, self.radio_hover_text(textv, value), hover_delay=200)
+            tip = custom_tk.Detail_tooltip(_radio, self.radio_hover_text(textv, value), hover_delay=200)
             #
             self.radios.append(_radio)
 
@@ -1537,11 +1462,8 @@ def get_item(key, config_dict):
             if ret:
                 return ret
 
-
 ###
 ### END PresetOption
-
-
 
 def update_css_gui(page, controller, config):
     test_css_gui_reach(page, controller, config)
@@ -1566,7 +1488,7 @@ def get_prop_options_as_array(propDict):
 ###
 class JSFrame(tk.Frame):
     def __init__(self, page, controller):
-        self.frameJS = ScrollFrame(page)
+        self.frameJS = custom_tk.ScrollFrame(page)
         self.controller = controller
         self.frameJSInner = tk.Frame(self.frameJS.content)
 
@@ -1687,7 +1609,7 @@ class UpdateWindow(tk.Toplevel):
         
         ### Window, Title, Icon setup
         tk.Toplevel.__init__(self)
-        self.container = ScrollFrame(self)
+        self.container = custom_tk.ScrollFrame(self)
         windowW = 430
         windowH = 400
         screen_width = self.controller.winfo_screenwidth()
@@ -1726,7 +1648,7 @@ class UpdateWindow(tk.Toplevel):
             _label = tk.Label(self.body,
                               textvariable=_labeltext,
                               font=self.smallfont)
-            #buttonr_tip = Detail_tooltip(label_a, "", hover_delay=200)
+            #buttonr_tip = custom_tk.Detail_tooltip(label_a, "", hover_delay=200)
             _label.grid(row=i, column=0)
             self.labels.append(_label)
         return i
@@ -1739,7 +1661,7 @@ class UpdateWindow(tk.Toplevel):
         _label = tk.Label(ynFrame,
                           textvariable=_labeltext,
                           font=self.smallfont)
-        #buttonr_tip = Detail_tooltip(label_a, "", hover_delay=200)
+        #buttonr_tip = custom_tk.Detail_tooltip(label_a, "", hover_delay=200)
         _label.pack(padx=5)
 
         ybutton = ttk.Button(ynFrame,
@@ -1799,7 +1721,7 @@ def settings_window(event, controller):
     labeltext_a = tk.StringVar()
     labeltext_a.set("SteamUI-OldGlory Configurer (Release " + controller.release + ")")
     label_a = tk.Label(frameAbout, textvariable=labeltext_a, font=titlefont)
-    buttonr_tip = Detail_tooltip(label_a, "GUI version " + controller.version, hover_delay=200)
+    buttonr_tip = custom_tk.Detail_tooltip(label_a, "GUI version " + controller.version, hover_delay=200)
     label_a.grid(row=0, column=0)
 
     ###
@@ -1827,7 +1749,7 @@ def settings_window(event, controller):
                     width=70,
                     height=8)
 
-    hyperlink = HyperlinkManager(about)
+    hyperlink = custom_tk.HyperlinkManager(about)
     
     about.insert(tk.END, "SteamUI-OldGlory is a set of tweaks that aim to improve the overall layout and appearance of the Steam Library, ")
     about.insert(tk.END, "and provide some extra functionality where possible.\n\n")
@@ -1858,7 +1780,7 @@ def settings_window(event, controller):
                        width=10
     )
     button_q.bind("<Button-1>", lambda event:remake_js(event, controller))
-    buttonr_tip = Detail_tooltip(button_q, "Deletes libraryroot.beaut.js and reruns js_tweaker functions.\n" \
+    buttonr_tip = custom_tk.Detail_tooltip(button_q, "Deletes libraryroot.beaut.js and reruns js_tweaker functions.\n" \
                                  "Most useful when something changes with a Steam Client Update", hover_delay=200)
     #buttonr_tip.add_image(open_img("images/full_layout.png"))
     button_q.grid(row=0, column=0, padx=5)
@@ -1870,7 +1792,7 @@ def settings_window(event, controller):
                        width=10
     )
     button_r.bind("<Triple-Button-1>", lambda event:reset_all_tweaks(event, controller))
-    buttonr_tip = Detail_tooltip(button_r, "WARNING!\n" \
+    buttonr_tip = custom_tk.Detail_tooltip(button_r, "WARNING!\n" \
                                  "Triple click this button to revert JS and CSS modifications.", hover_delay=200)
     button_r.grid(row=0, column=1, padx=5)
 
@@ -1881,7 +1803,7 @@ def settings_window(event, controller):
                        width=16
     )
     button_s.bind("<Button-1>", lambda event:start_update_check(event, controller))
-    buttons_tip = Detail_tooltip(button_s, "Check for updates.\n" \
+    buttons_tip = custom_tk.Detail_tooltip(button_s, "Check for updates.\n" \
                                  "Small updates can be downloaded automatically.", hover_delay=200)
     button_s.grid(row=0, column=3, padx=5, sticky=tk.E)
 
