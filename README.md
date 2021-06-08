@@ -6,7 +6,7 @@ Check [`/dev`](https://github.com/Jonius7/SteamUI-OldGlory/tree/dev) branch for 
 
 On Steam Beta? Check [`/beta`](https://github.com/Jonius7/SteamUI-OldGlory/tree/beta) branch for some files you may need.
 
-#### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) |[Quick Guide](https://github.com/Jonius7/SteamUI-OldGlory#quick-guide) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) 
+### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) | [Quick Guide](https://github.com/Jonius7/SteamUI-OldGlory#quick-guide) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) | [Troubleshooting](https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting)
 
 ### Video Guide and GIF
 
@@ -43,7 +43,8 @@ Condensed sidebar buttons <br>
 - Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). NOTE (Since v0.1.36-beta, [**"Steam Beta"** in Settings, needs to be ticked.](https://i.imgur.com/jmSaoEE.png)) Run it, it will patch some files.
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 - Select the options you want to use, then click **Install**.
-- [7 Feb] Steam Client update is out. OldGlory should prompt you to download the new `fixes.txt` file. You'll also need to use the "Remake JS" option in Settings if you were previously using any JS tweaks.
+- [Release 5.5] [If using Shiina's steam-library theme:](https://i.imgur.com/1cSW7iI.png)
+- [18 May] Steam Client update is out. OldGlory should prompt you to download the new `fixes.txt` file. You'll also need to use the "Remake JS" option in Settings if you were previously using any JS tweaks.
 - To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix).
 
 ##### **Manual Editing** (CSS/SCSS)
@@ -75,14 +76,16 @@ Condensed sidebar buttons <br>
 
 **Actions**
 
-- **Install** - Will install selected CSS and JS tweaks. If no JS options have changed, will just install the CSS tweaks (which is somewhat faster than installing both CSS and JS)
+- **Install** - Will install selected CSS and JS tweaks. If no JS options have changed, will just install the CSS tweaks (which is faster than installing both CSS and JS)
   - The app will copy the needed files to and from `steamui` folder as need.
 - **Reload Config** - If you have modified `fixes.txt` `variables.css` or `old_glory.json` manually, then Reload Config will grab these new values and update the checkboxes and values in the GUI (CSS Options + JS Options), without having to restart the GUI app. Changing files in `/scss` or `/themes` doesn't require Reload Config. 
 
 In **Advanced -> Quick Links**:
 
-- **Open OldGlory folder**: open the OS file explorer to the main folder where OldGlory and files are located . 
-- **Open steamui folder**: open the `steamui` folder within ` Program Files/Steam` where the library files are located.
+- **Open OldGlory folder -  open the OS file explorer to the main folder where OldGlory and files are located . 
+- **Open steamui folder - open the `steamui` folder within ` Program Files/Steam` where the library files are located.
+- **Apply config.css**: This option has been added to accommodate those who might have their own `config.css` in `[steamdir]/steamui` already. If you are instead editing the `config.css` in `themes/`, clicking this button will copy `config.css` over to `[steamdir]/steamui`.
+  - This may change in the future
 
 In **Settings and About**:
 
@@ -183,7 +186,8 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
 
 ## Quick Links
 
-- [Video Guide](https://youtu.be/foCewvyOszQ)
+- [Video Guide 2](https://youtu.be/foCewvyOszQ)
+- [Video Guide 1](https://youtu.be/7_3e9j8FFv8)
 - [SteamUI-OldGlory Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki)
 - [GIF of tweaks](https://gyazo.com/38d0101b493741501697b4a0f5f0818f)
 - [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix)
@@ -244,6 +248,23 @@ https://github.com/AikoMidori/steam-library
 
 ## Troubleshooting
 
+If Library is not working, try one of these things (and **restart Steam** if necessary). If it still doesn't work, try the next thing in the list.
+
+- Check **SteamFriendsPatcher** has patched the library CSS
+  - use the **Clear Steam Cache** button if necessary.
+- Go to Task Manager and End Task on **Steam Client WebHelper** (let it restart)
+- Try these **Steam Settings** (and restart Steam)
+  - **Downloads** -> **Clear Download Cache**
+  - **Web Browser** -> **Delete Web Browser Cache**
+
+- Use **Remake JS** button under **Settings and About** (this should also be done when Steam Client updates and the JS has changed)
+
+- Use **Reset** button under **Settings and About**
+
+- Delete `steamui` folder
+
+  
+
 The program can't start because `api-ms-win-crt-math-l1-1-0.dll` is missing from your computer.
 
 - Install [Microsoft Visual C++ Redistributable 2015-2019](https://support.microsoft.com/en-au/help/2977003/the-latest-supported-visual-c-downloads)
@@ -297,8 +318,8 @@ the JS goes through this process:
 - `libraryroot.modif.js` - beautified js with modified tweaks from `fixes.txt`
 - `libraryreet.js` - minified `libraryroot.modif.js` using `jsmin`
 
-Limitation that the script only reads from `libraryroot.beaut.js` one line at a time, so you cannot use multiple lines as your search criteria to "find and replace", at the moment.
+Limitation that the script reads `libraryroot.beaut.js` line by line, so some complex tweaks are unavailable to be added at the moment.
 
 `js_tweaker` will use `libraryroot.beaut.js` if it already exists. This means:
 
-- you can experiment in `libraryroot.modif.js` and delete it afterwards if you want to go back to the clean version `libraryroot.beaut.js
+- you can experiment in `libraryroot.beaut.js` (make a backup first) and delete it afterwards if you want to go back to the clean version `libraryroot.beaut.js`
