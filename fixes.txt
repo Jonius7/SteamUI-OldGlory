@@ -21,19 +21,19 @@ for (var n = [], r = 2;  /*for (var n = [], r = 2;
 
 
 ### === Vertical Nav Bar (beta, working) ===
-###x: c,  x: 0,
-###y: l * n  y: (n - 10) * d
-###= c = 0), l < i ?   = c = 0), true ?
+x: c,  x: 0,
+y: l * n  y: (n - 10) * d
+= c = 0), l < i ?   = c = 0), true ?
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
-###eAssetType: 0,  eAssetType: 3,
-###childHeight: 1.5 * n,  childHeight: n * 43 / 92,
-###a = e.nHeight,  a = e.nWidth * 43 / 92,
-###height: l.nItemHeight + r + "px"  minHeight: 125 + "px"
-###height: s.nItemHeight + o + "px"  minHeight: 125 + "px"
-###2.108 * l.nItemWidth  Math.max(2.108 * l.nItemWidth, 270)
-###2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
-###height: a + "px"  height: i = 0 === (r = t) ? Math.max(a, 150) + "px" : a + "px"
+eAssetType: 0,  eAssetType: 3,
+childHeight: 1.5 * n,  childHeight: n * 43 / 92,
+a = e.nHeight,  a = e.nWidth * 43 / 92,
+height: l.nItemHeight + r + "px"  minHeight: 125 + "px"
+height: s.nItemHeight + o + "px"  minHeight: 125 + "px"
+2.108 * l.nItemWidth  Math.max(2.108 * l.nItemWidth, 270)
+2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
+height: a + "px"  height: i = 0 === (r = t) ? Math.max(a, 150) + "px" : a + "px"
 
 ### === Stop What's New Events from Loading (working, needs more testing) ===
 ###n = E.c.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",

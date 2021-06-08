@@ -18,8 +18,8 @@ OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
     import winreg
 
-swap_js = {'"libraryroot"\}\[([a-z])=([a-z])\]\|\|([a-z])': '"libraryreet"}[\\1=\\2]||\\3'}
-swapback_js = {'"libraryreet"\}\[([a-z])=([a-z])\]\|\|([a-z])': '"libraryroot"}[\\1=\\2]||\\3'}
+swap_js = {'"libraryroot"\}\[([a-z])\]\|\|([a-z])': '"libraryreet"}[\\1]||\\2'}
+swapback_js = {'"libraryreet"\}\[([a-z])\]\|\|([a-z])': '"libraryroot"}[\\1]||\\2'}
 
 fixes_dict = {}
 
@@ -208,7 +208,7 @@ def re_minify_file():
 def copy_files_to_steam():
     try:
         if LOCAL_DEBUG == 0:
-            files_to_copy = ["libraryreet.js"]
+            files_to_copy = ["library.js", "libraryreet.js"]
             for filename in files_to_copy:
                 shutil.copy2(filename, library_dir() + "/" + filename)
                 print("File " + filename + " written to " + library_dir())

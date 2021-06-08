@@ -20,12 +20,12 @@ import custom_tk
 
 
 OS_TYPE = platform.system()
-DEBUG_STDOUT_STDERR = True # Only useful for debugging purposes, set to True
+DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
         self.version = "v0.9.9.01"
-        self.release = "5.6.5-pre1"
+        self.release = "5.6.5-beta1"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -333,7 +333,7 @@ class StartPage(tk.Frame):
         mainoption7 = mo7.returnMainOption()
         mainoption7.grid(row=0, column=3, sticky='w')
         ###
-        #self.image1 = add_img(self.frameCheck, resource_path('images/full_layout.png'))
+        #self.image1 = add_img(self.frameCheck, os.path.join(os.getcwd(), 'images/full_layout.png'))
         #self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")      
 
     ### PATCH FRAME
@@ -635,7 +635,8 @@ class ConfirmFrame(tk.Frame):
                         install_modes[0],
                         *install_modes,           
         )
-        #button1.bind("<Button-1>",
+        buttond.config(width=8)
+        #buttond.bind("<Button-1>",
         #             lambda event:globals()["install_click"](event, controller.frames[StartPage], controller)
         #             )
         buttond.grid(row=0, column=2, padx=5, sticky="NSEW")
@@ -653,7 +654,7 @@ class ConfirmFrame(tk.Frame):
         button2.grid(row=0, column=3, padx=5, sticky="NSEW")
 
         ###
-        settings_image = open_img(globals()["resource_path"]('images/settings.png'), 24)
+        settings_image = open_img(os.path.join(os.getcwd(), 'images/settings.png'), 24)
         button3 = ttk.Button(self.frameConfirm,
                         #text="GG",
                         image=settings_image,
@@ -738,8 +739,8 @@ def set_selected_main_options(page, controller):
     try:
         ### grab stdout, stderr from function in backend
         f = io.StringIO()
-        #loaded_config = backend.load_config()
-        loaded_config = backend.load_config2()["Main_Settings"]
+        loaded_config = backend.load_config()
+        #loaded_config = backend.load_config2()["Main_Settings"]
         for key in loaded_config:
             if key in CONFIG_MAP:
                 if loaded_config[key] == '0' :
@@ -800,15 +801,15 @@ class MainOption(tk.Frame):
                               text=self.name,
                               cursor="hand2")
         
-        #self.label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
-        #self.label.bind("<Enter>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
+        #self.label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, os.path.join(os.getcwd(), self.image)))
+        #self.label.bind("<Enter>", lambda event: globals()["change_image"](self.page.image1, os.path.join(os.getcwd(), self.image)))
         self.tip = custom_tk.Image_tooltip(self.label, globals()["open_img"](self.image), hover_delay=400)
     
         self.label.grid(row=0, column=0, sticky='w')
 
         for i, tagName in enumerate(kwargs["tags"], start=1):
             leftPadding = (5, 0) if i == 1 else 0
-            tag = add_img(self.tagFrame, globals()["resource_path"]('images/tag_'+tagName+'.png'), width=50)
+            tag = add_img(self.tagFrame, os.path.join(os.getcwd(), 'images/tag_'+tagName+'.png'), width=50)
             tag.grid(row=0, column=i, sticky='w', padx=leftPadding)
             self.tags[self.name]=tag
     def returnMainOption(self):
@@ -841,7 +842,7 @@ def dropdown_click(event, page, controller):
     #print(theme_name)
     #print(controller.json_data["themes"][theme_name.split(" (")[0]]["filename"])
     
-    theme_image_path = resource_path("images/theme_" + controller.json_data["themes"][theme_name.split(" (")[0]]["filename"][1:-5] + ".png")
+    theme_image_path = os.path.join(os.getcwd(), "images/theme_" + controller.json_data["themes"][theme_name.split(" (")[0]]["filename"][1:-5] + ".png")
     dropdown_hover(theme_image_path, event.widget)
 
 def dropdown_hover(image_path, widget):
@@ -849,7 +850,7 @@ def dropdown_hover(image_path, widget):
         tip = custom_tk.Image_tooltip(widget, open_img(image_path), hover_delay=100)
     else:
         print("Theme preview image not found at: " + image_path + ",\n  using default No Preview image")
-        tip = custom_tk.Image_tooltip(widget, open_img(resource_path("images/no_preview.png")), hover_delay=100)
+        tip = custom_tk.Image_tooltip(widget, open_img(os.path.join(os.getcwd(), "images/no_preview.png")), hover_delay=100)
 
 
 
@@ -904,7 +905,9 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
               "EnableVerticalNavBar" : {"value" : "var3", "javascript" : True},
               "EnableClassicLayout" : {"value" : "var4", "javascript" : True},
               "LandscapeImages" : {"value" : "var5", "javascript" : True},
-              "InstallWithLibraryTheme" : {"value" : "var6", "javascript" : False},
+              "InstallWithDarkLibrary" : {"value" : "var6", "javascript" : False},
+              #"InstallWithLibraryTheme" : {"value" : "var6", "javascript" : False},
+              #"ClassicStyling" : {"value" : "var7", "javascript" : False},
               "ThemeSelected" : {"set" : ""}
               }
 
@@ -915,11 +918,12 @@ def get_settings_from_gui(event, page):
         settings = []
         settings_values = {}
         for key in CONFIG_MAP:
-            if "value" in CONFIG_MAP[key]:         
-                settings_values[key] = page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get()
-                if page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get() == 1:
+            if "value" in CONFIG_MAP[key]:
+                check_button_val = page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get()         
+                settings_values[key] = check_button_val
+                if check_button_val == 1:
                     settings.append(key)
-                elif page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get() != int(page.loaded_config[key]):
+                elif check_button_val != int(page.loaded_config[key]):
                     #print("BOX UNSELECTED")
                     settings.append(key)
             elif "set" in CONFIG_MAP[key]:
@@ -1075,7 +1079,8 @@ def reload_click(event, controller):
         print("==============================")
         ### Reload Data
         controller.frames[StartPage].loaded_config = set_selected_main_options(controller.frames[StartPage], controller)
-        print("Loaded config data. (oldglory_config2.cfg)")
+        print("Loaded config data. (oldglory_config.cfg)")
+        #print("Loaded config data. (oldglory_config2.cfg)")
         controller.json_data = backend.get_json_data()
         controller.css_config = backend.load_css_configurables()
         controller.js_config, controller.special_js_config = backend.load_js_fixes()
@@ -1093,13 +1098,14 @@ def reload_click(event, controller):
 ### ================================
 def open_img(filename, width=350):
     try:
-        x = filename
-        img = Image.open(x)
-        new_width = width
-        new_height = int(new_width * img.height / img.width)
-        img = img.resize((new_width, new_height), Image.ANTIALIAS)
-        img = ImageTk.PhotoImage(img)
-        return img
+        if os.path.isfile(filename):
+            x = filename
+            img = Image.open(x)
+            new_width = width
+            new_height = int(new_width * img.height / img.width)
+            img = img.resize((new_width, new_height), Image.ANTIALIAS)
+            img = ImageTk.PhotoImage(img)
+            return img
     except:
         print("Unable to add image: " + filename, file=sys.stderr)
         print_traceback()
@@ -1527,7 +1533,7 @@ class JSFrame(tk.Frame):
             _label = tk.Label(self.frameJSInner,
                               text=fixname,
                               cursor="hand2")
-            #_label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, globals()["resource_path"](self.image)))
+            #_label.bind("<Button-1>", lambda event: globals()["change_image"](self.page.image1, os.path.join(os.getcwd(), self.image)))
 
             _checkbutton.grid(row=rownum, column=0, padx=(5,0), sticky='w')
             _label.grid(row=rownum, column=1, sticky='w')
@@ -1836,7 +1842,6 @@ def resource_path(relative_path):
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
-
     return os.path.join(base_path, relative_path)
 
 def print_traceback():
