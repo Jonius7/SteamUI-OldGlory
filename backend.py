@@ -470,6 +470,13 @@ def load_config2():
             config_dict[section] = temp_dict
         return config_dict
 
+def test_config():
+    config = configparser.ConfigParser()
+    config.optionxform = str
+    config.read("oldglory_config2.cfg")
+    return config
+
+
 def write_config(config_dict):
     with open("oldglory_config.cfg", "w", newline='', encoding="UTF-8") as config_file:
         for config in config_dict:

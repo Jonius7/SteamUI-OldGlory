@@ -99,7 +99,7 @@ def modify_library(swap_js_array):
     try:
         lines = []
         modified = 0
-        with open('library.js') as infile:
+        with open('library.js', encoding="UTF-8") as infile:
             for line in infile:
                 for src, target in swap_js_array.items():
                     new_line = re.sub(src, target, line)
@@ -107,7 +107,7 @@ def modify_library(swap_js_array):
                     if new_line != line:
                         modified = 1
                 lines.append(new_line)
-        with open('library.js', 'w') as outfile:
+        with open('library.js', 'w', encoding="UTF-8") as outfile:
             for line in lines:
                 outfile.write(line)
         infile.close()

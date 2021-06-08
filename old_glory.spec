@@ -5,7 +5,7 @@ block_cipher = None
 
 a = Analysis(['old_glory.py'],
              binaries=[],
-             datas=[('images/*.png', './images'), ('steam_oldglory.ico', '.')],
+             datas=[('steam_oldglory.ico', '.')],
              hiddenimports=['six'],
              hookspath=[],
              runtime_hooks=[],

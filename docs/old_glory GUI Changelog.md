@@ -1,12 +1,14 @@
 ## SteamUI-OldGlory GUI Changelog
 
-0.9.8.20	5.6-pre1	Updated to use new config version
+0.9.9.01	(*5.6.5-pre1*)  Split code into custom_tk.py, added "CSS + JS" selector
 
-0.9.8.14	5.5.5
+0.9.8.20	(*5.6-pre1*)	Updated to use new config version
 
-0.9.8.13	*(5.5.5-pre1)*
+0.9.8.14	(*5.5.5-pre2*)
 
-**0.9.8.11**   *(5.5.4)* More print output messages, fix `copy_files_from_steam` Reset bug
+0.9.8.13	(*5.5.5-pre1*)
+
+0.9.8.11    (*R5.5.4*) More print output messages, fix `copy_files_from_steam` Reset bug
 
 **0.9.8.10**   **(Release 5.5.3)** Fix `os_makedirs` download file
 
@@ -29,6 +31,8 @@
 0.9.7.12   Added working Expanded CSS Options
 
 0.9.7.4	 Added `ScrollFrame` to JS Options
+
+0.9.7b	  Now reads from variables.css ("What's New") 
 
 **0.9.6.11**   **(Release 5.0.1)** Fixed issue with libraryroot.custom.css not apply on clean install
 
