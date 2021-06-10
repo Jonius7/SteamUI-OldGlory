@@ -21,9 +21,9 @@ for (var n = [], r = 2;  /*for (var n = [], r = 2;
 
 
 ### === Vertical Nav Bar (beta, working) ===
-x: c,  x: 0,
-y: l * n  y: (n - 10) * d
-= c = 0), l < i ?   = c = 0), true ?
+x: l,  x: 0,
+y: c * n  y: c * (n - 10)
+p = 0), c < r ?   p = 0), true ?
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
 eAssetType: 0,  eAssetType: 3,
