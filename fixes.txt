@@ -19,7 +19,6 @@ e.m_nScrollTop = 0, e.m_elTarget  e.m_nScrollTop = 30, e.m_elTarget
 for (var n = [], r = 2;  /*for (var n = [], r = 2;
 .apply(console, Object(p.g)([e, t], n))  .apply(console, Object(p.g)([e, t], n))*/
 
-
 ### === Vertical Nav Bar (beta, working) ===
 x: l,  x: 0,
 y: c * n  y: c * (n - 10)
