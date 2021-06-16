@@ -72,32 +72,41 @@ class TestApplyCssValues(unittest.TestCase):
 
         x.getPresetOptions()
     '''
-    def test_showpresetoptions(self):
+
+    def add_dummy_frame(self):
         dummyController = old_glory.OldGloryApp()
         dummyFrame = tk.Frame(dummyController)
         json_data = backend.get_json_data()
         presetFrame = tk.Frame(dummyFrame)
-        x = old_glory.PresetFrame(dummyFrame, dummyController, json_data)
-        presetFrame = x.returnPresetFrame()
+        pFrame = old_glory.PresetFrame(dummyFrame, dummyController, json_data)
+        presetFrame = pFrame.returnPresetFrame()
         presetFrame.pack()
 
         dummyFrame.pack()
 
-        x.getPresetOptions()
-    
+        return dummyController
+    '''    
+    def test_showpresetoptions(self):
+        x = self.add_dummy_frame()
+        print(type(x.json_data))
     '''
+    
     def test_updatewindow(self):
         dummyController = old_glory.OldGloryApp()
         dummyUpdate = old_glory.UpdateWindow(
             controller=self,
             file_dates=backend.check_new_commit_dates(dummyController.json_data))
-    '''
 
     def test_is_connected(self):
         old_glory.is_connected()
 
     def test_open(self):
         backend.OS_open_file(os.getcwd())
+
+    def test_disabled(self):
+        x = self.add_dummy_frame()
+        x.frames[old_glory.StartPage].check1.event_generate("<Button-1>")
+        print(x.frames[old_glory.StartPage].check2.cget("state"))
         
 class BlankClass(object):
     def __init__(self, string):

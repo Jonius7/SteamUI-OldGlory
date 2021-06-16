@@ -24,8 +24,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.9.01"
-        self.release = "5.6.5-beta1"
+        self.version = "v0.9.9.03"
+        self.release = "5.6.5-pre2"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -181,8 +181,9 @@ class StartPage(tk.Frame):
         scroll_1.grid(row=0, column=1, sticky='ns')
         self.text1['yscrollcommand'] = scroll_1.set
 
-        ### load JSON
+    ### load JSON
         controller.json_data = backend.get_json_data()
+        controller.oldglory_config = backend.load_config2()
 
 
     ### HEAD FRAME
@@ -201,11 +202,11 @@ class StartPage(tk.Frame):
 
         ######
         self.var1 = tk.IntVar()
-        check1 = ttk.Checkbutton(self.frameCheck,
+        self.check1 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var1
                                  )                        
-        check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, [check2, check3, check5]))
-        check1.grid(row=0, column=0)
+        self.check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, [self.check2, self.check3, self.check5]))
+        self.check1.grid(row=0, column=0)
         ###        
         mo1 = MainOption(
             parentFrame=self.frameCheck,
@@ -218,10 +219,10 @@ class StartPage(tk.Frame):
         
         ######
         self.var2 = tk.IntVar()
-        check2 = ttk.Checkbutton(self.frameCheck,
+        self.check2 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var2,
                                  state='disabled')
-        check2.grid(row=1, column=0)
+        self.check2.grid(row=1, column=0)
         ###
         mo2 = MainOption(
             parentFrame=self.frameCheck,
@@ -235,11 +236,11 @@ class StartPage(tk.Frame):
         
         ######
         self.var3 = tk.IntVar()
-        check3 = ttk.Checkbutton(self.frameCheck,
+        self.check3 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var3,
                                  state='disabled')
-        check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, [check4]))
-        check3.grid(row=2, column=0)
+        self.check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, [self.check4]))
+        self.check3.grid(row=2, column=0)
         ###
         mo3 = MainOption(
             parentFrame=self.frameCheck,
@@ -253,11 +254,11 @@ class StartPage(tk.Frame):
         
         ######
         self.var4 = tk.IntVar()
-        check4 = ttk.Checkbutton(self.frameCheck,
+        self.check4 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var4,
                                  state='disabled'
                                  )
-        check4.grid(row=3, column=0)
+        self.check4.grid(row=3, column=0)
         ###
         mo4 = MainOption(
             parentFrame=self.frameCheck,
@@ -270,9 +271,9 @@ class StartPage(tk.Frame):
         
         ######
         self.var5 = tk.IntVar()
-        check5 = ttk.Checkbutton(self.frameCheck,
+        self.check5 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var5)
-        check5.grid(row=4, column=0)
+        self.check5.grid(row=4, column=0)
         ###
         mo5 = MainOption(
             parentFrame=self.frameCheck,
@@ -286,10 +287,10 @@ class StartPage(tk.Frame):
         ######
         self.change_theme = 0
         self.var6 = tk.IntVar()
-        check6 = ttk.Checkbutton(self.frameCheck,
+        self.check6 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var6)
-        check6.bind("<Button-1>", lambda event: self.setChangeTheme(event))
-        check6.grid(row=5, column=0)
+        self.check6.bind("<Button-1>", lambda event: self.setChangeTheme(event))
+        self.check6.grid(row=5, column=0)
         ###
         mo6 = MainOption(
             parentFrame=self.frameCheck,
@@ -411,8 +412,8 @@ class StartPage(tk.Frame):
         ### Set GUI from config
         self.loaded_config = set_selected_main_options(self, controller)
         self.text1.config(state='disabled')
-        init_cb_check(self.var1, [check2, check3, check5])
-        init_cb_check(self.var3, [check4])
+        init_cb_check(self.var1, [self.check2, self.check3, self.check5, check7])
+        init_cb_check(self.var3, [self.check4])
         
         self.pack_frames()
 
@@ -739,8 +740,8 @@ def set_selected_main_options(page, controller):
     try:
         ### grab stdout, stderr from function in backend
         f = io.StringIO()
-        loaded_config = backend.load_config()
-        #loaded_config = backend.load_config2()["Main_Settings"]
+        #loaded_config = backend.load_config()
+        loaded_config = controller.oldglory_config["Main_Settings"]
         for key in loaded_config:
             if key in CONFIG_MAP:
                 if loaded_config[key] == '0' :
@@ -859,7 +860,7 @@ def dropdown_hover(image_path, widget):
 ### ================================
 
 ### Install Click
-def install_click(event, page, controller):
+def install_click_OLD(event, page, controller):
     try:
         print("==============================")
         #get settings
@@ -895,7 +896,18 @@ def install_click(event, page, controller):
     except:
         print("Error while installing tweaks.", file=sys.stderr)
         print_traceback()
-
+        
+def install_click(event, page, controller):
+    try:
+        settings = []
+        settings_values = {}
+        for key in CONFIG_MAP:
+            if "value" in CONFIG_MAP[key]:
+                print(page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get()  )
+    except:
+        print("Error while installing tweaks.", file=sys.stderr)
+        print_traceback()
+        
 ### Map config values to selected checkboxes
 CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
               "PatcherPath" : {"set" : ""},
@@ -905,9 +917,9 @@ CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
               "EnableVerticalNavBar" : {"value" : "var3", "javascript" : True},
               "EnableClassicLayout" : {"value" : "var4", "javascript" : True},
               "LandscapeImages" : {"value" : "var5", "javascript" : True},
-              "InstallWithDarkLibrary" : {"value" : "var6", "javascript" : False},
-              #"InstallWithLibraryTheme" : {"value" : "var6", "javascript" : False},
-              #"ClassicStyling" : {"value" : "var7", "javascript" : False},
+              #"InstallWithDarkLibrary" : {"value" : "var6", "javascript" : False},
+              "InstallWithLibraryTheme" : {"value" : "var6", "javascript" : False},
+              "ClassicStyling" : {"value" : "var7", "javascript" : False},
               "ThemeSelected" : {"set" : ""}
               }
 
@@ -942,6 +954,23 @@ def get_settings_from_gui(event, page):
     except FileNotFoundError:
         print("Error: Unable to get settings from checkboxes.", file=sys.stderr)
         print_traceback()
+### v1
+
+
+MAIN_SETTINGS_MAP = {
+    "InstallCSSTweaks" : {"value" : "var1", "javascript" : False},
+    "EnablePlayButtonBox" : {"value" : "var2", "javascript" : False},
+    "EnableVerticalNavBar" : {"value" : "var3", "javascript" : True},
+    "EnableClassicLayout" : {"value" : "var4", "javascript" : True},
+    "LandscapeImages" : {"value" : "var5", "javascript" : True},
+    "InstallWithLibraryTheme" : {"value" : "var6", "javascript" : False},
+    "ClassicStyling" : {"value" : "var7", "javascript" : False},
+    "ThemeSelected" : {"set" : ""}
+    }
+
+def get_main_settings_from_gui(event, page):
+    pass
+
 
 # Rather not have this as hard coded as it currently is
 def apply_changes_to_config(controller, settings_values):
@@ -1132,12 +1161,7 @@ class CSSGUICreator(tk.Frame):
         self.config = config
         ###Outer frame and canvas
         self.frameCSS = custom_tk.ScrollFrame(page)
-        #x = ConfigurablesFrame(self.frameCSS, controller, config)
-        #self.frameConfigurables = x.returnFrame()
-        #self.labels = x.returnCSSFrame().returnLabels()
-        #self.entryboxes = x.returnCSSFrame().returnEntryboxes()
-        #for label in x.returnLabels():
-        #    print(label["text"])
+        
         self.PresetFrame = PresetFrame(self.frameCSS, controller, config)
         self.framePreset = self.PresetFrame.returnPresetFrame()
         self.PresetFrame.getPresetOptions()
@@ -1152,77 +1176,6 @@ class CSSGUICreator(tk.Frame):
         #frameConfigurables.pack(fill="both", expand=True, padx=10)
     def returnframeCSS(self):
         return self.frameCSS
-    #def returnframeConfigurables(self):
-    #    return self.frameConfigurables  
-    #def returnCSSGUI(self):
-    #    return self
-
-### START ConfigurablesFrame
-###
-# Currently unused
-'''
-class ConfigurablesFrame(tk.Frame):
-    def __init__(self, parent, controller, config):
-        self.parent = parent
-        self.frameConfigurables = tk.Frame(self.parent)
-        self.controller = controller
-        self.config = config
-
-        ###
-        self.frameConfigurables = tk.Frame(self.parent)
-    
-        canvasCSS = tk.Canvas(self.frameConfigurables, highlightthickness=0, yscrollincrement=10) #remove highlight black border wtf
-        canvasCSS.pack(side="left")
-        #canvasCSS.grid(row=0, column=0, padx=10, sticky="nsew")
-        
-
-        ### Scrollbar
-        scroll_1 = ttk.Scrollbar(self.frameConfigurables, command=canvasCSS.yview)
-        scroll_1.pack(side="right", fill="y")
-        #scroll_1.grid(row=0, column=1, sticky="nsew")
-        canvasCSS.configure(yscrollcommand=scroll_1.set)
-        canvasCSS.bind('<Configure>', lambda e: canvasCSS.configure(scrollregion = canvasCSS.bbox('all')))
-        
-        ### Inner frame
-        self.frameCSS = tk.Frame(canvasCSS)
-        canvasCSS.create_window((0,0), window=self.frameCSS, anchor="nw")
-        canvasCSS.pack(fill=BOTH, expand=YES)
-        
-        ### Section title font
-        sectionfont = self.controller.default_font.copy()
-        sectionfont.configure(underline=1)
-
-        ### Populate config
-        row = -1
-        self.labels = []
-        self.entryboxes = {}
-        
-        for i, section in enumerate(self.config):
-            row += 1
-            self.label = tk.Label(self.frameCSS,
-                              text=section,
-                             font=sectionfont,
-                             fg='blue')
-            self.label.grid(row=row, column=0)
-            self.labels.append(self.label)
-            
-            for j, prop in enumerate(self.config[section]):
-                #print(config[section][prop]['options'])
-                self.propDict = self.config[section][prop]
-                obj = CSSConfigRow(prop, self.propDict, self.frameCSS)
-                frameCSSSection = obj.returnCSSConfigRow()
-                row += 1
-                frameCSSSection.grid(row=row, column=0, padx=(15, 0))
-                #self.configRows.append(frameCSSSection)
-                self.entryboxes[obj.label["text"]] = obj.combobox
-    def returnFrame(self):
-        return self.frameConfigurables
-    def returnLabels(self):
-        return self.labels
-    def returnEntryboxes(self):
-        return self.entryboxes
-    def returnCSSFrame(self):
-        return self        
 
 ###Structure of CSS config as follows
 ###config       > section       > prop              > attr
@@ -1258,7 +1211,7 @@ class CSSConfigRow(tk.Frame):
 
 ###
 ### END ConfigurablesFrame
-'''
+
 
 DEFAULT_QUICK_CSS = {"Top of Page" : {"value" : "1", "config" :
                             {"--WhatsNew" : "block",
