@@ -103,7 +103,7 @@ class TestApplyCssValues(unittest.TestCase):
     def test_open(self):
         backend.OS_open_file(os.getcwd())
 
-    def test_disabled(self):
+    def test_check_disabled(self):
         x = self.add_dummy_frame()
         x.frames[old_glory.StartPage].check1.event_generate("<Button-1>")
         print(x.frames[old_glory.StartPage].check2.cget("state"))

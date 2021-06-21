@@ -14,6 +14,7 @@ from functools import partial
 #import re
 from threading import Thread
 
+import manager
 import backend
 import js_tweaker
 import custom_tk
@@ -24,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.9.03"
-        self.release = "5.6.5-pre2"
+        self.version = "v0.9.9.07"
+        self.release = "5.6.5-pre3"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -321,9 +322,9 @@ class StartPage(tk.Frame):
 
         ######
         self.var7 = tk.IntVar()
-        check7 = ttk.Checkbutton(self.frameCheck,
+        self.check7 = ttk.Checkbutton(self.frameCheck,
                                  variable=self.var7)
-        check7.grid(row=0, column=2)
+        self.check7.grid(row=0, column=2)
         ###
         mo7 = MainOption(
             parentFrame=self.frameCheck,
@@ -410,9 +411,9 @@ class StartPage(tk.Frame):
     ### Running functions after much of StartPage has been initialised
     ###
         ### Set GUI from config
-        self.loaded_config = set_selected_main_options(self, controller)
+        self.loaded_config = manager.set_selected_main_options(self, controller)
         self.text1.config(state='disabled')
-        init_cb_check(self.var1, [self.check2, self.check3, self.check5, check7])
+        init_cb_check(self.var1, [self.check2, self.check3, self.check5, self.check7])
         init_cb_check(self.var3, [self.check4])
         
         self.pack_frames()
@@ -435,6 +436,8 @@ class StartPage(tk.Frame):
   
 
     ### Getters
+    def getCheck(self, getter):
+        return getattr(self, getter)
     def getCheckbuttonVal(self, getter):
         return getattr(self, getter)
     def getTextArea(self, getter):
@@ -623,7 +626,7 @@ class ConfirmFrame(tk.Frame):
                         width=10                       
         )
         button1.bind("<Button-1>",
-                    lambda event:globals()["install_click"](event, controller.frames[StartPage], controller)
+                    lambda event:manager.install_click(event, controller.frames[StartPage], controller)
                     )
         button1.grid(row=0, column=1, padx=5, sticky="NSEW")
         
@@ -638,7 +641,7 @@ class ConfirmFrame(tk.Frame):
         )
         buttond.config(width=8)
         #buttond.bind("<Button-1>",
-        #             lambda event:globals()["install_click"](event, controller.frames[StartPage], controller)
+        #             lambda event:manager.install_click(event, controller.frames[StartPage], controller)
         #             )
         buttond.grid(row=0, column=2, padx=5, sticky="NSEW")
         
@@ -734,35 +737,7 @@ def release_check(page, current_release):
         print("Unable to check for latest release!", file=sys.stderr)
         print(e.message, file=sys.stderr)
     
-### StartPage
-### Select checkboxes based on config
-def set_selected_main_options(page, controller):
-    try:
-        ### grab stdout, stderr from function in backend
-        f = io.StringIO()
-        #loaded_config = backend.load_config()
-        loaded_config = controller.oldglory_config["Main_Settings"]
-        for key in loaded_config:
-            if key in CONFIG_MAP:
-                if loaded_config[key] == '0' :
-                    page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(0)
-                elif loaded_config[key] == '1' :
-                    page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).set(1)
-                elif key == "ThemeSelected":
-                    #print(loaded_config[key])
-                    try:
-                        theme_entry = controller.json_data["themes"][loaded_config[key]]
-                        if (theme_entry):
-                            #could be fragile but otherwise works
-                            page.getDropdownVal("dropdown6").set(loaded_config[key] + " (" + theme_entry["author"] + ")")
-                    except:
-                        print("Could not auto-select current theme.", file=sys.stderr)
-                    #page.getDropdownVal("dropdown6").set(loaded_config[key])
-        return loaded_config
-    except Exception as e:
-        print(e.message, file=sys.stderr)
-        
-### ================================
+
    
 ### Checkbox Validation - Disable
 ### ================================
@@ -770,7 +745,7 @@ def set_selected_main_options(page, controller):
 def css_cb_check(event, var1, checks):
     if var1.get() == 0:
         for check in checks:
-            check.config(state='enabled')
+            check.config(state='normal')
     else:
         for check in checks:
             check.config(state='disabled')
@@ -778,7 +753,7 @@ def css_cb_check(event, var1, checks):
 def init_cb_check(var1, checks):
     if var1.get() == 1:
         for check in checks:
-            check.config(state='enabled')
+            check.config(state='normal')
     else:
         for check in checks:
             check.config(state='disabled')
@@ -853,110 +828,6 @@ def dropdown_hover(image_path, widget):
         print("Theme preview image not found at: " + image_path + ",\n  using default No Preview image")
         tip = custom_tk.Image_tooltip(widget, open_img(os.path.join(os.getcwd(), "images/no_preview.png")), hover_delay=100)
 
-
-
-      
-### INSTALL Functions
-### ================================
-
-### Install Click
-def install_click_OLD(event, page, controller):
-    try:
-        print("==============================")
-        #get settings
-        settings_to_apply, settings_values = get_settings_from_gui(event, page)
-
-        #make any js_config enable/disable required based on main options
-        settings_values = apply_changes_to_config(controller, settings_values)
-        
-        #write fixes.txt before apply
-        backend.write_js_fixes(controller.js_config, controller.special_js_config)
-
-        #write css configurables
-        backend.write_css_configurables(controller.css_config)
-
-        #applying settings
-        apply_settings_from_gui(page, controller, settings_to_apply, settings_values)
-        backend.write_config(settings_values)
-
-        #add/remove theme
-        apply_css_theme(controller.frames[StartPage], controller)
-
-        #enable/disable modules (TODO)
-
-        #compile css from scss
-        #print(controller.json_data)
-        #backend.compile_css(controller.json_data)
-        backend.compile_css(backend.get_json_data())
-        
-        #reset state of js gui to "unchanged"
-        controller.js_gui_changed = 0
-        backend.refresh_steam_dir()
-        update_loaded_config(page, controller)
-    except:
-        print("Error while installing tweaks.", file=sys.stderr)
-        print_traceback()
-        
-def install_click(event, page, controller):
-    try:
-        settings = []
-        settings_values = {}
-        for key in CONFIG_MAP:
-            if "value" in CONFIG_MAP[key]:
-                print(page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get()  )
-    except:
-        print("Error while installing tweaks.", file=sys.stderr)
-        print_traceback()
-        
-### Map config values to selected checkboxes
-CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
-              "PatcherPath" : {"set" : ""},
-              "" : {},
-              "InstallCSSTweaks" : {"value" : "var1", "javascript" : False},
-              "EnablePlayButtonBox" : {"value" : "var2", "javascript" : False},
-              "EnableVerticalNavBar" : {"value" : "var3", "javascript" : True},
-              "EnableClassicLayout" : {"value" : "var4", "javascript" : True},
-              "LandscapeImages" : {"value" : "var5", "javascript" : True},
-              #"InstallWithDarkLibrary" : {"value" : "var6", "javascript" : False},
-              "InstallWithLibraryTheme" : {"value" : "var6", "javascript" : False},
-              "ClassicStyling" : {"value" : "var7", "javascript" : False},
-              "ThemeSelected" : {"set" : ""}
-              }
-
-### Get settings to apply (with validation), and values
-### some of this needs to be changed to account for "unchecking" options
-def get_settings_from_gui(event, page):
-    try:
-        settings = []
-        settings_values = {}
-        for key in CONFIG_MAP:
-            if "value" in CONFIG_MAP[key]:
-                check_button_val = page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get()         
-                settings_values[key] = check_button_val
-                if check_button_val == 1:
-                    settings.append(key)
-                elif check_button_val != int(page.loaded_config[key]):
-                    #print("BOX UNSELECTED")
-                    settings.append(key)
-            elif "set" in CONFIG_MAP[key]:
-                if key == "ThemeSelected":
-                    settings_values[key] = page.dropdown6.get().split(" (")[0]
-                else:
-                    settings_values[key] = CONFIG_MAP[key]["set"]    
-            else:
-                settings_values[""] = ""
-        #print("ARRAY ")
-        settings_to_apply = backend.validate_settings(settings)
-        #print(settings_to_apply)
-        #print(settings_values)
-        return settings_to_apply, settings_values
-        
-    except FileNotFoundError:
-        print("Error: Unable to get settings from checkboxes.", file=sys.stderr)
-        print_traceback()
-### v1
-
-
 MAIN_SETTINGS_MAP = {
     "InstallCSSTweaks" : {"value" : "var1", "javascript" : False},
     "EnablePlayButtonBox" : {"value" : "var2", "javascript" : False},
@@ -967,10 +838,6 @@ MAIN_SETTINGS_MAP = {
     "ClassicStyling" : {"value" : "var7", "javascript" : False},
     "ThemeSelected" : {"set" : ""}
     }
-
-def get_main_settings_from_gui(event, page):
-    pass
-
 
 # Rather not have this as hard coded as it currently is
 def apply_changes_to_config(controller, settings_values):
@@ -1107,7 +974,7 @@ def reload_click(event, controller):
     try:
         print("==============================")
         ### Reload Data
-        controller.frames[StartPage].loaded_config = set_selected_main_options(controller.frames[StartPage], controller)
+        controller.frames[StartPage].loaded_config = manager.set_selected_main_options(controller.frames[StartPage], controller)
         print("Loaded config data. (oldglory_config.cfg)")
         #print("Loaded config data. (oldglory_config2.cfg)")
         controller.json_data = backend.get_json_data()
