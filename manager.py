@@ -80,13 +80,12 @@ def install_click_OLD(event, page, controller):
         print_traceback()
 
 def install_click(event, page, controller):
-    get_settings_from_gui(event, page)
-    #print("===")
-    #print(controller.js_gui_changed)
+    settings = get_settings_from_gui(event, page)
+    apply_changes_to_config(controller, settings)
         
 ### Get settings to apply (with validation), and values
 
-def get_settings_from_gui(event, page, config_map = CONFIG_MAP):
+def get_settings_from_gui(event, page, config_map=CONFIG_MAP):
     try:
         settings = {}
         for key in config_map:
@@ -95,7 +94,9 @@ def get_settings_from_gui(event, page, config_map = CONFIG_MAP):
                                  "state" : str(page.getCheck(config_map[key]["check"]).cget('state')),
                                  "javascript" : config_map[key]["javascript"]}
                 
-                print(settings[key])            
+                print(key + " | ", end="")
+                print(settings[key])
+        return settings      
         
         
     except:
@@ -134,6 +135,44 @@ def get_settings_from_gui_OLD(event, page):
         print("Error: Unable to get settings from checkboxes.", file=sys.stderr)
         print_traceback()
 ### v1
+
+
+def apply_changes_to_config(controller, settings):
+    SETTINGS_MAP = {
+        "EnableVerticalNavBar": {"JS_name" : "Vertical Nav Bar (beta, working)"},
+        "LandscapeImages": {"JS_name" : "Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"}
+    }
+    for setting in SETTINGS_MAP:
+        if setting in settings:
+            js_name = SETTINGS_MAP[setting]["JS_name"]
+            controller.js_config[js_name] = str(settings[setting]["value"])
+            
+            #controller.frames.js_gui.checkvars[js_name].set(settings[setting]["value"])
+            print(controller.frames["PageTwo"])
+            #controller.get_frame("PageTwo").js_gui.checkvars[js_name].set(settings[setting]["value"])
+
+
+# Rather not have this as hard coded as it currently is
+def apply_changes_to_config_OLD(controller, settings_values):
+    #print(settings_values.keys())
+    if "EnableVerticalNavBar" in settings_values.keys():
+        controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])
+        controller.frames[PageTwo].js_gui.checkvars["Vertical Nav Bar (beta, working)"].set(settings_values["EnableVerticalNavBar"])
+    if "EnableClassicLayout" in settings_values.keys():
+        if settings_values["EnableClassicLayout"] == 1 and settings_values["EnableVerticalNavBar"] == 0:
+            settings_values["EnableClassicLayout"] = 0        
+    if "LandscapeImages" in settings_values.keys():
+        controller.js_config["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"] = str(settings_values["LandscapeImages"])
+        controller.frames[PageTwo].js_gui.checkvars["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"].set(settings_values["LandscapeImages"])
+    for key in controller.special_js_config:
+        if "Change Game Image Grid Sizes" in key:
+            sizes = ["Small", "Medium", "Large"]
+            for size in sizes:
+                controller.special_js_config[key][size] = controller.frames[PageTwo].js_gui.comboboxes[size].get()
+    return settings_values
+    #print(controller.special_js_config)
+
+
 
 ### StartPage
 ### Select checkboxes based on config

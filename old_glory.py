@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.9.07"
+        self.version = "v0.9.9.08"
         self.release = "5.6.5-pre3"
       
         ### Window Frame
@@ -65,8 +65,8 @@ class OldGloryApp(tk.Tk):
         for F in (StartPage, PageOne, PageTwo):
             frame = F(self.container, self)
             frame.grid(row=0, column=0, sticky="nsew")
-            self.frames[F] = frame
-        self.show_frame(StartPage)
+            self.frames[F.__name__] = frame
+        self.show_frame("StartPage")
 
         ### Run Update Checks with show frame
         thread = Thread(target = self.update_check, args = ())
@@ -117,15 +117,22 @@ class OldGloryApp(tk.Tk):
         
     def show_frame(self, cont):
         self.frames[cont].tkraise()
-
+    
+    '''
+    def get_frame(self, name):
+        for frame in self.frames:
+                if frame.__name__ == name:
+                    return frame
+    '''
+    
     #init text log
     def update_check(self):        
         ### Check if CSS Patched
         ### Check for new version
-        self.frames[StartPage].text1.config(state='normal')
+        self.frames["StartPage"].text1.config(state='normal')
         if is_connected():            
-            check_if_css_patched(self.frames[StartPage])
-            release_check(self.frames[StartPage], self.release)
+            check_if_css_patched(self.frames["StartPage"])
+            release_check(self.frames["StartPage"], self.release)
             print("Checking for small updates...")
             thread = Thread(target = self.small_update_check, args = ())
             thread.start()
@@ -204,9 +211,8 @@ class StartPage(tk.Frame):
         ######
         self.var1 = tk.IntVar()
         self.check1 = ttk.Checkbutton(self.frameCheck,
-                                 variable=self.var1
-                                 )                        
-        self.check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, [self.check2, self.check3, self.check5]))
+                                 variable=self.var1)                        
+        self.check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, [self.check2, self.check3, self.check5, self.check7]))
         self.check1.grid(row=0, column=0)
         ###        
         mo1 = MainOption(
@@ -221,8 +227,7 @@ class StartPage(tk.Frame):
         ######
         self.var2 = tk.IntVar()
         self.check2 = ttk.Checkbutton(self.frameCheck,
-                                 variable=self.var2,
-                                 state='disabled')
+                                 variable=self.var2)
         self.check2.grid(row=1, column=0)
         ###
         mo2 = MainOption(
@@ -238,8 +243,7 @@ class StartPage(tk.Frame):
         ######
         self.var3 = tk.IntVar()
         self.check3 = ttk.Checkbutton(self.frameCheck,
-                                 variable=self.var3,
-                                 state='disabled')
+                                 variable=self.var3)
         self.check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, [self.check4]))
         self.check3.grid(row=2, column=0)
         ###
@@ -256,9 +260,7 @@ class StartPage(tk.Frame):
         ######
         self.var4 = tk.IntVar()
         self.check4 = ttk.Checkbutton(self.frameCheck,
-                                 variable=self.var4,
-                                 state='disabled'
-                                 )
+                                 variable=self.var4)
         self.check4.grid(row=3, column=0)
         ###
         mo4 = MainOption(
@@ -492,7 +494,7 @@ class PageOne(tk.Frame):
                            text="Back to Home",
                            width=16
         )
-        button_m.bind("<Button-1>", lambda event:controller.show_frame(StartPage))
+        button_m.bind("<Button-1>", lambda event:controller.show_frame("StartPage"))
         button_m.grid(row=0, column=0, padx=5)
 
         ###
@@ -553,7 +555,7 @@ class PageTwo(tk.Frame):
                            text="Back to Home",
                            width=16
         )
-        button_m.bind("<Button-1>", lambda event:controller.show_frame(StartPage))
+        button_m.bind("<Button-1>", lambda event:controller.show_frame("StartPage"))
         button_m.grid(row=0, column=0, padx=5)
 
         ###
@@ -626,7 +628,7 @@ class ConfirmFrame(tk.Frame):
                         width=10                       
         )
         button1.bind("<Button-1>",
-                    lambda event:manager.install_click(event, controller.frames[StartPage], controller)
+                    lambda event:manager.install_click(event, controller.frames["StartPage"], controller)
                     )
         button1.grid(row=0, column=1, padx=5, sticky="NSEW")
         
@@ -641,7 +643,7 @@ class ConfirmFrame(tk.Frame):
         )
         buttond.config(width=8)
         #buttond.bind("<Button-1>",
-        #             lambda event:manager.install_click(event, controller.frames[StartPage], controller)
+        #             lambda event:manager.install_click(event, controller.frames["StartPage"], controller)
         #             )
         buttond.grid(row=0, column=2, padx=5, sticky="NSEW")
         
@@ -680,12 +682,12 @@ class ConfirmFrame(tk.Frame):
 ### ================================
 def show_PageOne(controller):
     #controller.css_config = backend.load_css_configurables()
-    controller.show_frame(PageOne)
-    #controller.frames[PageOne].frameCSS = create_css_gui(controller.frames[PageOne], controller, backend.load_css_configurables())
-    #update_css_gui(controller.frames[PageOne], controller, controller.css_config)
+    controller.show_frame("PageOne")
+    #controller.frames["PageOne"].frameCSS = create_css_gui(controller.frames["PageOne"], controller, backend.load_css_configurables())
+    #update_css_gui(controller.frames["PageOne"], controller, controller.css_config)
 def show_PageTwo(controller):
     #controller.js_config = backend.load_js_fixes()
-    controller.show_frame(PageTwo)
+    controller.show_frame("PageTwo")
 
 ### ================================
 ### Initialisation
@@ -839,26 +841,6 @@ MAIN_SETTINGS_MAP = {
     "ThemeSelected" : {"set" : ""}
     }
 
-# Rather not have this as hard coded as it currently is
-def apply_changes_to_config(controller, settings_values):
-    #print(settings_values.keys())
-    if "EnableVerticalNavBar" in settings_values.keys():
-        controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])
-        controller.frames[PageTwo].js_gui.checkvars["Vertical Nav Bar (beta, working)"].set(settings_values["EnableVerticalNavBar"])
-    if "EnableClassicLayout" in settings_values.keys():
-        if settings_values["EnableClassicLayout"] == 1 and settings_values["EnableVerticalNavBar"] == 0:
-            settings_values["EnableClassicLayout"] = 0        
-    if "LandscapeImages" in settings_values.keys():
-        controller.js_config["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"] = str(settings_values["LandscapeImages"])
-        controller.frames[PageTwo].js_gui.checkvars["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"].set(settings_values["LandscapeImages"])
-    for key in controller.special_js_config:
-        if "Change Game Image Grid Sizes" in key:
-            sizes = ["Small", "Medium", "Large"]
-            for size in sizes:
-                controller.special_js_config[key][size] = controller.frames[PageTwo].js_gui.comboboxes[size].get()
-    return settings_values
-    #print(controller.special_js_config)
-
 ### Write CSS settings (comment out sections) + run js_tweaker if needed
 def apply_settings_from_gui(page, controller, settings_to_apply, settings_values):
 
@@ -974,15 +956,15 @@ def reload_click(event, controller):
     try:
         print("==============================")
         ### Reload Data
-        controller.frames[StartPage].loaded_config = manager.set_selected_main_options(controller.frames[StartPage], controller)
+        controller.frames["StartPage"].loaded_config = manager.set_selected_main_options(controller.frames["StartPage"], controller)
         print("Loaded config data. (oldglory_config.cfg)")
         #print("Loaded config data. (oldglory_config2.cfg)")
         controller.json_data = backend.get_json_data()
         controller.css_config = backend.load_css_configurables()
         controller.js_config, controller.special_js_config = backend.load_js_fixes()
         ### Update GUI
-        controller.frames[PageOne].css_gui.PresetFrame.update_presets_gui()
-        controller.frames[PageTwo].js_gui.update_js_gui(controller)
+        controller.frames["PageOne"].css_gui.PresetFrame.update_presets_gui()
+        controller.frames["PageTwo"].js_gui.update_js_gui(controller)
         print("Config Reloaded.")
     except:
         print("Config could not be completely reloaded.", file=sys.stderr)
@@ -1409,10 +1391,10 @@ def reset_all_tweaks(event, controller):
 def remake_js(event, controller):
     backend.clear_js_working_files()    
     
-    thread = Thread(target = run_js_tweaker, args = (controller.frames[StartPage].text1, 1,))
+    thread = Thread(target = run_js_tweaker, args = (controller.frames["StartPage"].text1, 1,))
     thread.start()
     #thread.join()
-    #run_js_tweaker(controller.frames[StartPage].text1)
+    #run_js_tweaker(controller.frames["StartPage"].text1)
 
 
 ### Set some CSS values back to "default"
@@ -1510,12 +1492,12 @@ class UpdateWindow(tk.Toplevel):
         files_list = backend.files_to_download_dtol(self.file_dates)
         backend.backup_old_versions(files_list)
         print("==============================")
-        self.controller.frames[StartPage].text1.update_idletasks()
+        self.controller.frames["StartPage"].text1.update_idletasks()
 
         for filepath in files_list:
             #print("==============================")
             backend.download_file(filepath, backend.BRANCH)
-            self.controller.frames[StartPage].text1.update_idletasks()
+            self.controller.frames["StartPage"].text1.update_idletasks()
         #Update LastPatchedDate
         backend.update_json_last_patched_date(self.controller.json_data)
         self.destroy()
