@@ -28,11 +28,10 @@ p = 0), c < r ?   p = 0), true ?
 eAssetType: 0,  eAssetType: 3,
 childHeight: 1.5 * n,  childHeight: n * 43 / 92,
 a = e.nHeight,  a = e.nWidth * 43 / 92,
-height: l.nItemHeight + r + "px"  minHeight: 125 + "px"
-height: s.nItemHeight + o + "px"  minHeight: 125 + "px"
+height: e.nItemHeight + i + "px"  minHeight: 125 + "px"
 2.108 * l.nItemWidth  Math.max(2.108 * l.nItemWidth, 270)
 2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
-height: a + "px"  height: i = 0 === (r = t) ? Math.max(a, 150) + "px" : a + "px"
+height: s + "px"  height: n ? Math.max(s, 150) + "px" : s + "px"
 
 ### === Stop What's New Events from Loading (working, needs more testing) ===
 ###n = E.c.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",
