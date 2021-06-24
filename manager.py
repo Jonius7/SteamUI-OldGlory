@@ -24,9 +24,9 @@ import js_tweaker
 
 
 ### Map config values to selected checkboxes
-CONFIG_MAP = {"SteamLibraryPath" : {"set" : ""},
-              "PatcherPath" : {"set" : ""},
-              "" : {},
+CONFIG_MAP = {#"SteamLibraryPath" : {"set" : ""},
+              #"PatcherPath" : {"set" : ""},
+              #"" : {},
               "InstallCSSTweaks" : {"value" : "var1", "check" : "check1", "javascript" : False},
               "EnablePlayButtonBox" : {"value" : "var2", "check" : "check2", "javascript" : False},
               "EnableVerticalNavBar" : {"value" : "var3", "check" : "check3", "javascript" : True},
@@ -81,11 +81,28 @@ def install_click_OLD(event, page, controller):
 
 def install_click(event, page, controller):
     settings = get_settings_from_gui(event, page)
-    apply_changes_to_config(controller, settings)
+    #settings = apply_changes_to_config(controller, settings)
+    settings = set_js_config(controller, settings)
+    apply_special_js_config(controller)
+    print(settings)
+    print(page.loaded_config)
+    
+    ### To be changed in a later version
+    #write fixes.txt before apply
+    backend.write_js_fixes(controller.js_config, controller.special_js_config)
+    #write css configurables
+    backend.write_css_configurables(controller.css_config)
+    ###
+    
+    #applying settings
+    apply_settings_from_gui(page, controller, settings)
+    #backend.write_config(settings_values)
+    
         
-### Get settings to apply (with validation), and values
-
 def get_settings_from_gui(event, page, config_map=CONFIG_MAP):
+    '''
+    Returns a dictionary of settings to apply ("value", "state", "javascript")
+    '''
     try:
         settings = {}
         for key in config_map:
@@ -94,8 +111,10 @@ def get_settings_from_gui(event, page, config_map=CONFIG_MAP):
                                  "state" : str(page.getCheck(config_map[key]["check"]).cget('state')),
                                  "javascript" : config_map[key]["javascript"]}
                 
-                print(key + " | ", end="")
-                print(settings[key])
+                #print(key + " | ", end="")
+                #print(settings[key])
+            if key == "ThemeSelected":
+                    settings[key] = page.dropdown6.get().split(" (")[0]
         return settings      
         
         
@@ -137,7 +156,7 @@ def get_settings_from_gui_OLD(event, page):
 ### v1
 
 
-def apply_changes_to_config(controller, settings):
+def set_js_config(controller, settings):
     SETTINGS_MAP = {
         "EnableVerticalNavBar": {"JS_name" : "Vertical Nav Bar (beta, working)"},
         "LandscapeImages": {"JS_name" : "Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"}
@@ -146,33 +165,89 @@ def apply_changes_to_config(controller, settings):
         if setting in settings:
             js_name = SETTINGS_MAP[setting]["JS_name"]
             controller.js_config[js_name] = str(settings[setting]["value"])
-            
-            #controller.frames.js_gui.checkvars[js_name].set(settings[setting]["value"])
-            print(controller.frames["PageTwo"])
-            #controller.get_frame("PageTwo").js_gui.checkvars[js_name].set(settings[setting]["value"])
+            controller.frames["PageTwo"].js_gui.checkvars[js_name].set(settings[setting]["value"])
+    return settings
 
-
+def apply_special_js_config(controller):       
+    for key in controller.special_js_config:
+        if "Change Game Image Grid Sizes" in key:
+            sizes = ["Small", "Medium", "Large"]
+            for size in sizes:
+                controller.special_js_config[key][size] = controller.frames["PageTwo"].js_gui.comboboxes[size].get()
+    
 # Rather not have this as hard coded as it currently is
 def apply_changes_to_config_OLD(controller, settings_values):
     #print(settings_values.keys())
     if "EnableVerticalNavBar" in settings_values.keys():
         controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])
-        controller.frames[PageTwo].js_gui.checkvars["Vertical Nav Bar (beta, working)"].set(settings_values["EnableVerticalNavBar"])
+        controller.frames["PageTwo"].js_gui.checkvars["Vertical Nav Bar (beta, working)"].set(settings_values["EnableVerticalNavBar"])
     if "EnableClassicLayout" in settings_values.keys():
         if settings_values["EnableClassicLayout"] == 1 and settings_values["EnableVerticalNavBar"] == 0:
             settings_values["EnableClassicLayout"] = 0        
     if "LandscapeImages" in settings_values.keys():
         controller.js_config["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"] = str(settings_values["LandscapeImages"])
-        controller.frames[PageTwo].js_gui.checkvars["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"].set(settings_values["LandscapeImages"])
+        controller.frames["PageTwo"].js_gui.checkvars["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"].set(settings_values["LandscapeImages"])
     for key in controller.special_js_config:
         if "Change Game Image Grid Sizes" in key:
             sizes = ["Small", "Medium", "Large"]
             for size in sizes:
-                controller.special_js_config[key][size] = controller.frames[PageTwo].js_gui.comboboxes[size].get()
+                controller.special_js_config[key][size] = controller.frames["PageTwo"].js_gui.comboboxes[size].get()
     return settings_values
     #print(controller.special_js_config)
 
+### Write CSS settings (comment out sections) + run js_tweaker if needed
+def apply_settings_from_gui_OLD(page, controller, settings_to_apply, settings_values):
 
+    ### Check if js required
+    change_javascript = 0
+    for setting in settings_values:
+        #print("javascript" in CONFIG_MAP[setting])
+        if "javascript" in CONFIG_MAP[setting]:
+            if CONFIG_MAP[setting]["javascript"] \
+            and int(page.loaded_config[setting]) != page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get():
+                #print(int(page.loaded_config[setting]))
+                #print(page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get())
+                set_css_config_js_enabled(controller.css_config)
+                change_javascript = 1
+    if controller.js_gui_changed == 1:
+        set_css_config_js_enabled(controller.css_config)
+        change_javascript = 1
+
+    # Write to libraryroot.custom.css
+    print("Applying CSS settings...")
+    page.text1.update_idletasks()
+    backend.write_css_settings(settings_to_apply, settings_values, controller.css_config)
+    page.text1.update_idletasks()
+    
+    ### Run js_tweaker if required
+
+    if change_javascript == 1:
+        thread = Thread(target = run_js_tweaker, args = (page.text1, ))
+        thread.start()
+        #thread.join()
+        #run_js_tweaker(page.text1)
+        
+    print("Settings applied.")
+
+
+def apply_settings_from_gui(page, controller, settings):
+    change_javascript = 0   #Check if js required
+    for setting in settings:
+        if check_setting_requires_javascript(settings[setting]):
+            if setting in page.loaded_config \
+                and int(page.loaded_config[setting]) != int(settings[setting]["value"]):
+                    set_css_config_js_enabled(controller.css_config)
+                    change_javascript = 1
+    if controller.js_gui_changed == 1:
+        set_css_config_js_enabled(controller.css_config)
+        change_javascript = 1
+    print(change_javascript)
+
+def check_setting_requires_javascript(setting_data):
+    if "javascript" in setting_data and setting_data["javascript"]:
+        return True
+    else:
+        return False
 
 ### StartPage
 ### Select checkboxes based on config
@@ -203,3 +278,14 @@ def set_selected_main_options(page, controller):
         print(e.message, file=sys.stderr)
         
 ### ================================
+
+### Set some CSS values back to "default"
+### ================================
+### Mainly HoverPosition
+def set_css_config_no_js(css_config):
+    css_config["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"] = "0"
+    return css_config
+
+def set_css_config_js_enabled(css_config):
+    css_config["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"] = "unset"
+    return css_config

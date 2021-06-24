@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.9.08"
+        self.version = "v0.9.9.10"
         self.release = "5.6.5-pre3"
       
         ### Window Frame
@@ -160,13 +160,41 @@ class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         
+        self.controller = controller
+        
+    ### LOG FRAME
+    ### Created first
+        self.create_log_frame()
+
+    ### load JSON
+        self.controller.json_data = backend.get_json_data()
+        self.controller.oldglory_config = backend.load_config2()
+
+    ### HEAD FRAME
+    ###
+        self.frameHead = head_frame(self, self.controller)
+
+    ### Tabs
+        self.tabs = ttk.Notebook(self,width=722)
+        self.frameCheck = tk.Frame(self.tabs)
+        self.framePatch = tk.Frame(self.tabs)
+    
+    ### Functions - Frames and Pack
+        self.create_check_frame()
+        self.create_patch_frame()
+        self.create_mode_frame()
+        self.create_confirm_frame()
+        self.set_init_gui_states()
+        self.pack_frames()
+
+    def create_log_frame(self):
     ### LOG FRAME
     ### Defined first even though it will be packed after the CHECK FRAME,
     ### due to redirecting StdOut
     ###
         self.frameLog = tk.Frame(self, 
-                            width=controller.windowW-50, 
-                            height=controller.windowH-450)
+                            width=self.controller.windowW-50, 
+                            height=self.controller.windowH-450)
         self.frameLog.grid_propagate(False)
         self.frameLog.columnconfigure(0, weight=1)
         self.frameLog.rowconfigure(0, weight=1)
@@ -188,21 +216,8 @@ class StartPage(tk.Frame):
         scroll_1 = ttk.Scrollbar(self.frameLog, command=self.text1.yview)
         scroll_1.grid(row=0, column=1, sticky='ns')
         self.text1['yscrollcommand'] = scroll_1.set
-
-    ### load JSON
-        controller.json_data = backend.get_json_data()
-        controller.oldglory_config = backend.load_config2()
-
-
-    ### HEAD FRAME
-    ###
-        self.frameHead = head_frame(self, controller)
-
-    ### Tabs
-        self.tabs = ttk.Notebook(self,width=722)
-        self.frameCheck = tk.Frame(self.tabs)
-        self.framePatch = tk.Frame(self.tabs)
-    
+        
+    def create_check_frame(self):  
     ### CHECK FRAME
     ###
         
@@ -308,12 +323,12 @@ class StartPage(tk.Frame):
         self.dropdown6_value = tk.StringVar()
         self.dropdown6 = ttk.Combobox(self.frameCheck,
                                  font="TkDefaultFont",
-                                 values=self.getListOfThemeNames(controller),
+                                 values=self.getListOfThemeNames(self.controller),
                                  state="readonly",
                                  textvariable=self.dropdown6_value,
                                  width=30)
         self.dropdown6.current(0)
-        self.dropdown6.bind("<<ComboboxSelected>>", lambda event: dropdown_click(event, self, controller))
+        self.dropdown6.bind("<<ComboboxSelected>>", lambda event: dropdown_click(event, self, self.controller))
         self.dropdown6.grid(row=6, column=1, columnspan=2, sticky="w")
         
         
@@ -339,7 +354,8 @@ class StartPage(tk.Frame):
         ###
         #self.image1 = add_img(self.frameCheck, os.path.join(os.getcwd(), 'images/full_layout.png'))
         #self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")      
-
+    
+    def create_patch_frame(self):
     ### PATCH FRAME
     ###
         
@@ -380,7 +396,9 @@ class StartPage(tk.Frame):
                                      hover_delay=200)
         pbutton3.bind("<Button-1>", lambda event:backend.steam_library_compat_config(1))
         pbutton3.grid(row=4, column=0, padx=(5,0), pady=5)
+    
         
+    def create_mode_frame(self):   
     ### MODE FRAME
     ###
         self.frameMode = tk.Frame(self)
@@ -391,7 +409,7 @@ class StartPage(tk.Frame):
                            text="CSS Options",
                            width=16
         )
-        button_m.bind("<Button-1>", lambda event:show_PageOne(controller))
+        button_m.bind("<Button-1>", lambda event:show_PageOne(self.controller))
         button_m.grid(row=0, column=0, padx=5)
 
         ###
@@ -400,28 +418,29 @@ class StartPage(tk.Frame):
                            text="JS Options",
                            width=16
         )
-        button_n.bind("<Button-1>", lambda event:show_PageTwo(controller))
+        button_n.bind("<Button-1>", lambda event:show_PageTwo(self.controller))
         button_n.grid(row=0, column=1, padx=5)
-
         
+        
+    def create_confirm_frame(self):
     ### CONFIRM FRAME
     ###
-        ConfirmObject = ConfirmFrame(self, controller)
+        ConfirmObject = ConfirmFrame(self, self.controller)
         self.frameConfirm = ConfirmObject.get_frame_confirm()
-
-
+           
+        
+    def set_init_gui_states(self):
     ### Running functions after much of StartPage has been initialised
     ###
         ### Set GUI from config
-        self.loaded_config = manager.set_selected_main_options(self, controller)
+        self.loaded_config = manager.set_selected_main_options(self, self.controller)
         self.text1.config(state='disabled')
         init_cb_check(self.var1, [self.check2, self.check3, self.check5, self.check7])
         init_cb_check(self.var3, [self.check4])
         
-        self.pack_frames()
 
     def pack_frames(self):
-        '''Place frames into page'''
+    ### Place frames into page
         self.frameHead.pack()
         self.frameCheck.pack()
         self.framePatch.pack()
@@ -785,11 +804,15 @@ class MainOption(tk.Frame):
     
         self.label.grid(row=0, column=0, sticky='w')
 
-        for i, tagName in enumerate(kwargs["tags"], start=1):
+        self.create_tags(kwargs["tags"])
+        
+    def create_tags(self, tagnames):
+        for i, tagName in enumerate(tagnames, start=1):
             leftPadding = (5, 0) if i == 1 else 0
             tag = add_img(self.tagFrame, os.path.join(os.getcwd(), 'images/tag_'+tagName+'.png'), width=50)
             tag.grid(row=0, column=i, sticky='w', padx=leftPadding)
             self.tags[self.name]=tag
+            
     def returnMainOption(self):
         return self.tagFrame
 
@@ -841,41 +864,6 @@ MAIN_SETTINGS_MAP = {
     "ThemeSelected" : {"set" : ""}
     }
 
-### Write CSS settings (comment out sections) + run js_tweaker if needed
-def apply_settings_from_gui(page, controller, settings_to_apply, settings_values):
-
-    ### Check if js required
-    change_javascript = 0
-    for setting in settings_values:
-        #print("javascript" in CONFIG_MAP[setting])
-        if "javascript" in CONFIG_MAP[setting]:
-            if CONFIG_MAP[setting]["javascript"] \
-            and int(page.loaded_config[setting]) != page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get():
-                #print(int(page.loaded_config[setting]))
-                #print(page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get())
-                css_config_js_enabled(controller.css_config)
-                change_javascript = 1
-    if controller.js_gui_changed == 1:
-        css_config_js_enabled(controller.css_config)
-        change_javascript = 1
-
-    # Write to libraryroot.custom.css
-    print("Applying CSS settings...")
-    page.text1.update_idletasks()
-    backend.write_css_settings(settings_to_apply, settings_values, controller.css_config)
-    page.text1.update_idletasks()
-    
-    ### Run js_tweaker if required
-
-    if change_javascript == 1:
-        thread = Thread(target = run_js_tweaker, args = (page.text1, ))
-        thread.start()
-        #thread.join()
-        #run_js_tweaker(page.text1)
-        
-    print("Settings applied.")
-
-   
 def run_js_tweaker(text_area, reset=0):
     try:
         print("==============================")
@@ -1384,7 +1372,7 @@ class JSFrame(tk.Frame):
 def reset_all_tweaks(event, controller):
     js_tweaker.setup_library(1)
     backend.clean_slate_css()
-    css_config_reset(controller.css_config)
+    manager.set_css_config_no_js(controller.css_config)
     #backend.reset_html()
     backend.clear_js_working_files()
 
@@ -1395,18 +1383,6 @@ def remake_js(event, controller):
     thread.start()
     #thread.join()
     #run_js_tweaker(controller.frames["StartPage"].text1)
-
-
-### Set some CSS values back to "default"
-### ================================
-### Mainly HoverPosition
-def css_config_reset(css_config):
-    css_config["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"] = "0"
-    return css_config
-
-def css_config_js_enabled(css_config):
-    css_config["Left Sidebar - Games List"]["--HoverOverlayPosition"]["current"] = "unset"
-    return css_config
 
 ### Update Window
 ### ================================
