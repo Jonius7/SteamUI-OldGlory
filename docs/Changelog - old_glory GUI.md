@@ -1,5 +1,9 @@
 ## SteamUI-OldGlory GUI Changelog
 
+0.9.10.1	(5.7-pre1) Simpler config/parsing writing code (Part 1)
+
+0.9.9.10	(5.6.5-pre3)
+
 0.9.9.01	(*5.6.5-pre1*)  Split code into custom_tk.py, added "CSS + JS" selector
 
 0.9.8.20	(*5.6-pre1*)	Updated to use new config version

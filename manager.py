@@ -14,8 +14,9 @@ import webbrowser
 import socket
 from functools import partial
 #import re
-from threading import Thread
 '''
+from threading import Thread
+
 
 import old_glory
 import backend
@@ -49,7 +50,7 @@ def install_click_OLD(event, page, controller):
         settings_to_apply, settings_values = get_settings_from_gui(event, page)
 
         #make any js_config enable/disable required based on main options
-        settings_values = apply_changes_to_config(controller, settings_values)
+        settings_values = apply_changes_to_config_OLD(controller, settings_values)
         
         #write fixes.txt before apply
         backend.write_js_fixes(controller.js_config, controller.special_js_config)
@@ -59,7 +60,7 @@ def install_click_OLD(event, page, controller):
 
         #applying settings
         apply_settings_from_gui(page, controller, settings_to_apply, settings_values)
-        backend.write_config(settings_values)
+        backend.write_config_OLD(settings_values)
 
         #add/remove theme
         apply_css_theme(controller.frames[StartPage], controller)
@@ -80,26 +81,40 @@ def install_click_OLD(event, page, controller):
         print_traceback()
 
 def install_click(event, page, controller):
-    settings = get_settings_from_gui(event, page)
-    #settings = apply_changes_to_config(controller, settings)
-    settings = set_js_config(controller, settings)
-    apply_special_js_config(controller)
-    print(settings)
-    print(page.loaded_config)
-    
-    ### To be changed in a later version
-    #write fixes.txt before apply
-    backend.write_js_fixes(controller.js_config, controller.special_js_config)
-    #write css configurables
-    backend.write_css_configurables(controller.css_config)
-    ###
-    
-    #applying settings
-    apply_settings_from_gui(page, controller, settings)
-    #backend.write_config(settings_values)
+    try:
+        settings = get_settings_from_gui(page)
+        settings = set_js_config(controller, settings)
+        apply_special_js_config(controller)
+        #print(settings)
+        #print(page.loaded_config)
+        
+        ### To be changed in a later version
+        #write fixes.txt before apply
+        backend.write_js_fixes(controller.js_config, controller.special_js_config)
+        #write css configurables
+        backend.write_css_configurables(controller.css_config)
+        ###
+        
+        #applying settings
+        change_javascript = check_if_css_requires_javascript(page, controller, settings)
+        manager_write_css_settings(page, settings)
+        manager_run_js_tweaker(page, change_javascript)
+        
+        update_loaded_config(page, controller)
+        loaded_config_to_oldglory_dict(controller)
+        backend.write_config(controller.oldglory_config)
+        
+        apply_css_theme(controller.frames["StartPage"], controller)
+        backend.compile_css(backend.get_json_data())
+        controller.js_gui_changed = 0
+        backend.refresh_steam_dir()
+        update_loaded_config(page, controller)
+    except:
+        print("Error while installing tweaks.", file=sys.stderr)
+        print_traceback()
     
         
-def get_settings_from_gui(event, page, config_map=CONFIG_MAP):
+def get_settings_from_gui(page, config_map=CONFIG_MAP):
     '''
     Returns a dictionary of settings to apply ("value", "state", "javascript")
     '''
@@ -220,7 +235,6 @@ def apply_settings_from_gui_OLD(page, controller, settings_to_apply, settings_va
     page.text1.update_idletasks()
     
     ### Run js_tweaker if required
-
     if change_javascript == 1:
         thread = Thread(target = run_js_tweaker, args = (page.text1, ))
         thread.start()
@@ -230,24 +244,83 @@ def apply_settings_from_gui_OLD(page, controller, settings_to_apply, settings_va
     print("Settings applied.")
 
 
-def apply_settings_from_gui(page, controller, settings):
+def check_if_css_requires_javascript(page, controller, settings):
     change_javascript = 0   #Check if js required
     for setting in settings:
         if check_setting_requires_javascript(settings[setting]):
             if setting in page.loaded_config \
-                and int(page.loaded_config[setting]) != int(settings[setting]["value"]):
+                and int(page.loaded_config[setting]) != int(settings[setting]["value"]): #If Setting is different
                     set_css_config_js_enabled(controller.css_config)
                     change_javascript = 1
     if controller.js_gui_changed == 1:
         set_css_config_js_enabled(controller.css_config)
         change_javascript = 1
-    print(change_javascript)
+    return change_javascript
 
 def check_setting_requires_javascript(setting_data):
     if "javascript" in setting_data and setting_data["javascript"]:
         return True
     else:
         return False
+
+def manager_write_css_settings(page, settings):    
+    # Write to libraryroot.custom.scss
+    print("Applying CSS settings...")
+    page.text1.update_idletasks()
+    backend.write_css_settings(settings)
+    page.text1.update_idletasks()
+    print("Settings applied.")    
+    
+def manager_run_js_tweaker(page, change_javascript):     
+    ### Run js_tweaker if required
+    if change_javascript == 1:
+        thread = Thread(target = old_glory.run_js_tweaker, args = (page.text1, ))
+        thread.start()
+        #thread.join()
+        #run_js_tweaker(page.text1)
+
+#update loaded_config on Install click
+def update_loaded_config(page, controller):
+    for key in page.loaded_config:
+        if "value" in CONFIG_MAP[key]:
+            page.loaded_config[key] = str(page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get())
+        elif "set" in CONFIG_MAP[key]:
+            if key == "ThemeSelected":
+                theme_full_name = page.dropdown6.get()
+                theme_name = theme_full_name.split(" (")[0]
+                page.loaded_config[key] = theme_name
+                #settings_values[key] = page.dropdown6.get().split(" (")[0]
+            #else:
+                #settings_values[key] = CONFIG_MAP[key]["set"]
+
+    
+def loaded_config_to_oldglory_dict(controller, section="Main_Settings"):
+    #print(controller.oldglory_config)
+    #print("===")
+    #print(controller.frames["StartPage"].loaded_config)
+    
+    oldglory_config = controller.oldglory_config
+    loaded_config = controller.frames["StartPage"].loaded_config
+    
+    for setting in loaded_config:
+        if setting in oldglory_config[section]:
+            oldglory_config[section][setting] = loaded_config[setting]
+    #print(oldglory_config)
+
+#need rewrite
+def apply_css_theme(page, controller):
+    if page.var6.get() == 1:
+        theme_full_name = page.dropdown6.get()
+        print("Applying CSS Theme: " + theme_full_name)
+        theme_name = theme_full_name.split(" (")[0]
+        #print(controller.json_data["themes"][theme_name]["filename"])
+        backend.enable_css_theme(controller.json_data["themes"][theme_name]["filename"],
+                         controller.json_data["themes"][theme_name]["order"],
+                         controller.json_data)
+    elif page.var6.get() == 0 and page.change_theme == 1:
+        backend.enable_css_theme("none", "after", controller.json_data)
+    page.change_theme = 0
+
 
 ### StartPage
 ### Select checkboxes based on config

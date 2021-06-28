@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.9.10"
-        self.release = "5.6.5-pre3"
+        self.version = "v0.9.10.1"
+        self.release = "5.7-pre1"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -168,7 +168,7 @@ class StartPage(tk.Frame):
 
     ### load JSON
         self.controller.json_data = backend.get_json_data()
-        self.controller.oldglory_config = backend.load_config2()
+        self.controller.oldglory_config = backend.load_config()
 
     ### HEAD FRAME
     ###
@@ -454,7 +454,6 @@ class StartPage(tk.Frame):
         self.frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         self.frameMode.pack(pady=(2, 0), side="bottom")
 
-  
 
     ### Getters
     def getCheck(self, getter):
@@ -890,51 +889,7 @@ def run_js_tweaker(text_area, reset=0):
               
     except Exception as e:
         print(e, file=sys.stderr)
-
-#need rewrite
-def apply_css_theme(page, controller):
-    '''
-    if page.var6.get() == 1:
-        theme_name = page.dropdown6.get()
-        print("Applying CSS Theme: " + theme_name)
-        backend.apply_css_theme(THEME_MAP[theme_name]["filename"],
-                            THEME_MAP[theme_name]["order"],
-                            THEME_MAP[theme_name]["patchtext"])
-        page.text1.update_idletasks()
-    elif page.var6.get() == 0 and page.change_theme == 1:
-        backend.remove_current_css_themes("no_themes.css", "before")
-        page.text1.update_idletasks()
-        print("Cleared current CSS Themes")
-    page.change_theme = 0
-    '''
-
-    if page.var6.get() == 1:
-        theme_full_name = page.dropdown6.get()
-        print("Applying CSS Theme: " + theme_full_name)
-        theme_name = theme_full_name.split(" (")[0]
-        #print(controller.json_data["themes"][theme_name]["filename"])
-        backend.enable_css_theme(controller.json_data["themes"][theme_name]["filename"],
-                         controller.json_data["themes"][theme_name]["order"],
-                         controller.json_data)
-    elif page.var6.get() == 0 and page.change_theme == 1:
-        backend.enable_css_theme("none", "after", controller.json_data)
-    page.change_theme = 0    
-                                
-#update loaded_config on Install click
-def update_loaded_config(page, controller):
-    for key in page.loaded_config:
-        if "value" in CONFIG_MAP[key]:
-            page.loaded_config[key] = str(page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get())
-        elif "set" in CONFIG_MAP[key]:
-            if key == "ThemeSelected":
-                theme_full_name = page.dropdown6.get()
-                theme_name = theme_full_name.split(" (")[0]
-                page.loaded_config[key] = theme_name
-
-                #settings_values[key] = page.dropdown6.get().split(" (")[0]
-            #else:
-                #settings_values[key] = CONFIG_MAP[key]["set"]
-
+                              
 ### ================================
 
 
