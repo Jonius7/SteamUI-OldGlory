@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.10.1"
-        self.release = "5.7-pre1"
+        self.version = "v0.9.10.3"
+        self.release = "5.7.1"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -651,7 +651,7 @@ class ConfirmFrame(tk.Frame):
         button1.grid(row=0, column=1, padx=5, sticky="NSEW")
         
         
-        install_modes = ("CSS Only", "CSS + JS")
+        install_modes = ("CSS/JS", "CSS Only", "CSS + JS")
         vard = tk.StringVar()
         
         buttond = ttk.OptionMenu(self.frameConfirm,
@@ -659,7 +659,7 @@ class ConfirmFrame(tk.Frame):
                         install_modes[0],
                         *install_modes,           
         )
-        buttond.config(width=8)
+        buttond.config(width=8, state='disabled')
         #buttond.bind("<Button-1>",
         #             lambda event:manager.install_click(event, controller.frames["StartPage"], controller)
         #             )
