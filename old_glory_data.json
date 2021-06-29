@@ -2,7 +2,7 @@
 	"CSSVariableString": "/* ===== SteamUI-OldGlory will insert CSS Variables from variables.css here ==== */",
 	"CSSBeforeThemes": "// Themes applied before CSS Tweaks",
 	"CSSAfterThemes": "// Themes applied after CSS Tweaks",
-	"lastPatchedDate": "2021-02-25T02:03:43Z",
+	"lastPatchedDate": "2021-05-03T08:02:24Z",
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",
@@ -23,76 +23,113 @@
 			"author": "Jonius7",
 			"filename": "_crispcut.scss",
 			"order": "after"
+		},
+		"LIGHT UI": {
+			"author": "Angelo",
+			"filename": "_light.scss",
+			"order": "after"
 		}
 	},
 	"sections": {
 		"classic": {
+			"name": "Classic Styling",
 			"description": "CSS for Old UI font and colors"
 		},
-		"sidebar": {
+		"sidebar_homeandsearch": {
+			"name": "Sidebar Home & Search",
+			"description": "CSS for the Left Sidebar - Home and Search buttons"
+		},
+		"sidebar_gamelist": {
+			"name": "Sidebar GameList",
 			"description": "CSS for the Left Sidebar - Games List"
 		},
 		"home_collections": {
+			"name": "Home & Collections",
 			"description": "CSS for HOME and COLLECTIONS page layout"
 		},
 		"scrollbar": {
+			"name": "Scrollbar",
 			"description": "CSS for a thicker scrollbar"
 		},
 		"gamepage_header": {
+			"name": "Gamepage Header",
 			"description": "CSS for the top gamepage header and game image"
 		},
 		"gamepage_sections": {
+			"name": "Gamepage Sections",
 			"description": "CSS for the section boxes (Achievements, Friends Who Play, Screenshots, DLC...)"
 		},
 		"gamepage_boundary": {
+			"name": "Gamepage Boundary",
 			"description": "CSS for the glass/blur, and more details panel"
 		},
 		"gamepage_spotlight": {
+			"name": "Gamepage Spotlight",
 			"description": "CSS for the gamepage spotlight"
 		},
 		"gamepage_columns": {
+			"name": "Gamepage Columns",
 			"description": "CSS for swapping the columns and their widths"
 		},
 		"gamepage_playbar": {
+			"name": "Gamepage Play Bar",
 			"description": "CSS for the Play Bar"
 		},
 		"gamepage_activitynews": {
+			"name": "Gamepage Activity & News",
 			"description": "CSS for the compact Friends Activity/News"
 		},
-		"gamepage_broadcasts": {
-			"description": "CSS for the Broadcasts section"
-		},
 		"gamepage_events": {
+			"name": "Gamepage Events",
 			"description": "CSS affecting size of event boxes and images"
 		},
+		"gamepage_broadcasts": {
+			"name": "Gamepage Broadcasts",
+			"description": "CSS for the Broadcasts section"
+		},		
 		"gamepage_navbar": {
+			"name": "Gamepage Nav Bar",
 			"description": "CSS for the navigation bar"
 		},
 		"gamepage_dlcscreenshots": {
+			"name": "Gamepage DLC & Screenshots",
 			"description": "CSS for DLC/Screenshots sections sizes"
 		},
-		"module_dlcmanager": {
-			"description": "CSS for DLC Manager layout and row height"
+		"module_gameproperties": {
+			"name": "[Module] Game Properties",
+			"description": "CSS for Game Properties layout (incl. DLC Manager)"
 		},
 		"module_landscapegameimages": {
+			"tags": ["JS", "Advanced"],
+			"name": "[Module] Landscape Game Images",
 			"description": "(Requires JS) CSS for Horizontal Game Images"
 		},
 		"module_listview": {
+			"tags": ["JS", "Advanced", "Experimental"],
+			"name": "[Module] List View",
 			"description": "(EXPERIMENTAL) (Requires JS) CSS for List view implementation"
 		},
 		"module_playbarbox": {
+			"tags": ["Advanced"],
+			"name": "[Module] Play Bar Box",
 			"description": "CSS for Play Bar pulled up into box (in gamepage header)"
 		},
 		"module_verticalnavbar": {
+			"tags": ["JS", "Advanced"],
+			"name": "[Module] Vertical Nav Bar",
 			"description": "(Requires JS) CSS for enabling a vertical navigation bar"
 		},
 		"module_classiclayout": {
+			"tags": ["JS", "Advanced"],
+			"name": "[Module] Classic Layout",
 			"description": "(Requires JS) (Requires Vertical Nav Bar) CSS for enabling classic layout"
 		},
 		"module_homeicon": {
+			"name": "[Module] Home Icon",
 			"description": "CSS for turning HOME button text into an icon"
 		},
 		"tweak_nozoom": {
+			"name": "[Tweak] No Zoom",
 			"description": "CSS for removing zoom/expand on game images when hovered"
 		},
 		"user_module1": {
@@ -169,7 +206,7 @@
 				}
 			}
 		},
-		"Remove Glare/Shine": {
+		"Game Image Glare/Shine": {
 			"Visible": {
 				"value": "1",
 				"config": {

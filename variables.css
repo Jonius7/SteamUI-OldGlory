@@ -28,6 +28,10 @@
   /* Game Page Layout */
   --FriendsDLCScreenshotsColumnWidth: 61%;  /* Default: 33%. Determines width of the Friends Who Play/Achievements/Screenshots/DLC/Trading Cards column. Friend Activity/News column will fill the rest. */
   --SwapColumns: left;  /* Default: right. Set left to swap columns. */
+  --AchievementsClickHighlight: Highlight_opacity;  /* Default: appdetailsoverview_HighlightMe_25jnp. Options: Highlight_opacity Highlight_border. Set to disabled to disable. */
+
+  /* Game Page Elements */
+  --RecommendGame: block;  /* Default: block. Set to none to hide "Recommond this game" box on game page. */
 
   /* Game Page Background */
   --AppPageBlur: 2px;  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look. */

@@ -22,7 +22,7 @@ OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
     import winreg
 
-DEFAULT_CONFIG = {"SteamLibraryPath" : "",
+DEFAULT_CONFIG_OLD = {"SteamLibraryPath" : "",
                   "PatcherPath" : "",
                   "" : "",
                   "InstallCSSTweaks" : "1",
@@ -30,10 +30,10 @@ DEFAULT_CONFIG = {"SteamLibraryPath" : "",
                   "EnableVerticalNavBar" : "0",
                   "EnableClassicLayout" : "0",
                   "LandscapeImages" : "0",
-                  "InstallWithDarkLibrary" : "0",
+                  "InstallWithLibraryTheme" : "0",
                   "ThemeSelected" : "Crisp Cut"}
 
-DEFAULT_CONFIG2 = {
+DEFAULT_CONFIG = {
     "Filepaths" : {
         "SteamLibraryPath" : "",
         "PatcherPath" : "",
@@ -46,8 +46,25 @@ DEFAULT_CONFIG2 = {
         "LandscapeImages" : "0",
         "InstallWithLibraryTheme" : "0",
         "ThemeSelected" : "Crisp Cut"
-        }
-    }
+        },
+    "JS_Settings" : {
+        "HomePageGridSpacing" : "1",
+        "MoreScreenshotsAndDLC" : "1",
+        "HoverPositionFix" : "1",
+        "ScrollPastAddShelf" : "1",
+        "ChangeGameImageGridSizes" : "1",
+        "VerticalNavBar" : "1",
+        "LandscapeGameImages" : "1",
+        "StopWhatsNewLoad" : "0",
+        "SmootherHomePageScrolling" : "1",
+        "GamePropertiesWindowSize" : "1",
+        "StickyBackgroundImage" : "1",
+        "PressEnterToLaunchGames" : "1",
+        "ExpandShowMoreDetails" : "0",
+        "DontLoadHomeGameImages" : "0",
+        "DontLoadGamePageSections" : "0",
+    } 
+}
 
 
 ###Structure as follows
@@ -141,7 +158,12 @@ CSS_CONFIG = {
             "default" : "16px",
             "current" : "5px",
             "options": {"16px", "5px"},
-            "desc" : "Corresponds with JavaScript tweak - Home Page Grid Spacing."}
+            "desc" : "Corresponds with JavaScript tweak - Home Page Grid Spacing."},
+        "--RemoveGameHover" : {
+            "default" : "block",
+            "current" : "block",
+            "options": {"block", "none"},
+            "desc" : "Set to none to remove game preview box when hovering over game."}
         },
     "Game Page Layout" : {
         "--FriendsDLCScreenshotsColumnWidth" : {
@@ -153,7 +175,19 @@ CSS_CONFIG = {
             "default" : "right",
             "current" : "left",
             "options": {"left", "right"},
-            "desc" : "Set left to swap columns."}
+            "desc" : "Set left to swap columns."},
+        "--AchievementsClickHighlight" : {
+            "default" : "appdetailsoverview_HighlightMe_25jnp",
+            "current" : "Highlight_opacity",
+            "options": {"appdetailsoverview_HighlightMe_25jnp", "Highlight_opacity", "Highlight_border", "disabled"},
+            "desc" : "Options: Highlight_opacity Highlight_border. Set to disabled to disable."}
+        },
+    "Game Page Elements" : {
+        "--RecommendGame" : {
+            "default" : "block",
+            "current" : "block",
+            "options": {"block", "none"},
+            "desc" : "Set to none to hide 'Recommond this game' box on game page."},
         },
     "Game Page Background" : {
         "--AppPageBlur" : {
@@ -175,19 +209,6 @@ CSS_CONFIG = {
             "desc" : "Leave at 0px, this var is for steam-library compatibility and vertical nav bar"}
         }
     }
-
-SETTING_MAP = {"SteamLibraryPath" : "",
-                  "PatcherPath" : "",
-                  "" : "",
-                  "InstallCSSTweaks" : "",
-                  "EnablePlayButtonBox" : {"filename" : "module_playbarbox"},
-                  "EnableVerticalNavBar" : {"filename" : "module_verticalnavbar"},
-                  "EnableClassicLayout" : {"filename" : "module_classiclayout"},
-                  "LandscapeImages" : {"filename" : "module_landscapegameimages"},                
-                  "InstallWithDarkLibrary" : "",
-                  "ThemeSelected" : ""
-                
-            }
 
 ROOT_MAP = {"start" : ["Configurable variables", ":root {"],
             "end" : ["}", "======"]
@@ -395,14 +416,14 @@ def write_json_data(json_data):
 ### CONFIG Functions
 
 ### Loading config
-def load_config():
+def load_config_OLD():
     config_dict = {}
     config_filename = "oldglory_config.cfg"
     if not os.path.isfile(config_filename) :
         print("Config file " + config_filename + " not found. Creating copy with default options.", file=sys.stderr)
-        write_config(DEFAULT_CONFIG)
-        return DEFAULT_CONFIG
-    else :
+        write_config_OLD(DEFAULT_CONFIG_OLD)
+        return DEFAULT_CONFIG_OLD
+    else:
         with open(config_filename, newline='', encoding="UTF-8") as fi:
             lines = filter(None, (line.rstrip() for line in fi))
             for line in lines:
@@ -415,9 +436,35 @@ def load_config():
                     except Exception as e:
                         print("Error with line in config: " + line + " Skipping.", file=sys.stderr)
         fi.close()
-    return config_dict  
+    return config_dict
 
-def write_config(config_dict):
+def load_config():
+    config_dict = {}
+    config_filename = "oldglory_config2.cfg"
+    if not os.path.isfile(config_filename) :
+        print("Config file " + config_filename + " not found. Creating copy with default options.", file=sys.stderr)
+        write_config(DEFAULT_CONFIG)
+        return DEFAULT_CONFIG
+    else:
+        config = configparser.ConfigParser()
+        config.optionxform = str
+        config.read(config_filename)
+        for section in config.sections():
+            options = config.options(section)
+            temp_dict = {}
+            for option in options:
+                temp_dict[option] = config.get(section, option)
+            config_dict[section] = temp_dict
+        return config_dict
+
+def test_config():
+    config = configparser.ConfigParser()
+    config.optionxform = str
+    config.read("oldglory_config2.cfg")
+    return config
+
+
+def write_config_OLD(config_dict):
     with open("oldglory_config.cfg", "w", newline='', encoding="UTF-8") as config_file:
         for config in config_dict:
             line_to_write = config + "=" + str(config_dict[config]) + OS_line_ending()
@@ -427,18 +474,17 @@ def write_config(config_dict):
     config_file.close()
 
 
-def write_config2(config_dict = DEFAULT_CONFIG2):
+def write_config(config_dict = DEFAULT_CONFIG):
     config = configparser.ConfigParser()
     config.optionxform = str
     for section in config_dict:
         config[section] = config_dict[section]
     #print(config.sections())
     #print(config.options("Main_Settings"))
-
     with open("oldglory_config2.cfg", "w", newline='', encoding="UTF-8") as config_file:
         config.write(config_file)
     config_file.close()
-    
+    print("Config file written.")
 
 ### [END OF] CONFIG Functions
 ##########################################
@@ -463,8 +509,8 @@ def validate_settings(settings):
             validated_settings.extend(["EnableVerticalNavBar"])
         if "LandscapeImages" in settings: #2
             validated_settings.extend(["LandscapeImages"])
-        if "InstallWithDarkLibrary" in settings: #6
-            validated_settings.extend(["InstallWithDarkLibrary"])
+        if "InstallWithLibraryTheme" in settings: #6
+            validated_settings.extend(["InstallWithLibraryTheme"])
     #print(validated_settings)
     return validated_settings
 
@@ -477,7 +523,18 @@ def validate_settings(settings):
 ###   (scss/libraryroot.custom.scss)
 ###   if/for loops could be reduced
 
-def write_css_settings(settings, settings_values, root_config): 
+SETTING_MAP = {
+    "InstallCSSTweaks" : "",
+    "EnablePlayButtonBox" : {"filename" : "module_playbarbox"},
+    "EnableVerticalNavBar" : {"filename" : "module_verticalnavbar"},
+    "EnableClassicLayout" : {"filename" : "module_classiclayout"},
+    "LandscapeImages" : {"filename" : "module_landscapegameimages"},
+    "InstallWithLibraryTheme" : "",
+    "ClassicStyling" : {"filename" : "classic"},
+    "ThemeSelected" : ""
+}
+
+def write_css_settings_OLD(settings, settings_values, root_config): 
     try:
         with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
              open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
@@ -514,7 +571,57 @@ def write_css_settings(settings, settings_values, root_config):
     except:
         print("Error enabling/disabling CSS modules.", file=sys.stderr)
         print_traceback()
+        
+def write_css_settings(settings): 
+    try:
+        with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
+             open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
 
+            import_prefix = '@import "./'
+            themes_prefix = '@import "../themes/'
+            start_comment = '//'
+            modify = 0
+            for line in f:
+                #if themes_prefix not in line or import_prefix in line:
+                if import_prefix in line:
+                    for setting in settings:
+                        if 'filename' in SETTING_MAP[setting]:
+                            if import_prefix + SETTING_MAP[setting]['filename'] in line:
+                                if line.startswith(start_comment):
+                                    if settings[setting]["value"] == "1" and setting in settings:
+                                        modify = 1
+                                        f1.write(LineParser.remove_start_comment(start_comment, line))
+                                else:    
+                                    if settings[setting]["value"] == "0":
+                                        modify = 1
+                                        f1.write(LineParser.add_start_comment(start_comment, line))
+                    if modify == 0:
+                        f1.write(line)
+                    modify = 0
+                else:
+                    f1.write(line)
+        f.close()
+        f1.close()
+        
+        ###
+        shutil.move("scss/libraryroot.custom.scss", "scss/libraryroot.custom.scss.backup1")
+        shutil.move("scss/libraryroot.custom.temp.scss", "scss/libraryroot.custom.scss")
+            
+    except:
+        print("Error enabling/disabling CSS modules,\nat " + line, file=sys.stderr)
+        print_traceback()
+
+class LineParser():
+         
+    @staticmethod 
+    def remove_start_comment(start_comment, line):
+        #strips start_comment and any spaces before line
+        return line.split(start_comment)[1].lstrip()
+    
+    @staticmethod
+    def add_start_comment(start_comment, line):
+        #Concatenates start_comment to line (space in between)
+        return start_comment + " " + line
 
 def compile_css(json_data):
     '''

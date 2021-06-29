@@ -18,8 +18,12 @@ OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
     import winreg
 
-swap_js = {'"libraryroot"\}\[([a-z])=([a-z])\]\|\|([a-z])': '"libraryreet"}[\\1=\\2]||\\3'}
-swapback_js = {'"libraryreet"\}\[([a-z])=([a-z])\]\|\|([a-z])': '"libraryroot"}[\\1=\\2]||\\3'}
+swap_js = {'"libraryroot"\}\[([a-z])\]\|\|([a-z])': '"libraryreet"}[\\1]||\\2',
+           #'h=m.nTop,': 'h = (t.children[0] && t.children[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0].classList && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_Container_2-O4Z")) || (t.children[0].classList && t.children[0].classList.contains("gamelistentry_FriendStatusHover_2iiN7")) ? m.nTop * 0.75 : m.nTop,'
+           }
+swapback_js = {'"libraryreet"\}\[([a-z])\]\|\|([a-z])': '"libraryroot"}[\\1]||\\2',
+               #'h = (t.children[0] && t.children[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0].classList && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_Container_2-O4Z")) || (t.children[0].classList && t.children[0].classList.contains("gamelistentry_FriendStatusHover_2iiN7")) ? m.nTop * 0.75 : m.nTop,': 'h=m.nTop,'
+            }
 
 fixes_dict = {}
 
@@ -52,7 +56,7 @@ def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fres
             files_to_copy = ["library.js", "libraryroot.js"]
             for filename in files_to_copy:
                 if not os.path.isfile(filename):
-                    print("Copying file " + filename + "from Steam\steamui...")
+                    print("Copying file " + filename + " from Steam\steamui...")
                     shutil.copy2(library_dir() + "/" + filename, filename)
             if os.path.exists("libraryroot.beaut.js"):
                 os.remove("libraryroot.beaut.js")
@@ -99,7 +103,7 @@ def modify_library(swap_js_array):
     try:
         lines = []
         modified = 0
-        with open('library.js') as infile:
+        with open('library.js', encoding="UTF-8") as infile:
             for line in infile:
                 for src, target in swap_js_array.items():
                     new_line = re.sub(src, target, line)
@@ -107,7 +111,7 @@ def modify_library(swap_js_array):
                     if new_line != line:
                         modified = 1
                 lines.append(new_line)
-        with open('library.js', 'w') as outfile:
+        with open('library.js', 'w', encoding="UTF-8") as outfile:
             for line in lines:
                 outfile.write(line)
         infile.close()
@@ -119,6 +123,9 @@ def modify_library(swap_js_array):
         error_exit("library.js not found")
 
 def parse_fixes_file(filename):
+    '''
+    look through fixes file and add fixes to fixes_dict
+    '''
     print("Finding Fixes...\n")
     global fixes_dict
     fixes_dict = {}
@@ -136,6 +143,9 @@ def parse_fixes_file(filename):
                                                     "replace" : val}
                             else:
                                 error_exit("Unexpected number of ~~ in line: " + line)
+                        #elif re.search(r"\d\$", key):
+                        #    print("V")
+                        #    print(key)
                         else:
                             fixes_dict[key] = {"replace" : val}
             except Exception as e:
@@ -202,7 +212,7 @@ def re_minify_file():
 def copy_files_to_steam():
     try:
         if LOCAL_DEBUG == 0:
-            files_to_copy = ["libraryreet.js", "fixes.txt"]
+            files_to_copy = ["library.js", "libraryreet.js"]
             for filename in files_to_copy:
                 shutil.copy2(filename, library_dir() + "/" + filename)
                 print("File " + filename + " written to " + library_dir())

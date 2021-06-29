@@ -1,5 +1,35 @@
-/* Home Icon */
+/* Home Icon 
+Adapted from LIGHT-UI by Angelo*/
 
+.gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx {
+    background-color: #3e4047;
+}
+
+.gamelisthome_Bar_3pSPl:hover .gamelisthome_Label_3O48L {
+    color: transparent !important;
+    filter: brightness(300%) !important;
+    
+}
+
+.gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L {
+    filter: brightness(300%) !important;
+}
+
+.gamelisthome_Bar_3pSPl .gamelisthome_Label_3O48L {
+    transition: filter 0.3s ease-in-out !important;
+    color: transparent !important;
+    background-image: url(https://i.imgur.com/AAFscfG.png) !important;
+    background-size: 20px !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+
+.gamelisthome_Label_3O48L {
+    align-self: unset;
+    margin: 0 auto;
+}
+
+/* Old version
 .gamelisthome_Label_3O48L:after {
     content: '🏠';
     color: transparent;
@@ -8,21 +38,4 @@
     position: absolute;
     padding: 5px 11px;
     top: 2px;
-}
-
-.gamelisthome_Label_3O48L {
-    visibility: hidden;
-}
-
-.gamelisthome_Label_3O48L {
-	color: transparent;text-shadow: 0 0 0 #4c4d50;
-}
-
-.gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L {
-    color: transparent;
-    text-shadow: 0 0 0 white;
-}
-
-.gamelisthome_Bar_3pSPl:hover .gamelisthome_Label_3O48L {
-    text-shadow: 0 0 0 white;
-}
+}*/

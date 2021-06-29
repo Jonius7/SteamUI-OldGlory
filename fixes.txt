@@ -6,8 +6,8 @@ gridRowGap: 24,  gridRowGap: 8,
 vecScreenShots.slice(0, 4).map  vecScreenShots.slice(0, 9).map
 t = t.slice(0, 6),  t = t.slice(0, 12),
 
-### === HoverPosition Fix for GameListEntry ===
-h = d.nTop,  h = (t.children[0] && t.children[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0].classList && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_Container_2-O4Z")) || (t.children[0].classList && t.children[0].classList.contains("gamelistentry_FriendStatusHover_2iiN7")) ? d.nTop * 0.75 : d.nTop,
+### === HoverPosition Fix for GameListEntry (moved to library.js, needs changes) ===
+h = m.nTop,  h = (t.children[0] && t.children[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0].classList && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_Container_2-O4Z")) || (t.children[0].classList && t.children[0].classList.contains("gamelistentry_FriendStatusHover_2iiN7")) ? m.nTop * 0.75 : m.nTop,
 
 ### === Scrolling Tweak - Scroll past ADD SHELF Button on load ===
 this.SetStateLoaded(),  this.SetStateLoaded(),document.getElementsByClassName('smartscrollcontainer_Body_3lDcz')[0].scrollTop = 30,
@@ -20,9 +20,9 @@ for (var n = [], r = 2;  /*for (var n = [], r = 2;
 .apply(console, Object(p.g)([e, t], n))  .apply(console, Object(p.g)([e, t], n))*/
 
 ### === Vertical Nav Bar (beta, working) ===
-x: l,  x: 0,
-y: c * n  y: c * (n - 10)
-p = 0), c < r ?   p = 0), true ?
+###x: l,  x: 0,
+###y: c * n  y: c * (n - 10)
+###p = 0), c < r ?   p = 0), true ?
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
 eAssetType: 0,  eAssetType: 3,
