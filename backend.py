@@ -588,7 +588,8 @@ def write_css_settings(settings):
                         if 'filename' in SETTING_MAP[setting]:
                             if import_prefix + SETTING_MAP[setting]['filename'] in line:
                                 if line.startswith(start_comment):
-                                    if settings[setting]["value"] == "1" and setting in settings:
+                                    if settings[setting]["value"] == "1" and setting in settings \
+                                        and settings[setting]["state"] == "normal":
                                         modify = 1
                                         f1.write(LineParser.remove_start_comment(start_comment, line))
                                 else:    

@@ -25,13 +25,13 @@ for (var n = [], r = 2;  /*for (var n = [], r = 2;
 ###p = 0), c < r ?   p = 0), true ?
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
-eAssetType: 0,  eAssetType: 3,
-childHeight: 1.5 * n,  childHeight: n * 43 / 92,
-a = e.nHeight,  a = e.nWidth * 43 / 92,
-height: e.nItemHeight + i + "px"  minHeight: 125 + "px"
-2.108 * l.nItemWidth  Math.max(2.108 * l.nItemWidth, 270)
-2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
-height: s + "px"  height: n ? Math.max(s, 150) + "px" : s + "px"
+###eAssetType: 0,  eAssetType: 3,
+###childHeight: 1.5 * n,  childHeight: n * 43 / 92,
+###a = e.nHeight,  a = e.nWidth * 43 / 92,
+###height: e.nItemHeight + i + "px"  minHeight: 125 + "px"
+###2.108 * l.nItemWidth  Math.max(2.108 * l.nItemWidth, 270)
+###2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
+###height: s + "px"  height: n ? Math.max(s, 150) + "px" : s + "px"
 
 ### === Stop What's New Events from Loading (working, needs more testing) ===
 ###n = E.c.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",
