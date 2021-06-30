@@ -1,19 +1,26 @@
 /* LIST VIEW ONLY TWEAKS - EXPERIMENTAL */
 
-/*
+:root {
+  --SizeMultiplier: 1;
+}
+
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG, .appgrid_YourCollection_11p6F {
   grid-template-columns: repeat(auto-fill, 1000px) !important;
-  grid-auto-rows: 46.5px !important;
+  grid-auto-rows: calc(var(--SizeMultiplier) * 46.5px) !important;
 }
 
 .appportrait_LibraryItemBox_WYgDg {
-  width: 10%;
+  width: calc(var(--SizeMultiplier) * 10%);
 }
 
 .appportrait_LibraryItemBoxSubscript_1LJqx {
-
-  margin-left: 115px;
+  margin-left: calc(var(--SizeMultiplier) * 115px);
 }
-*/
+
+.appportrait_Draggable_1pwP4 {
+  perspective: unset;
+  perspective-origin: unset;
+}
+
 
 /* END LIST VIEW ONLY TWEAKS */
