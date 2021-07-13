@@ -4,7 +4,7 @@ gridRowGap: 24,  gridRowGap: 8,
 
 ### === Increase Number of Screenshots and DLC displayed ===
 vecScreenShots.slice(0, 4).map  vecScreenShots.slice(0, 9).map
-t = t.slice(0, 6),  t = t.slice(0, 12),
+this.props.rgInfo.slice(0, 6)  this.props.rgInfo.slice(0, 12)
 
 ### === HoverPosition Fix for GameListEntry (moved to library.js, needs changes) ===
 h = m.nTop,  h = (t.children[0] && t.children[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0].classList && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_Container_2-O4Z")) || (t.children[0].classList && t.children[0].classList.contains("gamelistentry_FriendStatusHover_2iiN7")) ? m.nTop * 0.75 : m.nTop,
@@ -27,7 +27,7 @@ for (var n = [], r = 2;  /*for (var n = [], r = 2;
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
 ###eAssetType: 0,  eAssetType: 3,
 ###childHeight: 1.5 * n,  childHeight: n * 43 / 92,
-###a = e.nHeight,  a = e.nWidth * 43 / 92,
+###s = e.nHeight,  s = e.nWidth * 43 / 92,
 ###height: e.nItemHeight + i + "px"  minHeight: 125 + "px"
 ###2.108 * l.nItemWidth  Math.max(2.108 * l.nItemWidth, 270)
 ###2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
@@ -43,17 +43,17 @@ this.props.maxRows < 2 || (t = this.m_elGrid.current.getBoundingClientRect(), n 
 bForcePopOut: !0,~~popupWidth: 842,  popupWidth: 672,
 
 ### === CLASSIC Sticky image background and spillover into sidebar (beta) ===
-###rgSources: this.props.rgHeaderImages,  rgSources: "",
-###strMedium: "MediumWindow"~~};  }; var sURL,appId=Qa.currentGameListSelection.nAppId,sURL2="",sURL3="", sURL4="";sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png",sURL3="assets/"+appId+"_library_hero.jpg", sURL4="https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/library_hero.jpg";
+###rgHeaderImages: this.props.rgHeaderImages,  rgHeaderImages: "",
+###strMedium: "MediumWindow"~~};  }; var sURL,appId=g.a.currentGameListSelection.nAppId,sURL2="",sURL3="", sURL4="";sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png",sURL3="assets/"+appId+"_library_hero.jpg", sURL4="https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/library_hero.jpg";
 ###className: t.join(" "),  className: t.join(" "), style: {background: "-webkit-linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,1) 60%), url(" + sURL + ")" + ", url(" + sURL2 + ")" + ", url(" + sURL3 + ")" + ", url(" + sURL4 + ")"},
 ###src: this.props.rgBlurImages[this.state.nBlurImageIndex],  src: "",
-###(this.is_hero_custom_image ? "#CustomArt_ClearCustomBackground" : "#CustomArt_SetCustomBackground")),  ("#CustomArt_SetCustomBackground")), D.createElement(Hi.d, {is_hero_current_image: !1, onSelected: this.OnRemoveHero}, Object(R.f)("#CustomArt_ClearCustomBackground")),
-###}, e.prototype.OnChangeLogo = function(e) {  }, e.prototype.OnRemoveHero = function(e) {this.OnChangeArtwork(Object.create({src: "src"}), this.m_refFileInputHero, 1)}, e.prototype.OnChangeLogo = function(e) {
-###Object(j.c)([E.a], e.prototype, "OnChangeHero", null),  Object(j.c)([E.a], e.prototype, "OnChangeHero", null), Object(j.c)([E.a], e.prototype, "OnRemoveHero", null),
+###(this.is_hero_custom_image ? "#CustomArt_ClearCustomBackground" : "#CustomArt_SetCustomBackground")),  ("#CustomArt_SetCustomBackground")), D.createElement(he.d, {is_hero_current_image: !1, onSelected: this.OnRemoveHero}, Object(D.f)("#CustomArt_ClearCustomBackground")),
+###}, t.prototype.OnChangeLogo = function(e) {  }, t.prototype.OnRemoveHero = function(e) {this.OnChangeArtwork(Object.create({src: "src"}), this.m_refFileInputHero, 1)}, t.prototype.OnChangeLogo = function(e) {
+###Object(a.c)([E.a], e.prototype, "OnChangeHero", null),  Object(a.c)([E.a], e.prototype, "OnChangeHero", null), Object(a.c)([E.a], e.prototype, "OnRemoveHero", null),
 
 ### === Press Enter to launch games ===
-switch (t) {~~case 38:  case 13: return this.RunApp(Qa.currentGameListSelection.nAppId), void e.preventDefault();case 38:
-}, e.prototype.MoveRangeSelectUpOneRow = function() {  }, e.prototype.RunApp = function(e) {window.location.href = "steam://rungameid/" + e;}, e.prototype.MoveRangeSelectUpOneRow = function() {
+switch (t) {~~case 38:  case 13: return this.RunApp(g.a.currentGameListSelection.nAppId), void e.preventDefault();case 38:
+}, t.prototype.MoveRangeSelectUpOneRow = function() {  }, t.prototype.RunApp = function(e) {window.location.href = "steam://rungameid/" + e;}, t.prototype.MoveRangeSelectUpOneRow = function() {
 
 ### === Expand Show more Details panel by default ===
 ###var e = this.props.expand ? P_.a.AppDetailsExpanded : P_.a.AppDetailsCollapsed,  var e = this.props.expand ? P_.a.AppDetailsCollapsed : P_.a.AppDetailsExpanded,
