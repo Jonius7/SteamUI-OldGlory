@@ -42,44 +42,6 @@ CONFIG_MAP = {#"SteamLibraryPath" : {"set" : ""},
 ### INSTALL Functions
 ### ================================
 
-### Install Click
-def install_click_OLD(event, page, controller):
-    try:
-        print("==============================")
-        #get settings
-        settings_to_apply, settings_values = get_settings_from_gui(event, page)
-
-        #make any js_config enable/disable required based on main options
-        settings_values = apply_changes_to_config_OLD(controller, settings_values)
-        
-        #write fixes.txt before apply
-        backend.write_js_fixes(controller.js_config, controller.special_js_config)
-
-        #write css configurables
-        backend.write_css_configurables(controller.css_config)
-
-        #applying settings
-        apply_settings_from_gui(page, controller, settings_to_apply, settings_values)
-        backend.write_config_OLD(settings_values)
-
-        #add/remove theme
-        apply_css_theme(controller.frames[StartPage], controller)
-
-        #enable/disable modules (TODO)
-
-        #compile css from scss
-        #print(controller.json_data)
-        #backend.compile_css(controller.json_data)
-        backend.compile_css(backend.get_json_data())
-        
-        #reset state of js gui to "unchanged"
-        controller.js_gui_changed = 0
-        backend.refresh_steam_dir()
-        update_loaded_config(page, controller)
-    except:
-        print("Error while installing tweaks.", file=sys.stderr)
-        print_traceback()
-
 def install_click(event, page, controller):
     try:
         settings = get_settings_from_gui(page)
@@ -111,7 +73,7 @@ def install_click(event, page, controller):
         update_loaded_config(page, controller)
     except:
         print("Error while installing tweaks.", file=sys.stderr)
-        print_traceback()
+        old_glory.print_traceback()
     
         
 def get_settings_from_gui(page, config_map=CONFIG_MAP):
@@ -130,46 +92,10 @@ def get_settings_from_gui(page, config_map=CONFIG_MAP):
                 #print(settings[key])
             if key == "ThemeSelected":
                     settings[key] = page.dropdown6.get().split(" (")[0]
-        return settings      
-        
-        
+        return settings
     except:
         print("Error while installing tweaks.", file=sys.stderr)
         old_glory.print_traceback()
-
-
-### some of this needs to be changed to account for "unchecking" options
-def get_settings_from_gui_OLD(event, page):
-    try:
-        settings = []
-        settings_values = {}
-        for key in CONFIG_MAP:
-            if "value" in CONFIG_MAP[key]:
-                check_button_val = page.getCheckbuttonVal(CONFIG_MAP[key]["value"]).get()         
-                settings_values[key] = check_button_val
-                if check_button_val == 1:
-                    settings.append(key)
-                elif check_button_val != int(page.loaded_config[key]):
-                    #print("BOX UNSELECTED")
-                    settings.append(key)
-            elif "set" in CONFIG_MAP[key]:
-                if key == "ThemeSelected":
-                    settings_values[key] = page.dropdown6.get().split(" (")[0]
-                else:
-                    settings_values[key] = CONFIG_MAP[key]["set"]    
-            else:
-                settings_values[""] = ""
-        #print("ARRAY ")
-        settings_to_apply = backend.validate_settings(settings)
-        #print(settings_to_apply)
-        #print(settings_values)
-        return settings_to_apply, settings_values
-        
-    except FileNotFoundError:
-        print("Error: Unable to get settings from checkboxes.", file=sys.stderr)
-        print_traceback()
-### v1
-
 
 def set_js_config(controller, settings):
     SETTINGS_MAP = {
@@ -189,60 +115,6 @@ def apply_special_js_config(controller):
             sizes = ["Small", "Medium", "Large"]
             for size in sizes:
                 controller.special_js_config[key][size] = controller.frames["PageTwo"].js_gui.comboboxes[size].get()
-    
-# Rather not have this as hard coded as it currently is
-def apply_changes_to_config_OLD(controller, settings_values):
-    #print(settings_values.keys())
-    if "EnableVerticalNavBar" in settings_values.keys():
-        controller.js_config["Vertical Nav Bar (beta, working)"] = str(settings_values["EnableVerticalNavBar"])
-        controller.frames["PageTwo"].js_gui.checkvars["Vertical Nav Bar (beta, working)"].set(settings_values["EnableVerticalNavBar"])
-    if "EnableClassicLayout" in settings_values.keys():
-        if settings_values["EnableClassicLayout"] == 1 and settings_values["EnableVerticalNavBar"] == 0:
-            settings_values["EnableClassicLayout"] = 0        
-    if "LandscapeImages" in settings_values.keys():
-        controller.js_config["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"] = str(settings_values["LandscapeImages"])
-        controller.frames["PageTwo"].js_gui.checkvars["Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"].set(settings_values["LandscapeImages"])
-    for key in controller.special_js_config:
-        if "Change Game Image Grid Sizes" in key:
-            sizes = ["Small", "Medium", "Large"]
-            for size in sizes:
-                controller.special_js_config[key][size] = controller.frames["PageTwo"].js_gui.comboboxes[size].get()
-    return settings_values
-    #print(controller.special_js_config)
-
-### Write CSS settings (comment out sections) + run js_tweaker if needed
-def apply_settings_from_gui_OLD(page, controller, settings_to_apply, settings_values):
-
-    ### Check if js required
-    change_javascript = 0
-    for setting in settings_values:
-        #print("javascript" in CONFIG_MAP[setting])
-        if "javascript" in CONFIG_MAP[setting]:
-            if CONFIG_MAP[setting]["javascript"] \
-            and int(page.loaded_config[setting]) != page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get():
-                #print(int(page.loaded_config[setting]))
-                #print(page.getCheckbuttonVal(CONFIG_MAP[setting]["value"]).get())
-                set_css_config_js_enabled(controller.css_config)
-                change_javascript = 1
-    if controller.js_gui_changed == 1:
-        set_css_config_js_enabled(controller.css_config)
-        change_javascript = 1
-
-    # Write to libraryroot.custom.css
-    print("Applying CSS settings...")
-    page.text1.update_idletasks()
-    backend.write_css_settings(settings_to_apply, settings_values, controller.css_config)
-    page.text1.update_idletasks()
-    
-    ### Run js_tweaker if required
-    if change_javascript == 1:
-        thread = Thread(target = run_js_tweaker, args = (page.text1, ))
-        thread.start()
-        #thread.join()
-        #run_js_tweaker(page.text1)
-        
-    print("Settings applied.")
-
 
 def check_if_css_requires_javascript(page, controller, settings):
     change_javascript = 0   #Check if js required
@@ -327,7 +199,7 @@ def apply_css_theme(page, controller):
 def set_selected_main_options(page, controller):
     try:
         ### grab stdout, stderr from function in backend
-        f = io.StringIO()
+        #f = io.StringIO()
         #loaded_config = backend.load_config()
         loaded_config = controller.oldglory_config["Main_Settings"]
         for key in loaded_config:
@@ -344,11 +216,11 @@ def set_selected_main_options(page, controller):
                             #could be fragile but otherwise works
                             page.getDropdownVal("dropdown6").set(loaded_config[key] + " (" + theme_entry["author"] + ")")
                     except:
-                        print("Could not auto-select current theme.", file=sys.stderr)
+                        print("Could not auto-select current theme: " + loaded_config[key], file=sys.stderr)
                     #page.getDropdownVal("dropdown6").set(loaded_config[key])
         return loaded_config
     except Exception as e:
-        print(e.message, file=sys.stderr)
+        print(e, file=sys.stderr)
         
 ### ================================
 

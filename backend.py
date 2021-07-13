@@ -22,17 +22,6 @@ OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
     import winreg
 
-DEFAULT_CONFIG_OLD = {"SteamLibraryPath" : "",
-                  "PatcherPath" : "",
-                  "" : "",
-                  "InstallCSSTweaks" : "1",
-                  "EnablePlayButtonBox" : "0",
-                  "EnableVerticalNavBar" : "0",
-                  "EnableClassicLayout" : "0",
-                  "LandscapeImages" : "0",
-                  "InstallWithLibraryTheme" : "0",
-                  "ThemeSelected" : "Crisp Cut"}
-
 DEFAULT_CONFIG = {
     "Filepaths" : {
         "SteamLibraryPath" : "",
@@ -415,29 +404,6 @@ def write_json_data(json_data):
 ##########################################
 ### CONFIG Functions
 
-### Loading config
-def load_config_OLD():
-    config_dict = {}
-    config_filename = "oldglory_config.cfg"
-    if not os.path.isfile(config_filename) :
-        print("Config file " + config_filename + " not found. Creating copy with default options.", file=sys.stderr)
-        write_config_OLD(DEFAULT_CONFIG_OLD)
-        return DEFAULT_CONFIG_OLD
-    else:
-        with open(config_filename, newline='', encoding="UTF-8") as fi:
-            lines = filter(None, (line.rstrip() for line in fi))
-            for line in lines:
-                if not line.startswith('###'):
-                    try:
-                        #spaces?
-                        #(key, val) = line.rstrip().replace(" ", "").split("=")
-                        (key, val) = line.rstrip().split("=")
-                        config_dict[key] = val
-                    except Exception as e:
-                        print("Error with line in config: " + line + " Skipping.", file=sys.stderr)
-        fi.close()
-    return config_dict
-
 def load_config():
     config_dict = {}
     config_filename = "oldglory_config2.cfg"
@@ -462,17 +428,6 @@ def test_config():
     config.optionxform = str
     config.read("oldglory_config2.cfg")
     return config
-
-
-def write_config_OLD(config_dict):
-    with open("oldglory_config.cfg", "w", newline='', encoding="UTF-8") as config_file:
-        for config in config_dict:
-            line_to_write = config + "=" + str(config_dict[config]) + OS_line_ending()
-            if line_to_write == "=\n":
-                line_to_write = OS_line_ending()
-            config_file.write(line_to_write)
-    config_file.close()
-
 
 def write_config(config_dict = DEFAULT_CONFIG):
     config = configparser.ConfigParser()
@@ -533,45 +488,7 @@ SETTING_MAP = {
     "ClassicStyling" : {"filename" : "classic"},
     "ThemeSelected" : ""
 }
-
-def write_css_settings_OLD(settings, settings_values, root_config): 
-    try:
-        with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
-             open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
-
-            import_prefix = '@import "./'
-            start_comment = '//'
-            modify = 0
-            startreading = 0
-            for line in f:
-                if "../themes/" not in line or import_prefix in line:
-                    for setting in settings_values:
-                        if 'filename' in SETTING_MAP[setting]:
-                            if import_prefix + SETTING_MAP[setting]['filename'] in line:
-                                if line.startswith(start_comment):
-                                    if settings_values[setting] == 1 and setting in settings:
-                                        modify = 1
-                                        f1.write(line.split(start_comment)[1].lstrip())
-                                else:    
-                                    if settings_values[setting] == 0:
-                                        modify = 1
-                                        f1.write(start_comment + " " + line)
-                    if modify == 0:
-                        f1.write(line)
-                    modify = 0
-                else:
-                    f1.write(line)
-        f.close()
-        f1.close()
-        
-        ###
-        shutil.move("scss/libraryroot.custom.scss", "scss/libraryroot.custom.scss.backup1")
-        shutil.move("scss/libraryroot.custom.temp.scss", "scss/libraryroot.custom.scss")
-            
-    except:
-        print("Error enabling/disabling CSS modules.", file=sys.stderr)
-        print_traceback()
-        
+       
 def write_css_settings(settings): 
     try:
         with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \

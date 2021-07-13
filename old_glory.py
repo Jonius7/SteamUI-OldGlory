@@ -253,7 +253,6 @@ class StartPage(tk.Frame):
             tags=["CSS"])
         mainoption2 = mo2.returnMainOption()
         mainoption2.grid(row=1, column=1, sticky='w')
-
         
         ######
         self.var3 = tk.IntVar()
@@ -270,7 +269,6 @@ class StartPage(tk.Frame):
             tags=["CSS", "JS"])
         mainoption3 = mo3.returnMainOption()
         mainoption3.grid(row=2, column=1, sticky='w')
-        
         
         ######
         self.var4 = tk.IntVar()
@@ -330,12 +328,6 @@ class StartPage(tk.Frame):
         self.dropdown6.current(0)
         self.dropdown6.bind("<<ComboboxSelected>>", lambda event: dropdown_click(event, self, self.controller))
         self.dropdown6.grid(row=6, column=1, columnspan=2, sticky="w")
-        
-        
-        ###
-        #label_end = tk.Label(self.frameCheck, height=0)
-        #label_end.grid(row=7, column=0, columnspan=2)
-
 
         ######
         self.var7 = tk.IntVar()
@@ -1043,35 +1035,38 @@ class PresetFrame(tk.Frame):
                     _p.returnPresetOption().grid(row=i // 3, column=i % 3, padx=(5,0), pady=(0,18), sticky="nw")
                     self.presetOptions[presetOption] = _p
 
-                ### Links frame
-                frameLinks = tk.Frame(self.framePreset)
-                #
-                var_file_path = os.path.join(os.getcwd(), "variables.css")
-                button_vars = ttk.Button(frameLinks,
-                                   text="Open variables file",
-                                   width=16
-                )
-                button_vars.bind("<Button-1>", lambda event:backend.OS_open_file(var_file_path))
-                button_vars.grid(row=0, column=0, padx=(5,0), pady=(0,5))
-
-                #
-                scss_file_path = os.path.join(os.getcwd(), "scss", "libraryroot.custom.scss")
-                button_scss = ttk.Button(frameLinks,
-                                   text="Open scss file",
-                                   width=16
-                )
-                button_scss.bind("<Button-1>", lambda event:backend.OS_open_file(scss_file_path))
-                button_scss.grid(row=1, column=0, padx=(5,0), pady=(0,5))
-
-                #
-                last_option_num = len(self.controller.json_data["quickCSS"])
-                frameLinks.grid(row=last_option_num // 3, column=last_option_num % 3, padx=(5,0))
+                self.createFrameLinks()
                     
             else:
                 raise Exception("Property quickCSS in JSON file not found.\n"\
                                 "Unable to load Quick CSS Options.")
         except:
             print_traceback()
+            
+    def createFrameLinks(self):
+        ### Links frame
+        frameLinks = tk.Frame(self.framePreset)
+        #
+        var_file_path = os.path.join(os.getcwd(), "variables.css")
+        button_vars = ttk.Button(frameLinks,
+                            text="Open variables file",
+                            width=16
+        )
+        button_vars.bind("<Button-1>", lambda event:backend.OS_open_file(var_file_path))
+        button_vars.grid(row=0, column=0, padx=(5,0), pady=(0,5))
+
+        #
+        scss_file_path = os.path.join(os.getcwd(), "scss", "libraryroot.custom.scss")
+        button_scss = ttk.Button(frameLinks,
+                            text="Open scss file",
+                            width=16
+        )
+        button_scss.bind("<Button-1>", lambda event:backend.OS_open_file(scss_file_path))
+        button_scss.grid(row=1, column=0, padx=(5,0), pady=(0,5))
+
+        #
+        last_option_num = len(self.controller.json_data["quickCSS"])
+        frameLinks.grid(row=last_option_num // 3, column=last_option_num % 3, padx=(5,0))
 
     def clearPresetOptions(self):
         self.presetOptions.clear()

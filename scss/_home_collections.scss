@@ -62,13 +62,12 @@
 
 /* Remove transitioning on game images when scrolling */
 .appportrait_PortraitImage_2IYf7 {
-
-  transition-duration: var(--GameImageTransition) !important;
   transition-timing-function: unset;
 }
 
 /* Background color behind game images */
 .appportrait_LibraryItemBox_WYgDg {
+  transition-duration: var(--GameImageTransition) !important;
   background-color: var(--GameGridImageBackground);
 }
 
