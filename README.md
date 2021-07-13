@@ -44,7 +44,7 @@ Condensed sidebar buttons <br>
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 - Select the options you want to use, then click **Install**.
 - [Release 5.5] [If using Shiina's steam-library theme:](https://i.imgur.com/1cSW7iI.png)
-- [18 May] Steam Client update is out. OldGlory should prompt you to download the new `fixes.txt` file. You'll also need to use the "Remake JS" option in Settings if you were previously using any JS tweaks.
+- [13 Jul 2021] Steam Client has been updated. OldGlory should prompt you to download the new `fixes.txt` file. You'll also need to use the "Remake JS" option in Settings if you were previously using any JS tweaks.
 - To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix).
 
 ##### **Manual Editing** (CSS/SCSS)
