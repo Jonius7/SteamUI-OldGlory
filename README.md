@@ -6,7 +6,7 @@ Check [`/dev`](https://github.com/Jonius7/SteamUI-OldGlory/tree/dev) branch for 
 
 On Steam Beta? Check [`/beta`](https://github.com/Jonius7/SteamUI-OldGlory/tree/beta) branch for some files you may need.
 
-### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) | [Quick Guide](https://github.com/Jonius7/SteamUI-OldGlory#quick-guide) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) | [Troubleshooting](https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting)
+### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) | [Quick Guide](https://github.com/Jonius7/SteamUI-OldGlory#quick-guide) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) | [Known Issues](https://github.com/Jonius7/SteamUI-OldGlory/issues/6) | [Troubleshooting](https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting)
 
 ### Video Guide and GIF
 
