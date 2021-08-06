@@ -59,6 +59,9 @@ switch (t) {~~case 38:  case 13: return this.RunApp(g.a.currentGameListSelection
 ###var e = this.props.expand ? P_.a.AppDetailsExpanded : P_.a.AppDetailsCollapsed,  var e = this.props.expand ? P_.a.AppDetailsCollapsed : P_.a.AppDetailsExpanded,
 ###t = this.props.expand ? this.state.gameInfoHeight : 0;  t = this.props.expand ? 0 : this.state.gameInfoHeight;
 
+### === Dim Uninstalled Games ===
+onContextMenu: this.OnContextMenu,~~hoverDelay: 300,  hoverDelay: 300, style: this.props.app.installed ? {} : {opacity: "var(--UninstalledGameImageOpacity)"},
+
 ### === **Experimental** Don't load HOME game images, only alt text ===
 ###!!t && this.BDisplayTitle() && D.createElement("span"  D.createElement("span"
 ###className: so.a.Image,  className: so.a.Image, /*
