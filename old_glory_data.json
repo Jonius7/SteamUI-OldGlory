@@ -2,7 +2,7 @@
 	"CSSVariableString": "/* ===== SteamUI-OldGlory will insert CSS Variables from variables.css here ==== */",
 	"CSSBeforeThemes": "// Themes applied before CSS Tweaks",
 	"CSSAfterThemes": "// Themes applied after CSS Tweaks",
-	"lastPatchedDate": "2021-06-30T03:08:05Z",
+	"lastPatchedDate": "2021-08-06T12:23:26Z",
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",
@@ -86,7 +86,7 @@
 		"gamepage_broadcasts": {
 			"name": "Gamepage Broadcasts",
 			"description": "CSS for the Broadcasts section"
-		},		
+		},
 		"gamepage_navbar": {
 			"name": "Gamepage Nav Bar",
 			"description": "CSS for the navigation bar"
@@ -100,27 +100,39 @@
 			"description": "CSS for Game Properties layout (incl. DLC Manager)"
 		},
 		"module_landscapegameimages": {
-			"tags": ["JS", "Advanced"],
+			"tags": ["JS","Advanced"],
 			"name": "[Module] Landscape Game Images",
 			"description": "(Requires JS) CSS for Horizontal Game Images"
 		},
 		"module_listview": {
-			"tags": ["JS", "Advanced", "Experimental"],
+			"tags": [
+				"JS",
+				"Advanced",
+				"Experimental"
+			],
 			"name": "[Module] List View",
 			"description": "(EXPERIMENTAL) (Requires JS) CSS for List view implementation"
 		},
 		"module_playbarbox": {
-			"tags": ["Advanced"],
+			"tags": [
+				"Advanced"
+			],
 			"name": "[Module] Play Bar Box",
 			"description": "CSS for Play Bar pulled up into box (in gamepage header)"
 		},
 		"module_verticalnavbar": {
-			"tags": ["JS", "Advanced"],
+			"tags": [
+				"JS",
+				"Advanced"
+			],
 			"name": "[Module] Vertical Nav Bar",
 			"description": "(Requires JS) CSS for enabling a vertical navigation bar"
 		},
 		"module_classiclayout": {
-			"tags": ["JS", "Advanced"],
+			"tags": [
+				"JS",
+				"Advanced"
+			],
 			"name": "[Module] Classic Layout",
 			"description": "(Requires JS) (Requires Vertical Nav Bar) CSS for enabling classic layout"
 		},
