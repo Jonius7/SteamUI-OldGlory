@@ -82,8 +82,8 @@ Condensed sidebar buttons <br>
 
 In **Advanced -> Quick Links**:
 
-- **Open OldGlory folder -  open the OS file explorer to the main folder where OldGlory and files are located . 
-- **Open steamui folder - open the `steamui` folder within ` Program Files/Steam` where the library files are located.
+- **Open OldGlory folder** -  open the OS file explorer to the main folder where OldGlory and files are located . 
+- **Open steamui folder** - open the `steamui` folder within ` Program Files/Steam` where the library files are located.
 - **Apply config.css**: This option has been added to accommodate those who might have their own `config.css` in `[steamdir]/steamui` already. If you are instead editing the `config.css` in `themes/`, clicking this button will copy `config.css` over to `[steamdir]/steamui`.
   - This may change in the future
 

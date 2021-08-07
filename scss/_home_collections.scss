@@ -77,7 +77,8 @@
 }
 
 /* Grid - Uninstalled game image opacity */
-.appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(2) {
+
+/*.appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(2) {
   opacity: var(--UninstalledGameImageOpacity);
 }
 
@@ -85,10 +86,10 @@
   opacity: var(--UninstalledGameImageOpacity);
 }
 
-/* More precise uninstalled game image opacity but doesn't cover all areas */
+ More precise uninstalled game image opacity but doesn't cover all areas 
 .appportrait_Draggable_1pwP4 > :nth-last-of-type(3) {
   //opacity: var(--UninstalledGameImageOpacity);
-}
+}*/
 
 /* Add bottom padding for shelf */
 .cssgrid_CSSGrid_3vHkm.libraryhomeshowcases_ShowcaseGrid_3DJLG {

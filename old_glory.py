@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.10.4"
-        self.release = "5.7.1.1"
+        self.version = "v0.9.10.7"
+        self.release = "5.7.2"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -865,9 +865,9 @@ def run_js_tweaker(text_area, reset=0):
         js_tweaker.initialise()
         js_tweaker.copy_files_from_steam(reset)
         text_area.update_idletasks()
-        js_tweaker.beautify_js()
-        text_area.update_idletasks()
         js_tweaker.setup_library()
+        text_area.update_idletasks()
+        js_tweaker.beautify_js()
         text_area.update_idletasks()
         js_tweaker.parse_fixes_file("fixes.txt")
         text_area.update_idletasks()
