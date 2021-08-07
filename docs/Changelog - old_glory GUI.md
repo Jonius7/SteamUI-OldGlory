@@ -1,5 +1,11 @@
 ## SteamUI-OldGlory GUI Changelog
 
+**0.9.11.0** **(Release 5.7.3)** Now using tweaked JS in `librery.js` (original file `library.js`)
+
+**0.9.10.7** **(Release 5.7.2)** Changed order of js tweaking (also fixes nasty bug "invariant failed...")
+
+0.9.10.4 **(Release 5.7.1.1)**
+
 0.9.10.1	(5.7-pre1) Simpler config/parsing writing code (Part 1)
 
 0.9.9.10	(5.6.5-pre3)

@@ -94,11 +94,11 @@ def setup_library(reset=0):
         if not os.path.isfile("library.js"):
             shutil.copy2(library_dir() + "/library.js", "library.js")
         if reset == 0:
-            print("library.js changing to use tweaked JS.")
+            print("library.js changing to use tweaked JS. (librery.js)")
             modify_library(swap_js)        
         elif reset == 1: #revert library.js to use original libraryroot.js file
             print("library.js reverting to use original JS.")
-            modify_library(swapback_js)
+            reset_html()
     except:
         error_exit("Error setting up library.js")
         
@@ -115,16 +115,53 @@ def modify_library(swap_js_array):
                     if new_line != line:
                         modified = 1
                 lines.append(new_line)
-        with open('library.js', 'w', encoding="UTF-8") as outfile:
-            for line in lines:
-                outfile.write(line)
         infile.close()
-        outfile.close()
         if modified == 1:
-            shutil.copy2("library.js", library_dir() + "/library.js")
-            print("library.js copied over to " + library_dir() + "/library.js")
+            with open('librery.js', 'w', encoding="UTF-8") as outfile:
+                for line in lines:
+                    outfile.write(line)
+            
+            outfile.close()        
+            shutil.copy2("librery.js", library_dir() + "/librery.js")
+            print("librery.js copied over to " + library_dir() + "/librery.js")
     except:
         error_exit("library.js not found")
+
+def modify_html():
+    html_array = {"/library.js": "/librery.js"}
+    
+    try:
+        lines = []
+        modified = 0
+        with open(library_dir() + "/index.html", encoding="UTF-8") as infile:
+            for line in infile:
+                for src, target in html_array.items():
+                    new_line = re.sub(src, target, line)
+                    if new_line != line:
+                        modified = 1
+                lines.append(new_line)
+        infile.close()
+        if modified == 1:
+            with open(library_dir() + "/index.html.temp", 'w', encoding="UTF-8") as outfile:
+                for line in lines:
+                    outfile.write(line)            
+            outfile.close()
+            
+            shutil.move(library_dir() +"/index.html", library_dir() + "/index.html.original")
+            shutil.move(library_dir() +"/index.html.temp", library_dir() + "/index.html")
+            print("index.html changing to use tweaked JS.")
+            print("index.html backup created at " + library_dir() + "/index.html.original")
+    except:
+        error_exit("index.html unable to be patched.")
+
+def reset_html():
+    try:
+        if os.path.isfile(library_dir() + "/index.html.original"):
+            shutil.move(library_dir() + "/index.html.original", library_dir() + "/index.html")
+            print(library_dir() + "/index.html replaced with backup: " + "index.html.original")
+    except:
+        error_exit("Unable to reset index.html")
+            
 
 def parse_fixes_file(filename):
     '''
@@ -209,14 +246,14 @@ def re_minify_file():
             js_min_file.write(minified)
         js_file.close()
         js_min_file.close()
-        print("\nJS Minify complete.")
+        print("\nJS Minify complete. (libraryreet.js)")
     except:
         error_exit("Error completing JS minify.")
     
 def copy_files_to_steam():
     try:
         if LOCAL_DEBUG == 0:
-            files_to_copy = ["library.js", "libraryreet.js"]
+            files_to_copy = ["librery.js", "libraryreet.js"]
             for filename in files_to_copy:
                 shutil.copy2(filename, library_dir() + "/" + filename)
                 print("File " + filename + " written to " + library_dir())
@@ -240,6 +277,7 @@ def main():
     initialise()
     copy_files_from_steam()
     setup_library()
+    modify_html()
     beautify_js()    
     parse_fixes_file("fixes.txt")
     write_modif_file()
