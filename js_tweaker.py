@@ -74,8 +74,10 @@ def beautify_js():
             print("Opening JS file and beautifying...")
             if not os.path.isfile("libraryroot.js"):
                 shutil.copy2(library_dir() + "/libraryroot.js", "libraryroot.js")
-            
-            library = jsbeautifier.beautify_file("libraryroot.js")
+
+            opts = jsbeautifier.default_options()
+            #opts.eol = ""
+            library = jsbeautifier.beautify_file("libraryroot.js", opts)
 
             f = open("libraryroot.beaut.js", "wt", newline='', encoding="UTF-8")
             print("Writing beautified file... please do not close")
@@ -237,8 +239,8 @@ def main():
     print("JS Tweaker for Steam Library UI by Jonius7\n")
     initialise()
     copy_files_from_steam()
-    beautify_js()
     setup_library()
+    beautify_js()    
     parse_fixes_file("fixes.txt")
     write_modif_file()
     re_minify_file()
