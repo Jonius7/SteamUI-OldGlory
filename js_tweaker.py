@@ -1,14 +1,21 @@
-#JS Tweaker for Steam Library UI by Jonius7
-#libraries needed: jsbeautifier, jsmin
+'''
+js_tweaker.py\n
+JS Tweaker for Steam Library UI by Jonius7\n
+Handles the applying process of JS tweaks
+
+libraries needed: jsbeautifier, jsmin
+'''
 
 import jsbeautifier
+from jsmin import jsmin
+import yaml
+
 import platform
 import os
 import sys
 import shutil
 import traceback
 import re
-from jsmin import jsmin
 import time
 
 LOCAL_DEBUG = 0 #Set to 1 to not copy files to/from Steam directory
@@ -28,9 +35,11 @@ swapback_js = {'"libraryreet"\}\[([a-z])\]\|\|([a-z])': '"libraryroot"}[\\1]||\\
             }
 
 fixes_dict = {}
+yaml_data = {}
 
 def initialise():
     fixes_dict.clear() #not fixes_dict = {}
+    yaml_data.clear()
 
 def library_dir():
     try:
@@ -200,6 +209,16 @@ def parse_fixes_file(filename):
     except Exception as e:
         error_exit("Error found while parsing fixes file: " + e)
 
+class YamlHandler:
+    def __init__(self, filename):
+        self.filename = filename
+        self.data = self.parse_yaml_file()
+        
+    def parse_yaml_file(self):
+        with open(self.filename, newline='', encoding="UTF-8") as f:
+            data = yaml.load(f, Loader=yaml.FullLoader)
+            return data
+
 def find_fix(line, fix):
     m_line = line.replace(fix, fixes_dict[fix]["replace"])
     #print("FIX: ", end = '')
@@ -213,8 +232,11 @@ def find_fix_with_variable(line, fix):
     #for lv in res:
     print("todo")
         
+def write_modif_file(data):
+    print("todo yaml write")
+    pass
 
-def write_modif_file():
+def write_modif_file_OLD():
     try:
         with open("libraryroot.beaut.js", "r", newline='', encoding="UTF-8") as f, \
              open("libraryroot.modif.js", "w", newline='', encoding="UTF-8") as f1:
@@ -255,8 +277,11 @@ def copy_files_to_steam():
         if LOCAL_DEBUG == 0:
             files_to_copy = ["librery.js", "libraryreet.js"]
             for filename in files_to_copy:
-                shutil.copy2(filename, library_dir() + "/" + filename)
-                print("File " + filename + " written to " + library_dir())
+                if os.path.exists(filename):
+                    shutil.copy2(filename, library_dir() + "/" + filename)
+                    print("File " + filename + " written to " + library_dir())
+                else:
+                    print("File " + filename + " does not exist, skipping.", file=sys.stderr)
                 
     except FileNotFoundError:
         error_exit("Files not found!\n" \
@@ -280,7 +305,7 @@ def main():
     modify_html()
     beautify_js()    
     parse_fixes_file("fixes.txt")
-    write_modif_file()
+    write_modif_file_OLD()
     re_minify_file()
     copy_files_to_steam()
     print("\nSteam Library JS Tweaks applied successfully.")

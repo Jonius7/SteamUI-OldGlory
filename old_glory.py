@@ -880,7 +880,7 @@ def run_js_tweaker(text_area, reset=0):
         text_area.update_idletasks()
         js_tweaker.parse_fixes_file("fixes.txt")
         text_area.update_idletasks()
-        js_tweaker.write_modif_file()
+        js_tweaker.write_modif_file_OLD()
         #text_area.update_idletasks()
         js_tweaker.re_minify_file()
         text_area.update_idletasks()

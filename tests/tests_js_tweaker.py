@@ -2,6 +2,7 @@ import unittest
 import sys
 from pathlib import Path
 sys.path.append(str(Path('.').absolute().parent))
+import backend
 import js_tweaker
 
 #CSS Line Parser
@@ -54,6 +55,11 @@ class TestCopyFilesFromSteam(unittest.TestCase):
 
     def test_find_fixes_variables(self):
         js_tweaker.find_fix_with_variable("$^: $^ * $^", "\\1: (\\3 - 10) * $^")
+
+    def test_parse_yaml(self):
+        #yaml = js_tweaker.YamlHandler.parse_yaml_file(sys.path[0] + "/../js_tweaks.yml")
+        yaml = js_tweaker.YamlHandler(sys.path[0] + "/../js_tweaks.yml")
+        return yaml
 
 if __name__ == '__main__':
     unittest.main()
