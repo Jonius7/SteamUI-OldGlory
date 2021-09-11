@@ -1,3 +1,8 @@
+'''
+backend.py
+Handles the backend for applying CSS and checking for updates
+'''
+
 import platform
 import os
 import sys
@@ -50,6 +55,7 @@ DEFAULT_CONFIG = {
         "StickyBackgroundImage" : "1",
         "PressEnterToLaunchGames" : "1",
         "ExpandShowMoreDetails" : "0",
+        "DimUninstalledGames" : "1",
         "DontLoadHomeGameImages" : "0",
         "DontLoadGamePageSections" : "0",
     } 

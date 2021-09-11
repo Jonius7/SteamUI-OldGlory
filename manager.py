@@ -1,3 +1,8 @@
+'''
+manager.py
+Handles the functions that run with clicking Install in the GUI
+'''
+
 import tkinter as tk
 import tkinter.font as TkFont
 from tkinter import ttk
@@ -107,6 +112,9 @@ def set_js_config(controller, settings):
             js_name = SETTINGS_MAP[setting]["JS_name"]
             controller.js_config[js_name] = str(settings[setting]["value"])
             controller.frames["PageTwo"].js_gui.checkvars[js_name].set(settings[setting]["value"])
+        else:
+            print("ERROR KEYSETTINGS")
+            old_glory.print_traceback()
     return settings
 
 def apply_special_js_config(controller):       

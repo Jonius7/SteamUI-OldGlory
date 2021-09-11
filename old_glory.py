@@ -1,3 +1,8 @@
+'''
+old_glory.py
+Handles all the GUI functions for OldGlory
+'''
+
 import tkinter as tk
 import tkinter.font as TkFont
 from tkinter import ttk
@@ -21,7 +26,10 @@ import custom_tk
 
 
 OS_TYPE = platform.system()
-DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
+
+# Only useful for debugging purposes, set to True
+# Outputs STDOUT/STDERR before Log frame is created
+DEBUG_STDOUT_STDERR = False
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -188,10 +196,11 @@ class StartPage(tk.Frame):
         self.pack_frames()
 
     def create_log_frame(self):
-    ### LOG FRAME
-    ### Defined first even though it will be packed after the CHECK FRAME,
-    ### due to redirecting StdOut
-    ###
+        '''
+        LOG FRAME
+        Defined first even though it will be packed after the CHECK FRAME,
+        due to redirecting StdOut
+        '''
         self.frameLog = tk.Frame(self, 
                             width=self.controller.windowW-50, 
                             height=self.controller.windowH-450)
@@ -382,7 +391,7 @@ class StartPage(tk.Frame):
                               text="Apply config.css",
                               width=22
         )
-        button3_tip = custom_tk.Detail_tooltip(pbutton3,
+        custom_tk.Detail_tooltip(pbutton3,
                                      "If you have modifed themes/config.css for steam-library,\n" \
                                      "click here to copy it over to steamui",
                                      hover_delay=200)
@@ -746,9 +755,7 @@ def release_check(page, current_release):
     except socket.timeout:
         print("Update check timeout!", file=sys.stderr)
     except Exception as e:
-        print("Unable to check for latest release!", file=sys.stderr)
-        print(e.message, file=sys.stderr)
-    
+        print("Unable to check for latest release!", file=sys.stderr)    
 
    
 ### Checkbox Validation - Disable
@@ -1252,12 +1259,12 @@ class JSFrame(tk.Frame):
     def js_click(self, controller, fixname):
         try:
             controller.js_config[fixname] = str(self.checkvars[fixname].get())
-            self.controller.js_gui_changed = 1
+            self.controllder.js_gui_changed = 1
             #print(controller.js_config)
-        except Exception as e:
-            print("Error setting config :\n"\
-                  "Fix:   " + fixname +\
-                  "Value: " + str(value), file=sys.stderr)
+        except Exception:
+            print("Error setting config:\n"\
+                  "  Fix:   " + fixname + "\n"\
+                  "  Value: " + str(controller.js_config[fixname]), file=sys.stderr)
             
     def create_frameJSInner(self, controller):
         rownum = 1
