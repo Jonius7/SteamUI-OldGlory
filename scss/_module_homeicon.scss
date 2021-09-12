@@ -6,7 +6,7 @@ Adapted from LIGHT-UI by Angelo*/
 }
 
 .gamelisthome_Bar_3pSPl:hover .gamelisthome_Label_3O48L {
-    color: transparent !important;
+    color: transparent;
     filter: brightness(300%) !important;
     
 }
@@ -16,8 +16,8 @@ Adapted from LIGHT-UI by Angelo*/
 }
 
 .gamelisthome_Bar_3pSPl .gamelisthome_Label_3O48L {
-    transition: filter 0.3s ease-in-out !important;
-    color: transparent !important;
+    transition: filter 0.3s ease-in-out;
+    color: transparent;
     background-image: url(https://i.imgur.com/AAFscfG.png) !important;
     background-size: 20px !important;
     background-repeat: no-repeat !important;
