@@ -28,12 +28,18 @@
     margin-left: 0px !important;
 }
 
+/* Stop conflict with homeicon */
 .gamelisthome_Bar_3pSPl:hover .gamelisthome_Label_3O48L {
-    color: unset !important;    
+    color: unset !important;
+    filter: unset !important;  
 }
 .gamelisthome_Bar_3pSPl .gamelisthome_Label_3O48L {
     color: unset !important;
 }
+.gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L {
+    filter: unset !important;
+}
+
 .gamelistdropdown_Bar_1ZS_x {
     margin-left: 0px;
     margin-top: unset !important;
