@@ -4,6 +4,7 @@ from pathlib import Path
 sys.path.append(str(Path('.').absolute().parent))
 import backend
 import js_tweaker
+import datetime
 
 #CSS Line Parser
 class TestCopyFilesFromSteam(unittest.TestCase):
@@ -61,5 +62,24 @@ class TestCopyFilesFromSteam(unittest.TestCase):
         yaml = js_tweaker.YamlHandler(sys.path[0] + "/../js_tweaks.yml")
         return yaml
 
+    def test_retrieve_find(self):
+        yaml = self.test_parse_yaml()
+        start_time = datetime.datetime.now()
+        for fix in yaml.data:
+            for find in yaml.data[fix]["strings"]:
+                    #print(find)
+                    pass
+        end_time = datetime.datetime.now()
+        print(end_time - start_time)
+
+    def test_parse_old_fixes(self):
+        start_time = datetime.datetime.now()
+        js_tweaker.parse_fixes_file('fixes.txt')
+        end_time = datetime.datetime.now()
+        print(end_time - start_time)
+
+    def test_write_modif(self):
+        pass
+        
 if __name__ == '__main__':
     unittest.main()

@@ -205,33 +205,31 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
 
 ## What's New?
 >
->#### Release 5.5
+>#### Release 5.7.3
 >
->- (GUI) NEW Expanded CSS Options page:
->   - **What's New** 	**Game List Zoom** 	**Show Left Sidebar** 	**Glare/Shine** 
->   - **Game Image Transition** 	**Home Page Grid Spacing**
->   - **Game Page Layout** 	**Game Image Opacity** 
->- CSS enhancements
->  - NEW Classic Steam appearance CSS (WIP)
->  - NEW Game Properties - horizontal tab bar
+>- Fix "Invariant failed" bug on Steam Beta
+>   - Tweaked JS code now using `librery.js` instead of modifying `library.js`
+>   - `index.html` `src` tag pointing to `librery.js`
+> 
+>[Compare with Release 5.7.2](https://github.com/Jonius7/SteamUI-OldGlory/compare/Release_5.7.2...Release_5.7.3) | [Release 5.7.2 Changelog](https://github.com/Jonius7/SteamUI-OldGlory/releases/Release_5.7.2)
+> 
+> [VirusTotal](https://www.virustotal.com/gui/file/bdfa7d1ae840f38a074fa3c0d71d69c4e7dd3a50bbeff12c5a8c114d1129a0cf/detection)
 >  
->- NEW JS tweaks:
->  - Smoother HOME page Scrolling
->  - Game Header: sticky background position and spillover into sidebar
->  - (*Experimental*) Don't load HOME game images, only alt text
->  - (*Experimental*) Load only essential parts of Game Page (Play Bar and Navigation Bar)
->  
->- JS tweaks `fixes.txt` can now use previous line of JS to search for the line you want. Just separate the two lines with `~~`
->
->- NEW Auto-update feature for small file updates 
->  - CSS: `scss/` folder, `variables.css`, `themes/` folder	
->  - JS: `fixes.txt`		JSON: `old_glory_data.json`
->
->[More details...](https://github.com/Jonius7/SteamUI-OldGlory/releases)
->
 >---
+> 
+> ### Future Updates:
+> The JS Tweaks are due a rework in multiple areas:
+> - switching to YAML (`.yml`) format
+>    - This allows me to store more metadata for the GUI to display, and to be more readable
+>- switching from Python `replace` to using Regex `re` to find and replace JS strings
+>  - As the obfuscated JS "1-letter variables" change nearly every Steam update, maintenance of the tweaks is required to keep up.
+>  - Instead if Regex `[a-z]` was used, then the variables could be any letter and the tweak would not have to updated nearly as often.
+> - More custom "special symbols" that mean different things in order to "find" code more precisely
+>   - currently the only "special symbol" in use is `~~` ([More Information](https://github.com/Jonius7/SteamUI-OldGlory#manual-editing-js---fixestxt))
+>  - Will release a guide infographic when I finalise multiple new "special symbols", including being able to search 5 lines back for a particular piece of code.
+>  - This will allow the extra tweaks of `More Context Menu Items` and `Collapse Game Page Sections` to be effectively applied using OldGlory (currently requires manual modifying) [More Details](https://github.com/Jonius7/SteamUI-OldGlory/wiki/Advanced-JS-Tweaks)
 >
->[Compare with Release 5.0.1](https://github.com/Jonius7/SteamUI-OldGlory/compare/Release_5.0.1...Release_5.5) | [Changelog](https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_5.5)
+>- https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_5.5)
 >
 >
 
@@ -323,3 +321,5 @@ Limitation that the script reads `libraryroot.beaut.js` line by line, so some co
 `js_tweaker` will use `libraryroot.beaut.js` if it already exists. This means:
 
 - you can experiment in `libraryroot.beaut.js` (make a backup first) and delete it afterwards if you want to go back to the clean version `libraryroot.beaut.js`
+
+**New (5.7.3)** `library.js` is also now being used. The modified file is called `librery.js`

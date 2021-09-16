@@ -217,8 +217,23 @@ class YamlHandler:
     def parse_yaml_file(self):
         with open(self.filename, newline='', encoding="UTF-8") as f:
             data = yaml.load(f, Loader=yaml.FullLoader)
-            return data
+        f.close()
+        return data
 
+def raw_text(str_text):
+    '''
+    may not be needed \n
+    takes a string and return a "raw string" version of it
+    '''
+    raw_text = [str_text]
+    str_text = "%r"%str_text
+    raw_text = str_text[1:-1]
+    return raw_text
+
+def regex_search(pattern_str, string):
+    return re.search(re.escape(pattern_str), string)
+    
+    
 def find_fix(line, fix):
     m_line = line.replace(fix, fixes_dict[fix]["replace"])
     #print("FIX: ", end = '')
@@ -234,6 +249,21 @@ def find_fix_with_variable(line, fix):
         
 def write_modif_file(data):
     print("todo yaml write")
+    try:
+        with open("libraryroot.beaut.js", "r", newline='', encoding="UTF-8") as f, \
+             open("libraryroot.modif.js", "w", newline='', encoding="UTF-8") as f1:
+            prev_line = ""
+            for line in f:
+                modified = 0
+                for fix in data:
+                    for find in data[fix]["strings"]:
+                        #find method, to be replaced by regex
+                        pass
+        f.close()
+        f1.close()
+    except:
+        pass
+    
     pass
 
 def write_modif_file_OLD():

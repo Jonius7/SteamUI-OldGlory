@@ -1259,7 +1259,7 @@ class JSFrame(tk.Frame):
     def js_click(self, controller, fixname):
         try:
             controller.js_config[fixname] = str(self.checkvars[fixname].get())
-            self.controllder.js_gui_changed = 1
+            self.controller.js_gui_changed = 1
             #print(controller.js_config)
         except Exception:
             print("Error setting config:\n"\
