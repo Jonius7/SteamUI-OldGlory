@@ -172,7 +172,7 @@ def reset_html():
         error_exit("Unable to reset index.html")
             
 
-def parse_fixes_file(filename):
+def parse_fixes_file_OLD(filename):
     '''
     look through fixes file and add fixes to fixes_dict
     '''
@@ -230,8 +230,13 @@ def raw_text(str_text):
     raw_text = str_text[1:-1]
     return raw_text
 
+def escaped_pattern(pattern_str):
+    str = re.escape(pattern_str)
+    #str = re.sub('\\\\([0-9]+)', '\\1', str)
+    return str
+
 def regex_search(pattern_str, string):
-    return re.search(re.escape(pattern_str), string)
+    return re.search(escaped_pattern(pattern_str), string)
 
 def semantic_find_str(find_str):
     semantic = {"replace" : find_str}
@@ -239,23 +244,9 @@ def semantic_find_str(find_str):
         t = find_str.split("~~")
         if len(t) == 2:
             semantic = {"prev" : t[0],
-                                "replace" : t[1]}
+                        "replace" : t[1]}
     return semantic
     
-    
-def find_fix(line, fix):
-    m_line = line.replace(fix, fixes_dict[fix]["replace"])
-    #print("FIX: ", end = '')
-    #print(m_line.strip())
-    #print(fixes_dict[fix]["replace"])
-    print("FIX: " + m_line.strip())
-    return m_line
-
-def find_fix_with_variable(line, fix):
-    #res = [i.start() for i in re.finditer("\$\^", st)]
-    #for lv in res:
-    print("todo")
-        
 def write_modif_file(data):
     print("todo yaml write")
     try:
@@ -264,9 +255,9 @@ def write_modif_file(data):
             prev_line = ""
             for line in f:
                 modified = 0
-                for fix in data:
-                    if "strings" in data[fix]:
-                        for find_repl in data[fix]["strings"]:
+                for tweak in data:
+                    if "strings" in data[tweak]:
+                        for find_repl in data[tweak]["strings"]:
                             if "find" in find_repl:
                                 #print(find_repl["find"])
                                 if "prev" in semantic_find_str(find_repl["find"]):
@@ -275,7 +266,7 @@ def write_modif_file(data):
                                     
                         pass
                     else:
-                        print("Strings to find/replace not found in fix: " + fix + ", skipping")
+                        print("Strings to find/replace not found in tweak: " + tweak + ", skipping")
                 prev_line = line
         f.close()
         f1.close()
@@ -283,7 +274,7 @@ def write_modif_file(data):
         pass
     
     pass
-
+    
 def write_modif_file_OLD():
     try:
         with open("libraryroot.beaut.js", "r", newline='', encoding="UTF-8") as f, \
@@ -306,6 +297,19 @@ def write_modif_file_OLD():
         f1.close()
     except:
         error_exit("Error writing libraryroot.modif.js")
+        
+def find_fix(line, fix):
+    m_line = line.replace(fix, fixes_dict[fix]["replace"])
+    #print("FIX: ", end = '')
+    #print(m_line.strip())
+    #print(fixes_dict[fix]["replace"])
+    print("FIX: " + m_line.strip())
+    return m_line
+
+def find_fix_with_variable(line, fix):
+    #res = [i.start() for i in re.finditer("\$\^", st)]
+    #for lv in res:
+    print("todo")
 
 def re_minify_file():
     try:
@@ -354,7 +358,7 @@ def main():
         setup_library()
         modify_html()
         beautify_js()    
-        parse_fixes_file("fixes.txt")
+        parse_fixes_file_OLD("fixes.txt")
         write_modif_file_OLD()
         re_minify_file()
         copy_files_to_steam()

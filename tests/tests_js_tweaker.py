@@ -5,6 +5,7 @@ sys.path.append(str(Path('.').absolute().parent))
 import backend
 import js_tweaker
 import datetime
+import re
 
 #CSS Line Parser
 class TestCopyFilesFromSteam(unittest.TestCase):
@@ -74,7 +75,7 @@ class TestCopyFilesFromSteam(unittest.TestCase):
 
     def test_parse_old_fixes(self):
         start_time = datetime.datetime.now()
-        js_tweaker.parse_fixes_file('fixes.txt')
+        js_tweaker.parse_fixes_file_OLD('fixes.txt')
         end_time = datetime.datetime.now()
         print(end_time - start_time)
 
@@ -87,6 +88,9 @@ class TestCopyFilesFromSteam(unittest.TestCase):
 
     def test_semantic_2(self):
         print(js_tweaker.semantic_find_str('onContextMenu: this.OnContextMenu,hoverDelay: 300,'))
+
+    def test_regex_cap_groups(self):
+        print(re.sub('\\\\([0-9])+', '\\(\\1)', 'Object\\(\\\\1\\.\\\\2\\)\\(\\[\\\\3\\.\\\\4\\]'))
         
 if __name__ == '__main__':
     unittest.main()

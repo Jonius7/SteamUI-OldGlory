@@ -33,8 +33,8 @@ DEBUG_STDOUT_STDERR = False
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.11.0"
-        self.release = "5.7.3"
+        self.version = "v0.9.12.1"
+        self.release = "5.8-pre1"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -870,6 +870,7 @@ def run_js_tweaker(text_area, reset=0):
 
         ###
         js_tweaker.initialise()
+        text_area.update_idletasks()
         js_tweaker.copy_files_from_steam(reset)
         text_area.update_idletasks()
         js_tweaker.setup_library()
@@ -878,10 +879,10 @@ def run_js_tweaker(text_area, reset=0):
         text_area.update_idletasks()
         js_tweaker.beautify_js()
         text_area.update_idletasks()
-        js_tweaker.parse_fixes_file("fixes.txt")
+        js_tweaker.parse_fixes_file_OLD("fixes.txt")
         text_area.update_idletasks()
         js_tweaker.write_modif_file_OLD()
-        #text_area.update_idletasks()
+        text_area.update_idletasks()
         js_tweaker.re_minify_file()
         text_area.update_idletasks()
         js_tweaker.copy_files_to_steam()
