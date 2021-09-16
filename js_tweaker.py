@@ -232,6 +232,15 @@ def raw_text(str_text):
 
 def regex_search(pattern_str, string):
     return re.search(re.escape(pattern_str), string)
+
+def semantic_find_str(find_str):
+    semantic = {"replace" : find_str}
+    if "~~" in find_str:
+        t = find_str.split("~~")
+        if len(t) == 2:
+            semantic = {"prev" : t[0],
+                                "replace" : t[1]}
+    return semantic
     
     
 def find_fix(line, fix):
@@ -256,9 +265,18 @@ def write_modif_file(data):
             for line in f:
                 modified = 0
                 for fix in data:
-                    for find in data[fix]["strings"]:
-                        #find method, to be replaced by regex
+                    if "strings" in data[fix]:
+                        for find_repl in data[fix]["strings"]:
+                            if "find" in find_repl:
+                                #print(find_repl["find"])
+                                if "prev" in semantic_find_str(find_repl["find"]):
+                                    #print(find_repl["find"])
+                                    pass
+                                    
                         pass
+                    else:
+                        print("Strings to find/replace not found in fix: " + fix + ", skipping")
+                prev_line = line
         f.close()
         f1.close()
     except:
@@ -328,18 +346,20 @@ def error_exit(errormsg):
     sys.exit()
     
 def main():
-    print("JS Tweaker for Steam Library UI by Jonius7\n")
-    initialise()
-    copy_files_from_steam()
-    setup_library()
-    modify_html()
-    beautify_js()    
-    parse_fixes_file("fixes.txt")
-    write_modif_file_OLD()
-    re_minify_file()
-    copy_files_to_steam()
-    print("\nSteam Library JS Tweaks applied successfully.")
-    time.sleep(2)
+    DEBUG = True
+    if not DEBUG:
+        print("JS Tweaker for Steam Library UI by Jonius7\n")
+        initialise()
+        copy_files_from_steam()
+        setup_library()
+        modify_html()
+        beautify_js()    
+        parse_fixes_file("fixes.txt")
+        write_modif_file_OLD()
+        re_minify_file()
+        copy_files_to_steam()
+        print("\nSteam Library JS Tweaks applied successfully.")
+        time.sleep(1)
                 
 if __name__ == "__main__":
     main()

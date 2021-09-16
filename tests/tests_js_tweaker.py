@@ -79,7 +79,14 @@ class TestCopyFilesFromSteam(unittest.TestCase):
         print(end_time - start_time)
 
     def test_write_modif(self):
-        pass
+        yaml = self.test_parse_yaml()
+        js_tweaker.write_modif_file(yaml.data)
+
+    def test_semantic_1(self):
+        print(js_tweaker.semantic_find_str('onContextMenu: this.OnContextMenu,~~hoverDelay: 300,'))
+
+    def test_semantic_2(self):
+        print(js_tweaker.semantic_find_str('onContextMenu: this.OnContextMenu,hoverDelay: 300,'))
         
 if __name__ == '__main__':
     unittest.main()
