@@ -12,44 +12,6 @@ class TestCopyFilesFromSteam(unittest.TestCase):
 
     def test_reset1(self):
         js_tweaker.copy_files_from_steam(reset=1)
-    '''
-    def test_withdefault(self):
-        self.assertEqual(
-            backend.css_line_parser("  --WhatsNew: ace;  /* Default: block. Set to none to hide What's New */"),
-            {"name" : "--WhatsNew",
-             "default" : "block",
-             "current" : "ace",
-             "desc" : "Set to none to hide What's New"})
-        
-    def test_nodefault(self):
-        self.assertEqual(
-            backend.css_line_parser("  --WhatsNew: ace;  /* DSet to none to hide What's New */"),
-            {"name" : "--WhatsNew",
-             "default" : "ace",
-             "current" : "ace",
-             "desc" : "DSet to none to hide What's New"})
-        
-    def test_nodefault_noendcomment(self):
-        self.assertEqual(
-            backend.css_line_parser("  --WhatsNew: ace;  /* DSet to none to hide What's New"),
-            {"name" : "--WhatsNew",
-             "default" : "ace",
-             "current" : "ace",
-             "desc" : "DSet to none to hide What's New"})
-        
-    def test_nodefault_nostartcomment(self):
-        self.assertEqual(
-            backend.css_line_parser("  --WhatsNew: ace;   DSet to none to hide What's New */"),
-            None)
-
-    def test_comments_nospaces(self):
-        self.assertEqual(
-            backend.css_line_parser("  --WhatsNew:ace; /*DSet to none to hide What's New*/"),
-            {"name" : "--WhatsNew",
-             "default" : "ace",
-             "current" : "ace",
-             "desc" : "DSet to none to hide What's New"})
-    '''
 
     def test_run_fixes_modify(self):
         a, b = backend.load_js_fixes()
@@ -58,6 +20,7 @@ class TestCopyFilesFromSteam(unittest.TestCase):
     def test_find_fixes_variables(self):
         js_tweaker.find_fix_with_variable("$^: $^ * $^", "\\1: (\\3 - 10) * $^")
 
+    ###
     def test_parse_yaml(self):
         #yaml = js_tweaker.YamlHandler.parse_yaml_file(sys.path[0] + "/../js_tweaks.yml")
         yaml = js_tweaker.YamlHandler(sys.path[0] + "/../js_tweaks.yml")
@@ -91,6 +54,33 @@ class TestCopyFilesFromSteam(unittest.TestCase):
 
     def test_regex_cap_groups(self):
         print(re.sub('\\\\([0-9])+', '\\(\\1)', 'Object\\(\\\\1\\.\\\\2\\)\\(\\[\\\\3\\.\\\\4\\]'))
+
+
+    def test_sub_vars(self):
+        ac = js_tweaker.RegexHandler()
+        print(ac.sub_find_with_regex("Object(%1%.%1%)([%2%, %3%], %4%)"))
+
+    def test_combined_regex1(self):
+        ad = js_tweaker.RegexHandler()
+        bb = ad.sub_find_with_regex('.apply(console, Object(%1%.%2%)([%3%, %4%], %5%))')
+        bc = ad.sub_repl_with_regex('.apply(console, Object(%1%.%2%)([%3%, %4%], %5%))*/')
+
+        print(js_tweaker.unescape(re.sub(bb, bc, '.apply(console, Object(p.g)([e, t], n))')))
+
+    def test_combined_regex2(self):
+        ad = js_tweaker.RegexHandler()
+        bb = ad.sub_find_with_regex('y: %1% * %2%')
+        bc = ad.sub_repl_with_regex('y: %1% * (%2% - 10)')
+
+        print(js_tweaker.unescape(re.sub(bb, bc, 'y: dd * ac')))
+        
+
+    def test_combined_regex_func1(self):
+        ad = js_tweaker.RegexHandler()
+        cd = 'Object(%1%.%2%)([%3%.%4%], e.prototype, "OnChangeHero", null),'
+        ce = 'Object(%1%.%2%)([%3%.%4%], e.prototype, "OnChangeHero", null), Object(%1%.%2%)([%3%.%4%], e.prototype, "OnRemoveHero", null),'
+
+        print(ad.find_and_repl(cd, ce, 'Object(a.c)([E.a], e.prototype, "OnChangeHero", null),'))
         
 if __name__ == '__main__':
     unittest.main()

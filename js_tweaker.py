@@ -35,11 +35,11 @@ swapback_js = {'"libraryreet"\}\[([a-z])\]\|\|([a-z])': '"libraryroot"}[\\1]||\\
             }
 
 fixes_dict = {}
-yaml_data = {}
+#yaml_data = {}
 
 def initialise():
     fixes_dict.clear() #not fixes_dict = {}
-    yaml_data.clear()
+    #yaml_data.clear()
 
 def library_dir():
     try:
@@ -239,6 +239,9 @@ def regex_search(pattern_str, string):
     return re.search(escaped_pattern(pattern_str), string)
 
 def semantic_find_str(find_str):
+    '''
+    May need to redo/realign with the process
+    '''
     semantic = {"replace" : find_str}
     if "~~" in find_str:
         t = find_str.split("~~")
@@ -246,6 +249,42 @@ def semantic_find_str(find_str):
             semantic = {"prev" : t[0],
                         "replace" : t[1]}
     return semantic
+
+def unescape(string):
+    return re.sub(r'\\(.)', r'\1', string)
+
+class RegexHandler:
+    def __init__(self):
+        #Detecting letter variables %1% %2% %3% etc.
+        self.vars = re.compile("%([0-9]+)%")
+        #The regex pattern to replace them with
+        self.letters = re.compile("([A-Za-z]+)")
+    
+    def sub_find_with_regex(self, find):
+        r'''
+        returns string where:
+            self.vars       regex pattern substituted with
+            self.latters    regex pattern
+        string special characters are escaped beforehand
+            special characters: ()[]{}?*+-|^$\\.&~# \t\n\r\v\f
+        '''
+        return self.vars.sub(self.letters.pattern, escaped_pattern(find))
+    
+    def sub_repl_with_regex(self, repl):
+        return self.vars.sub(r"\\"+"\\1",  escaped_pattern(repl))
+    
+    def find_and_repl(self, find, repl, line):
+        return unescape(re.sub(
+            self.sub_find_with_regex(find),
+            self.sub_repl_with_regex(repl),
+            line))    
+
+def find_var_names(string):
+    #return re.findall("[A-Za-z]+", "Ga.c, ab.d, cc.d, e.b")
+    #b = re.sub("%[0-9]+%", "([A-Za-z]+)", escaped_pattern("Object(%1%.%2%)([%3%, %4%], n)"))
+    #re.search(b, "Object(Ap.g)([e, t], n)")
+    #unescape(re.sub('Object\\(([A-Za-z]+)\\.([A-Za-z]+)\\)\\(\\[([A-Za-z]+),\\ ([A-Za-z]+)\\],\\ n\\)', 'Object\\(\\1\\.\\2\\)\\(\\[\\3,\\ \\4\\],\\ n\\)', 'Object(p.g)([e, t], n)'))  
+    pass
     
 def write_modif_file(data):
     print("todo yaml write")

@@ -1,5 +1,9 @@
 ## SteamUI-OldGlory GUI Changelog
 
+0.9.14.1	(5.8-pre2)	Working Regex find and replacements
+
+0.9.12.1	Reading .yml
+
 **0.9.11.0** **(Release 5.7.3)** Now using tweaked JS in `librery.js` (original file `library.js`)
 
 **0.9.10.7** **(Release 5.7.2)** Changed order of js tweaking (also fixes nasty bug "invariant failed...")
