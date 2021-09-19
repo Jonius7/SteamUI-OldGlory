@@ -17,6 +17,7 @@ import shutil
 import traceback
 import re
 import time
+import datetime
 
 LOCAL_DEBUG = 0 #Set to 1 to not copy files to/from Steam directory
 
@@ -251,6 +252,9 @@ def semantic_find_str(find_str):
     return semantic
 
 def unescape(string):
+    #new_string = re.sub(r'\\(.)', r'\1', string)
+    #new_string = re.sub(r'\([tnrvf])', r'', string)
+    #return new_string
     return re.sub(r'\\(.)', r'\1', string)
 
 class RegexHandler:
@@ -273,11 +277,21 @@ class RegexHandler:
     def sub_repl_with_regex(self, repl):
         return self.vars.sub(r"\\"+"\\1",  escaped_pattern(repl))
     
-    def find_and_repl(self, find, repl, line):
-        return unescape(re.sub(
+    def find_and_repl(self, find, repl, line, lineno):
+        '''
+        takes a find/replace pair and returns the string to be written
+            find - the string to find \n
+            repl - the string to replace it with \n
+            line - the line in question (in the tweaks file)
+        '''
+        return_string = unescape(re.sub(
             self.sub_find_with_regex(find),
             self.sub_repl_with_regex(repl),
             line))
+        #print(return_string.ljust(70)[:70].strip() + (' ...' if len(return_string) > 70 else ''))
+        print("TWEAK (" + str(lineno) + "): " + return_string.strip().ljust(120)[:120] + (' ...\n' if len(return_string) > 120 else '\n'), end='')
+        return return_string
+    
         
     def find(self, find, line):
         return re.search(self.sub_find_with_regex(find), line)
@@ -290,13 +304,13 @@ def find_var_names(string):
     pass
     
 def write_modif_file(data):
-    print("todo yaml write")
+    start_time = datetime.datetime.now()
     try:
         r_search = RegexHandler()
         with open("libraryroot.beaut.js", "r", newline='', encoding="UTF-8") as f, \
              open("libraryroot.modif.js", "w", newline='', encoding="UTF-8") as f1:
             prev_line = ""
-            for line in f:
+            for i, line in enumerate(f, start=1):
                 modified = 0
                 for tweak in data:
                     if "strings" in data[tweak]:
@@ -305,25 +319,40 @@ def write_modif_file(data):
                                 #print(find_repl["find"]) 
                                 if "prev" in (sem := semantic_find_str(find_repl["find"])):
                                     #print(find_repl["find"])
-                                    if r_search.find(find_repl["find"]):
-                                        print("FOUND")
-                                    elif r_search.find(sem["replace"]):
-                                        print("FOUND")
-                                    pass
-                                    
-                                    
-                        pass
+                                    if r_search.find(sem["replace"], line):
+                                        if r_search.find(sem["prev"], prev_line):
+                                            #print("FOUND prev "+ sem["prev"])
+                                            print("")
+                                            f1.write(r_search.find_and_repl(
+                                                sem["replace"],
+                                                find_repl["repl"],
+                                                line, 
+                                                i))
+                                            modified = 1
+                                            
+                                elif r_search.find(find_repl["find"], line):
+                                    f1.write(r_search.find_and_repl(
+                                                find_repl["find"],
+                                                find_repl["repl"],
+                                                line, 
+                                                i))
+                                    modified = 1
+                                    #print("NORMAL" + tweak)
                     else:
                         print("Strings to find/replace not found in tweak: " + tweak + ", skipping")
+                if modified == 0:
+                    f1.write(line)
                 prev_line = line
         f.close()
         f1.close()
-    except:
-        pass
     
-    pass
+    except:
+        error_exit("Error writing libraryroot.modif.js")
+    end_time = datetime.datetime.now()
+    print(end_time - start_time)
     
 def write_modif_file_OLD():
+    start_time = datetime.datetime.now()
     try:
         with open("libraryroot.beaut.js", "r", newline='', encoding="UTF-8") as f, \
              open("libraryroot.modif.js", "w", newline='', encoding="UTF-8") as f1:
@@ -345,6 +374,8 @@ def write_modif_file_OLD():
         f1.close()
     except:
         error_exit("Error writing libraryroot.modif.js")
+    end_time = datetime.datetime.now()
+    print(end_time - start_time)
         
 def find_fix(line, fix):
     m_line = line.replace(fix, fixes_dict[fix]["replace"])
@@ -397,8 +428,7 @@ def error_exit(errormsg):
     print("~~~~~~~~~~")
     sys.exit()
     
-def main():
-    DEBUG = True
+def main(DEBUG = True):
     if not DEBUG:
         print("JS Tweaker for Steam Library UI by Jonius7\n")
         initialise()
@@ -406,8 +436,10 @@ def main():
         setup_library()
         modify_html()
         beautify_js()    
-        parse_fixes_file_OLD("fixes.txt")
-        write_modif_file_OLD()
+        #parse_fixes_file_OLD("fixes.txt")
+        #write_modif_file_OLD()
+        a = YamlHandler("js_tweaks.yml")
+        write_modif_file(a.data)
         re_minify_file()
         copy_files_to_steam()
         print("\nSteam Library JS Tweaks applied successfully.")

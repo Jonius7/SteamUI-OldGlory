@@ -22,7 +22,6 @@ class TestCopyFilesFromSteam(unittest.TestCase):
 
     ###
     def test_parse_yaml(self):
-        #yaml = js_tweaker.YamlHandler.parse_yaml_file(sys.path[0] + "/../js_tweaks.yml")
         yaml = js_tweaker.YamlHandler(sys.path[0] + "/../js_tweaks.yml")
         return yaml
 
@@ -42,9 +41,9 @@ class TestCopyFilesFromSteam(unittest.TestCase):
         end_time = datetime.datetime.now()
         print(end_time - start_time)
 
-    def test_write_modif(self):
-        yaml = self.test_parse_yaml()
-        js_tweaker.write_modif_file(yaml.data)
+    #def test_write_modif(self):
+    #    yaml = self.test_parse_yaml()
+    #    js_tweaker.write_modif_file(yaml.data)
 
     def test_semantic_1(self):
         print(js_tweaker.semantic_find_str('onContextMenu: this.OnContextMenu,~~hoverDelay: 300,'))
@@ -68,19 +67,35 @@ class TestCopyFilesFromSteam(unittest.TestCase):
         print(js_tweaker.unescape(re.sub(bb, bc, '.apply(console, Object(p.g)([e, t], n))')))
 
     def test_combined_regex2(self):
+        #start_time = datetime.datetime.now()
         ad = js_tweaker.RegexHandler()
         bb = ad.sub_find_with_regex('y: %1% * %2%')
         bc = ad.sub_repl_with_regex('y: %1% * (%2% - 10)')
 
         print(js_tweaker.unescape(re.sub(bb, bc, 'y: dd * ac')))
-        
+        #end_time = datetime.datetime.now()
+        #print(end_time - start_time)
 
     def test_combined_regex_func1(self):
+        #start_time = datetime.datetime.now()
         ad = js_tweaker.RegexHandler()
         cd = 'Object(%1%.%2%)([%3%.%4%], e.prototype, "OnChangeHero", null),'
         ce = 'Object(%1%.%2%)([%3%.%4%], e.prototype, "OnChangeHero", null), Object(%1%.%2%)([%3%.%4%], e.prototype, "OnRemoveHero", null),'
 
         print(ad.find_and_repl(cd, ce, 'Object(a.c)([E.a], e.prototype, "OnChangeHero", null),'))
+        #end_time = datetime.datetime.now()
+        #print(end_time - start_time)
+
+    def test_combined_regex_func2(self):
+        #start_time = datetime.datetime.now()
+        ad = js_tweaker.RegexHandler()
+        cd = 'Object(%1%.%2%)([%3%.%4%], e.prototype, "OnChangeHero", null),'
+        ce = 'Object(%1%.%2%)([%3%.%4%], e.prototype, "OnChangeHero", null), Object(%1%.%2%)([%3%.%4%], e.prototype, "OnRemoveHero", null),'
+
+        print("PROTO")
+        print(ad.find("gesgas", 'segesgesgasegase'))
+        #end_time = datetime.datetime.now()
+        #print(end_time - start_time)
         
 if __name__ == '__main__':
     unittest.main()
