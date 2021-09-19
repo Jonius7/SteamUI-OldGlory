@@ -277,7 +277,10 @@ class RegexHandler:
         return unescape(re.sub(
             self.sub_find_with_regex(find),
             self.sub_repl_with_regex(repl),
-            line))    
+            line))
+        
+    def find(self, find, line):
+        return re.search(self.sub_find_with_regex(find), line)
 
 def find_var_names(string):
     #return re.findall("[A-Za-z]+", "Ga.c, ab.d, cc.d, e.b")
@@ -289,6 +292,7 @@ def find_var_names(string):
 def write_modif_file(data):
     print("todo yaml write")
     try:
+        r_search = RegexHandler()
         with open("libraryroot.beaut.js", "r", newline='', encoding="UTF-8") as f, \
              open("libraryroot.modif.js", "w", newline='', encoding="UTF-8") as f1:
             prev_line = ""
@@ -298,10 +302,15 @@ def write_modif_file(data):
                     if "strings" in data[tweak]:
                         for find_repl in data[tweak]["strings"]:
                             if "find" in find_repl:
-                                #print(find_repl["find"])
-                                if "prev" in semantic_find_str(find_repl["find"]):
+                                #print(find_repl["find"]) 
+                                if "prev" in (sem := semantic_find_str(find_repl["find"])):
                                     #print(find_repl["find"])
+                                    if r_search.find(find_repl["find"]):
+                                        print("FOUND")
+                                    elif r_search.find(sem["replace"]):
+                                        print("FOUND")
                                     pass
+                                    
                                     
                         pass
                     else:
