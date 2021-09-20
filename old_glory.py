@@ -30,6 +30,7 @@ OS_TYPE = platform.system()
 # Only useful for debugging purposes, set to True
 # Outputs STDOUT/STDERR before Log frame is created
 DEBUG_STDOUT_STDERR = False
+JS_TWEAKS = 2 #1 for v1, 2 for v2
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -883,16 +884,15 @@ def run_js_tweaker(text_area, reset=0):
         js_tweaker.beautify_js()
         text_area.update_idletasks()
         
-        '''js_tweaker.parse_fixes_file_OLD("fixes.txt")
-        text_area.update_idletasks()
-        js_tweaker.write_modif_file_OLD()'''
-        
-        
-        a = js_tweaker.YamlHandler("js_tweaks.yml")
-        text_area.update_idletasks()
-        js_tweaker.write_modif_file(a.f_data)
-        
-        
+        if JS_TWEAKS == 2:
+            a = js_tweaker.YamlHandler("js_tweaks.yml")
+            text_area.update_idletasks()
+            js_tweaker.write_modif_file(a.f_data)
+        else:
+            js_tweaker.parse_fixes_file_OLD("fixes.txt")
+            text_area.update_idletasks()
+            js_tweaker.write_modif_file_OLD()
+            
         text_area.update_idletasks()
         js_tweaker.re_minify_file()
         text_area.update_idletasks()

@@ -232,9 +232,8 @@ class YamlHandler:
         for tweak in f_data:
             try:
                 for i, find_repl in enumerate(tweak_strs := f_data[tweak]["strings"]):
-                    #print(tweak_strs[i])
+                    #if using "previous line"
                     if (sem := semantic_find_str(find_repl["find"])):
-                        #print(i)
                         f_data[tweak]["strings"][i].update({"find":
                             {"prev": self.regex.sub_find_with_regex(sem["prev"]),
                             "current": self.regex.sub_find_with_regex(sem["current"])}
@@ -377,7 +376,7 @@ def write_modif_file(data):
                         f1.write(line)
                     prev_line = line
                 except:
-                    print("ERROR " + i)
+                    #print("Unable to find strings for tweak: " + tweak)
                     continue
         f.close()
         f1.close()
@@ -464,8 +463,8 @@ def error_exit(errormsg):
     print("~~~~~~~~~~")
     sys.exit()
     
-def main(DEBUG = True):
-    if not DEBUG:
+def main(RUN = True):
+    if RUN:
         print("JS Tweaker for Steam Library UI by Jonius7\n")
         initialise()
         copy_files_from_steam()
