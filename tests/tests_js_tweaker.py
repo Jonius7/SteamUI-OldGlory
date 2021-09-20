@@ -82,7 +82,7 @@ class TestCopyFilesFromSteam(unittest.TestCase):
         cd = 'Object(%1%.%2%)([%3%.%4%], e.prototype, "OnChangeHero", null),'
         ce = 'Object(%1%.%2%)([%3%.%4%], e.prototype, "OnChangeHero", null), Object(%1%.%2%)([%3%.%4%], e.prototype, "OnRemoveHero", null),'
 
-        print(ad.find_and_repl(cd, ce, 'Object(a.c)([E.a], e.prototype, "OnChangeHero", null),'))
+        #print(ad.find_and_repl(cd, ce, 'Object(a.c)([E.a], e.prototype, "OnChangeHero", null),'))
         #end_time = datetime.datetime.now()
         #print(end_time - start_time)
 
@@ -96,6 +96,9 @@ class TestCopyFilesFromSteam(unittest.TestCase):
         print(ad.find("gesgas", 'segesgesgasegase'))
         #end_time = datetime.datetime.now()
         #print(end_time - start_time)
+
+    def test_semantic(self):
+        print(js_tweaker.semantic_find_str('switch (t) {~~case 38:'))
         
 if __name__ == '__main__':
     unittest.main()

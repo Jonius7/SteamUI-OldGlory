@@ -20,47 +20,14 @@ from requests_oauthlib import OAuth1Session
 from hashlib import sha1
 import time
 
+import defaults
+
 ##########################################
 ### CONSTANTS
 
 OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
     import winreg
-
-DEFAULT_CONFIG = {
-    "Filepaths" : {
-        "SteamLibraryPath" : "",
-        "PatcherPath" : "",
-        },
-    "Main_Settings" : {
-        "InstallCSSTweaks" : "1",
-        "EnablePlayButtonBox" : "0",
-        "EnableVerticalNavBar" : "0",
-        "EnableClassicLayout" : "0",
-        "LandscapeImages" : "0",
-        "InstallWithLibraryTheme" : "0",
-        "ThemeSelected" : "Crisp Cut"
-        },
-    "JS_Settings" : {
-        "HomePageGridSpacing" : "1",
-        "MoreScreenshotsAndDLC" : "1",
-        "HoverPositionFix" : "1",
-        "ScrollPastAddShelf" : "1",
-        "ChangeGameImageGridSizes" : "1",
-        "VerticalNavBar" : "1",
-        "LandscapeGameImages" : "1",
-        "StopWhatsNewLoad" : "0",
-        "SmootherHomePageScrolling" : "1",
-        "GamePropertiesWindowSize" : "1",
-        "StickyBackgroundImage" : "1",
-        "PressEnterToLaunchGames" : "1",
-        "ExpandShowMoreDetails" : "0",
-        "DimUninstalledGames" : "1",
-        "DontLoadHomeGameImages" : "0",
-        "DontLoadGamePageSections" : "0",
-    } 
-}
-
 
 ###Structure as follows
 ###config       > section       > prop              > attr
@@ -415,8 +382,8 @@ def load_config():
     config_filename = "oldglory_config2.cfg"
     if not os.path.isfile(config_filename) :
         print("Config file " + config_filename + " not found. Creating copy with default options.", file=sys.stderr)
-        write_config(DEFAULT_CONFIG)
-        return DEFAULT_CONFIG
+        write_config(defaults.DEFAULT_CONFIG)
+        return defaults.DEFAULT_CONFIG
     else:
         config = configparser.ConfigParser()
         config.optionxform = str
@@ -435,7 +402,7 @@ def test_config():
     config.read("oldglory_config2.cfg")
     return config
 
-def write_config(config_dict = DEFAULT_CONFIG):
+def write_config(config_dict = defaults.DEFAULT_CONFIG):
     config = configparser.ConfigParser()
     config.optionxform = str
     for section in config_dict:

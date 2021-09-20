@@ -25,12 +25,12 @@ HoverPositionFix:
   name: HoverPosition Fix for GameListEntry
   desc: Fix hover position of GameList hover for long game names.
   category: Game List
-  file: library
+  file: library.js
   values: [Zoom]
   strings:
-    - find: h = m.nTop,
+    - find: '%1% = m.nTop,'
       repl: >-
-        h = (t.children[0] && t.children[0].childNodes[0]
+        %1% = (t.children[0] && t.children[0].childNodes[0]
         && t.children[0].childNodes[0].childNodes[0]
         && t.children[0].childNodes[0].childNodes[0].classList
         && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy")
@@ -48,8 +48,8 @@ ScrollPastAddShelf:
       repl: this.SetStateLoaded(),document.getElementsByClassName("smartscrollcontainer_Body_3lDcz")[0].scrollTop = 30,
     - find: 'scrollTop: 0'
       repl: 'scrollTop: 30'
-    - find: e.m_nScrollTop = 0, e.m_elTarget
-      repl: e.m_nScrollTop = 30, e.m_elTarget
+    - find: '%1%.m_nScrollTop = 0, %1%.m_elTarget'
+      repl: '%1%.m_nScrollTop = 30, %1%.m_elTarget'
   
 ChangeGameImageGridSizes:
   name: Change Game Image Grid Sizes
@@ -65,10 +65,10 @@ VerticalNavBar:
   desc: Change gamepage navigation bar from horizontal to vertical.
   category: Game Page
   strings:
-    - find: 'x: l,'
+    - find: 'x: %1%,'
       repl: 'x: 0,'
-    - find: 'y: c * n'
-      repl: 'y: c * (n - 10)'
+    - find: 'y: %1% * %2%'
+      repl: 'y: %1% * (%2% - 10)'
     - find: p = 0), c < r ?
       repl: p = 0), true ?
   

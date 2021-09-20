@@ -41,9 +41,12 @@ class OldGloryApp(tk.Tk):
         self.container = tk.Frame(self)
         
         ### Data and Config (will be populated)
+        self.oldglory_config = None
         self.json_data = None
         self.css_config = None
         self.js_config = None
+        
+        self.change_javascript = 0
 
         ### Fixed DPI Scaling on Windows
         if OS_TYPE == "Windows":
@@ -887,7 +890,7 @@ def run_js_tweaker(text_area, reset=0):
         
         a = js_tweaker.YamlHandler("js_tweaks.yml")
         text_area.update_idletasks()
-        js_tweaker.write_modif_file(a.data)
+        js_tweaker.write_modif_file(a.f_data)
         
         
         text_area.update_idletasks()
@@ -910,8 +913,8 @@ def reload_click(event, controller):
         print("==============================")
         ### Reload Data
         controller.frames["StartPage"].loaded_config = manager.set_selected_main_options(controller.frames["StartPage"], controller)
-        print("Loaded config data. (oldglory_config.cfg)")
-        #print("Loaded config data. (oldglory_config2.cfg)")
+        #print("Loaded config data. (oldglory_config.cfg)")
+        print("Loaded config data. (oldglory_config2.cfg)")
         controller.json_data = backend.get_json_data()
         controller.css_config = backend.load_css_configurables()
         controller.js_config, controller.special_js_config = backend.load_js_fixes()

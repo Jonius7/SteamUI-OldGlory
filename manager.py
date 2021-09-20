@@ -63,9 +63,9 @@ def install_click(event, page, controller):
         ###
         
         #applying settings
-        change_javascript = check_if_css_requires_javascript(page, controller, settings)
+        check_if_css_requires_javascript(page, controller, settings)
         manager_write_css_settings(page, settings)
-        manager_run_js_tweaker(page, change_javascript)
+        manager_run_js_tweaker(page, controller.change_javascript)
         
         update_loaded_config(page, controller)
         loaded_config_to_oldglory_dict(controller)
@@ -74,6 +74,7 @@ def install_click(event, page, controller):
         apply_css_theme(controller.frames["StartPage"], controller)
         backend.compile_css(backend.get_json_data())
         controller.js_gui_changed = 0
+        controller.change_javascript = 0
         backend.refresh_steam_dir()
         update_loaded_config(page, controller)
     except:
@@ -125,17 +126,17 @@ def apply_special_js_config(controller):
                 controller.special_js_config[key][size] = controller.frames["PageTwo"].js_gui.comboboxes[size].get()
 
 def check_if_css_requires_javascript(page, controller, settings):
-    change_javascript = 0   #Check if js required
+    #change_javascript = 0   #Check if js required
     for setting in settings:
         if check_setting_requires_javascript(settings[setting]):
             if setting in page.loaded_config \
                 and int(page.loaded_config[setting]) != int(settings[setting]["value"]): #If Setting is different
                     set_css_config_js_enabled(controller.css_config)
-                    change_javascript = 1
+                    controller.change_javascript = 1
     if controller.js_gui_changed == 1:
         set_css_config_js_enabled(controller.css_config)
-        change_javascript = 1
-    return change_javascript
+        controller.change_javascript = 1
+    #return controller.change_javascript
 
 def check_setting_requires_javascript(setting_data):
     if "javascript" in setting_data and setting_data["javascript"]:

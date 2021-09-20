@@ -18,6 +18,7 @@ import traceback
 import re
 import time
 import datetime
+import copy
 
 LOCAL_DEBUG = 0 #Set to 1 to not copy files to/from Steam directory
 
@@ -191,14 +192,14 @@ def parse_fixes_file_OLD(filename):
                             t = key.split("~~")
                             if len(t) == 2:
                                 fixes_dict[t[1]] = {"prev" : t[0],
-                                                    "replace" : val}
+                                                    "current" : val}
                             else:
                                 error_exit("Unexpected number of ~~ in line: " + line)
                         #elif re.search(r"\d\$", key):
                         #    print("V")
                         #    print(key)
                         else:
-                            fixes_dict[key] = {"replace" : val}
+                            fixes_dict[key] = {"current" : val}
             except Exception as e:
                 print("Error in line: " + line, file=sys.stderr)
                 print(e, file=sys.stderr)
@@ -214,12 +215,40 @@ class YamlHandler:
     def __init__(self, filename):
         self.filename = filename
         self.data = self.parse_yaml_file()
+        self.f_data = self.format_yaml_data()
         
     def parse_yaml_file(self):
         with open(self.filename, newline='', encoding="UTF-8") as f:
             data = yaml.load(f, Loader=yaml.FullLoader)
         f.close()
         return data
+    
+    def format_yaml_data(self):
+        '''
+        Format yaml file data to support some Regex and TweakScript
+        '''
+        f_data = copy.deepcopy(self.data)
+        self.regex = RegexHandler()
+        for tweak in f_data:
+            try:
+                for i, find_repl in enumerate(tweak_strs := f_data[tweak]["strings"]):
+                    #print(tweak_strs[i])
+                    if (sem := semantic_find_str(find_repl["find"])):
+                        #print(i)
+                        f_data[tweak]["strings"][i].update({"find":
+                            {"prev": self.regex.sub_find_with_regex(sem["prev"]),
+                            "current": self.regex.sub_find_with_regex(sem["current"])}
+                        })
+                        f_data[tweak]["strings"][i]["repl"] = self.regex.sub_repl_with_regex(tweak_strs[i]["repl"])
+                    else:
+                        f_data[tweak]["strings"][i]["find"] = self.regex.sub_find_with_regex(tweak_strs[i]["find"])
+                        f_data[tweak]["strings"][i]["repl"] = self.regex.sub_repl_with_regex(tweak_strs[i]["repl"])
+            except KeyError:
+                print("Tweak " + tweak + " has no strings to find and replace, skipping", file=sys.stderr)
+                continue
+            except:
+                error_exit("Unable to properly format Yaml data at: " + tweak)
+        return f_data
 
 def raw_text(str_text):
     '''
@@ -243,12 +272,13 @@ def semantic_find_str(find_str):
     '''
     May need to redo/realign with the process
     '''
-    semantic = {"replace" : find_str}
+    #find_str = unescape(find_str)
+    semantic = None
     if "~~" in find_str:
         t = find_str.split("~~")
         if len(t) == 2:
             semantic = {"prev" : t[0],
-                        "replace" : t[1]}
+                        "current" : t[1]}
     return semantic
 
 def unescape(string):
@@ -262,7 +292,7 @@ class RegexHandler:
         #Detecting letter variables %1% %2% %3% etc.
         self.vars = re.compile("%([0-9]+)%")
         #The regex pattern to replace them with
-        self.letters = re.compile("([A-Za-z]+)")
+        self.letters = "([A-Za-z]+)"
     
     def sub_find_with_regex(self, find):
         r'''
@@ -272,7 +302,7 @@ class RegexHandler:
         string special characters are escaped beforehand
             special characters: ()[]{}?*+-|^$\\.&~# \t\n\r\v\f
         '''
-        return self.vars.sub(self.letters.pattern, escaped_pattern(find))
+        return self.vars.sub(self.letters, escaped_pattern(find))
     
     def sub_repl_with_regex(self, repl):
         return self.vars.sub(r"\\"+"\\1",  escaped_pattern(repl))
@@ -280,21 +310,17 @@ class RegexHandler:
     def find_and_repl(self, find, repl, line, lineno):
         '''
         takes a find/replace pair and returns the string to be written
-            find - the string to find \n
-            repl - the string to replace it with \n
+            find - the string to find (regex formatted) \n
+            repl - the string to replace it with (regex formatted) \n
             line - the line in question (in the tweaks file)
         '''
-        return_string = unescape(re.sub(
-            self.sub_find_with_regex(find),
-            self.sub_repl_with_regex(repl),
-            line))
+        return_string = unescape(re.sub(find, repl, line))
         #print(return_string.ljust(70)[:70].strip() + (' ...' if len(return_string) > 70 else ''))
         print("TWEAK (" + str(lineno) + "): " + return_string.strip().ljust(120)[:120] + (' ...\n' if len(return_string) > 120 else '\n'), end='')
-        return return_string
-    
+        return return_string    
         
     def find(self, find, line):
-        return re.search(self.sub_find_with_regex(find), line)
+        return re.search(find, line)
 
 def find_var_names(string):
     #return re.findall("[A-Za-z]+", "Ga.c, ab.d, cc.d, e.b")
@@ -307,47 +333,57 @@ def write_modif_file(data):
     start_time = datetime.datetime.now()
     try:
         r_search = RegexHandler()
-        with open("libraryroot.beaut.js", "r", newline='', encoding="UTF-8") as f, \
-             open("libraryroot.modif.js", "w", newline='', encoding="UTF-8") as f1:
+        beaut_filename = "libraryroot.beaut.js"
+        modif_filename = "libraryroot.modif.js"
+        
+        with open(beaut_filename, "r", newline='', encoding="UTF-8") as f, \
+             open(modif_filename, "w", newline='', encoding="UTF-8") as f1:
             prev_line = ""
             for i, line in enumerate(f, start=1):
-                modified = 0
-                for tweak in data:
-                    if "strings" in data[tweak]:
-                        for find_repl in data[tweak]["strings"]:
-                            if "find" in find_repl:
-                                #print(find_repl["find"]) 
-                                if "prev" in (sem := semantic_find_str(find_repl["find"])):
+                try:
+                    modified = 0            
+                    for tweak in data:
+                        if "strings" in data[tweak]:                        
+                            for find_repl in data[tweak]["strings"]:
+                                if "find" in find_repl:
                                     #print(find_repl["find"])
-                                    if r_search.find(sem["replace"], line):
-                                        if r_search.find(sem["prev"], prev_line):
-                                            #print("FOUND prev "+ sem["prev"])
-                                            print("")
+                                    if "prev" in find_repl["find"]:
+                                    #if (sem := semantic_find_str(find_repl["find"])):
+                                        #print(find_repl["find"])
+                                        #sem["current"] = escaped_pattern(sem["current"])
+                                        #sem["prev"] = escaped_pattern(sem["prev"])
+                                        #print("PREV FOUND")
+                                        if r_search.find(find_repl["find"]["prev"], prev_line) and \
+                                            r_search.find(find_repl["find"]["current"], line):
                                             f1.write(r_search.find_and_repl(
-                                                sem["replace"],
+                                                find_repl["find"]["current"],
                                                 find_repl["repl"],
-                                                line, 
+                                                line,
                                                 i))
                                             modified = 1
-                                            
-                                elif r_search.find(find_repl["find"], line):
-                                    f1.write(r_search.find_and_repl(
-                                                find_repl["find"],
-                                                find_repl["repl"],
-                                                line, 
-                                                i))
-                                    modified = 1
-                                    #print("NORMAL" + tweak)
-                    else:
-                        print("Strings to find/replace not found in tweak: " + tweak + ", skipping")
-                if modified == 0:
-                    f1.write(line)
-                prev_line = line
+                                                
+                                    #el
+                                    elif r_search.find(find_repl["find"], line):
+                                        f1.write(r_search.find_and_repl(
+                                                    find_repl["find"],
+                                                    find_repl["repl"],
+                                                    line, 
+                                                    i))
+                                        modified = 1
+                                        #print("NORMAL" + tweak)
+                        #else:
+                        #    print("Strings to find/replace not found in tweak: " + tweak + ", skipping")
+                    if modified == 0:
+                        f1.write(line)
+                    prev_line = line
+                except:
+                    print("ERROR " + i)
+                    continue
         f.close()
         f1.close()
     
     except:
-        error_exit("Error writing libraryroot.modif.js")
+        error_exit("Error writing " + modif_filename + " at: " + tweak + " " + find_repl["find"])
     end_time = datetime.datetime.now()
     print(end_time - start_time)
     
@@ -378,10 +414,10 @@ def write_modif_file_OLD():
     print(end_time - start_time)
         
 def find_fix(line, fix):
-    m_line = line.replace(fix, fixes_dict[fix]["replace"])
+    m_line = line.replace(fix, fixes_dict[fix]["current"])
     #print("FIX: ", end = '')
     #print(m_line.strip())
-    #print(fixes_dict[fix]["replace"])
+    #print(fixes_dict[fix]["current"])
     print("FIX: " + m_line.strip())
     return m_line
 
@@ -439,7 +475,7 @@ def main(DEBUG = True):
         #parse_fixes_file_OLD("fixes.txt")
         #write_modif_file_OLD()
         a = YamlHandler("js_tweaks.yml")
-        write_modif_file(a.data)
+        write_modif_file(a.f_data)
         re_minify_file()
         copy_files_to_steam()
         print("\nSteam Library JS Tweaks applied successfully.")
