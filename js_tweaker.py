@@ -219,7 +219,7 @@ class YamlHandler:
         
     def parse_yaml_file(self):
         with open(self.filename, newline='', encoding="UTF-8") as f:
-            data = yaml.load(f, Loader=yaml.FullLoader)
+            data = yaml.safe_load(f)
         f.close()
         return data
     
@@ -234,14 +234,14 @@ class YamlHandler:
                 for i, find_repl in enumerate(tweak_strs := f_data[tweak]["strings"]):
                     #if using "previous line"
                     if (sem := semantic_find_str(find_repl["find"])):
-                        f_data[tweak]["strings"][i].update({"find":
+                        tweak_strs[i].update({"find":
                             {"prev": self.regex.sub_find_with_regex(sem["prev"]),
                             "current": self.regex.sub_find_with_regex(sem["current"])}
                         })
-                        f_data[tweak]["strings"][i]["repl"] = self.regex.sub_repl_with_regex(tweak_strs[i]["repl"])
+                        tweak_strs[i]["repl"] = self.regex.sub_repl_with_regex(tweak_strs[i]["repl"])
                     else:
-                        f_data[tweak]["strings"][i]["find"] = self.regex.sub_find_with_regex(tweak_strs[i]["find"])
-                        f_data[tweak]["strings"][i]["repl"] = self.regex.sub_repl_with_regex(tweak_strs[i]["repl"])
+                        tweak_strs[i]["find"] = self.regex.sub_find_with_regex(tweak_strs[i]["find"])
+                        tweak_strs[i]["repl"] = self.regex.sub_repl_with_regex(tweak_strs[i]["repl"])
             except KeyError:
                 print("Tweak " + tweak + " has no strings to find and replace, skipping", file=sys.stderr)
                 continue

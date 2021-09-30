@@ -4,8 +4,6 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 
 Check [`/dev`](https://github.com/Jonius7/SteamUI-OldGlory/tree/dev) branch for in-progress tweaks.
 
-On Steam Beta? Check [`/beta`](https://github.com/Jonius7/SteamUI-OldGlory/tree/beta) branch for some files you may need.
-
 ### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) | [Quick Guide](https://github.com/Jonius7/SteamUI-OldGlory#quick-guide) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) | [Known Issues](https://github.com/Jonius7/SteamUI-OldGlory/issues/6) | [Troubleshooting](https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting)
 
 ### Video Guide and GIF
@@ -40,11 +38,12 @@ Condensed sidebar buttons <br>
 
 #### Patching and CSS
 
-- Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). NOTE (Since v0.1.36-beta, [**"Steam Beta"** in Settings, needs to be ticked.](https://i.imgur.com/jmSaoEE.png)) Run it, it will patch some files.
+- Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). NOTE: (Since v0.1.36-beta, [**"Steam Beta"** in Settings, needs to be ticked.](https://i.imgur.com/jmSaoEE.png)) Run it, it will patch some files.
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 - Select the options you want to use, then click **Install**.
 - [Release 5.5] [If using Shiina's steam-library theme:](https://i.imgur.com/1cSW7iI.png)
-- [13 Jul 2021] Steam Client has been updated. OldGlory should prompt you to download the new `fixes.txt` file. You'll also need to use the "Remake JS" option in Settings if you were previously using any JS tweaks.
+- Whenever the Steam Client updates, you'll need to use the **Remake JS** option in Settings if you were previously using any JS tweaks.
+- OldGlory should prompt you to download new files as "small updates" when they are released. Main updates will be notified in the log window.
 - To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix).
 
 ##### **Manual Editing** (CSS/SCSS)
@@ -200,38 +199,6 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
 - [(Images) Game Properties Horizontal Tabs](https://imgur.com/a/mqRCPc8)
 - [Steam Discussions [1]](https://steamcommunity.com/groups/for_a_better_steam_client/discussions/0/2970650017896633625/)
 - [Steam Discussions [2]](https://steamcommunity.com/discussions/forum/0/2451595019863406679/)
-
-
-
-## What's New?
->
->#### Release 5.7.3
->
->- Fix "Invariant failed" bug on Steam Beta
->   - Tweaked JS code now using `librery.js` instead of modifying `library.js`
->   - `index.html` `src` tag pointing to `librery.js`
-> 
->[Compare with Release 5.7.2](https://github.com/Jonius7/SteamUI-OldGlory/compare/Release_5.7.2...Release_5.7.3) | [Release 5.7.2 Changelog](https://github.com/Jonius7/SteamUI-OldGlory/releases/Release_5.7.2)
-> 
-> [VirusTotal](https://www.virustotal.com/gui/file/bdfa7d1ae840f38a074fa3c0d71d69c4e7dd3a50bbeff12c5a8c114d1129a0cf/detection)
->  
->---
-> 
-> ### Future Updates:
-> The JS Tweaks are due a rework in multiple areas:
-> - switching to YAML (`.yml`) format
->    - This allows me to store more metadata for the GUI to display, and to be more readable
->- switching from Python `replace` to using Regex `re` to find and replace JS strings
->  - As the obfuscated JS "1-letter variables" change nearly every Steam update, maintenance of the tweaks is required to keep up.
->  - Instead if Regex `[a-z]` was used, then the variables could be any letter and the tweak would not have to updated nearly as often.
-> - More custom "special symbols" that mean different things in order to "find" code more precisely
->   - currently the only "special symbol" in use is `~~` ([More Information](https://github.com/Jonius7/SteamUI-OldGlory#manual-editing-js---fixestxt))
->  - Will release a guide infographic when I finalise multiple new "special symbols", including being able to search 5 lines back for a particular piece of code.
->  - This will allow the extra tweaks of `More Context Menu Items` and `Collapse Game Page Sections` to be effectively applied using OldGlory (currently requires manual modifying) [More Details](https://github.com/Jonius7/SteamUI-OldGlory/wiki/Advanced-JS-Tweaks)
->
->- https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_5.5)
->
->
 
 
 ## steam-library Support

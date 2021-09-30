@@ -25,7 +25,7 @@ from threading import Thread
 
 import old_glory
 import backend
-import js_tweaker
+#import js_tweaker
 #import custom_tk
 
 

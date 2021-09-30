@@ -101,4 +101,4 @@ class TestCopyFilesFromSteam(unittest.TestCase):
         print(js_tweaker.semantic_find_str('switch (t) {~~case 38:'))
         
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(exit=False)
