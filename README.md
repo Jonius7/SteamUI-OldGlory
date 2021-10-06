@@ -4,8 +4,6 @@ A set of tweaks to the Steam UI, and also a reference, so you can learn to make 
 
 Check [`/dev`](https://github.com/Jonius7/SteamUI-OldGlory/tree/dev) branch for in-progress tweaks.
 
-On Steam Beta? Check [`/beta`](https://github.com/Jonius7/SteamUI-OldGlory/tree/beta) branch for some files you may need.
-
 ### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) | [Quick Guide](https://github.com/Jonius7/SteamUI-OldGlory#quick-guide) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) | [Known Issues](https://github.com/Jonius7/SteamUI-OldGlory/issues/6) | [Troubleshooting](https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting)
 
 ### Video Guide and GIF
@@ -40,11 +38,12 @@ Condensed sidebar buttons <br>
 
 #### Patching and CSS
 
-- Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). NOTE (Since v0.1.36-beta, [**"Steam Beta"** in Settings, needs to be ticked.](https://i.imgur.com/jmSaoEE.png)) Run it, it will patch some files.
+- Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). NOTE: (Since v0.1.36-beta, [**"Steam Beta"** in Settings, needs to be ticked.](https://i.imgur.com/jmSaoEE.png)) Run it, it will patch some files.
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 - Select the options you want to use, then click **Install**.
 - [Release 5.5] [If using Shiina's steam-library theme:](https://i.imgur.com/1cSW7iI.png)
-- [13 Jul 2021] Steam Client has been updated. OldGlory should prompt you to download the new `fixes.txt` file. You'll also need to use the "Remake JS" option in Settings if you were previously using any JS tweaks.
+- Whenever the Steam Client updates, you'll need to use the **Remake JS** option in Settings if you were previously using any JS tweaks.
+- OldGlory should prompt you to download new files as "small updates" when they are released. Main updates will be notified in the log window.
 - To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix).
 
 ##### **Manual Editing** (CSS/SCSS)
@@ -202,40 +201,6 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
 - [Steam Discussions [2]](https://steamcommunity.com/discussions/forum/0/2451595019863406679/)
 
 
-
-## What's New?
->
->#### Release 5.5
->
->- (GUI) NEW Expanded CSS Options page:
->   - **What's New** 	**Game List Zoom** 	**Show Left Sidebar** 	**Glare/Shine** 
->   - **Game Image Transition** 	**Home Page Grid Spacing**
->   - **Game Page Layout** 	**Game Image Opacity** 
->- CSS enhancements
->  - NEW Classic Steam appearance CSS (WIP)
->  - NEW Game Properties - horizontal tab bar
->  
->- NEW JS tweaks:
->  - Smoother HOME page Scrolling
->  - Game Header: sticky background position and spillover into sidebar
->  - (*Experimental*) Don't load HOME game images, only alt text
->  - (*Experimental*) Load only essential parts of Game Page (Play Bar and Navigation Bar)
->  
->- JS tweaks `fixes.txt` can now use previous line of JS to search for the line you want. Just separate the two lines with `~~`
->
->- NEW Auto-update feature for small file updates 
->  - CSS: `scss/` folder, `variables.css`, `themes/` folder	
->  - JS: `fixes.txt`		JSON: `old_glory_data.json`
->
->[More details...](https://github.com/Jonius7/SteamUI-OldGlory/releases)
->
->---
->
->[Compare with Release 5.0.1](https://github.com/Jonius7/SteamUI-OldGlory/compare/Release_5.0.1...Release_5.5) | [Changelog](https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_5.5)
->
->
-
-
 ## steam-library Support
 
 Shiina's **steam-library** theme is included as one of the starting themes you can choose from.
@@ -323,3 +288,5 @@ Limitation that the script reads `libraryroot.beaut.js` line by line, so some co
 `js_tweaker` will use `libraryroot.beaut.js` if it already exists. This means:
 
 - you can experiment in `libraryroot.beaut.js` (make a backup first) and delete it afterwards if you want to go back to the clean version `libraryroot.beaut.js`
+
+**New (5.7.3)** `library.js` is also now being used. The modified file is called `librery.js`
