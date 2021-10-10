@@ -267,6 +267,12 @@ def escaped_pattern(pattern_str):
 def regex_search(pattern_str, string):
     return re.search(escaped_pattern(pattern_str), string)
 
+def semantic_find_values(str, config):
+    '''
+    String to search through and find values
+    '''
+    pass
+
 def semantic_find_str(find_str):
     '''
     May need to redo/realign with the process

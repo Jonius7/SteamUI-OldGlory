@@ -1,5 +1,9 @@
 ## SteamUI-OldGlory GUI Changelog
 
+0.9.16		Fixed longstanding GUI slow responsiveness switching Frames while tweaks are Installing
+
+0.9.15.1	Change Install buttons layout
+
 0.9.14.1	(5.8-pre2)	Working Regex find and replacements
 
 0.9.12.1	Reading .yml

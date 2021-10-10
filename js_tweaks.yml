@@ -167,11 +167,12 @@ ExpandShowMoreDetails:
   name: Expand Show More Details panel by default
   category: Game Page
   strings: 
-    - find: 'var e = this.props.expand ? P_.a.AppDetailsExpanded : P_.a.AppDetailsCollapsed,'
-      repl: 'var e = this.props.expand ? P_.a.AppDetailsCollapsed : P_.a.AppDetailsExpanded,'
-    - find: 't = this.props.expand ? this.state.gameInfoHeight : 0;'
-      repl: 't = this.props.expand ? 0 : this.state.gameInfoHeight;'
-
+    - find: 'var e, t = this.props.expand ? %1%.%2%.AppDetailsExpanded : %1%.%2%.AppDetailsCollapsed,'
+      repl: 'var e, t = this.props.expand ? %1%.%2%.AppDetailsCollapsed : %1%.%2%.AppDetailsExpanded,'
+    - find: 'this.props.expand ? this.state.gameInfoHeight + "px" : "0px"'
+      repl: 'this.props.expand ? "0px" : this.state.gameInfoHeight + "px"'
+    - find: 'className: %1%.%2%.GameInfoShadow'
+      repl: 'className: ""'
 
 DimUninstalledGames:
   name: Dim Uninstalled Games
