@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.11.0"
-        self.release = "5.7.3"
+        self.version = "v0.9.11.2"
+        self.release = "5.7.4"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -116,7 +116,10 @@ class OldGloryApp(tk.Tk):
         self.option_add("*TCombobox*Listbox*font", (self.default_font))
         
     def show_frame(self, cont):
-        self.frames[cont].tkraise()
+        frame = self.frames[cont]
+        frame.tkraise()
+        frame.update()
+        frame.event_generate("<<ShowFrame>>")
     
     '''
     def get_frame(self, name):
@@ -622,52 +625,56 @@ def head_frame(self, controller):
 class ConfirmFrame(tk.Frame):
     def __init__(self, page, controller):
         self.frameConfirm = tk.Frame(page)        
-        self.frameConfirm.grid_columnconfigure(0, weight=2)
-        self.frameConfirm.grid_columnconfigure(1, weight=1)
+        self.frameConfirm.grid_columnconfigure(0, weight=1)
+        self.frameConfirm.grid_columnconfigure(1, weight=0)
         self.frameConfirm.grid_columnconfigure(2, weight=0)
         self.frameConfirm.grid_columnconfigure(3, weight=1)
-        self.frameConfirm.grid_columnconfigure(4, weight=2)
 
         ###
-        label_left = tk.Label(self.frameConfirm, width=3)
-        label_left.grid(row=0, column=0, padx=(5,14))
-        
+        self.left_frame = tk.Frame(self.frameConfirm,
+                                   width=3)
+                
         ###
-        button1 = ttk.Button(self.frameConfirm,
-                        text="Install",
-                        width=10                       
-        )
-        button1.bind("<Button-1>",
-                    lambda event:manager.install_click(event, controller.frames["StartPage"], controller)
-                    )
-        button1.grid(row=0, column=1, padx=5, sticky="NSEW")
-        
-        
         install_modes = ("CSS/JS", "CSS Only", "CSS + JS")
         vard = tk.StringVar()
         
-        buttond = ttk.OptionMenu(self.frameConfirm,
+        buttond = ttk.OptionMenu(self.left_frame,
                         vard,
                         install_modes[0],
-                        *install_modes,           
+                        *install_modes   
         )
         buttond.config(width=8, state='disabled')
         #buttond.bind("<Button-1>",
         #             lambda event:manager.install_click(event, controller.frames["StartPage"], controller)
         #             )
-        buttond.grid(row=0, column=2, padx=5, sticky="NSEW")
+        buttond.grid(row=0, column=0, padx=5)
+        
+        self.left_frame.grid(row=0, column=0, sticky=tk.E)
+        
+        ###
+        self.button1 = ttk.Button(self.frameConfirm,
+                        text="Install",
+                        width=16                      
+        )
+        self.button1.bind("<Button-1>",
+                    lambda event:manager.install_click(event, controller.frames["StartPage"], controller)
+                    )
+        self.button1.grid(row=0, column=1, padx=5, sticky="NSEW")
+        
+        
+        
         
         ###
         button2 = ttk.Button(self.frameConfirm,
                         text="Reload Config",
-                        width=10#,
+                        width=16#,
                         ###state='disabled'
         )
         button2_tip = custom_tk.Detail_tooltip(button2, "If you have modified the files manually,\nclick here to reload their values into the program.", hover_delay=200)
         button2.bind("<Button-1>",
                     lambda event:reload_click(event, controller)
                     )
-        button2.grid(row=0, column=3, padx=5, sticky="NSEW")
+        button2.grid(row=0, column=2, padx=5, sticky="NSEW")
 
         ###
         settings_image = open_img(os.path.join(os.getcwd(), 'images/settings.png'), 24)
@@ -682,8 +689,17 @@ class ConfirmFrame(tk.Frame):
         button3.bind("<Button-1>",
                     lambda event:settings_window(event, controller)
                     )
-        button3.grid(row=0, column=4, padx=(5,15), sticky=tk.E)
+        button3.grid(row=0, column=3, padx=(65,15), sticky=tk.E)
+    
+    def disable_install_button(self):
+        self.button1['state'] = 'disable'
         
+    def enable_install_button(self):
+        self.button1['state'] = 'normal'
+    
+    def get_install_button(self):
+        return self.button1
+    
     def get_frame_confirm(self):
         return self.frameConfirm
 ### ================================
