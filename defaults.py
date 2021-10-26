@@ -32,15 +32,21 @@ DEFAULT_CONFIG = {
         "DontLoadGamePageSections": "0",
     },
     "JS_Values": {
-        "HomePageGridSpacing": {"ColumnSpacing": "5", "RowSpacing": "8"},
-        "MoreScreenshotsandDLC": {"Screenshots": "9", "DLC": "12"},
-        "HoverPositionFix": {"Zoom": "0.75"},
-        "ScrollPastAddShelf": {"ScrollOffset": "30"},
-        "ChangeGameImageGridSizes": {
-            "SmallGridSize": "120",
-            "MediumGridSize": "160",
-            "LargeGridSize": "200",
-        },
-        "GamePropertiesWindowSize": {"PropertiesWidth": "672"},
+        #HomePageGridSpacing
+        "ColumnSpacing": "5",
+        "RowSpacing": "8",
+        #MoreScreenshotsandDLC
+        "Screenshots": "9",
+        "DLC": "12",
+        #HoverPositionFix
+        "Zoom": "0.75",
+        #ScrollPastAddShelf
+        "ScrollOffset": "30",
+        #ChangeGameImageGridSizes
+        "SmallGridSize": "120",
+        "MediumGridSize": "160",
+        "LargeGridSize": "200",
+        #GamePropertiesWindowSize
+        "PropertiesWidth": "672"
     },
 }

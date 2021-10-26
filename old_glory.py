@@ -31,11 +31,12 @@ OS_TYPE = platform.system()
 # Outputs STDOUT/STDERR before Log frame is created
 DEBUG_STDOUT_STDERR = False
 JS_TWEAKS = 2 #1 for v1, 2 for v2
+DEFAULT_LIBRARYROOT = "5.css"
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.16"
-        self.release = "5.8-pre4"
+        self.version = "v0.9.17"
+        self.release = "5.8-pre5"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -145,7 +146,7 @@ class OldGloryApp(tk.Tk):
         ### Check for new version
         self.frames["StartPage"].text1.config(state='normal')
         if is_connected():            
-            check_if_css_patched(self.frames["StartPage"])
+            check_if_css_patched(self.frames["StartPage"], self.get_libraryroot_filename())
             release_check(self.frames["StartPage"], self.release)
             print("Checking for small updates...")
             thread = Thread(target = self.small_update_check)#, args = ())
@@ -167,8 +168,23 @@ class OldGloryApp(tk.Tk):
             thread.start()
         else:
             print("Done.")
-
-
+    
+    def get_libraryroot_filename(self):
+        #print(self.json_data)
+        if "libraryrootFile" in self.json_data:
+            libraryroot_filename = self.json_data["libraryrootFile"]
+            if libraryroot_filename != DEFAULT_LIBRARYROOT:
+                print("Using user-defined libraryroot CSS filename: " + libraryroot_filename)
+            return libraryroot_filename
+        else:
+            return DEFAULT_LIBRARYROOT
+        
+    def get_patcher_path(self):
+        if "PatcherPath" in self.oldglory_config["Filepaths"]:
+            #print(self.oldglory_config)
+            patcher_path = os.path.join(self.oldglory_config["Filepaths"]["PatcherPath"], "SteamFriendsPatcher.exe")
+            #print("SteamFriendsPatcher filepath set to: " + patcher_path)
+            return patcher_path
 
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -180,7 +196,7 @@ class StartPage(tk.Frame):
     ### Created first
         self.create_log_frame()
 
-    ### load JSON
+    ### load JSON and config
         self.controller.json_data = backend.get_json_data()
         self.controller.oldglory_config = backend.load_config()
 
@@ -365,13 +381,14 @@ class StartPage(tk.Frame):
     def create_patch_frame(self):
     ### PATCH FRAME
     ###
-        
+        ###
         labeltext_a = tk.StringVar()
         labeltext_a.set("Quick Links")
         
         label_a = tk.Label(self.framePatch, textvariable=labeltext_a)
-        label_a.grid(row=0, column=0)
+        label_a.grid(row=0, column=0, padx=(5,0))
         
+        ###
         pbutton1 = ttk.Button(self.framePatch,
                               text="Open OldGlory folder",
                               width=22
@@ -379,30 +396,43 @@ class StartPage(tk.Frame):
         pbutton1.bind("<Button-1>", lambda event:backend.OS_open_file(os.getcwd()))
         pbutton1.grid(row=1, column=0, padx=(5,0), pady=5)
 
+        ###
         pbutton2 = ttk.Button(self.framePatch,
                               text="Open steamui folder",
                               width=22
         )
         pbutton2.bind("<Button-1>", lambda event:backend.OS_open_file(backend.library_dir()))
         pbutton2.grid(row=2, column=0, padx=(5,0), pady=5)
+        
+        ###
+        pbutton3 = ttk.Button(self.framePatch,
+                              text="SteamFriendsPatcher",
+                              width=22
+        )
+        custom_tk.Detail_tooltip(pbutton3,
+                                     "Path to .exe can be set in OldGlory Config",
+                                     hover_delay=200)
+        pbutton3.bind("<Button-1>", lambda event:backend.OS_open_file(self.controller.get_patcher_path()))
+        pbutton3.grid(row=3, column=0, padx=(5,0), pady=5)
 
-
+        ###
         labeltext_b = tk.StringVar()
         labeltext_b.set("steam-library (Shiina)")
         
         label_b = tk.Label(self.framePatch, textvariable=labeltext_b)
-        label_b.grid(row=3, column=0)
+        label_b.grid(row=0, column=1, padx=(15,0))
         
-        pbutton3 = ttk.Button(self.framePatch,
+        ###
+        pbuttona = ttk.Button(self.framePatch,
                               text="Apply config.css",
                               width=22
         )
-        custom_tk.Detail_tooltip(pbutton3,
+        custom_tk.Detail_tooltip(pbuttona,
                                      "If you have modifed themes/config.css for steam-library,\n" \
                                      "click here to copy it over to steamui",
                                      hover_delay=200)
-        pbutton3.bind("<Button-1>", lambda event:backend.steam_library_compat_config(1))
-        pbutton3.grid(row=4, column=0, padx=(5,0), pady=5)
+        pbuttona.bind("<Button-1>", lambda event:backend.steam_library_compat_config(1))
+        pbuttona.grid(row=1, column=1, padx=(15,0), pady=5)
     
         
     def create_mode_frame(self):   
@@ -432,8 +462,8 @@ class StartPage(tk.Frame):
     def create_confirm_frame(self):
     ### CONFIRM FRAME
     ###
-        ConfirmObject = ConfirmFrame(self, self.controller)
-        self.frameConfirm = ConfirmObject.get_frame_confirm()
+        self.ConfirmObject = ConfirmFrame(self, self.controller)
+        self.frameConfirm = self.ConfirmObject.get_frame_confirm()
            
         
     def set_init_gui_states(self):
@@ -533,8 +563,8 @@ class PageOne(tk.Frame):
 
     ### CONFIRM FRAME
     ###
-        ConfirmObject = ConfirmFrame(self, controller)
-        frameConfirm = ConfirmObject.get_frame_confirm()
+        self.ConfirmObject = ConfirmFrame(self, controller)
+        frameConfirm = self.ConfirmObject.get_frame_confirm()
         
     ### Pack frames
         self.frameHead.pack()
@@ -594,8 +624,8 @@ class PageTwo(tk.Frame):
     
     ### CONFIRM FRAME
     ###
-        ConfirmObject = ConfirmFrame(self, controller)
-        frameConfirm = ConfirmObject.get_frame_confirm()
+        self.ConfirmObject = ConfirmFrame(self, controller)
+        frameConfirm = self.ConfirmObject.get_frame_confirm()
 
     ### Pack frames
     ###
@@ -664,14 +694,14 @@ class ConfirmFrame(tk.Frame):
         self.left_frame.grid(row=0, column=0, sticky=tk.E)
         
         ###
-        button1 = ttk.Button(self.frameConfirm,
+        self.button1 = ttk.Button(self.frameConfirm,
                         text="Install",
                         width=16                      
         )
-        button1.bind("<Button-1>",
+        self.button1.bind("<Button-1>",
                     lambda event:manager.install_click(event, controller.frames["StartPage"], controller)
                     )
-        button1.grid(row=0, column=1, padx=5, sticky="NSEW")
+        self.button1.grid(row=0, column=1, padx=5, sticky="NSEW")
         
         
         
@@ -702,7 +732,16 @@ class ConfirmFrame(tk.Frame):
                     lambda event:settings_window(event, controller)
                     )
         button3.grid(row=0, column=3, padx=(65,15), sticky=tk.E)
+    
+    def disable_install_button(self):
+        self.button1['state'] = 'disable'
         
+    def enable_install_button(self):
+        self.button1['state'] = 'normal'
+    
+    def get_install_button(self):
+        return self.button1
+    
     def get_frame_confirm(self):
         return self.frameConfirm
 ### ================================
@@ -732,12 +771,12 @@ def is_connected():
     return False
 
 ### Check SteamFriendsPatcher
-def check_if_css_patched(page):
-    if not backend.is_css_patched():
+def check_if_css_patched(page, filename="5.css"):
+    if not backend.is_css_patched(filename):
         hyperlink = custom_tk.HyperlinkManager(page.text1)
         page.text1.tag_configure("err", foreground="red")
         page.text1.insert(tk.INSERT, '\n==============================\n')
-        page.text1.insert(tk.INSERT, "css/5.css (previously known as libraryroot.css) not patched.\n", ("err"))
+        page.text1.insert(tk.INSERT, "css/" + filename + " (previously known as libraryroot.css) not patched.\n", ("err"))
         page.text1.insert(tk.INSERT, "Download ")
         page.text1.insert(tk.INSERT, "SteamFriendsPatcher\n", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SteamFriendsPatcher/")))
         page.text1.insert(tk.INSERT, '==============================\n')
@@ -915,6 +954,7 @@ def run_js_tweaker(text_area, reset=0):
 ### RELOAD Functions
 ### ================================
 def reload_click(event, controller):
+    # Needs a serious update
     try:
         print("==============================")
         ### Reload Data
@@ -923,6 +963,7 @@ def reload_click(event, controller):
         print("Loaded config data. (oldglory_config2.cfg)")
         controller.json_data = backend.get_json_data()
         controller.css_config = backend.load_css_configurables()
+        controller.oldglory_config = backend.load_config()
         controller.js_config, controller.special_js_config = backend.load_js_fixes()
         ### Update GUI
         controller.frames["PageOne"].css_gui.PresetFrame.update_presets_gui()

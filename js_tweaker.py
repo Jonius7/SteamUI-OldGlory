@@ -27,14 +27,14 @@ OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
     import winreg
 
-swap_js = {'"libraryroot"\}\[([a-z])\]\|\|([a-z])': '"libraryreet"}[\\1]||\\2',
+swap_js = {'5:"libraryroot"': '5:"libraryreet"',
            #'h=m.nTop,': 'h = (t.children[0] && t.children[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0].classList && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_Container_2-O4Z")) || (t.children[0].classList && t.children[0].classList.contains("gamelistentry_FriendStatusHover_2iiN7")) ? m.nTop * 0.75 : m.nTop,'
             #'([a-z])=([a-z]).slice\(0,6\);': '\\1=\\2.slice(0,12);'
            }
-swapback_js = {'"libraryreet"\}\[([a-z])\]\|\|([a-z])': '"libraryroot"}[\\1]||\\2',
+swapback_js = {'5:"libraryreet"': '5:"libraryroot"',
                #'h = (t.children[0] && t.children[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0].classList && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_Container_2-O4Z")) || (t.children[0].classList && t.children[0].classList.contains("gamelistentry_FriendStatusHover_2iiN7")) ? m.nTop * 0.75 : m.nTop,': 'h=m.nTop,'
                #'([a-z])=([a-z]).slice\(0,12\);': '\\1=\\2.slice(0,6);'
-            }
+               }
 
 fixes_dict = {}
 #yaml_data = {}
@@ -288,9 +288,11 @@ def semantic_find_str(find_str):
 
 def unescape(string):
     #new_string = re.sub(r'\\(.)', r'\1', string)
-    #new_string = re.sub(r'\([tnrvf])', r'', string)
+    #new_string = re.sub(r'\([tnrvf])', r'\1', string)
     #return new_string
-    return re.sub(r'\\(.)', r'\1', string)
+    #should cover all practical cases
+    new_string = re.sub(r'\\(.)', r'\1', string, flags=re.DOTALL)
+    return new_string
 
 class RegexHandler:
     def __init__(self):
@@ -469,7 +471,7 @@ def error_exit(errormsg):
     print("~~~~~~~~~~")
     sys.exit()
     
-def main(RUN = True):
+def main(RUN = False):
     if RUN:
         print("JS Tweaker for Steam Library UI by Jonius7\n")
         initialise()

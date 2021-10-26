@@ -1,0 +1,22 @@
+:root {
+    --DownloadsHeaderWidth: 100%;
+    --DownloadsHeaderHeight: 154px;
+    --DownloadsHeaderBackground: #0e141b;
+}
+
+
+.downloads_ItemLists_1ugNi > .downloads_Section_3Mbhn:nth-child(3) > .downloads_SectionList_OINnO.Panel.Focusable {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+downloads_SectionList_OINnO > div {
+    box-sizing: border-box;
+    width: 50%;
+}
+
+.downloadgraph_GraphAndStats_3KDkL {
+    width: var(--DownloadsHeaderWidth);
+    height: var(--DownloadsHeaderHeight);
+    background-color: var(--DownloadsHeaderBackground);
+}

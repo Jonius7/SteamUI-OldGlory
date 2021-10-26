@@ -96,8 +96,9 @@ StopWhatsNewLoad:
   name: Stop What's New Events from Loading
   desc: Replaces URL to load What's New events with blank
   category: Home Page
+  file: library.js
   strings:
-    - find: n = E.c.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",
+    - find: n = %1%.%2%.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",
       repl: n = "",    
   
 SmootherHomePageScrolling:
@@ -128,6 +129,8 @@ StickyBackgroundImage:
   name: CLASSIC Sticky background image and spillover into sidebar
   desc: (BETA) Set/Clear Custom Background right-click is not contextual.
   category: Game Page
+  refs:
+    - '%a%.%b%.currentGameListSelection.nAppId'
   strings:
     - find: 'rgHeaderImages: this.props.rgHeaderImages,'
       repl: 'rgHeaderImages: "",'

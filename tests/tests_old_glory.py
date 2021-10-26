@@ -10,12 +10,12 @@ import os
 
 #Test recursion for finding values in css_config
 class TestApplyCssValues(unittest.TestCase):
-    '''
+    
     def test_one_level(self):
         self.assertEqual(
             old_glory.search("--WhatsNew", "Random", {"--WhatsNew" : "block"}),
             "block")
-
+    '''
     def test_two_levels(self):
         self.assertEqual(
             old_glory.search("--WhatsNew", "Rag", {"What's New" : {"--WhatsNew" : "block"}}),
@@ -72,7 +72,7 @@ class TestApplyCssValues(unittest.TestCase):
 
         x.getPresetOptions()
     '''
-
+#class TestGui(unittest.TestCase):
     def add_dummy_frame(self):
         dummyController = old_glory.OldGloryApp()
         dummyFrame = tk.Frame(dummyController)
@@ -91,11 +91,13 @@ class TestApplyCssValues(unittest.TestCase):
         print(type(x.json_data))
     '''
     
+    '''
     def test_updatewindow(self):
         dummyController = old_glory.OldGloryApp()
         dummyUpdate = old_glory.UpdateWindow(
             controller=self,
             file_dates=backend.check_new_commit_dates(dummyController.json_data))
+    '''
 
     def test_is_connected(self):
         old_glory.is_connected()
@@ -105,8 +107,18 @@ class TestApplyCssValues(unittest.TestCase):
 
     def test_check_disabled(self):
         x = self.add_dummy_frame()
-        x.frames[old_glory.StartPage].check1.event_generate("<Button-1>")
-        print(x.frames[old_glory.StartPage].check2.cget("state"))
+        x.frames["StartPage"].check1.event_generate("<Button-1>")
+        print(x.frames["StartPage"].check2.cget("state"))
+
+    def test_get_libraryroot(self):
+        dummyController = old_glory.OldGloryApp()
+        dummyController.json_data = backend.get_json_data(sys.path[0] + '/../old_glory_data.json')
+        print(dummyController.get_libraryroot_filename())
+
+    def test_get_patcher(self):
+        dummyController = old_glory.OldGloryApp()
+        dummyController.oldglory_config = backend.load_config(sys.path[0] + '/../oldglory_config2.cfg')
+        print(dummyController.get_patcher_path())
         
 class BlankClass(object):
     def __init__(self, string):

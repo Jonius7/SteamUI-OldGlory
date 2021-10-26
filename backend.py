@@ -202,13 +202,16 @@ def OS_open_file(path):
     UTILITY: Returns file explorer path for Windows, Mac, Linux.
     '''
     try:
-        if OS_TYPE == "Windows":
-            subprocess.Popen(["explorer", path])
-        elif OS_TYPE ==  "Darwin":
-            subprocess.Popen(["open", path])
-        elif OS_TYPE ==  "Linux":
-            subprocess.Popen(["xdg-open", path])
-        print("Opened: " + path)
+        if os.path.exists(path):
+            if OS_TYPE == "Windows":
+                subprocess.Popen(["explorer", path])
+            elif OS_TYPE ==  "Darwin":
+                subprocess.Popen(["open", path])
+            elif OS_TYPE ==  "Linux":
+                subprocess.Popen(["xdg-open", path])
+            print("Opened: " + path)
+        else:
+            print("Path " + path + " does not exist.", file=sys.stderr)
     except:
         print_traceback()
     
@@ -281,13 +284,14 @@ def get_file_hash(filepath):
         print_traceback()
 
 ### Check CSS Patched
-def is_css_patched():
+def is_css_patched(filename="5.css"):
     '''
     UTILITY: Returns whether the Steam Library CSS has been patched.
     '''
     patched = False
+    filepath = library_dir() + "/css/" + filename    
     try:
-        with open(library_dir() + "/css/5.css", newline='', encoding="UTF-8") as f:
+        with open(filepath, newline='', encoding="UTF-8") as f:
             first_line = f.readline()
         if PATCHED_TEXT in first_line:
             patched = True
@@ -295,8 +299,10 @@ def is_css_patched():
             pass
             #print("css\libraryroot.css not patched.", file=sys.stderr)
         f.close()
+    except FileNotFoundError:
+        print("File at " + filepath + " (previously known as libraryroot.css) not found.", file=sys.stderr)
     except:
-        print("css/5.css (previously known as libraryroot.css), not found", file=sys.stderr)
+        print("Error occured while trying to find patched CSS css/" + filename, file=sys.stderr)
         print_traceback()
     return patched
 
@@ -331,11 +337,10 @@ def datetime_string_to_obj(date_string):
 
 ##########################################
 ### JSON Functions
-def get_json_data():
+def get_json_data(json_data_filename = 'old_glory_data.json'):
     '''
     JSON: load data from JSON file and return it as an object
     '''
-    json_data_filename = 'old_glory_data.json'
     try:
         with open(json_data_filename, encoding="UTF-8") as f:
             json_data = json.load(f)
@@ -377,9 +382,8 @@ def write_json_data(json_data):
 ##########################################
 ### CONFIG Functions
 
-def load_config():
+def load_config(config_filename = "oldglory_config2.cfg"):
     config_dict = {}
-    config_filename = "oldglory_config2.cfg"
     if not os.path.isfile(config_filename) :
         print("Config file " + config_filename + " not found. Creating copy with default options.", file=sys.stderr)
         write_config(defaults.DEFAULT_CONFIG)
@@ -396,10 +400,10 @@ def load_config():
             config_dict[section] = temp_dict
         return config_dict
 
-def test_config():
+def test_config(config_filename = "oldglory_config2.cfg"):
     config = configparser.ConfigParser()
     config.optionxform = str
-    config.read("oldglory_config2.cfg")
+    config.read(config_filename)
     return config
 
 def write_config(config_dict = defaults.DEFAULT_CONFIG):
@@ -1084,10 +1088,11 @@ def hash_compare_small_update_files(file_dates, json_data):
                         #print(local_filepath)
                         if os.path.exists(local_filepath):
                             #if local hash != remote hash
+                            # Need to change hardcoding these filenames
                             if (get_file_hash(local_filepath) != filedata["sha"] and
                                  local_filepath != "scss/libraryroot.custom.scss" and
-                                 local_filepath != "scss/_user_module1.scss" and
-                                 local_filepath != "scss/_user_module2.scss"):                
+                                 local_filepath != "scss/_custom_module1.scss" and
+                                 local_filepath != "scss/_custom_module2.scss"):                
                                 #print("Different file hashes " + local_filepath)
                                 #print(local_filepath + " | " + get_file_hash(local_filepath) + "  |  " + filedata["sha"])
                                 print("New Version | " + local_filepath)

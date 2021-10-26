@@ -5,6 +5,7 @@
 .libraryhome_LibraryHome_3Sb2o {
   padding: 8px 12px 12px; /* default 8px 14px 14px */
   /*background-image: linear-gradient(to bottom, #2d333c 0%, #24282f 20%);*/
+  order: 1;
 }
 
 /* Home Page - What's New
@@ -17,12 +18,14 @@
 .smartscrollcontainer_Body_3lDcz.libraryhome_InnerContainer_2AUVZ {
   display: flex;
   flex-flow: column;
+  & > div:nth-child(1) {
+    order: var(--WhatsNewOrder);
+  }
 }
 
 /* Position What's New */
-.libraryhome_WhatsNewContainer_gdZT7 {
+.libraryhome_UpdatesContainer_17uEB {
   display: var(--WhatsNew);
-  order: var(--WhatsNewOrder);
 }
 
 /* Home Page - Steam Games Grid

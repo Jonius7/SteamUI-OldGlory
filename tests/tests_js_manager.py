@@ -13,10 +13,13 @@ from rich import print as r_print
 class TestJSManager(unittest.TestCase):
 
     def test_get_js_by_file(self):
-        y = js_tweaker.YamlHandler(sys.path[0] + "/../js_tweaks.yml")
-        a = js_manager.ConfigJSHandler(y.f_data, backend.load_config())
-        r_print(a.config)
-        r_print(a.f_data_list)
+        self.y = js_tweaker.YamlHandler(sys.path[0] + "/../js_tweaks.yml")
+        self.a = js_manager.ConfigJSHandler(self.y.f_data, backend.load_config())
+        r_print(self.a.config)
+        r_print(self.a.f_data_list)
+        print("---")
+        r_print(self.a.config.get('JS_Values')['ColumnSpacing'])
+    
         
 if __name__ == '__main__':
     unittest.main(exit=False)

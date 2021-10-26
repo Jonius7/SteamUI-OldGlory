@@ -1,18 +1,22 @@
 ## SteamUI-OldGlory GUI Changelog
 
+0.9.17		Can now set libraryroot CSS filename, launch SteamFriendsPatcher button 
+
+**0.9.11.2	(Release 5.7.4)** Fixed bug with error: `No such file or directory: 'librery.js'`
+
 0.9.16		Fixed longstanding GUI slow responsiveness switching Frames while tweaks are Installing
 
 0.9.15.1	Change Install buttons layout
 
-0.9.14.1	(5.8-pre2)	Working Regex find and replacements
+0.9.14.1	*(5.8-pre2)*	Working Regex find and replacements
 
 0.9.12.1	Reading .yml
 
-**0.9.11.0** **(Release 5.7.3)** Now using tweaked JS in `librery.js` (original file `library.js`)
+**0.9.11.0**	**(Release 5.7.3)** Now using tweaked JS in `librery.js` (original file `library.js`)
 
-**0.9.10.7** **(Release 5.7.2)** Changed order of js tweaking (also fixes nasty bug "invariant failed...")
+**0.9.10.7**	**(Release 5.7.2)** Changed order of js tweaking (also fixes nasty bug "invariant failed...")
 
-0.9.10.4 **(Release 5.7.1.1)**
+**0.9.10.4**	**(Release 5.7.1.1)**
 
 0.9.10.1	(5.7-pre1) Simpler config/parsing writing code (Part 1)
 
