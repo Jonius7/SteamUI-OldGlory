@@ -10,12 +10,19 @@ import os
 
 #Test recursion for finding values in css_config
 class TestApplyCssValues(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.dummyController = old_glory.OldGloryApp()
+        cls.dummyFrame = tk.Frame(cls.dummyController)
+        cls.dummyController.json_data = backend.get_json_data(sys.path[0] + '/../old_glory_data.json')
+        cls.dummyController.oldglory_config = backend.load_config(sys.path[0] + '/../oldglory_config2.cfg')
     
+    '''
     def test_one_level(self):
         self.assertEqual(
             old_glory.search("--WhatsNew", "Random", {"--WhatsNew" : "block"}),
             "block")
-    '''
+    
     def test_two_levels(self):
         self.assertEqual(
             old_glory.search("--WhatsNew", "Rag", {"What's New" : {"--WhatsNew" : "block"}}),
@@ -72,24 +79,22 @@ class TestApplyCssValues(unittest.TestCase):
 
         x.getPresetOptions()
     '''
-#class TestGui(unittest.TestCase):
+
     def add_dummy_frame(self):
-        dummyController = old_glory.OldGloryApp()
-        dummyFrame = tk.Frame(dummyController)
         json_data = backend.get_json_data()
-        presetFrame = tk.Frame(dummyFrame)
-        pFrame = old_glory.PresetFrame(dummyFrame, dummyController, json_data)
+        presetFrame = tk.Frame(self.dummyFrame)
+        pFrame = old_glory.PresetFrame(self.dummyFrame, self.dummyController, json_data)
         presetFrame = pFrame.returnPresetFrame()
         presetFrame.pack()
 
-        dummyFrame.pack()
+        self.dummyFrame.pack()
 
-        return dummyController
-    '''    
+        return self.dummyController
+   
     def test_showpresetoptions(self):
         x = self.add_dummy_frame()
         print(type(x.json_data))
-    '''
+
     
     '''
     def test_updatewindow(self):
@@ -111,14 +116,10 @@ class TestApplyCssValues(unittest.TestCase):
         print(x.frames["StartPage"].check2.cget("state"))
 
     def test_get_libraryroot(self):
-        dummyController = old_glory.OldGloryApp()
-        dummyController.json_data = backend.get_json_data(sys.path[0] + '/../old_glory_data.json')
-        print(dummyController.get_libraryroot_filename())
+        print("LIBRARYROOT FILENAME: " + self.dummyController.get_libraryroot_filename())
 
     def test_get_patcher(self):
-        dummyController = old_glory.OldGloryApp()
-        dummyController.oldglory_config = backend.load_config(sys.path[0] + '/../oldglory_config2.cfg')
-        print(dummyController.get_patcher_path())
+        print("PATCHER PATH: " + self.dummyController.get_patcher_path())
         
 class BlankClass(object):
     def __init__(self, string):

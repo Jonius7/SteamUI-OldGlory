@@ -20,6 +20,8 @@ import time
 import datetime
 import copy
 
+import js_manager
+
 LOCAL_DEBUG = 0 #Set to 1 to not copy files to/from Steam directory
 
 # Determine Steam Library Path
@@ -44,6 +46,9 @@ def initialise():
     #yaml_data.clear()
 
 def library_dir():
+    '''
+    Returns the Steam Library directory path (OS specific)
+    '''
     try:
         steamui_path = ""
         if OS_TYPE == "Windows":
@@ -59,9 +64,7 @@ def library_dir():
     except:
         error_exit("Steam library directory could not be found.")
 
-
 ######
-
 
 def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fresh copy (useful for updates)
     try:
@@ -114,7 +117,7 @@ def setup_library(reset=0):
         error_exit("Error setting up library.js")
         
 
-def modify_library(swap_js_array):
+def modify_library(swap_js_array: dict):
     try:
         lines = []
         modified = 0
@@ -215,7 +218,7 @@ class YamlHandler:
     def __init__(self, filename):
         self.filename = filename
         self.data = self.parse_yaml_file()
-        self.f_data = self.format_yaml_data()
+        self.f_data = None#self.format_yaml_data()
         
     def parse_yaml_file(self):
         with open(self.filename, newline='', encoding="UTF-8") as f:
@@ -335,7 +338,7 @@ def find_var_names(string):
     #re.search(b, "Object(Ap.g)([e, t], n)")
     #unescape(re.sub('Object\\(([A-Za-z]+)\\.([A-Za-z]+)\\)\\(\\[([A-Za-z]+),\\ ([A-Za-z]+)\\],\\ n\\)', 'Object\\(\\1\\.\\2\\)\\(\\[\\3,\\ \\4\\],\\ n\\)', 'Object(p.g)([e, t], n)'))  
     pass
-    
+       
 def write_modif_file(data):
     start_time = datetime.datetime.now()
     try:
@@ -464,14 +467,14 @@ def copy_files_to_steam():
         error_exit("Error found while copying files to Steam: " + e)
 
 
-def error_exit(errormsg):
+def error_exit(errormsg: str):
     print(errormsg, file=sys.stderr)
     print("~~~~~~~~~~")
     print(traceback.print_exc(), file=sys.stderr)
     print("~~~~~~~~~~")
     sys.exit()
     
-def main(RUN = False):
+def main(RUN = True):
     if RUN:
         print("JS Tweaker for Steam Library UI by Jonius7\n")
         initialise()
