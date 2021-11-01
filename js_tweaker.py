@@ -467,12 +467,22 @@ def copy_files_to_steam():
         error_exit("Error found while copying files to Steam: " + e)
 
 
-def error_exit(errormsg: str):
+def print_error(errormsg: str):
+    '''
+    Prints error message, traceback
+    '''
     print(errormsg, file=sys.stderr)
     print("~~~~~~~~~~")
     print(traceback.print_exc(), file=sys.stderr)
     print("~~~~~~~~~~")
+
+def error_exit(errormsg: str):
+    '''
+    Prints error message, traceback and exits
+    '''
+    print_error(errormsg)
     sys.exit()
+
     
 def main(RUN = True):
     if RUN:

@@ -10,7 +10,9 @@ import backend
 import js_tweaker
 
 import sys
+import traceback
 import re
+from schema import Schema, Optional, Use, SchemaError, SchemaWrongKeyError
 
 class ValuesJSHandler:
     pass
@@ -59,12 +61,53 @@ class ConfigJSHandler:
         else:
             return "0"
         
+    def populate_data(self, f_data_by_file=None):
+        '''
+        Takes the tweak data and returns a version of it with values put in
+        '''
+        if f_data_by_file is None:
+            f_data_by_file = self.f_data_by_file
+        validated_data = self.schema_validate(f_data_by_file)
+        
+        if isinstance(validated_data, dict):
+            for filename in validated_data:
+                for tweak in validated_data[filename]:
+                    if "values" in validated_data[filename][tweak]:
+                        validated_data[filename][tweak] = self.replace_js_values(validated_data[filename][tweak])
+        else:
+            print("Something unexpectedly went wrong with the JS Tweaks data.")
+        return validated_data
+    
+    
+    def schema_validate(self, data):
+        js_tweaks_schema = Schema({str: {str: {
+            'name': str,
+            'strings': [{'find': str, 'repl': str}],
+            Optional('desc'): str,
+            Optional('category'): str,
+            Optional('values'): [str],
+            Optional('file'): str
+            }}}, ignore_extra_keys=True)
+        try:
+            return js_tweaks_schema.validate(data)
+        except SchemaError:
+            js_tweaker.print_error("Invalid JS Tweaks File Format. \n" \
+                  'Please check your file includes the required "name" and "strings" attributes for each tweak.')
+    
     def replace_js_values(self, tweak_data):
         '''
         tweak_data  The dictionary containing 1 tweak's data
-        '''       
+        '''
+        print(tweak_data)
         for find_repl in tweak_data["strings"]:
-            pass
+            for value in tweak_data["values"]:
+                find_repl["repl"] = find_repl["repl"].replace(
+                    "@" + value + "@",
+                    self.get_js_value_from_config(value))
+                #print(find_repl["repl"]) 
+        return tweak_data
+    
+    def get_refs(self):
         pass
     
     def get_line(self, data_dict):
@@ -77,6 +120,7 @@ class ConfigJSHandler:
 def process_yaml():
     y_handler = js_tweaker.YamlHandler("js_tweaks.yml")
     c_handler = ConfigJSHandler(y_handler.data, backend.load_config())
+    c_handler.populate_data()
     #add @values
     #add refs
     #sub regex

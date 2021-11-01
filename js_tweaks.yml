@@ -1,14 +1,17 @@
 ---
 HomePageGridSpacing:
   name: Home Page Grid Spacing
+  nme1: agoseign
+  nme2: goseignseg
+  nme3: gsegoiseng
   desc: Change grid spacing between games on the HOME page.
   category: Home Page
   values: [ColumnSpacing,RowSpacing]
   strings:
     - find: 'gridColumnGap: 16,'
-      repl: 'gridColumnGap: 5,'
+      repl: 'gridColumnGap: @ColumnSpacing@,'
     - find: 'gridRowGap: 24,'
-      repl: 'gridRowGap: 8,'
+      repl: 'gridRowGap: @RowSpacing@,'
 
 MoreScreenshotsandDLC:
   name: Increase Number of Screenshots and DLC displayed
