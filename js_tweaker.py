@@ -8,7 +8,7 @@ import sys
 import shutil
 import traceback
 import re
-from jsmin import jsmin
+import rjsmin
 import time
 
 LOCAL_DEBUG = 0 #Set to 1 to not copy files to/from Steam directory
@@ -241,7 +241,7 @@ def re_minify_file():
     try:
         print("\nRe-minify JS file")
         with open("libraryroot.modif.js", "r", newline='', encoding="UTF-8") as js_file:
-            minified = jsmin(js_file.read())
+            minified = rjsmin.jsmin(js_file.read(), keep_bang_comments=True)
         with open("libraryreet.js", "w", newline='', encoding="UTF-8") as js_min_file:
             js_min_file.write(minified)
         js_file.close()
