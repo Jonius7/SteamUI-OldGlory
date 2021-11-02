@@ -108,29 +108,37 @@ class ConfigJSHandler:
         except SchemaError:
             js_tweaker.print_error("Invalid ref searching")
         '''
-        subset = {"refs", "file", "strings"}        
+        subset = {"refs"}        
         
+        #create dictionary containing tweaks that only have refs attrs
         refs_data = {filename_k : {tweak_k : {attr_k : attr_v
-                for (attr_k, attr_v) in tweak_v.items() if attr_k in subset}             
-                for (tweak_k, tweak_v) in filename_v.items() if (tweak_v.keys for sub in subset)} 
+                for (attr_k, attr_v) in tweak_v.items() if attr_k in "refs"}             
+                for (tweak_k, tweak_v) in filename_v.items() if self.refs_in_tweak(tweak_v.keys(), subset)} 
                 for (filename_k, filename_v) in data.items()}
         
         return refs_data
     
-    def search_for_refs(self, filename, ref_queue):    
+    def refs_in_tweak(self, keys, subset):
+        for sub in subset:
+            if sub in keys:
+                return True
+            else:
+                return False
+        
+    def search_for_refs(self, filename, refs_data):    
         try:
-            r_search = js_tweaker.RegexHandler()
-            ref_dict = {}
-            rgx_ref_queue = self.get_regex_ref_queue(ref_queue)
+            '''r_search = js_tweaker.RegexHandler()
+            refs_dict = {}
+            rgx_refs_data = self.get_regex_ref_queue(refs_data)
             with open(filename, "r", newline='', encoding="UTF-8") as f:
                 for line in f:
-                    for i, ref in enumerate(rgx_ref_queue):
+                    for i, ref in enumerate(rgx_refs_data):
                         if (match := r_search.find(ref, line)):
                             #print(match)
-                            ref_dict[ref_queue[i]] = match.group(0)
-                            rgx_ref_queue.remove(ref)
+                            refs_dict[refs_data[i]] = match.group(0)
+                            rgx_refs_data.remove(ref)
             f.close()
-            return ref_dict
+            return refs_dict'''
         except:
             js_tweaker.error_exit("Error while searching for Refs")
                     
