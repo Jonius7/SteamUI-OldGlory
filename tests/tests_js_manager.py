@@ -115,6 +115,9 @@ class TestRefs(unittest.TestCase):
         print(end_time - start_time)
         
         r_print(rf)
+    
+    def test_get_refs1(self):
+        r_print(self.a.refs_dict(self.a.populate_data()))
         
         
 if __name__ == '__main__':

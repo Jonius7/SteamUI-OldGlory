@@ -1,12 +1,12 @@
 ## SteamUI-OldGlory GUI Changelog
 
-
+0.9.21
 
 **0.9.11.5**	**(Release 5.7.4.2)**
 
-0.9.20.2	Update JS Beautify messages
+0.9.20.2	Search for Refs (WIP), update JS Beautify Messages
 
-0.9.20		*(5.8-pre6)* 	JS Tweaks Schema Validation and populating `@Values@`
+0.9.19		*(5.8-pre6)* 	JS Tweaks Schema Validation and populating `@Values@`
 
 0.9.17		*(5.8-pre5)*	Can now set libraryroot CSS filename, launch SteamFriendsPatcher button 
 
@@ -18,7 +18,7 @@
 
 0.9.14.1	*(5.8-pre2)*	Working Regex find and replacements
 
-0.9.12.1	Reading .yml
+0.9.12.1	Reading `.yml`
 
 **0.9.11.0**	**(Release 5.7.3)** Now using tweaked JS in `librery.js` (original file `library.js`)
 

@@ -96,6 +96,27 @@ class ConfigJSHandler:
             js_tweaker.print_error("Invalid JS Tweaks File Format. \n" \
                   'Please check your file includes the required "name" and "strings" attributes for each tweak.')
     
+    def refs_dict(self, data):
+        '''
+        refs_schema = Schema({str: {str: {
+            'name': str,
+            'strings': [{'find': str, 'repl': str}],
+            'refs': [str],
+            }}}, ignore_extra_keys=True)
+        try:
+            return refs_schema.validate(data)
+        except SchemaError:
+            js_tweaker.print_error("Invalid ref searching")
+        '''
+        subset = {"refs", "file", "strings"}        
+        
+        refs_data = {filename_k : {tweak_k : {attr_k : attr_v
+                for (attr_k, attr_v) in tweak_v.items() if attr_k in subset}             
+                for (tweak_k, tweak_v) in filename_v.items() if (tweak_v.keys for sub in subset)} 
+                for (filename_k, filename_v) in data.items()}
+        
+        return refs_data
+    
     def search_for_refs(self, filename, ref_queue):    
         try:
             r_search = js_tweaker.RegexHandler()

@@ -37,7 +37,7 @@ DEFAULT_LIBRARYROOT = "5.css"
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.20.2"
+        self.version = "v0.9.20.4"
         self.release = "5.8-pre6"
       
         ### Window Frame
