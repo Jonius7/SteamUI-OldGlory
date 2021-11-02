@@ -19,8 +19,8 @@ class TestJSManager(unittest.TestCase):
         cls.a = js_manager.ConfigJSHandler(cls.y.data, backend.load_config())        
         
     def test_get_js_by_file(self):
-        r_print(self.a.config)
-        r_print(self.a.f_data_by_file)
+        #r_print(self.a.config)
+        #r_print(self.a.f_data_by_file)
         print("---")
         r_print(self.a.config.get('JS_Values')['ColumnSpacing'])
         
@@ -59,7 +59,7 @@ class TestSchema(unittest.TestCase):
             
     def test_schema_validate1(self):
         validated = self.a.populate_data()
-        print(validated)
+        #print(validated)
     
     #ignore extra keys
     def test_schema_validate2(self):
@@ -68,7 +68,7 @@ class TestSchema(unittest.TestCase):
             "EXTRAEXTRA": "This won't appear",
             "strings" : [{"find": 'grid', "repl": 'gride'}]}}}
         validated = self.a.populate_data(data)
-        print(validated)
+        #print(validated)
         
     def test_schema_validate3(self):
         data = {'libraryroot': {"DimUninstalled": {
@@ -77,12 +77,13 @@ class TestSchema(unittest.TestCase):
             "EXTRAEXTRA": "This won't appear",
             "strings" : [{"find": 'grid', "repl": 'gride @SmallGridSize@'}]}}}
         validated = self.a.populate_data(data)
-        print(validated)
+        #print(validated)
         
     #full data
     def test_schema_validate4(self):
         validated = self.a.populate_data()
-        print(validated)
+        r_print(validated)
+        self.assertEqual(validated['libraryroot.js']['HomePageGridSpacing']['strings'][0]['repl'], 'gridColumnGap: 5,')
 
 class TestValues(unittest.TestCase):
     @classmethod
@@ -97,7 +98,24 @@ class TestValues(unittest.TestCase):
             "strings" : [{"find": 'TEXT1 22', "repl": 'ANTITEXT @SmallGridSize@ @MediumGridSize@'}]}
         self.a.replace_js_values(data)
         #print(self.a.f_data_by_file)
-    
+
+class TestRefs(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.y = js_tweaker.YamlHandler(sys.path[0] + "/../js_tweaks.yml")
+        cls.a = js_manager.ConfigJSHandler(cls.y.data, backend.load_config())
+        cls.r = js_tweaker.RegexHandler()
+        
+    def test_search_refs1(self):
+        start_time = datetime.datetime.now()
+        
+        rf = self.a.search_for_refs("libraryroot.beaut.js", ['%a%.%b%.currentGameListSelection.nAppId'])
+        
+        end_time = datetime.datetime.now()
+        print(end_time - start_time)
+        
+        r_print(rf)
+        
         
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])

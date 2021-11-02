@@ -1,12 +1,20 @@
 ## SteamUI-OldGlory GUI Changelog
 
-0.9.17		Can now set libraryroot CSS filename, launch SteamFriendsPatcher button 
+
+
+**0.9.11.5**	**(Release 5.7.4.2)**
+
+0.9.20.2	Update JS Beautify messages
+
+0.9.20		*(5.8-pre6)* 	JS Tweaks Schema Validation and populating `@Values@`
+
+0.9.17		*(5.8-pre5)*	Can now set libraryroot CSS filename, launch SteamFriendsPatcher button 
 
 **0.9.11.2	(Release 5.7.4)** Fixed bug with error: `No such file or directory: 'librery.js'`
 
-0.9.16		Fixed longstanding GUI slow responsiveness switching Frames while tweaks are Installing
+0.9.16		*(5.8-pre4)*	Fixed longstanding GUI slow responsiveness switching Frames while tweaks are Installing
 
-0.9.15.1	Change Install buttons layout
+0.9.15.1	*(5.8-pre3)*	Change Install buttons layout
 
 0.9.14.1	*(5.8-pre2)*	Working Regex find and replacements
 
@@ -18,11 +26,11 @@
 
 **0.9.10.4**	**(Release 5.7.1.1)**
 
-0.9.10.1	(5.7-pre1) Simpler config/parsing writing code (Part 1)
+0.9.10.1	*(5.7-pre1)* Split code into `manager.py`, simpler config/parsing writing code (Part 1)
 
-0.9.9.10	(5.6.5-pre3)
+0.9.9.10	*(5.6.5-pre3)*
 
-0.9.9.01	(*5.6.5-pre1*)  Split code into custom_tk.py, added "CSS + JS" selector
+0.9.9.01	<u>(5.6.5-beta1)</u>  Split code into `custom_tk.py`, added "CSS + JS" selector
 
 0.9.8.20	(*5.6-pre1*)	Updated to use new config version
 
@@ -54,7 +62,7 @@
 
 0.9.7.4	 Added `ScrollFrame` to JS Options
 
-0.9.7b	  Now reads from variables.css ("What's New") 
+0.9.7		Now reads from variables.css ("What's New") 
 
 **0.9.6.11**   **(Release 5.0.1)** Fixed issue with libraryroot.custom.css not apply on clean install
 

@@ -1,6 +1,8 @@
 '''
 old_glory.py
 Handles all the GUI functions for OldGlory
+
+libraries needed: pillow, requests
 '''
 
 import tkinter as tk
@@ -35,8 +37,8 @@ DEFAULT_LIBRARYROOT = "5.css"
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.17"
-        self.release = "5.8-pre5"
+        self.version = "v0.9.20.2"
+        self.release = "5.8-pre6"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)

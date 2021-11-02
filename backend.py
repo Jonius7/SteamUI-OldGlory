@@ -1,6 +1,8 @@
 '''
 backend.py
 Handles the backend for applying CSS and checking for updates
+
+libraries needed: requests, requests_oauthlib, libsass
 '''
 
 import platform

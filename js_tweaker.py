@@ -1,5 +1,5 @@
 '''
-js_tweaker.py\n
+js_tweaker.py
 JS Tweaker for Steam Library UI by Jonius7\n
 Handles the applying process of JS tweaks
 
@@ -8,6 +8,7 @@ libraries needed: jsbeautifier, jsmin
 
 import jsbeautifier
 from jsmin import jsmin
+import rjsmin
 import yaml
 
 import platform
@@ -80,26 +81,42 @@ def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fres
     except FileNotFoundError:
         error_exit("Steam directory and/or files not found.\n" \
               "Please check Steam\steamui for library.js and libraryroot.js")
-            
 
-def beautify_js():
+def beautify_js(filename="libraryroot.js"):
+    '''
+    Example:
+        - filename          libraryroot.js
+        - beaut_filename    libraryroot.beaut.js
+    '''
     try:
-        if not os.path.isfile("libraryroot.beaut.js"):
-            print("Opening JS file and beautifying...")
-            if not os.path.isfile("libraryroot.js"):
-                shutil.copy2(library_dir() + "/libraryroot.js", "libraryroot.js")
+        (name, ext) = os.path.splitext(filename)
+        beaut_filename = name + ".beaut" + ext
+        
+        #If files don't exist
+        if not os.path.isfile(beaut_filename):
+            print("Opened JS file " + filename, end="")
+            if not os.path.isfile(filename):
+                shutil.copy2(os.path.join(library_dir(), filename), filename)
 
             opts = jsbeautifier.default_options()
             #opts.eol = ""
-            library = jsbeautifier.beautify_file("libraryroot.js", opts)
+            print(", " + "Generating beautified JS...")
+            library = jsbeautifier.beautify_file(filename, opts)
 
-            f = open("libraryroot.beaut.js", "wt", newline='', encoding="UTF-8")
-            print("Writing beautified file... please do not close")
+            f = open(beaut_filename, "wt", newline='', encoding="UTF-8")
             f.write(library)
             f.close()
-            print("Beautified file write finished")
+            print("Beautified JS file written to " + beaut_filename)
     except:
-        error_exit("libraryroot.js not found")
+        error_exit(filename + " not found")
+        
+'''
+#Not needed, testing  
+def unpacker():
+    source = "".join([line.rstrip('\n') for line in open("libraryroot.js", encoding="UTF-8")])
+    import jsbeautifier.unpackers.packer as packer
+    unpack = packer.unpack(source)
+'''
 
 #modify library.js to look for different libraryroot.js file
 def setup_library(reset=0):
@@ -301,6 +318,7 @@ class RegexHandler:
     def __init__(self):
         #Detecting letter variables %1% %2% %3% etc.
         self.vars = re.compile("%([0-9]+)%")
+        self.refs = re.compile("%([a-z]+)%")
         #The regex pattern to replace them with
         self.letters = "([A-Za-z]+)"
     
@@ -317,6 +335,9 @@ class RegexHandler:
     def sub_repl_with_regex(self, repl):
         return self.vars.sub(r"\\"+"\\1",  escaped_pattern(repl))
     
+    def sub_ref_with_regex(self, find):
+        return self.refs.sub(self.letters, escaped_pattern(find))
+    
     def find_and_repl(self, find, repl, line, lineno):
         '''
         takes a find/replace pair and returns the string to be written
@@ -330,6 +351,10 @@ class RegexHandler:
         return return_string    
         
     def find(self, find, line):
+        '''
+        - find: pattern
+        - line: text to search
+        '''
         return re.search(find, line)
 
 def find_var_names(string):
@@ -339,7 +364,7 @@ def find_var_names(string):
     #unescape(re.sub('Object\\(([A-Za-z]+)\\.([A-Za-z]+)\\)\\(\\[([A-Za-z]+),\\ ([A-Za-z]+)\\],\\ n\\)', 'Object\\(\\1\\.\\2\\)\\(\\[\\3,\\ \\4\\],\\ n\\)', 'Object(p.g)([e, t], n)'))  
     pass
        
-def write_modif_file(data):
+def write_modif_file(data, file="libraryroot.js"):
     start_time = datetime.datetime.now()
     try:
         r_search = RegexHandler()
@@ -440,12 +465,13 @@ def re_minify_file():
     try:
         print("\nRe-minify JS file")
         with open("libraryroot.modif.js", "r", newline='', encoding="UTF-8") as js_file:
-            minified = jsmin(js_file.read())
+            #minified = jsmin(js_file.read())
+            minified = rjsmin.jsmin(js_file.read(), keep_bang_comments=True)
         with open("libraryreet.js", "w", newline='', encoding="UTF-8") as js_min_file:
             js_min_file.write(minified)
         js_file.close()
         js_min_file.close()
-        print("\nJS Minify complete. (libraryreet.js)")
+        print("\nJS Minify complete. (libraryreet.js)")        
     except:
         error_exit("Error completing JS minify.")
     

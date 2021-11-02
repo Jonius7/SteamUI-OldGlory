@@ -1,8 +1,8 @@
 '''
 js_manager.py\n
-For anything js_tweaker needs to access from other OldGlory modules\n
+For anytoshing js_tweaker needs to access from other OldGlory modules\n
 
-libraries needed: jsbeautifier, jsmin
+libraries needed: schema
 '''
 
 import old_glory
@@ -13,6 +13,7 @@ import sys
 import traceback
 import re
 from schema import Schema, Optional, Use, SchemaError, SchemaWrongKeyError
+import datetime
 
 class ValuesJSHandler:
     pass
@@ -21,7 +22,7 @@ class ConfigJSHandler:
     '''
     data            Yaml data, from yaml.safe_load(f)
     config          config dictionary, from the likes of backend.load_config()
-    f_data_list     Filtered Yaml data (split by file, enabled tweaks only)
+    f_data_by_file  Filtered Yaml data (split by file, enabled tweaks only)
     '''
     def __init__(self, data, config):
         self.default = "libraryroot.js"
@@ -63,7 +64,7 @@ class ConfigJSHandler:
         
     def populate_data(self, f_data_by_file=None):
         '''
-        Takes the tweak data and returns a version of it with values put in
+        Takes the JS data and returns a version of it with values put in
         '''
         if f_data_by_file is None:
             f_data_by_file = self.f_data_by_file
@@ -74,10 +75,10 @@ class ConfigJSHandler:
                 for tweak in validated_data[filename]:
                     if "values" in validated_data[filename][tweak]:
                         validated_data[filename][tweak] = self.replace_js_values(validated_data[filename][tweak])
+                        #print(validated_data[filename][tweak])
         else:
-            print("Something unexpectedly went wrong with the JS Tweaks data.")
+            print("Something unexpectedly went wrong with the JS Tweaks data.", file=sys.stderr)
         return validated_data
-    
     
     def schema_validate(self, data):
         js_tweaks_schema = Schema({str: {str: {
@@ -85,6 +86,7 @@ class ConfigJSHandler:
             'strings': [{'find': str, 'repl': str}],
             Optional('desc'): str,
             Optional('category'): str,
+            Optional('refs'): [str],
             Optional('values'): [str],
             Optional('file'): str
             }}}, ignore_extra_keys=True)
@@ -93,6 +95,30 @@ class ConfigJSHandler:
         except SchemaError:
             js_tweaker.print_error("Invalid JS Tweaks File Format. \n" \
                   'Please check your file includes the required "name" and "strings" attributes for each tweak.')
+    
+    def search_for_refs(self, filename, ref_queue):    
+        try:
+            r_search = js_tweaker.RegexHandler()
+            ref_dict = {}
+            rgx_ref_queue = self.get_regex_ref_queue(ref_queue)
+            with open(filename, "r", newline='', encoding="UTF-8") as f:
+                for line in f:
+                    for i, ref in enumerate(rgx_ref_queue):
+                        if (match := r_search.find(ref, line)):
+                            #print(match)
+                            ref_dict[ref_queue[i]] = match.group(0)
+                            rgx_ref_queue.remove(ref)
+            f.close()
+            return ref_dict
+        except:
+            js_tweaker.error_exit("Error while searching for Refs")
+                    
+    def get_regex_ref_queue(self, ref_queue):
+        rgx_ref_queue = []
+        rgx = js_tweaker.RegexHandler()
+        for i, ref in enumerate(ref_queue):
+            rgx_ref_queue.append(rgx.sub_ref_with_regex(ref_queue[i]))
+        return rgx_ref_queue
     
     def replace_js_values(self, tweak_data):
         '''
@@ -107,9 +133,6 @@ class ConfigJSHandler:
                 #print(find_repl["repl"]) 
         return tweak_data
     
-    def get_refs(self):
-        pass
-    
     def get_line(self, data_dict):
         for k, v in data_dict.items():
             if isinstance(v, dict):
@@ -120,8 +143,8 @@ class ConfigJSHandler:
 def process_yaml():
     y_handler = js_tweaker.YamlHandler("js_tweaks.yml")
     c_handler = ConfigJSHandler(y_handler.data, backend.load_config())
-    c_handler.populate_data()
-    #add @values
+    c_handler.f_data_by_file = c_handler.populate_data()
+
     #add refs
     #sub regex
     #escape characters
