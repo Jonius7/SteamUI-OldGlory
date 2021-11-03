@@ -9,6 +9,7 @@ libraries needed: jsbeautifier, jsmin
 import jsbeautifier
 from jsmin import jsmin
 import rjsmin
+import uglipyjs
 import yaml
 
 import platform
@@ -461,12 +462,17 @@ def find_fix_with_variable(line, fix):
     #for lv in res:
     print("todo")
 
-def re_minify_file():
+def re_minify_file(min=3):
     try:
         print("\nRe-minify JS file")
-        with open("libraryroot.modif.js", "r", newline='', encoding="UTF-8") as js_file:
-            #minified = jsmin(js_file.read())
-            minified = rjsmin.jsmin(js_file.read(), keep_bang_comments=True)
+        with open("libraryroot.modif.js", "r", encoding="UTF-8") as js_file:
+            if min == 1:
+                minified = jsmin(js_file.read())
+            elif min == 2:
+                minified = rjsmin.jsmin(js_file.read(), keep_bang_comments=True)
+            elif min == 3:
+                minified = uglipyjs.compile(js_file.read(), {'mangle': False, 
+                                                             'source_filename': '"libraryroot.modif.js"'})
         with open("libraryreet.js", "w", newline='', encoding="UTF-8") as js_min_file:
             js_min_file.write(minified)
         js_file.close()
