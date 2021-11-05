@@ -1,11 +1,13 @@
 import unittest
 import sys
+import os
 from pathlib import Path
 sys.path.append(str(Path('.').absolute().parent))
 import backend
 import js_tweaker
 import datetime
 import re
+import shutil
 
 #CSS Line Parser
 class TestCopyFilesFromSteam(unittest.TestCase):
@@ -20,6 +22,7 @@ class TestCopyFilesFromSteam(unittest.TestCase):
     def test_find_fixes_variables(self):
         js_tweaker.find_fix_with_variable("$^: $^ * $^", "\\1: (\\3 - 10) * $^")
 
+class TestYaml(unittest.TestCase):
     ###
     def test_parse_yaml(self):
         yaml = js_tweaker.YamlHandler(sys.path[0] + "/../js_tweaks.yml")
@@ -45,6 +48,7 @@ class TestCopyFilesFromSteam(unittest.TestCase):
     #    yaml = self.test_parse_yaml()
     #    js_tweaker.write_modif_file(yaml.data)
 
+class TestRegex(unittest.TestCase):
     def test_semantic_1(self):
         print(js_tweaker.semantic_find_str('onContextMenu: this.OnContextMenu,~~hoverDelay: 300,'))
 
@@ -100,5 +104,12 @@ class TestCopyFilesFromSteam(unittest.TestCase):
     def test_semantic(self):
         print(js_tweaker.semantic_find_str('switch (t) {~~case 38:'))
         
+class TestMinify(unittest.TestCase):
+    def test_re_minify(self):
+        #shutil.copy2(os.path.join(os.getcwd(), "libraryroot.beaut.js"),
+        #             os.path.join(os.getcwd(), "libraryroot.modif.js"))
+        js_tweaker.re_minify_file(2)
+        
 if __name__ == '__main__':
-    unittest.main(exit=False)
+    suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
+    unittest.TextTestRunner(verbosity=3).run(suite)

@@ -9,7 +9,6 @@ libraries needed: jsbeautifier, jsmin
 import jsbeautifier
 from jsmin import jsmin
 import rjsmin
-import uglipyjs
 import yaml
 
 import platform
@@ -21,6 +20,7 @@ import re
 import time
 import datetime
 import copy
+from rich import print as r_print
 
 import js_manager
 
@@ -377,38 +377,39 @@ def write_modif_file(data, file="libraryroot.js"):
             prev_line = ""
             for i, line in enumerate(f, start=1):
                 try:
-                    modified = 0            
-                    for tweak in data:
-                        if "strings" in data[tweak]:                        
-                            for find_repl in data[tweak]["strings"]:
-                                if "find" in find_repl:
-                                    #print(find_repl["find"])
-                                    if "prev" in find_repl["find"]:
-                                    #if (sem := semantic_find_str(find_repl["find"])):
+                    modified = 0
+                    for filename in data:           
+                        for tweak in data[filename]:
+                            if "strings" in data[filename][tweak]:                        
+                                for find_repl in data[filename][tweak]["strings"]:
+                                    if "find" in find_repl:
                                         #print(find_repl["find"])
-                                        #sem["current"] = escaped_pattern(sem["current"])
-                                        #sem["prev"] = escaped_pattern(sem["prev"])
-                                        #print("PREV FOUND")
-                                        if r_search.find(find_repl["find"]["prev"], prev_line) and \
-                                            r_search.find(find_repl["find"]["current"], line):
-                                            f1.write(r_search.find_and_repl(
-                                                find_repl["find"]["current"],
-                                                find_repl["repl"],
-                                                line,
-                                                i))
-                                            modified = 1
-                                                
-                                    #el
-                                    elif r_search.find(find_repl["find"], line):
-                                        f1.write(r_search.find_and_repl(
-                                                    find_repl["find"],
+                                        if "prev" in find_repl["find"]:
+                                        #if (sem := semantic_find_str(find_repl["find"])):
+                                            #print(find_repl["find"])
+                                            #sem["current"] = escaped_pattern(sem["current"])
+                                            #sem["prev"] = escaped_pattern(sem["prev"])
+                                            #print("PREV FOUND")
+                                            if r_search.find(find_repl["find"]["prev"], prev_line) and \
+                                                r_search.find(find_repl["find"]["current"], line):
+                                                f1.write(r_search.find_and_repl(
+                                                    find_repl["find"]["current"],
                                                     find_repl["repl"],
-                                                    line, 
+                                                    line,
                                                     i))
-                                        modified = 1
-                                        #print("NORMAL" + tweak)
-                        #else:
-                        #    print("Strings to find/replace not found in tweak: " + tweak + ", skipping")
+                                                modified = 1
+                                                    
+                                        #el
+                                        elif r_search.find(find_repl["find"], line):
+                                            f1.write(r_search.find_and_repl(
+                                                        find_repl["find"],
+                                                        find_repl["repl"],
+                                                        line, 
+                                                        i))
+                                            modified = 1
+                                            #print("NORMAL" + tweak)
+                            #else:
+                            #    print("Strings to find/replace not found in tweak: " + tweak + ", skipping")
                     if modified == 0:
                         f1.write(line)
                     prev_line = line
@@ -462,7 +463,7 @@ def find_fix_with_variable(line, fix):
     #for lv in res:
     print("todo")
 
-def re_minify_file(min=3):
+def re_minify_file(min=2):
     try:
         print("\nRe-minify JS file")
         with open("libraryroot.modif.js", "r", encoding="UTF-8") as js_file:
@@ -470,9 +471,6 @@ def re_minify_file(min=3):
                 minified = jsmin(js_file.read())
             elif min == 2:
                 minified = rjsmin.jsmin(js_file.read(), keep_bang_comments=True)
-            elif min == 3:
-                minified = uglipyjs.compile(js_file.read(), {'mangle': False, 
-                                                             'source_filename': '"libraryroot.modif.js"'})
         with open("libraryreet.js", "w", newline='', encoding="UTF-8") as js_min_file:
             js_min_file.write(minified)
         js_file.close()
@@ -526,8 +524,9 @@ def main(RUN = True):
         beautify_js()    
         #parse_fixes_file_OLD("fixes.txt")
         #write_modif_file_OLD()
-        a = YamlHandler("js_tweaks.yml")
-        write_modif_file(a.f_data)
+        c = js_manager.process_yaml()
+        #r_print(c.f_data_by_file)
+        write_modif_file(c.f_data_by_file)
         re_minify_file()
         copy_files_to_steam()
         print("\nSteam Library JS Tweaks applied successfully.")

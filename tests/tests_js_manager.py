@@ -91,6 +91,7 @@ class TestValues(unittest.TestCase):
         cls.y = js_tweaker.YamlHandler(sys.path[0] + "/../js_tweaks.yml")
         cls.a = js_manager.ConfigJSHandler(cls.y.data, backend.load_config())
         
+
     def test_add_values1(self):
         data = {
             "name" : "DD",
@@ -106,18 +107,37 @@ class TestRefs(unittest.TestCase):
         cls.a = js_manager.ConfigJSHandler(cls.y.data, backend.load_config())
         cls.r = js_tweaker.RegexHandler()
         
-    def test_search_refs1(self):
-        start_time = datetime.datetime.now()
+    def test_search_refs1(self):     
+        rf = self.a.search_for_refs(
+            {'libraryroot.js': {'StickyBackgroundImage': {'refs': ['%a%.%b%.currentGameListSelection.nAppId']}}, 
+             'library.js': {}})
         
-        rf = self.a.search_for_refs("libraryroot.beaut.js", ['%a%.%b%.currentGameListSelection.nAppId'])
         
-        end_time = datetime.datetime.now()
-        print(end_time - start_time)
+    def test_search_refs2(self):   
+        rf = self.a.search_for_refs(
+            {'libraryroot.js': {'StickyBackgroundImage': {'refs': ['%a%.%b%.currentGameListSelection.nAppId','%c%.%d%.currensegsegtion.nAppId']}}, 
+             'library.js': {'NOTEST': {'refs': ['%a%.%b%.currentGame3ListSelection.nAppId','%c%.%d%.currensegsegtion.nAppId']}}})
+
+    def test_search_refs3(self):   
+        rf = self.a.search_for_refs(
+            {'libraryroot.js': {'StickyBackgroundImage': {'refs': ['%a%.%b%.currentGameListSelection.nAppId','%c%.%d%.nextsection.nAppId']},
+                                'NextBackgroundImage': {'refs': ['%a%.%b%.currentGameListSelection.nAppId','%c%.%d%.nextsection.nAppId']}}, 
+             'library.js': {'NOTEST': {'refs': ['%a%.%b%.currentGame3ListSelection.nAppId','%c%.%d%.nextSSection.nAppId']}}})
         
-        r_print(rf)
-    
+    def test_search_refs4(self):
+        rf = self.a.search_for_refs(self.a.refs_data)
+        
     def test_get_refs1(self):
-        r_print(self.a.refs_dict(self.a.populate_data()))
+        r_print(self.a.refs_data)
+        
+    def test_get_file_refs1(self):
+        #self.a.get_refs_for_file("libraryroot.js", )
+        pass
+    
+    def test_get_refs_for_file1(self):
+        for filename in self.a.refs_data:
+            r_print(self.a.get_refs_for_file(filename, self.a.refs_data[filename]))
+    
         
         
 if __name__ == '__main__':

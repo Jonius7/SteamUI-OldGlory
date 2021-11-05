@@ -31,17 +31,19 @@ class ConfigJSHandler:
         self.data = data
         self.config = config
         self.f_data_by_file = self.get_js_enabled_data_by_file()
+        self.f_data_by_file = self.populate_data()
+        self.refs_data = self.get_refs_data(self.f_data_by_file)
         
     def get_js_enabled_data_by_file(self):
         f_data_by_file = {self.default: {}}
         for tweak in self.data:
             try:
                 if tweak in self.config["JS_Settings"] and self.config["JS_Settings"][tweak] == '1':
-                    print("Tweak Enabled " + tweak)
+                    #print("Tweak Enabled " + tweak)
                     #The dictionary containing 1 tweak's data
                     tweak_data = self.data[tweak]
                     if "file" not in tweak_data:
-                        print ("  USING DEFAULT " + self.default + " for: " + tweak)
+                        #print ("  USING DEFAULT " + self.default + " for: " + tweak)
                         f_data_by_file[self.default][tweak] = tweak_data
                     else:
                         #if the filename doesn't exist yet in dict, create it
@@ -49,8 +51,8 @@ class ConfigJSHandler:
                             f_data_by_file[tweak_data["file"]] = {}
                         f_data_by_file[tweak_data["file"]][tweak] = tweak_data
                 else:
-                    print("NOT ENABLED " + tweak)
-                                                
+                    #print("NOT ENABLED " + tweak)
+                    pass                               
             except KeyError:
                 print("Tweak " + tweak + " has no strings to find and replace, skipping", file=sys.stderr)
                 continue
@@ -96,18 +98,7 @@ class ConfigJSHandler:
             js_tweaker.print_error("Invalid JS Tweaks File Format. \n" \
                   'Please check your file includes the required "name" and "strings" attributes for each tweak.')
     
-    def refs_dict(self, data):
-        '''
-        refs_schema = Schema({str: {str: {
-            'name': str,
-            'strings': [{'find': str, 'repl': str}],
-            'refs': [str],
-            }}}, ignore_extra_keys=True)
-        try:
-            return refs_schema.validate(data)
-        except SchemaError:
-            js_tweaker.print_error("Invalid ref searching")
-        '''
+    def get_refs_data(self, data):
         subset = {"refs"}        
         
         #create dictionary containing tweaks that only have refs attrs
@@ -125,11 +116,44 @@ class ConfigJSHandler:
             else:
                 return False
         
-    def search_for_refs(self, filename, refs_data):    
+    def search_for_refs(self, refs_data=None):
+        '''
+        Uses refs_data to search for the right obfuscated variables in js files
+        and returns a version of refs_data with these variables
+        '''
         try:
-            '''r_search = js_tweaker.RegexHandler()
+            if refs_data is None:
+                refs_data = self.refs_data
+            r_search = js_tweaker.RegexHandler()
             refs_dict = {}
-            rgx_refs_data = self.get_regex_ref_queue(refs_data)
+            
+            rgx_refs_data = self.get_regex_refs(refs_data)
+            print(rgx_refs_data)
+            #rgx_refs_queue = self.get_regex_ref_queue(refs_data)
+            #print(rgx_refs_queue)
+
+            '''
+            for filename in rgx_refs_data:
+                with open(filename, "r", newline='', encoding="UTF-8") as f:
+                    for line in f:
+                        for ref in file_refs_data:
+                            if (match := r_search.find(ref, line)):
+                            file_refs_data[ref]["regex"]
+            '''        
+            '''
+            for filename in rgx_refs_data:
+                    refs_queue = self.get_refs_for_file(filename, rgx_refs_data[filename])
+                    with open(filename, "r", newline='', encoding="UTF-8") as f:
+                        for line in f:
+                            for i, ref in enumerate(refs_queue):
+                                if (match := r_search.find(ref, line)):
+                                    #print(match)
+                                    rgx_refs_data[filename][tweak]["refs"] = match.group(0)
+                                    refs_queue.remove(ref)
+                    f.close() 
+            '''           
+                
+            '''
             with open(filename, "r", newline='', encoding="UTF-8") as f:
                 for line in f:
                     for i, ref in enumerate(rgx_refs_data):
@@ -139,15 +163,59 @@ class ConfigJSHandler:
                             rgx_refs_data.remove(ref)
             f.close()
             return refs_dict'''
+                   
+            
         except:
             js_tweaker.error_exit("Error while searching for Refs")
-                    
-    def get_regex_ref_queue(self, ref_queue):
+            
+    def get_regex_refs(self, refs_data):
+        '''
+            param refs_data
+                format: {filename: {tweak: "refs": [ref1, ref2]}}
+            
+            returns rgx_refs_data
+                format: {"filename": 
+                    {ref1: {"regex": rgx_ref1, "tweak": tweak}}, 
+                    {ref2: {"regex": rgx_ref2, "tweak": tweak}}}
+        '''
+        r_search = js_tweaker.RegexHandler()
+        rgx_refs_data = {}
+        for filename in refs_data:
+            for tweak in refs_data[filename]:
+                if "refs" in refs_data[filename][tweak]:
+                    for i, ref in enumerate(refs_data[filename][tweak]["refs"]):
+                        #print(r_search.sub_ref_with_regex(ref))
+
+                        rgx_refs_data.setdefault(filename, {})[ref] \
+                            = {"regex": r_search.sub_ref_with_regex(ref), "tweak": tweak}
+        return rgx_refs_data
+    
+    def get_refs_for_file(self, filename, file_refs_data):
+        '''
+            file_refs_data - {
+                {ref1: {"regex": rgx_ref1, "tweak": tweak}},
+                {ref2: {"regex": rgx_ref2, "tweak": tweak}}}
+        '''
+        
+        
+        
+        return None
+
+        #return {tweak_k : tweak_v for (tweak_k, tweak_v) in file_refs_data.items()}
+    
+    '''
+    def get_regex_ref_queue(self, refs_data):
+        r_search = js_tweaker.RegexHandler()
         rgx_ref_queue = []
-        rgx = js_tweaker.RegexHandler()
-        for i, ref in enumerate(ref_queue):
-            rgx_ref_queue.append(rgx.sub_ref_with_regex(ref_queue[i]))
+        
+        for filename in refs_data:
+            for tweak in refs_data[filename]:
+                if "refs" in refs_data[filename][tweak]:
+                    for ref in refs_data[filename][tweak]["refs"]:
+                        #print(r_search.sub_ref_with_regex(ref))
+                        rgx_ref_queue.append(r_search.sub_ref_with_regex(ref))
         return rgx_ref_queue
+    '''
     
     def replace_js_values(self, tweak_data):
         '''
@@ -173,6 +241,8 @@ def process_yaml():
     y_handler = js_tweaker.YamlHandler("js_tweaks.yml")
     c_handler = ConfigJSHandler(y_handler.data, backend.load_config())
     c_handler.f_data_by_file = c_handler.populate_data()
+    
+    return c_handler
 
     #add refs
     #sub regex
