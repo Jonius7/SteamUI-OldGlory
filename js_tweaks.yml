@@ -133,7 +133,7 @@ StickyBackgroundImage:
   desc: (BETA) Set/Clear Custom Background right-click is not contextual.
   category: Game Page
   refs:
-    - '%a%.%b%.currentGameListSelection.nAppId'
+    - '%a%.currentGameListSelection.nAppId'
   strings:
     - find: 'rgHeaderImages: this.props.rgHeaderImages,'
       repl: 'rgHeaderImages: "",'

@@ -5,6 +5,7 @@ For anytoshing js_tweaker needs to access from other OldGlory modules\n
 libraries needed: schema
 '''
 
+import os
 import old_glory
 import backend
 import js_tweaker
@@ -128,18 +129,32 @@ class ConfigJSHandler:
             refs_dict = {}
             
             rgx_refs_data = self.get_regex_refs(refs_data)
-            print(rgx_refs_data)
+            #print(rgx_refs_data)
             #rgx_refs_queue = self.get_regex_ref_queue(refs_data)
             #print(rgx_refs_queue)
 
-            '''
+            
             for filename in rgx_refs_data:
-                with open(filename, "r", newline='', encoding="UTF-8") as f:
-                    for line in f:
-                        for ref in file_refs_data:
-                            if (match := r_search.find(ref, line)):
-                            file_refs_data[ref]["regex"]
-            '''        
+                beaut_filename = self.get_beaut_filename(filename)
+                if os.path.exists(beaut_filename):
+                    refs_queue = []
+                    for rgx_ref in rgx_refs_data[filename]:
+                        refs_queue.append(rgx_ref)
+                    #print ("WAGOINSEGSE")
+                    #print (refs_queue)
+                        
+                    with open(beaut_filename, "r", newline='', encoding="UTF-8") as f:
+                        for line in f:
+                            #print(line)
+                            for rgx_ref in refs_queue:
+                                #print(rgx_ref)
+                                if (match := r_search.find(rgx_ref, line)):
+                                    print(match.group(0))
+                                    #print("FOUND")
+                    
+                else:
+                    print("File " + beaut_filename + " does not exist, skipping.")
+                    
             '''
             for filename in rgx_refs_data:
                     refs_queue = self.get_refs_for_file(filename, rgx_refs_data[filename])
@@ -167,7 +182,16 @@ class ConfigJSHandler:
             
         except:
             js_tweaker.error_exit("Error while searching for Refs")
-            
+    
+    def get_beaut_filename(self, original_filename):
+        '''
+        eg:
+            original_filename   - libraryroot.js
+            beaut_filename      - libraryroot.beaut.js
+        '''
+        (name, ext) = os.path.splitext(original_filename)
+        return name + "." + "beaut" + ext
+           
     def get_regex_refs(self, refs_data):
         '''
             param refs_data
@@ -186,8 +210,8 @@ class ConfigJSHandler:
                     for i, ref in enumerate(refs_data[filename][tweak]["refs"]):
                         #print(r_search.sub_ref_with_regex(ref))
 
-                        rgx_refs_data.setdefault(filename, {})[ref] \
-                            = {"regex": r_search.sub_ref_with_regex(ref), "tweak": tweak}
+                        rgx_refs_data.setdefault(filename, {})[r_search.sub_ref_with_regex(ref)] \
+                            = {"original": ref, "tweak": tweak}
         return rgx_refs_data
     
     def get_refs_for_file(self, filename, file_refs_data):

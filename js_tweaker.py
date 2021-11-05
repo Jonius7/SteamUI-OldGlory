@@ -281,9 +281,8 @@ def raw_text(str_text):
     return raw_text
 
 def escaped_pattern(pattern_str):
-    str = re.escape(pattern_str)
     #str = re.sub('\\\\([0-9]+)', '\\1', str)
-    return str
+    return re.escape(pattern_str)
 
 def regex_search(pattern_str, string):
     return re.search(escaped_pattern(pattern_str), string)
@@ -321,7 +320,7 @@ class RegexHandler:
         self.vars = re.compile("%([0-9]+)%")
         self.refs = re.compile("%([a-z]+)%")
         #The regex pattern to replace them with
-        self.letters = "([A-Za-z]+)"
+        self.letters = "([A-Za-z_$]+)"
     
     def sub_find_with_regex(self, find):
         r'''

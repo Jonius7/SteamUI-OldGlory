@@ -109,23 +109,32 @@ class TestRefs(unittest.TestCase):
         
     def test_search_refs1(self):     
         rf = self.a.search_for_refs(
-            {'libraryroot.js': {'StickyBackgroundImage': {'refs': ['%a%.%b%.currentGameListSelection.nAppId']}}, 
+            {'testbed.js': {'StickyBackgroundImage': {'refs': ['%a%.%b%.currentGameListSelection.nAppId']}}, 
              'library.js': {}})
         
         
     def test_search_refs2(self):   
         rf = self.a.search_for_refs(
-            {'libraryroot.js': {'StickyBackgroundImage': {'refs': ['%a%.%b%.currentGameListSelection.nAppId','%c%.%d%.currensegsegtion.nAppId']}}, 
+            {'testbed.js': {'StickyBackgroundImage': {'refs': ['%a%.%b%.currentGameListSelection.nAppId','%c%.%d%.currensegsegtion.nAppId']}}, 
              'library.js': {'NOTEST': {'refs': ['%a%.%b%.currentGame3ListSelection.nAppId','%c%.%d%.currensegsegtion.nAppId']}}})
 
     def test_search_refs3(self):   
         rf = self.a.search_for_refs(
-            {'libraryroot.js': {'StickyBackgroundImage': {'refs': ['%a%.%b%.currentGameListSelection.nAppId','%c%.%d%.nextsection.nAppId']},
+            {'testbed.js': {'StickyBackgroundImage': {'refs': ['%a%.%b%.SOMESELECTION.nAppId','%c%.%d%.NEXTSELECTION.nAppId']},
                                 'NextBackgroundImage': {'refs': ['%a%.%b%.currentGameListSelection.nAppId','%c%.%d%.nextsection.nAppId']}}, 
              'library.js': {'NOTEST': {'refs': ['%a%.%b%.currentGame3ListSelection.nAppId','%c%.%d%.nextSSection.nAppId']}}})
         
     def test_search_refs4(self):
-        rf = self.a.search_for_refs(self.a.refs_data)
+        rf = self.a.search_for_refs()
+        
+    def test_search_refs5(self):
+        rf = self.a.search_for_refs(
+            {'libraryroot.js': {'StickyBackgroundImage': {
+                'refs': ['%a%.currentGameListSelection.nAppId', 
+                         '(%a%.%b%)("#FacetedBrowse_ReturnToTop")))',
+                         '%a%.%b%.EventDaySeparator']}},
+             'library.js': {}}
+        )
         
     def test_get_refs1(self):
         r_print(self.a.refs_data)
@@ -141,6 +150,7 @@ class TestRefs(unittest.TestCase):
         
         
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
-    unittest.TextTestRunner(verbosity=3).run(suite)
-    #unittest.main(exit=False)
+    #suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
+    #unittest.TextTestRunner(verbosity=3).run(suite)
+    unittest.main(argv=['ignored', '-v', 'TestRefs.test_search_refs5'], exit=False)
+    #unittest.main(argv=['ignored', '-v', 'TestRefs.test_get_refs1'], exit=False)
