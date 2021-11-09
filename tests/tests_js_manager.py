@@ -29,6 +29,9 @@ class TestJSManager(unittest.TestCase):
         
     def test_get_js_values_found_1(self):
         self.assertEqual(self.a.get_js_value_from_config("SmallGridSize"), "120")
+        
+    def test_full_process(self):
+        js_manager.process_yaml()
 
 class TestSchema(unittest.TestCase):
     @classmethod
@@ -154,3 +157,4 @@ if __name__ == '__main__':
     #unittest.TextTestRunner(verbosity=3).run(suite)
     unittest.main(argv=['ignored', '-v', 'TestRefs.test_search_refs5'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestRefs.test_get_refs1'], exit=False)
+    unittest.main(argv=['ignored', '-v', 'TestJSManager.test_full_process'], exit=False)

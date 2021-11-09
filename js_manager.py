@@ -15,6 +15,8 @@ import traceback
 import re
 from schema import Schema, Optional, Use, SchemaError, SchemaWrongKeyError
 import datetime
+from collections import Counter
+from rich import print as r_print
 
 class ValuesJSHandler:
     pass
@@ -132,56 +134,48 @@ class ConfigJSHandler:
             #print(rgx_refs_data)
             #rgx_refs_queue = self.get_regex_ref_queue(refs_data)
             #print(rgx_refs_queue)
-
             
             for filename in rgx_refs_data:
                 beaut_filename = self.get_beaut_filename(filename)
                 if os.path.exists(beaut_filename):
                     refs_queue = []
+                    refs_results = {}
                     for rgx_ref in rgx_refs_data[filename]:
                         refs_queue.append(rgx_ref)
+                        refs_results[rgx_ref] = []
                     #print ("WAGOINSEGSE")
                     #print (refs_queue)
-                        
+
                     with open(beaut_filename, "r", newline='', encoding="UTF-8") as f:
                         for line in f:
                             #print(line)
                             for rgx_ref in refs_queue:
                                 #print(rgx_ref)
                                 if (match := r_search.find(rgx_ref, line)):
-                                    print(match.group(0))
+                                    #print(match.group(0))
                                     #print("FOUND")
+                                    refs_results[rgx_ref].append(match.group(0))
+                    #r_print(refs_results)
+                    freq_refs_results = self.get_most_freq_refs(refs_results)
+                    #r_print(freq_refs_results)
+                    for (rgx_ref, freq_ref) in freq_refs_results.items():
+                        rgx_refs_data[filename][rgx_ref]['realtext'] = freq_ref
                     
                 else:
                     print("File " + beaut_filename + " does not exist, skipping.")
-                    
-            '''
-            for filename in rgx_refs_data:
-                    refs_queue = self.get_refs_for_file(filename, rgx_refs_data[filename])
-                    with open(filename, "r", newline='', encoding="UTF-8") as f:
-                        for line in f:
-                            for i, ref in enumerate(refs_queue):
-                                if (match := r_search.find(ref, line)):
-                                    #print(match)
-                                    rgx_refs_data[filename][tweak]["refs"] = match.group(0)
-                                    refs_queue.remove(ref)
-                    f.close() 
-            '''           
                 
-            '''
-            with open(filename, "r", newline='', encoding="UTF-8") as f:
-                for line in f:
-                    for i, ref in enumerate(rgx_refs_data):
-                        if (match := r_search.find(ref, line)):
-                            #print(match)
-                            refs_dict[refs_data[i]] = match.group(0)
-                            rgx_refs_data.remove(ref)
-            f.close()
-            return refs_dict'''
-                   
+            #r_print(list_refs_results)
+            #r_print(rgx_refs_data)
+            return rgx_refs_data                  
             
         except:
             js_tweaker.error_exit("Error while searching for Refs")
+            
+    def get_most_freq_refs(self,refs_results):
+        freq_refs_results = {rgx_ref_k : Counter(rgx_ref_v).most_common(1)[0][0]
+                             for (rgx_ref_k, rgx_ref_v) in refs_results.items()}
+        return freq_refs_results
+        
     
     def get_beaut_filename(self, original_filename):
         '''
@@ -221,8 +215,6 @@ class ConfigJSHandler:
                 {ref2: {"regex": rgx_ref2, "tweak": tweak}}}
         '''
         
-        
-        
         return None
 
         #return {tweak_k : tweak_v for (tweak_k, tweak_v) in file_refs_data.items()}
@@ -254,17 +246,19 @@ class ConfigJSHandler:
                 #print(find_repl["repl"]) 
         return tweak_data
     
-    def get_line(self, data_dict):
+    
+    '''def get_line(self, data_dict):
         for k, v in data_dict.items():
             if isinstance(v, dict):
                 data_dict[k] = self.get_line(self, v)
             else:
-                return re.sub(self.reg_value, )
+                return re.sub(self.reg_value, )'''
             
 def process_yaml():
     y_handler = js_tweaker.YamlHandler("js_tweaks.yml")
     c_handler = ConfigJSHandler(y_handler.data, backend.load_config())
     c_handler.f_data_by_file = c_handler.populate_data()
+    c_handler.search_for_refs()
     
     return c_handler
 
