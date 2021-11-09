@@ -1,9 +1,15 @@
 ---
+EnableJSTweaks:
+  name: Enable JS Tweaks
+  desc: Loads Tweaked JS. If this is disabled, no other tweaks will be applied.
+  category: Core
+  file: library.js
+  strings:
+    - find: '5:"libraryroot"'
+      repl: '5:"libraryreet"'
+
 HomePageGridSpacing:
   name: Home Page Grid Spacing
-  nme1: agoseign
-  nme2: goseignseg
-  nme3: gsegoiseng
   desc: Change grid spacing between games on the HOME page.
   category: Home Page
   values: [ColumnSpacing,RowSpacing]
@@ -13,16 +19,16 @@ HomePageGridSpacing:
     - find: 'gridRowGap: 24,'
       repl: 'gridRowGap: @RowSpacing@,'
 
-MoreScreenshotsandDLC:
+MoreScreenshotsAndDLC:
   name: Increase Number of Screenshots and DLC displayed
   desc: Increase Number of Screenshots and DLC displayed on game page.
   category: Game Page
   values: [Screenshots,DLC]
   strings:
     - find: vecScreenShots.slice(0, 4).map
-      repl: vecScreenShots.slice(0, 9).map
+      repl: vecScreenShots.slice(0, @Screenshots@).map
     - find: this.props.rgInfo.slice(0, 6)
-      repl: this.props.rgInfo.slice(0, 12)
+      repl: this.props.rgInfo.slice(0, @DLC@)
 
 HoverPositionFix:
   name: HoverPosition Fix for GameListEntry
@@ -134,13 +140,18 @@ StickyBackgroundImage:
   category: Game Page
   refs:
     - '%a%.currentGameListSelection.nAppId'
+    - '"#CustomArt_SetCustomBackground")), %a%.createElement(%b%.%c%'
+    - 'Object(%a%.%b%)("#CustomArt_'
+    - 
+      - 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnChangeHero", null)'
+      - 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
   strings:
     - find: 'rgHeaderImages: this.props.rgHeaderImages,'
       repl: 'rgHeaderImages: "",'
     - find: 'strMedium: "MediumWindow"~~};'
       repl: >-
         }; var sURL,
-        appId = S.a.currentGameListSelection.nAppId, sURL2="", sURL3="", sURL4="";
+        appId = %a%.currentGameListSelection.nAppId, sURL2="", sURL3="", sURL4="";
         sURL = "customimages/" + appId + "_hero.png",
         sURL2 = "customimages/" + appId + "_hero.jpg",
         sURL3 = "assets/" + appId + "_library_hero.jpg",
@@ -154,11 +165,11 @@ StickyBackgroundImage:
     - find: 'src: this.props.rgBlurImages[this.state.nBlurImageIndex],'
       repl: 'src: "",'
     - find: '(this.is_hero_custom_image ? "#CustomArt_ClearCustomBackground" : "#CustomArt_SetCustomBackground")),'
-      repl: '("#CustomArt_SetCustomBackground")), D.createElement(he.d, {is_hero_current_image: !1, onSelected: this.OnRemoveHero}, Object(D.f)("#CustomArt_ClearCustomBackground")),'
+      repl: '("#CustomArt_SetCustomBackground")), %a%.createElement(%b%.%c%, {is_hero_current_image: !1, onSelected: this.OnRemoveHero}, Object(%a%.%b%)("#CustomArt_ClearCustomBackground")),'
     - find: '}, t.prototype.OnChangeLogo = function(e) {'
       repl: '}, t.prototype.OnRemoveHero = function(e) {this.OnChangeArtwork(Object.create({src: "src"}), this.m_refFileInputHero, 1)}, t.prototype.OnChangeLogo = function(e) {'
-    - find: 'Object(a.c)([E.a], e.prototype, "OnChangeHero", null),'
-      repl: 'Object(a.c)([E.a], e.prototype, "OnChangeHero", null), Object(a.c)([E.a], e.prototype, "OnRemoveHero", null),'
+    - find: 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnChangeHero", null),'
+      repl: 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnChangeHero", null), Object(r.c)([A.a], e.prototype, "OnRemoveHero", null),'
   
 PressEnterToLaunchGames:
   name: Press Enter to launch games

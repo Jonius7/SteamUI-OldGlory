@@ -1,6 +1,6 @@
 ## SteamUI-OldGlory GUI Changelog
 
-0.9.21
+0.9.22.4		*(5.8-pre7)* `refs` functionality completed, fixed `write_modif_file` 
 
 0.9.20.5
 

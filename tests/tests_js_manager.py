@@ -61,7 +61,7 @@ class TestSchema(unittest.TestCase):
             schema.validate(data)
             
     def test_schema_validate1(self):
-        validated = self.a.populate_data()
+        validated = self.a.populate_data_values()
         #print(validated)
     
     #ignore extra keys
@@ -70,7 +70,7 @@ class TestSchema(unittest.TestCase):
             "name" : "DD",
             "EXTRAEXTRA": "This won't appear",
             "strings" : [{"find": 'grid', "repl": 'gride'}]}}}
-        validated = self.a.populate_data(data)
+        validated = self.a.populate_data_values(data)
         #print(validated)
         
     def test_schema_validate3(self):
@@ -79,12 +79,12 @@ class TestSchema(unittest.TestCase):
             "values" : ['SmallGridSize','MediumGridSize','LargeGridSize'],
             "EXTRAEXTRA": "This won't appear",
             "strings" : [{"find": 'grid', "repl": 'gride @SmallGridSize@'}]}}}
-        validated = self.a.populate_data(data)
+        validated = self.a.populate_data_values(data)
         #print(validated)
         
     #full data
     def test_schema_validate4(self):
-        validated = self.a.populate_data()
+        validated = self.a.populate_data_values()
         r_print(validated)
         self.assertEqual(validated['libraryroot.js']['HomePageGridSpacing']['strings'][0]['repl'], 'gridColumnGap: 5,')
 
@@ -135,7 +135,10 @@ class TestRefs(unittest.TestCase):
             {'libraryroot.js': {'StickyBackgroundImage': {
                 'refs': ['%a%.currentGameListSelection.nAppId', 
                          '(%a%.%b%)("#FacetedBrowse_ReturnToTop")))',
-                         '%a%.%b%.EventDaySeparator']}},
+                         '%a%.%b%.EventDaySeparator',
+                         '"#CustomArt_SetCustomBackground")), %a%.createElement(%b%.%c%',
+                         'Object(%a%.%b%)("#CustomArt_',
+                         'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnChangeHero", null)']}},
              'library.js': {}}
         )
         
@@ -149,12 +152,27 @@ class TestRefs(unittest.TestCase):
     def test_get_refs_for_file1(self):
         for filename in self.a.refs_data:
             r_print(self.a.get_refs_for_file(filename, self.a.refs_data[filename]))
+            
+    def test_refs_in_tweak1(self):
+        self.assertEqual(self.a.split_refs_sublist(['a','b']), 'a')
+        self.assertEqual(self.a.split_refs_sublist('a'), 'a')
+        print(self.a.split_refs_sublist([]))
+
+class TestPopulateRefs(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.y = js_tweaker.YamlHandler(sys.path[0] + "/../js_tweaks.yml")
+        cls.a = js_manager.ConfigJSHandler(cls.y.data, backend.load_config())
+        cls.r = js_tweaker.RegexHandler()    
     
-        
+    def test_populate_refs1(self):
+        self.a.populate_data_refs(self.a.search_for_refs())
         
 if __name__ == '__main__':
     #suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
     #unittest.TextTestRunner(verbosity=3).run(suite)
-    unittest.main(argv=['ignored', '-v', 'TestRefs.test_search_refs5'], exit=False)
+    #unittest.main(argv=['ignored', '-v', 'TestRefs.test_search_refs5'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestRefs.test_get_refs1'], exit=False)
     unittest.main(argv=['ignored', '-v', 'TestJSManager.test_full_process'], exit=False)
+    #unittest.main(argv=['ignored', '-v', 'TestPopulateRefs.test_populate_refs1'], exit=False)
+    #unittest.main(argv=['ignored', '-v', 'TestRefs.test_refs_in_tweak1'], exit=False)

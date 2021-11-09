@@ -24,6 +24,7 @@ from threading import Thread
 import manager
 import backend
 import js_tweaker
+import js_manager
 import custom_tk
 
 
@@ -37,8 +38,8 @@ DEFAULT_LIBRARYROOT = "5.css"
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.20.5"
-        self.release = "5.8-pre6"
+        self.version = "v0.9.22.4"
+        self.release = "5.8-pre7"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -932,9 +933,9 @@ def run_js_tweaker(text_area, reset=0):
         text_area.update_idletasks()
         
         if JS_TWEAKS == 2:
-            a = js_tweaker.YamlHandler("js_tweaks.yml")
+            y = js_manager.process_yaml()
             text_area.update_idletasks()
-            js_tweaker.write_modif_file(a.f_data)
+            js_tweaker.write_modif_file(y.f_data)
         else:
             js_tweaker.parse_fixes_file_OLD("fixes.txt")
             text_area.update_idletasks()

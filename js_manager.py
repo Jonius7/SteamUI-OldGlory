@@ -34,7 +34,7 @@ class ConfigJSHandler:
         self.data = data
         self.config = config
         self.f_data_by_file = self.get_js_enabled_data_by_file()
-        self.f_data_by_file = self.populate_data()
+        self.f_data_by_file = self.populate_data_values()
         self.refs_data = self.get_refs_data(self.f_data_by_file)
         
     def get_js_enabled_data_by_file(self):
@@ -67,7 +67,7 @@ class ConfigJSHandler:
         else:
             return "0"
         
-    def populate_data(self, f_data_by_file=None):
+    def populate_data_values(self, f_data_by_file=None):
         '''
         Takes the JS data and returns a version of it with values put in
         '''
@@ -91,7 +91,7 @@ class ConfigJSHandler:
             'strings': [{'find': str, 'repl': str}],
             Optional('desc'): str,
             Optional('category'): str,
-            Optional('refs'): [str],
+            Optional('refs'): [str,[str]],
             Optional('values'): [str],
             Optional('file'): str
             }}}, ignore_extra_keys=True)
@@ -123,6 +123,12 @@ class ConfigJSHandler:
         '''
         Uses refs_data to search for the right obfuscated variables in js files
         and returns a version of refs_data with these variables
+        refs_queue - [rgxref1, rgxref2, rgxref3 ...]
+        refs_results - {rgx_ref: [result1, result2, result3 ...]}
+        rgx_refs_data - {filename: {
+            rgx_ref1: {'original': ref1, 'tweak': tweak_name1, 'realtext': freq_ref1},
+            rgx_ref2: {'original': ref2, 'tweak': tweak_name2, 'realtext': freq_ref2}
+        }}
         '''
         try:
             if refs_data is None:
@@ -131,9 +137,6 @@ class ConfigJSHandler:
             refs_dict = {}
             
             rgx_refs_data = self.get_regex_refs(refs_data)
-            #print(rgx_refs_data)
-            #rgx_refs_queue = self.get_regex_ref_queue(refs_data)
-            #print(rgx_refs_queue)
             
             for filename in rgx_refs_data:
                 beaut_filename = self.get_beaut_filename(filename)
@@ -143,29 +146,25 @@ class ConfigJSHandler:
                     for rgx_ref in rgx_refs_data[filename]:
                         refs_queue.append(rgx_ref)
                         refs_results[rgx_ref] = []
-                    #print ("WAGOINSEGSE")
-                    #print (refs_queue)
 
                     with open(beaut_filename, "r", newline='', encoding="UTF-8") as f:
                         for line in f:
-                            #print(line)
                             for rgx_ref in refs_queue:
-                                #print(rgx_ref)
                                 if (match := r_search.find(rgx_ref, line)):
-                                    #print(match.group(0))
-                                    #print("FOUND")
                                     refs_results[rgx_ref].append(match.group(0))
+                                    #r_print("CAPTURE GROUPS")
+                                    rgx_refs_data[filename][rgx_ref]['letters'] = match.groups()
+                                    r_print(rgx_refs_data[filename][rgx_ref]['letters'])
+                    #r_print("debugging")
                     #r_print(refs_results)
                     freq_refs_results = self.get_most_freq_refs(refs_results)
                     #r_print(freq_refs_results)
                     for (rgx_ref, freq_ref) in freq_refs_results.items():
                         rgx_refs_data[filename][rgx_ref]['realtext'] = freq_ref
-                    
+                       
                 else:
                     print("File " + beaut_filename + " does not exist, skipping.")
-                
-            #r_print(list_refs_results)
-            #r_print(rgx_refs_data)
+            r_print(rgx_refs_data)     
             return rgx_refs_data                  
             
         except:
@@ -173,7 +172,7 @@ class ConfigJSHandler:
             
     def get_most_freq_refs(self,refs_results):
         freq_refs_results = {rgx_ref_k : Counter(rgx_ref_v).most_common(1)[0][0]
-                             for (rgx_ref_k, rgx_ref_v) in refs_results.items()}
+                             for (rgx_ref_k, rgx_ref_v) in refs_results.items() if rgx_ref_v}
         return freq_refs_results
         
     
@@ -203,9 +202,11 @@ class ConfigJSHandler:
                 if "refs" in refs_data[filename][tweak]:
                     for i, ref in enumerate(refs_data[filename][tweak]["refs"]):
                         #print(r_search.sub_ref_with_regex(ref))
-
-                        rgx_refs_data.setdefault(filename, {})[r_search.sub_ref_with_regex(ref)] \
-                            = {"original": ref, "tweak": tweak}
+                        
+                        (first_ref, extra_refs) = self.split_refs_sublist(ref)
+                        rgx_refs_data.setdefault(filename, {}) \
+                            [r_search.sub_ref_with_regex(first_ref)] \
+                            = {"original": first_ref, "tweak": tweak, "extra": extra_refs}
         return rgx_refs_data
     
     def get_refs_for_file(self, filename, file_refs_data):
@@ -218,6 +219,42 @@ class ConfigJSHandler:
         return None
 
         #return {tweak_k : tweak_v for (tweak_k, tweak_v) in file_refs_data.items()}
+    
+    def populate_data_refs(self, rgx_refs_data, f_data_by_file=None):
+        if f_data_by_file is None:
+            f_data_by_file = self.f_data_by_file
+            
+        for filename in rgx_refs_data:
+            for rgx_ref in rgx_refs_data[filename]:
+                #f_data_by_file[filename][rgx_refs_data[filename][rgx_ref]["tweak"]]
+                #rgx_refs_data[filename][rgx_ref]["realtext"] if rgx_ref in f_data_by_file[filename][rgx_refs_data[filename][rgx_ref]["tweak"]]["refs"]
+                if (originaltext := rgx_refs_data[filename][rgx_ref]["original"]) \
+                    in self.get_first_refs(f_data_by_file[filename][rgx_refs_data[filename][rgx_ref]["tweak"]]["refs"]):
+                    for find_repl in f_data_by_file[filename][rgx_refs_data[filename][rgx_ref]["tweak"]]["strings"]:
+                        #print("REPLACING")
+                        #print(originaltext)
+                        find_repl["find"] = find_repl["find"].replace(originaltext, rgx_refs_data[filename][rgx_ref]["realtext"])
+                        find_repl["repl"] = find_repl["repl"].replace(originaltext, rgx_refs_data[filename][rgx_ref]["realtext"])
+                        #print(find_repl["repl"])
+        
+        r_print(f_data_by_file)
+                    
+    def split_refs_sublist(self, ref_sublist):
+        '''
+        if a ref (sublist) is a list, return only the first ref
+        '''
+        if isinstance(ref_sublist, list) and ref_sublist:
+            return (ref_sublist[0], ref_sublist[1:])
+        else:
+            return (ref_sublist, "")
+
+    def get_first_refs(self, refs_list):
+        first_refs_list = []
+        for ref in refs_list:
+            (first_ref, extra_refs) = self.split_refs_sublist(ref)
+            first_refs_list.append(first_ref)
+        return first_refs_list
+                
     
     '''
     def get_regex_ref_queue(self, refs_data):
@@ -255,12 +292,19 @@ class ConfigJSHandler:
                 return re.sub(self.reg_value, )'''
             
 def process_yaml():
+    '''
+    processes yaml through YamlHandler and ConfigJSHandler\n
+    returns YamlHandler
+    '''
     y_handler = js_tweaker.YamlHandler("js_tweaks.yml")
     c_handler = ConfigJSHandler(y_handler.data, backend.load_config())
-    c_handler.f_data_by_file = c_handler.populate_data()
-    c_handler.search_for_refs()
+    c_handler.f_data_by_file = c_handler.populate_data_values()
+    c_handler.populate_data_refs(c_handler.search_for_refs())
+    #return c_handler
+    y_handler.format_yaml_data(c_handler.f_data_by_file)
+    return y_handler
     
-    return c_handler
+    
 
     #add refs
     #sub regex
