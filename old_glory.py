@@ -921,36 +921,35 @@ def run_js_tweaker(text_area, reset=0):
         text_area.update_idletasks()
 
         ###
-        js_tweaker.initialise()
-        text_area.update_idletasks()
-        js_tweaker.copy_files_from_steam(reset)
-        text_area.update_idletasks()
-        js_tweaker.setup_library()
-        text_area.update_idletasks()
-        js_tweaker.modify_html()
-        text_area.update_idletasks()
-        js_tweaker.beautify_js()
-        text_area.update_idletasks()
+        run_and_update_tkinter(js_tweaker.initialise(), text_area)
+        run_and_update_tkinter(js_tweaker.copy_files_from_steam(), reset, text_area)
+        run_and_update_tkinter(js_tweaker.setup_library(), text_area)
+        run_and_update_tkinter(js_tweaker.modify_html(), text_area)
+        run_and_update_tkinter(js_tweaker.beautify_js(), text_area)
         
         if JS_TWEAKS == 2:
-            y = js_manager.process_yaml()
-            text_area.update_idletasks()
-            js_tweaker.write_modif_file(y.f_data)
+            y = run_and_update_tkinter(js_manager.process_yaml(), text_area)
+            run_and_update_tkinter(js_tweaker.write_modif_file(y.f_data), text_area)
         else:
-            js_tweaker.parse_fixes_file_OLD("fixes.txt")
-            text_area.update_idletasks()
-            js_tweaker.write_modif_file_OLD()
+            run_and_update_tkinter(js_tweaker.parse_fixes_file_OLD("fixes.txt"), text_area)
+            run_and_update_tkinter(js_tweaker.write_modif_file_OLD(), text_area)
             
-        text_area.update_idletasks()
-        js_tweaker.re_minify_file()
-        text_area.update_idletasks()
-        js_tweaker.copy_files_to_steam()
-        text_area.update_idletasks()
+        run_and_update_tkinter(js_tweaker.re_minify_file(), text_area)
+        run_and_update_tkinter(js_tweaker.copy_files_to_steam(), text_area)
         print("\nSteam Library JS Tweaks applied successfully.")
               
     except Exception as e:
         print(e, file=sys.stderr)
-                              
+
+def run_and_update_tkinter(func, args=None, widget):
+    try:
+        value = func(args)
+        widget.update_idletasks()
+        return value
+    except Exception as e:
+        print("error running fucntion")
+        print_traceback()
+                         
 ### ================================
 
 
