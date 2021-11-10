@@ -339,8 +339,15 @@ class RegexHandler:
     def sub_repl_with_regex(self, repl):
         return self.vars_pattern.sub(r"\\"+"\\1",  escaped_pattern(repl))
     
-    def sub_ref_with_regex(self, find):
-        return self.refs_pattern.sub(self.js_letters, escaped_pattern(find))
+    def sub_ref_with_regex(self, ref):
+        return self.refs_pattern.sub(self.js_letters, escaped_pattern(ref))
+    
+    #def sub_extras_with_letters(self, extra_ref, letters):
+    #    letters_iter = iter(letters)
+    #    return self.refs_pattern.sub(self.match_letters(letters_iter), extra_ref)
+    
+    #def match_letters(self, letters_iter):
+    #    return letters_iter.next()
     
     def find_and_repl(self, find, repl, line, lineno):
         '''

@@ -157,6 +157,9 @@ class TestRefs(unittest.TestCase):
         self.assertEqual(self.a.split_refs_sublist(['a','b']), 'a')
         self.assertEqual(self.a.split_refs_sublist('a'), 'a')
         print(self.a.split_refs_sublist([]))
+        
+    def sub_extras1(self):
+        self.r.sub_extras_with_letters('Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)', ('r', 'c', 'A', 'a', 't'))
 
 class TestPopulateRefs(unittest.TestCase):
     @classmethod
@@ -168,11 +171,18 @@ class TestPopulateRefs(unittest.TestCase):
     def test_populate_refs1(self):
         self.a.populate_data_refs(self.a.search_for_refs())
         
+    def test_convert_extras1(self):
+        letters = ('r', 'c', 'A', 'a', 't')
+        self.a.convert_extra_refs(['Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'],letters)
+        print()
+        
 if __name__ == '__main__':
     #suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
     #unittest.TextTestRunner(verbosity=3).run(suite)
     #unittest.main(argv=['ignored', '-v', 'TestRefs.test_search_refs5'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestRefs.test_get_refs1'], exit=False)
-    unittest.main(argv=['ignored', '-v', 'TestJSManager.test_full_process'], exit=False)
-    #unittest.main(argv=['ignored', '-v', 'TestPopulateRefs.test_populate_refs1'], exit=False)
+    #unittest.main(argv=['ignored', '-v', 'TestJSManager.test_full_process'], exit=False)
+    unittest.main(argv=['ignored', '-v', 'TestPopulateRefs.test_populate_refs1'], exit=False)
+    unittest.main(argv=['ignored', '-v', 'TestPopulateRefs.test_convert_extras1'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestRefs.test_refs_in_tweak1'], exit=False)
+    #unittest.main(argv=['ignored', '-v', 'TestRefs.sub_extras1'], exit=False)

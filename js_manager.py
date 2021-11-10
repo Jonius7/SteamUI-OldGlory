@@ -1,6 +1,6 @@
 '''
 js_manager.py\n
-For anytoshing js_tweaker needs to access from other OldGlory modules\n
+For anything js_tweaker needs to access from other OldGlory modules\n
 
 libraries needed: schema
 '''
@@ -36,6 +36,7 @@ class ConfigJSHandler:
         self.f_data_by_file = self.get_js_enabled_data_by_file()
         self.f_data_by_file = self.populate_data_values()
         self.refs_data = self.get_refs_data(self.f_data_by_file)
+        self.ref_letters = self.get_ref_letters()
         
     def get_js_enabled_data_by_file(self):
         f_data_by_file = {self.default: {}}
@@ -142,25 +143,28 @@ class ConfigJSHandler:
                 beaut_filename = self.get_beaut_filename(filename)
                 if os.path.exists(beaut_filename):
                     refs_queue = []
-                    refs_results = {}
+                    refs_matches = {}
                     for rgx_ref in rgx_refs_data[filename]:
                         refs_queue.append(rgx_ref)
-                        refs_results[rgx_ref] = []
+                        refs_matches[rgx_ref] = []
 
                     with open(beaut_filename, "r", newline='', encoding="UTF-8") as f:
                         for line in f:
                             for rgx_ref in refs_queue:
                                 if (match := r_search.find(rgx_ref, line)):
-                                    refs_results[rgx_ref].append(match.group(0))
+                                    refs_matches[rgx_ref].append(match.group(0))
                                     #r_print("CAPTURE GROUPS")
                                     rgx_refs_data[filename][rgx_ref]['letters'] = match.groups()
                                     r_print(rgx_refs_data[filename][rgx_ref]['letters'])
                     #r_print("debugging")
                     #r_print(refs_results)
-                    freq_refs_results = self.get_most_freq_refs(refs_results)
+                    freq_refs_results = self.get_most_freq_refs(refs_matches)
                     #r_print(freq_refs_results)
                     for (rgx_ref, freq_ref) in freq_refs_results.items():
                         rgx_refs_data[filename][rgx_ref]['realtext'] = freq_ref
+                    for rgx_ref in rgx_refs_data[filename]:
+                        if isinstance(rgx_refs_data[filename][rgx_ref]["extra"], list):
+                            pass
                        
                 else:
                     print("File " + beaut_filename + " does not exist, skipping.")
@@ -219,6 +223,29 @@ class ConfigJSHandler:
         return None
 
         #return {tweak_k : tweak_v for (tweak_k, tweak_v) in file_refs_data.items()}
+    
+    def get_ref_letters(self):
+        letters_key = "abcdefghijklmnopqrstuvwxyz"
+        #letters_map = {"%" + letter + "%": ord(letter) - 96 for letter in letters_key}
+        ref_letters = ["%" + letter + "%" for letter in letters_key]
+        return ref_letters
+    
+    def convert_extra_refs(self, extra_refs, letters):
+        new_extra_refs = []
+        letters_map = {self.ref_letters[i]: letter for i, letter in enumerate(letters)}
+        #for letter in letters:
+        #    letters_map = self.dict_slice(self.ref_letters, len(letters))
+        
+        for ref in extra_refs:
+            new_ref = (ref.replace(letters[letters_map[letters_key]]) for letters_key in letters_map if letters_key in ref)
+            new_extra_refs.append(new_ref)
+        
+        print(new_extra_refs)
+    
+    def dict_slice(self, dict, number):
+        '''Returns a slice (subset) of a dictionary up to number items'''
+        return {k: v for (k, v) in dict.items() if v <= number}
+            
     
     def populate_data_refs(self, rgx_refs_data, f_data_by_file=None):
         if f_data_by_file is None:
