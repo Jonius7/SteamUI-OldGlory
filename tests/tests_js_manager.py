@@ -148,14 +148,10 @@ class TestRefs(unittest.TestCase):
     def test_get_file_refs1(self):
         #self.a.get_refs_for_file("libraryroot.js", )
         pass
-    
-    def test_get_refs_for_file1(self):
-        for filename in self.a.refs_data:
-            r_print(self.a.get_refs_for_file(filename, self.a.refs_data[filename]))
             
     def test_refs_in_tweak1(self):
-        self.assertEqual(self.a.split_refs_sublist(['a','b']), 'a')
-        self.assertEqual(self.a.split_refs_sublist('a'), 'a')
+        self.assertEqual(self.a.split_refs_sublist(['a','b']), ('a', ['b']))
+        self.assertEqual(self.a.split_refs_sublist('a'), ('a', ''))
         print(self.a.split_refs_sublist([]))
         
     def sub_extras1(self):
@@ -177,11 +173,11 @@ class TestPopulateRefs(unittest.TestCase):
         print()
         
 if __name__ == '__main__':
-    #suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
-    #unittest.TextTestRunner(verbosity=3).run(suite)
+    suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
+    unittest.TextTestRunner(verbosity=3).run(suite)
     #unittest.main(argv=['ignored', '-v', 'TestRefs.test_search_refs5'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestRefs.test_get_refs1'], exit=False)
-    unittest.main(argv=['ignored', '-v', 'TestJSManager.test_full_process_yaml'], exit=False)
+    #unittest.main(argv=['ignored', '-v', 'TestJSManager.test_full_process_yaml'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestPopulateRefs.test_populate_refs1'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestPopulateRefs.test_convert_extras1'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestRefs.test_refs_in_tweak1'], exit=False)

@@ -146,7 +146,7 @@ class ConfigJSHandler:
             rgx_refs_data = self.get_regex_refs(refs_data)
             
             for filename in rgx_refs_data:
-                beaut_filename = self.get_beaut_filename(filename)
+                beaut_filename = js_tweaker.get_beaut_filename(filename)
                 if os.path.exists(beaut_filename):
                     refs_queue = []
                     refs_matches = {}
@@ -191,16 +191,6 @@ class ConfigJSHandler:
         freq_refs_results = {rgx_ref_k : Counter(rgx_ref_v).most_common(1)[0][0]
                              for (rgx_ref_k, rgx_ref_v) in refs_results.items() if rgx_ref_v}
         return freq_refs_results
-        
-    
-    def get_beaut_filename(self, original_filename):
-        '''
-        eg:
-            original_filename   - libraryroot.js
-            beaut_filename      - libraryroot.beaut.js
-        '''
-        (name, ext) = os.path.splitext(original_filename)
-        return name + "." + "beaut" + ext
            
     def get_regex_refs(self, refs_data):
         '''
@@ -345,7 +335,7 @@ class ConfigJSHandler:
                 data_dict[k] = self.get_line(self, v)
             else:
                 return re.sub(self.reg_value, )'''
-            
+           
 def process_yaml():
     '''
     processes yaml through YamlHandler and ConfigJSHandler\n

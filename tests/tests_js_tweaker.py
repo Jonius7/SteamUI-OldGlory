@@ -109,7 +109,12 @@ class TestMinify(unittest.TestCase):
         #shutil.copy2(os.path.join(os.getcwd(), "libraryroot.beaut.js"),
         #             os.path.join(os.getcwd(), "libraryroot.modif.js"))
         js_tweaker.re_minify_file(2)
+
+class TestBeautify(unittest.TestCase):
+    def test_beautify_files(self):
+        js_tweaker.beautify_js_files(["libraryroot.js", "library.js"])
         
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
-    unittest.TextTestRunner(verbosity=3).run(suite)
+    #suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
+    #unittest.TextTestRunner(verbosity=3).run(suite)
+    unittest.main(argv=['ignored', '-v', 'TestBeautify.test_beautify_files'], exit=False)

@@ -168,7 +168,7 @@ def manager_run_js_tweaker(page, controller, change_javascript):
     if change_javascript == 1:
         #failed implementation due to needing controller state for each page with Install button
         #page.ConfirmObject.disable_install_button()
-        thread = ThreadWithCallback(target = old_glory.run_js_tweaker, args = (page.text1, ),
+        thread = ThreadWithCallback(target = old_glory.run_js_tweaker, args = (page.text1,),
                                     callback = lambda: enable_buttons_after_installing(controller))
         thread.start() 
     else:

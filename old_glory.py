@@ -38,7 +38,7 @@ DEFAULT_LIBRARYROOT = "5.css"
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.23"
+        self.version = "v0.9.23.3"
         self.release = "5.8-pre7"
       
         ### Window Frame
@@ -133,9 +133,13 @@ class OldGloryApp(tk.Tk):
         
     def show_frame(self, cont):
         frame = self.frames[cont]
+        self.quick_update_frame(frame)
+        
+    def quick_update_frame(self, frame):
         frame.tkraise()
         frame.update()
-        #frame.event_generate("<<ShowFrame>>")    
+        frame.event_generate("<<ShowFrame>>")
+        
     '''
     def get_frame(self, name):
         for frame in self.frames:
@@ -488,13 +492,17 @@ class StartPage(tk.Frame):
         ###tabs
         self.tabs.add(self.frameCheck, text="Main Options")
         self.tabs.add(self.framePatch, text="Advanced Options")
-        self.tabs.bind('<<NotebookTabChanged>>', self.tabs.update())
+        self.tabs.bind('<<NotebookTabChanged>>', self.update_notebook_frames)
         self.tabs.pack(expand=1)
         
         self.frameLog.pack(padx=17, pady=(10,7), expand=1, fill='both')
         self.frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         self.frameMode.pack(pady=(2, 0), side="bottom")
 
+    def update_notebook_frames(self, event):
+        event.widget.select()
+        event.widget.update()        
+        #print(event.widget.index("current"))
 
     ### Getters
     def getCheck(self, getter):
@@ -740,9 +748,11 @@ class ConfirmFrame(tk.Frame):
     
     def disable_install_button(self):
         self.button1['state'] = 'disable'
+        self.button1.configure(text="Installing...")
         
     def enable_install_button(self):
         self.button1['state'] = 'normal'
+        self.button1.configure(text="Install")
     
     def get_install_button(self):
         return self.button1
@@ -926,7 +936,8 @@ def run_js_tweaker(text_area, reset=0):
         run_and_update_tkinter(lambda: js_tweaker.copy_files_from_steam(reset), text_area)
         run_and_update_tkinter(lambda: js_tweaker.setup_library(), text_area)
         run_and_update_tkinter(lambda: js_tweaker.modify_html(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.beautify_js(), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.beautify_js_files(["libraryroot.js", "library.js"]),
+                               text_area)
         
         if JS_TWEAKS == 2:
             y = run_and_update_tkinter(lambda: js_manager.process_yaml(), text_area)

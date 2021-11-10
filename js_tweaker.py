@@ -21,6 +21,7 @@ import time
 import datetime
 import copy
 from rich import print as r_print
+from threading import Thread
 
 import js_manager
 
@@ -83,6 +84,15 @@ def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fres
         error_exit("Steam directory and/or files not found.\n" \
               "Please check Steam\steamui for library.js and libraryroot.js")
 
+def beautify_js_files(filelist):
+    threads = {}
+    for filename in filelist:
+        threads[filename] = Thread(target = beautify_js, args = (filename,))
+        threads[filename].start()
+        
+    for thread_v in threads.values():
+        thread_v.join()
+        
 def beautify_js(filename="libraryroot.js"):
     '''
     Example:
@@ -95,13 +105,13 @@ def beautify_js(filename="libraryroot.js"):
         
         #If files don't exist
         if not os.path.isfile(beaut_filename):
-            print("Opened JS file " + filename, end="")
+            print("\nOpened JS file " + filename + ", Generating beautified JS")
             if not os.path.isfile(filename):
                 shutil.copy2(os.path.join(library_dir(), filename), filename)
 
             opts = jsbeautifier.default_options()
             #opts.eol = ""
-            print(", " + "Generating beautified JS...")
+            
             library = jsbeautifier.beautify_file(filename, opts)
 
             f = open(beaut_filename, "wt", newline='', encoding="UTF-8")
@@ -553,6 +563,15 @@ def copy_files_to_steam():
         error_exit("Error found while copying files to Steam: " + e)
 
 
+def get_beaut_filename(original_filename):
+    '''
+    eg:
+        original_filename   - libraryroot.js
+        beaut_filename      - libraryroot.beaut.js
+    '''
+    (name, ext) = os.path.splitext(original_filename)
+    return name + "." + "beaut" + ext
+
 def print_error(errormsg: str):
     '''
     Prints error message, traceback
@@ -577,7 +596,8 @@ def main(RUN = True):
         copy_files_from_steam()
         setup_library()
         modify_html()
-        beautify_js()    
+        beautify_js_files(["libraryroot.js", "library.js"])
+        #beautify_js()    
         #parse_fixes_file_OLD("fixes.txt")
         #write_modif_file_OLD()
         y = js_manager.process_yaml()
