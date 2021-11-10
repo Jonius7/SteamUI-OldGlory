@@ -38,7 +38,7 @@ DEFAULT_LIBRARYROOT = "5.css"
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.23.3"
+        self.version = "v0.9.23.4"
         self.release = "5.8-pre7"
       
         ### Window Frame
@@ -936,13 +936,15 @@ def run_js_tweaker(text_area, reset=0):
         run_and_update_tkinter(lambda: js_tweaker.copy_files_from_steam(reset), text_area)
         run_and_update_tkinter(lambda: js_tweaker.setup_library(), text_area)
         run_and_update_tkinter(lambda: js_tweaker.modify_html(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.beautify_js_files(["libraryroot.js", "library.js"]),
-                               text_area)
+        
         
         if JS_TWEAKS == 2:
+            run_and_update_tkinter(lambda: js_tweaker.beautify_js_files(["libraryroot.js", "library.js"]),
+                               text_area)
             y = run_and_update_tkinter(lambda: js_manager.process_yaml(), text_area)
-            run_and_update_tkinter(lambda: js_tweaker.write_modif_file(y.f_data), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.write_modif_files(y.f_data), text_area)
         else:
+            run_and_update_tkinter(lambda: js_tweaker.beautify_js(), text_area)
             run_and_update_tkinter(lambda: js_tweaker.parse_fixes_file_OLD(), text_area)
             run_and_update_tkinter(lambda: js_tweaker.write_modif_file_OLD(), text_area)
             

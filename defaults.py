@@ -14,6 +14,7 @@ DEFAULT_CONFIG = {
         "ThemeSelected": "Crisp Cut",
     },
     "JS_Settings": {
+        "EnableJSTweaks": "1",
         "HomePageGridSpacing": "1",
         "MoreScreenshotsAndDLC": "1",
         "HoverPositionFix": "1",

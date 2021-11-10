@@ -5,8 +5,8 @@ EnableJSTweaks:
   category: Core
   file: library.js
   strings:
-    - find: '5:"libraryroot"'
-      repl: '5:"libraryreet"'
+    - find: '"libraryroot",'
+      repl: '"libraryreet",'
 
 HomePageGridSpacing:
   name: Home Page Grid Spacing
@@ -34,7 +34,6 @@ HoverPositionFix:
   name: HoverPosition Fix for GameListEntry
   desc: Fix hover position of GameList hover for long game names.
   category: Game List
-  file: library.js
   values: [Zoom]
   strings:
     - find: '%1% = m.nTop,'
@@ -66,8 +65,8 @@ ChangeGameImageGridSizes:
   category: Home Page
   values: [SmallGridSize,MediumGridSize,LargeGridSize]
   strings:
-    - find: '(n = 111, a = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {'
-      repl: '(n = @SmallGridSize@, a = !0) : 2 == e ? n = @MediumGridSize@ : 3 == e && (n = @LargeGridSize@), {'
+    - find: '(n = 111, %1% = !0) : 2 == e ? n = 148 : 3 == e && (n = 222),'
+      repl: '(n = @SmallGridSize@, %1% = !0) : 2 == e ? n = @MediumGridSize@ : 3 == e && (n = @LargeGridSize@),'
 
 VerticalNavBar:
   name: Vertical Nav Bar
@@ -105,7 +104,6 @@ StopWhatsNewLoad:
   name: Stop What's New Events from Loading
   desc: Replaces URL to load What's New events with blank
   category: Home Page
-  file: library.js
   strings:
     - find: n = %1%.%2%.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",
       repl: n = "",    

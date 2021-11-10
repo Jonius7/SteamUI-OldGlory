@@ -77,6 +77,7 @@ def install_click(event, page, controller):
             backend.compile_css(backend.get_json_data())
             controller.js_gui_changed = 0
             controller.change_javascript = 0
+            backend.backup_libraryroot()
             backend.refresh_steam_dir()
             update_loaded_config(page, controller)
             if not thread:

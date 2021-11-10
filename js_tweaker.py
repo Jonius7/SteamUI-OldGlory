@@ -244,6 +244,9 @@ def parse_fixes_file_OLD(filename="fixes.txt"):
 
 class YamlHandler:
     def __init__(self, filename):
+        '''
+        self.parse_yaml_file()
+        '''
         self.filename = filename
         self.data = self.parse_yaml_file()
         self.f_data = None#self.format_yaml_data()
@@ -256,7 +259,8 @@ class YamlHandler:
     
     def format_yaml_data(self, data):
         '''
-        Format yaml file data to support some Regex and TweakScript
+        Format yaml file data to support some Regex \n
+        Requires functions in ConfigJSHandler to be run first to format data properly
         '''
         f_data = copy.deepcopy(data)
         self.regex = RegexHandler()
@@ -387,7 +391,51 @@ def find_var_names(string):
        
 
 
-def write_modif_file(data, file="libraryroot.js",
+def write_modif_files(data, file="libraryroot.js",
+                     beaut_file = "libraryroot.beaut.js",
+                     modif_file = "libraryroot.modif.js"):
+    start_time = datetime.datetime.now()
+    try:
+        r_search = RegexHandler()
+        for filename in data:
+            beaut_file = get_beaut_filename(filename)
+            modif_file = get_modif_filename(filename)
+            print(beaut_file + " ~~~ " + modif_file)
+            with open(beaut_file, "r", newline='', encoding="UTF-8") as f, \
+                open(modif_file, "w", newline='', encoding="UTF-8") as f1:
+                prev_line = ""
+                for i, line in enumerate(f, start=1):
+                    modified = 0
+                    for tweak in data[filename]:
+                        for find_repl in data[filename][tweak]["strings"]:
+                            if "prev" in find_repl["find"]:
+                                if r_search.find(find_repl["find"]["prev"], prev_line) and \
+                                    r_search.find(find_repl["find"]["current"], line):
+                                        f1.write(r_search.find_and_repl(
+                                            find_repl["find"]["current"],
+                                            find_repl["repl"],
+                                            line,
+                                            i))
+                                        modified = 1
+                            elif r_search.find(find_repl["find"], line):
+                                f1.write(r_search.find_and_repl(
+                                    find_repl["find"],
+                                    find_repl["repl"],
+                                    line,
+                                    i))
+                                modified = 1
+                    if modified == 0:
+                        f1.write(line)
+                    prev_line = line
+            f.close()
+            f1.close()
+    except:
+        error_exit("Error writing " + modif_file + " while at tweak: " + tweak + " ")# + find_repl["find"])
+    end_time = datetime.datetime.now()
+    print(end_time - start_time)
+    
+    
+'''def write_modif_files(data, file="libraryroot.js",
                      beaut_file = "libraryroot.beaut.js",
                      modif_file = "libraryroot.modif.js"):
     start_time = datetime.datetime.now()
@@ -428,7 +476,7 @@ def write_modif_file(data, file="libraryroot.js",
     except:
         error_exit("Error writing " + modif_file + " at: " + tweak + " ")# + find_repl["find"])
     end_time = datetime.datetime.now()
-    print(end_time - start_time)
+    print(end_time - start_time)'''
 
 
 def write_modif_file_OLD2(data, file="libraryroot.js"):
@@ -529,10 +577,13 @@ def find_fix_with_variable(line, fix):
     #for lv in res:
     print("todo")
 
-def re_minify_file(min=2):
+def re_minify_js_files():
+    pass
+
+def re_minify_file(modif_file = "libraryroot.modif.js", min=2):
     try:
         print("\nRe-minify JS file")
-        with open("libraryroot.modif.js", "r", encoding="UTF-8") as js_file:
+        with open(modif_file, "r", encoding="UTF-8") as js_file:
             if min == 1:
                 minified = jsmin(js_file.read())
             elif min == 2:
@@ -572,6 +623,16 @@ def get_beaut_filename(original_filename):
     (name, ext) = os.path.splitext(original_filename)
     return name + "." + "beaut" + ext
 
+def get_modif_filename(original_filename):
+    '''
+    eg:
+        original_filename   - libraryroot.js
+        modif_filename      - libraryroot.modif.js
+    '''
+    (name, ext) = os.path.splitext(original_filename)
+    return name + "." + "modif" + ext
+
+
 def print_error(errormsg: str):
     '''
     Prints error message, traceback
@@ -602,7 +663,7 @@ def main(RUN = True):
         #write_modif_file_OLD()
         y = js_manager.process_yaml()
         #r_print(c.f_data_by_file)
-        write_modif_file(y.f_data)
+        write_modif_files(y.f_data)
         re_minify_file()
         copy_files_to_steam()
         print("\nSteam Library JS Tweaks applied successfully.")

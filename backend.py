@@ -742,6 +742,7 @@ def steam_library_compat_config(overwrite=0):
         if overwrite == 1:
             shutil.copy2("themes/config.css", library_dir() + "/" + "config.css")   # copy config.css from OldGlory themes/ to steamui/
             print("themes/config.css copied to: " + library_dir() + "/" + "config.css")
+        refresh_steam_dir()
     except FileNotFoundError:
         print("config.css not found", file=sys.stderr)
         print_traceback()
@@ -894,7 +895,7 @@ def write_js_fixes(fixesdata, special_fixesdata):
 ### STEAM DIRECTORY AND CLEAR Functions
 
                     
-def refresh_steam_dir():
+def backup_libraryroot():
     try:
         local_libraryroot_custom_css = "libraryroot.custom.css"
         libraryroot_custom_css = library_dir() + "/" + "libraryroot.custom.css"
@@ -913,16 +914,20 @@ def refresh_steam_dir():
         elif not os.path.isfile(libraryroot_custom_css):
             shutil.copy2(local_libraryroot_custom_css, libraryroot_custom_css)
         print("File " + local_libraryroot_custom_css + " written to " + libraryroot_custom_css)
-        
+    except:
+        print("Unable to copy libraryroot.custom.css to Steam directory.", file=sys.stderr)
+        print_traceback()
+
+def refresh_steam_dir():
+    try:
         #refresh steam library
         f = open(library_dir() + "/refresh_dir.txt", "w", newline='', encoding="UTF-8")
         f.close()
         if os.path.exists(library_dir() + "/refresh_dir.txt"):
             os.remove(library_dir() + "/refresh_dir.txt")
     except:
-        print("Unable to copy libraryroot.custom.css to Steam directory.", file=sys.stderr)
+        print("Unable to refresh Steam directory.", file=sys.stderr)
         print_traceback()
-    
 
 def clean_slate_css():    
     try:

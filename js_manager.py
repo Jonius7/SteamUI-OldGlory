@@ -28,6 +28,12 @@ class ConfigJSHandler:
     f_data_by_file  Filtered Yaml data (split by file, enabled tweaks only)
     '''
     def __init__(self, data, config):
+        '''
+        self.get_js_enabled_data_by_file()
+        self.populate_data_values()
+        self.get_refs_data(self.f_data_by_file)
+        self.get_ref_letters()
+        '''
         self.default = "libraryroot.js"
         self.reg_value = re.compile("(@[A-Za-z]+@)")
         
@@ -181,7 +187,8 @@ class ConfigJSHandler:
                        
                 else:
                     print("File " + beaut_filename + " does not exist, skipping tweaks.")
-            #r_print(rgx_refs_data)     
+            #r_print(rgx_refs_data) 
+            r_print(self.f_data_by_file)    
             return rgx_refs_data                  
             
         except:
