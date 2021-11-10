@@ -137,7 +137,7 @@
     /* PLAY/INSTALL BUTTON COLORS */
     /******************************/
     /* Remove the Dropdown button next to play */
-    --DrowdownPlay: none; /* Set to [ none | flex ] */
+    --DrowdownPlay: flex; /* Set to [ none | flex ] */
 
     --ButtonPlay: var(--libraryhome); /* Play button color shade 1 */
     --ButtonPlay2: var(--libraryhome); /* Play button color shade 2 */
