@@ -30,7 +30,7 @@ class TestJSManager(unittest.TestCase):
     def test_get_js_values_found_1(self):
         self.assertEqual(self.a.get_js_value_from_config("SmallGridSize"), "120")
         
-    def test_full_process(self):
+    def test_full_process_yaml(self):
         js_manager.process_yaml()
 
 class TestSchema(unittest.TestCase):
@@ -181,8 +181,8 @@ if __name__ == '__main__':
     #unittest.TextTestRunner(verbosity=3).run(suite)
     #unittest.main(argv=['ignored', '-v', 'TestRefs.test_search_refs5'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestRefs.test_get_refs1'], exit=False)
-    #unittest.main(argv=['ignored', '-v', 'TestJSManager.test_full_process'], exit=False)
-    unittest.main(argv=['ignored', '-v', 'TestPopulateRefs.test_populate_refs1'], exit=False)
-    unittest.main(argv=['ignored', '-v', 'TestPopulateRefs.test_convert_extras1'], exit=False)
+    unittest.main(argv=['ignored', '-v', 'TestJSManager.test_full_process_yaml'], exit=False)
+    #unittest.main(argv=['ignored', '-v', 'TestPopulateRefs.test_populate_refs1'], exit=False)
+    #unittest.main(argv=['ignored', '-v', 'TestPopulateRefs.test_convert_extras1'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestRefs.test_refs_in_tweak1'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestRefs.sub_extras1'], exit=False)

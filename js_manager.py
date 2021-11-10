@@ -38,6 +38,9 @@ class ConfigJSHandler:
         self.refs_data = self.get_refs_data(self.f_data_by_file)
         self.ref_letters = self.get_ref_letters()
         
+        self.REFS_LIMIT = 10
+        self.REFS_EXTRAS_LIMIT = 10
+        
     def get_js_enabled_data_by_file(self):
         f_data_by_file = {self.default: {}}
         for tweak in self.data:
@@ -163,8 +166,15 @@ class ConfigJSHandler:
                     for (rgx_ref, freq_ref) in freq_refs_results.items():
                         rgx_refs_data[filename][rgx_ref]['realtext'] = freq_ref
                     for rgx_ref in rgx_refs_data[filename]:
-                        if isinstance(rgx_refs_data[filename][rgx_ref]["extra"], list):
-                            pass
+                        #maximum 20 extra_refs to avoid overloading
+                        if isinstance((extra_refs := rgx_refs_data[filename][rgx_ref]["extra"][:10]), list):
+                            extra_refs_realtexts = self.convert_extra_refs(extra_refs,
+                                                                           rgx_refs_data[filename][rgx_ref]["letters"])
+                            rgx_refs_data[filename][rgx_ref]["extra"] = \
+                                [{extra_ref: extra_refs_realtexts[i]}
+                                 for i, extra_ref in enumerate(extra_refs)]
+                            print(extra_refs)
+                                
                        
                 else:
                     print("File " + beaut_filename + " does not exist, skipping.")
@@ -204,13 +214,13 @@ class ConfigJSHandler:
         for filename in refs_data:
             for tweak in refs_data[filename]:
                 if "refs" in refs_data[filename][tweak]:
-                    for i, ref in enumerate(refs_data[filename][tweak]["refs"]):
+                    for i, ref in enumerate(refs_data[filename][tweak]["refs"][:self.REFS_LIMIT]):
                         #print(r_search.sub_ref_with_regex(ref))
                         
                         (first_ref, extra_refs) = self.split_refs_sublist(ref)
                         rgx_refs_data.setdefault(filename, {}) \
                             [r_search.sub_ref_with_regex(first_ref)] \
-                            = {"original": first_ref, "tweak": tweak, "extra": extra_refs}
+                            = {"original": first_ref, "tweak": tweak, "extra": extra_refs[:self.REFS_EXTRAS_LIMIT]}
         return rgx_refs_data
     
     def get_refs_for_file(self, filename, file_refs_data):
@@ -237,10 +247,13 @@ class ConfigJSHandler:
         #    letters_map = self.dict_slice(self.ref_letters, len(letters))
         
         for ref in extra_refs:
-            new_ref = (ref.replace(letters[letters_map[letters_key]]) for letters_key in letters_map if letters_key in ref)
+            pattern = re.compile("|".join(letters_key for letters_key in letters_map))
+            new_ref = pattern.sub(lambda x: letters_map[x.group(0)], ref)
+            #new_ref = re.sub()
+            #new_ref = (ref.replace(letters_key, letters_map, ref) for letters_key in letters_map)
             new_extra_refs.append(new_ref)
         
-        print(new_extra_refs)
+        return new_extra_refs
     
     def dict_slice(self, dict, number):
         '''Returns a slice (subset) of a dictionary up to number items'''
@@ -255,14 +268,22 @@ class ConfigJSHandler:
             for rgx_ref in rgx_refs_data[filename]:
                 #f_data_by_file[filename][rgx_refs_data[filename][rgx_ref]["tweak"]]
                 #rgx_refs_data[filename][rgx_ref]["realtext"] if rgx_ref in f_data_by_file[filename][rgx_refs_data[filename][rgx_ref]["tweak"]]["refs"]
-                if (originaltext := rgx_refs_data[filename][rgx_ref]["original"]) \
+                if (original_text := rgx_refs_data[filename][rgx_ref]["original"]) \
                     in self.get_first_refs(f_data_by_file[filename][rgx_refs_data[filename][rgx_ref]["tweak"]]["refs"]):
                     for find_repl in f_data_by_file[filename][rgx_refs_data[filename][rgx_ref]["tweak"]]["strings"]:
                         #print("REPLACING")
                         #print(originaltext)
-                        find_repl["find"] = find_repl["find"].replace(originaltext, rgx_refs_data[filename][rgx_ref]["realtext"])
-                        find_repl["repl"] = find_repl["repl"].replace(originaltext, rgx_refs_data[filename][rgx_ref]["realtext"])
+                        find_repl["find"] = find_repl["find"].replace(original_text, rgx_refs_data[filename][rgx_ref]["realtext"])
+                        find_repl["repl"] = find_repl["repl"].replace(original_text, rgx_refs_data[filename][rgx_ref]["realtext"])
                         #print(find_repl["repl"])
+                        if isinstance(extra_refs := rgx_refs_data[filename][rgx_ref]["extra"], list):
+                            for ref in extra_refs:
+                                #print(ref)
+                                (original, realtext), = ref.items() #unpack
+                                find_repl["find"] = find_repl["find"].replace(original, realtext)
+                                find_repl["repl"] = find_repl["repl"].replace(original, realtext)
+                                #if extra_refs_realtext rgx_refs_data[filename][rgx_ref]["extra_realtext"]
+                                
         
         r_print(f_data_by_file)
                     

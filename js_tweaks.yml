@@ -142,9 +142,29 @@ StickyBackgroundImage:
     - '%a%.currentGameListSelection.nAppId'
     - '"#CustomArt_SetCustomBackground")), %a%.createElement(%b%.%c%'
     - 'Object(%a%.%b%)("#CustomArt_'
-    - 
-      - 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnChangeHero", null)'
-      - 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+    - - 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnChangeHero", null)'
+      - 'Object(%a2%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a3%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a4%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a5%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a6%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a7%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a8%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a9%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a10%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a%11.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a%12.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a%13.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a%14.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a%15.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a%16.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a%17.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a%18.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a%19.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'Object(%a%20.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
+      - 'EXTRA 21212121212121'
+      - 'EXTRA 22 22 22 22 22'
+
   strings:
     - find: 'rgHeaderImages: this.props.rgHeaderImages,'
       repl: 'rgHeaderImages: "",'
@@ -169,7 +189,7 @@ StickyBackgroundImage:
     - find: '}, t.prototype.OnChangeLogo = function(e) {'
       repl: '}, t.prototype.OnRemoveHero = function(e) {this.OnChangeArtwork(Object.create({src: "src"}), this.m_refFileInputHero, 1)}, t.prototype.OnChangeLogo = function(e) {'
     - find: 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnChangeHero", null),'
-      repl: 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnChangeHero", null), Object(r.c)([A.a], e.prototype, "OnRemoveHero", null),'
+      repl: 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnChangeHero", null), Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null),'
   
 PressEnterToLaunchGames:
   name: Press Enter to launch games
