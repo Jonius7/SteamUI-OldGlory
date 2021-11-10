@@ -28,6 +28,8 @@
     --librarysidebg: var(--blacker); /* Library sidebar background color */
     --librarybg: var(--darkgrey); /* Library background color */
     --libraryhome: var(--purple); /* Highlight library color */
+    --downloadspagebg: var(--darkgrey); /* Downloads page background color */
+    --downloadspagetop: var(--blacker); /* Downloads page top background color */
     --scrollbar: var(--purple); /* Scrollbar color */
     --backdropblur: var(--invisiblegrey); /* Blur color */
     --progressbar: var(--purple); /* Progressbar color */
@@ -135,7 +137,7 @@
     /* PLAY/INSTALL BUTTON COLORS */
     /******************************/
     /* Remove the Dropdown button next to play */
-    --DrowdownPlay: flex; /* Set to [ none | flex ] */
+    --DrowdownPlay: none; /* Set to [ none | flex ] */
 
     --ButtonPlay: var(--libraryhome); /* Play button color shade 1 */
     --ButtonPlay2: var(--libraryhome); /* Play button color shade 2 */
@@ -146,6 +148,13 @@
     --ButtonInstall2: var(--libraryhome); /* Install button color shade 2 */
     --ButtonInstallHover: var(--libraryhome); /* Install button hover color shade 1 */
     --ButtonInstallHover2: var(--libraryhome); /* Install button hover color shade 2 */
+
+    /******************************/
+    /* DOWNLOADS PAGE */
+    /******************************/
+    /* Remove the Dropdown button next to play */
+    --hidedlimage: none !important; /* Set to [ none | flex ] */
+    --hidedlgraph: none !important; /* Set to [ none | flex ] */
 
 }
 
