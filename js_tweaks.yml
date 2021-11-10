@@ -67,19 +67,19 @@ ChangeGameImageGridSizes:
   values: [SmallGridSize,MediumGridSize,LargeGridSize]
   strings:
     - find: '(n = 111, a = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {'
-      repl: '(n = 120, a = !0) : 2 == e ? n = 160 : 3 == e && (n = 200), {'
+      repl: '(n = @SmallGridSize@, a = !0) : 2 == e ? n = @MediumGridSize@ : 3 == e && (n = @LargeGridSize@), {'
 
 VerticalNavBar:
   name: Vertical Nav Bar
   desc: Change gamepage navigation bar from horizontal to vertical.
   category: Game Page
   strings:
-    - find: 'x: %1%,'
+    - find: 'p.push({~~x: %1%,'
       repl: 'x: 0,'
     - find: 'y: %1% * %2%'
       repl: 'y: %1% * (%2% - 10)'
-    - find: p = 0), c < r ?
-      repl: p = 0), true ?
+    - find: '%1% = 0), %2% < %3% ?'
+      repl: '%1% = 0), true ?'
   
 LandscapeGameImages:
   name: Use Landscape Game Images
@@ -143,27 +143,7 @@ StickyBackgroundImage:
     - '"#CustomArt_SetCustomBackground")), %a%.createElement(%b%.%c%'
     - 'Object(%a%.%b%)("#CustomArt_'
     - - 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnChangeHero", null)'
-      - 'Object(%a2%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a3%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a4%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a5%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a6%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a7%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a8%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a9%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a10%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a%11.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a%12.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a%13.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a%14.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a%15.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a%16.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a%17.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a%18.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a%19.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'Object(%a%20.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-      - 'EXTRA 21212121212121'
-      - 'EXTRA 22 22 22 22 22'
+      - 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
 
   strings:
     - find: 'rgHeaderImages: this.props.rgHeaderImages,'

@@ -38,8 +38,8 @@ class ConfigJSHandler:
         self.refs_data = self.get_refs_data(self.f_data_by_file)
         self.ref_letters = self.get_ref_letters()
         
-        self.REFS_LIMIT = 10
-        self.REFS_EXTRAS_LIMIT = 10
+        self.REFS_LIMIT = 20
+        self.REFS_EXTRAS_LIMIT = 20
         
     def get_js_enabled_data_by_file(self):
         f_data_by_file = {self.default: {}}
@@ -126,13 +126,16 @@ class ConfigJSHandler:
     def search_for_refs(self, refs_data=None):
         '''
         Uses refs_data to search for the right obfuscated variables in js files
-        and returns a version of refs_data with these variables
-        refs_queue - [rgxref1, rgxref2, rgxref3 ...]
-        refs_results - {rgx_ref: [result1, result2, result3 ...]}
-        rgx_refs_data - {filename: {
-            rgx_ref1: {'original': ref1, 'tweak': tweak_name1, 'realtext': freq_ref1},
-            rgx_ref2: {'original': ref2, 'tweak': tweak_name2, 'realtext': freq_ref2}
-        }}
+        and returns a version of refs_data with these variables \n
+        param refs_queue
+            format: [rgxref1, rgxref2, rgxref3 ...]
+        param refs_results
+            format: {rgx_ref: [result1, result2, result3 ...]}
+        returns rgx_refs_data
+            format: {filename: {
+                rgx_ref1: {'original': ref1, 'tweak': tweak_name1, 'realtext': freq_ref1, 'letters': ('a', 'b', 'c' ...), 'extra': [{extra_ref1: extra_ref_realtext1},]},
+                rgx_ref2: {'original': ref2, 'tweak': tweak_name2, 'realtext': freq_ref2, 'letters': ('a', 'b', 'c' ...), 'extra': [{extra_ref1: extra_ref_realtext1},]}}
+            }}
         '''
         try:
             if refs_data is None:
@@ -158,7 +161,7 @@ class ConfigJSHandler:
                                     refs_matches[rgx_ref].append(match.group(0))
                                     #r_print("CAPTURE GROUPS")
                                     rgx_refs_data[filename][rgx_ref]['letters'] = match.groups()
-                                    r_print(rgx_refs_data[filename][rgx_ref]['letters'])
+                                    #r_print(rgx_refs_data[filename][rgx_ref]['letters'])
                     #r_print("debugging")
                     #r_print(refs_results)
                     freq_refs_results = self.get_most_freq_refs(refs_matches)
@@ -167,18 +170,18 @@ class ConfigJSHandler:
                         rgx_refs_data[filename][rgx_ref]['realtext'] = freq_ref
                     for rgx_ref in rgx_refs_data[filename]:
                         #maximum 20 extra_refs to avoid overloading
-                        if isinstance((extra_refs := rgx_refs_data[filename][rgx_ref]["extra"][:10]), list):
+                        if isinstance((extra_refs := rgx_refs_data[filename][rgx_ref]["extra"][:self.REFS_EXTRAS_LIMIT]), list):
                             extra_refs_realtexts = self.convert_extra_refs(extra_refs,
                                                                            rgx_refs_data[filename][rgx_ref]["letters"])
                             rgx_refs_data[filename][rgx_ref]["extra"] = \
                                 [{extra_ref: extra_refs_realtexts[i]}
                                  for i, extra_ref in enumerate(extra_refs)]
-                            print(extra_refs)
+                            #print(extra_refs)
                                 
                        
                 else:
-                    print("File " + beaut_filename + " does not exist, skipping.")
-            r_print(rgx_refs_data)     
+                    print("File " + beaut_filename + " does not exist, skipping tweaks.")
+            #r_print(rgx_refs_data)     
             return rgx_refs_data                  
             
         except:
@@ -205,9 +208,10 @@ class ConfigJSHandler:
                 format: {filename: {tweak: "refs": [ref1, ref2]}}
             
             returns rgx_refs_data
-                format: {"filename": 
-                    {ref1: {"regex": rgx_ref1, "tweak": tweak}}, 
-                    {ref2: {"regex": rgx_ref2, "tweak": tweak}}}
+                format: rgx_refs_data - {filename: {
+                    rgx_ref1: {'original': ref1, 'tweak': tweak_name1, 'extra': [extra_ref1, extra_ref2 ...]},
+                    rgx_ref2: {'original': ref2, 'tweak': tweak_name2, 'extra': [extra_ref1, extra_ref2 ...]}
+                }}
         '''
         r_search = js_tweaker.RegexHandler()
         rgx_refs_data = {}
@@ -235,6 +239,9 @@ class ConfigJSHandler:
         #return {tweak_k : tweak_v for (tweak_k, tweak_v) in file_refs_data.items()}
     
     def get_ref_letters(self):
+        '''Returns list of ref letters
+            ['%a%', '%b%', '%c%', ...]
+        '''
         letters_key = "abcdefghijklmnopqrstuvwxyz"
         #letters_map = {"%" + letter + "%": ord(letter) - 96 for letter in letters_key}
         ref_letters = ["%" + letter + "%" for letter in letters_key]
@@ -285,7 +292,7 @@ class ConfigJSHandler:
                                 #if extra_refs_realtext rgx_refs_data[filename][rgx_ref]["extra_realtext"]
                                 
         
-        r_print(f_data_by_file)
+        #r_print(f_data_by_file)
                     
     def split_refs_sublist(self, ref_sublist):
         '''
@@ -322,7 +329,7 @@ class ConfigJSHandler:
         '''
         tweak_data  The dictionary containing 1 tweak's data
         '''
-        print(tweak_data)
+        #print(tweak_data)
         for find_repl in tweak_data["strings"]:
             for value in tweak_data["values"]:
                 find_repl["repl"] = find_repl["repl"].replace(

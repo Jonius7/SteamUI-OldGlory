@@ -195,7 +195,7 @@ def reset_html():
         error_exit("Unable to reset index.html")
             
 
-def parse_fixes_file_OLD(filename):
+def parse_fixes_file_OLD(filename="fixes.txt"):
     '''
     look through fixes file and add fixes to fixes_dict
     '''

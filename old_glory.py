@@ -38,7 +38,7 @@ DEFAULT_LIBRARYROOT = "5.css"
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.22.7"
+        self.version = "v0.9.23"
         self.release = "5.8-pre7"
       
         ### Window Frame
@@ -135,7 +135,7 @@ class OldGloryApp(tk.Tk):
         frame = self.frames[cont]
         frame.tkraise()
         frame.update()
-        frame.event_generate("<<ShowFrame>>")    
+        #frame.event_generate("<<ShowFrame>>")    
     '''
     def get_frame(self, name):
         for frame in self.frames:
@@ -488,6 +488,7 @@ class StartPage(tk.Frame):
         ###tabs
         self.tabs.add(self.frameCheck, text="Main Options")
         self.tabs.add(self.framePatch, text="Advanced Options")
+        self.tabs.bind('<<NotebookTabChanged>>', self.tabs.update())
         self.tabs.pack(expand=1)
         
         self.frameLog.pack(padx=17, pady=(10,7), expand=1, fill='both')
@@ -579,6 +580,7 @@ class PageOne(tk.Frame):
         ###tabs
         tabs.add(frameQuick, text="Quick CSS")
         tabs.add(frameSections, text="CSS Sections")
+        tabs.bind('<<NotebookTabChanged>>', tabs.update())
         tabs.pack(fill="both", expand=1, padx=(10,9))
         
         frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
@@ -917,40 +919,36 @@ MAIN_SETTINGS_MAP = {
 def run_js_tweaker(text_area, reset=0):
     try:
         print("==============================")
-        print("Running js_tweaker")
-        text_area.update_idletasks()
+        run_and_update_tkinter(lambda: print("Running js_tweaker"), text_area)
 
         ###
-        js_tweaker.initialise()
-        text_area.update_idletasks()
-        js_tweaker.copy_files_from_steam(reset)
-        text_area.update_idletasks()
-        js_tweaker.setup_library()
-        text_area.update_idletasks()
-        js_tweaker.modify_html()
-        text_area.update_idletasks()
-        js_tweaker.beautify_js()
-        text_area.update_idletasks()
+        run_and_update_tkinter(lambda: js_tweaker.initialise(), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.copy_files_from_steam(reset), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.setup_library(), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.modify_html(), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.beautify_js(), text_area)
         
         if JS_TWEAKS == 2:
-            y = js_manager.process_yaml()
-            text_area.update_idletasks()
-            js_tweaker.write_modif_file(y.f_data)
+            y = run_and_update_tkinter(lambda: js_manager.process_yaml(), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.write_modif_file(y.f_data), text_area)
         else:
-            js_tweaker.parse_fixes_file_OLD("fixes.txt")
-            text_area.update_idletasks()
-            js_tweaker.write_modif_file_OLD()
+            run_and_update_tkinter(lambda: js_tweaker.parse_fixes_file_OLD(), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.write_modif_file_OLD(), text_area)
             
-        text_area.update_idletasks()
-        js_tweaker.re_minify_file()
-        text_area.update_idletasks()
-        js_tweaker.copy_files_to_steam()
-        text_area.update_idletasks()
+        run_and_update_tkinter(lambda: js_tweaker.re_minify_file(), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.copy_files_to_steam(), text_area)
         print("\nSteam Library JS Tweaks applied successfully.")
               
     except Exception as e:
-        print(e, file=sys.stderr)
-                              
+        print("Error while applying JS Tweaks.", file=sys.stderr)
+        print_traceback()
+
+def run_and_update_tkinter(func, widget):
+    value = func()
+    widget.update_idletasks()
+    return value
+        
+                         
 ### ================================
 
 

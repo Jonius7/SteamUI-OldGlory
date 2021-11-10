@@ -1,12 +1,14 @@
 ## SteamUI-OldGlory GUI Changelog
 
-0.9.22.4		*(5.8-pre7)* `refs` functionality completed, fixed `write_modif_file` 
+0.9.23		`Install` button now disables while installing
 
-0.9.20.5
+0.9.22.4	*(5.8-pre7)* 	`refs` functionality completed, fixed `write_modif_file` 
+
+0.9.20.5	Generating `refs` list, filter out tweaks that don't have `refs`
 
 **0.9.11.5**	**(Release 5.7.4.2)**
 
-0.9.20.2	Search for Refs (WIP), update JS Beautify Messages
+0.9.20.2	Search for `refs` (WIP), update JS Beautify Messages
 
 0.9.19		*(5.8-pre6)* 	JS Tweaks Schema Validation and populating `@Values@`
 
