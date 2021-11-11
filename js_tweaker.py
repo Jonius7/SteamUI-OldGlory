@@ -285,7 +285,7 @@ class YamlHandler:
                 except:
                     error_exit("Unable to properly format Yaml data at: " + tweak)
         self.f_data = f_data
-        r_print(self.f_data)
+        #r_print(self.f_data)
         
     def format_yaml_data_compiled(self, data):
         '''
@@ -452,24 +452,24 @@ def find_var_names(string):
 
 
 def write_modif_files(data, file="libraryroot.js",
-                     beaut_file = "libraryroot.beaut.js",
-                     modif_file = "libraryroot.modif.js"):    
+                     beaut_filename = "libraryroot.beaut.js",
+                     modif_filename = "libraryroot.modif.js"):    
     start_time = datetime.datetime.now()
     try:
         r_search = RegexHandler()
         for filename in data:
-            beaut_file = get_beaut_filename(filename)
-            modif_file = get_modif_filename(filename)
-            print(beaut_file + " ~~> " + modif_file)
-            with open(beaut_file, "r", newline='', encoding="UTF-8") as f, \
-                open(modif_file, "w", newline='', encoding="UTF-8") as f1:
+            beaut_filename = get_beaut_filename(filename)
+            modif_filename = get_modif_filename(filename)
+            print(beaut_filename + " ~~> " + modif_filename)
+            with open(beaut_filename, "r", newline='', encoding="UTF-8") as f, \
+                open(modif_filename, "w", newline='', encoding="UTF-8") as f1:
                 prev_line = ""
                 for i, line in enumerate(f, start=1):
                     modified = 0
                     for tweak in data[filename]:
                         for find_repl in data[filename][tweak]["strings"]:
-                            if not isinstance(find_repl["find"], re.Pattern) and "prev" in find_repl["find"]:
-                                if COMPILED:
+                            if COMPILED:
+                                if not isinstance(find_repl["find"], re.Pattern) and "prev" in find_repl["find"]:
                                     if r_search.compiled_find(find_repl["find"]["prev"], prev_line) and \
                                         r_search.compiled_find(find_repl["find"]["current"], line):
                                             f1.write(r_search.compiled_find_and_repl(
@@ -478,43 +478,45 @@ def write_modif_files(data, file="libraryroot.js",
                                                 line,
                                                 i))
                                             modified = 1
-                                else:
-                                    if r_search.find(find_repl["find"]["prev"], prev_line) and \
-                                        r_search.find(find_repl["find"]["current"], line):
-                                            f1.write(r_search.compiled_find_and_repl(
-                                                find_repl["find"]["current"],
-                                                find_repl["repl"],
-                                                line,
-                                                i))
-                                            modified = 1
-                            elif COMPILED:
-                                if r_search.compiled_find(find_repl["find"], line):
+                                
+                                elif r_search.compiled_find(find_repl["find"], line):
                                     f1.write(r_search.compiled_find_and_repl(
                                         find_repl["find"],
                                         find_repl["repl"],
                                         line,
                                         i))
                                     modified = 1
+                                    
                             else:
-                                if r_search.find(find_repl["find"], line):
-                                    f1.write(r_search.find_and_repl(
-                                        find_repl["find"],
-                                        find_repl["repl"],
-                                        line,
-                                        i))
-                                    modified = 1
+                                if "prev" in find_repl["find"]:        
+                                    if r_search.find(find_repl["find"]["prev"], prev_line) and \
+                                        r_search.find(find_repl["find"]["current"], line):
+                                            f1.write(r_search.find_and_repl(
+                                                find_repl["find"]["current"],
+                                                find_repl["repl"],
+                                                line,
+                                                i))
+                                            modified = 1    
+                                    
+                                elif r_search.find(find_repl["find"], line):
+                                        f1.write(r_search.find_and_repl(
+                                            find_repl["find"],
+                                            find_repl["repl"],
+                                            line,
+                                            i))
+                                        modified = 1
                     if modified == 0:
                         f1.write(line)
                     prev_line = line
             f.close()
             f1.close()
     except:
-        error_exit("Error writing " + modif_file + " while at tweak: " + tweak + " ")# + find_repl["find"])
+        error_exit("Error writing " + modif_filename + " while at tweak: " + tweak + " ")# + find_repl["find"])
     end_time = datetime.datetime.now()
     print("Write modif JS time: " + str(end_time - start_time) + " seconds")
     
     
-'''def write_modif_files(data, file="libraryroot.js",
+'''def write_modif_files_not_compiled(data, file="libraryroot.js",
                      beaut_file = "libraryroot.beaut.js",
                      modif_file = "libraryroot.modif.js"):
     start_time = datetime.datetime.now()
@@ -558,7 +560,7 @@ def write_modif_files(data, file="libraryroot.js",
     print(end_time - start_time)'''
 
 
-def write_modif_file_OLD2(data, file="libraryroot.js"):
+'''def write_modif_file_OLD2(data, file="libraryroot.js"):
     start_time = datetime.datetime.now()
     try:
         r_search = RegexHandler()
@@ -615,7 +617,7 @@ def write_modif_file_OLD2(data, file="libraryroot.js"):
     except:
         error_exit("Error writing " + modif_filename + " at: " + tweak + " " + find_repl["find"])
     end_time = datetime.datetime.now()
-    print("Write modif JS time: " + str(end_time - start_time) + " seconds")
+    print("Write modif JS time: " + str(end_time - start_time) + " seconds")'''
     
 def write_modif_file_OLD():
     start_time = datetime.datetime.now()
@@ -656,22 +658,35 @@ def find_fix_with_variable(line, fix):
     #for lv in res:
     print("todo")
 
-def re_minify_js_files():
-    pass
+def get_list_of_filenames(data):
+    return list(data.keys())
 
-def re_minify_file(modif_file = "libraryroot.modif.js", min=2):
+def re_minify_js_files(filenames):
+    threads = {}
+    
+    for filename in filenames:
+        minify_filename = get_minify_filename(filename)
+        threads[minify_filename] =  Thread(target = re_minify_file, kwargs = ({'modif_file': get_modif_filename(filename),
+                                                                               'min_file': minify_filename}))
+        threads[minify_filename].start()
+        
+    for thread_v in threads.values():
+        thread_v.join()
+    print("\n")
+
+def re_minify_file(modif_file = "libraryroot.modif.js", min_file = 'libraryreet.js', min=2):
     try:
-        print("\nRe-minify JS file")
+        print("\nRe-minify JS file: " + modif_file + " ~~> " + min_file, end="")
         with open(modif_file, "r", encoding="UTF-8") as js_file:
             if min == 1:
                 minified = jsmin(js_file.read())
             elif min == 2:
                 minified = rjsmin.jsmin(js_file.read(), keep_bang_comments=True)
-        with open("libraryreet.js", "w", newline='', encoding="UTF-8") as js_min_file:
+        with open(min_file, "w", newline='', encoding="UTF-8") as js_min_file:
             js_min_file.write(minified)
         js_file.close()
         js_min_file.close()
-        print("\nJS Minify complete. (libraryreet.js)")        
+        print("\nJS Minify complete. (" + min_file + ")", end="")        
     except:
         error_exit("Error completing JS minify.")
     
@@ -711,6 +726,24 @@ def get_modif_filename(original_filename):
     (name, ext) = os.path.splitext(original_filename)
     return name + "." + "modif" + ext
 
+def get_minify_filename(original_filename):
+    '''
+    gets minified JS filename
+    if exists in the minify_file_map, otherwise returns the filename with last character changed to q
+    eg:
+    - libraryroot.js -> libraryreet.js
+    - library.js -> librery.js
+    - test.js -> tesq.js
+    '''
+    minify_file_map = {'libraryroot': 'libraryreet',
+                       'library': 'librery'}
+    (name, ext) = os.path.splitext(original_filename)
+    
+    if name in minify_file_map:
+        minify_filename = minify_file_map[name] + ext
+    else:
+        minify_filename = name[:-1] + "q" + ext
+    return minify_filename
 
 def print_error(errormsg: str):
     '''
@@ -734,7 +767,7 @@ def main(RUN = True):
         print("JS Tweaker for Steam Library UI by Jonius7\n")
         initialise()
         copy_files_from_steam()
-        setup_library()
+        #setup_library()
         modify_html()
         beautify_js_files(["libraryroot.js", "library.js"])
         #beautify_js()    
@@ -743,7 +776,8 @@ def main(RUN = True):
         y = js_manager.process_yaml()
         #r_print(c.f_data_by_file)
         write_modif_files(y.f_data)
-        re_minify_file()
+        #re_minify_file()
+        re_minify_js_files(get_list_of_filenames(y.f_data))
         copy_files_to_steam()
         print("\nSteam Library JS Tweaks applied successfully.")
         time.sleep(1)
