@@ -370,10 +370,14 @@ class RegexHandler:
             repl - the string to replace it with (regex formatted) \n
             line - the line in question (in the tweaks file)
         '''
-        return_string = unescape(re.sub(find, repl, line))
-        #print(return_string.ljust(70)[:70].strip() + (' ...' if len(return_string) > 70 else ''))
-        print("TWEAK (" + str(lineno) + "): " + return_string.strip().ljust(120)[:120] + (' ...\n' if len(return_string) > 120 else '\n'), end='')
-        return return_string    
+        new_line = re.sub(find, repl, line)
+        if new_line != line:
+            return_string = unescape(new_line)
+            #print(return_string.ljust(70)[:70].strip() + (' ...' if len(return_string) > 70 else ''))
+            print("TWEAK (" + str(lineno) + "): " + return_string.strip().ljust(120)[:120] + (' ...\n' if len(return_string) > 120 else '\n'), end='')
+            return return_string
+        else:
+            return new_line
         
     def find(self, find, line):
         '''
@@ -417,15 +421,18 @@ def write_modif_files(data, file="libraryroot.js",
                                             line,
                                             i))
                                         modified = 1
-                            elif r_search.find(find_repl["find"], line):
-                                f1.write(r_search.find_and_repl(
+                            #elif r_search.find(find_repl["find"], line):
+                            elif (new_line := r_search.find_and_repl(
                                     find_repl["find"],
                                     find_repl["repl"],
                                     line,
-                                    i))
-                                modified = 1
-                    if modified == 0:
-                        f1.write(line)
+                                    i)):
+                                f1.write(new_line)
+                            #else:
+                                
+                                #modified = 1
+                    #if modified == 0:
+                    #    f1.write(line)
                     prev_line = line
             f.close()
             f1.close()
