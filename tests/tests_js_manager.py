@@ -173,9 +173,9 @@ class TestPopulateRefs(unittest.TestCase):
         print()
         
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
-    unittest.TextTestRunner(verbosity=3).run(suite)
-    #unittest.main(argv=['ignored', '-v', 'TestRefs.test_search_refs5'], exit=False)
+    #suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
+    #unittest.TextTestRunner(verbosity=3).run(suite)
+    unittest.main(argv=['ignored', '-v', 'TestRefs.test_search_refs5'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestRefs.test_get_refs1'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestJSManager.test_full_process_yaml'], exit=False)
     #unittest.main(argv=['ignored', '-v', 'TestPopulateRefs.test_populate_refs1'], exit=False)

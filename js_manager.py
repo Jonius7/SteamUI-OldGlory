@@ -188,7 +188,7 @@ class ConfigJSHandler:
                 else:
                     print("File " + beaut_filename + " does not exist, skipping tweaks.")
             #r_print(rgx_refs_data) 
-            r_print(self.f_data_by_file)    
+            #r_print(self.f_data_by_file)    
             return rgx_refs_data                  
             
         except:
@@ -348,12 +348,19 @@ def process_yaml():
     processes yaml through YamlHandler and ConfigJSHandler\n
     returns YamlHandler
     '''
+    start_time = datetime.datetime.now()
     y_handler = js_tweaker.YamlHandler("js_tweaks.yml")
     c_handler = ConfigJSHandler(y_handler.data, backend.load_config())
     c_handler.f_data_by_file = c_handler.populate_data_values()
     c_handler.populate_data_refs(c_handler.search_for_refs())
     #return c_handler
-    y_handler.format_yaml_data(c_handler.f_data_by_file)
+    if not js_tweaker.COMPILED:
+        y_handler.format_yaml_data(c_handler.f_data_by_file)
+    elif js_tweaker.COMPILED:
+        y_handler.format_yaml_data_compiled(c_handler.f_data_by_file)
+    
+    end_time = datetime.datetime.now()
+    print("Process yaml time: " + str(end_time - start_time) + " seconds")
     return y_handler
     
     
