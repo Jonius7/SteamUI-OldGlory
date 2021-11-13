@@ -215,20 +215,24 @@ https://github.com/AikoMidori/steam-library
 
 If Library is not working, try one of these things (and **restart Steam** if necessary). If it still doesn't work, try the next thing in the list.
 
-- Check **SteamFriendsPatcher** has patched the library CSS
+- Check **SteamFriendsPatcher** has patched the library CSS:
+  - Also check it is [patching the right file](https://i.imgur.com/ZAC9yKj.png): (`5.css` Steam Stable, `6.css` Steam Beta Update)
   - use the **Clear Steam Cache** button if necessary.
+
 - Go to Task Manager and End Task on **Steam Client WebHelper** (let it restart)
 - Try these **Steam Settings** (and restart Steam)
   - **Downloads** -> **Clear Download Cache**
   - **Web Browser** -> **Delete Web Browser Cache**
-
 - Use **Remake JS** button under **Settings and About** (this should also be done when Steam Client updates and the JS has changed)
-
 - Use **Reset** button under **Settings and About**
-
 - Delete `steamui` folder
 
-  
+If none of these steps work, please open an [Issue](issues)
+
+- State whether you are on Steam Beta Update or not.
+- Which CSS Options/JS Options you have enabled/disabled.
+
+
 
 The program can't start because `api-ms-win-crt-math-l1-1-0.dll` is missing from your computer.
 
@@ -258,10 +262,10 @@ Install pyinstaller:
 	`pip install pyinstaller`
 
 Install libraries using `pip`: 
-	`pip install jsbeautifier jsmin pillow requests requests_oauthlib libsass`
+	`pip install jsbeautifier jsmin pillow requests requests_oauthlib libsass pyyaml schema`
 
 Build `old_glory.exe`:
-	`pyinstaller -w --hidden-import six --icon=steam_oldglory.ico --clean --onefile old_glory.spec`
+	`pyinstaller -w --icon=steam_oldglory.ico --clean --onefile old_glory.spec`
 
 The `.spec` file is included in the repository.
 
