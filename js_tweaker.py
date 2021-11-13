@@ -26,6 +26,7 @@ from threading import Thread
 import js_manager
 
 LOCAL_DEBUG = 0 #Set to 1 to not copy files to/from Steam directory
+VERBOSE = 0 #Set to 1 for more output (dev/debugging purposes)
 COMPILED = True
 
 # Determine Steam Library Path
@@ -285,7 +286,8 @@ class YamlHandler:
                 except:
                     error_exit("Unable to properly format Yaml data at: " + tweak)
         self.f_data = f_data
-        #r_print(self.f_data)
+        if VERBOSE == 1:
+            r_print(self.f_data)
         
     def format_yaml_data_compiled(self, data):
         '''
@@ -314,7 +316,8 @@ class YamlHandler:
                 except:
                     error_exit("Unable to properly format Yaml data at: " + tweak)
         self.f_data = f_data
-        #r_print(self.f_data)
+        if VERBOSE == 1:
+            r_print(self.f_data)
     
     def r_print_to_file(self, data):
         '''
@@ -375,7 +378,7 @@ class RegexHandler:
         self.vars_pattern = re.compile("%([0-9]+)%")
         self.refs_pattern = re.compile("%([a-z]+)%")
         #The regex pattern to replace them with
-        self.js_letters = "([A-Za-z_$]+)"
+        self.js_letters = "([A-Za-z_$]{1,2})"
     
     def sub_find_with_regex(self, find):
         r'''
@@ -441,15 +444,6 @@ class RegexHandler:
         re.search(...)
         '''
         return find.search(line)
-
-def find_var_names(string):
-    #return re.findall("[A-Za-z]+", "Ga.c, ab.d, cc.d, e.b")
-    #b = re.sub("%[0-9]+%", "([A-Za-z]+)", escaped_pattern("Object(%1%.%2%)([%3%, %4%], n)"))
-    #re.search(b, "Object(Ap.g)([e, t], n)")
-    #unescape(re.sub('Object\\(([A-Za-z]+)\\.([A-Za-z]+)\\)\\(\\[([A-Za-z]+),\\ ([A-Za-z]+)\\],\\ n\\)', 'Object\\(\\1\\.\\2\\)\\(\\[\\3,\\ \\4\\],\\ n\\)', 'Object(p.g)([e, t], n)'))  
-    pass
-       
-
 
 def write_modif_files(data, file="libraryroot.js",
                      beaut_filename = "libraryroot.beaut.js",

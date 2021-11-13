@@ -1,3 +1,8 @@
+'''
+defaults.py
+Contains a few default dictionaries referenced by other modules
+'''
+
 ### Default values if not found
 DEFAULT_CONFIG = {
     "Filepaths": {
@@ -50,4 +55,26 @@ DEFAULT_CONFIG = {
         #GamePropertiesWindowSize
         "PropertiesWidth": "672"
     },
+}
+
+### Dropdown click (theme)
+### This is a backup list - .json provides an updated theme list
+###
+THEME_MAP = {
+    "steam-library (Shiina)" : {
+        "filename" : "shiina.css",
+        "order" : "before",
+    },
+    "Dark Library (Thespikedballofdoom)" : {
+        "filename" : "spiked.css",
+        "order" : "after"
+    },
+    "Acrylic Theme (EliteSkylu)" : {
+        "filename" : "acrylic.css",
+        "order" : "after"
+    },
+    "Crisp Cut" : {
+        "filename" : "crispcut.css",
+        "order" : "after"
+    }
 }

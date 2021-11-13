@@ -7,6 +7,7 @@ import old_glory
 import backend
 import tkinter as tk
 import os
+import datetime
 
 #Test recursion for finding values in css_config
 class TestApplyCssValues(unittest.TestCase):
@@ -120,11 +121,23 @@ class TestApplyCssValues(unittest.TestCase):
 
     def test_get_patcher(self):
         print("PATCHER PATH: " + self.dummyController.get_patcher_path())
+    
+     
+    '''def test_run_js_tweaker(self):
+        #/start_time = datetime.datetime.now()
+        old_glory.run_js_tweaker(self.dummyController.frames["StartPage"].text1)
+        #end_time = datetime.datetime.now()
+        #print(end_time - start_time)'''
+    
         
 class BlankClass(object):
     def __init__(self, string):
         self.string = string
 
 
+
+
 if __name__ == '__main__':
-    unittest.main()
+    #suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
+    #unittest.TextTestRunner(verbosity=3).run(suite)
+    #unittest.main(argv=['ignored', '-v', 'TestApplyCssValues.test_run_js_tweaker'], exit=False)

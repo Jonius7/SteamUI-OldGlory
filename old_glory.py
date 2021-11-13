@@ -20,7 +20,9 @@ import socket
 from functools import partial
 #import re
 from threading import Thread
+import datetime
 
+import defaults
 import manager
 import backend
 import js_tweaker
@@ -38,7 +40,7 @@ DEFAULT_LIBRARYROOT = "5.css"
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.24.1"
+        self.version = "v0.9.24.4"
         self.release = "5.8-pre8"
       
         ### Window Frame
@@ -139,13 +141,6 @@ class OldGloryApp(tk.Tk):
         frame.tkraise()
         frame.update()
         frame.event_generate("<<ShowFrame>>")
-        
-    '''
-    def get_frame(self, name):
-        for frame in self.frames:
-                if frame.__name__ == name:
-                    return frame
-    '''
     
     #init text log
     def update_check(self):        
@@ -196,7 +191,6 @@ class OldGloryApp(tk.Tk):
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        
         self.controller = controller
         
     ### LOG FRAME
@@ -520,13 +514,14 @@ class StartPage(tk.Frame):
         themes = []
         try:
             for theme in controller.json_data["themes"].keys():
-                #print(theme)
                 themes.append(theme + " (" + controller.json_data["themes"][theme]["author"] + ")")
+            #themes = [theme_k + " (" + theme_v["author"] + ")" 
+            #          for (theme_k, theme_v) in controller.json_data["themes"].items()]            
         except Exception as e:
             print("Error loading themes from JSON file. Loading default themes data.",file=sys.stderr)
             print_traceback()
             #default theme data
-            for theme in THEME_MAP:
+            for theme in defaults.THEME_MAP:
                 themes.append(theme)
         
         return themes
@@ -608,7 +603,7 @@ class PageTwo(tk.Frame):
 
     ### JS FRAME
     ###
-        controller.js_config, controller.special_js_config = backend.load_js_fixes()
+        controller.js_config, controller.special_js_config = backend.load_js_fixes_OLD()
         self.frameJS = tk.Frame(self)
         self.js_gui = JSFrame(self, controller)
         self.frameJS = self.js_gui.returnframeJS()
@@ -878,28 +873,6 @@ class MainOption(tk.Frame):
     def returnMainOption(self):
         return self.tagFrame
 
-### Dropdown click (theme)
-### This is a backup list - .json provides an updated theme list
-###
-THEME_MAP = {
-    "steam-library (Shiina)" : {
-        "filename" : "shiina.css",
-        "order" : "before",
-    },
-    "Dark Library (Thespikedballofdoom)" : {
-        "filename" : "spiked.css",
-        "order" : "after"
-    },
-    "Acrylic Theme (EliteSkylu)" : {
-        "filename" : "acrylic.css",
-        "order" : "after"
-    },
-    "Crisp Cut" : {
-        "filename" : "crispcut.css",
-        "order" : "after"
-    }
-}
-
 def dropdown_click(event, page, controller):
     theme_name = event.widget.get()
     #print(theme_name)
@@ -981,7 +954,7 @@ def reload_click(event, controller):
         controller.json_data = backend.get_json_data()
         controller.css_config = backend.load_css_configurables()
         controller.oldglory_config = backend.load_config()
-        controller.js_config, controller.special_js_config = backend.load_js_fixes()
+        controller.js_config, controller.special_js_config = backend.load_js_fixes_OLD()
         ### Update GUI
         controller.frames["PageOne"].css_gui.PresetFrame.update_presets_gui()
         controller.frames["PageTwo"].js_gui.update_js_gui(controller)

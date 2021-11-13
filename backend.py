@@ -754,10 +754,12 @@ def steam_library_compat_config(overwrite=0):
 
 ##########################################
 ### JS Functions
-### fixes.txt
+def load_js_tweaks(filename="js_tweaks.json"):
+    pass
 
+### fixes.txt
 ### Load state of JS Fixes (enabled, disabled) from file fixes.txt
-def load_js_fixes():
+def load_js_fixes_OLD():
     js_fixes_filename = 'fixes.txt'
     try:
         fixesdata = {}
@@ -818,7 +820,7 @@ def load_js_fixes():
     
     
 
-def write_js_fixes(fixesdata, special_fixesdata):
+def write_js_fixes_OLD(fixesdata, special_fixesdata):
     try:
         writefix = 0
         current_fixname = ""

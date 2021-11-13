@@ -1,6 +1,6 @@
 ## SteamUI-OldGlory GUI Changelog
 
-0.9.24		*(5.8-pre8)*	Pre-compiling Regex strings results in 33% faster performance
+0.9.24		*(5.8-pre8)*	33% faster performance - pre-compiling Regex strings
 
 0.9.23		`Install` button now disables while installing
 

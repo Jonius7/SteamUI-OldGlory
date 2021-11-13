@@ -53,7 +53,7 @@ class TestCSSLineParser(unittest.TestCase):
     '''
     def test_run_fixes_modify(self):
         a, b = backend.load_js_fixes()
-        backend.write_js_fixes(a, b)
+        backend.write_js_fixes_OLD(a, b)
     
     def test_write_before_theme(self):
         backend.add_new_css_theme("shiina.css", "before", {"start" : "DO NOT EDIT THESE !!! DO NOT EDIT THESE",

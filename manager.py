@@ -59,7 +59,7 @@ def install_click(event, page, controller):
             
             ### To be changed in a later version
             #write fixes.txt before apply
-            backend.write_js_fixes(controller.js_config, controller.special_js_config)
+            backend.write_js_fixes_OLD(controller.js_config, controller.special_js_config)
             #write css configurables
             backend.write_css_configurables(controller.css_config)
             ###
