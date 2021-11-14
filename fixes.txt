@@ -43,7 +43,7 @@ n = E.c.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",
 
 ### === CLASSIC Sticky image background and spillover into sidebar (beta) ===
 ###rgHeaderImages: this.props.rgHeaderImages,  rgHeaderImages: "",
-###strMedium: "MediumWindow"~~};  }; var sURL,appId=y.b.currentGameListSelection.nAppId,sURL2="",sURL3="", sURL4="";sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png",sURL3="assets/"+appId+"_library_hero.jpg", sURL4="https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/library_hero.jpg";
+###strMedium: "MediumWindow"~~};  }; var sURL,appId=0 && y.b.currentGameListSelection.nAppId,sURL2="",sURL3="", sURL4="";sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png",sURL3="assets/"+appId+"_library_hero.jpg", sURL4="https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/library_hero.jpg";
 ###className: t.join(" "),  className: t.join(" "), style: {background: "-webkit-linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,1) 60%), url(" + sURL + ")" + ", url(" + sURL2 + ")" + ", url(" + sURL3 + ")" + ", url(" + sURL4 + ")"},
 ###src: this.props.rgBlurImages[this.state.nBlurImageIndex],  src: "",
 ###(this.is_hero_custom_image ? "#CustomArt_ClearCustomBackground" : "#CustomArt_SetCustomBackground")),  ("#CustomArt_SetCustomBackground")), r.createElement(_e.d, {is_hero_current_image: !1, onSelected: this.OnRemoveHero}, Object(D.f)("#CustomArt_ClearCustomBackground")),
