@@ -216,14 +216,13 @@ https://github.com/AikoMidori/steam-library
 If Library is not working, try one of these things (and **restart Steam** if necessary). If it still doesn't work, try the next thing in the list.
 
 - Check **SteamFriendsPatcher** has patched the library CSS:
-  - Also check it is [patching the right file](https://i.imgur.com/ZAC9yKj.png): (`5.css` Steam Stable, `6.css` Steam Beta Update)
+  - Also check it is [patching the right file](https://i.imgur.com/ZAC9yKj.png): (`6.css`)
   - use the **Clear Steam Cache** button if necessary.
-
 - Go to Task Manager and End Task on **Steam Client WebHelper** (let it restart)
+- Use **Remake JS** button under **Settings and About** (this should also be done when Steam Client updates and the JS has changed)
 - Try these **Steam Settings** (and restart Steam)
   - **Downloads** -> **Clear Download Cache**
   - **Web Browser** -> **Delete Web Browser Cache**
-- Use **Remake JS** button under **Settings and About** (this should also be done when Steam Client updates and the JS has changed)
 - Use **Reset** button under **Settings and About**
 - Delete `steamui` folder
 
