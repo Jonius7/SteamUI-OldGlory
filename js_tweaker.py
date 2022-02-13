@@ -259,8 +259,8 @@ def copy_files_to_steam():
                 print("File " + filename + " written to " + library_dir())
                 
     except FileNotFoundError:
-        error_exit("Files not found!\n" \
-              "Run the other functions in js_tweaker first.")
+        error_exit("Files not found!: " + filename + "\n" \
+              "Do you need to configure other files first?")
     except Exception as e:
         error_exit("Error found while copying files to Steam: " + e)
 

@@ -21,7 +21,7 @@ e.m_nScrollTop = 0, e.m_elTarget  e.m_nScrollTop = 30, e.m_elTarget
 ### === Vertical Nav Bar (beta, working) ===
 ###x: l,  x: 0,
 ###y: c * n  y: c * (n - 10)
-###p = 0), c < r ?   p = 0), true ?
+###u = 0), c < i ?   u = 0), true ?
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
 ###eAssetType: 0,  eAssetType: 3,
