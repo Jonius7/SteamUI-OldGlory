@@ -237,6 +237,9 @@ If Library is not working, try one of these things (and **restart Steam** if nec
 - Use **Remake JS** button under **Settings and About** (this should also be done when Steam Client updates and the JS has changed)
 - Use **Reset** button under **Settings and About**
 - Delete `steamui` folder
+  - Optional: Try these **Steam Settings** (and restart Steam)
+    - **Downloads** -> **Clear Download Cache**
+    - **Web Browser** -> **Delete Web Browser Cache**
 
 If none of these steps work, please open an [Issue](issues)
 
