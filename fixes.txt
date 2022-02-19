@@ -16,13 +16,12 @@ e.m_nScrollTop = 0, e.m_elTarget  e.m_nScrollTop = 30, e.m_elTarget
 
 ### === Change Game Image Grid Sizes (optional) - default widths 111, 148, 222 ===
 ###(n = 111, a = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {  (n = 120, a = !0) : 2 == e ? n = 160 : 3 == e && (n = 200), {
-###for (var n = [], r = 2;  /*for (var n = [], r = 2;
-###.apply(console, Object(p.g)([e, t], n))  .apply(console, Object(p.g)([e, t], n))*/
+
 
 ### === Vertical Nav Bar (beta, working) ===
-x: l,  x: 0,
-y: c * n  y: c * (n - 10)
-p = 0), c < r ?   p = 0), true ?
+###x: l,  x: 0,
+###y: c * n  y: c * (n - 10)
+###u = 0), c < i ?   u = 0), true ?
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
 eAssetType: 0,  eAssetType: 3,
@@ -34,31 +33,31 @@ height: e.nItemHeight + i + "px"  minHeight: 125 + "px"
 height: s + "px"  height: n ? Math.max(s, 150) + "px" : s + "px"
 
 ### === Stop What's New Events from Loading (working, needs more testing) ===
-###n = E.c.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",
+n = E.c.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",
 
 ### === HOME page Scrolling, reduce number of ComputeLayout calls ===
-this.props.maxRows < 2 || (t = this.m_elGrid.current.getBoundingClientRect(), n = Math.abs(t.top - this.m_fLastScrollTop), this.props.childHeight * this.props.scaleGridItems / 8 < n && (this.m_fLastScrollTop = t.top, t.top < window.innerHeight && 0 < t.bottom && this.ComputeLayout()))  var timeSince;t=this.m_elGrid.current.getBoundingClientRect(),timeSince=performance.now()-this.lastTime,this.lastTime=performance.now(),console.log(timeSince),setTimeout(function(){timeSince>60,this.ComputeLayout()}.bind(this),200)
+###this.props.maxRows < 2 || (t = this.m_elGrid.current.getBoundingClientRect(), n = Math.abs(t.top - this.m_fLastScrollTop), this.props.childHeight * this.props.scaleGridItems / 8 < n && (this.m_fLastScrollTop = t.top, t.top < window.innerHeight && 0 < t.bottom && this.ComputeLayout()))  var timeSince;t=this.m_elGrid.current.getBoundingClientRect(),timeSince=performance.now()-this.lastTime,this.lastTime=performance.now(),console.log(timeSince),setTimeout(function(){timeSince>60,this.ComputeLayout()}.bind(this),200)
 
 ### === Game Properties Window Size ===
-bForcePopOut: !0,~~popupWidth: 842,  popupWidth: 672,
+###bForcePopOut: !0,~~popupWidth: 842,  popupWidth: 672,
 
 ### === CLASSIC Sticky image background and spillover into sidebar (beta) ===
 ###rgHeaderImages: this.props.rgHeaderImages,  rgHeaderImages: "",
-###strMedium: "MediumWindow"~~};  }; var sURL,appId=g.a.currentGameListSelection.nAppId,sURL2="",sURL3="", sURL4="";sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png",sURL3="assets/"+appId+"_library_hero.jpg", sURL4="https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/library_hero.jpg";
+###strMedium: "MediumWindow"~~};  }; var sURL,appId=(qh && qh.currentGameListSelection && qh.currentGameListSelection.nAppId) || 0,sURL2="",sURL3="", sURL4="";sURL2="customimages/"+appId+"_hero.jpg",sURL="customimages/"+appId+"_hero.png",sURL3="assets/"+appId+"_library_hero.jpg", sURL4="https://steamcdn-a.akamaihd.net/steam/apps/"+appId+"/library_hero.jpg";
 ###className: t.join(" "),  className: t.join(" "), style: {background: "-webkit-linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,1) 60%), url(" + sURL + ")" + ", url(" + sURL2 + ")" + ", url(" + sURL3 + ")" + ", url(" + sURL4 + ")"},
 ###src: this.props.rgBlurImages[this.state.nBlurImageIndex],  src: "",
-###(this.is_hero_custom_image ? "#CustomArt_ClearCustomBackground" : "#CustomArt_SetCustomBackground")),  ("#CustomArt_SetCustomBackground")), D.createElement(he.d, {is_hero_current_image: !1, onSelected: this.OnRemoveHero}, Object(D.f)("#CustomArt_ClearCustomBackground")),
+###(this.is_hero_custom_image ? "#CustomArt_ClearCustomBackground" : "#CustomArt_SetCustomBackground")),  ("#CustomArt_SetCustomBackground")), i.createElement(so.d, {is_hero_current_image: !1, onSelected: this.OnRemoveHero}, Object(B.f)("#CustomArt_ClearCustomBackground")),
 ###}, t.prototype.OnChangeLogo = function(e) {  }, t.prototype.OnRemoveHero = function(e) {this.OnChangeArtwork(Object.create({src: "src"}), this.m_refFileInputHero, 1)}, t.prototype.OnChangeLogo = function(e) {
-###Object(a.c)([E.a], e.prototype, "OnChangeHero", null),  Object(a.c)([E.a], e.prototype, "OnChangeHero", null), Object(a.c)([E.a], e.prototype, "OnRemoveHero", null),
+###Object(r.c)([A.a], t.prototype, "OnChangeHero", null),  Object(r.c)([A.a], t.prototype, "OnChangeHero", null), Object(r.c)([A.a], t.prototype, "OnRemoveHero", null),
 
 ### === Press Enter to launch games ===
-switch (t) {~~case 38:  case 13: return this.RunApp(g.a.currentGameListSelection.nAppId), void e.preventDefault();case 38:
+switch (t) {~~case 38:  case 13: return this.RunApp(qh.currentGameListSelection.nAppId), void e.preventDefault();case 38:
 }, t.prototype.MoveRangeSelectUpOneRow = function() {  }, t.prototype.RunApp = function(e) {window.location.href = "steam://rungameid/" + e;}, t.prototype.MoveRangeSelectUpOneRow = function() {
 
 ### === Expand Show more Details panel by default ===
-###var e, t = this.props.expand ? zi.a.AppDetailsExpanded : zi.a.AppDetailsCollapsed,  var e, t = this.props.expand ? zi.a.AppDetailsCollapsed : zi.a.AppDetailsExpanded,
+###var e, t = this.props.expand ? mS.a.AppDetailsExpanded : mS.a.AppDetailsCollapsed,  var e, t = this.props.expand ? mS.a.AppDetailsCollapsed : mS.a.AppDetailsExpanded,
 ###this.props.expand ? this.state.gameInfoHeight + "px" : "0px"  this.props.expand ? "0px" : this.state.gameInfoHeight + "px"
-###className: zi.a.GameInfoShadow  className: ""
+###className: mS.a.GameInfoShadow  className: ""
 
 ### === Dim Uninstalled Games ===
 onContextMenu: this.OnContextMenu,~~hoverDelay: 300,  hoverDelay: 300, style: this.props.app.installed ? {} : {opacity: "var(--UninstalledGameImageOpacity)"},
