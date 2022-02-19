@@ -284,6 +284,19 @@ def get_file_hash(filepath):
     except:
         print("Unable to get hash of file: " + filepath, file=sys.stderr)
         print_traceback()
+        
+def get_file_hash_b(filepath):
+    '''
+    UTILITY: Returns the git SHA hash of a file.
+    '''
+    BUF_SIZE = 65536
+    try:
+        pass
+        
+    except:
+        print("Unable to get hash of file: " + filepath, file=sys.stderr)
+        print_traceback()
+    
 
 ### Check CSS Patched
 def is_css_patched(filename="5.css"):
@@ -742,6 +755,7 @@ def steam_library_compat_config(overwrite=0):
         if overwrite == 1:
             shutil.copy2("themes/config.css", library_dir() + "/" + "config.css")   # copy config.css from OldGlory themes/ to steamui/
             print("themes/config.css copied to: " + library_dir() + "/" + "config.css")
+        print("If you encounter visual errors, try Apply config.css in Advanced Options", file=sys.stderr)
         refresh_steam_dir()
     except FileNotFoundError:
         print("config.css not found", file=sys.stderr)
@@ -948,7 +962,7 @@ def clean_slate_css():
 
 def clear_js_working_files():
     try:
-        files_to_remove = ["library.js", "libraryroot.js", "libraryroot.beaut.js"]
+        files_to_remove = ["library.js", "library.beaut.js", "libraryroot.js", "libraryroot.beaut.js"]
         for file in files_to_remove:
             w_file = Path(file)
             w_file.unlink(missing_ok=True)

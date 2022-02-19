@@ -36,12 +36,12 @@ OS_TYPE = platform.system()
 # Outputs STDOUT/STDERR before Log frame is created
 DEBUG_STDOUT_STDERR = False
 JS_TWEAKS = 2 #1 for v1, 2 for v2
-DEFAULT_LIBRARYROOT = "5.css"
+DEFAULT_LIBRARYROOT = "6.css"
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.24.4"
-        self.release = "5.8-pre8"
+        self.version = "v0.9.24.5"
+        self.release = "5.8-pre9"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -65,7 +65,7 @@ class OldGloryApp(tk.Tk):
 
         ### Icon and Title
         add_window_icon(self)
-        self.wm_title("SteamUI-OldGlory Configurer")
+        self.wm_title("SteamUI-OldGlory Installer " + self.release)
         
         ### Custom tk Styling
         self.set_tk_styles()

@@ -149,7 +149,7 @@ StickyBackgroundImage:
     - find: 'strMedium: "MediumWindow"~~};'
       repl: >-
         }; var sURL,
-        appId = %a%.currentGameListSelection.nAppId, sURL2="", sURL3="", sURL4="";
+        appId = (%a% && %a%.currentGameListSelection && %a%.currentGameListSelection.nAppId) || 0, sURL2="", sURL3="", sURL4="";
         sURL = "customimages/" + appId + "_hero.png",
         sURL2 = "customimages/" + appId + "_hero.jpg",
         sURL3 = "assets/" + appId + "_library_hero.jpg",

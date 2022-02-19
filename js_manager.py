@@ -6,10 +6,6 @@ libraries needed: schema
 '''
 
 import os
-import old_glory
-import backend
-import js_tweaker
-
 import sys
 import traceback
 import re
@@ -17,6 +13,10 @@ from schema import Schema, Optional, Use, SchemaError, SchemaWrongKeyError
 import datetime
 from collections import Counter
 from rich import print as r_print
+
+#import old_glory
+import backend
+import js_tweaker
 
 class ValuesJSHandler:
     pass
@@ -112,6 +112,9 @@ class ConfigJSHandler:
                   'Please check your file includes the required "name" and "strings" attributes for each tweak.')
     
     def get_refs_data(self, data):
+        '''
+        returns dictionary containing tweaks that only have refs attrs
+        '''
         subset = {"refs"}        
         
         #create dictionary containing tweaks that only have refs attrs
@@ -265,13 +268,15 @@ class ConfigJSHandler:
             
     
     def populate_data_refs(self, rgx_refs_data, f_data_by_file=None):
+        '''
+        separate ref from extra refs, realtext setup
+        modifies f_data_by_file given
+        '''
         if f_data_by_file is None:
             f_data_by_file = self.f_data_by_file
             
         for filename in rgx_refs_data:
             for rgx_ref in rgx_refs_data[filename]:
-                #f_data_by_file[filename][rgx_refs_data[filename][rgx_ref]["tweak"]]
-                #rgx_refs_data[filename][rgx_ref]["realtext"] if rgx_ref in f_data_by_file[filename][rgx_refs_data[filename][rgx_ref]["tweak"]]["refs"]
                 if (original_text := rgx_refs_data[filename][rgx_ref]["original"]) \
                     in self.get_first_refs(f_data_by_file[filename][rgx_refs_data[filename][rgx_ref]["tweak"]]["refs"]):
                     for find_repl in f_data_by_file[filename][rgx_refs_data[filename][rgx_ref]["tweak"]]["strings"]:
@@ -286,7 +291,6 @@ class ConfigJSHandler:
                                 (original, realtext), = ref.items() #unpack
                                 find_repl["find"] = find_repl["find"].replace(original, realtext)
                                 find_repl["repl"] = find_repl["repl"].replace(original, realtext)
-                                #if extra_refs_realtext rgx_refs_data[filename][rgx_ref]["extra_realtext"]
                                 
         
         #r_print(f_data_by_file)

@@ -7,17 +7,19 @@ Adapted from LIGHT-UI by Angelo*/
 
 .gamelisthome_Bar_3pSPl:hover .gamelisthome_Label_3O48L {
     color: transparent;
-    filter: brightness(300%);    
+    filter:grayscale(1) invert(1) brightness(1);
+    
 }
 
 .gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L {
-    filter: brightness(300%);
+    filter:grayscale(1) invert(1) brightness(1);
 }
 
 .gamelisthome_Bar_3pSPl .gamelisthome_Label_3O48L {
     transition: filter 0.3s ease-in-out;
     color: transparent;
-    background-image: url(https://i.imgur.com/AAFscfG.png) !important;
+    background-image: url(https://i.imgur.com/M8kynWD.png) !important;
+    filter:grayscale(1) invert(1) brightness(0.5);
     background-size: 20px !important;
     background-repeat: no-repeat !important;
     background-position: center !important;

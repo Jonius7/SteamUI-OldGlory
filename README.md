@@ -1,6 +1,6 @@
 <h1 align="center">SteamUI-OldGlory</h1>
 
-<p align="center">A set of <b>Steam UI tweaks</b>, with <b>GUI installer</b>.</br>Also <b>a reference</b> that you can use to learn how to make your own tweaks.</p>
+<p align="center">A set of customisable <b>Steam Library tweaks</b>, with an <b>installer</b>.</br>Also <b>a reference</b> that you can use to learn how to make your own tweaks.</p>
 
 <p align="center">
 	<a href="https://github.com/Jonius7/SteamUI-OldGlory/releases"><img alt="GitHub all releases downloads" src="https://img.shields.io/github/downloads/Jonius7/SteamUI-OldGlory/total"></a>
@@ -11,9 +11,9 @@
     <a href="https://github.com/Jonius7/SteamUI-OldGlory/commits/dev"><img alt="GitHub commits on /dev since last merge" src="https://img.shields.io/github/commits-since/Jonius7/SteamUI-OldGlory/latest/dev?label=commits%20since"></a>
 </p>
 
-<h4 align="center"><a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Download Latest Version</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#quick-guide">Quick Guide</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/wiki">Wiki</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/issues/6">Known Issues</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting">Troubleshooting</a></h4>
+<h3 align="center"><a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Download Latest Version</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#quick-guide">Quick Guide</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/wiki">Wiki</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/issues/6">Known Issues</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting">Troubleshooting</a></h3>
 
-Check [`/dev`](https://github.com/Jonius7/SteamUI-OldGlory/tree/dev) branch for in-progress tweaks.
+<p align="center">Check <a href="https://github.com/Jonius7/SteamUI-OldGlory/tree/dev"><code>/dev</code></a> branch for in-progress tweaks.</p>
 
 ### Video Guide and GIF
 
