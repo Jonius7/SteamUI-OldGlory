@@ -785,9 +785,22 @@ def load_js_tweaks(config_dict, filename="js_tweaks.yml"):
         #if y.data[config]:
         #print(y.data[config])
         fixesdata[config] = str(config_dict["JS_Settings"][config])
-    for value in config_dict["JS_Values"]:
-        n = c.get_js_value_from_config(value)
-        valuesdata[value] = n
+        if "values" in y.data[config]:
+            print(config)
+            for value in y.data[config]["values"]:
+                if value in config_dict["JS_Values"]:
+                    if config in valuesdata:
+                        valuesdata[config].update({value: config_dict["JS_Values"][value]})
+                    else:
+                        valuesdata[config] = {value: config_dict["JS_Values"][value]}
+
+
+        #for value in config_dict["JS_Settings"][config]:
+        #    print(value)
+
+    #for value in config_dict["JS_Values"]:
+    #    n = c.get_js_value_from_config(value)
+    #    valuesdata[value] = n
     return fixesdata, valuesdata
 
 
