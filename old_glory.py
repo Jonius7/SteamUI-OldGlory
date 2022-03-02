@@ -40,7 +40,7 @@ DEFAULT_LIBRARYROOT = "6.css"
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.24.6"
+        self.version = "v0.9.24.7"
         self.release = "5.8-pre9"
       
         ### Window Frame
@@ -604,6 +604,8 @@ class PageTwo(tk.Frame):
     ### JS FRAME
     ###
         controller.js_config, controller.special_js_config = backend.load_js_fixes_OLD()
+        if JS_TWEAKS == 2:
+            controller.new_js_config, controller.values_config = backend.load_js_tweaks(controller.oldglory_config)
         self.frameJS = tk.Frame(self)
         self.js_gui = JSFrame(self, controller)
         self.frameJS = self.js_gui.returnframeJS()
@@ -955,6 +957,8 @@ def reload_click(event, controller):
         controller.css_config = backend.load_css_configurables()
         controller.oldglory_config = backend.load_config()
         controller.js_config, controller.special_js_config = backend.load_js_fixes_OLD()
+        if JS_TWEAKS == 2:
+            controller.new_js_config, controller.values_config = backend.load_js_tweaks()
         ### Update GUI
         controller.frames["PageOne"].css_gui.PresetFrame.update_presets_gui()
         controller.frames["PageTwo"].js_gui.update_js_gui(controller)
@@ -1306,15 +1310,25 @@ class JSFrame(tk.Frame):
         
     ### PRESET Click funtion
     def js_click(self, controller, fixname):
-        try:
-            controller.js_config[fixname] = str(self.checkvars[fixname].get())
-            self.controller.js_gui_changed = 1
-            #print(controller.js_config)
-        except Exception:
-            print("Error setting config:\n"\
-                  "  Fix:   " + fixname + "\n"\
-                  "  Value: " + str(controller.js_config[fixname]), file=sys.stderr)
-            
+        if JS_TWEAKS == 1:
+            try:
+                controller.js_config[fixname] = str(self.checkvars[fixname].get())
+                self.controller.js_gui_changed = 1
+                #print(controller.js_config)
+            except Exception:
+                print("Error setting config:\n"\
+                    "  Fix:   " + fixname + "\n"\
+                    "  Value: " + str(controller.js_config[fixname]), file=sys.stderr)
+        elif JS_TWEAKS == 2:
+            try:
+                controller.new_js_config[fixname] = str(self.checkvars[fixname].get())
+                self.controller.js_gui_changed = 1
+                #print(controller.js_config)
+            except Exception:
+                print("Error setting config:\n"\
+                    "  Fix:   " + fixname + "\n"\
+                    "  Value: " + str(controller.new_js_config[fixname]), file=sys.stderr)
+
     def create_frameJSInner(self, controller):
         rownum = 1
         self.checkvars = {}
