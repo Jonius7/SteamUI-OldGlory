@@ -23,6 +23,9 @@ from hashlib import sha1
 import time
 
 import defaults
+import js_tweaker
+import backend
+import js_manager
 
 ##########################################
 ### CONSTANTS
@@ -770,8 +773,23 @@ def steam_library_compat_config(overwrite=0):
 
 ##########################################
 ### JS Functions
-def load_js_tweaks(filename="js_tweaks.json"):
+def load_js_tweaks(config_dict, filename="js_tweaks.yml"):
     pass
+    fixesdata = {}
+    valuesdata = {}
+    y = js_tweaker.YamlHandler(filename)
+    c = js_manager.ConfigJSHandler(y.data, backend.load_config())
+    
+    for config in config_dict["JS_Settings"]:
+        #print("way")
+        #if y.data[config]:
+        #print(y.data[config])
+        fixesdata[config] = str(config_dict["JS_Settings"][config])
+    for value in config_dict["JS_Values"]:
+        n = c.get_js_value_from_config(value)
+        valuesdata[value] = n
+    return fixesdata, valuesdata
+
 
 ### fixes.txt
 ### Load state of JS Fixes (enabled, disabled) from file fixes.txt
@@ -834,6 +852,9 @@ def load_js_fixes_OLD():
         print_traceback()
     return fixesdata, special_fixesdata
     
+
+def write_js_tweaks():
+    pass
     
 
 def write_js_fixes_OLD(fixesdata, special_fixesdata):
