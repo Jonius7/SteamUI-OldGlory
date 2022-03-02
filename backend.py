@@ -752,6 +752,8 @@ def steam_library_compat_config(overwrite=0):
         if not os.path.isfile("themes/config.css"):                             # if config.css in OldGlory themes/ doesn't exist
             shutil.copy2("themes/config.css.original", "themes/config.css")     # make a copy from config.css.original
             print("created themes/config.css from themes/config.css.original")
+        if not os.path.isfile(library_dir() + "/" + "config.css"):
+            overwrite = 1
         if overwrite == 1:
             shutil.copy2("themes/config.css", library_dir() + "/" + "config.css")   # copy config.css from OldGlory themes/ to steamui/
             print("themes/config.css copied to: " + library_dir() + "/" + "config.css")
@@ -784,14 +786,14 @@ def load_js_fixes_OLD():
         state = 3 #0 = disabled(commented out), 1 = enabled, 2 = mixed, starting
 
         with open(js_fixes_filename, newline='', encoding="UTF-8") as infile:
-            for line in infile:
-                if re.match("### ===.*===", line):
+            for a, line in enumerate(infile):
+                if line.strip(' ') == OS_line_ending():
+                    readfix = 0
+                elif re.match("### ===.*===", line):
                     readfix = 1
                     sectionhead = 1
                     fixname = line
                     fixname = re.sub("### ===|===", "", line).strip()
-                elif line.strip(' ') == OS_line_ending():
-                    readfix = 0
                 if readfix == 1 and sectionhead == 0:
                     if line.lstrip()[:3] == "###":
                         state = 2 if state == 1 else 0 #set state as mixed if state is already enabled
@@ -822,7 +824,7 @@ def load_js_fixes_OLD():
         
         print("Loaded JS Tweaks. " + "(" + js_fixes_filename + ")")
     except ValueError:
-        print("(" + js_fixes_filename + ") Problem in line format from line: " + line + \
+        print("(" + js_fixes_filename + ") Problem in format of Line " + str(a) + ": " + line + \
               "Is the line missing a double space?", file=sys.stderr)
         print_traceback()
     except FileNotFoundError:
