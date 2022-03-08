@@ -63,6 +63,7 @@ ChangeGameImageGridSizes:
   name: Change Game Image Grid Sizes
   desc: Default widths 111, 148, 222
   category: Home Page
+  file: library.js
   values: [SmallGridSize,MediumGridSize,LargeGridSize]
   strings:
     - find: '(n = 111, %1% = !0) : 2 == e ? n = 148 : 3 == e && (n = 222),'
