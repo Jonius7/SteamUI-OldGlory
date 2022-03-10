@@ -96,6 +96,7 @@ class ConfigJSHandler:
         return validated_data
     
     def schema_validate(self, data):
+        print(data)
         js_tweaks_schema = Schema({str: {str: {
             'name': str,
             'strings': [{'find': str, 'repl': str}],

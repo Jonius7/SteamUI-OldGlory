@@ -1323,7 +1323,7 @@ class JSFrame(tk.Frame):
             try:
                 controller.new_js_config[fixname] = str(self.checkvars[fixname].get())
                 self.controller.js_gui_changed = 1
-                #print(controller.js_config)
+                print(controller.new_js_config)
             except Exception:
                 print("Error setting config:\n"\
                     "  Fix:   " + fixname + "\n"\
