@@ -778,7 +778,7 @@ def load_js_tweaks(config_dict, filename="js_tweaks.yml"):
     fixesdata = {}
     valuesdata = {}
     y = js_tweaker.YamlHandler(filename)
-    c = js_manager.ConfigJSHandler(y.data, backend.load_config())
+    #c = js_manager.ConfigJSHandler(y.data, config_dict)
     
     for config in config_dict["JS_Settings"]:
         #print("way")

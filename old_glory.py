@@ -40,8 +40,8 @@ DEFAULT_LIBRARYROOT = "6.css"
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.24.7"
-        self.release = "5.8-pre9"
+        self.version = "v0.9.25"
+        self.release = "5.8-pre10"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -1330,10 +1330,14 @@ class JSFrame(tk.Frame):
                     "  Value: " + str(controller.new_js_config[fixname]), file=sys.stderr)
 
     def create_frameJSInner(self, controller):
+        if JS_TWEAKS == 1:
+            JS_CONFIG = self.controller.js_config.items()
+        elif JS_TWEAKS == 2:
+            JS_CONFIG = self.controller.new_js_config.items()
         rownum = 1
         self.checkvars = {}
         self.comboboxes = {}
-        for i, (fixname, value) in enumerate(self.controller.js_config.items()):
+        for i, (fixname, value) in enumerate(JS_CONFIG):
             _checkvar = tk.IntVar()
             self.checkvars[fixname] = _checkvar
             self.checkvars[fixname].set(int(value))
