@@ -60,6 +60,8 @@ def install_click(event, page, controller):
             ### To be changed in a later version
             #write fixes.txt before apply
             backend.write_js_fixes_OLD(controller.js_config, controller.special_js_config)
+            #if old_glory.JS_TWEAKS == 2:
+            #    backend.write_js_tweaks(controller.new_js_config, controller.values_config)
             #write css configurables
             backend.write_css_configurables(controller.css_config)
             ###
@@ -116,13 +118,20 @@ def get_settings_from_gui(page, config_map=CONFIG_MAP):
         old_glory.print_traceback()
 
 def set_js_config(controller, settings):
-    SETTINGS_MAP = {
-        "EnableVerticalNavBar": {"JS_name" : "Vertical Nav Bar (beta, working)"},
-        "LandscapeImages": {"JS_name" : "Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"}
-    }
+    if old_glory.JS_TWEAKS == 1:
+        SETTINGS_MAP = {
+            "EnableVerticalNavBar": {"JS_name" : "Vertical Nav Bar (beta, working)"},
+            "LandscapeImages": {"JS_name" : "Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"}
+        }
+    elif old_glory.JS_TWEAKS == 2:
+        SETTINGS_MAP = {
+            "VerticalNavBar": {"JS_name" : "VerticalNavBar"},
+            "LandscapeGameImages": {"JS_name" : "LandscapeGameImages"}
+        }
     for setting in SETTINGS_MAP:
         if setting in settings:
             js_name = SETTINGS_MAP[setting]["JS_name"]
+            #set JS Options checkbox to same as the corresponding main setting
             controller.js_config[js_name] = str(settings[setting]["value"])
             controller.frames["PageTwo"].js_gui.checkvars[js_name].set(settings[setting]["value"])
         else:

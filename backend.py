@@ -858,8 +858,9 @@ def load_js_fixes_OLD():
     return fixesdata, special_fixesdata
     
 
-def write_js_tweaks():
+def write_js_tweaks(js_config, values_config):
     pass
+    
     
 
 def write_js_fixes_OLD(fixesdata, special_fixesdata):
