@@ -143,7 +143,6 @@ StickyBackgroundImage:
     - 'Object(%a%.%b%)("#CustomArt_'
     - - 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnChangeHero", null)'
       - 'Object(%a%.%b%)([%c%.%d%], %e%.prototype, "OnRemoveHero", null)'
-
   strings:
     - find: 'rgHeaderImages: this.props.rgHeaderImages,'
       repl: 'rgHeaderImages: "",'
