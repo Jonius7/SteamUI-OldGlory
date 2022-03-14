@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.11.5"
-        self.release = "5.7.4.2"
+        self.version = "v0.9.11.6"
+        self.release = "5.7.5-pre1"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -47,7 +47,7 @@ class OldGloryApp(tk.Tk):
 
         ### Icon and Title
         add_window_icon(self)
-        self.wm_title("SteamUI-OldGlory Configurer")
+        self.wm_title("SteamUI-OldGlory Installer " + self.release)
         
         ### Custom tk Styling
         self.set_tk_styles()

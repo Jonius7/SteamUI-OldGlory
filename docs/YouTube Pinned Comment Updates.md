@@ -1,4 +1,8 @@
+**7 Aug 2021** Some issues have been fixed moving forward as of Release 5.7.3: https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/Release_5.7.3 
+A JS Tweaks "rework" is still WIP, which should hopefully make things more stable between Steam Client updates.
 
+**8 Jun 2021** With the new Steam client update, I'm needing to fix some bugs that have been creeping up over the past month. There is a beta release v5.6.5-beta1 which should work where Release 5.5.3 has stopped working (mainly issues applying JS tweaks)
+https://github.com/Jonius7/SteamUI-OldGlory/releases/tag/R5.6.5-beta1
 
 **7 Feb 2021** Steam Client update is out. OldGlory should prompt you to download the new fixes.txt file. You'll also need to use the "Remake JS" option in Settings. 
 
