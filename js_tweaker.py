@@ -67,19 +67,23 @@ def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fres
         error_exit("Steam directory and/or files not found.\n" \
               "Please check Steam\steamui for library.js and libraryroot.js")
             
+def get_beaut_filename(filename):
+    beaut_filename = filename.rsplit(".", 1)
+    return beaut_filename[0] + ".beaut." + beaut_filename[1]
 
-def beautify_js():
+def beautify_js(filename="libraryroot.js"):
     try:
-        if not os.path.isfile("libraryroot.beaut.js"):
-            print("Opening JS file and beautifying...")
-            if not os.path.isfile("libraryroot.js"):
-                shutil.copy2(library_dir() + "/libraryroot.js", "libraryroot.js")
+        beautify_file = get_beaut_filename(filename)
+        if not os.path.isfile(beautify_file):
+            print("Opening " + beautify_file + ", generating beautified JS...")
+            if not os.path.isfile(filename):
+                shutil.copy2(os.path.join(library_dir(), filename), filename)
 
             opts = jsbeautifier.default_options()
             #opts.eol = ""
-            library = jsbeautifier.beautify_file("libraryroot.js", opts)
+            library = jsbeautifier.beautify_file(filename, opts)
 
-            f = open("libraryroot.beaut.js", "wt", newline='', encoding="UTF-8")
+            f = open(beautify_file, "wt", newline='', encoding="UTF-8")
             print("Writing beautified file... please do not close")
             f.write(library)
             f.close()
@@ -278,7 +282,8 @@ def main():
     copy_files_from_steam()
     setup_library()
     modify_html()
-    beautify_js()    
+    beautify_js()
+    beautify_js("library.js")    
     parse_fixes_file("fixes.txt")
     write_modif_file()
     re_minify_file()
