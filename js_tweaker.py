@@ -71,6 +71,10 @@ def get_beaut_filename(filename):
     beaut_filename = filename.rsplit(".", 1)
     return beaut_filename[0] + ".beaut." + beaut_filename[1]
 
+def get_modif_filename(filename):
+    modif_filename = filename.rsplit(".", 1)
+    return beaut_filename[0] + ".modif." + modif_filename[1]
+
 def beautify_js(filename="libraryroot.js"):
     try:
         beautify_file = get_beaut_filename(filename)
@@ -218,10 +222,12 @@ def find_fix_with_variable(line, fix):
     print("todo")
         
 
-def write_modif_file():
+def write_modif_file(filename = "libraryroot.js"):
     try:
-        with open("libraryroot.beaut.js", "r", newline='', encoding="UTF-8") as f, \
-             open("libraryroot.modif.js", "w", newline='', encoding="UTF-8") as f1:
+        beaut_filename = get_beaut_filename(filename)
+        modif_filename = get_modif_filename(filename)
+        with open(beaut_filename, "r", newline='', encoding="UTF-8") as f, \
+             open(modif_filename, "w", newline='', encoding="UTF-8") as f1:
             prev_line = ""
             for line in f:
                 modified = 0
