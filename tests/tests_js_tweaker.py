@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path('.').absolute().parent))
 import js_tweaker
+import backend
 
 #CSS Line Parser
 class TestCopyFilesFromSteam(unittest.TestCase):
@@ -54,6 +55,14 @@ class TestCopyFilesFromSteam(unittest.TestCase):
 
     def test_find_fixes_variables(self):
         js_tweaker.find_fix_with_variable("$^: $^ * $^", "\\1: (\\3 - 10) * $^")
+
+    def test_beaut_filename(self):
+        print(js_tweaker.get_beaut_filename("libraryroot.js"))
+        print(js_tweaker.get_beaut_filename("library.js"))
+
+    def create_beaut_file(self):
+        print(js_tweaker.beautify_js("libraryroot.js"))
+        print(js_tweaker.beautify_js("library.js"))
 
 if __name__ == '__main__':
     unittest.main()

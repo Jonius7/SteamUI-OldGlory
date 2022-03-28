@@ -878,27 +878,27 @@ def run_js_tweaker(text_area, reset=0):
         text_area.update_idletasks()
 
         ###
-        js_tweaker.initialise()
-        js_tweaker.copy_files_from_steam(reset)
-        text_area.update_idletasks()
-        js_tweaker.setup_library()
-        text_area.update_idletasks()
-        js_tweaker.modify_html()
-        text_area.update_idletasks()
-        js_tweaker.beautify_js()
-        text_area.update_idletasks()
-        js_tweaker.parse_fixes_file("fixes.txt")
-        text_area.update_idletasks()
-        js_tweaker.write_modif_file()
-        #text_area.update_idletasks()
-        js_tweaker.re_minify_file()
-        text_area.update_idletasks()
-        js_tweaker.copy_files_to_steam()
-        text_area.update_idletasks()
+        run_and_update_tkinter(lambda: js_tweaker.initialise(), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.copy_files_from_steam(reset), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.setup_library(), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.modify_html(), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.beautify_js(), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.beautify_js("library.js"), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.parse_fixes_file("fixes.txt"), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.write_modif_file(), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.write_modif_file("library.js", text_area)
+        run_and_update_tkinter(lambda: js_tweaker.re_minify_file(), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.copy_files_to_steam(), text_area)
         print("\nSteam Library JS Tweaks applied successfully.")
               
     except Exception as e:
-        print(e, file=sys.stderr)
+        print("Error while applying JS Tweaks.", file=sys.stderr)
+        print_traceback()
+
+def run_and_update_tkinter(func, widget):
+    value = func()
+    widget.update_idletasks()
+    return value
                               
 ### ================================
 
