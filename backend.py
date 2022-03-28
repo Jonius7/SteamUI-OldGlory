@@ -308,13 +308,14 @@ def get_file_hash(filepath):
         print_traceback()
 
 ### Check CSS Patched
-def is_css_patched():
+def is_css_patched(filename="5.css"):
     '''
     UTILITY: Returns whether the Steam Library CSS has been patched.
     '''
     patched = False
+    filepath = library_dir() + "/css/" + filename    
     try:
-        with open(library_dir() + "/css/5.css", newline='', encoding="UTF-8") as f:
+        with open(filepath, newline='', encoding="UTF-8") as f:
             first_line = f.readline()
         if PATCHED_TEXT in first_line:
             patched = True
@@ -322,8 +323,10 @@ def is_css_patched():
             pass
             #print("css\libraryroot.css not patched.", file=sys.stderr)
         f.close()
+    except FileNotFoundError:
+        print("File at " + filepath + " (previously known as libraryroot.css) not found.", file=sys.stderr)
     except:
-        print("css/5.css (previously known as libraryroot.css), not found", file=sys.stderr)
+        print("Error occured while trying to find patched CSS css/" + filename, file=sys.stderr)
         print_traceback()
     return patched
 

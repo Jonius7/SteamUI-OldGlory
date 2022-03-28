@@ -1,3 +1,6 @@
+### === Enable Patching ===
+6: "libraryroot",  6: "libraryreet",
+
 ### === Home Page Grid Spacing ===
 gridColumnGap: 16,  gridColumnGap: 5,
 gridRowGap: 24,  gridRowGap: 8,
@@ -24,11 +27,11 @@ e.m_nScrollTop = 0, e.m_elTarget  e.m_nScrollTop = 30, e.m_elTarget
 ###u = 0), c < i ?   u = 0), true ?
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
-eAssetType: 0,  eAssetType: 3,
+eAssetType: 0  eAssetType: 3
 childHeight: 1.5 * n,  childHeight: n * 43 / 92,
 childWidth: n,  childWidth: n * 43 / 92,
 height: e.nItemHeight + i + "px"  minHeight: 125 + "px"
-2.108 * l.nItemWidth  Math.max(2.108 * l.nItemWidth, 270)
+gridTemplateColumns: "repeat(auto-fill, " + e + "px)",  gridTemplateColumns: "repeat(auto-fill, " + e * 2.108 + "px)",
 2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
 height: s + "px"  height: n ? Math.max(s, 150) + "px" : s + "px"
 

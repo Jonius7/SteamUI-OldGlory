@@ -248,16 +248,16 @@ def write_modif_file(filename = "libraryroot.js"):
     except:
         error_exit("Error writing " + modif_filename)
 
-def re_minify_file():
+def re_minify_file(modif_filename = "libraryroot.modif.js", min_filename = "libraryreet.js"):
     try:
         print("\nRe-minify JS file")
-        with open("libraryroot.modif.js", "r", newline='', encoding="UTF-8") as js_file:
+        with open(modif_filename, "r", newline='', encoding="UTF-8") as js_file:
             minified = rjsmin.jsmin(js_file.read(), keep_bang_comments=True)
-        with open("libraryreet.js", "w", newline='', encoding="UTF-8") as js_min_file:
+        with open(min_filename, "w", newline='', encoding="UTF-8") as js_min_file:
             js_min_file.write(minified)
         js_file.close()
         js_min_file.close()
-        print("\nJS Minify complete. (libraryreet.js)")
+        print("\nJS Minify complete. (" + min_filename + ")")
     except:
         error_exit("Error completing JS minify.")
     
@@ -295,6 +295,7 @@ def main():
     write_modif_file()
     write_modif_file("library.js")
     re_minify_file()
+    re_minify_file("library.modif.js", "librery.js")
     copy_files_to_steam()
     print("\nSteam Library JS Tweaks applied successfully.")
     time.sleep(2)

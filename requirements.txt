@@ -1,0 +1,11 @@
+jsbeautifier==1.14.0
+jsmin==3.0.0
+libsass==0.21.0
+Pillow==8.4.0
+PyYAML==6.0
+requests==2.26.0
+requests_oauthlib==1.3.0
+rich==10.13.0
+rjsmin==1.1.0
+schema==0.7.4
+tinycss2==1.1.0

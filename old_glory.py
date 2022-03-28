@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.11.6"
-        self.release = "5.7.5-pre1"
+        self.version = "v0.9.11.10"
+        self.release = "5.8"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -730,7 +730,7 @@ def is_connected():
 
 ### Check SteamFriendsPatcher
 def check_if_css_patched(page):
-    if not backend.is_css_patched():
+    if not backend.is_css_patched("6.css"):
         hyperlink = custom_tk.HyperlinkManager(page.text1)
         page.text1.tag_configure("err", foreground="red")
         page.text1.insert(tk.INSERT, '\n==============================\n')
@@ -876,7 +876,6 @@ def run_js_tweaker(text_area, reset=0):
         print("==============================")
         print("Running js_tweaker")
         text_area.update_idletasks()
-
         ###
         run_and_update_tkinter(lambda: js_tweaker.initialise(), text_area)
         run_and_update_tkinter(lambda: js_tweaker.copy_files_from_steam(reset), text_area)
@@ -886,11 +885,11 @@ def run_js_tweaker(text_area, reset=0):
         run_and_update_tkinter(lambda: js_tweaker.beautify_js("library.js"), text_area)
         run_and_update_tkinter(lambda: js_tweaker.parse_fixes_file("fixes.txt"), text_area)
         run_and_update_tkinter(lambda: js_tweaker.write_modif_file(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.write_modif_file("library.js", text_area)
+        run_and_update_tkinter(lambda: js_tweaker.write_modif_file("library.js"), text_area)
         run_and_update_tkinter(lambda: js_tweaker.re_minify_file(), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.re_minify_file("library.modif.js", "librery.js"), text_area)
         run_and_update_tkinter(lambda: js_tweaker.copy_files_to_steam(), text_area)
-        print("\nSteam Library JS Tweaks applied successfully.")
-              
+        print("\nSteam Library JS Tweaks applied successfully.")         
     except Exception as e:
         print("Error while applying JS Tweaks.", file=sys.stderr)
         print_traceback()
