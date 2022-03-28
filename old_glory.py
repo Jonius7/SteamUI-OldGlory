@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.11.10"
+        self.version = "v0.9.11.11"
         self.release = "5.8"
       
         ### Window Frame
@@ -420,8 +420,8 @@ class StartPage(tk.Frame):
     def create_confirm_frame(self):
     ### CONFIRM FRAME
     ###
-        ConfirmObject = ConfirmFrame(self, self.controller)
-        self.frameConfirm = ConfirmObject.get_frame_confirm()
+        self.ConfirmObject = ConfirmFrame(self, self.controller)
+        self.frameConfirm = self.ConfirmObject.get_frame_confirm()
            
         
     def set_init_gui_states(self):
@@ -521,8 +521,8 @@ class PageOne(tk.Frame):
 
     ### CONFIRM FRAME
     ###
-        ConfirmObject = ConfirmFrame(self, controller)
-        frameConfirm = ConfirmObject.get_frame_confirm()
+        self.ConfirmObject = ConfirmFrame(self, controller)
+        self.frameConfirm = self.ConfirmObject.get_frame_confirm()
         
     ### Pack frames
         self.frameHead.pack()
@@ -536,7 +536,7 @@ class PageOne(tk.Frame):
         tabs.add(frameSections, text="CSS Sections")
         tabs.pack(fill="both", expand=1, padx=(10,9))
         
-        frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
+        self.frameConfirm.pack(pady=(7, 20), side="bottom", fill="x")
         self.frameMode.pack(pady=(2, 0), side="bottom")
 
         #self.frameCSS = create_css_gui(self, controller, backend.load_css_configurables())
@@ -582,8 +582,8 @@ class PageTwo(tk.Frame):
     
     ### CONFIRM FRAME
     ###
-        ConfirmObject = ConfirmFrame(self, controller)
-        frameConfirm = ConfirmObject.get_frame_confirm()
+        self.ConfirmObject = ConfirmFrame(self, controller)
+        frameConfirm = self.ConfirmObject.get_frame_confirm()
 
     ### Pack frames
     ###
@@ -693,9 +693,11 @@ class ConfirmFrame(tk.Frame):
     
     def disable_install_button(self):
         self.button1['state'] = 'disable'
+        self.button1.configure(text="Installing...")
         
     def enable_install_button(self):
         self.button1['state'] = 'normal'
+        self.button1.configure(text="Install")
     
     def get_install_button(self):
         return self.button1

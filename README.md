@@ -1,16 +1,27 @@
-# SteamUI-OldGlory
+<h1 align="center">SteamUI-OldGlory</h1>
 
-A set of tweaks to the Steam UI, and also a reference, so you can learn to make your own tweaks.
+<p align="center">A set of customisable <b>Steam Library tweaks</b>, with an <b>installer</b>.</br>Also <b>a reference</b> that you can use to learn how to make your own tweaks.</p>
 
-Check [`/dev`](https://github.com/Jonius7/SteamUI-OldGlory/tree/dev) branch for in-progress tweaks.
+<p align="center">
+	<a href="https://github.com/Jonius7/SteamUI-OldGlory/releases"><img alt="GitHub all releases downloads" src="https://img.shields.io/github/downloads/Jonius7/SteamUI-OldGlory/total"></a>
+	<a href="https://github.com/Jonius7/SteamUI-OldGlory/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/Jonius7/SteamUI-OldGlory?color=dda113"></a>
+	<img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/Jonius7/SteamUI-OldGlory">
+    <a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest"><img alt="GitHub latest release version" src="https://img.shields.io/github/v/release/Jonius7/SteamUi-OldGlory?display_name=release"></a>
+	<a href="https://github.com/Jonius7/SteamUI-OldGlory/issues?q="><img alt="GitHub closed issues" src="https://img.shields.io/github/issues-closed-raw/Jonius7/SteamUI-OldGlory?color=c733c3&label=issues%20solved"></a>
+    <a href="https://github.com/Jonius7/SteamUI-OldGlory/commits/dev"><img alt="GitHub commits on /dev since last merge" src="https://img.shields.io/github/commits-since/Jonius7/SteamUI-OldGlory/latest/dev?label=commits%20since"></a>
+</p>
 
-### [Download Latest Version](https://github.com/Jonius7/SteamUI-OldGlory/releases/latest) | [Quick Guide](https://github.com/Jonius7/SteamUI-OldGlory#quick-guide) | [Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki) | [Known Issues](https://github.com/Jonius7/SteamUI-OldGlory/issues/6) | [Troubleshooting](https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting)
+<h3 align="center"><a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Download Latest Version</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#quick-guide">Quick Guide</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/wiki">Wiki</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/issues/6">Known Issues</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting">Troubleshooting</a></h3>
+
+<p align="center">Check <a href="https://github.com/Jonius7/SteamUI-OldGlory/tree/dev"><code>/dev</code></a> branch for in-progress tweaks.</p>
 
 ### Video Guide and GIF
 
 <img src="https://media.giphy.com/media/OjD2H5dci42cYRVvWN/source.gif" alt="Alt Text" style="zoom:95%;" /> 
 
 [<img src="https://i.imgur.com/FYDDWVW.png" alt="Video Guide to Customising The Steam Library"/>](https://youtu.be/foCewvyOszQ)
+
+<p align="left"><img alt="YouTube Video Views" src="https://img.shields.io/youtube/views/foCewvyOszQ?style=social"></p>
 
 ### Showcase of Tweaks
 
@@ -216,21 +227,19 @@ https://github.com/AikoMidori/steam-library
 If Library is not working, try one of these things (and **restart Steam** if necessary). If it still doesn't work, try the next thing in the list.
 
 - Check **SteamFriendsPatcher** has patched the library CSS:
-  - Also check it is [patching the right file](https://i.imgur.com/ZAC9yKj.png): (`6.css`)
+  - Also check it is [patching the right file](https://i.imgur.com/ZAC9yKj.png): (`5.css` Steam Stable, `6.css` Steam Beta Update)
   - use the **Clear Steam Cache** button if necessary.
+
 - Go to Task Manager and End Task on **Steam Client WebHelper** (let it restart)
-- In OldGlory, under **Settings and About** ([Gear icon](https://i.imgur.com/aUVJqYd.png)):
-  - Use **Check for Updates** button and download any small file updates
-  - Use **Remake JS** button
-    - this should also be done **when Steam Client updates** and the JS has changed
-
-  - Use **Reset** button
-
+- Try these **Steam Settings** (and restart Steam)
+  - **Downloads** -> **Clear Download Cache**
+  - **Web Browser** -> **Delete Web Browser Cache**
+- Use **Remake JS** button under **Settings and About** (this should also be done when Steam Client updates and the JS has changed)
+- Use **Reset** button under **Settings and About**
 - Delete `steamui` folder
   - Optional: Try these **Steam Settings** (and restart Steam)
     - **Downloads** -> **Clear Download Cache**
     - **Web Browser** -> **Delete Web Browser Cache**
-
 
 If none of these steps work, please open an [Issue](issues)
 
@@ -267,7 +276,7 @@ Install pyinstaller:
 	`pip install pyinstaller`
 
 Install libraries using `pip`: 
-	`pip install jsbeautifier jsmin pillow requests requests_oauthlib libsass pyyaml schema`
+	`pip install jsbeautifier jsmin rjsmin pillow requests requests_oauthlib libsass pyyaml schema rich`
 
 Build `old_glory.exe`:
 	`pyinstaller -w --icon=steam_oldglory.ico --clean --onefile old_glory.spec`

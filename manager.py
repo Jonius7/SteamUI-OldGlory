@@ -43,39 +43,51 @@ CONFIG_MAP = {#"SteamLibraryPath" : {"set" : ""},
 ### ================================
 
 def install_click(event, page, controller):
-    try:
-        settings = get_settings_from_gui(page)
-        settings = set_js_config(controller, settings)
-        apply_special_js_config(controller)
-        #print(settings)
-        #print(page.loaded_config)
-        
-        ### To be changed in a later version
-        #write fixes.txt before apply
-        backend.write_js_fixes(controller.js_config, controller.special_js_config)
-        #write css configurables
-        backend.write_css_configurables(controller.css_config)
-        ###
-        
-        #applying settings
-        change_javascript = check_if_css_requires_javascript(page, controller, settings)
-        manager_write_css_settings(page, settings)
-        manager_run_js_tweaker(page, change_javascript)
-        
-        update_loaded_config(page, controller)
-        loaded_config_to_oldglory_dict(controller)
-        backend.write_config(controller.oldglory_config)
-        
-        apply_css_theme(controller.frames["StartPage"], controller)
-        backend.compile_css(backend.get_json_data())
-        controller.js_gui_changed = 0
-        backend.refresh_steam_dir()
-        update_loaded_config(page, controller)
-    except:
-        print("Error while installing tweaks.", file=sys.stderr)
-        old_glory.print_traceback()
+    if str(event.widget['state']) == 'normal':
+        try:
+            disable_buttons_while_installing(controller)
+            settings = get_settings_from_gui(page)
+            settings = set_js_config(controller, settings)
+            apply_special_js_config(controller)
+            #print(settings)
+            #print(page.loaded_config)
+            
+            ### To be changed in a later version
+            #write fixes.txt before apply
+            backend.write_js_fixes(controller.js_config, controller.special_js_config)
+            #write css configurables
+            backend.write_css_configurables(controller.css_config)
+            ###
+            
+            #applying settings
+            change_javascript = check_if_css_requires_javascript(page, controller, settings)
+            manager_write_css_settings(page, settings)
+            thread = manager_run_js_tweaker(page, controller, change_javascript)
+            
+            update_loaded_config(page, controller)
+            loaded_config_to_oldglory_dict(controller)
+            backend.write_config(controller.oldglory_config)
+            
+            apply_css_theme(controller.frames["StartPage"], controller)
+            backend.compile_css(backend.get_json_data())
+            controller.js_gui_changed = 0
+            backend.refresh_steam_dir()
+            update_loaded_config(page, controller)
+            if not thread:
+                enable_buttons_after_installing(controller)
+        except:
+            print("Error while installing tweaks.", file=sys.stderr)
+            old_glory.print_traceback()
     
-        
+def disable_buttons_while_installing(controller):
+    for frame in controller.frames:
+        controller.frames[frame].ConfirmObject.disable_install_button()
+
+def enable_buttons_after_installing(controller):
+    for frame in controller.frames:
+        controller.frames[frame].ConfirmObject.enable_install_button()
+
+
 def get_settings_from_gui(page, config_map=CONFIG_MAP):
     '''
     Returns a dictionary of settings to apply ("value", "state", "javascript")
@@ -143,13 +155,27 @@ def manager_write_css_settings(page, settings):
     page.text1.update_idletasks()
     print("Settings applied.")    
     
-def manager_run_js_tweaker(page, change_javascript):     
+def manager_run_js_tweaker(page, controller, change_javascript):     
     ### Run js_tweaker if required
     if change_javascript == 1:
-        thread = Thread(target = old_glory.run_js_tweaker, args = (page.text1, ))
-        thread.start()
-        #thread.join()
-        #run_js_tweaker(page.text1)
+        #failed implementation due to needing controller state for each page with Install button
+        #page.ConfirmObject.disable_install_button()
+        thread = ThreadWithCallback(target = old_glory.run_js_tweaker, args = (page.text1,),
+                                    callback = lambda: enable_buttons_after_installing(controller))
+        thread.start() 
+    else:
+        thread = False;
+    return thread;
+    
+
+class ThreadWithCallback(Thread):
+    def __init__(self, *args, **kwargs):
+        self.callback = kwargs.pop("callback")
+        super(ThreadWithCallback, self).__init__(*args, **kwargs)
+    def run(self, *args, **kwargs):
+        super(ThreadWithCallback, self).run(*args, **kwargs)
+        #print(self.callback)
+        self.callback()
 
 #update loaded_config on Install click
 def update_loaded_config(page, controller):
