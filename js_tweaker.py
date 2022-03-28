@@ -73,7 +73,7 @@ def get_beaut_filename(filename):
 
 def get_modif_filename(filename):
     modif_filename = filename.rsplit(".", 1)
-    return beaut_filename[0] + ".modif." + modif_filename[1]
+    return modif_filename[0] + ".modif." + modif_filename[1]
 
 def beautify_js(filename="libraryroot.js"):
     try:
@@ -223,9 +223,10 @@ def find_fix_with_variable(line, fix):
         
 
 def write_modif_file(filename = "libraryroot.js"):
+    beaut_filename = get_beaut_filename(filename)
+    modif_filename = get_modif_filename(filename)
     try:
-        beaut_filename = get_beaut_filename(filename)
-        modif_filename = get_modif_filename(filename)
+        
         with open(beaut_filename, "r", newline='', encoding="UTF-8") as f, \
              open(modif_filename, "w", newline='', encoding="UTF-8") as f1:
             prev_line = ""
@@ -245,7 +246,7 @@ def write_modif_file(filename = "libraryroot.js"):
         f.close()
         f1.close()
     except:
-        error_exit("Error writing libraryroot.modif.js")
+        error_exit("Error writing " + modif_filename)
 
 def re_minify_file():
     try:
@@ -292,6 +293,7 @@ def main():
     beautify_js("library.js")    
     parse_fixes_file("fixes.txt")
     write_modif_file()
+    write_modif_file("library.js")
     re_minify_file()
     copy_files_to_steam()
     print("\nSteam Library JS Tweaks applied successfully.")
