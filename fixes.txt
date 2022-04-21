@@ -34,6 +34,7 @@ height: e.nItemHeight + i + "px"  minHeight: 125 + "px"
 gridTemplateColumns: "repeat(auto-fill, " + e + "px)",  gridTemplateColumns: "repeat(auto-fill, " + e * 2.108 + "px)",
 2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
 height: s + "px"  height: n ? Math.max(s, 150) + "px" : s + "px"
+width: i + "px"  width: Math.max(2.108 * i, 270)
 
 ### === Stop What's New Events from Loading (working, needs more testing) ===
 n = E.c.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",

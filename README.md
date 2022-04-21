@@ -276,7 +276,7 @@ Install pyinstaller:
 	`pip install pyinstaller`
 
 Install libraries using `pip`: 
-	`pip install jsbeautifier jsmin rjsmin pillow requests requests_oauthlib libsass pyyaml schema rich`
+	`pip install jsbeautifier rjsmin libsass Pillow requests requests_oauthlib`
 
 Build `old_glory.exe`:
 	`pyinstaller -w --icon=steam_oldglory.ico --clean --onefile old_glory.spec`

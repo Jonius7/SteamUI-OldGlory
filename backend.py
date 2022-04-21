@@ -710,30 +710,33 @@ def create_css_variables_lines(css_config):
 
 ### Now removes existing theme imports and adds current ones to be enabled
 def enable_css_theme(theme_filename, order, json_data):
+    print("THEMES")
+    print(theme_filename + order)
+    print(json_data)
     try:
         with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
              open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
             themereading = 0
             for line in f:
                 if themereading == 1:
+                    #if line != "\n":
                     if line != OS_line_ending():
                         pass
-                    else:
-                        if order == "before" and os.path.exists("themes/" + theme_filename):
-                            #print("theme line")
-                            # [1:-5] is to truncate the _ and .scss
-                            f1.write('@import "../themes/' + theme_filename[1:-5] + '";' + OS_line_ending())
-                        f1.write(OS_line_ending())
-                        themereading = 0
+                    if order == "before" and os.path.exists("themes/" + theme_filename):
+                        print("theme line")
+                        # [1:-5] is to truncate the _ and .scss
+                        f1.write('@import \"../themes/' + theme_filename[1:-5] + '\";' + OS_line_ending())
+                    f1.write(OS_line_ending())
+                    themereading = 0
                 elif themereading == 2:
+                    #if line != "\n":
                     if line != OS_line_ending():
                         pass
-                    else:
-                        if order == "after" and os.path.exists("themes/" + theme_filename):
-                            #print("theme line")
-                            f1.write('@import "../themes/' + theme_filename[1:-5] + '";' + OS_line_ending())
-                        f1.write(OS_line_ending())
-                        themereading = 0
+                    if order == "after" and os.path.exists("themes/" + theme_filename):
+                        print("theme line")
+                        f1.write('@import \"../themes/' + theme_filename[1:-5] + '\";' + OS_line_ending())
+                    f1.write(OS_line_ending())
+                    themereading = 0
                         
                 elif json_data["CSSBeforeThemes"] in line:
                     f1.write(line)
