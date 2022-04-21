@@ -1,6 +1,10 @@
 ## SteamUI-OldGlory GUI Changelog
 
-0.9.11.10	**(Release 5.8)** Backported run_js_tweaker, working JS with `library.js`
+0.9.11.21 	**(Release 5.8.2.1)** Fix critical bug where themes and CSS tweaks were not applying
+
+0.9.11.11	**(Release 5.8.1)**
+
+0.9.11.10	**(5.8)** Backported run_js_tweaker, working JS with `library.js`
 
 0.9.24.4	Piecemeal changes
 
