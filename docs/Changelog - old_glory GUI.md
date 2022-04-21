@@ -6,33 +6,33 @@
 
 0.9.11.10	**(5.8)** Backported run_js_tweaker, working JS with `library.js`
 
-0.9.24.4	Piecemeal changes
+​	0.9.24.4	Piecemeal changes
 
-0.9.24		*(5.8-pre8)*	33% faster performance - pre-compiling Regex strings
+​	0.9.24		*(5.8-pre8)*	33% faster performance - pre-compiling Regex strings
 
-0.9.23		`Install` button now disables while installing
+​	0.9.23		`Install` button now disables while installing
 
-0.9.22.4	*(5.8-pre7)* 	`refs` functionality completed, fixed `write_modif_file` 
+​	0.9.22.4	*(5.8-pre7)* 	`refs` functionality completed, fixed `write_modif_file` 
 
-0.9.20.5	Generating `refs` list, filter out tweaks that don't have `refs`
+​	0.9.20.5	Generating `refs` list, filter out tweaks that don't have `refs`
 
 **0.9.11.5**	**(Release 5.7.4.2)**
 
-0.9.20.2	Search for `refs` (WIP), update JS Beautify Messages
+​	0.9.20.2	Search for `refs` (WIP), update JS Beautify Messages
 
-0.9.19		*(5.8-pre6)* 	JS Tweaks Schema Validation and populating `@Values@`
+​	0.9.19		*(5.8-pre6)* 	JS Tweaks Schema Validation and populating `@Values@`
 
-0.9.17		*(5.8-pre5)*	Can now set libraryroot CSS filename, launch SteamFriendsPatcher button 
+​	0.9.17		*(5.8-pre5)*	Can now set libraryroot CSS filename, launch SteamFriendsPatcher button 
 
 **0.9.11.2	(Release 5.7.4)** Fixed bug with error: `No such file or directory: 'librery.js'`
 
-0.9.16		*(5.8-pre4)*	Fixed longstanding GUI slow responsiveness switching Frames while tweaks are Installing
+​	0.9.16		*(5.8-pre4)*	Fixed longstanding GUI slow responsiveness switching Frames while tweaks are Installing
 
-0.9.15.1	*(5.8-pre3)*	Change Install buttons layout
+​	0.9.15.1	*(5.8-pre3)*	Change Install buttons layout
 
-0.9.14.1	*(5.8-pre2)*	Working Regex find and replacements
+​	0.9.14.1	*(5.8-pre2)*	Working Regex find and replacements
 
-0.9.12.1	Reading `.yml`
+​	0.9.12.1	Reading `.yml`
 
 **0.9.11.0**	**(Release 5.7.3)** Now using tweaked JS in `librery.js` (original file `library.js`)
 

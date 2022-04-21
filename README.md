@@ -49,17 +49,17 @@ Condensed sidebar buttons <br>
 
 #### Patching and CSS
 
-- Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). NOTE: (Since v0.1.36-beta, [**"Steam Beta"** in Settings, needs to be ticked.](https://i.imgur.com/jmSaoEE.png)) Run it, it will patch some files.
+- Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). Run it, it will patch some files.
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 - Select the options you want to use, then click **Install**.
-- [Release 5.5] [If using Shiina's steam-library theme:](https://i.imgur.com/1cSW7iI.png)
+- [If using Shiina's steam-library theme](https://i.imgur.com/1cSW7iI.png), click **Apply config.css** under **Advanced Options**
 - Whenever the Steam Client updates, you'll need to use the **Remake JS** option in Settings if you were previously using any JS tweaks.
 - OldGlory should prompt you to download new files as "small updates" when they are released. Main updates will be notified in the log window.
 - To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix).
 
 ##### **Manual Editing** (CSS/SCSS)
 
-[HOW TO: Enable/Disable CSS modules and features](https://imgur.com/a/PocNfPE)
+- **[HOW TO: Enable/Disable CSS modules and features](https://imgur.com/a/PocNfPE)**
 
 <details><summary>More details</summary>
 <ul>   
@@ -73,7 +73,7 @@ Condensed sidebar buttons <br>
 </details>
 <img src="https://media.giphy.com/media/5ZiZcGpMvRyEdOliSk/giphy.gif" alt="GUI Images" style="zoom:95%;" />
 
-#### OldGlory Configurer (GUI)
+#### OldGlory Installer (GUI)
 
 ##### Main Options
 
@@ -82,7 +82,7 @@ Condensed sidebar buttons <br>
 - **Vertical Nav Bar** - turns the Navigation/Links bar into a floating vertical menu in the header, on the right side
 - **Classic Layout** - Vertical Nav Bar is now aligned with the game page content, with the Friends Activity/News column pushed to the bottom of the page.
 - **Landscape Game Images** - changes Portrait Game Images in the HOME page to Landscape ones.
-- **Library Theme**
+- **Library Theme** - applies the library theme shown in the dropdown
 
 **Actions**
 
@@ -104,7 +104,7 @@ In **Settings and About**:
   - after a Steam Client update, or 
   - switching between Steam Stable and Steam Beta
   - Technical details: 
-    `clear_js_working_files` - deletes local `library.js`, `libraryroot.js`, `libraryroot.beaut.js`
+    `clear_js_working_files` - deletes local `library.js`, `library.beaut.js`, `libraryroot.js`, `libraryroot.beaut.js`
     `run_js_tweaker` - recreates `libraryroot.beaut.js` and applies JS tweaks
 
 - **Reset** - triple click to reset the `steamui` directory back to using default library theme. Useful if something screws up or you want to test a clean slate.
@@ -151,8 +151,8 @@ In **Settings and About**:
 - `libraryroot.custom.css` - output CSS file. Do not edit this directly, use the `\scss` folder files
 - `\scss` - (New in Release 5.0)
   - `libraryroot.custom.scss` - contains all the `@imports` for smaller `.scss` files. The GUI handles enabling/disabling `_module_playbarbox`, `_module_verticalnavbar`, `_module_landscapegameimages`, `_module_classiclayout`. Manually comment out the other modules (for now)
-  - `_user_module1.scss`- put your custom CSS code here
-  - `_user_module2.scss` - put your custom CSS code here
+  - `_custom_module1.scss`- put your custom CSS code here
+  - `_custom_module2.scss` - put your custom CSS code here
 
 - `\themes` - Folder containing theme files
   - `_shiina.scss` and `config.css.original` - **Shiina's** [steam-library](https://github.com/AikoMidori/steam-library) dark theme
@@ -183,10 +183,11 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
 <li>When <tt>old_glory</tt> applies the JS tweaks, commented lines with <tt>###</tt>, and blank lines are ignored. You can use this to make <tt>fixes.txt</tt> more readable.</li>
     <li>NEW (Release 5.5): You can now use the previous line of JS to search for the line you want. Just separate the two lines with <tt>~~</tt></li>
     <ul><li>Format: <tt>[previous line JS]~~[original JS]&#9608;&#9608;[tweaked JS]</tt></li></ul>
-    <li>(Planned, coming soon): Using any single variable letter with <tt>$^</tt></li>
+    <li>(Planned): Using any single variable letter with <tt>$^</tt></li>
     <ul><li>Eg: <tt>Lo.searchSuggestions</tt> becomes <tt>$^$^.searchSuggestions</tt></li></ul>
     </ul>
     </details>
+
 
 
 
@@ -227,13 +228,9 @@ https://github.com/AikoMidori/steam-library
 If Library is not working, try one of these things (and **restart Steam** if necessary). If it still doesn't work, try the next thing in the list.
 
 - Check **SteamFriendsPatcher** has patched the library CSS:
-  - Also check it is [patching the right file](https://i.imgur.com/ZAC9yKj.png): (`5.css` Steam Stable, `6.css` Steam Beta Update)
+  - Also check it is [patching the right file](https://i.imgur.com/ZAC9yKj.png): (`6.css`)
   - use the **Clear Steam Cache** button if necessary.
-
 - Go to Task Manager and End Task on **Steam Client WebHelper** (let it restart)
-- Try these **Steam Settings** (and restart Steam)
-  - **Downloads** -> **Clear Download Cache**
-  - **Web Browser** -> **Delete Web Browser Cache**
 - Use **Remake JS** button under **Settings and About** (this should also be done when Steam Client updates and the JS has changed)
 - Use **Reset** button under **Settings and About**
 - Delete `steamui` folder
@@ -256,7 +253,7 @@ The program can't start because `api-ms-win-crt-math-l1-1-0.dll` is missing from
 
 #### For more details, go to [Story](docs/story.md).
 
-#### [CSS Changelog](docs/CSS%20Changelog.md)
+#### [CSS Changelog](docs/Changelog - CSS.md) | [GUI Changelog](docs/Changelog - old_glory GUI.md)
 
 #### [SteamUI-OldGlory Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki)
 
