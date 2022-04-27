@@ -1211,7 +1211,7 @@ def download_file(filepath, branch=BRANCH):
                 if len(dirs) == 2 and not os.path.exists(dirs[0]):
                     os.makedirs(dirs[0])            
                 #open(filepath, 'wb').write(r.context)
-                open(filepath, 'w', encoding="UTF-8").write(r.text)
+                open(filepath, 'w', encoding="UTF-8", newline='').write(r.text)
                 print("File " + filepath + " downloaded.")
             else:
                 print("Invalid request URL")

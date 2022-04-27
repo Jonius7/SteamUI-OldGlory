@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.11.21"
-        self.release = "5.8.2.1"
+        self.version = "v0.9.11.23"
+        self.release = "5.8.2.2"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -935,7 +935,7 @@ def open_img(filename, width=350):
             img = Image.open(x)
             new_width = width
             new_height = int(new_width * img.height / img.width)
-            img = img.resize((new_width, new_height), Image.ANTIALIAS)
+            img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
             img = ImageTk.PhotoImage(img)
             return img
     except:
