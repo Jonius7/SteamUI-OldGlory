@@ -7,24 +7,24 @@
   
   /* Container grid setup */
   .gamelistbar_Container_3x1Hk {
-    background-color: none;
-    background-image: var(--SidebarBackgroundImage);
-    display: grid;
+    background-color: none !important;
+    background-image: var(--SidebarBackgroundImage) !important;
+    display: grid !important;
     grid-template-rows: 38px fit-content(20%) auto;
     grid-template-columns: minmax(94px, 35%) auto;
   }
   
   /*Home bar width: 1st column, align with Gamelist dropdown and buttons*/
   .gamelistbar_GameListHomeAndSearch_2TKEa {
-    background-color: unset;
+    background-color: unset !important;
     box-shadow: 0 0 0px rgba(0, 0, 0, 0.8) !important;
-    padding: 6px 3px 0px 6px;
+    padding: 6px 3px 0px 6px !important;
     grid-column-start: 1;
   }
   
   /* Gamelist dropdown and buttons width: 2nd column, align with home bar*/
   .gamelistdropdown_Bar_1ZS_x {
-    padding: 6px 3px 0px;
+    padding: 6px 3px 0px !important;
     grid-column-start: 2;
   }
   
