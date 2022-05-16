@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.11.23"
-        self.release = "5.8.3"
+        self.version = "v0.9.11.25"
+        self.release = "5.8.4-pre"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -732,7 +732,7 @@ def is_connected():
 
 ### Check SteamFriendsPatcher
 def check_if_css_patched(page):
-    if not backend.is_css_patched("6.css"):
+    if not backend.is_css_patched("2.css"):
         hyperlink = custom_tk.HyperlinkManager(page.text1)
         page.text1.tag_configure("err", foreground="red")
         page.text1.insert(tk.INSERT, '\n==============================\n')
@@ -885,11 +885,14 @@ def run_js_tweaker(text_area, reset=0):
         run_and_update_tkinter(lambda: js_tweaker.modify_html(), text_area)
         run_and_update_tkinter(lambda: js_tweaker.beautify_js(), text_area)
         run_and_update_tkinter(lambda: js_tweaker.beautify_js("library.js"), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.beautify_js("libraryroot~sp.js"), text_area)
         run_and_update_tkinter(lambda: js_tweaker.parse_fixes_file("fixes.txt"), text_area)
         run_and_update_tkinter(lambda: js_tweaker.write_modif_file(), text_area)
         run_and_update_tkinter(lambda: js_tweaker.write_modif_file("library.js"), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.write_modif_file("libraryroot~sp.js"), text_area)
         run_and_update_tkinter(lambda: js_tweaker.re_minify_file(), text_area)
         run_and_update_tkinter(lambda: js_tweaker.re_minify_file("library.modif.js", "librery.js"), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.re_minify_file("libraryroot~sp.modif.js", "libraryreet~sp.js"), text_area)
         run_and_update_tkinter(lambda: js_tweaker.copy_files_to_steam(), text_area)
         print("\nSteam Library JS Tweaks applied successfully.")         
     except Exception as e:
@@ -1273,8 +1276,7 @@ class JSFrame(tk.Frame):
             #print(controller.js_config)
         except Exception as e:
             print("Error setting config :\n"\
-                  "Fix:   " + fixname +\
-                  "Value: " + str(value), file=sys.stderr)
+                  "Fix:   " + fixname, file=sys.stderr)
             
     def create_frameJSInner(self, controller):
         rownum = 1
@@ -1301,7 +1303,7 @@ class JSFrame(tk.Frame):
             if fixname in self.controller.special_js_config:
                 #print(self.controller.special_js_config["Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"])
                 self.sizesFrame = tk.Frame(self.frameJSInner)
-                special_js_key_name = "Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"
+                special_js_key_name = "Change Game Image Grid Sizes - default widths 111, 148, 222"
                 for i, key in enumerate(self.controller.special_js_config[special_js_key_name]):
                     _combolabel = tk.Label(self.sizesFrame,
                                           text = key)
@@ -1473,7 +1475,7 @@ def settings_window(event, controller):
     titlefont.configure(size=16)
         
     labeltext_a = tk.StringVar()
-    labeltext_a.set("SteamUI-OldGlory Configurer (Release " + controller.release + ")")
+    labeltext_a.set("SteamUI-OldGlory Installer (Release " + controller.release + ")")
     label_a = tk.Label(frameAbout, textvariable=labeltext_a, font=titlefont)
     buttonr_tip = custom_tk.Detail_tooltip(label_a, "GUI version " + controller.version, hover_delay=200)
     label_a.grid(row=0, column=0)

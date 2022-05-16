@@ -308,7 +308,7 @@ def get_file_hash(filepath):
         print_traceback()
 
 ### Check CSS Patched
-def is_css_patched(filename="5.css"):
+def is_css_patched(filename="2.css"):
     '''
     UTILITY: Returns whether the Steam Library CSS has been patched.
     '''
@@ -816,15 +816,14 @@ def load_js_fixes():
                     (key, val) = line.rstrip().split("  ") #validation
                     ### special fixes data, line to look out for has n = [number] in it
                     ### could rewrite in the future
-                    if "Change Game Image Grid Sizes" in fixname and re.search("n = ([0-9]+)", line):
+                    if "Change Game Image Grid Sizes" in fixname and re.search("r = ([0-9]+)", line):
                         line_segments = line.split("  ")
                         sizes_dict = {}
                         sizes = ["Small", "Medium", "Large"]
-                        size_values = re.findall("n = ([0-9]+)", line_segments[1])
+                        size_values = re.findall("r = ([0-9]+)", line_segments[1])
                         for i, value in enumerate(size_values):
                             sizes_dict[sizes[i]] = value
                         special_fixesdata[fixname] = sizes_dict
-
                 elif readfix == 0:
                     state = 0
                 sectionhead = 0               
@@ -868,7 +867,7 @@ def write_js_fixes(fixesdata, special_fixesdata):
                         line_segments = line.split("  ")
 
                         sizes = ["Small", "Medium", "Large"]
-                        line_segments[1] = re.sub("n = ([0-9]+)", "n = AAA", line_segments[1])
+                        line_segments[1] = re.sub("r = ([0-9]+)", "r = AAA", line_segments[1])
                         #print(line_segments[1])
                         for key in sizes:
                             #print(special_fixesdata[current_fixname][key])

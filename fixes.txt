@@ -1,46 +1,39 @@
-### === Enable Patching JS ===
-6: "libraryroot",  6: "libraryreet",
+### === ✓ Enable Patching JS ===
+7: "libraryroot",  7: "libraryreet",
+2: "libraryroot~sp",  2: "libraryreet~sp",
 
-### === Home Page Grid Spacing ===
-gridColumnGap: 16,  gridColumnGap: 5,
-gridRowGap: 24,  gridRowGap: 8,
+### === ✓ Increase Number of Screenshots and DLC displayed ===
+r.slice(0, 4).map  r.slice(0, 9).map
+r = w.c.IN_GAMEPADUI ? 4 : 6;  r = w.c.IN_GAMEPADUI ? 4 : 12;
 
-### === Increase Number of Screenshots and DLC displayed ===
-vecScreenShots.slice(0, 4).map  vecScreenShots.slice(0, 9).map
-this.props.rgInfo.slice(0, 6)  this.props.rgInfo.slice(0, 12)
+### === ✓ Disable screenshot slideshow on hover ===
+this.hasScreenshots ? (t = this.currentScreenshot  /*this.hasScreenshots ? (t = this.currentScreenshot
+})) : (t = String(this.props.appid),  })) : */(t = String(this.props.appid),
 
-### === HoverPosition Fix for GameListEntry (moved to library.js, needs changes) ===
-###h = m.nTop,  h = (t.children[0] && t.children[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0].classList && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_Container_2-O4Z")) || (t.children[0].classList && t.children[0].classList.contains("gamelistentry_FriendStatusHover_2iiN7")) ? m.nTop * 0.75 : m.nTop,
-
-### === Disable screenshot slideshow on hover ===
-###this.hasScreenshots ? (n = this.currentScreenshot  /*this.hasScreenshots ? (n = this.currentScreenshot
-###})) : (n = String(this.props.appid),  })) : */(n = String(this.props.appid),
-
-### === Scrolling Tweak - Scroll past ADD SHELF Button on load ===
-this.SetStateLoaded(),  this.SetStateLoaded(),document.getElementsByClassName('smartscrollcontainer_Body_3lDcz')[0].scrollTop = 30,
+### === ✓ Scrolling Tweak - Scroll past ADD SHELF Button on load ===
+this.SetStateLoaded()  this.SetStateLoaded(),document.getElementsByClassName('smartscrollcontainer_Body_3lDcz')[0].scrollTop = 30
 scrollTop: 0  scrollTop: 30
 e.m_nScrollTop = 0, e.m_elTarget  e.m_nScrollTop = 30, e.m_elTarget
 
-### === Change Game Image Grid Sizes (optional) - default widths 111, 148, 222 ===
-(n = 111, r = !0) : 2 == e ? n = 148 : 3 == e && (n = 222), {  (n = 120, r = !0) : 2 == e ? n = 160 : 3 == e && (n = 200), {
+### === Change Game Image Grid Sizes - default widths 111, 148, 222 ===
+(r = 111, a = !0) : 2 == e ? r = 148 : 3 == e && (r = 222)  (r = 120, a = !0) : 2 == e ? r = 160 : 3 == e && (r = 200)
+t = Math.max(1, Math.min(p, Math.floor((e + d) / g)));  t = Math.max(1, Math.min(p, Math.floor((e + d) / g)) + 1);
 
 ### === Vertical Nav Bar (beta, working) ===
-###x: l,  x: 0,
-###y: c * n  y: c * (n - 10)
-###u = 0), c < i ?   u = 0), true ?
+xc: l,  xc: l,
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
-eAssetType: 0  eAssetType: 3
-childHeight: 1.5 * n,  childHeight: n * 43 / 92,
-childWidth: n,  childWidth: n * 43 / 92,
-height: e.nItemHeight + i + "px"  minHeight: 125 + "px"
-gridTemplateColumns: "repeat(auto-fill, " + e + "px)",  gridTemplateColumns: "repeat(auto-fill, " + e * 2.108 + "px)",
-2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
-height: s + "px"  height: n ? Math.max(s, 150) + "px" : s + "px"
-width: i + "px"  width: Math.max(2.108 * i, 270)
+###eAssetType: 0  eAssetType: 3
+###childHeight: 1.5 * n,  childHeight: n * 43 / 92,
+###childWidth: n,  childWidth: n * 43 / 92,
+###height: e.nItemHeight + i + "px"  minHeight: 125 + "px"
+###gridTemplateColumns: "repeat(auto-fill, " + e + "px)",  gridTemplateColumns: "repeat(auto-fill, " + e * 2.108 + "px)",
+###2.108 * s.nItemWidth  Math.max(2.108 * s.nItemWidth, 270)
+###height: s + "px"  height: n ? Math.max(s, 150) + "px" : s + "px"
+###width: i + "px"  width: Math.max(2.108 * i, 270)
 
 ### === Stop What's New Events from Loading (working, needs more testing) ===
-n = E.c.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",
+###n = E.c.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",
 
 ### === HOME page Scrolling, reduce number of ComputeLayout calls ===
 ###this.props.maxRows < 2 || (t = this.m_elGrid.current.getBoundingClientRect(), n = Math.abs(t.top - this.m_fLastScrollTop), this.props.childHeight * this.props.scaleGridItems / 8 < n && (this.m_fLastScrollTop = t.top, t.top < window.innerHeight && 0 < t.bottom && this.ComputeLayout()))  var timeSince;t=this.m_elGrid.current.getBoundingClientRect(),timeSince=performance.now()-this.lastTime,this.lastTime=performance.now(),console.log(timeSince),setTimeout(function(){timeSince>60,this.ComputeLayout()}.bind(this),200)
@@ -58,8 +51,8 @@ n = E.c.STORE_BASE_URL + "events/ajaxgetbesteventsforuser",  n = "",
 ###Object(r.c)([A.a], t.prototype, "OnChangeHero", null),  Object(r.c)([A.a], t.prototype, "OnChangeHero", null), Object(r.c)([A.a], t.prototype, "OnRemoveHero", null),
 
 ### === Press Enter to launch games ===
-switch (t) {~~case 38:  case 13: return this.RunApp(qh.currentGameListSelection.nAppId), void e.preventDefault();case 38:
-}, t.prototype.MoveRangeSelectUpOneRow = function() {  }, t.prototype.RunApp = function(e) {window.location.href = "steam://rungameid/" + e;}, t.prototype.MoveRangeSelectUpOneRow = function() {
+###switch (t) {~~case 38:  case 13: return this.RunApp(qh.currentGameListSelection.nAppId), void e.preventDefault();case 38:
+###}, t.prototype.MoveRangeSelectUpOneRow = function() {  }, t.prototype.RunApp = function(e) {window.location.href = "steam://rungameid/" + e;}, t.prototype.MoveRangeSelectUpOneRow = function() {
 
 ### === Expand Show more Details panel by default ===
 ###var e, t = this.props.expand ? mS.a.AppDetailsExpanded : mS.a.AppDetailsCollapsed,  var e, t = this.props.expand ? mS.a.AppDetailsCollapsed : mS.a.AppDetailsExpanded,

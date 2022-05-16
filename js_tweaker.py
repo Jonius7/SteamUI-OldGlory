@@ -257,14 +257,14 @@ def re_minify_file(modif_filename = "libraryroot.modif.js", min_filename = "libr
             js_min_file.write(minified)
         js_file.close()
         js_min_file.close()
-        print("\nJS Minify complete. (" + min_filename + ")")
+        print("JS Minify complete. (" + min_filename + ")")
     except:
         error_exit("Error completing JS minify.")
     
 def copy_files_to_steam():
     try:
         if LOCAL_DEBUG == 0:
-            files_to_copy = ["librery.js", "libraryreet.js"]
+            files_to_copy = ["librery.js", "libraryreet.js", "libraryreet~sp.js"]
             for filename in files_to_copy:
                 shutil.copy2(filename, library_dir() + "/" + filename)
                 print("File " + filename + " written to " + library_dir())
