@@ -52,10 +52,32 @@
   min-height: 0px;
 }
 
+/* credit: Naii for CSS-only Vertical Nav Bar
+https://gamebanana.com/mods/305429 */
+.appdetailsprimarylinkssection_LinkInner_7k4qm {
+	opacity: 1 !important;
+	position: relative !important;
+    pointer-events: all !important;
+    z-index: 100 !important;
+}
+
+.appdetailsprimarylinkssection_MenuButton_1bIMO  {
+	display: none !important;
+}
+
+.appdetailsprimarylinkssection_Anchor_DY4_w .appdetailsprimarylinkssection_Link_1b6LY {
+  text-align: left;
+}
+/* end credit */
+
+.appdetailsprimarylinkssection_Links_DgVQa.Panel.Focusable {
+  padding: 10px 0px 10px 5px;
+}
+
 .appdetailsoverview_ColumnContainer_OhSdL {}
 
 .appdetailsprimarylinkssection_LinkInner_7k4qm {
-  padding: 4px 4px 4px 0px !important;
+  padding: 0px 4px 4px 0px !important;
 }
 
 .appdetailsprimarylinkssection_Links_DgVQa {

@@ -269,7 +269,7 @@ class StartPage(tk.Frame):
             page=self,
             name="  \u2937 Vertical Nav Bar",
             image="images/vertical_nav_bar.png",
-            tags=["CSS", "JS"])
+            tags=["CSS"])
         mainoption3 = mo3.returnMainOption()
         mainoption3.grid(row=2, column=1, sticky='w')
         
@@ -284,7 +284,7 @@ class StartPage(tk.Frame):
             page=self,
             name="    \u2937 Classic Layout",
             image="images/classic_layout.png",
-            tags=["CSS", "JS"])
+            tags=["CSS"])
         mainoption4 = mo4.returnMainOption()
         mainoption4.grid(row=3, column=1, sticky='w')
         
@@ -865,8 +865,8 @@ def dropdown_hover(image_path, widget):
 MAIN_SETTINGS_MAP = {
     "InstallCSSTweaks" : {"value" : "var1", "javascript" : False},
     "EnablePlayButtonBox" : {"value" : "var2", "javascript" : False},
-    "EnableVerticalNavBar" : {"value" : "var3", "javascript" : True},
-    "EnableClassicLayout" : {"value" : "var4", "javascript" : True},
+    "EnableVerticalNavBar" : {"value" : "var3", "javascript" : False},
+    "EnableClassicLayout" : {"value" : "var4", "javascript" : False},
     "LandscapeImages" : {"value" : "var5", "javascript" : True},
     "InstallWithLibraryTheme" : {"value" : "var6", "javascript" : False},
     "ClassicStyling" : {"value" : "var7", "javascript" : False},
