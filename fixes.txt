@@ -16,11 +16,8 @@ scrollTop: 0  scrollTop: 30
 e.m_nScrollTop = 0, e.m_elTarget  e.m_nScrollTop = 30, e.m_elTarget
 
 ### === Change Game Image Grid Sizes - default widths 111, 148, 222 ===
-(r = 111, a = !0) : 2 == e ? r = 148 : 3 == e && (r = 222)  (r = 120, a = !0) : 2 == e ? r = 160 : 3 == e && (r = 200)
+(r = 111, a = !0) : 2 == e ? r = 148 : 3 == e && (r = 222)  (r = 100, a = !0) : 2 == e ? r = 160 : 3 == e && (r = 200)
 t = Math.max(1, Math.min(p, Math.floor((e + d) / g)));  t = Math.max(1, Math.min(p, Math.floor((e + d) / g)) + 1);
-
-### === Vertical Nav Bar (beta, working) ===
-xc: l,  xc: l,
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
 ###eAssetType: 0  eAssetType: 3

@@ -111,7 +111,6 @@ def get_settings_from_gui(page, config_map=CONFIG_MAP):
 
 def set_js_config(controller, settings):
     SETTINGS_MAP = {
-        "EnableVerticalNavBar": {"JS_name" : "Vertical Nav Bar (beta, working)"},
         "LandscapeImages": {"JS_name" : "Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"}
     }
     for setting in SETTINGS_MAP:
