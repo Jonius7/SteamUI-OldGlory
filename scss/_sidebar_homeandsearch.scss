@@ -7,8 +7,8 @@
   
   /* Container grid setup */
   .gamelistbar_Container_3x1Hk {
-    background-color: none !important;
-    background-image: var(--SidebarBackgroundImage) !important;
+    background-color: none;
+    background-image: var(--SidebarBackgroundImage);
     display: grid !important;
     grid-template-rows: 38px fit-content(20%) auto;
     grid-template-columns: minmax(94px, 35%) auto;
