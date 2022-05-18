@@ -1303,7 +1303,7 @@ class JSFrame(tk.Frame):
             if fixname in self.controller.special_js_config:
                 #print(self.controller.special_js_config["Change Game Image Grid Sizes (optional) - default widths 111, 148, 222"])
                 self.sizesFrame = tk.Frame(self.frameJSInner)
-                special_js_key_name = "Change Game Image Grid Sizes - default widths 111, 148, 222"
+                special_js_key_name = fixname
                 for i, key in enumerate(self.controller.special_js_config[special_js_key_name]):
                     _combolabel = tk.Label(self.sizesFrame,
                                           text = key)
