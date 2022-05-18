@@ -124,22 +124,20 @@ In **Settings and About**:
 
 **JS Options**
 
-- **Home Page Grid Spacing** - sets grid spacing to 8px 5px (default 24px 16px)
 - **Increase Number of Screenshots and DLC displayed** - On game page: Screenshots: 4 -> 8, DLC 6 -> 12
-- **HoverPostion Fix for GameListEntry** - Hover position fix if using 75% **Game List Zoom** in CSS Options
+- **Disable screenshot slideshow on hover** - Hovering over games on HOME page will only show the Game Boxart, not the screenshot slideshow
 - **Scrolling Tweak** - Scroll past ADD SHELF Button on load
 - **Change Game Image Grid Sizes** - Change the size of Game Images on the HOME page, based on <u>width in pixels</u>. There are 3 values here to change, corresponding to Small, Medium, Large sizes in settings. Defaults are:
   - <u>Small</u>		  `111`
   - <u>Medium</u>	 `148`
   - <u>Large</u>		  `222`
-- ***Vertical Nav Bar*** - corresponds to Main Option **Vertical Nav Bar**. No need to configure manually.
 - ***Landscape Images JS Tweaks***  - corresponds to Main Option **Landscape Game Images**. No need to configure manually.
 - **Stop What's New Events from Loading** - removes loading of What's New Events
-- **HOME page Scrolling, reduce number of ComputeLayout calls** - Improve smoothness of HOME page Scrolling
 - **Game Properties Window Size** - Reduce width of Game Properties window to closely match old one
-- **CLASSIC Sticky image background and spillover into sidebar** - Game Header image will stay in background as you scroll, and is visible through the Left Sidebar (Games List)
-- **\*\*Experimental\*\* Don't load HOME game images, only alt text** - Can improve performance by not loading images and only the alt text
-- **\*\*Experimental\*\* Remove Game Page Bloat** - Game pages will only load the Play and Navigation bars. May improve performance.
+- **Press Enter to Launch Games** - Selected game in game list will launch upon pressing Enter
+- **Expand Show more Details Panel by default** - The Show More Details Panel (i) will expand by default on game page load
+- **Dim Uninstalled Games** - Dim Uninstalled games on HOME page
+- **Don't load HOME game images, only alt text** - Can improve performance by not loading images and only the alt text
 
 
 
