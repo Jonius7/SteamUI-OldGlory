@@ -45,6 +45,10 @@
   height: 70%
 }
 
+.ModalDialogPopup .DialogContentTransition .DialogBody {
+  overflow-y: hidden;
+}
+
 .pagedsettings_PagedSettingsDialog_2sssI.appproperties_AppProperties_1FyBL {
   flex-direction: column;
 }
