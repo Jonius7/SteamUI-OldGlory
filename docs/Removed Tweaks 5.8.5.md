@@ -1,7 +1,6 @@
 #### Updated
 
 - Increase Number of Screenshots and DLC displayed
-
 - Disable screenshot slideshow on hover
 - Scrolling Tweak - Scroll past ADD SHELF Button on load
 - Change Game Image Grid Sizes
