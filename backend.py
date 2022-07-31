@@ -967,7 +967,9 @@ def clean_slate_css():
 
 def clear_js_working_files():
     try:
-        files_to_remove = ["library.js", "library.beaut.js", "libraryroot.js", "libraryroot.beaut.js"]
+        files_to_remove = ["library.js", "library.beaut.js", 
+        "libraryroot.js", "libraryroot.beaut.js",
+        "libraryroot~sp.js", "libraryroot~sp.beaut.js"]
         for file in files_to_remove:
             w_file = Path(file)
             w_file.unlink(missing_ok=True)

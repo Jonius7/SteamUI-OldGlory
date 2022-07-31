@@ -208,12 +208,12 @@ def parse_fixes_file(filename):
     except Exception as e:
         error_exit("Error found while parsing fixes file: " + e)
 
-def find_fix(line, fix):
+def find_fix(line, fix, filename):
     m_line = line.replace(fix, fixes_dict[fix]["replace"])
     #print("FIX: ", end = '')
     #print(m_line.strip())
     #print(fixes_dict[fix]["replace"])
-    print("FIX: " + m_line.strip())
+    print("FIX (" + filename + "): " + m_line.strip())
     return m_line
 
 def find_fix_with_variable(line, fix):
@@ -235,10 +235,10 @@ def write_modif_file(filename = "libraryroot.js"):
                 for fix in fixes_dict:
                     if "prev" in fixes_dict[fix]:
                         if fixes_dict[fix]["prev"] in prev_line and fix in line:
-                            f1.write(find_fix(line, fix))
+                            f1.write(find_fix(line, fix, filename))
                             modified = 1
                     elif fix in line:
-                        f1.write(find_fix(line, fix))
+                        f1.write(find_fix(line, fix, filename))
                         modified = 1
                 if modified == 0:
                     f1.write(line)
@@ -260,6 +260,17 @@ def re_minify_file(modif_filename = "libraryroot.modif.js", min_filename = "libr
         print("JS Minify complete. (" + min_filename + ")")
     except:
         error_exit("Error completing JS minify.")
+
+def compress_newlines(filename = "librery.js"):
+    with open(filename, encoding="UTF-8") as f1, \
+        open(filename + ".compress", "w", newline='', encoding="UTF-8") as f2:
+        output = " ".join(f1.read().splitlines())
+        f2.write(output)
+    f1.close()
+    f2.close()
+
+    os.remove(filename)
+    shutil.move(filename + ".compress", filename)       
     
 def copy_files_to_steam():
     try:
@@ -296,6 +307,7 @@ def main():
     write_modif_file("library.js")
     re_minify_file()
     re_minify_file("library.modif.js", "librery.js")
+    compress_newlines("librery.js")
     copy_files_to_steam()
     print("\nSteam Library JS Tweaks applied successfully.")
     time.sleep(2)

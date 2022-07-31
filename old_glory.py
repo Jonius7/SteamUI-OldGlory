@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.11.29"
-        self.release = "5.8.5"
+        self.version = "v0.9.11.30"
+        self.release = "5.8.6-pre1"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -893,6 +893,9 @@ def run_js_tweaker(text_area, reset=0):
         run_and_update_tkinter(lambda: js_tweaker.re_minify_file(), text_area)
         run_and_update_tkinter(lambda: js_tweaker.re_minify_file("library.modif.js", "librery.js"), text_area)
         run_and_update_tkinter(lambda: js_tweaker.re_minify_file("libraryroot~sp.modif.js", "libraryreet~sp.js"), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.compress_newlines("librery.js"), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.compress_newlines("libraryreet.js"), text_area)
+        run_and_update_tkinter(lambda: js_tweaker.compress_newlines("libraryreet~sp.js"), text_area)
         run_and_update_tkinter(lambda: js_tweaker.copy_files_to_steam(), text_area)
         print("\nSteam Library JS Tweaks applied successfully.")         
     except Exception as e:
