@@ -88,7 +88,7 @@ def beautify_js(filename="libraryroot.js"):
             library = jsbeautifier.beautify_file(filename, opts)
 
             f = open(beautify_file, "wt", newline='', encoding="UTF-8")
-            print("Writing beautified file... please do not close")
+            #print("Writing beautified file... please do not close")
             f.write(library)
             f.close()
             print("Beautified file write finished")

@@ -794,6 +794,7 @@ def load_js_fixes():
         state = 3 #0 = disabled(commented out), 1 = enabled, 2 = mixed, starting
 
         with open(js_fixes_filename, newline='', encoding="UTF-8") as infile:
+            sizes_dict = {}
             for line in infile:
                 if re.match("### ===.*===", line):
                     readfix = 1
@@ -815,18 +816,24 @@ def load_js_fixes():
                     fixesdata[fixname] = str(state)
                     (key, val) = line.rstrip().split("  ") #validation
                     ### special fixes data, line to look out for has n = [number] in it
-                    ### could rewrite in the future
-                    if "Change Game Image Grid Sizes" in fixname and re.search("r = ([0-9]+)", line):
-                        line_segments = line.split("  ")
-                        sizes_dict = {}
+                    ### rewritten
+                    if "Change Game Image Grid Sizes" in fixname: # and re.search("r = ([0-9]+)", line):
+                        #line_segments = line.split("  ")
                         sizes = ["Small", "Medium", "Large"]
-                        size_values = re.findall("r = ([0-9]+)", line_segments[1])
-                        for i, value in enumerate(size_values):
-                            sizes_dict[sizes[i]] = value
+                        for size in sizes:
+                            if "PortraitWidth" + size in line:
+                                #print(line)
+                                value = re.findall("([0-9]+)", line)[1]
+                                sizes_dict[size] = value
+                        #size_names = ["PortraitWidthSmall", "PortraitWidthMedium", "PortraitWidthLarge"]
+                        #size_values = re.findall("r = ([0-9]+)", line_segments[1])
+                        #for i, value in enumerate(size_values):
+                        #    sizes_dict[sizes[i]] = value
                         special_fixesdata[fixname] = sizes_dict
+                    ### END
                 elif readfix == 0:
                     state = 0
-                sectionhead = 0               
+                sectionhead = 0              
         infile.close()
         
         print("Loaded JS Tweaks. " + "(" + js_fixes_filename + ")")
@@ -864,19 +871,26 @@ def write_js_fixes(fixesdata, special_fixesdata):
                 if writefix == 1 and sectionhead == 0:
                     ### special fixes data
                     if "Change Game Image Grid Sizes" in current_fixname:
-                        line_segments = line.split("  ")
+                        #line_segments = line.split("  ")
 
                         sizes = ["Small", "Medium", "Large"]
-                        line_segments[1] = re.sub("r = ([0-9]+)", "r = AAA", line_segments[1])
+                        for size in sizes:
+                            if "PortraitWidth" + size in line:
+                                newline = re.sub(r'^((.*?([0-9]+).*?){1})([0-9]+)',
+                                r'\g<1>{}'.format(special_fixesdata[current_fixname][size]), line)
+                                line = newline
+                        #line_segments[1] = re.sub("r = ([0-9]+)", "r = AAA", line_segments[1])
                         #print(line_segments[1])
-                        for key in sizes:
+                        #for key in sizes:
                             #print(special_fixesdata[current_fixname][key])
                             #print(special_fixesdata)
-                            line_segments[1] = line_segments[1].replace("AAA", special_fixesdata[current_fixname][key], 1)
+                            #line_segments[1] = line_segments[1].replace("AAA", special_fixesdata[current_fixname][key], 1)
                         #print(line_segments[1])
 
-                        line = "  ".join(line_segments)
+                        #line = "  ".join(line_segments)
                         #print(line)
+
+
                     #print("~C!~~~")
                     #print(current_fixname + "   ")
                     #print(fixesdata[current_fixname])                    

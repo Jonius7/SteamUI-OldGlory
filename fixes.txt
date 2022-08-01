@@ -1,48 +1,45 @@
-### === ✓ Enable Patching JS ===
+### === Enable Patching JS ===
 7: "libraryroot",  7: "libraryreet",
 2: "libraryroot~sp",  2: "libraryreet~sp",
 
-### === ✓ Increase Number of Screenshots and DLC displayed ===
-r.slice(0, 4).map  r.slice(0, 9).map
-r = w.c.IN_GAMEPADUI ? 4 : 6;  r = w.c.IN_GAMEPADUI ? 4 : 12;
+### === Increase Number of Screenshots and DLC displayed ===
+.slice(0, 4)  .slice(0, 9)
+.IN_GAMEPADUI ? 4 : 6;  .IN_GAMEPADUI ? 4 : 12;
 
-### === ✓ Disable screenshot slideshow on hover ===
+### === Disable screenshot slideshow on hover ===
 ###this.hasScreenshots ? (t = this.currentScreenshot  /*this.hasScreenshots ? (t = this.currentScreenshot
 ###})) : (t = String(this.props.appid),  })) : */(t = String(this.props.appid),
 
-### === ✓ Scrolling Tweak - Scroll past ADD SHELF Button on load ===
-this.SetStateLoaded()  this.SetStateLoaded(),document.getElementsByClassName('smartscrollcontainer_Body_3lDcz')[0].scrollTop = 30
-scrollTop: 0  scrollTop: 30
-e.m_nScrollTop = 0, e.m_elTarget  e.m_nScrollTop = 30, e.m_elTarget
+### === Scrolling Tweak - Scroll past ADD SHELF Button on load ===
+this.SetStateLoaded()  this.SetStateLoaded(),document.getElementsByClassName('smartscrollcontainer_Body_g6Mwh')[0].scrollTop = 30
 
-### === ✓ Change Game Image Grid Sizes - default widths 111, 148, 222 ===
-(r = 111, a = !0) : 2 == e ? r = 148 : 3 == e && (r = 222), n = 1.5 * r  (r = 100, a = !0) : 2 == e ? r = 160 : 3 == e && (r = 200), n = 1.5 * r
-t = Math.max(1, Math.min(p, Math.floor((e + d) / g)));  t = Math.max(1, Math.min(p, Math.floor((e + d) / g)) + 1);
+### === Change Game Image Grid Sizes - default widths 111, 148, 222 ===
+###t = Math.max(1, Math.min(m, Math.floor((e + c) / g)));  t = Math.max(1, Math.min(m, Math.floor((e + c) / g)) + 1);
+###PortraitWidthSmall: "111px",  PortraitWidthSmall: "100px",
+###PortraitWidthMedium: "148px",  PortraitWidthMedium: "150px",
+###PortraitWidthLarge: "222px",  PortraitWidthLarge: "160px",
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
+###t = Math.max(1, Math.min(m, Math.floor((e + c) / g)));  t = Math.max(1, Math.min(m, Math.floor((e + c) / g)) + 1);
 ###eAssetType: 0  eAssetType: 3
-###n = 1.5 * r  n = 43 / 92 * r
-###t = Math.max(1, Math.min(p, Math.floor((e + d) / g)));  t = Math.max(1, Math.min(p, Math.floor((e + d) / g)) + 1);
+###r = 1.5 * n  r = 43 / 92 * n
 
-### === ✓ Stop What's New Events from Loading ===
+### === Stop What's New Events from Loading ===
 ###b.c.STORE_BASE_URL + "events/ajaxgetbesteventsforuser"  ""
 
-### === ✓ Game Properties Window Size ===
-bForcePopOut: !0,~~popupWidth: 842,  popupWidth: 672,
-
-### === ✓ Press Enter to launch games ===
+### === Press Enter to launch games ===
 switch (t) {~~case 38:  case 13: return this.RunApp(v.a.currentGameListSelection.nAppId), void e.preventDefault();case 38:
 MoveRangeSelectUpOneRow() {  RunApp(e) {window.location.href = "steam://rungameid/" + e;} MoveRangeSelectUpOneRow() {
 
-### === ✓ Expand Show more Details panel by default ===
-###let e = this.props.expand ? P.a.AppDetailsExpanded : P.a.AppDetailsCollapsed;  let e = this.props.expand ? P.a.AppDetailsCollapsed : P.a.AppDetailsExpanded;
+### === Expand Show more Details panel by default ===
+###let e = this.props.expand ? F.a.AppDetailsExpanded : F.a.AppDetailsCollapsed;  let e = this.props.expand ? F.a.AppDetailsCollapsed : F.a.AppDetailsExpanded;
 ###this.props.expand ? this.state.gameInfoHeight + "px" : "0px"  this.props.expand ? "0px" : this.state.gameInfoHeight + "px"
-###className: P.a.GameInfoShadow  className: ""
+###className: F.a.GameInfoShadow  className: ""
 
-### === ✓ Dim Uninstalled Games ===
+### === Dim Uninstalled Games ===
 onContextMenu: this.OnContextMenu,~~hoverDelay: 300,  hoverDelay: 300, style: this.props.app.installed ? {} : {opacity: "var(--UninstalledGameImageOpacity)"},
 
-### === ✓ Don't load HOME game images, only alt text ===
-###v && this.BDisplayTitle() && a.createElement("span"  a.createElement("span"
+### === Don't load HOME game images, only alt text ===
+###v && this.BDisplayTitle() && i.createElement("span"  i.createElement("span"
 ###className: Object~~rgSources: o,  /* rgSources: o,
 ###onLoad: this.OnImageLoaded,  onLoad: this.OnImageLoaded, */

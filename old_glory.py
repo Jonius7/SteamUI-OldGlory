@@ -763,6 +763,8 @@ def release_check(page, current_release):
         print("Could not connect to Github, Unable to check for latest release!", file=sys.stderr)
     except socket.timeout:
         print("Update check timeout!", file=sys.stderr)
+    except AttributeError:
+        print("Could not connect to Github, Unable to check for latest release!", file=sys.stderr)
     except Exception as e:
         print("Unable to check for latest release!", file=sys.stderr)
         print(e.message, file=sys.stderr)
@@ -895,7 +897,7 @@ def run_js_tweaker(text_area, reset=0):
         run_and_update_tkinter(lambda: js_tweaker.re_minify_file("libraryroot~sp.modif.js", "libraryreet~sp.js"), text_area)
         run_and_update_tkinter(lambda: js_tweaker.compress_newlines("librery.js"), text_area)
         run_and_update_tkinter(lambda: js_tweaker.compress_newlines("libraryreet.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.compress_newlines("libraryreet~sp.js"), text_area)
+        #run_and_update_tkinter(lambda: js_tweaker.compress_newlines("libraryreet~sp.js"), text_area)
         run_and_update_tkinter(lambda: js_tweaker.copy_files_to_steam(), text_area)
         print("\nSteam Library JS Tweaks applied successfully.")         
     except Exception as e:
