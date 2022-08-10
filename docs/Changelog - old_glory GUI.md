@@ -1,5 +1,13 @@
 ## SteamUI-OldGlory GUI Changelog
 
+0.9.11.31	**(Release 5.8.6)**
+
+0.9.11.29	**(Release 5.8.5)** New versions of JS tweaks for Steam update 13 May 
+
+0.9.11.23 	*(Release 5.8.4-pre1)*
+
+0.9.11.23 	**(Release 5.8.3)**
+
 0.9.11.21 	**(Release 5.8.2.1)** Fix critical bug where themes and CSS tweaks were not applying
 
 0.9.11.11	**(Release 5.8.1)**

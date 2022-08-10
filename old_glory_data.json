@@ -3,7 +3,7 @@
 	"CSSBeforeThemes": "// Themes applied before CSS Tweaks",
 	"CSSAfterThemes": "// Themes applied after CSS Tweaks",
 	"libraryrootFile": "2.css",
-	"lastPatchedDate": "2022-06-13T03:50:55Z",
+	"lastPatchedDate": "2022-08-01T10:21:26Z",
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",
@@ -291,25 +291,6 @@
 				"config": {
 					"--FriendsDLCScreenshotsColumnWidth": "33%",
 					"--SwapColumns": "right"
-				}
-			},
-			"[Current value]": {
-				"value": "3"
-			}
-		},
-		"Game Image Opacity": {
-			"Dim Uninstalled Games": {
-				"value": "1",
-				"config": {
-					"--GameImageOpacity": "1",
-					"--UninstalledGameImageOpacity": "0.5"
-				}
-			},
-			"Default (Full Opacity)": {
-				"value": "2",
-				"config": {
-					"--GameImageOpacity": "1",
-					"--UninstalledGameImageOpacity": "1"
 				}
 			},
 			"[Current value]": {
