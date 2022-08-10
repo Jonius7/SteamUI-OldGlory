@@ -49,7 +49,7 @@ Condensed sidebar buttons <br>
 
 #### Patching and CSS
 
-- Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). Run it, it will patch some files.
+- Install [**SFP (SteamFriendsPatcher)**](https://github.com/PhantomGamers/SFP/releases). Run it, it will patch some files.
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 - Select the options you want to use, then click **Install**.
 - [If using Shiina's steam-library theme](https://i.imgur.com/1cSW7iI.png), click **Apply config.css** under **Advanced Options**
