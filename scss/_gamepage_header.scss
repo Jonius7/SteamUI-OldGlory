@@ -1,18 +1,30 @@
 /* ==================== Game AppPage Header ====================
    ========================================================================== */
 
-/* App Page main header - down to 60% the height */
-.sharedappdetailsheader_TopCapsule_NZMJ6 {
-  height: 13vw !important;
+.appdetailsoverview_BackdropGlass_Jbe-- /* remove background color */ {
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+.sharedappdetailsheader_TopCapsule_2meE3.sharedappdetailsheader_TopCapsule_2meE3 {
+	max-height: 170px;
 }
 
 .appdetails_Header_2gZXh.appdetails_HeaderLoaded_tXlLv {
   min-height: 170px;
+  margin-bottom: 13px;
+}
+
+.sharedappdetailsheader_ImgSrc__dije {
+	height: 139%;
+	object-fit: cover;
+	position: relative;
+	-webkit-mask-image: none;
 }
 
 /* Unset Header Image height to show top and bottom */
 .sharedappdetailsheader_ImgContainer_QlR9E {
-  height: unset;
+  height: auto;
 }
 
 .appdetailsheader_HeaderFeatures_2b6Wk {
@@ -48,10 +60,12 @@
 img.sharedappdetailsheader_ImgSrc_HNbe3.sharedappdetailsheader_ImgBlur_HSQWw {
   display: none;
 }
+.sharedappdetailsheader_ImgSrc__dije.sharedappdetailsheader_ImgBlur_3XYFK {
+	width: 0px;
+}
 .sharedappdetailsheader_ImgSrc_HNbe3 {
   text-indent: -10000px;
 }
-
 
 /* ========================================================================== 
    END Game AppPage Header */
