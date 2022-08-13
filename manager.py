@@ -211,11 +211,12 @@ def apply_css_theme(page, controller):
         print("Applying CSS Theme: " + theme_full_name)
         theme_name = theme_full_name.split(" (")[0]
         #print(controller.json_data["themes"][theme_name]["filename"])
-        backend.enable_css_theme(controller.json_data["themes"][theme_name]["filename"],
+        backend.enable_css_theme(theme_name,
+                         controller.json_data["themes"][theme_name]["filename"],
                          controller.json_data["themes"][theme_name]["order"],
                          controller.json_data)
     elif page.var6.get() == 0 and page.change_theme == 1:
-        backend.enable_css_theme("none", "after", controller.json_data)
+        backend.enable_css_theme("name", "none", "after", controller.json_data)
     page.change_theme = 0
 
 

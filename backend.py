@@ -709,33 +709,36 @@ def create_css_variables_lines(css_config):
 ### Simplified due to use of SCSS
 
 ### Now removes existing theme imports and adds current ones to be enabled
-def enable_css_theme(theme_filename, order, json_data):
+def enable_css_theme(theme_name, theme_filename, order, json_data):
     print("Enabling themes...")
     #print(theme_filename + order)
     #print(json_data)
+    library_files = ["libraryroot.custom.css"]
     try:
         with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
              open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
             themereading = 0
-            for line in f:
+            print(os.path.join("themes", theme_name, "libraryroot.custom.css"))
+            for line in f:                
                 if themereading == 1:
-                    #if line != "\n":
                     if line != OS_line_ending():
                         pass
-                    if order == "before" and os.path.exists("themes/" + theme_filename):
-                        #print("theme line")
-                        # [1:-5] is to truncate the _ and .scss
-                        f1.write('@import \"../themes/' + theme_filename[1:-5] + '\";' + OS_line_ending())
-                    f1.write(OS_line_ending())
+                    for library_file in library_files:
+                        if order == "before" and os.path.exists(os.path.join("themes", theme_name, library_file)):
+                            #print("theme line")
+                            f1.write('@import \"../themes/' + theme_name + "/" + library_file.rsplit(".",1)[0] + '\";' + OS_line_ending())
+                        else:
+                            f1.write(OS_line_ending())
                     themereading = 0
                 elif themereading == 2:
-                    #if line != "\n":
                     if line != OS_line_ending():
                         pass
-                    if order == "after" and os.path.exists("themes/" + theme_filename):
-                        #print("theme line")
-                        f1.write('@import \"../themes/' + theme_filename[1:-5] + '\";' + OS_line_ending())
-                    f1.write(OS_line_ending())
+                    for library_file in library_files:
+                        if order == "after" and os.path.exists(os.path.join("themes", theme_name, library_file)):
+                            #print("theme line")
+                            f1.write('@import \"../themes/' + theme_name + "/" + library_file.rsplit(".",1)[0] + '\";' + OS_line_ending())
+                        else:
+                            f1.write(OS_line_ending())
                     themereading = 0
                         
                 elif json_data["CSSBeforeThemes"] in line:
@@ -746,7 +749,7 @@ def enable_css_theme(theme_filename, order, json_data):
                     themereading = 2
                 else:
                     f1.write(line)
-            if theme_filename == "_shiina.scss":
+            if theme_name == "steam-library":
                 steam_library_compat_config()
         
         f.close()
@@ -871,26 +874,12 @@ def write_js_fixes(fixesdata, special_fixesdata):
                 if writefix == 1 and sectionhead == 0:
                     ### special fixes data
                     if "Change Game Image Grid Sizes" in current_fixname:
-                        #line_segments = line.split("  ")
-
                         sizes = ["Small", "Medium", "Large"]
                         for size in sizes:
                             if "PortraitWidth" + size in line:
                                 newline = re.sub(r'^((.*?([0-9]+).*?){1})([0-9]+)',
                                 r'\g<1>{}'.format(special_fixesdata[current_fixname][size]), line)
                                 line = newline
-                        #line_segments[1] = re.sub("r = ([0-9]+)", "r = AAA", line_segments[1])
-                        #print(line_segments[1])
-                        #for key in sizes:
-                            #print(special_fixesdata[current_fixname][key])
-                            #print(special_fixesdata)
-                            #line_segments[1] = line_segments[1].replace("AAA", special_fixesdata[current_fixname][key], 1)
-                        #print(line_segments[1])
-
-                        #line = "  ".join(line_segments)
-                        #print(line)
-
-
                     #print("~C!~~~")
                     #print(current_fixname + "   ")
                     #print(fixesdata[current_fixname])                    

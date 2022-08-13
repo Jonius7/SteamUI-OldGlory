@@ -1,5 +1,7 @@
 ## SteamUI-OldGlory GUI Changelog
 
+0.9.25.1		(*5.9-pre1*)	New theme directory format (folder for each theme)
+
 0.9.11.31	**(Release 5.8.6)**
 
 0.9.11.29	**(Release 5.8.5)** New versions of JS tweaks for Steam update 13 May 

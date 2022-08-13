@@ -25,8 +25,8 @@
 			"filename": "_crispcut.scss",
 			"order": "after"
 		},
-		"LIGHT UI": {
-			"author": "Angelo",
+		"Pure [Light]": {
+			"author": "Snudgee",
 			"filename": "_light.scss",
 			"order": "after"
 		}

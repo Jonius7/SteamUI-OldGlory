@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.11.31"
-        self.release = "5.8.6"
+        self.version = "v0.9.25.1"
+        self.release = "5.9-pre1"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -854,7 +854,8 @@ def dropdown_click(event, page, controller):
     #print(theme_name)
     #print(controller.json_data["themes"][theme_name.split(" (")[0]]["filename"])
     
-    theme_image_path = os.path.join(os.getcwd(), "images/theme_" + controller.json_data["themes"][theme_name.split(" (")[0]]["filename"][1:-5] + ".png")
+    #theme_image_path = os.path.join(os.getcwd(), "images/theme_" + controller.json_data["themes"][theme_name.split(" (")[0]]["filename"][1:-5] + ".png")
+    theme_image_path = os.path.join(os.getcwd(), "themes", theme_name.split(" (")[0], "preview.png")
     dropdown_hover(theme_image_path, event.widget)
 
 def dropdown_hover(image_path, widget):
