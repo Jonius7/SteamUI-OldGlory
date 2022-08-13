@@ -7,27 +7,26 @@
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",
-			"filename": "_shiina.scss",
 			"order": "before"
 		},
 		"Dark Library": {
 			"author": "Thespikedballofdoom",
-			"filename": "_spiked.scss",
 			"order": "after"
 		},
 		"Acrylic Theme": {
 			"author": "EliteSkylu",
-			"filename": "_acrylic.scss",
 			"order": "after"
 		},
 		"Crisp Cut": {
 			"author": "Jonius7",
-			"filename": "_crispcut.scss",
 			"order": "after"
 		},
 		"Pure [Light]": {
 			"author": "Snudgee",
-			"filename": "_light.scss",
+			"order": "after"
+		},
+		"OG-Steam-Library": {
+			"author": "Ungstein",
 			"order": "after"
 		}
 	},

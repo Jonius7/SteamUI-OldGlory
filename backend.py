@@ -489,6 +489,7 @@ SETTING_MAP = {
     "LandscapeImages" : {"filename" : "module_landscapegameimages"},
     "InstallWithLibraryTheme" : "",
     "ClassicStyling" : {"filename" : "classic"},
+    "HomeButton" : {"filename" : "module_homeicon"},
     "ThemeSelected" : ""
 }
        
@@ -709,7 +710,7 @@ def create_css_variables_lines(css_config):
 ### Simplified due to use of SCSS
 
 ### Now removes existing theme imports and adds current ones to be enabled
-def enable_css_theme(theme_name, theme_filename, order, json_data):
+def enable_css_theme(theme_name, order, json_data):
     print("Enabling themes...")
     #print(theme_filename + order)
     #print(json_data)

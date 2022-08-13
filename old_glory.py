@@ -346,6 +346,23 @@ class StartPage(tk.Frame):
             tags=["CSS"])
         mainoption7 = mo7.returnMainOption()
         mainoption7.grid(row=0, column=3, sticky='w')
+
+        ######
+        self.var8 = tk.IntVar()
+        self.check8 = ttk.Checkbutton(self.frameCheck,
+                                 variable=self.var8)
+        self.check8.grid(row=1, column=2)
+        ###
+        mo8 = MainOption(
+            parentFrame=self.frameCheck,
+            page=self,
+            name="Home Button Icon",
+            image="images/home_button.png",
+            tags=["CSS"])
+        mainoption8 = mo8.returnMainOption()
+        mainoption8.grid(row=1, column=3, sticky='w')
+
+
         ###
         #self.image1 = add_img(self.frameCheck, os.path.join(os.getcwd(), 'images/full_layout.png'))
         #self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")      

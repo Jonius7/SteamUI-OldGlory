@@ -30,12 +30,13 @@ CONFIG_MAP = {#"SteamLibraryPath" : {"set" : ""},
               #"" : {},
               "InstallCSSTweaks" : {"value" : "var1", "check" : "check1", "javascript" : False},
               "EnablePlayButtonBox" : {"value" : "var2", "check" : "check2", "javascript" : False},
-              "EnableVerticalNavBar" : {"value" : "var3", "check" : "check3", "javascript" : True},
-              "EnableClassicLayout" : {"value" : "var4", "check" : "check4", "javascript" : True},
+              "EnableVerticalNavBar" : {"value" : "var3", "check" : "check3", "javascript" : False},
+              "EnableClassicLayout" : {"value" : "var4", "check" : "check4", "javascript" : False},
               "LandscapeImages" : {"value" : "var5", "check" : "check5", "javascript" : True},
               #"InstallWithDarkLibrary" : {"value" : "var6", "javascript" : False},
               "InstallWithLibraryTheme" : {"value" : "var6", "check" : "check6", "javascript" : False},
               "ClassicStyling" : {"value" : "var7", "check" : "check7", "javascript" : False},
+              "HomeButton" : {"value" : "var8", "check" : "check8", "javascript" : False},
               "ThemeSelected" : {"set" : ""}
               }
 
@@ -212,11 +213,10 @@ def apply_css_theme(page, controller):
         theme_name = theme_full_name.split(" (")[0]
         #print(controller.json_data["themes"][theme_name]["filename"])
         backend.enable_css_theme(theme_name,
-                         controller.json_data["themes"][theme_name]["filename"],
                          controller.json_data["themes"][theme_name]["order"],
                          controller.json_data)
     elif page.var6.get() == 0 and page.change_theme == 1:
-        backend.enable_css_theme("name", "none", "after", controller.json_data)
+        backend.enable_css_theme("name", "after", controller.json_data)
     page.change_theme = 0
 
 
