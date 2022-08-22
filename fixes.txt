@@ -15,31 +15,31 @@ this.SetStateLoaded()  this.SetStateLoaded(),document.getElementsByClassName('sm
 
 ### === Change Game Image Grid Sizes - default widths 111, 148, 222 ===
 ###t = Math.max(1, Math.min(m, Math.floor((e + c) / g)));  t = Math.max(1, Math.min(m, Math.floor((e + c) / g)) + 1);
-###PortraitWidthSmall: "111px",  PortraitWidthSmall: "100px",
+###PortraitWidthSmall: "111px",  PortraitWidthSmall: "90px",
 ###PortraitWidthMedium: "148px",  PortraitWidthMedium: "150px",
 ###PortraitWidthLarge: "222px",  PortraitWidthLarge: "160px",
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
 ###t = Math.max(1, Math.min(m, Math.floor((e + c) / g)));  t = Math.max(1, Math.min(m, Math.floor((e + c) / g)) + 1);
 ###eAssetType: 0  eAssetType: 3
-###r = 1.5 * n  r = 43 / 92 * n
+###n = 1.5 * r  n = 43 / 92 * r
 
 ### === Stop What's New Events from Loading ===
-###b.c.STORE_BASE_URL + "events/ajaxgetbesteventsforuser"  ""
+###C.De.STORE_BASE_URL + "events/ajaxgetbesteventsforuser"  ""
 
 ### === Press Enter to launch games ===
-switch (t) {~~case 38:  case 13: return this.RunApp(v.a.currentGameListSelection.nAppId), void e.preventDefault();case 38:
+switch (t) {~~case 38:  case 13: return this.RunApp(S.g4.currentGameListSelection.nAppId), void e.preventDefault();case 38:
 MoveRangeSelectUpOneRow() {  RunApp(e) {window.location.href = "steam://rungameid/" + e;} MoveRangeSelectUpOneRow() {
 
 ### === Expand Show more Details panel by default ===
-###let e = this.props.expand ? F.a.AppDetailsExpanded : F.a.AppDetailsCollapsed;  let e = this.props.expand ? F.a.AppDetailsCollapsed : F.a.AppDetailsExpanded;
+###let e = this.props.expand ? P().AppDetailsExpanded : P().AppDetailsCollapsed;  let e = this.props.expand ? P().AppDetailsCollapsed : P().AppDetailsExpanded;
 ###this.props.expand ? this.state.gameInfoHeight + "px" : "0px"  this.props.expand ? "0px" : this.state.gameInfoHeight + "px"
-###className: F.a.GameInfoShadow  className: ""
+###className: P().GameInfoShadow  className: ""
 
 ### === Dim Uninstalled Games ===
 onContextMenu: this.OnContextMenu,~~hoverDelay: 300,  hoverDelay: 300, style: this.props.app.installed ? {} : {opacity: "var(--UninstalledGameImageOpacity)"},
 
 ### === Don't load HOME game images, only alt text ===
 ###v && this.BDisplayTitle() && i.createElement("span"  i.createElement("span"
-###className: Object~~rgSources: o,  /* rgSources: o,
+###this.state.bIsLoaded ?~~rgSources: s,  /* rgSources: s,
 ###onLoad: this.OnImageLoaded,  onLoad: this.OnImageLoaded, */

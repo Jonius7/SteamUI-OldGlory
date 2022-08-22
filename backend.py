@@ -34,7 +34,9 @@ DEFAULT_CONFIG = {
         "EnableClassicLayout" : "0",
         "LandscapeImages" : "0",
         "InstallWithLibraryTheme" : "0",
-        "ThemeSelected" : "Crisp Cut"
+        "ThemeSelected" : "Crisp Cut",
+        "ClassicStyling" : "0",
+        "HomeButton" : "1",
         },
     "JS_Settings" : {
         "HomePageGridSpacing" : "1",
@@ -969,11 +971,12 @@ def clean_slate_css():
         print("Was not able to completely reset libraryroot.custom.css.", file=sys.stderr)
         print_traceback()
 
+#rewrite so not hardcoded
 def clear_js_working_files():
     try:
-        files_to_remove = ["library.js", "library.beaut.js", 
-        "libraryroot.js", "libraryroot.beaut.js",
-        "libraryroot~sp.js", "libraryroot~sp.beaut.js"]
+        files_to_remove = ["library.js", "library.beaut.js", "library.js.original",
+        "libraryroot.js", "libraryroot.beaut.js", "libraryroot.js.original",
+        "7656.js", "7656.beaut.js", "7656.js.original"]
         for file in files_to_remove:
             w_file = Path(file)
             w_file.unlink(missing_ok=True)

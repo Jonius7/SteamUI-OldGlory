@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.25.1"
-        self.release = "5.9-pre1"
+        self.version = "v0.9.25.6"
+        self.release = "5.9"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -133,8 +133,9 @@ class OldGloryApp(tk.Tk):
         ### Check if CSS Patched
         ### Check for new version
         self.frames["StartPage"].text1.config(state='normal')
-        if is_connected():            
-            check_if_css_patched(self.frames["StartPage"])
+        if is_connected():
+            #deprecated         
+            #check_if_css_patched(self.frames["StartPage"])
             release_check(self.frames["StartPage"], self.release)
             print("Checking for small updates...")
             thread = Thread(target = self.small_update_check, args = ())
@@ -893,31 +894,37 @@ MAIN_SETTINGS_MAP = {
     "ThemeSelected" : {"set" : ""}
     }
 
-def run_js_tweaker(text_area, reset=0):
+def run_js_tweaker(controller, reset=0, max_stage=10):
     try:
+        text_area = controller.frames["StartPage"].text1
         print("==============================")
         print("Running js_tweaker")
         text_area.update_idletasks()
         ###
-        run_and_update_tkinter(lambda: js_tweaker.initialise(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.copy_files_from_steam(reset), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.setup_library(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.modify_html(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.beautify_js(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.beautify_js("library.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.beautify_js("libraryroot~sp.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.parse_fixes_file("fixes.txt"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.write_modif_file(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.write_modif_file("library.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.write_modif_file("libraryroot~sp.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.re_minify_file(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.re_minify_file("library.modif.js", "librery.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.re_minify_file("libraryroot~sp.modif.js", "libraryreet~sp.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.compress_newlines("librery.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.compress_newlines("libraryreet.js"), text_area)
-        #run_and_update_tkinter(lambda: js_tweaker.compress_newlines("libraryreet~sp.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.copy_files_to_steam(), text_area)
-        print("\nSteam Library JS Tweaks applied successfully.")         
+        if max_stage >= 1:
+            run_and_update_tkinter(lambda: js_tweaker.initialise(), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.copy_files_from_steam(reset), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.backup_files_from_steam(), text_area)
+            #run_and_update_tkinter(lambda: js_tweaker.setup_library(), text_area)
+            #run_and_update_tkinter(lambda: js_tweaker.modify_html(), text_area)
+        if max_stage >= 2:
+            run_and_update_tkinter(lambda: js_tweaker.beautify_js(), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.beautify_js("library.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.beautify_js("7656.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.parse_fixes_file("fixes.txt"), text_area)
+        if max_stage >= 3:
+            run_and_update_tkinter(lambda: js_tweaker.write_modif_file(), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.write_modif_file("library.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.write_modif_file("7656.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.re_minify_file(), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.re_minify_file("library.modif.js", "librery.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.re_minify_file("7656.modif.js", "7657.js"), text_area)
+        if max_stage >= 4:
+            run_and_update_tkinter(lambda: js_tweaker.compress_newlines("librery.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.compress_newlines("libraryreet.js"), text_area)
+            #run_and_update_tkinter(lambda: js_tweaker.compress_newlines("7657.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.copy_files_to_steam(), text_area)
+            print("\nSteam Library JS Tweaks applied successfully.")         
     except Exception as e:
         print("Error while applying JS Tweaks.", file=sys.stderr)
         print_traceback()
@@ -1364,8 +1371,8 @@ class JSFrame(tk.Frame):
 ### Reset Functions
 ### ================================
 def reset_all_tweaks(event, controller):
-    js_tweaker.setup_library(1)
-    js_tweaker.reset_html
+    #js_tweaker.setup_library(1)
+    #js_tweaker.reset_html
     backend.clean_slate_css()
     manager.set_css_config_no_js(controller.css_config)
     #backend.reset_html()
@@ -1373,8 +1380,7 @@ def reset_all_tweaks(event, controller):
 
 def remake_js(event, controller):
     backend.clear_js_working_files()    
-    
-    thread = Thread(target = run_js_tweaker, args = (controller.frames["StartPage"].text1, 1,))
+    thread = Thread(target = run_js_tweaker, args = (controller, 1,))
     thread.start()
     #thread.join()
     #run_js_tweaker(controller.frames["StartPage"].text1)

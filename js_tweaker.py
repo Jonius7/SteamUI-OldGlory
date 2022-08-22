@@ -18,15 +18,6 @@ OS_TYPE = platform.system()
 if OS_TYPE == "Windows":
     import winreg
 
-swap_js = {':"libraryroot"': ':"libraryreet"',
-           #'h=m.nTop,': 'h = (t.children[0] && t.children[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0].classList && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_Container_2-O4Z")) || (t.children[0].classList && t.children[0].classList.contains("gamelistentry_FriendStatusHover_2iiN7")) ? m.nTop * 0.75 : m.nTop,'
-            #'([a-z])=([a-z]).slice\(0,6\);': '\\1=\\2.slice(0,12);'
-           }
-swapback_js = {':"libraryreet"': ':"libraryroot"',
-               #'h = (t.children[0] && t.children[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0] && t.children[0].childNodes[0].childNodes[0].classList && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_HoverOverlay_3cMVy") && t.children[0].childNodes[0].childNodes[0].classList.contains("gamelistentry_Container_2-O4Z")) || (t.children[0].classList && t.children[0].classList.contains("gamelistentry_FriendStatusHover_2iiN7")) ? m.nTop * 0.75 : m.nTop,': 'h=m.nTop,'
-               #'([a-z])=([a-z]).slice\(0,12\);': '\\1=\\2.slice(0,6);'
-            }
-
 fixes_dict = {}
 
 def initialise():
@@ -51,21 +42,26 @@ def library_dir():
 
 ######
 
+files_to_copy = ["library.js", "libraryroot.js","7656.js"]
 
 def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fresh copy (useful for updates)
     try:
         if reset == 1 or LOCAL_DEBUG == 1:
-            files_to_copy = ["library.js", "libraryroot.js"]
             for filename in files_to_copy:
-                if not os.path.isfile(filename):
+                if os.path.exists(library_dir() + "/" + filename):
                     print("Copying file " + filename + " from Steam\steamui...")
                     shutil.copy2(library_dir() + "/" + filename, filename)
-            if os.path.exists("libraryroot.beaut.js"):
-                os.remove("libraryroot.beaut.js")
             
     except FileNotFoundError:
         error_exit("Steam directory and/or files not found.\n" \
               "Please check Steam\steamui for library.js and libraryroot.js")
+
+def backup_files_from_steam():
+     for filename in files_to_copy:
+        #if os.path.exists(library_dir() + "/" + filename):
+        #    shutil.copy2(library_dir() + "/" + filename, library_dir() + "/" + filename + ".original")
+        if not os.path.exists(filename + ".original"):
+            shutil.copy2(library_dir() + "/" + filename, filename + ".original")
             
 def get_beaut_filename(filename):
     beaut_filename = filename.rsplit(".", 1)
@@ -88,7 +84,6 @@ def beautify_js(filename="libraryroot.js"):
             library = jsbeautifier.beautify_file(filename, opts)
 
             f = open(beautify_file, "wt", newline='', encoding="UTF-8")
-            #print("Writing beautified file... please do not close")
             f.write(library)
             f.close()
             print("Beautified file write finished")
@@ -96,7 +91,7 @@ def beautify_js(filename="libraryroot.js"):
         error_exit("libraryroot.js not found")
 
 #modify library.js to look for different libraryroot.js file
-def setup_library(reset=0):
+'''def setup_library(reset=0):
     try:
         #if reset == 1 or LOCAL_DEBUG == 1:
         if not os.path.isfile("library.js"):
@@ -108,10 +103,9 @@ def setup_library(reset=0):
             print("library.js reverting to use original JS.")
             reset_html()
     except:
-        error_exit("Error setting up library.js")
+        error_exit("Error setting up library.js")'''
         
-
-def modify_library(swap_js_array):
+'''def modify_library(swap_js_array):
     try:
         lines = []
         modified = 0
@@ -133,7 +127,7 @@ def modify_library(swap_js_array):
             shutil.copy2("librery.js", library_dir() + "/librery.js")
             print("librery.js copied over to " + library_dir() + "/librery.js")
     except:
-        error_exit("library.js not found")
+        error_exit("library.js not found")'''
 
 def modify_html():
     html_array = {"/library.js": "/librery.js"}
@@ -271,14 +265,17 @@ def compress_newlines(filename = "librery.js"):
 
     os.remove(filename)
     shutil.move(filename + ".compress", filename)       
-    
+
+#hardcoded values
 def copy_files_to_steam():
     try:
         if LOCAL_DEBUG == 0:
-            files_to_copy = ["librery.js", "libraryreet.js", "libraryreet~sp.js"]
+            files_to_copy = {"librery.js": "library.js",
+                             "libraryreet.js": "libraryroot.js",
+                             "7657.js": "7656.js"}
             for filename in files_to_copy:
-                shutil.copy2(filename, library_dir() + "/" + filename)
-                print("File " + filename + " written to " + library_dir())
+                shutil.copy2(filename, library_dir() + "/" + files_to_copy[filename])
+                print("File " + filename + " written to " + library_dir() + "/" + files_to_copy[filename])
                 
     except FileNotFoundError:
         error_exit("Files not found!: " + filename + "\n" \
@@ -296,7 +293,7 @@ def error_exit(errormsg):
     
 def main():
     print("JS Tweaker for Steam Library UI by Jonius7\n")
-    initialise()
+    '''initialise()
     copy_files_from_steam()
     setup_library()
     modify_html()
@@ -310,7 +307,7 @@ def main():
     compress_newlines("librery.js")
     copy_files_to_steam()
     print("\nSteam Library JS Tweaks applied successfully.")
-    time.sleep(2)
+    time.sleep(2)'''
                 
 if __name__ == "__main__":
     main()

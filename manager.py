@@ -54,11 +54,8 @@ def install_click(event, page, controller):
             #print(page.loaded_config)
             
             ### To be changed in a later version
-            #write fixes.txt before apply
             backend.write_js_fixes(controller.js_config, controller.special_js_config)
-            #write css configurables
             backend.write_css_configurables(controller.css_config)
-            ###
             
             #applying settings
             change_javascript = check_if_css_requires_javascript(page, controller, settings)
@@ -79,6 +76,7 @@ def install_click(event, page, controller):
         except:
             print("Error while installing tweaks.", file=sys.stderr)
             old_glory.print_traceback()
+            enable_buttons_after_installing(controller)
     
 def disable_buttons_while_installing(controller):
     for frame in controller.frames:
@@ -160,7 +158,7 @@ def manager_run_js_tweaker(page, controller, change_javascript):
     if change_javascript == 1:
         #failed implementation due to needing controller state for each page with Install button
         #page.ConfirmObject.disable_install_button()
-        thread = ThreadWithCallback(target = old_glory.run_js_tweaker, args = (page.text1,),
+        thread = ThreadWithCallback(target = old_glory.run_js_tweaker, args = (controller,),
                                     callback = lambda: enable_buttons_after_installing(controller))
         thread.start() 
     else:
