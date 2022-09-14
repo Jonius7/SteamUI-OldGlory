@@ -11,7 +11,7 @@
     <a href="https://github.com/Jonius7/SteamUI-OldGlory/commits/dev"><img alt="GitHub commits on /dev since last merge" src="https://img.shields.io/github/commits-since/Jonius7/SteamUI-OldGlory/latest/dev?label=commits%20since"></a>
 </p>
 
-<h3 align="center"><a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Download Latest Version</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#quick-guide">Quick Guide</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/wiki">Wiki</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/issues/6">Known Issues</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting">Troubleshooting</a></h3>
+<h3 align="center"><a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Download Latest Version</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#quick-guide">Quick Guide</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/wiki">Wiki</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/issues/56">Known Issues</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting">Troubleshooting</a></h3>
 
 <p align="center">Check <a href="https://github.com/Jonius7/SteamUI-OldGlory/tree/dev"><code>/dev</code></a> branch for in-progress tweaks.</p>
 
