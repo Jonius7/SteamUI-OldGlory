@@ -177,6 +177,8 @@ div.NarrowRightPanel .appactionbutton_PlayButtonContainer_1FnJ6:not(.appactionbu
 
 .appdetailsplaysection_PlayBarLabel_34lrt {
     letter-spacing: 0px;
+    font-weight: bold;
+    color: var(--ClassicBlue);
 }
 
 /* Small Play button */
@@ -236,6 +238,10 @@ div.NarrowRightPanel .appactionbutton_PlayButtonContainer_1FnJ6:not(.appactionbu
         box-shadow: unset;
     }
 }
+.appdetailsprimarylinkssection_LinkInner_7k4qm {
+    padding: 0px !important;
+}
+
 .appdetailsfriendssection_FriendsSection_qGJMO {
     display: block;
 }
