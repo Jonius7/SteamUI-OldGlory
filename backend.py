@@ -783,6 +783,54 @@ def steam_library_compat_config(overwrite=0):
 ### [END OF] APPLY CSS THEME Functions
 ##########################################
 
+##########################################
+### Patch CSS
+def patch_css():
+    patched_text = "/*patched*/\n"
+    original_text = "/*original*/\n"
+    css_dir = os.path.join(library_dir(), "css")
+    for filename in os.listdir(css_dir):
+        filepath = os.path.join(css_dir, filename)
+        filesize = os.stat(filepath).st_size
+        #print(filesize)
+        if os.path.isfile(filepath):
+            with open(filepath, newline='', encoding="UTF-8") as f:
+                first_line = f.readline()
+                if patched_text[0:-1] in first_line:
+                    print("File " + filename + " already patched.")
+                elif original_text[0:-1] in first_line:
+                    pass
+                else:
+                    contents = patched_text + "@import url(\"https://steamloopback.host/" + "css/" + get_original_filename(filename) + "\");\n@import url(\"https://steamloopback.host/" + get_custom_filename() + "\");\n";
+                    #print(contents)
+                    #print(os.stat(filepath).st_size)
+                    #print(os.stat(filepath).st_size - len(contents))
+
+                    with open(filepath, newline='', encoding="UTF-8") as f1, \
+                        open(os.path.join(css_dir, get_original_filename(filename)), "w", newline='', encoding="UTF-8") as f2:
+                        f2.write(original_text)
+                        for line in f1:
+                            f2.write(line)
+                    f1.close()
+                    f2.close()
+                    with open(filepath, "w", encoding="UTF-8") as f3:
+                        #print(filesize)
+                        contents += "\t" * (filesize - len(contents))
+                        #print(tabs)
+                        f3.write(contents)
+                    f3.close()
+                    
+                    print("Patched file " + filename)
+                    
+            f.close()
+    print("----------")
+                
+def get_original_filename(filename):
+    original_filename = filename.rsplit(".", 1)
+    return original_filename[0] + ".original." + original_filename[1]
+    
+def get_custom_filename():
+    return "libraryroot.custom.css"
 
 ##########################################
 ### JS Functions

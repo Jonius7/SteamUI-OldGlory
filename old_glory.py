@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.25.6"
-        self.release = "5.9"
+        self.version = "v0.9.27.1"
+        self.release = "5.10"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -409,6 +409,22 @@ class StartPage(tk.Frame):
                                      hover_delay=200)
         pbutton3.bind("<Button-1>", lambda event:backend.steam_library_compat_config(1))
         pbutton3.grid(row=4, column=0, padx=(5,0), pady=5)
+        
+        labeltext_c = tk.StringVar()
+        labeltext_c.set("Patching")
+        
+        label_c = tk.Label(self.framePatch, textvariable=labeltext_c)
+        label_c.grid(row=0, column=1)
+        
+        pbutton4 = ttk.Button(self.framePatch,
+                              text="Patch CSS",
+                              width=22
+        )
+        button4_tip = custom_tk.Detail_tooltip(pbutton4,
+                                     "Alternative to SFP for patching CSS",
+                                     hover_delay=200)
+        pbutton4.bind("<Button-1>", lambda event:backend.patch_css())
+        pbutton4.grid(row=1, column=1, padx=(5,0), pady=5)
     
         
     def create_mode_frame(self):   
@@ -461,6 +477,7 @@ class StartPage(tk.Frame):
         ###tabs
         self.tabs.add(self.frameCheck, text="Main Options")
         self.tabs.add(self.framePatch, text="Advanced Options")
+        #self.tabs.add(self.framePatch, text="Patching")
         self.tabs.pack(expand=1)
         
         self.frameLog.pack(padx=17, pady=(10,7), expand=1, fill='both')
