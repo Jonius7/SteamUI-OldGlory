@@ -16,7 +16,7 @@ this.SetStateLoaded()  this.SetStateLoaded(),document.getElementsByClassName('sm
 ### === Change Game Image Grid Sizes - default widths 111, 148, 222 ===
 ###t = Math.max(1, Math.min(m, Math.floor((e + c) / g)));  t = Math.max(1, Math.min(m, Math.floor((e + c) / g)) + 1);
 ###PortraitWidthSmall: "111px",  PortraitWidthSmall: "90px",
-###PortraitWidthMedium: "148px",  PortraitWidthMedium: "150px",
+###PortraitWidthMedium: "148px",  PortraitWidthMedium: "130px",
 ###PortraitWidthLarge: "222px",  PortraitWidthLarge: "160px",
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
@@ -36,7 +36,7 @@ MoveRangeSelectUpOneRow() {  RunApp(e) {window.location.href = "steam://rungamei
 ###this.props.expand ? this.state.gameInfoHeight + "px" : "0px"  this.props.expand ? "0px" : this.state.gameInfoHeight + "px"
 ###className: P().GameInfoShadow  className: ""
 
-### === Dim Uninstalled Games ===
+### === Dim Not Installed Games ===
 onContextMenu: this.OnContextMenu,~~hoverDelay: 300,  hoverDelay: 300, style: this.props.app.installed ? {} : {opacity: "var(--UninstalledGameImageOpacity)"},
 
 ### === Don't load HOME game images, only alt text ===

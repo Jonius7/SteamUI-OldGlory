@@ -42,7 +42,7 @@ def library_dir():
 
 ######
 
-files_to_copy = ["library.js", "libraryroot.js","7656.js"]
+files_to_copy = ["library.js", "libraryroot.js","3991.js"]
 
 def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fresh copy (useful for updates)
     try:
@@ -272,7 +272,7 @@ def copy_files_to_steam():
         if LOCAL_DEBUG == 0:
             files_to_copy = {"librery.js": "library.js",
                              "libraryreet.js": "libraryroot.js",
-                             "7657.js": "7656.js"}
+                             "3992.js": "3991.js"}
             for filename in files_to_copy:
                 shutil.copy2(filename, library_dir() + "/" + files_to_copy[filename])
                 print("File " + filename + " written to " + library_dir() + "/" + files_to_copy[filename])
