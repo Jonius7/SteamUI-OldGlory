@@ -153,10 +153,17 @@ In **Settings and About**:
   - `_custom_module2.scss` - put your custom CSS code here
 
 - `\themes` - Folder containing theme files
-  - `_shiina.scss` and `config.css.original` - **Shiina's** [steam-library](https://github.com/AikoMidori/steam-library) dark theme
-  - `_spiked.scss` - **Thespikedballofdoom's** [Dark Library](https://gamebanana.com/guis/35092) theme
-  - `_acrylic.scss` - Theme based on **EliteSkylu's** [Acrylic Steam](https://www.reddit.com/r/Steam/comments/jot6vi/let_me_introduce_you_a_project_of_my_steam_ui/) concept
-  - `_crispcut.scss` - (WIP) Theme by **Jonius7**, emphasising white app section boxes
+  - Each theme gets its own folder containing:
+  - `libraryroot.custom.css` - the CSS file for the theme
+  - `preview.png` - the preview image for the theme
+
+- Themes include:
+  -  **Shiina's** [steam-library](https://github.com/AikoMidori/steam-library) dark theme
+  - **Thespikedballofdoom's** [Dark Library](https://gamebanana.com/guis/35092) theme
+  -  Theme based on **EliteSkylu's** [Acrylic Steam](https://www.reddit.com/r/Steam/comments/jot6vi/let_me_introduce_you_a_project_of_my_steam_ui/) concept
+  -  Crisp Cut by **Jonius7**, emphasising white app section boxes
+  -  [OG-Steam-Library](https://github.com/ungstein/OG-Steam-Library) Theme, by **ungstein**
+
 - `old_glory_data.json` data for `old_glory.exe`. Editing it is not required but it allows some data to be updated/hotfixed outside of having to rebuild the `.exe`
 
 Other files are copied from the`Steam\steamui` directory as required.
