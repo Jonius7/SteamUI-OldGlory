@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.27.4"
-        self.release = "5.10.2"
+        self.version = "v0.9.27.5"
+        self.release = "5.10.3"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -927,15 +927,15 @@ def run_js_tweaker(controller, reset=0, max_stage=10):
         if max_stage >= 2:
             run_and_update_tkinter(lambda: js_tweaker.beautify_js(), text_area)
             run_and_update_tkinter(lambda: js_tweaker.beautify_js("library.js"), text_area)
-            run_and_update_tkinter(lambda: js_tweaker.beautify_js("3991.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.beautify_js("2783.js"), text_area)
             run_and_update_tkinter(lambda: js_tweaker.parse_fixes_file("fixes.txt"), text_area)
         if max_stage >= 3:
             run_and_update_tkinter(lambda: js_tweaker.write_modif_file(), text_area)
             run_and_update_tkinter(lambda: js_tweaker.write_modif_file("library.js"), text_area)
-            run_and_update_tkinter(lambda: js_tweaker.write_modif_file("3991.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.write_modif_file("2783.js"), text_area)
             run_and_update_tkinter(lambda: js_tweaker.re_minify_file(), text_area)
             run_and_update_tkinter(lambda: js_tweaker.re_minify_file("library.modif.js", "librery.js"), text_area)
-            run_and_update_tkinter(lambda: js_tweaker.re_minify_file("3991.modif.js", "3992.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.re_minify_file("2783.modif.js", "2784.js"), text_area)
         if max_stage >= 4:
             run_and_update_tkinter(lambda: js_tweaker.compress_newlines("librery.js"), text_area)
             run_and_update_tkinter(lambda: js_tweaker.compress_newlines("libraryreet.js"), text_area)

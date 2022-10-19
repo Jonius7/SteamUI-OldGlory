@@ -14,10 +14,10 @@
 this.SetStateLoaded()  this.SetStateLoaded(),document.getElementsByClassName('smartscrollcontainer_Body_g6Mwh')[0].scrollTop = 30
 
 ### === Change Game Image Grid Sizes - default widths 111, 148, 222 ===
-###t = Math.max(1, Math.min(m, Math.floor((e + c) / g)));  t = Math.max(1, Math.min(m, Math.floor((e + c) / g)) + 1);
-###PortraitWidthSmall: "111px",  PortraitWidthSmall: "90px",
-###PortraitWidthMedium: "148px",  PortraitWidthMedium: "130px",
-###PortraitWidthLarge: "222px",  PortraitWidthLarge: "160px",
+t = Math.max(1, Math.min(m, Math.floor((e + c) / g)));  t = Math.max(1, Math.min(m, Math.floor((e + c) / g)) + 1);
+PortraitWidthSmall: "111px",  PortraitWidthSmall: "100px",
+PortraitWidthMedium: "148px",  PortraitWidthMedium: "140px",
+PortraitWidthLarge: "222px",  PortraitWidthLarge: "200px",
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
 ###t = Math.max(1, Math.min(m, Math.floor((e + c) / g)));  t = Math.max(1, Math.min(m, Math.floor((e + c) / g)) + 1);
@@ -28,7 +28,7 @@ this.SetStateLoaded()  this.SetStateLoaded(),document.getElementsByClassName('sm
 ###C.De.STORE_BASE_URL + "events/ajaxgetbesteventsforuser"  ""
 
 ### === Press Enter to launch games ===
-switch (t) {~~case 38:  case 13: return this.RunApp(S.g4.currentGameListSelection.nAppId), void e.preventDefault();case 38:
+switch (t) {~~case 38:  case 13: return this.RunApp(b.g4.currentGameListSelection.nAppId), void e.preventDefault();case 38:
 MoveRangeSelectUpOneRow() {  RunApp(e) {window.location.href = "steam://rungameid/" + e;} MoveRangeSelectUpOneRow() {
 
 ### === Expand Show more Details panel by default ===
