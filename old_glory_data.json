@@ -3,7 +3,12 @@
 	"CSSBeforeThemes": "// Themes applied before CSS Tweaks",
 	"CSSAfterThemes": "// Themes applied after CSS Tweaks",
 	"libraryrootFile": "2.css",
-	"lastPatchedDate": "2022-10-07T05:06:12Z",
+	"jsFile": "sp.js",
+	"jsBeautFile": "sp.beaut.js",
+	"jsModifFile": "sp.modif.js",
+	"jsPatchedFile": "sq.js",
+	"jsOriginalFile": "sp.js.original",
+	"lastPatchedDate": "2022-11-18T05:06:12Z",
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",

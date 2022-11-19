@@ -20,15 +20,15 @@ PortraitWidthMedium: "148px",  PortraitWidthMedium: "140px",
 PortraitWidthLarge: "222px",  PortraitWidthLarge: "200px",
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
-###t = Math.max(1, Math.min(m, Math.floor((e + c) / g)));  t = Math.max(1, Math.min(m, Math.floor((e + c) / g)) + 1);
+###t = Math.max(1, Math.min(p, Math.floor((e + d) / g)));  t = Math.max(1, Math.min(p, Math.floor((e + d) / g)) + 1);
 ###eAssetType: 0  eAssetType: 3
-###n = 1.5 * r  n = 43 / 92 * r
+###i = 1.5 * r  i = 43 / 92 * r
 
 ### === Stop What's New Events from Loading ===
 ###C.De.STORE_BASE_URL + "events/ajaxgetbesteventsforuser"  ""
 
 ### === Press Enter to launch games ===
-switch (t) {~~case 38:  case 13: return this.RunApp(b.g4.currentGameListSelection.nAppId), void e.preventDefault();case 38:
+switch (t) {~~case 38:  case 13: return this.RunApp(S.g4.currentGameListSelection.nAppId), void e.preventDefault();case 38:
 MoveRangeSelectUpOneRow() {  RunApp(e) {window.location.href = "steam://rungameid/" + e;} MoveRangeSelectUpOneRow() {
 
 ### === Expand Show more Details panel by default ===

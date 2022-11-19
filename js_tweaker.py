@@ -11,6 +11,8 @@ import re
 import rjsmin
 import time
 
+import backend
+
 LOCAL_DEBUG = 0 #Set to 1 to not copy files to/from Steam directory
 
 # Determine Steam Library Path
@@ -19,6 +21,8 @@ if OS_TYPE == "Windows":
     import winreg
 
 fixes_dict = {}
+
+json_data = backend.get_json_data()
 
 def initialise():
     fixes_dict.clear() #not fixes_dict = {}
@@ -42,7 +46,7 @@ def library_dir():
 
 ######
 
-files_to_copy = ["library.js", "libraryroot.js","2783.js"]
+files_to_copy = ["library.js", "libraryroot.js",json_data["jsFile"]]
 
 def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fresh copy (useful for updates)
     try:
@@ -272,7 +276,7 @@ def copy_files_to_steam():
         if LOCAL_DEBUG == 0:
             files_to_copy = {"librery.js": "library.js",
                              "libraryreet.js": "libraryroot.js",
-                             "2784.js": "2783.js"}
+                             json_data["jsPatchedFile"]: json_data["jsFile"]}
             for filename in files_to_copy:
                 shutil.copy2(filename, library_dir() + "/" + files_to_copy[filename])
                 print("File " + filename + " written to " + library_dir() + "/" + files_to_copy[filename])
