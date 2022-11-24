@@ -4,7 +4,7 @@
 
 ### === Increase Number of Screenshots and DLC displayed ===
 .slice(0, 4)  .slice(0, 9)
-.IN_GAMEPADUI ? 4 : 6;  .IN_GAMEPADUI ? 4 : 12;
+.IN_GAMEPADUI) ? 4 : 6;  .IN_GAMEPADUI) ? 4 : 12;
 
 ### === Disable screenshot slideshow on hover ===
 ###this.hasScreenshots ? (t = this.currentScreenshot  /*this.hasScreenshots ? (t = this.currentScreenshot
@@ -14,7 +14,7 @@
 this.SetStateLoaded()  this.SetStateLoaded(),document.getElementsByClassName('smartscrollcontainer_Body_g6Mwh')[0].scrollTop = 30
 
 ### === Change Game Image Grid Sizes - default widths 111, 148, 222 ===
-t = Math.max(1, Math.min(m, Math.floor((e + c) / g)));  t = Math.max(1, Math.min(m, Math.floor((e + c) / g)) + 1);
+t = Math.max(1, Math.min(p, Math.floor((e + d) / g)));  t = Math.max(1, Math.min(p, Math.floor((e + d) / g)) + 1);
 PortraitWidthSmall: "111px",  PortraitWidthSmall: "100px",
 PortraitWidthMedium: "148px",  PortraitWidthMedium: "140px",
 PortraitWidthLarge: "222px",  PortraitWidthLarge: "200px",
@@ -25,16 +25,16 @@ PortraitWidthLarge: "222px",  PortraitWidthLarge: "200px",
 ###i = 1.5 * r  i = 43 / 92 * r
 
 ### === Stop What's New Events from Loading ===
-###C.De.STORE_BASE_URL + "events/ajaxgetbesteventsforuser"  ""
+###y.De.STORE_BASE_URL + "events/ajaxgetbesteventsforuser"  ""
 
 ### === Press Enter to launch games ===
 switch (t) {~~case 38:  case 13: return this.RunApp(S.g4.currentGameListSelection.nAppId), void e.preventDefault();case 38:
 MoveRangeSelectUpOneRow() {  RunApp(e) {window.location.href = "steam://rungameid/" + e;} MoveRangeSelectUpOneRow() {
 
 ### === Expand Show more Details panel by default ===
-###let e = this.props.expand ? P().AppDetailsExpanded : P().AppDetailsCollapsed;  let e = this.props.expand ? P().AppDetailsCollapsed : P().AppDetailsExpanded;
+###let e = this.props.expand ? G().AppDetailsExpanded : G().AppDetailsCollapsed;  let e = this.props.expand ? G().AppDetailsCollapsed : G().AppDetailsExpanded;
 ###this.props.expand ? this.state.gameInfoHeight + "px" : "0px"  this.props.expand ? "0px" : this.state.gameInfoHeight + "px"
-###className: P().GameInfoShadow  className: ""
+###className: G().GameInfoShadow  className: ""
 
 ### === Dim Not Installed Games ===
 hoverDelay: 300,  hoverDelay: 300, style: n.installed ? {} : {opacity: "var(--UninstalledGameImageOpacity)"},
