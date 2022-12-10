@@ -1,6 +1,5 @@
 ### === Enable Patching JS ===
-7: "libraryroot",  7: "libraryreet",
-2: "libraryroot~sp",  2: "libraryreet~sp",
+241: "desktoproot",  241: "desktopreet",
 
 ### === Increase Number of Screenshots and DLC displayed ===
 .slice(0, 4)  .slice(0, 9)

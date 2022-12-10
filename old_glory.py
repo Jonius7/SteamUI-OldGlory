@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.27.7"
-        self.release = "5.10.4"
+        self.version = "v0.9.27.8"
+        self.release = "5.10.5-pre1"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -923,23 +923,22 @@ def run_js_tweaker(controller, reset=0, max_stage=10):
             run_and_update_tkinter(lambda: js_tweaker.copy_files_from_steam(reset), text_area)
             run_and_update_tkinter(lambda: js_tweaker.backup_files_from_steam(), text_area)
             #run_and_update_tkinter(lambda: js_tweaker.setup_library(), text_area)
-            #run_and_update_tkinter(lambda: js_tweaker.modify_html(), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.modify_html(), text_area)
         if max_stage >= 2:
             run_and_update_tkinter(lambda: js_tweaker.beautify_js(), text_area)
-            run_and_update_tkinter(lambda: js_tweaker.beautify_js("library.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.beautify_js(controller.json_data["libraryjsFile"]), text_area)
             run_and_update_tkinter(lambda: js_tweaker.beautify_js(controller.json_data["jsFile"]), text_area)
             run_and_update_tkinter(lambda: js_tweaker.parse_fixes_file("fixes.txt"), text_area)
         if max_stage >= 3:
             run_and_update_tkinter(lambda: js_tweaker.write_modif_file(), text_area)
-            run_and_update_tkinter(lambda: js_tweaker.write_modif_file("library.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.write_modif_file(controller.json_data["libraryjsFile"]), text_area)
             run_and_update_tkinter(lambda: js_tweaker.write_modif_file(controller.json_data["jsFile"]), text_area)
             run_and_update_tkinter(lambda: js_tweaker.re_minify_file(), text_area)
-            run_and_update_tkinter(lambda: js_tweaker.re_minify_file("library.modif.js", "librery.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.re_minify_file(controller.json_data["libraryjsModifFile"], controller.json_data["libraryjsPatchedFile"]), text_area)
             run_and_update_tkinter(lambda: js_tweaker.re_minify_file(controller.json_data["jsModifFile"], controller.json_data["jsPatchedFile"]), text_area)
         if max_stage >= 4:
-            run_and_update_tkinter(lambda: js_tweaker.compress_newlines("librery.js"), text_area)
-            run_and_update_tkinter(lambda: js_tweaker.compress_newlines("libraryreet.js"), text_area)
-            #run_and_update_tkinter(lambda: js_tweaker.compress_newlines("7657.js"), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.compress_newlines(controller.json_data["libraryjsPatchedFile"]), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.compress_newlines(controller.json_data["libraryrootjsPatchedFile"]), text_area)
             run_and_update_tkinter(lambda: js_tweaker.copy_files_to_steam(), text_area)
             print("\nSteam Library JS Tweaks applied successfully.")         
     except Exception as e:

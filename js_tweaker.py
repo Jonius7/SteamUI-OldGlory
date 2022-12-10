@@ -46,7 +46,7 @@ def library_dir():
 
 ######
 
-files_to_copy = ["library.js", "libraryroot.js",json_data["jsFile"]]
+files_to_copy = [json_data["libraryjsFile"], json_data["libraryrootjsFile"], json_data["jsFile"]]
 
 def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fresh copy (useful for updates)
     try:
@@ -61,11 +61,14 @@ def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fres
               "Please check Steam\steamui for library.js and libraryroot.js")
 
 def backup_files_from_steam():
-     for filename in files_to_copy:
-        #if os.path.exists(library_dir() + "/" + filename):
-        #    shutil.copy2(library_dir() + "/" + filename, library_dir() + "/" + filename + ".original")
-        if not os.path.exists(filename + ".original"):
-            shutil.copy2(library_dir() + "/" + filename, filename + ".original")
+    try:
+        for filename in files_to_copy:
+            #if os.path.exists(library_dir() + "/" + filename):
+            #    shutil.copy2(library_dir() + "/" + filename, library_dir() + "/" + filename + ".original")
+            if not os.path.exists(filename + ".original") and os.path.exists(library_dir() + "/" + filename):
+                shutil.copy2(library_dir() + "/" + filename, filename + ".original")
+    except:
+        error_exit("Error while copying files")
             
 def get_beaut_filename(filename):
     beaut_filename = filename.rsplit(".", 1)
@@ -75,10 +78,10 @@ def get_modif_filename(filename):
     modif_filename = filename.rsplit(".", 1)
     return modif_filename[0] + ".modif." + modif_filename[1]
 
-def beautify_js(filename="libraryroot.js"):
+def beautify_js(filename=json_data["libraryrootjsFile"]):
     try:
         beautify_file = get_beaut_filename(filename)
-        if not os.path.isfile(beautify_file):
+        if not os.path.isfile(beautify_file) and os.path.isfile(os.path.join(library_dir(), filename)):
             print("Opening " + beautify_file + ", generating beautified JS...")
             if not os.path.isfile(filename):
                 shutil.copy2(os.path.join(library_dir(), filename), filename)
@@ -220,33 +223,33 @@ def find_fix_with_variable(line, fix):
     print("todo")
         
 
-def write_modif_file(filename = "libraryroot.js"):
+def write_modif_file(filename = json_data["libraryrootjsFile"]):
     beaut_filename = get_beaut_filename(filename)
     modif_filename = get_modif_filename(filename)
     try:
-        
-        with open(beaut_filename, "r", newline='', encoding="UTF-8") as f, \
-             open(modif_filename, "w", newline='', encoding="UTF-8") as f1:
-            prev_line = ""
-            for line in f:
-                modified = 0
-                for fix in fixes_dict:
-                    if "prev" in fixes_dict[fix]:
-                        if fixes_dict[fix]["prev"] in prev_line and fix in line:
+        if os.path.exists(beaut_filename):
+            with open(beaut_filename, "r", newline='', encoding="UTF-8") as f, \
+                open(modif_filename, "w", newline='', encoding="UTF-8") as f1:
+                prev_line = ""
+                for line in f:
+                    modified = 0
+                    for fix in fixes_dict:
+                        if "prev" in fixes_dict[fix]:
+                            if fixes_dict[fix]["prev"] in prev_line and fix in line:
+                                f1.write(find_fix(line, fix, filename))
+                                modified = 1
+                        elif fix in line:
                             f1.write(find_fix(line, fix, filename))
                             modified = 1
-                    elif fix in line:
-                        f1.write(find_fix(line, fix, filename))
-                        modified = 1
-                if modified == 0:
-                    f1.write(line)
-                prev_line = line
-        f.close()
-        f1.close()
+                    if modified == 0:
+                        f1.write(line)
+                    prev_line = line
+            f.close()
+            f1.close()
     except:
         error_exit("Error writing " + modif_filename)
 
-def re_minify_file(modif_filename = "libraryroot.modif.js", min_filename = "libraryreet.js"):
+def re_minify_file(modif_filename = json_data["libraryrootjsModifFile"], min_filename = json_data["libraryrootjsPatchedFile"]):
     try:
         print("\nRe-minify JS file")
         with open(modif_filename, "r", newline='', encoding="UTF-8") as js_file:
@@ -270,13 +273,13 @@ def compress_newlines(filename = "librery.js"):
     os.remove(filename)
     shutil.move(filename + ".compress", filename)       
 
-#hardcoded values
+#was hardcoded values
 def copy_files_to_steam():
     try:
         if LOCAL_DEBUG == 0:
-            files_to_copy = {"librery.js": "library.js",
-                             "libraryreet.js": "libraryroot.js",
-                             json_data["jsPatchedFile"]: json_data["jsFile"]}
+            files_to_copy = {json_data["libraryjsPatchedFile"]: json_data["libraryjsPatchedFile"],
+                             json_data["libraryrootjsPatchedFile"]: json_data["libraryrootjsPatchedFile"],
+                             json_data["jsPatchedFile"]: json_data["jsPatchedFile"]}
             for filename in files_to_copy:
                 shutil.copy2(filename, library_dir() + "/" + files_to_copy[filename])
                 print("File " + filename + " written to " + library_dir() + "/" + files_to_copy[filename])

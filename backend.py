@@ -78,7 +78,7 @@ CSS_CONFIG = {
     "Left Sidebar - Games List" : {
         "--HoverOverlayPosition" : {
             "default" : "0",
-            "current" : "unset",
+            "current" : "0",
             "options": {"0", "unset"},
             "desc" : "Set 0 if default JS, unset if tweaked JS"},
         "--GameListEntrySize" : {
@@ -1027,8 +1027,8 @@ def clean_slate_css():
 def clear_js_working_files():
     try:
         json_data = get_json_data()
-        files_to_remove = ["library.js", "library.beaut.js", "library.js.original",
-        "libraryroot.js", "libraryroot.beaut.js", "libraryroot.js.original",
+        files_to_remove = [json_data["libraryjsFile"], json_data["libraryjsBeautFile"], json_data["libraryjsOriginalFile"],
+        json_data["libraryrootjsFile"], json_data["libraryrootjsBeautFile"], json_data["libraryrootjsOriginalFile"],
         json_data["jsFile"], json_data["jsBeautFile"], json_data["jsOriginalFile"]]
         for file in files_to_remove:
             w_file = Path(file)
