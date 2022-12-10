@@ -792,7 +792,7 @@ def patch_css():
     for filename in os.listdir(css_dir):
         filepath = os.path.join(css_dir, filename)
         filesize = os.stat(filepath).st_size
-        #print(filesize)
+        #print(filepath + " " + str(filesize))
         if os.path.isfile(filepath):
             with open(filepath, newline='', encoding="UTF-8") as f:
                 first_line = f.readline()
@@ -811,11 +811,11 @@ def patch_css():
                         f2.write(original_text)
                         for line in f1:
                             f2.write(line)
-                    f1.close()
                     f2.close()
+                    f1.close()                    
                     with open(filepath, "w", encoding="UTF-8") as f3:
                         #print(filesize)
-                        contents += "\t" * (filesize - len(contents))
+                        contents += "\t" * (filesize - utf8len(contents))
                         #print(tabs)
                         f3.write(contents)
                     f3.close()
@@ -823,7 +823,11 @@ def patch_css():
                     print("Patched file " + filename)
                     
             f.close()
+        
     print("----------")
+    
+def utf8len(s):
+    return len(s.encode('utf-8'))
                 
 def get_original_filename(filename):
     original_filename = filename.rsplit(".", 1)
