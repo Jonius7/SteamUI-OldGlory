@@ -132,10 +132,10 @@ def check_if_css_requires_javascript(page, controller, settings):
         if check_setting_requires_javascript(settings[setting]):
             if setting in page.loaded_config \
                 and int(page.loaded_config[setting]) != int(settings[setting]["value"]): #If Setting is different
-                    set_css_config_js_enabled(controller.css_config)
+                    #set_css_config_js_enabled(controller.css_config)
                     change_javascript = 1
     if controller.js_gui_changed == 1:
-        set_css_config_js_enabled(controller.css_config)
+        #set_css_config_js_enabled(controller.css_config)
         change_javascript = 1
     return change_javascript
 
