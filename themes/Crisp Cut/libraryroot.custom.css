@@ -38,6 +38,10 @@
 	box-shadow: 6px 6px 2px #101010ee;
 }
 
+.appactivityday_PartnerEventTextOnly_Container_1wJJQ.Panel.Focusable {
+    background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
+}
+
 .appdetailsoverview_RightColumn_2aor4 * {
 	color: var(--SectionFontColor2) !important;
 	fill: var(--SectionFontColor2) !important;
