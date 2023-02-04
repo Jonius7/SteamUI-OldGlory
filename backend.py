@@ -815,7 +815,7 @@ def patch_css():
                     f1.close()                    
                     with open(filepath, "w", encoding="UTF-8") as f3:
                         #print(filesize)
-                        contents += "\t" * (filesize - utf8len(contents))
+                        contents += "\t" * (filesize - utf8len(contents) - 3)
                         #print(tabs)
                         f3.write(contents)
                     f3.close()
