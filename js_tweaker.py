@@ -95,7 +95,7 @@ def beautify_js(filename=json_data["libraryrootjsFile"]):
             f.close()
             print("Beautified file write finished")
     except:
-        error_exit("libraryroot.js not found")
+        error_exit(filename + " not found")
 
 #modify library.js to look for different libraryroot.js file
 '''def setup_library(reset=0):
@@ -251,27 +251,29 @@ def write_modif_file(filename = json_data["libraryrootjsFile"]):
 
 def re_minify_file(modif_filename = json_data["libraryrootjsModifFile"], min_filename = json_data["libraryrootjsPatchedFile"]):
     try:
-        print("\nRe-minify JS file")
-        with open(modif_filename, "r", newline='', encoding="UTF-8") as js_file:
-            minified = rjsmin.jsmin(js_file.read(), keep_bang_comments=True)
-        with open(min_filename, "w", newline='', encoding="UTF-8") as js_min_file:
-            js_min_file.write(minified)
-        js_file.close()
-        js_min_file.close()
-        print("JS Minify complete. (" + min_filename + ")")
+        if os.path.isfile(modif_filename):
+            print("\nRe-minify JS file")
+            with open(modif_filename, "r", newline='', encoding="UTF-8") as js_file:
+                minified = rjsmin.jsmin(js_file.read(), keep_bang_comments=True)
+            with open(min_filename, "w", newline='', encoding="UTF-8") as js_min_file:
+                js_min_file.write(minified)
+            js_file.close()
+            js_min_file.close()
+            print("JS Minify complete. (" + min_filename + ")")
     except:
         error_exit("Error completing JS minify.")
 
 def compress_newlines(filename = "librery.js"):
-    with open(filename, encoding="UTF-8") as f1, \
-        open(filename + ".compress", "w", newline='', encoding="UTF-8") as f2:
-        output = " ".join(f1.read().splitlines())
-        f2.write(output)
-    f1.close()
-    f2.close()
+    if os.path.isfile(filename):
+        with open(filename, encoding="UTF-8") as f1, \
+            open(filename + ".compress", "w", newline='', encoding="UTF-8") as f2:
+            output = " ".join(f1.read().splitlines())
+            f2.write(output)
+        f1.close()
+        f2.close()
 
-    os.remove(filename)
-    shutil.move(filename + ".compress", filename)       
+        os.remove(filename)
+        shutil.move(filename + ".compress", filename)       
 
 #was hardcoded values
 def copy_files_to_steam():
@@ -281,8 +283,9 @@ def copy_files_to_steam():
                              json_data["libraryrootjsPatchedFile"]: json_data["libraryrootjsPatchedFile"],
                              json_data["jsPatchedFile"]: json_data["jsPatchedFile"]}
             for filename in files_to_copy:
-                shutil.copy2(filename, library_dir() + "/" + files_to_copy[filename])
-                print("File " + filename + " written to " + library_dir() + "/" + files_to_copy[filename])
+                if os.path.isfile(filename):
+                    shutil.copy2(filename, library_dir() + "/" + files_to_copy[filename])
+                    print("File " + filename + " written to " + library_dir() + "/" + files_to_copy[filename])
                 
     except FileNotFoundError:
         error_exit("Files not found!: " + filename + "\n" \
