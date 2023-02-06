@@ -1,5 +1,5 @@
 ### === Enable Patching JS ===
-241: "desktoproot",  241: "desktopreet",
+8778: "localization/steamui_french-json",~~8790: "chunk~547eb3232"  8790: "chenk~547eb3232"
 
 ### === Increase Number of Screenshots and DLC displayed ===
 .slice(0, 4)  .slice(0, 9)
@@ -10,16 +10,16 @@
 ###})) : (t = String(this.props.appid),  })) : */(t = String(this.props.appid),
 
 ### === Scrolling Tweak - Scroll past ADD SHELF Button on load ===
-this.SetStateLoaded()  this.SetStateLoaded(),document.getElementsByClassName('smartscrollcontainer_Body_g6Mwh')[0].scrollTop = 30
+className: styles.Body  className: styles.Body, scrollTop: 30
 
 ### === Change Game Image Grid Sizes - default widths 111, 148, 222 ===
-t = Math.max(1, Math.min(p, Math.floor((e + d) / g)));  t = Math.max(1, Math.min(p, Math.floor((e + d) / g)) + 1);
+t = Math.max(1, Math.min(u, Math.floor((e + m) / g)));  t = Math.max(1, Math.min(u, Math.floor((e + m) / g)) + 1);
 PortraitWidthSmall: "111px",  PortraitWidthSmall: "100px",
 PortraitWidthMedium: "148px",  PortraitWidthMedium: "140px",
 PortraitWidthLarge: "222px",  PortraitWidthLarge: "200px",
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
-###t = Math.max(1, Math.min(p, Math.floor((e + d) / g)));  t = Math.max(1, Math.min(p, Math.floor((e + d) / g)) + 1);
+###t = Math.max(1, Math.min(u, Math.floor((e + m) / g)));  t = Math.max(1, Math.min(u, Math.floor((e + m) / g)) + 1);
 ###eAssetType: 0  eAssetType: 3
 ###i = 1.5 * r  i = 43 / 92 * r
 
