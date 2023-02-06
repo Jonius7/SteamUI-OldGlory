@@ -179,7 +179,13 @@ CSS_CONFIG = {
             "current" : "block",
             "options": {"block", "none"},
             "desc" : "Set to none to hide 'Recommond this game' box on game page."},
-        },
+        
+        "--DLCAvailableContent" : {
+            "default" : "block",
+            "current" : "none",
+            "options": {"block", "none"},
+            "desc" : "Set to none to hide the DLC Available Content box."},
+        },    
     "Game Page Background" : {
         "--AppPageBlur" : {
             "default" : "8px",

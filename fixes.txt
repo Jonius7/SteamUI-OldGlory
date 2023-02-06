@@ -27,7 +27,7 @@ PortraitWidthLarge: "222px",  PortraitWidthLarge: "200px",
 ###y.De.STORE_BASE_URL + "events/ajaxgetbesteventsforuser"  ""
 
 ### === Press Enter to launch games ===
-switch (t) {~~case 38:  case 13: return this.RunApp(S.g4.currentGameListSelection.nAppId), void e.preventDefault();case 38:
+switch (t) {~~case 38:  case 13: return this.RunApp(o.OX.currentGameListSelection.nAppId), void e.preventDefault();case 38:
 MoveRangeSelectUpOneRow() {  RunApp(e) {window.location.href = "steam://rungameid/" + e;} MoveRangeSelectUpOneRow() {
 
 ### === Expand Show more Details panel by default ===
@@ -36,7 +36,7 @@ MoveRangeSelectUpOneRow() {  RunApp(e) {window.location.href = "steam://rungamei
 ###className: G().GameInfoShadow  className: ""
 
 ### === Dim Not Installed Games ===
-hoverDelay: 300,  hoverDelay: 300, style: n.installed ? {} : {opacity: "var(--UninstalledGameImageOpacity)"},
+hoverDelay: 300,  hoverDelay: 300, style: a.installed ? {} : {opacity: "var(--UninstalledGameImageOpacity)"},
 
 ### === Don't load HOME game images, only alt text ===
 ###v && this.BDisplayTitle() && i.createElement("span"  i.createElement("span"

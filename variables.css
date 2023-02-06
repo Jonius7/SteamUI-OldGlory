@@ -32,7 +32,7 @@
 
   /* Game Page Elements */
   --RecommendGame: block;  /* Default: block. Set to none to hide "Recommond this game" box on game page. */
-  --DLCAvailableContent: none; /* Default: block. Set to none to hide the DLC Available Content box. */
+  --DLCAvailableContent: none;  /* Default: block. Set to none to hide the DLC Available Content box. */
 
   /* Game Page Background */
   --AppPageBlur: 2px;  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look. */
