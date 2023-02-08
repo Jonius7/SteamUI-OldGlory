@@ -59,6 +59,7 @@ def install_click(event, page, controller):
             
             #applying settings
             change_javascript = check_if_css_requires_javascript(page, controller, settings)
+            set_mode_menu_var(controller, change_javascript)
             manager_write_css_settings(page, settings)
             thread = manager_run_js_tweaker(page, controller, change_javascript)
             
@@ -110,13 +111,17 @@ def get_settings_from_gui(page, config_map=CONFIG_MAP):
 
 def set_js_config(controller, settings):
     SETTINGS_MAP = {
-        "LandscapeImages": {"JS_name" : "Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"}
+        "LandscapeImages": {"JS_name" : "Landscape Images JS Tweaks"}
     }
+    #print(settings)
+    #print(controller.js_config)
     for setting in SETTINGS_MAP:
-        if setting in settings:
-            js_name = SETTINGS_MAP[setting]["JS_name"]
-            controller.js_config[js_name] = str(settings[setting]["value"])
-            controller.frames["PageTwo"].js_gui.checkvars[js_name].set(settings[setting]["value"])
+        for curr_setting, curr_value in controller.js_config.items():
+            if SETTINGS_MAP[setting]["JS_name"] in curr_setting:
+                js_name = curr_setting
+                print(js_name)
+                controller.js_config[js_name] = str(settings[setting]["value"])
+                controller.frames["JSPage"].js_gui.checkvars[js_name].set(settings[setting]["value"])
     return settings
 
 def apply_special_js_config(controller):       
@@ -124,7 +129,7 @@ def apply_special_js_config(controller):
         if "Change Game Image Grid Sizes" in key:
             sizes = ["Small", "Medium", "Large"]
             for size in sizes:
-                controller.special_js_config[key][size] = controller.frames["PageTwo"].js_gui.comboboxes[size].get()
+                controller.special_js_config[key][size] = controller.frames["JSPage"].js_gui.comboboxes[size].get()
 
 def check_if_css_requires_javascript(page, controller, settings):
     change_javascript = 0   #Check if js required
@@ -138,6 +143,12 @@ def check_if_css_requires_javascript(page, controller, settings):
         #set_css_config_js_enabled(controller.css_config)
         change_javascript = 1
     return change_javascript
+
+def set_mode_menu_var(controller, change_javascript):
+    if change_javascript == 1 or change_javascript == 0:
+        for page in controller.frames:
+            controller.frames[page].ConfirmObject.set_mode_menu(change_javascript)  
+        #print(change_javascript)      
 
 def check_setting_requires_javascript(setting_data):
     if "javascript" in setting_data and setting_data["javascript"]:

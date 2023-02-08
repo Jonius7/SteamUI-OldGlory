@@ -62,7 +62,7 @@ class OldGloryApp(tk.Tk):
         ### Frames/Pages configure
         self.frames = {}
         
-        for F in (StartPage, PageOne, PageTwo):
+        for F in (StartPage, CSSPage, JSPage):
             frame = F(self.container, self)
             frame.grid(row=0, column=0, sticky="nsew")
             self.frames[F.__name__] = frame
@@ -438,7 +438,7 @@ class StartPage(tk.Frame):
                            text="CSS Options",
                            width=16
         )
-        button_m.bind("<Button-1>", lambda event:show_PageOne(self.controller))
+        button_m.bind("<Button-1>", lambda event:show_CSSPage(self.controller))
         button_m.grid(row=0, column=0, padx=5)
 
         ###
@@ -447,7 +447,7 @@ class StartPage(tk.Frame):
                            text="JS Options",
                            width=16
         )
-        button_n.bind("<Button-1>", lambda event:show_PageTwo(self.controller))
+        button_n.bind("<Button-1>", lambda event:show_JSPage(self.controller))
         button_n.grid(row=0, column=1, padx=5)
         
         
@@ -512,7 +512,7 @@ class StartPage(tk.Frame):
         
         return themes
 
-class PageOne(tk.Frame):
+class CSSPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
@@ -551,7 +551,7 @@ class PageOne(tk.Frame):
                            text="JS Options",
                            width=16
         )
-        button_n.bind("<Button-1>", lambda event:show_PageTwo(controller))
+        button_n.bind("<Button-1>", lambda event:show_JSPage(controller))
         button_n.grid(row=0, column=1, padx=5)
 
     ### CONFIRM FRAME
@@ -576,7 +576,7 @@ class PageOne(tk.Frame):
 
         #self.frameCSS = create_css_gui(self, controller, backend.load_css_configurables())
 
-class PageTwo(tk.Frame):
+class JSPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
@@ -612,7 +612,7 @@ class PageTwo(tk.Frame):
                            text="CSS Options",
                            width=16
         )
-        button_n.bind("<Button-1>", lambda event:show_PageOne(controller))
+        button_n.bind("<Button-1>", lambda event:show_CSSPage(controller))
         button_n.grid(row=0, column=1, padx=5)
     
     ### CONFIRM FRAME
@@ -670,21 +670,24 @@ class ConfirmFrame(tk.Frame):
                                    width=3)
                 
         ###
-        install_modes = ("CSS/JS", "CSS Only", "CSS + JS")
-        vard = tk.StringVar()
+        self.install_modes = ("CSS Only", "CSS + JS", "CSS/JS")
+        self.modeVar = tk.StringVar()
         
-        buttond = ttk.OptionMenu(self.left_frame,
-                        vard,
-                        install_modes[0],
-                        *install_modes   
+        self.modeMenu = ttk.OptionMenu(self.left_frame,
+                        self.modeVar,
+                        self.install_modes[2],
+                        *self.install_modes   
         )
-        buttond.config(width=8, state='disabled')
-        #buttond.bind("<Button-1>",
+        self.modeMenu.config(width=8, state='disabled')
+        #self.modeMenu.bind("<Button-1>",
         #             lambda event:manager.install_click(event, controller.frames["StartPage"], controller)
         #             )
-        buttond.grid(row=0, column=0, padx=5)
+        self.modeMenu.grid(row=0, column=0, padx=5)
         
         self.left_frame.grid(row=0, column=0, sticky=tk.E)
+        
+        
+        
         
         ###
         self.button1 = ttk.Button(self.frameConfirm,
@@ -695,10 +698,7 @@ class ConfirmFrame(tk.Frame):
                     lambda event:manager.install_click(event, controller.frames["StartPage"], controller)
                     )
         self.button1.grid(row=0, column=1, padx=5, sticky="NSEW")
-        
-        
-        
-        
+                
         ###
         button2 = ttk.Button(self.frameConfirm,
                         text="Reload Config",
@@ -739,18 +739,26 @@ class ConfirmFrame(tk.Frame):
     
     def get_frame_confirm(self):
         return self.frameConfirm
+    
+    def set_mode_menu(self, index):
+        self.modeVar.set(self.install_modes[index])
+        print(index)
+        
+    def get_mode_menu(self):
+        return self.modeVar
+        
 ### ================================
 
 ### Show Page Functions
 ### ================================
-def show_PageOne(controller):
+def show_CSSPage(controller):
     #controller.css_config = backend.load_css_configurables()
-    controller.show_frame("PageOne")
-    #controller.frames["PageOne"].frameCSS = create_css_gui(controller.frames["PageOne"], controller, backend.load_css_configurables())
-    #update_css_gui(controller.frames["PageOne"], controller, controller.css_config)
-def show_PageTwo(controller):
+    controller.show_frame("CSSPage")
+    #controller.frames["CSSPage"].frameCSS = create_css_gui(controller.frames["CSSPage"], controller, backend.load_css_configurables())
+    #update_css_gui(controller.frames["CSSPage"], controller, controller.css_config)
+def show_JSPage(controller):
     #controller.js_config = backend.load_js_fixes()
-    controller.show_frame("PageTwo")
+    controller.show_frame("JSPage")
 
 ### ================================
 ### Initialisation
@@ -966,8 +974,8 @@ def reload_click(event, controller):
         controller.css_config = backend.load_css_configurables()
         controller.js_config, controller.special_js_config = backend.load_js_fixes()
         ### Update GUI
-        controller.frames["PageOne"].css_gui.PresetFrame.update_presets_gui()
-        controller.frames["PageTwo"].js_gui.update_js_gui(controller)
+        controller.frames["CSSPage"].css_gui.PresetFrame.update_presets_gui()
+        controller.frames["JSPage"].js_gui.update_js_gui(controller)
         print("Config Reloaded.")
     except:
         print("Config could not be completely reloaded.", file=sys.stderr)
@@ -1312,13 +1320,12 @@ class JSFrame(tk.Frame):
         self.create_frameJSInner(self.controller)
         self.frameJSInner.grid(row=1, column=0)
 
-        
-        
     ### PRESET Click funtion
     def js_click(self, controller, fixname):
         try:
             controller.js_config[fixname] = str(self.checkvars[fixname].get())
             self.controller.js_gui_changed = 1
+            manager.set_mode_menu_var(self.controller, self.controller.js_gui_changed)
             #print(controller.js_config)
         except Exception as e:
             print("Error setting config :\n"\
