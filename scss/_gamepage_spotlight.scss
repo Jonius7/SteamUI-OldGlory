@@ -1,23 +1,10 @@
 /* ================== Game AppPage Post-Game Summary & Spotlight ==================
    ========================================================================== */
-
-/* Expand Post-Game summary to fill width */
-.boxcarousel_BoxCarousel_3fiHs.spotlightgameplaysummary_SummaryCarouselContainer_wgbDI {
-  /* height: 192.5px !important; */
-  width: 163%;
-}
   
 .appdetailsoverview_Container_27RcN {
-  &.appdetailsoverview_Glassy_2OOzY>div.appdetailsoverview_ColumnContainer_OhSdL>div.appdetailsoverview_Spotlights_11kuV>div>div>div>div.pageablecontainer_HeaderPageControls_2ce8e {
-    width: 163%;
-  }
   /* Adjust padding */
   .appdetailsoverview_ColumnContainer_OhSdL {
     padding: 8px 10px 4px 10px;
-  }
-  /* Reduce Spotlight width and size */
-  .appdetailsoverview_Spotlights_11kuV {
-    width: 59.5%;
   }
   .appdetailsoverview_Spotlights_11kuV.appdetailsoverview_SpotlightLeftColumn_3wbnd {
     width: calc(63.7% - 42px);
