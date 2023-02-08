@@ -292,25 +292,26 @@ def get_file_hash(filepath):
     UTILITY: Returns the git SHA hash of a file.
     '''
     try:
-        with open(filepath, 'r', encoding="UTF-8") as f, \
-            open(filepath + ".temp", 'w', encoding="UTF-8", newline='\n') as f1:
-            f1.writelines(f.readlines())
-        f.close()
-        f1.close()
+        if os.path.isfile(filepath):
+            with open(filepath, 'r', encoding="UTF-8") as f, \
+                open(filepath + ".temp", 'w', encoding="UTF-8", newline='\n') as f1:
+                f1.writelines(f.readlines())
+            f.close()
+            f1.close()
 
-        filesize_bytes = os.path.getsize(filepath + ".temp")
+            filesize_bytes = os.path.getsize(filepath + ".temp")
 
-        s = sha1()
-        s.update(b"blob %u\0" % filesize_bytes)
-        
-        with open(filepath + ".temp", 'rb') as g:
-            s.update(g.read())
-        g.close()
+            s = sha1()
+            s.update(b"blob %u\0" % filesize_bytes)
+            
+            with open(filepath + ".temp", 'rb') as g:
+                s.update(g.read())
+            g.close()
 
-        if os.path.exists(filepath + ".temp"):
-            os.remove(filepath + ".temp")
-        
-        return s.hexdigest()
+            if os.path.exists(filepath + ".temp"):
+                os.remove(filepath + ".temp")
+            
+            return s.hexdigest()
     except:
         print("Unable to get hash of file: " + filepath, file=sys.stderr)
         print_traceback()
@@ -1182,12 +1183,12 @@ def hash_compare_small_update_files(file_dates, json_data):
                         
                         local_filepath = filename + "/" + filedata["name"]
                         #print(local_filepath)
-                        if os.path.exists(local_filepath):
+                        if os.path.exists(local_filepath) and os.path.isfile(local_filepath):
                             #if local hash != remote hash
                             if (get_file_hash(local_filepath) != filedata["sha"] and
                                  local_filepath != "scss/libraryroot.custom.scss" and
-                                 local_filepath != "scss/_user_module1.scss" and
-                                 local_filepath != "scss/_user_module2.scss"):                
+                                 local_filepath != "scss/_custom_module1.scss" and
+                                 local_filepath != "scss/_custom_module2.scss"):                
                                 #print("Different file hashes " + local_filepath)
                                 #print(local_filepath + " | " + get_file_hash(local_filepath) + "  |  " + filedata["sha"])
                                 print("New Version | " + local_filepath)
