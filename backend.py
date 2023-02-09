@@ -292,7 +292,8 @@ def get_file_hash(filepath):
     UTILITY: Returns the git SHA hash of a file.
     '''
     try:
-        if os.path.isfile(filepath):
+        #exclude .png for filehash
+        if os.path.isfile(filepath) and os.path.splitext(filepath)[1] != ".png":
             with open(filepath, 'r', encoding="UTF-8") as f, \
                 open(filepath + ".temp", 'w', encoding="UTF-8", newline='\n') as f1:
                 f1.writelines(f.readlines())
@@ -1099,7 +1100,6 @@ def check_new_commit_dates(json_data):
     try:
         file_dates = {}
         file_list = get_small_update_file_list()
-        
         '''
         #use local version of file for debugging purposes
         with open('small_update_file_list.json') as f:
@@ -1194,6 +1194,18 @@ def hash_compare_small_update_files(file_dates, json_data):
                                 print("New Version | " + local_filepath)
                                 updatetype_files.append(local_filepath)
                             #print("", end="")
+                        elif os.path.exists(local_filepath) and os.path.isdir(local_filepath):
+                            print(local_filepath + " is directory")
+                            dir_contents = get_repo_directory_contents(local_filepath)
+                            #print(dir_contents)
+                            for dir_filedata in dir_contents:
+                                dir_filepath = local_filepath + "/" + dir_filedata["name"]
+                                if (os.path.exists(dir_filepath) and
+                                os.path.isfile(dir_filepath)):
+                                    if (get_file_hash(dir_filepath) != filedata["sha"] and
+                                    os.path.splitext(dir_filepath)[1] != ".png"):
+                                        print("New Version | " + dir_filepath)
+                                        updatetype_files.append(dir_filepath)
                         else:
                             print("File at " + local_filepath + " exists on remote but not locally")
                             updatetype_files.append(local_filepath)
@@ -1282,7 +1294,7 @@ def download_file(filepath, branch=BRANCH):
                 open(filepath, 'w', encoding="UTF-8", newline='').write(r.text)
                 print("File " + filepath + " downloaded.")
             else:
-                print("Invalid request URL")
+                print("Invalid request URL: " + filepath)
         else:
             print("File at " + filepath + " already exists!")
     except:

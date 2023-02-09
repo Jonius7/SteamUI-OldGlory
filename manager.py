@@ -119,7 +119,7 @@ def set_js_config(controller, settings):
         for curr_setting, curr_value in controller.js_config.items():
             if SETTINGS_MAP[setting]["JS_name"] in curr_setting:
                 js_name = curr_setting
-                print(js_name)
+                #print(js_name)
                 controller.js_config[js_name] = str(settings[setting]["value"])
                 controller.frames["JSPage"].js_gui.checkvars[js_name].set(settings[setting]["value"])
     return settings

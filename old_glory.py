@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.27.10"
-        self.release = "5.10.6"
+        self.version = "v0.9.27.12"
+        self.release = "5.10.7"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -742,7 +742,7 @@ class ConfirmFrame(tk.Frame):
     
     def set_mode_menu(self, index):
         self.modeVar.set(self.install_modes[index])
-        print(index)
+        #print(index)
         
     def get_mode_menu(self):
         return self.modeVar
@@ -1418,7 +1418,7 @@ class UpdateWindow(tk.Toplevel):
         ### Window, Title, Icon setup
         tk.Toplevel.__init__(self)
         self.container = custom_tk.ScrollFrame(self)
-        windowW = 430
+        windowW = 500
         windowH = 400
         screen_width = self.controller.winfo_screenwidth()
         screen_height = self.controller.winfo_screenheight()
