@@ -1,20 +1,34 @@
 ## SteamUI-OldGlory GUI Changelog
 
-0.9.25.1		(*5.9-pre1*)	New theme directory format (folder for each theme)
+**0.9.27.10**	**(Release 5.10.6)**
 
-0.9.11.31	**(Release 5.8.6)**
+**0.9.27.8**	  **(Release 5.10.5)** 
 
-0.9.11.29	**(Release 5.8.5)** New versions of JS tweaks for Steam update 13 May 
+**0.9.27.7**	  **(Release 5.10.4)** Fix JS tweaks for steam Update 17 Nov 2022
+
+**0.9.27.5**	  **(Release 5.10.3)** Update to patch `2783.js`
+
+**0.9.27.4**	  **(Release 5.10.2)** Update to patch `3991.js`
+
+**0.9.27.1**	  **(Release 5.10)** No longer needs SFP to patch CSS
+
+**0.9.25.6** 	 **(Release 5.9)** New themes directory format (folder for each theme)
+
+0.9.25.1		(*5.9-pre1*)	
+
+**0.9.11.31**	**(Release 5.8.6)**
+
+**0.9.11.29**	**(Release 5.8.5)** New versions of JS tweaks for Steam update 13 May 
 
 0.9.11.23 	*(Release 5.8.4-pre1)*
 
-0.9.11.23 	**(Release 5.8.3)**
+**0.9.11.23** 	**(Release 5.8.3)**
 
-0.9.11.21 	**(Release 5.8.2.1)** Fix critical bug where themes and CSS tweaks were not applying
+**0.9.11.21** 	**(Release 5.8.2.1)** Fix critical bug where themes and CSS tweaks were not applying
 
-0.9.11.11	**(Release 5.8.1)**
+**0.9.11.11**	**(Release 5.8.1)**
 
-0.9.11.10	**(5.8)** Backported run_js_tweaker, working JS with `library.js`
+**0.9.11.10**	**(5.8)** Backported run_js_tweaker, working JS with `library.js`
 
 ​	0.9.24.4	Piecemeal changes
 
