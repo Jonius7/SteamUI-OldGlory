@@ -1563,8 +1563,8 @@ def settings_window(event, controller):
     about.insert(tk.END, "and provide some extra functionality where possible.\n\n")
     about.insert(tk.END, 'Github: ')
     about.insert(tk.END, "github.com/Jonius7/SteamUI-OldGlory/", hyperlink.add(partial(webbrowser.open, "https://github.com/Jonius7/SteamUI-OldGlory/")))
-    about.insert(tk.END, "\n\nTo be used with SteamFriendsPatcher:\n")
-    about.insert(tk.END, "github.com/PhantomGamers/SteamFriendsPatcher/", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SteamFriendsPatcher/")))
+    about.insert(tk.END, "\n\nCan be used with SFP (SteamFriendsPatcher):\n")
+    about.insert(tk.END, "https://github.com/PhantomGamers/SFP/", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SFP/")))
 
     about.config(state='disabled') 
 
