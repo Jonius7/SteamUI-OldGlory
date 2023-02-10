@@ -96,7 +96,7 @@ In **Advanced -> Quick Links**:
 
 - **Open OldGlory folder** -  open the OS file explorer to the main folder where OldGlory and files are located . 
 - **Open steamui folder** - open the `steamui` folder within ` Program Files/Steam` where the library files are located.
-- **Apply config.css**: This option has been added to accommodate those who might have their own `config.css` in `[steamdir]/steamui` already. If you are instead editing the `config.css` in `themes/`, clicking this button will copy `config.css` over to `[steamdir]/steamui`.
+- **Apply config.css**: (For Shiina's steam-library theme) This option has been added to accommodate those who might have their own `config.css` in `[steamdir]/steamui` already. If you are instead editing the `config.css` in `themes/`, clicking this button will copy `config.css` over to `[steamdir]/steamui`.
   - This may change in the future
 
 In **Settings and About**:
@@ -118,7 +118,7 @@ In **Settings and About**:
 - **Show Left Sidebar** - Show/Hide Left Sidebar (Games List)
 - **Glare/Shine** - Removes glare/reflection on HOME page images
 - **Game Image Transition** - Fade in time for HOME page images
-- **Home Page Grid Spacing**
+- **Home Page Grid Spacing** - Choose between compact or default
 - **Game Page Layout** - Swap Game page columns or default
 - **Game Image Opacity** - HOME page: Dim Game Images, or Uninstalled Game Images
 - **[Open variables file]** - opens `variables.css` using OS default text editor
@@ -126,7 +126,9 @@ In **Settings and About**:
 
 **JS Options**
 
-- **Increase Number of Screenshots and DLC displayed** - On game page: Screenshots: 4 -> 8, DLC 6 -> 12
+- **Enable Patching JS**
+
+- **Increase Number of Screenshots and DLC displayed** - On game page: Screenshots: 4 -> 9, DLC 6 -> 12
 - **Disable screenshot slideshow on hover** - Hovering over games on HOME page will only show the Game Boxart, not the screenshot slideshow
 - **Scrolling Tweak** - Scroll past ADD SHELF Button on load
 - **Change Game Image Grid Sizes** - Change the size of Game Images on the HOME page, based on <u>width in pixels</u>. There are 3 values here to change, corresponding to Small, Medium, Large sizes in settings. Defaults are:
@@ -135,7 +137,6 @@ In **Settings and About**:
   - <u>Large</u>		  `222`
 - ***Landscape Images JS Tweaks***  - corresponds to Main Option **Landscape Game Images**. No need to configure manually.
 - **Stop What's New Events from Loading** - removes loading of What's New Events
-- **Game Properties Window Size** - Reduce width of Game Properties window to closely match old one
 - **Press Enter to Launch Games** - Selected game in game list will launch upon pressing Enter
 - **Expand Show more Details Panel by default** - The Show More Details Panel (i) will expand by default on game page load
 - **Dim Uninstalled Games** - Dim Uninstalled games on HOME page
@@ -200,7 +201,7 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
 
 #### Fix Blurred Game Images
 
-- Download [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix) and run `missing_cover_downloader`
+- Download [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/2021_03) and run `missing_cover_downloader`
 
 ## Quick Links
 
@@ -208,7 +209,7 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
 - [Video Guide 1](https://youtu.be/7_3e9j8FFv8)
 - [SteamUI-OldGlory Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki)
 - [GIF of tweaks](https://gyazo.com/38d0101b493741501697b4a0f5f0818f)
-- [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix)
+- [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/2021_03)
 - [(Images) Collapse Game Page Sections](https://imgur.com/a/2GNoC3u)
 - [(Images) More DLC and Screenshots, more info!](https://imgur.com/a/3WTdrXP)
 - [(Images) JS Tweaks](https://imgur.com/a/mL4QNYB)
