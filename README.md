@@ -57,7 +57,7 @@ Condensed sidebar buttons <br>
 - [If using Shiina's steam-library theme](https://i.imgur.com/1cSW7iI.png), click **Apply config.css** under **Advanced Options**
 - Whenever the Steam Client updates, you'll need to use the **Remake JS** option in Settings if you were previously using any JS tweaks.
 - OldGlory should prompt you to download new files as "small updates" when they are released. Main updates will be notified in the log window.
-- To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/2021_03).
+- To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/latest).
 
 ##### **Manual Editing** (CSS/SCSS)
 
@@ -106,8 +106,8 @@ In **Settings and About**:
   - after a Steam Client update, or 
   - switching between Steam Stable and Steam Beta
   - Technical details: 
-    `clear_js_working_files` - deletes local `library.js`, `library.beaut.js`, `libraryroot.js`, `libraryroot.beaut.js`
-    `run_js_tweaker` - recreates `libraryroot.beaut.js` and applies JS tweaks
+    `clear_js_working_files` - deletes local JS files including`library.js`, `library.beaut.js`
+    `run_js_tweaker` - recreates JS files and applies JS tweaks
 
 - **Reset** - triple click to reset the `steamui` directory back to using default library theme. Useful if something screws up or you want to test a clean slate.
 
@@ -195,8 +195,6 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
     <ul><li>Eg: <tt>Lo.searchSuggestions</tt> becomes <tt>$^$^.searchSuggestions</tt></li></ul>
     </ul>
     </details>
-
-
 
 
 #### Fix Blurred Game Images
@@ -298,17 +296,17 @@ In the future, I may try to build using `cx_freeze` instead.
 
 #### What does `js_tweaker` do?
 
-the JS goes through this process:
+the JS goes through this process, eg:
 
-- `libraryroot.js` - original file
-- `libraryroot.beaut.js` - beautified js using `jsbeautifier`
-- `libraryroot.modif.js` - beautified js with modified tweaks from `fixes.txt`
-- `libraryreet.js` - minified `libraryroot.modif.js` using `jsmin`
+- `library.js` - original file
+- `library.beaut.js` - beautified js using `jsbeautifier`
+- `library.modif.js` - beautified js with modified tweaks from `fixes.txt`
+- `librery.js` - minified `library.modif.js` using `jsmin`
 
-Limitation that the script reads `libraryroot.beaut.js` line by line, so some complex tweaks are unavailable to be added at the moment.
+Limitation that the script reads `library.beaut.js` line by line, so some complex tweaks are unavailable to be added at the moment.
 
-`js_tweaker` will use `libraryroot.beaut.js` if it already exists. This means:
+`js_tweaker` will use `library.beaut.js` if it already exists. This means:
 
-- you can experiment in `libraryroot.beaut.js` (make a backup first) and delete it afterwards if you want to go back to the clean version `libraryroot.beaut.js`
+- you can experiment in `library.beaut.js` (make a backup first) and delete it afterwards if you want to go back to the clean version `library.beaut.js`
 
-**New (5.7.3)** `library.js` is also now being used. The modified file is called `librery.js`
+**New (5.10.6)** `chunk~547eb3232.js` is now also being used. The modified file is called `chenk~547eb3232.js`
