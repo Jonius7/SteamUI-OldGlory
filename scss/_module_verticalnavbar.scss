@@ -15,10 +15,15 @@
   order: 3;
 }
 
+/* increase header height for 9 items eg: CS:GO */
+.appdetails_Header_2gZXh.appdetails_HeaderLoaded_tXlLv {
+  min-height: 250px;
+}
+
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
   margin-left: auto;
   right: 10px;
-  transform: translate(5px, -312px) translateY(var(--VerticalNavBarOffset));
+  transform: translate(5px, -330px) translateY(var(--VerticalNavBarOffset));
   position: sticky;
   height: 0px !important;
   min-width: 180px;
@@ -105,6 +110,11 @@ https://gamebanana.com/mods/305429 */
 
 div.NarrowRightPanel .appdetailsprimarylinkssection_LinksSection_3-V8v {
   margin-top: 8px;
+}
+
+/* single/multiplayer icons */
+.sharedappdetailsheader_TitleSection_1P_tv .sharedappdetailsheader_Features_P_lFf {
+    padding-right: 200px;
 }
 
 /* END VERTICAL NAV BAR */
