@@ -60,7 +60,7 @@ def install_click(event, page, controller):
             #applying settings
             change_javascript = check_if_css_requires_javascript(page, controller, settings)
             set_mode_menu_var(controller, change_javascript)
-            manager_write_css_settings(page, settings)
+            manager_write_css_settings(page, controller, settings)
             thread = manager_run_js_tweaker(page, controller, change_javascript)
             
             update_loaded_config(page, controller)
@@ -156,10 +156,14 @@ def check_setting_requires_javascript(setting_data):
     else:
         return False
 
-def manager_write_css_settings(page, settings):    
+def manager_write_css_settings(page, controller, settings):    
     # Write to libraryroot.custom.scss
     print("Applying CSS settings...")
     page.text1.update_idletasks()
+    
+    backend.write_css_sections(controller.json_data["sections"])
+    page.text1.update_idletasks()
+    
     backend.write_css_settings(settings)
     page.text1.update_idletasks()
     print("Settings applied.")    

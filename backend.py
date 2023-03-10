@@ -502,6 +502,40 @@ SETTING_MAP = {
     "HomeButton" : {"filename" : "module_homeicon"},
     "ThemeSelected" : ""
 }
+
+def write_css_sections(sections, checkboxes = []):
+    try:
+        with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
+             open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
+
+            import_prefix = '@import "./'
+            themes_prefix = '@import "../themes/'
+            start_comment = '//'
+            modify = 0
+            for line in f:
+                if import_prefix in line:
+                    for section in sections:
+                        print(section)
+                        if import_prefix + section in line:
+                            if line.startswith(start_comment):
+                                pass
+                            #    if settings[setting]["value"] == "1" and setting in settings \
+                            #        and settings[setting]["state"] == "normal":
+                            #        modify = 1
+                            #        f1.write(LineParser.remove_start_comment(start_comment, line))
+                            else:
+                                pass
+                            #    if settings[setting]["value"] == "0":
+                            #        modify = 1
+                            #        f1.write(LineParser.add_start_comment(start_comment, line))
+                    
+        f.close()
+        f1.close()
+    except:
+        print("Error enabling/disabling CSS sections,\nat " + line, file=sys.stderr)
+        print_traceback()
+    pass
+
        
 def write_css_settings(settings): 
     try:

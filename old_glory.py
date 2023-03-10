@@ -529,8 +529,12 @@ class CSSPage(tk.Frame):
     ###
         controller.css_config = backend.load_css_configurables()
         self.frameCSS = tk.Frame(frameQuick)
+        
         self.css_gui = CSSGUICreator(frameQuick, controller, controller.css_config)
         self.frameCSS = self.css_gui.returnframeCSS()
+        
+        self.sections_gui = SectionsGUICreator(frameSections, controller)
+        self.frameSections = self.sections_gui.returnframeSections()
         
     ### MODE Frame
     ###
@@ -562,6 +566,7 @@ class CSSPage(tk.Frame):
     ### Pack frames
         self.frameHead.pack()
         self.frameCSS.pack(padx=10, fill="x")
+        self.frameSections.pack(padx=10, expand=1, fill="both")
         
         frameQuick.pack()
         frameSections.pack()
@@ -1036,6 +1041,28 @@ class CSSGUICreator(tk.Frame):
         #frameConfigurables.pack(fill="both", expand=True, padx=10)
     def returnframeCSS(self):
         return self.frameCSS
+    
+### CSS Sections Config to GUI
+class SectionsGUICreator(tk.Frame):
+    def __init__(self, page, controller):
+        self.page = page
+        self.controller = controller
+        ###Outer frame and canvas
+        self.frameSections = custom_tk.ScrollFrame(page)
+        
+        self.LineFrame = LineFrame(self.frameSections, controller)
+        self.frameLine = self.LineFrame.returnLineFrame()
+        self.LineFrame.getLineOptions()
+
+        #Configure grid expand
+        self.frameSections.columnconfigure(0, weight=1)
+        self.frameSections.rowconfigure(0, weight=1)
+        
+        self.frameLine.grid(row=0, column=0, sticky="nsew")
+        #self.frameConfigurables.grid(row=0, column=1, sticky="nsew")
+        #frameConfigurables.pack(fill="both", expand=True, padx=10)
+    def returnframeSections(self):
+        return self.frameSections
 
 ###Structure of CSS config as follows
 ###config       > section       > prop              > attr
@@ -1256,6 +1283,86 @@ class PresetOption(tk.Frame):
 
 ### Preset
 ### ~~~~~~~~~~
+
+### Line (Sections)
+class LineFrame(tk.Frame):
+    def __init__(self, parent, controller):
+        self.parent = parent
+        self.frameLine = custom_tk.ScrollFrame(self.parent)
+        self.controller = controller
+        self.lineOptions = {}
+        self.frameLineInner = tk.Frame(self.frameLine.content)
+        self.frameLineInner.grid(row=0, column=0)
+        
+    ### Links frame
+        self.frameLinks = tk.Frame(self.frameLine)
+    
+    def getLineOptions(self):
+        try:
+            if "sections" in self.controller.json_data:
+                #print("quickCSS found")
+                #print(self.controller.json_data)
+
+                for i, lineOption in enumerate(self.controller.json_data["sections"]):
+                    #print(self.controller.json_data["sections"][lineOption])
+                    _l = LineOption(self.frameLineInner, self.controller, lineOption, self.controller.json_data["sections"][lineOption])
+                    _l.returnLineOption().grid(row=i, column=0, padx=(5,0), pady=(0,18), sticky="nw")
+                    self.lineOptions[lineOption] = _l
+
+                self.createFrameLinks()
+                    
+            else:
+                raise Exception("Property sections in JSON file not found.\n"\
+                                "Unable to load CSS Sections.")
+        except:
+            pass
+    
+    def returnLineFrame(self):
+        return self.frameLine
+
+
+class LineOption(tk.Frame):
+    def __init__(self, parent, controller, name, data):
+        self.parent = parent
+        self.frameLineOption = tk.Frame(self.parent)
+        self.controller = controller
+        self.name = name
+        self.data = data
+
+        #
+        smallfont = controller.default_font.copy()
+        smallfont.configure(size=12)
+
+        #style = ttk.Style()
+        #style.configure("TCheckbutton", font=smallfont)
+        
+        
+        
+        rownum = 1
+        self.checkvars = {}
+        self.comboboxes = {}
+        for i, sectionname in enumerate(self.controller.json_data["sections"]):
+            _checkvar = tk.IntVar()
+            self.checkvars[sectionname] = _checkvar
+            
+            _checkbutton = ttk.Checkbutton(self.frameLineOption,
+                                        text = sectionname,
+                                        variable = _checkvar,)
+            _label = tk.Label(self.frameLineOption,
+                            text = sectionname,
+                            cursor = "hand2")
+            _checkbutton.grid(row=rownum, column=0, padx=(5,0), sticky='w')
+            _label.grid(row=rownum, column=1, sticky='w')
+            
+            rownum += 1
+            
+        self.frameLineOption.grid(row=1, column=0)
+        
+    def returnLineOption(self):
+        self.frameLineOption
+###
+### END LineOption
+
 ### change container.css_config
 ### Recursion
 def apply_css_config_values(controller, propValues):

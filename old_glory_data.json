@@ -17,7 +17,7 @@
 	"jsModifFile": "sp.modif.js",
 	"jsPatchedFile": "sq.js",
 	"jsOriginalFile": "sp.js.original",
-	"lastPatchedDate": "2023-02-10T07:02:11Z",
+	"lastPatchedDate": "2023-02-21T05:30:01Z",
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",
@@ -45,10 +45,6 @@
 		}
 	},
 	"sections": {
-		"classic": {
-			"name": "Classic Styling",
-			"description": "CSS for Old UI font and colors"
-		},
 		"sidebar_homeandsearch": {
 			"name": "Sidebar Home & Search",
 			"description": "CSS for the Left Sidebar - Home and Search buttons"
@@ -105,13 +101,33 @@
 			"name": "Gamepage Nav Bar",
 			"description": "CSS for the navigation bar"
 		},
-		"gamepage_dlcscreenshots": {
+		"gamepage_dlc_screenshots": {
 			"name": "Gamepage DLC & Screenshots",
 			"description": "CSS for DLC/Screenshots sections sizes"
 		},
 		"module_gameproperties": {
 			"name": "[Module] Game Properties",
 			"description": "CSS for Game Properties layout (incl. DLC Manager)"
+		},
+		"module_homeicon": {
+			"name": "[Module] Home Icon",
+			"description": "CSS for turning HOME button text into an icon"
+		},
+		"smooth": {
+			"name": "[Module] Smooth",
+			"description": "CSS for smooth animations"
+		},
+		"module_gamehover": {
+			"name": "[Module] Game Hover",
+			"description": "CSS for Game Hover box size"
+		},
+		"tweak_nozoom": {
+			"name": "[Tweak] No Zoom",
+			"description": "CSS for removing zoom/expand on game images when hovered"
+		},
+		"module_simplified_homesearch": {
+			"name": "[Tweak] Simplified Home Search",
+			"description": "CSS for simplified Home and Search buttons"
 		},
 		"module_landscapegameimages": {
 			"tags": [
@@ -120,6 +136,31 @@
 			],
 			"name": "[Module] Landscape Game Images",
 			"description": "(Requires JS) CSS for Horizontal Game Images"
+		},		
+		"module_playbarbox": {
+			"tags": [
+				"Advanced"
+			],
+			"name": "[Module] Play Bar Box",
+			"description": "CSS for Play Bar pulled up into box (in gamepage header)"
+		},
+		"module_verticalnavbar": {
+			"tags": [
+				"Advanced"
+			],
+			"name": "[Module] Vertical Nav Bar",
+			"description": "(Requires JS) CSS for enabling a vertical navigation bar"
+		},
+		"module_classiclayout": {
+			"tags": [
+				"Advanced"
+			],
+			"name": "[Module] Classic Layout",
+			"description": "(Requires JS) (Requires Vertical Nav Bar) CSS for enabling classic layout"
+		},
+		"classic": {
+			"name": "Classic Styling",
+			"description": "CSS for Old UI font and colors"
 		},
 		"module_listview": {
 			"tags": [
@@ -130,41 +171,10 @@
 			"name": "[Module] List View",
 			"description": "(EXPERIMENTAL) (Requires JS) CSS for List view implementation"
 		},
-		"module_playbarbox": {
-			"tags": [
-				"Advanced"
-			],
-			"name": "[Module] Play Bar Box",
-			"description": "CSS for Play Bar pulled up into box (in gamepage header)"
-		},
-		"module_verticalnavbar": {
-			"tags": [
-				"JS",
-				"Advanced"
-			],
-			"name": "[Module] Vertical Nav Bar",
-			"description": "(Requires JS) CSS for enabling a vertical navigation bar"
-		},
-		"module_classiclayout": {
-			"tags": [
-				"JS",
-				"Advanced"
-			],
-			"name": "[Module] Classic Layout",
-			"description": "(Requires JS) (Requires Vertical Nav Bar) CSS for enabling classic layout"
-		},
-		"module_homeicon": {
-			"name": "[Module] Home Icon",
-			"description": "CSS for turning HOME button text into an icon"
-		},
-		"tweak_nozoom": {
-			"name": "[Tweak] No Zoom",
-			"description": "CSS for removing zoom/expand on game images when hovered"
-		},
-		"user_module1": {
+		"custom_module1": {
 			"description": "Your custom CSS module 1"
 		},
-		"user_module2": {
+		"custom_module2": {
 			"description": "Your custom CSS module 2"
 		}
 	},
