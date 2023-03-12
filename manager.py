@@ -161,7 +161,9 @@ def manager_write_css_settings(page, controller, settings):
     print("Applying CSS settings...")
     page.text1.update_idletasks()
     
-    backend.write_css_sections(controller.json_data["sections"], backend.read_css_sections())
+    backend.write_css_sections(controller.sections_config, 
+                               backend.read_css_sections(), 
+                               controller.json_data["sections"])
     page.text1.update_idletasks()
     
     backend.write_css_settings(settings)

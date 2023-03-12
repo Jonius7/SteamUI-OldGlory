@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.29.2"
-        self.release = "5.11-pre1"
+        self.version = "v0.9.30.1"
+        self.release = "5.11-pre2"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -981,9 +981,11 @@ def reload_click(event, controller):
         #print("Loaded config data. (oldglory_config2.cfg)")
         controller.json_data = backend.get_json_data()
         controller.css_config = backend.load_css_configurables()
+        controller.sections_config = backend.read_css_sections()
         controller.js_config, controller.special_js_config = backend.load_js_fixes()
         ### Update GUI
         controller.frames["CSSPage"].css_gui.PresetFrame.update_presets_gui()
+        controller.frames["CSSPage"].sections_gui.update_sectionsFrame()
         controller.frames["JSPage"].js_gui.update_js_gui(controller)
         print("Config Reloaded.")
     except:
@@ -1297,13 +1299,23 @@ class SectionsFrame(tk.Frame):
         self.frameLineInner.grid(row=0, column=0)
 
         try:
-            self.create_lineFrame()
+            self.create_sectionsFrame()
             self.frameLineInner.grid(row=1, column=0)
         except Exception as e:
             print("Property sections in JSON file not found.\n"\
                                 "Unable to load CSS Sections.", file=sys.stderr)
-        
-    def create_lineFrame(self):
+            print_traceback()
+    
+    def section_click(self, controller, sectionname):
+        try:
+            controller.sections_config[sectionname] = str(self.checkvars[sectionname].get())
+            print(controller.sections_config)
+        except Exception as e:
+            print("Error setting section config :\n"\
+                  "Section:   " + sectionname, file=sys.stderr)
+            print_traceback()
+            
+    def create_sectionsFrame(self):
         rownum = 1
         self.checkvars = {}
         self.comboboxes = {}
@@ -1314,7 +1326,8 @@ class SectionsFrame(tk.Frame):
             
             _checkbutton = ttk.Checkbutton(self.frameLineInner,
                                         text = sectionname,
-                                        variable = _checkvar,)
+                                        variable = _checkvar,
+                                        command = lambda sectionname = sectionname: self.section_click(self.controller, sectionname))
             _label = tk.Label(self.frameLineInner,
                             text = sectionname,
                             cursor = "hand2")
@@ -1323,13 +1336,13 @@ class SectionsFrame(tk.Frame):
             
             rownum += 1
             
-    def clear_lineFrame(self):
+    def clear_sectionsFrame(self):
         for widget in self.frameLineInner.winfo_children():
             widget.destroy()
             
-    def update_lineFrame(self, controller):
-        self.clear_lineFrame(self.controller)
-        self.create_lineFrame(self.controller)
+    def update_sectionsFrame(self):
+        self.clear_sectionsFrame()
+        self.create_sectionsFrame()
     
     def returnLineFrame(self):
         return self.frameLine
