@@ -503,7 +503,33 @@ SETTING_MAP = {
     "ThemeSelected" : ""
 }
 
-def write_css_sections(sections, checkboxes = []):
+def read_css_sections(filename = "scss/libraryroot.custom.scss"):
+    try:
+        sections_data = {}
+        with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f:
+            import_prefix = '@import "./'
+            import_suffix = '";'
+            themes_prefix = '@import "../themes/'
+            start_comment = '//'
+            for line in f:
+                if import_prefix in line:
+                    if line.startswith(start_comment):
+                        parsed_line = LineParser.remove_start_comment(start_comment, line)
+                        parsed_line2 = LineParser.remove_import_prefix(import_prefix, parsed_line)
+                        section = LineParser.remove_import_suffix(import_suffix, parsed_line2).rstrip(OS_line_ending())
+                        sections_data[section] = "0"
+                    else:
+                        parsed_line = LineParser.remove_import_prefix(import_prefix, line)
+                        section = LineParser.remove_import_suffix(import_suffix, parsed_line).rstrip(OS_line_ending())
+                        sections_data[section] = "1"
+        f.close()
+        return sections_data
+    except:
+        print("Error reading " + filename, file=sys.stderr)
+        print_traceback()
+    pass
+
+def write_css_sections(sections, sections_data):
     try:
         with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
              open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
@@ -588,6 +614,26 @@ class LineParser():
     def add_start_comment(start_comment, line):
         #Concatenates start_comment to line (space in between)
         return start_comment + " " + line
+    
+    @staticmethod
+    def remove_import_prefix(import_prefix, line):
+        #strips import_prefix and any spaces before line
+        return line.split(import_prefix)[1].lstrip()
+    
+    @staticmethod
+    def add_import_prefix(import_prefix, line):
+        #Concatenates import_prefix to line
+        return import_prefix + line
+    
+    @staticmethod
+    def remove_import_suffix(import_suffix, line):
+        #strips import_suffix
+        return line.split(import_suffix)[0]
+    
+    @staticmethod
+    def add_import_suffix(import_suffix, line):
+        #Concatenates import_suffix to line
+        return line + import_suffix
 
 def compile_css(json_data):
     '''
