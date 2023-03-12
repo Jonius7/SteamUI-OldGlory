@@ -134,32 +134,32 @@
 				"JS",
 				"Advanced"
 			],
-			"name": "[Module] Landscape Game Images",
+			"name": "[Auto-Module] Landscape Game Images",
 			"description": "(Requires JS) CSS for Horizontal Game Images"
 		},		
 		"module_playbarbox": {
 			"tags": [
 				"Advanced"
 			],
-			"name": "[Module] Play Bar Box",
+			"name": "[Auto-Module] Play Bar Box",
 			"description": "CSS for Play Bar pulled up into box (in gamepage header)"
 		},
 		"module_verticalnavbar": {
 			"tags": [
 				"Advanced"
 			],
-			"name": "[Module] Vertical Nav Bar",
+			"name": "[Auto-Module] Vertical Nav Bar",
 			"description": "(Requires JS) CSS for enabling a vertical navigation bar"
 		},
 		"module_classiclayout": {
 			"tags": [
 				"Advanced"
 			],
-			"name": "[Module] Classic Layout",
+			"name": "[Auto-Module] Classic Layout",
 			"description": "(Requires JS) (Requires Vertical Nav Bar) CSS for enabling classic layout"
 		},
 		"classic": {
-			"name": "Classic Styling",
+			"name": "[Auto-Module] Classic Styling",
 			"description": "CSS for Old UI font and colors"
 		},
 		"module_listview": {
@@ -172,9 +172,11 @@
 			"description": "(EXPERIMENTAL) (Requires JS) CSS for List view implementation"
 		},
 		"custom_module1": {
+			"name": "Custom Module 1",
 			"description": "Your custom CSS module 1"
 		},
 		"custom_module2": {
+			"name": "Custom Module 2",
 			"description": "Your custom CSS module 2"
 		}
 	},

@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.30.1"
-        self.release = "5.11-pre2"
+        self.version = "v0.9.30.2"
+        self.release = "5.11-pre3"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -1319,6 +1319,7 @@ class SectionsFrame(tk.Frame):
         rownum = 1
         self.checkvars = {}
         self.comboboxes = {}
+        self.tips = {}
         for i, (sectionname, value) in enumerate(self.controller.sections_config.items()):
             _checkvar = tk.IntVar()
             self.checkvars[sectionname] = _checkvar
@@ -1329,13 +1330,28 @@ class SectionsFrame(tk.Frame):
                                         variable = _checkvar,
                                         command = lambda sectionname = sectionname: self.section_click(self.controller, sectionname))
             _label = tk.Label(self.frameLineInner,
+                            #text = "(" + sectionname + ") " + self.controller.json_data["sections"][sectionname]["name"],
                             text = sectionname,
                             cursor = "hand2")
+            if "name" in self.controller.json_data["sections"][sectionname]:
+                _label2 = tk.Label(self.frameLineInner,
+                                text = self.controller.json_data["sections"][sectionname]["name"],
+                                cursor = "hand2")
+            if sectionname in self.controller.json_data["sections"]:
+                _tip = custom_tk.Detail_tooltip(_label, 
+                                                self.label_hover_text(
+                                                    self.controller.json_data["sections"][sectionname]["description"]), 
+                                                hover_delay=200)
+                self.tips[sectionname] = _tip
             _checkbutton.grid(row=rownum, column=0, padx=(5,0), sticky='w')
             _label.grid(row=rownum, column=1, sticky='w')
+            _label2.grid(row=rownum, column=2, sticky='w')
             
             rownum += 1
-            
+    
+    def label_hover_text(self, hovertext):
+        return hovertext     
+        
     def clear_sectionsFrame(self):
         for widget in self.frameLineInner.winfo_children():
             widget.destroy()

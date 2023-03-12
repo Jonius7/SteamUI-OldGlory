@@ -51,7 +51,6 @@ Condensed sidebar buttons <br>
 
 - Install [**SFP (SteamFriendsPatcher)**](https://github.com/PhantomGamers/SFP/releases). Run it, it will patch some files.
   - Alternatively, use the **Patch CSS** option in SteamUI-OldGlory **Advanced Options**
-
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 - Select the options you want to use, then click **Install**.
 - [If using Shiina's steam-library theme](https://i.imgur.com/1cSW7iI.png), click **Apply config.css** under **Advanced Options**
@@ -59,9 +58,13 @@ Condensed sidebar buttons <br>
 - OldGlory should prompt you to download new files as "small updates" when they are released. Main updates will be notified in the log window.
 - To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/latest).
 
-##### **Manual Editing** (CSS/SCSS)
+##### Enable/Disable CSS modules and features
 
-- **[HOW TO: Enable/Disable CSS modules and features](https://imgur.com/a/PocNfPE)**
+Since version 5.11, OldGlory can enable/disable individual CSS modules and features via **CSS Options -> CSS Sections**. 
+
+##### [version < 5.11] **Manual Editing** (CSS/SCSS)
+
+- **[OLD HOW TO: Enable/Disable CSS modules and features manually](https://imgur.com/a/PocNfPE)**
 
 <details><summary>More details</summary>
 <ul>   

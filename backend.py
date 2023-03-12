@@ -523,13 +523,21 @@ def read_css_sections(filename = "scss/libraryroot.custom.scss"):
                         section = LineParser.remove_import_suffix(import_suffix, parsed_line).rstrip(OS_line_ending())
                         sections_data[section] = "1"
         f.close()
+        print("Loaded CSS Sections. " + "(" + filename + ")")
         return sections_data
     except:
         print("Error reading " + filename, file=sys.stderr)
         print_traceback()
     pass
 
-def write_css_sections(sections, sections_data):
+def write_css_sections(sections, sections_filedata, sections_json):
+    '''
+    sections            list of sections with values 0 or 1 depending on disabled/enabled
+    
+    sections_filedata   list of sections with values 0 or 1 from the original file, to compare
+    
+    sections_json       json data
+    '''
     try:
         with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
              open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
@@ -541,22 +549,46 @@ def write_css_sections(sections, sections_data):
             for line in f:
                 if import_prefix in line:
                     for section in sections:
-                        print(section)
+                        #print(section)
                         if import_prefix + section in line:
-                            if line.startswith(start_comment):
-                                pass
+                            if sections[section] == "1": 
+                                if section in sections_filedata \
+                                and sections[section] != sections_filedata[section]:
+                                    print("CHANGED SECTION "+ section)
+                                    modify = 1
+                                    f1.write(LineParser.remove_start_comment(start_comment, line))
+                            elif sections[section] == "0":
+                                if section in sections_filedata \
+                                and sections[section] != sections_filedata[section]:
+                                    print("CHANGED SECTION "+ section)
+                                    modify = 1
+                                    f1.write(LineParser.add_start_comment(start_comment, line))
+                            else:
+                                print("Invalid value for section " + section, file=sys.stderr)
+                    if modify == 0:
+                        f1.write(line)
+                    modify = 0
+                else:
+                    f1.write(line)
+                            
+                            #if line.startswith(start_comment):
+                            #    pass
                             #    if settings[setting]["value"] == "1" and setting in settings \
                             #        and settings[setting]["state"] == "normal":
                             #        modify = 1
                             #        f1.write(LineParser.remove_start_comment(start_comment, line))
-                            else:
-                                pass
+                            #else:
+                            #    pass
                             #    if settings[setting]["value"] == "0":
                             #        modify = 1
                             #        f1.write(LineParser.add_start_comment(start_comment, line))
                     
         f.close()
         f1.close()
+        
+        ###
+        shutil.move("scss/libraryroot.custom.scss", "scss/libraryroot.custom.scss.backup1")
+        shutil.move("scss/libraryroot.custom.temp.scss", "scss/libraryroot.custom.scss")
     except:
         print("Error enabling/disabling CSS sections,\nat " + line, file=sys.stderr)
         print_traceback()
