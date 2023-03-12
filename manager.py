@@ -59,6 +59,11 @@ def install_click(event, page, controller):
             
             #applying settings
             change_javascript = check_if_css_requires_javascript(page, controller, settings)
+            if controller.mode_changed == 1:
+                change_javascript = page.ConfirmObject.install_modes.index(
+                    page.ConfirmObject.modeVar.get()
+                )
+            #print(page.ConfirmObject.modeVar.get())
             set_mode_menu_var(controller, change_javascript)
             manager_write_css_settings(page, controller, settings)
             thread = manager_run_js_tweaker(page, controller, change_javascript)
@@ -70,6 +75,7 @@ def install_click(event, page, controller):
             apply_css_theme(controller.frames["StartPage"], controller)
             backend.compile_css(backend.get_json_data())
             controller.js_gui_changed = 0
+            controller.mode_changed = 0
             backend.refresh_steam_dir()
             update_loaded_config(page, controller)
             if not thread:
@@ -86,6 +92,11 @@ def disable_buttons_while_installing(controller):
 def enable_buttons_after_installing(controller):
     for frame in controller.frames:
         controller.frames[frame].ConfirmObject.enable_install_button()
+        
+def mode_click(event, controller):
+    #print(str(event.widget['state']))
+    controller.mode_changed = 1
+    pass
 
 
 def get_settings_from_gui(page, config_map=CONFIG_MAP):

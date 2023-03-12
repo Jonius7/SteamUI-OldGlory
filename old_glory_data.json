@@ -110,7 +110,7 @@
 			"description": "CSS for Game Properties layout (incl. DLC Manager)"
 		},
 		"module_homeicon": {
-			"name": "[Module] Home Icon",
+			"name": "[Auto-Module] Home Icon",
 			"description": "CSS for turning HOME button text into an icon"
 		},
 		"smooth": {

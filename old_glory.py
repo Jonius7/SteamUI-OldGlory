@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.30.2"
-        self.release = "5.11-pre3"
+        self.version = "v0.9.30.3"
+        self.release = "5.11-pre4"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -59,6 +59,7 @@ class OldGloryApp(tk.Tk):
 
         ### Load config variables
         self.js_gui_changed = 0
+        self.mode_changed = 0
         
         ### Frames/Pages configure
         self.frames = {}
@@ -679,18 +680,24 @@ class ConfirmFrame(tk.Frame):
                                    width=3)
                 
         ###
-        self.install_modes = ("CSS Only", "CSS + JS", "CSS/JS")
+        self.install_modes = ["CSS Only", "CSS + JS"]
         self.modeVar = tk.StringVar()
         
-        self.modeMenu = ttk.OptionMenu(self.left_frame,
-                        self.modeVar,
-                        self.install_modes[2],
-                        *self.install_modes   
+        self.modeMenu = ttk.Combobox(self.left_frame,
+                                     font="TkDefaultFont",
+                                     values=self.install_modes,
+                                     textvariable=self.modeVar,
+                                     state="readonly",
+                                     #selected=self.install_modes[0],
+                          
         )
-        self.modeMenu.config(width=8, state='disabled')
-        #self.modeMenu.bind("<Button-1>",
-        #             lambda event:manager.install_click(event, controller.frames["StartPage"], controller)
-        #             )
+        self.modeMenu.current(0)
+        self.modeMenu.config(width=9,
+                             #state='disabled'
+                             )
+        self.modeMenu.bind("<Button-1>",
+                     lambda event:manager.mode_click(event, controller)
+                     )
         self.modeMenu.grid(row=0, column=0, padx=5)
         
         self.left_frame.grid(row=0, column=0, sticky=tk.E)
