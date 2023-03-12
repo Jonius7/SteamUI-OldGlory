@@ -458,7 +458,6 @@ class StartPage(tk.Frame):
     ###
         self.ConfirmObject = ConfirmFrame(self, self.controller)
         self.frameConfirm = self.ConfirmObject.get_frame_confirm()
-           
         
     def set_init_gui_states(self):
     ### Running functions after much of StartPage has been initialised
@@ -567,6 +566,7 @@ class CSSPage(tk.Frame):
     ###
         self.ConfirmObject = ConfirmFrame(self, controller)
         self.frameConfirm = self.ConfirmObject.get_frame_confirm()
+        self.ConfirmObject.disable_mode_menu()
         
     ### Pack frames
         self.frameHead.pack()
@@ -629,7 +629,8 @@ class JSPage(tk.Frame):
     ###
         self.ConfirmObject = ConfirmFrame(self, controller)
         frameConfirm = self.ConfirmObject.get_frame_confirm()
-
+        self.ConfirmObject.disable_mode_menu()
+        
     ### Pack frames
     ###
         self.frameHead.pack()
@@ -688,8 +689,7 @@ class ConfirmFrame(tk.Frame):
                                      values=self.install_modes,
                                      textvariable=self.modeVar,
                                      state="readonly",
-                                     #selected=self.install_modes[0],
-                          
+                                     #selected=self.install_modes[0],              
         )
         self.modeMenu.current(0)
         self.modeMenu.config(width=9,
@@ -701,9 +701,6 @@ class ConfirmFrame(tk.Frame):
         self.modeMenu.grid(row=0, column=0, padx=5)
         
         self.left_frame.grid(row=0, column=0, sticky=tk.E)
-        
-        
-        
         
         ###
         self.button1 = ttk.Button(self.frameConfirm,
@@ -762,6 +759,9 @@ class ConfirmFrame(tk.Frame):
         
     def get_mode_menu(self):
         return self.modeVar
+    
+    def disable_mode_menu(self):
+        self.modeMenu.config(state='disabled')
         
 ### ================================
 

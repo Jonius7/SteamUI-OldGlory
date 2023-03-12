@@ -449,10 +449,11 @@ def write_config(config_dict = DEFAULT_CONFIG):
         config[section] = config_dict[section]
     #print(config.sections())
     #print(config.options("Main_Settings"))
-    with open("oldglory_config2.cfg", "w", newline='', encoding="UTF-8") as config_file:
+    filename = "oldglory_config2.cfg"
+    with open(filename, "w", newline='', encoding="UTF-8") as config_file:
         config.write(config_file)
     config_file.close()
-    print("Config file written.")
+    print("Updated config file. (" + filename + ")")
 
 ### [END OF] CONFIG Functions
 ##########################################
@@ -554,13 +555,13 @@ def write_css_sections(sections, sections_filedata, sections_json):
                             if sections[section] == "1": 
                                 if section in sections_filedata \
                                 and sections[section] != sections_filedata[section]:
-                                    print("CHANGED SECTION "+ section)
+                                    #print("CHANGED SECTION "+ section)
                                     modify = 1
                                     f1.write(LineParser.remove_start_comment(start_comment, line))
                             elif sections[section] == "0":
                                 if section in sections_filedata \
                                 and sections[section] != sections_filedata[section]:
-                                    print("CHANGED SECTION "+ section)
+                                    #print("CHANGED SECTION "+ section)
                                     modify = 1
                                     f1.write(LineParser.add_start_comment(start_comment, line))
                             else:

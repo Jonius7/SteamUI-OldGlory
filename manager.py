@@ -169,7 +169,6 @@ def check_setting_requires_javascript(setting_data):
 
 def manager_write_css_settings(page, controller, settings):    
     # Write to libraryroot.custom.scss
-    print("Applying CSS settings...")
     page.text1.update_idletasks()
     
     backend.write_css_sections(controller.sections_config, 
@@ -179,7 +178,7 @@ def manager_write_css_settings(page, controller, settings):
     
     backend.write_css_settings(settings)
     page.text1.update_idletasks()
-    print("Settings applied.")    
+    print("Applied CSS Settings.")    
     
 def manager_run_js_tweaker(page, controller, change_javascript):     
     ### Run js_tweaker if required
