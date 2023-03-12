@@ -168,7 +168,7 @@
 				"Advanced",
 				"Experimental"
 			],
-			"name": "[Module] List View",
+			"name": "[Module] [Experimental] List View",
 			"description": "(EXPERIMENTAL) (Requires JS) CSS for List view implementation"
 		},
 		"custom_module1": {

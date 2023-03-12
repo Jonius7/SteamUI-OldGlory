@@ -1337,6 +1337,9 @@ class SectionsFrame(tk.Frame):
                 _label2 = tk.Label(self.frameLineInner,
                                 text = self.controller.json_data["sections"][sectionname]["name"],
                                 cursor = "hand2")
+            else:
+                _label2 = tk.Label(self.frameLineInner,
+                                   cursor = "hand2")
             if sectionname in self.controller.json_data["sections"]:
                 _tip = custom_tk.Detail_tooltip(_label, 
                                                 self.label_hover_text(
