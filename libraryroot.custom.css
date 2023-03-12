@@ -36,6 +36,7 @@
 
   /* Game Page Elements */
   --RecommendGame: block;  /* Default: block. Set to none to hide "Recommond this game" box on game page. */
+  --DLCAvailableContent: none;  /* Default: block. Set to none to hide the DLC Available Content box. */
 
   /* Game Page Background */
   --AppPageBlur: 2px;  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look. */
@@ -488,27 +489,12 @@ div.appdetailsoverview_RightColumn_2aor4 > div:nth-child(3) {
    END Game AppPage Header/Section Boundary */
 /* ================== Game AppPage Post-Game Summary & Spotlight ==================
    ========================================================================== */
-/* Expand Post-Game summary to fill width */
-.boxcarousel_BoxCarousel_3fiHs.spotlightgameplaysummary_SummaryCarouselContainer_wgbDI {
-  /* height: 192.5px !important; */
-  width: 163%;
-}
-
 .appdetailsoverview_Container_27RcN {
   /* Adjust padding */
-  /* Reduce Spotlight width and size */
-}
-
-.appdetailsoverview_Container_27RcN.appdetailsoverview_Glassy_2OOzY > div.appdetailsoverview_ColumnContainer_OhSdL > div.appdetailsoverview_Spotlights_11kuV > div > div > div > div.pageablecontainer_HeaderPageControls_2ce8e {
-  width: 163%;
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_ColumnContainer_OhSdL {
   padding: 8px 10px 4px 10px;
-}
-
-.appdetailsoverview_Container_27RcN .appdetailsoverview_Spotlights_11kuV {
-  width: 59.5%;
 }
 
 .appdetailsoverview_Container_27RcN .appdetailsoverview_Spotlights_11kuV.appdetailsoverview_SpotlightLeftColumn_3wbnd {
@@ -529,10 +515,11 @@ div.appdetailsoverview_RightColumn_2aor4 > div:nth-child(3) {
   align-self: center;
 }
 
-appdetailsspotlight_ReviewContainer_3LE-6 {
+.appdetailsspotlight_ReviewContainer_3LE-6 {
   display: var(--RecommendGame);
 }
 
+/* New DLC for [game] has been acquired */
 /* ========================================================================== 
    END Game AppPage Post-Game Summary & Spotlight */
 /* ================== Game AppPage MAIN COLUMNS ==================
@@ -598,6 +585,10 @@ appdetailsspotlight_ReviewContainer_3LE-6 {
   margin-top: 0px;
 }
 
+.appactivityday_Event_UVeN0.appactivityday_ReceivedNewGame_35ZQ6.appactivityday_NoCommentSupport_2CB_R.Panel.Focusable {
+  margin-bottom: 24px;
+}
+
 /* Activity Achievement Unlocked to 2 columns */
 .appactivityday_ActivityAchievementUnlocked_yJLy7 {
   padding: 6px;
@@ -608,6 +599,15 @@ appdetailsspotlight_ReviewContainer_3LE-6 {
 /* Activity Margin */
 .appdetailsactivitysection_AddToFeed_2bqRp {
   margin-bottom: 30px;
+}
+
+/* DLC Available Content */
+.apopactivitydlc_Rollup_2UySY {
+  display: var(--DLCAvailableContent);
+}
+
+.appdetailsactivitysection_Rollup_1_lVh {
+  display: var(--DLCAvailableContent);
 }
 
 /* Game AppPage Activity - Events
@@ -813,10 +813,6 @@ Adapted from LIGHT-UI by Angelo*/
 }*/
 /* Custom CSS (module 1)
    ========================================================================== */
-.appactivitydlc_Rollup_2UySY {
-  display: none;
-}
-
 /* ========================================================================== 
    END Custom CSS (module 1) */
 /* Custom CSS (module 2)
@@ -860,6 +856,14 @@ Adapted from LIGHT-UI by Angelo*/
   /*background: radial-gradient(100% 100% at top left, rgba(60,60,120,0.8) 50%, rgba(120,120,120,0.8) 100%);*/
   background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
   box-shadow: 6px 6px 2px #101010ee;
+}
+
+.appactivityday_PartnerEventTextOnly_Container_1wJJQ.Panel.Focusable {
+  background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
+}
+
+.appactivityday_PartnerEventMediumImage_Contents_2gv3E {
+  background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
 }
 
 .appdetailsoverview_RightColumn_2aor4 * {
