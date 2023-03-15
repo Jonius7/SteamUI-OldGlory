@@ -21,7 +21,7 @@
 
 [<img src="https://i.imgur.com/FYDDWVW.png" alt="Video Guide to Customising The Steam Library"/>](https://youtu.be/foCewvyOszQ)
 
-<p align="left"><img alt="YouTube Video Views" src="https://img.shields.io/youtube/views/foCewvyOszQ?style=social"></p>
+<p align="left"><a href="https://youtu.be/foCewvyOszQ"><img alt="YouTube Video Views" src="https://img.shields.io/youtube/views/foCewvyOszQ?style=social"></a></p>
 
 ### Showcase of Tweaks
 
@@ -241,7 +241,7 @@ If Library is not working, try one of these things (and **restart Steam** if nec
 - Go to Task Manager and End Task on **Steam Client WebHelper** (let it restart)
 - Use **Remake JS** button under **Settings and About** (this should also be done when Steam Client updates and the JS has changed)
 - Use **Reset** button under **Settings and About**
-- Delete `steamui` folder
+- Delete `steamui` folder and restart Steam
   - Optional: Try these **Steam Settings** (and restart Steam)
     - **Downloads** -> **Clear Download Cache**
     - **Web Browser** -> **Delete Web Browser Cache**

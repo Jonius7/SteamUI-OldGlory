@@ -1,8 +1,20 @@
 ## SteamUI-OldGlory GUI Changelog
 
-**0.9.27.10**	**(Release 5.10.6)**
+**1.0**				**(Release 5.11)** New CSS Sections functionality
 
-**0.9.27.8**	  **(Release 5.10.5)** 
+0.9.30.3		(*5.11-pre4*)	More CSS/JS Mode Menu Functionality
+
+0.9.30.2		(*5.11-pre3*)	Add Hovertooltips and proper name Labels
+
+0.9.30.1		(*5.11-pre2*)	Working checkboxes and modifying libraryroot.custom.scss
+
+0.9.29.2		(*5.11-pre1*)	Add Checkboxes for CSS Sections feature
+
+**0.9.27.12**	**(Release 5.10.7)** Fix not downloading themes files
+
+**0.9.27.10**	**(Release 5.10.6)** Fix `no module named 'six'` error
+
+**0.9.27.8**	  **(Release 5.10.5)** Remove hardcoded filenames
 
 **0.9.27.7**	  **(Release 5.10.4)** Fix JS tweaks for steam Update 17 Nov 2022
 
@@ -16,17 +28,17 @@
 
 0.9.25.1		(*5.9-pre1*)	
 
-**0.9.11.31**	**(Release 5.8.6)**
+**0.9.11.31**	**(Release 5.8.6)** New Versions of JS Tweaks for Steam Update 28 July
 
 **0.9.11.29**	**(Release 5.8.5)** New versions of JS tweaks for Steam update 13 May 
 
 0.9.11.23 	*(Release 5.8.4-pre1)*
 
-**0.9.11.23** 	**(Release 5.8.3)**
+**0.9.11.23** 	**(Release 5.8.3)** Fix extra newlines being added when updating files
 
 **0.9.11.21** 	**(Release 5.8.2.1)** Fix critical bug where themes and CSS tweaks were not applying
 
-**0.9.11.11**	**(Release 5.8.1)**
+**0.9.11.11**	**(Release 5.8.1)** Fix JS tweaks not applying since 5 Mar Steam Update
 
 **0.9.11.10**	**(5.8)** Backported run_js_tweaker, working JS with `library.js`
 
