@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.30.3"
-        self.release = "5.11-pre4"
+        self.version = "1.0"
+        self.release = "5.11"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -1340,19 +1340,22 @@ class SectionsFrame(tk.Frame):
                             #text = "(" + sectionname + ") " + self.controller.json_data["sections"][sectionname]["name"],
                             text = sectionname,
                             cursor = "hand2")
-            if "name" in self.controller.json_data["sections"][sectionname]:
-                _label2 = tk.Label(self.frameLineInner,
-                                text = self.controller.json_data["sections"][sectionname]["name"],
-                                cursor = "hand2")
-            else:
-                _label2 = tk.Label(self.frameLineInner,
-                                   cursor = "hand2")
             if sectionname in self.controller.json_data["sections"]:
+                if "name" in self.controller.json_data["sections"][sectionname]:
+                    _label2 = tk.Label(self.frameLineInner,
+                                    text = self.controller.json_data["sections"][sectionname]["name"],
+                                    cursor = "hand2")
+                else:
+                    _label2 = tk.Label(self.frameLineInner,
+                                    cursor = "hand2")
                 _tip = custom_tk.Detail_tooltip(_label, 
                                                 self.label_hover_text(
                                                     self.controller.json_data["sections"][sectionname]["description"]), 
                                                 hover_delay=200)
                 self.tips[sectionname] = _tip
+            else:
+                _label2 = tk.Label(self.frameLineInner,
+                                    cursor = "hand2")
             _checkbutton.grid(row=rownum, column=0, padx=(5,0), sticky='w')
             _label.grid(row=rownum, column=1, sticky='w')
             _label2.grid(row=rownum, column=2, sticky='w')

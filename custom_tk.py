@@ -51,7 +51,9 @@ class ScrollFrame(tk.Frame):
         self.canvas.create_window(0, 0, window=self.content, anchor="nw")
 
         self.bind('<Configure>', self.on_configure)
-        self.canvas.bind('<MouseWheel>', self.on_mousewheel)
+        #self.canvas.bind('<MouseWheel>', self.on_mousewheel)
+        self.canvas.bind("<Enter>", lambda _: self.canvas.bind_all('<MouseWheel>', self.on_mousewheel))
+        self.canvas.bind("<Leave>", lambda _: self.canvas.unbind_all('<MouseWheel>'))
 
     def on_configure(self, event):
         bbox = self.content.bbox('ALL')
