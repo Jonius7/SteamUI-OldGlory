@@ -1316,7 +1316,7 @@ class SectionsFrame(tk.Frame):
     def section_click(self, controller, sectionname):
         try:
             controller.sections_config[sectionname] = str(self.checkvars[sectionname].get())
-            print(controller.sections_config)
+            #print(controller.sections_config)
         except Exception as e:
             print("Error setting section config :\n"\
                   "Section:   " + sectionname, file=sys.stderr)

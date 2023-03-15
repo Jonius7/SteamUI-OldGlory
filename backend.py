@@ -570,20 +570,7 @@ def write_css_sections(sections, sections_filedata, sections_json):
                         f1.write(line)
                     modify = 0
                 else:
-                    f1.write(line)
-                            
-                            #if line.startswith(start_comment):
-                            #    pass
-                            #    if settings[setting]["value"] == "1" and setting in settings \
-                            #        and settings[setting]["state"] == "normal":
-                            #        modify = 1
-                            #        f1.write(LineParser.remove_start_comment(start_comment, line))
-                            #else:
-                            #    pass
-                            #    if settings[setting]["value"] == "0":
-                            #        modify = 1
-                            #        f1.write(LineParser.add_start_comment(start_comment, line))
-                    
+                    f1.write(line)                    
         f.close()
         f1.close()
         
