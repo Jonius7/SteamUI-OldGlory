@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "1.0"
-        self.release = "5.11"
+        self.version = "1.0.1.1"
+        self.release = "5.11.1"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -1300,7 +1300,7 @@ class SectionsGUICreator(tk.Frame):
 class SectionsFrame(tk.Frame):
     def __init__(self, parent, controller):
         self.parent = parent
-        self.frameLine = custom_tk.ScrollFrame(self.parent)
+        self.frameLine = custom_tk.ScrollFrameAdvanced(self.parent)
         self.controller = controller
         self.frameLineInner = tk.Frame(self.frameLine.content)
         self.frameLineInner.grid(row=0, column=0)

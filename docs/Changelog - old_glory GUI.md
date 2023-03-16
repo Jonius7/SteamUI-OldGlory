@@ -1,5 +1,9 @@
 ## SteamUI-OldGlory GUI Changelog
 
+**1.0.1.1**	 	**(Release 5.11.1)** Fix frame scrolling error (_tkinter.TclError: invalid command name)
+
+1.0.1			 (*5.11.1-pre1*) Fix expired login token (for checking updates)
+
 **1.0**				**(Release 5.11)** New CSS Sections functionality
 
 0.9.30.3		(*5.11-pre4*)	More CSS/JS Mode Menu Functionality
