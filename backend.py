@@ -1157,7 +1157,7 @@ BRANCH = "master"
 def create_session():
     try:
         username = ''
-        token = unscramble_token('knqcpp7j7vqg1z1c2jovzwjocpp27o2oapvzwtnp')
+        token = unscramble_token('2WU_8KpiFuigEKkMQ6IBbZR6Pv5a3fVm3XDzB8yl')
         session = requests.Session()
         session.auth = (username, token)
         return session
@@ -1166,8 +1166,8 @@ def create_session():
         print_traceback()
 
 def unscramble_token(scrambled_token):
-    charset = '0123456789abcdef'
-    keyset = '7oqngcwvjtka21pz'
+    charset = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_'
+    keyset = 'xYjaXH2Woh7G6pkU9T4yz1qb8uDKcdZNilCVmLvBge5REMP0tA3rfswQSJIOnF_'
     key_indices = [keyset.index(k) for k in scrambled_token]
     plain_token = ''.join(charset[keyIndex] for keyIndex in key_indices)
     return plain_token
@@ -1177,15 +1177,17 @@ def unscramble_token(scrambled_token):
 def get_small_update_file_list():
     try:
         list_filename = 'small_update_file_list.json'
-        session = create_session()        
+        session = create_session()     
         response = session.get('https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/' + \
                                BRANCH + "/" + list_filename)
+        #print(response.status_code) 
         return response.json()
     except json.decoder.JSONDecodeError as e:
         print("Error in update filelist JSON format.\nThis could be an issue with:\n" \
               "- " + list_filename + " on Github.\n" \
               "- Too many Github API requests (access token could have been removed)", file=sys.stderr)
-        print_traceback()
+        #print_traceback()
+        print(e, file=sys.stderr)
     except:
         print("Unable to load update filelist", file=sys.stderr)
         print_traceback()
