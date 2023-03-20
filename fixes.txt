@@ -13,7 +13,8 @@
 className: styles.Body  className: styles.Body, scrollTop: 30
 
 ### === Change Game Image Grid Sizes - default widths 111, 148, 222 ===
-t = Math.max(1, Math.min(u, Math.floor((e + m) / g)));  t = Math.max(1, Math.min(u, Math.floor((e + m) / g)) + 1);
+gridColumnGap: 16,  gridColumnGap: 5,
+gridRowGap: 24,  gridRowGap: 8,
 PortraitWidthSmall: "111px",  PortraitWidthSmall: "100px",
 PortraitWidthMedium: "148px",  PortraitWidthMedium: "140px",
 PortraitWidthLarge: "222px",  PortraitWidthLarge: "200px",
