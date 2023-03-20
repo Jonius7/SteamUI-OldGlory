@@ -19,9 +19,10 @@ PortraitWidthMedium: "148px",  PortraitWidthMedium: "140px",
 PortraitWidthLarge: "222px",  PortraitWidthLarge: "200px",
 
 ### === Landscape Images JS Tweaks (beta, working, some layout quirks with shelves) ===
-###t = Math.max(1, Math.min(u, Math.floor((e + m) / g)));  t = Math.max(1, Math.min(u, Math.floor((e + m) / g)) + 1);
 ###eAssetType: 0  eAssetType: 3
-###i = 1.5 * r  i = 43 / 92 * r
+###childHeight: p.childHeight,  childHeight: p.childHeight * 43 / 138,
+###gridColumnGap: 16,  gridColumnGap: 5,
+###gridRowGap: 24,  gridRowGap: 8,
 
 ### === Stop What's New Events from Loading ===
 ###y.De.STORE_BASE_URL + "events/ajaxgetbesteventsforuser"  ""
@@ -29,6 +30,7 @@ PortraitWidthLarge: "222px",  PortraitWidthLarge: "200px",
 ### === Press Enter to launch games ===
 switch (t) {~~case 38:  case 13: return this.RunApp(o.OX.currentGameListSelection.nAppId), void e.preventDefault();case 38:
 MoveRangeSelectUpOneRow() {  RunApp(e) {window.location.href = "steam://rungameid/" + e;} MoveRangeSelectUpOneRow() {
+(0, a.gn)([F.ak], Te.prototype, "ScrollToTop", null),  (0, a.gn)([F.ak], Te.prototype, "ScrollToTop", null), (0, a.gn)([F.ak], Te.prototype, "RunApp", null),
 
 ### === Expand Show more Details panel by default ===
 ###let e = this.props.expand ? G().AppDetailsExpanded : G().AppDetailsCollapsed;  let e = this.props.expand ? G().AppDetailsCollapsed : G().AppDetailsExpanded;
