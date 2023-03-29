@@ -1,5 +1,5 @@
 ### === Enable Patching JS ===
-8778: "localization/steamui_french-json",~~8790: "chunk~547eb3232"  8790: "chenk~547eb3232"
+27: "localization/shared_japanese-json",~~58: "chunk~2dcc5aaf7"  58: "chenk~2dcc5aaf7"
 
 ### === Increase Number of Screenshots and DLC displayed ===
 .slice(0, 4)  .slice(0, 9)
