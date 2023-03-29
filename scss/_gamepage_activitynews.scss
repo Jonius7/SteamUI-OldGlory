@@ -7,16 +7,27 @@
 .appactivityday_AppActivityDay_S2Fu9 {
     margin-bottom: 0px;
     margin-top: -29px;
-    min-height: 47px;
+    min-height: 95px;
   }
 
 /* comment box */
 .comment_thread_ActivityCommentThread_39nna {
   margin-bottom: 29px;
 }
-  
+
+/* crafting badge */
+.appactivityday_BadgeSection_3G7i5 {
+  margin-bottom: 30px;
+}
+
+/* other margins */
 .appdetailssection_AppDetailsSectionContainer_31ptF.appdetailssection_AppDetailsSectionHasLabel_2G5B7 > div > div:nth-child(2) {
   margin-top: 0px;
+}
+
+/* received new game margin */
+.appactivityday_Event_UVeN0.appactivityday_ReceivedNewGame_35ZQ6.appactivityday_NoCommentSupport_2CB_R.Panel.Focusable {
+  margin-bottom: 24px;
 }
 
 /* Activity Achievement Unlocked to 2 columns */
@@ -25,4 +36,18 @@
   padding: 6px;
   grid-template-columns: repeat(auto-fill, [col-start] minmax(140px, 48%) [col-end]) !important;
   gap: 8px 8px;
+}
+
+/* Activity Margin */
+.appdetailsactivitysection_AddToFeed_2bqRp {
+  margin-bottom: 30px;
+}
+
+/* DLC Available Content */
+.apopactivitydlc_Rollup_2UySY {
+  display: var(--DLCAvailableContent);
+}
+
+.appdetailsactivitysection_Rollup_1_lVh {
+  display: var(--DLCAvailableContent);
 }

@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "v0.9.11.29"
-        self.release = "5.8.5"
+        self.version = "1.0.1.1"
+        self.release = "5.11.1"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -35,6 +35,7 @@ class OldGloryApp(tk.Tk):
         ### Data and Config (will be populated)
         self.json_data = None
         self.css_config = None
+        self.sections_config = None
         self.js_config = None
 
         ### Fixed DPI Scaling on Windows
@@ -58,11 +59,12 @@ class OldGloryApp(tk.Tk):
 
         ### Load config variables
         self.js_gui_changed = 0
+        self.mode_changed = 0
         
         ### Frames/Pages configure
         self.frames = {}
         
-        for F in (StartPage, PageOne, PageTwo):
+        for F in (StartPage, CSSPage, JSPage):
             frame = F(self.container, self)
             frame.grid(row=0, column=0, sticky="nsew")
             self.frames[F.__name__] = frame
@@ -133,8 +135,9 @@ class OldGloryApp(tk.Tk):
         ### Check if CSS Patched
         ### Check for new version
         self.frames["StartPage"].text1.config(state='normal')
-        if is_connected():            
-            check_if_css_patched(self.frames["StartPage"])
+        if is_connected():
+            #deprecated         
+            #check_if_css_patched(self.frames["StartPage"])
             release_check(self.frames["StartPage"], self.release)
             print("Checking for small updates...")
             thread = Thread(target = self.small_update_check, args = ())
@@ -346,6 +349,23 @@ class StartPage(tk.Frame):
             tags=["CSS"])
         mainoption7 = mo7.returnMainOption()
         mainoption7.grid(row=0, column=3, sticky='w')
+
+        ######
+        self.var8 = tk.IntVar()
+        self.check8 = ttk.Checkbutton(self.frameCheck,
+                                 variable=self.var8)
+        self.check8.grid(row=1, column=2)
+        ###
+        mo8 = MainOption(
+            parentFrame=self.frameCheck,
+            page=self,
+            name="Home Button Icon",
+            image="images/home_button.png",
+            tags=["CSS"])
+        mainoption8 = mo8.returnMainOption()
+        mainoption8.grid(row=1, column=3, sticky='w')
+
+
         ###
         #self.image1 = add_img(self.frameCheck, os.path.join(os.getcwd(), 'images/full_layout.png'))
         #self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")      
@@ -391,6 +411,22 @@ class StartPage(tk.Frame):
                                      hover_delay=200)
         pbutton3.bind("<Button-1>", lambda event:backend.steam_library_compat_config(1))
         pbutton3.grid(row=4, column=0, padx=(5,0), pady=5)
+        
+        labeltext_c = tk.StringVar()
+        labeltext_c.set("Patching")
+        
+        label_c = tk.Label(self.framePatch, textvariable=labeltext_c)
+        label_c.grid(row=0, column=1)
+        
+        pbutton4 = ttk.Button(self.framePatch,
+                              text="Patch CSS",
+                              width=22
+        )
+        button4_tip = custom_tk.Detail_tooltip(pbutton4,
+                                     "Alternative to SFP for patching CSS",
+                                     hover_delay=200)
+        pbutton4.bind("<Button-1>", lambda event:backend.patch_css())
+        pbutton4.grid(row=1, column=1, padx=(5,0), pady=5)
     
         
     def create_mode_frame(self):   
@@ -404,7 +440,7 @@ class StartPage(tk.Frame):
                            text="CSS Options",
                            width=16
         )
-        button_m.bind("<Button-1>", lambda event:show_PageOne(self.controller))
+        button_m.bind("<Button-1>", lambda event:show_CSSPage(self.controller))
         button_m.grid(row=0, column=0, padx=5)
 
         ###
@@ -413,7 +449,7 @@ class StartPage(tk.Frame):
                            text="JS Options",
                            width=16
         )
-        button_n.bind("<Button-1>", lambda event:show_PageTwo(self.controller))
+        button_n.bind("<Button-1>", lambda event:show_JSPage(self.controller))
         button_n.grid(row=0, column=1, padx=5)
         
         
@@ -422,7 +458,6 @@ class StartPage(tk.Frame):
     ###
         self.ConfirmObject = ConfirmFrame(self, self.controller)
         self.frameConfirm = self.ConfirmObject.get_frame_confirm()
-           
         
     def set_init_gui_states(self):
     ### Running functions after much of StartPage has been initialised
@@ -443,6 +478,7 @@ class StartPage(tk.Frame):
         ###tabs
         self.tabs.add(self.frameCheck, text="Main Options")
         self.tabs.add(self.framePatch, text="Advanced Options")
+        #self.tabs.add(self.framePatch, text="Patching")
         self.tabs.pack(expand=1)
         
         self.frameLog.pack(padx=17, pady=(10,7), expand=1, fill='both')
@@ -477,7 +513,7 @@ class StartPage(tk.Frame):
         
         return themes
 
-class PageOne(tk.Frame):
+class CSSPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
@@ -493,9 +529,16 @@ class PageOne(tk.Frame):
     ### CSS Frame
     ###
         controller.css_config = backend.load_css_configurables()
-        self.frameCSS = tk.Frame(frameQuick)
+        controller.sections_config = backend.read_css_sections()
+        #self.frameCSS = tk.Frame(frameQuick)
+        
         self.css_gui = CSSGUICreator(frameQuick, controller, controller.css_config)
         self.frameCSS = self.css_gui.returnframeCSS()
+        
+        #self.sections_gui = SectionsGUICreator(frameSections, controller)
+        #self.frameSections = self.sections_gui.returnframeSections()
+        self.sections_gui = SectionsFrame(frameSections, controller)
+        self.frameSections = self.sections_gui.returnLineFrame()
         
     ### MODE Frame
     ###
@@ -516,17 +559,19 @@ class PageOne(tk.Frame):
                            text="JS Options",
                            width=16
         )
-        button_n.bind("<Button-1>", lambda event:show_PageTwo(controller))
+        button_n.bind("<Button-1>", lambda event:show_JSPage(controller))
         button_n.grid(row=0, column=1, padx=5)
 
     ### CONFIRM FRAME
     ###
         self.ConfirmObject = ConfirmFrame(self, controller)
         self.frameConfirm = self.ConfirmObject.get_frame_confirm()
+        self.ConfirmObject.disable_mode_menu()
         
     ### Pack frames
         self.frameHead.pack()
         self.frameCSS.pack(padx=10, fill="x")
+        self.frameSections.pack(padx=10, expand=1, fill="both")
         
         frameQuick.pack()
         frameSections.pack()
@@ -541,7 +586,7 @@ class PageOne(tk.Frame):
 
         #self.frameCSS = create_css_gui(self, controller, backend.load_css_configurables())
 
-class PageTwo(tk.Frame):
+class JSPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
@@ -577,14 +622,15 @@ class PageTwo(tk.Frame):
                            text="CSS Options",
                            width=16
         )
-        button_n.bind("<Button-1>", lambda event:show_PageOne(controller))
+        button_n.bind("<Button-1>", lambda event:show_CSSPage(controller))
         button_n.grid(row=0, column=1, padx=5)
     
     ### CONFIRM FRAME
     ###
         self.ConfirmObject = ConfirmFrame(self, controller)
         frameConfirm = self.ConfirmObject.get_frame_confirm()
-
+        self.ConfirmObject.disable_mode_menu()
+        
     ### Pack frames
     ###
         self.frameHead.pack()
@@ -635,19 +681,24 @@ class ConfirmFrame(tk.Frame):
                                    width=3)
                 
         ###
-        install_modes = ("CSS/JS", "CSS Only", "CSS + JS")
-        vard = tk.StringVar()
+        self.install_modes = ["CSS Only", "CSS + JS"]
+        self.modeVar = tk.StringVar()
         
-        buttond = ttk.OptionMenu(self.left_frame,
-                        vard,
-                        install_modes[0],
-                        *install_modes   
+        self.modeMenu = ttk.Combobox(self.left_frame,
+                                     font="TkDefaultFont",
+                                     values=self.install_modes,
+                                     textvariable=self.modeVar,
+                                     state="readonly",
+                                     #selected=self.install_modes[0],              
         )
-        buttond.config(width=8, state='disabled')
-        #buttond.bind("<Button-1>",
-        #             lambda event:manager.install_click(event, controller.frames["StartPage"], controller)
-        #             )
-        buttond.grid(row=0, column=0, padx=5)
+        self.modeMenu.current(0)
+        self.modeMenu.config(width=9,
+                             #state='disabled'
+                             )
+        self.modeMenu.bind("<Button-1>",
+                     lambda event:manager.mode_click(event, controller)
+                     )
+        self.modeMenu.grid(row=0, column=0, padx=5)
         
         self.left_frame.grid(row=0, column=0, sticky=tk.E)
         
@@ -660,10 +711,7 @@ class ConfirmFrame(tk.Frame):
                     lambda event:manager.install_click(event, controller.frames["StartPage"], controller)
                     )
         self.button1.grid(row=0, column=1, padx=5, sticky="NSEW")
-        
-        
-        
-        
+                
         ###
         button2 = ttk.Button(self.frameConfirm,
                         text="Reload Config",
@@ -704,18 +752,29 @@ class ConfirmFrame(tk.Frame):
     
     def get_frame_confirm(self):
         return self.frameConfirm
+    
+    def set_mode_menu(self, index):
+        self.modeVar.set(self.install_modes[index])
+        #print(index)
+        
+    def get_mode_menu(self):
+        return self.modeVar
+    
+    def disable_mode_menu(self):
+        self.modeMenu.config(state='disabled')
+        
 ### ================================
 
 ### Show Page Functions
 ### ================================
-def show_PageOne(controller):
+def show_CSSPage(controller):
     #controller.css_config = backend.load_css_configurables()
-    controller.show_frame("PageOne")
-    #controller.frames["PageOne"].frameCSS = create_css_gui(controller.frames["PageOne"], controller, backend.load_css_configurables())
-    #update_css_gui(controller.frames["PageOne"], controller, controller.css_config)
-def show_PageTwo(controller):
+    controller.show_frame("CSSPage")
+    #controller.frames["CSSPage"].frameCSS = create_css_gui(controller.frames["CSSPage"], controller, backend.load_css_configurables())
+    #update_css_gui(controller.frames["CSSPage"], controller, controller.css_config)
+def show_JSPage(controller):
     #controller.js_config = backend.load_js_fixes()
-    controller.show_frame("PageTwo")
+    controller.show_frame("JSPage")
 
 ### ================================
 ### Initialisation
@@ -763,6 +822,8 @@ def release_check(page, current_release):
         print("Could not connect to Github, Unable to check for latest release!", file=sys.stderr)
     except socket.timeout:
         print("Update check timeout!", file=sys.stderr)
+    except AttributeError:
+        print("Could not connect to Github, Unable to check for latest release!", file=sys.stderr)
     except Exception as e:
         print("Unable to check for latest release!", file=sys.stderr)
         print(e.message, file=sys.stderr)
@@ -852,7 +913,8 @@ def dropdown_click(event, page, controller):
     #print(theme_name)
     #print(controller.json_data["themes"][theme_name.split(" (")[0]]["filename"])
     
-    theme_image_path = os.path.join(os.getcwd(), "images/theme_" + controller.json_data["themes"][theme_name.split(" (")[0]]["filename"][1:-5] + ".png")
+    #theme_image_path = os.path.join(os.getcwd(), "images/theme_" + controller.json_data["themes"][theme_name.split(" (")[0]]["filename"][1:-5] + ".png")
+    theme_image_path = os.path.join(os.getcwd(), "themes", theme_name.split(" (")[0], "preview.png")
     dropdown_hover(theme_image_path, event.widget)
 
 def dropdown_hover(image_path, widget):
@@ -873,28 +935,36 @@ MAIN_SETTINGS_MAP = {
     "ThemeSelected" : {"set" : ""}
     }
 
-def run_js_tweaker(text_area, reset=0):
+def run_js_tweaker(controller, reset=0, max_stage=10):
     try:
+        text_area = controller.frames["StartPage"].text1
         print("==============================")
         print("Running js_tweaker")
         text_area.update_idletasks()
         ###
-        run_and_update_tkinter(lambda: js_tweaker.initialise(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.copy_files_from_steam(reset), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.setup_library(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.modify_html(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.beautify_js(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.beautify_js("library.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.beautify_js("libraryroot~sp.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.parse_fixes_file("fixes.txt"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.write_modif_file(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.write_modif_file("library.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.write_modif_file("libraryroot~sp.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.re_minify_file(), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.re_minify_file("library.modif.js", "librery.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.re_minify_file("libraryroot~sp.modif.js", "libraryreet~sp.js"), text_area)
-        run_and_update_tkinter(lambda: js_tweaker.copy_files_to_steam(), text_area)
-        print("\nSteam Library JS Tweaks applied successfully.")         
+        if max_stage >= 1:
+            run_and_update_tkinter(lambda: js_tweaker.initialise(), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.copy_files_from_steam(reset), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.backup_files_from_steam(), text_area)
+            #run_and_update_tkinter(lambda: js_tweaker.setup_library(), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.modify_html(), text_area)
+        if max_stage >= 2:
+            run_and_update_tkinter(lambda: js_tweaker.beautify_js(), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.beautify_js(controller.json_data["libraryjsFile"]), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.beautify_js(controller.json_data["jsFile"]), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.parse_fixes_file("fixes.txt"), text_area)
+        if max_stage >= 3:
+            run_and_update_tkinter(lambda: js_tweaker.write_modif_file(), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.write_modif_file(controller.json_data["libraryjsFile"]), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.write_modif_file(controller.json_data["jsFile"]), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.re_minify_file(), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.re_minify_file(controller.json_data["libraryjsModifFile"], controller.json_data["libraryjsPatchedFile"]), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.re_minify_file(controller.json_data["jsModifFile"], controller.json_data["jsPatchedFile"]), text_area)
+        if max_stage >= 4:
+            run_and_update_tkinter(lambda: js_tweaker.compress_newlines(controller.json_data["libraryjsPatchedFile"]), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.compress_newlines(controller.json_data["libraryrootjsPatchedFile"]), text_area)
+            run_and_update_tkinter(lambda: js_tweaker.copy_files_to_steam(), text_area)
+            print("\nSteam Library JS Tweaks applied successfully.")         
     except Exception as e:
         print("Error while applying JS Tweaks.", file=sys.stderr)
         print_traceback()
@@ -918,10 +988,12 @@ def reload_click(event, controller):
         #print("Loaded config data. (oldglory_config2.cfg)")
         controller.json_data = backend.get_json_data()
         controller.css_config = backend.load_css_configurables()
+        controller.sections_config = backend.read_css_sections()
         controller.js_config, controller.special_js_config = backend.load_js_fixes()
         ### Update GUI
-        controller.frames["PageOne"].css_gui.PresetFrame.update_presets_gui()
-        controller.frames["PageTwo"].js_gui.update_js_gui(controller)
+        controller.frames["CSSPage"].css_gui.PresetFrame.update_presets_gui()
+        controller.frames["CSSPage"].sections_gui.update_sectionsFrame()
+        controller.frames["JSPage"].js_gui.update_js_gui(controller)
         print("Config Reloaded.")
     except:
         print("Config could not be completely reloaded.", file=sys.stderr)
@@ -1202,6 +1274,111 @@ class PresetOption(tk.Frame):
 
 ### Preset
 ### ~~~~~~~~~~
+
+### CSS Sections Config to GUI
+class SectionsGUICreator(tk.Frame):
+    def __init__(self, page, controller):
+        self.controller = controller
+        ###Outer frame and canvas
+        self.frameSections = custom_tk.ScrollFrame(page)
+        
+        self.LineFrame = SectionsFrame(self.frameSections, controller)
+        self.frameLine = self.LineFrame.returnLineFrame()
+        self.LineFrame.getLineOptions()
+
+        #Configure grid expand
+        self.frameSections.columnconfigure(0, weight=1)
+        self.frameSections.rowconfigure(0, weight=1)
+        
+        self.frameLine.grid(row=0, column=0, sticky="nsew")
+        #self.frameConfigurables.grid(row=0, column=1, sticky="nsew")
+        #frameConfigurables.pack(fill="both", expand=True, padx=10)
+    def returnframeSections(self):
+        return self.frameSections
+
+### Line (Sections)
+class SectionsFrame(tk.Frame):
+    def __init__(self, parent, controller):
+        self.parent = parent
+        self.frameLine = custom_tk.ScrollFrameAdvanced(self.parent)
+        self.controller = controller
+        self.frameLineInner = tk.Frame(self.frameLine.content)
+        self.frameLineInner.grid(row=0, column=0)
+
+        try:
+            self.create_sectionsFrame()
+            self.frameLineInner.grid(row=1, column=0)
+        except Exception as e:
+            print("Property sections in JSON file not found.\n"\
+                                "Unable to load CSS Sections.", file=sys.stderr)
+            print_traceback()
+    
+    def section_click(self, controller, sectionname):
+        try:
+            controller.sections_config[sectionname] = str(self.checkvars[sectionname].get())
+            #print(controller.sections_config)
+        except Exception as e:
+            print("Error setting section config :\n"\
+                  "Section:   " + sectionname, file=sys.stderr)
+            print_traceback()
+            
+    def create_sectionsFrame(self):
+        rownum = 1
+        self.checkvars = {}
+        self.comboboxes = {}
+        self.tips = {}
+        for i, (sectionname, value) in enumerate(self.controller.sections_config.items()):
+            _checkvar = tk.IntVar()
+            self.checkvars[sectionname] = _checkvar
+            self.checkvars[sectionname].set(int(value))
+            
+            _checkbutton = ttk.Checkbutton(self.frameLineInner,
+                                        text = sectionname,
+                                        variable = _checkvar,
+                                        command = lambda sectionname = sectionname: self.section_click(self.controller, sectionname))
+            _label = tk.Label(self.frameLineInner,
+                            #text = "(" + sectionname + ") " + self.controller.json_data["sections"][sectionname]["name"],
+                            text = sectionname,
+                            cursor = "hand2")
+            if sectionname in self.controller.json_data["sections"]:
+                if "name" in self.controller.json_data["sections"][sectionname]:
+                    _label2 = tk.Label(self.frameLineInner,
+                                    text = self.controller.json_data["sections"][sectionname]["name"],
+                                    cursor = "hand2")
+                else:
+                    _label2 = tk.Label(self.frameLineInner,
+                                    cursor = "hand2")
+                _tip = custom_tk.Detail_tooltip(_label, 
+                                                self.label_hover_text(
+                                                    self.controller.json_data["sections"][sectionname]["description"]), 
+                                                hover_delay=200)
+                self.tips[sectionname] = _tip
+            else:
+                _label2 = tk.Label(self.frameLineInner,
+                                    cursor = "hand2")
+            _checkbutton.grid(row=rownum, column=0, padx=(5,0), sticky='w')
+            _label.grid(row=rownum, column=1, sticky='w')
+            _label2.grid(row=rownum, column=2, sticky='w')
+            
+            rownum += 1
+    
+    def label_hover_text(self, hovertext):
+        return hovertext     
+        
+    def clear_sectionsFrame(self):
+        for widget in self.frameLineInner.winfo_children():
+            widget.destroy()
+            
+    def update_sectionsFrame(self):
+        self.clear_sectionsFrame()
+        self.create_sectionsFrame()
+    
+    def returnLineFrame(self):
+        return self.frameLine
+### END LineFrame
+
+
+
 ### change container.css_config
 ### Recursion
 def apply_css_config_values(controller, propValues):
@@ -1266,13 +1443,12 @@ class JSFrame(tk.Frame):
         self.create_frameJSInner(self.controller)
         self.frameJSInner.grid(row=1, column=0)
 
-        
-        
     ### PRESET Click funtion
     def js_click(self, controller, fixname):
         try:
             controller.js_config[fixname] = str(self.checkvars[fixname].get())
             self.controller.js_gui_changed = 1
+            manager.set_mode_menu_var(self.controller, self.controller.js_gui_changed)
             #print(controller.js_config)
         except Exception as e:
             print("Error setting config :\n"\
@@ -1341,8 +1517,8 @@ class JSFrame(tk.Frame):
 ### Reset Functions
 ### ================================
 def reset_all_tweaks(event, controller):
-    js_tweaker.setup_library(1)
-    js_tweaker.reset_html
+    #js_tweaker.setup_library(1)
+    #js_tweaker.reset_html
     backend.clean_slate_css()
     manager.set_css_config_no_js(controller.css_config)
     #backend.reset_html()
@@ -1350,8 +1526,7 @@ def reset_all_tweaks(event, controller):
 
 def remake_js(event, controller):
     backend.clear_js_working_files()    
-    
-    thread = Thread(target = run_js_tweaker, args = (controller.frames["StartPage"].text1, 1,))
+    thread = Thread(target = run_js_tweaker, args = (controller, 1,))
     thread.start()
     #thread.join()
     #run_js_tweaker(controller.frames["StartPage"].text1)
@@ -1366,7 +1541,7 @@ class UpdateWindow(tk.Toplevel):
         ### Window, Title, Icon setup
         tk.Toplevel.__init__(self)
         self.container = custom_tk.ScrollFrame(self)
-        windowW = 430
+        windowW = 500
         windowH = 400
         screen_width = self.controller.winfo_screenwidth()
         screen_height = self.controller.winfo_screenheight()
@@ -1511,8 +1686,8 @@ def settings_window(event, controller):
     about.insert(tk.END, "and provide some extra functionality where possible.\n\n")
     about.insert(tk.END, 'Github: ')
     about.insert(tk.END, "github.com/Jonius7/SteamUI-OldGlory/", hyperlink.add(partial(webbrowser.open, "https://github.com/Jonius7/SteamUI-OldGlory/")))
-    about.insert(tk.END, "\n\nTo be used with SteamFriendsPatcher:\n")
-    about.insert(tk.END, "github.com/PhantomGamers/SteamFriendsPatcher/", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SteamFriendsPatcher/")))
+    about.insert(tk.END, "\n\nCan be used with SFP (SteamFriendsPatcher):\n")
+    about.insert(tk.END, "https://github.com/PhantomGamers/SFP/", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SFP/")))
 
     about.config(state='disabled') 
 

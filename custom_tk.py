@@ -52,6 +52,39 @@ class ScrollFrame(tk.Frame):
 
         self.bind('<Configure>', self.on_configure)
         self.canvas.bind('<MouseWheel>', self.on_mousewheel)
+        
+    def on_configure(self, event):
+        bbox = self.content.bbox('ALL')
+        self.canvas.config(scrollregion=bbox)
+
+    def on_mousewheel(self, event):
+        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+    def reconfigure_autoscrollbar(self):
+        self.canvas.config(yscrollcommand=self.scroll.set)
+        
+class ScrollFrameAdvanced(tk.Frame):
+    '''Modified tk.Frame to have an AutoScrollbar when needed
+       works on canvas with labels'''
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+
+        self.canvas = canvas = tk.Canvas(self, highlightthickness=0)
+        canvas.grid(row=0, column=0, sticky='nsew')
+
+        self.scroll = AutoScrollbar(self, command=self.canvas.yview, orient=tk.VERTICAL)
+        self.canvas.config(yscrollcommand=self.scroll.set)
+        self.scroll.grid(row=0, column=1, sticky='nsew')     
+
+        self.content = tk.Frame(canvas)
+        self.canvas.create_window(0, 0, window=self.content, anchor="nw")
+
+        self.bind('<Configure>', self.on_configure)
+        #self.canvas.bind('<MouseWheel>', self.on_mousewheel)
+        self.canvas.bind("<Enter>", lambda _: self.canvas.bind_all('<MouseWheel>', self.on_mousewheel))
+        self.canvas.bind("<Leave>", lambda _: self.canvas.unbind_all('<MouseWheel>'))
 
     def on_configure(self, event):
         bbox = self.content.bbox('ALL')

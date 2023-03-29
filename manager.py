@@ -30,12 +30,13 @@ CONFIG_MAP = {#"SteamLibraryPath" : {"set" : ""},
               #"" : {},
               "InstallCSSTweaks" : {"value" : "var1", "check" : "check1", "javascript" : False},
               "EnablePlayButtonBox" : {"value" : "var2", "check" : "check2", "javascript" : False},
-              "EnableVerticalNavBar" : {"value" : "var3", "check" : "check3", "javascript" : True},
-              "EnableClassicLayout" : {"value" : "var4", "check" : "check4", "javascript" : True},
+              "EnableVerticalNavBar" : {"value" : "var3", "check" : "check3", "javascript" : False},
+              "EnableClassicLayout" : {"value" : "var4", "check" : "check4", "javascript" : False},
               "LandscapeImages" : {"value" : "var5", "check" : "check5", "javascript" : True},
               #"InstallWithDarkLibrary" : {"value" : "var6", "javascript" : False},
               "InstallWithLibraryTheme" : {"value" : "var6", "check" : "check6", "javascript" : False},
               "ClassicStyling" : {"value" : "var7", "check" : "check7", "javascript" : False},
+              "HomeButton" : {"value" : "var8", "check" : "check8", "javascript" : False},
               "ThemeSelected" : {"set" : ""}
               }
 
@@ -53,15 +54,18 @@ def install_click(event, page, controller):
             #print(page.loaded_config)
             
             ### To be changed in a later version
-            #write fixes.txt before apply
             backend.write_js_fixes(controller.js_config, controller.special_js_config)
-            #write css configurables
             backend.write_css_configurables(controller.css_config)
-            ###
             
             #applying settings
             change_javascript = check_if_css_requires_javascript(page, controller, settings)
-            manager_write_css_settings(page, settings)
+            if controller.mode_changed == 1:
+                change_javascript = page.ConfirmObject.install_modes.index(
+                    page.ConfirmObject.modeVar.get()
+                )
+            #print(page.ConfirmObject.modeVar.get())
+            set_mode_menu_var(controller, change_javascript)
+            manager_write_css_settings(page, controller, settings)
             thread = manager_run_js_tweaker(page, controller, change_javascript)
             
             update_loaded_config(page, controller)
@@ -71,6 +75,7 @@ def install_click(event, page, controller):
             apply_css_theme(controller.frames["StartPage"], controller)
             backend.compile_css(backend.get_json_data())
             controller.js_gui_changed = 0
+            controller.mode_changed = 0
             backend.refresh_steam_dir()
             update_loaded_config(page, controller)
             if not thread:
@@ -78,6 +83,7 @@ def install_click(event, page, controller):
         except:
             print("Error while installing tweaks.", file=sys.stderr)
             old_glory.print_traceback()
+            enable_buttons_after_installing(controller)
     
 def disable_buttons_while_installing(controller):
     for frame in controller.frames:
@@ -86,6 +92,11 @@ def disable_buttons_while_installing(controller):
 def enable_buttons_after_installing(controller):
     for frame in controller.frames:
         controller.frames[frame].ConfirmObject.enable_install_button()
+        
+def mode_click(event, controller):
+    #print(str(event.widget['state']))
+    controller.mode_changed = 1
+    pass
 
 
 def get_settings_from_gui(page, config_map=CONFIG_MAP):
@@ -111,13 +122,17 @@ def get_settings_from_gui(page, config_map=CONFIG_MAP):
 
 def set_js_config(controller, settings):
     SETTINGS_MAP = {
-        "LandscapeImages": {"JS_name" : "Landscape Images JS Tweaks (beta, working, some layout quirks with shelves)"}
+        "LandscapeImages": {"JS_name" : "Landscape Images JS Tweaks"}
     }
+    #print(settings)
+    #print(controller.js_config)
     for setting in SETTINGS_MAP:
-        if setting in settings:
-            js_name = SETTINGS_MAP[setting]["JS_name"]
-            controller.js_config[js_name] = str(settings[setting]["value"])
-            controller.frames["PageTwo"].js_gui.checkvars[js_name].set(settings[setting]["value"])
+        for curr_setting, curr_value in controller.js_config.items():
+            if SETTINGS_MAP[setting]["JS_name"] in curr_setting:
+                js_name = curr_setting
+                #print(js_name)
+                controller.js_config[js_name] = str(settings[setting]["value"])
+                controller.frames["JSPage"].js_gui.checkvars[js_name].set(settings[setting]["value"])
     return settings
 
 def apply_special_js_config(controller):       
@@ -125,7 +140,7 @@ def apply_special_js_config(controller):
         if "Change Game Image Grid Sizes" in key:
             sizes = ["Small", "Medium", "Large"]
             for size in sizes:
-                controller.special_js_config[key][size] = controller.frames["PageTwo"].js_gui.comboboxes[size].get()
+                controller.special_js_config[key][size] = controller.frames["JSPage"].js_gui.comboboxes[size].get()
 
 def check_if_css_requires_javascript(page, controller, settings):
     change_javascript = 0   #Check if js required
@@ -133,12 +148,18 @@ def check_if_css_requires_javascript(page, controller, settings):
         if check_setting_requires_javascript(settings[setting]):
             if setting in page.loaded_config \
                 and int(page.loaded_config[setting]) != int(settings[setting]["value"]): #If Setting is different
-                    set_css_config_js_enabled(controller.css_config)
+                    #set_css_config_js_enabled(controller.css_config)
                     change_javascript = 1
     if controller.js_gui_changed == 1:
-        set_css_config_js_enabled(controller.css_config)
+        #set_css_config_js_enabled(controller.css_config)
         change_javascript = 1
     return change_javascript
+
+def set_mode_menu_var(controller, change_javascript):
+    if change_javascript == 1 or change_javascript == 0:
+        for page in controller.frames:
+            controller.frames[page].ConfirmObject.set_mode_menu(change_javascript)  
+        #print(change_javascript)      
 
 def check_setting_requires_javascript(setting_data):
     if "javascript" in setting_data and setting_data["javascript"]:
@@ -146,20 +167,25 @@ def check_setting_requires_javascript(setting_data):
     else:
         return False
 
-def manager_write_css_settings(page, settings):    
+def manager_write_css_settings(page, controller, settings):    
     # Write to libraryroot.custom.scss
-    print("Applying CSS settings...")
     page.text1.update_idletasks()
+    
+    backend.write_css_sections(controller.sections_config, 
+                               backend.read_css_sections(), 
+                               controller.json_data["sections"])
+    page.text1.update_idletasks()
+    
     backend.write_css_settings(settings)
     page.text1.update_idletasks()
-    print("Settings applied.")    
+    print("Applied CSS Settings.")    
     
 def manager_run_js_tweaker(page, controller, change_javascript):     
     ### Run js_tweaker if required
     if change_javascript == 1:
         #failed implementation due to needing controller state for each page with Install button
         #page.ConfirmObject.disable_install_button()
-        thread = ThreadWithCallback(target = old_glory.run_js_tweaker, args = (page.text1,),
+        thread = ThreadWithCallback(target = old_glory.run_js_tweaker, args = (controller,),
                                     callback = lambda: enable_buttons_after_installing(controller))
         thread.start() 
     else:
@@ -211,11 +237,11 @@ def apply_css_theme(page, controller):
         print("Applying CSS Theme: " + theme_full_name)
         theme_name = theme_full_name.split(" (")[0]
         #print(controller.json_data["themes"][theme_name]["filename"])
-        backend.enable_css_theme(controller.json_data["themes"][theme_name]["filename"],
+        backend.enable_css_theme(theme_name,
                          controller.json_data["themes"][theme_name]["order"],
                          controller.json_data)
     elif page.var6.get() == 0 and page.change_theme == 1:
-        backend.enable_css_theme("none", "after", controller.json_data)
+        backend.enable_css_theme("name", "after", controller.json_data)
     page.change_theme = 0
 
 

@@ -4,7 +4,13 @@
 		"variables.css"
 	],
 	"Themes_Update" : [
-		"themes"
+		"themes",
+		"themes/Acrylic Theme",
+		"themes/Crisp Cut",
+		"themes/Dark Library",
+		"themes/OG-Steam-Library",
+		"themes/Pure [Light]",
+		"themes/steam-library"
 	],
 	"JS_Update" : [
 		"fixes.txt"

@@ -11,7 +11,7 @@
     <a href="https://github.com/Jonius7/SteamUI-OldGlory/commits/dev"><img alt="GitHub commits on /dev since last merge" src="https://img.shields.io/github/commits-since/Jonius7/SteamUI-OldGlory/latest/dev?label=commits%20since"></a>
 </p>
 
-<h3 align="center"><a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Download Latest Version</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#quick-guide">Quick Guide</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/wiki">Wiki</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/issues/6">Known Issues</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting">Troubleshooting</a></h3>
+<h3 align="center"><a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Download Latest Version</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#quick-guide">Quick Guide</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/wiki">Wiki</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/issues/56">Known Issues</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting">Troubleshooting</a></h3>
 
 <p align="center">Check <a href="https://github.com/Jonius7/SteamUI-OldGlory/tree/dev"><code>/dev</code></a> branch for in-progress tweaks.</p>
 
@@ -21,7 +21,7 @@
 
 [<img src="https://i.imgur.com/FYDDWVW.png" alt="Video Guide to Customising The Steam Library"/>](https://youtu.be/foCewvyOszQ)
 
-<p align="left"><img alt="YouTube Video Views" src="https://img.shields.io/youtube/views/foCewvyOszQ?style=social"></p>
+<p align="left"><a href="https://youtu.be/foCewvyOszQ"><img alt="YouTube Video Views" src="https://img.shields.io/youtube/views/foCewvyOszQ?style=social"></a></p>
 
 ### Showcase of Tweaks
 
@@ -49,17 +49,22 @@ Condensed sidebar buttons <br>
 
 #### Patching and CSS
 
-- Install [**SteamFriendsPatcher**](https://github.com/PhantomGamers/SteamFriendsPatcher/releases). Run it, it will patch some files.
+- Install [**SFP (SteamFriendsPatcher)**](https://github.com/PhantomGamers/SFP/releases). Run it, it will patch some files.
+  - Alternatively, use the **Patch CSS** option in SteamUI-OldGlory **Advanced Options**
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 - Select the options you want to use, then click **Install**.
 - [If using Shiina's steam-library theme](https://i.imgur.com/1cSW7iI.png), click **Apply config.css** under **Advanced Options**
 - Whenever the Steam Client updates, you'll need to use the **Remake JS** option in Settings if you were previously using any JS tweaks.
 - OldGlory should prompt you to download new files as "small updates" when they are released. Main updates will be notified in the log window.
-- To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix).
+- To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/latest).
 
-##### **Manual Editing** (CSS/SCSS)
+##### Enable/Disable CSS modules and features
 
-- **[HOW TO: Enable/Disable CSS modules and features](https://imgur.com/a/PocNfPE)**
+Since version 5.11, OldGlory can enable/disable individual CSS modules and features via **CSS Options -> CSS Sections**. 
+
+##### [version < 5.11] **Manual Editing** (CSS/SCSS)
+
+- **[OLD HOW TO: Enable/Disable CSS modules and features manually](https://imgur.com/a/PocNfPE)**
 
 <details><summary>More details</summary>
 <ul>   
@@ -94,7 +99,7 @@ In **Advanced -> Quick Links**:
 
 - **Open OldGlory folder** -  open the OS file explorer to the main folder where OldGlory and files are located . 
 - **Open steamui folder** - open the `steamui` folder within ` Program Files/Steam` where the library files are located.
-- **Apply config.css**: This option has been added to accommodate those who might have their own `config.css` in `[steamdir]/steamui` already. If you are instead editing the `config.css` in `themes/`, clicking this button will copy `config.css` over to `[steamdir]/steamui`.
+- **Apply config.css**: (For Shiina's steam-library theme) This option has been added to accommodate those who might have their own `config.css` in `[steamdir]/steamui` already. If you are instead editing the `config.css` in `themes/`, clicking this button will copy `config.css` over to `[steamdir]/steamui`.
   - This may change in the future
 
 In **Settings and About**:
@@ -104,8 +109,8 @@ In **Settings and About**:
   - after a Steam Client update, or 
   - switching between Steam Stable and Steam Beta
   - Technical details: 
-    `clear_js_working_files` - deletes local `library.js`, `library.beaut.js`, `libraryroot.js`, `libraryroot.beaut.js`
-    `run_js_tweaker` - recreates `libraryroot.beaut.js` and applies JS tweaks
+    `clear_js_working_files` - deletes local JS files including`library.js`, `library.beaut.js`
+    `run_js_tweaker` - recreates JS files and applies JS tweaks
 
 - **Reset** - triple click to reset the `steamui` directory back to using default library theme. Useful if something screws up or you want to test a clean slate.
 
@@ -116,7 +121,7 @@ In **Settings and About**:
 - **Show Left Sidebar** - Show/Hide Left Sidebar (Games List)
 - **Glare/Shine** - Removes glare/reflection on HOME page images
 - **Game Image Transition** - Fade in time for HOME page images
-- **Home Page Grid Spacing**
+- **Home Page Grid Spacing** - Choose between compact or default
 - **Game Page Layout** - Swap Game page columns or default
 - **Game Image Opacity** - HOME page: Dim Game Images, or Uninstalled Game Images
 - **[Open variables file]** - opens `variables.css` using OS default text editor
@@ -124,7 +129,9 @@ In **Settings and About**:
 
 **JS Options**
 
-- **Increase Number of Screenshots and DLC displayed** - On game page: Screenshots: 4 -> 8, DLC 6 -> 12
+- **Enable Patching JS**
+
+- **Increase Number of Screenshots and DLC displayed** - On game page: Screenshots: 4 -> 9, DLC 6 -> 12
 - **Disable screenshot slideshow on hover** - Hovering over games on HOME page will only show the Game Boxart, not the screenshot slideshow
 - **Scrolling Tweak** - Scroll past ADD SHELF Button on load
 - **Change Game Image Grid Sizes** - Change the size of Game Images on the HOME page, based on <u>width in pixels</u>. There are 3 values here to change, corresponding to Small, Medium, Large sizes in settings. Defaults are:
@@ -133,7 +140,6 @@ In **Settings and About**:
   - <u>Large</u>		  `222`
 - ***Landscape Images JS Tweaks***  - corresponds to Main Option **Landscape Game Images**. No need to configure manually.
 - **Stop What's New Events from Loading** - removes loading of What's New Events
-- **Game Properties Window Size** - Reduce width of Game Properties window to closely match old one
 - **Press Enter to Launch Games** - Selected game in game list will launch upon pressing Enter
 - **Expand Show more Details Panel by default** - The Show More Details Panel (i) will expand by default on game page load
 - **Dim Uninstalled Games** - Dim Uninstalled games on HOME page
@@ -153,10 +159,17 @@ In **Settings and About**:
   - `_custom_module2.scss` - put your custom CSS code here
 
 - `\themes` - Folder containing theme files
-  - `_shiina.scss` and `config.css.original` - **Shiina's** [steam-library](https://github.com/AikoMidori/steam-library) dark theme
-  - `_spiked.scss` - **Thespikedballofdoom's** [Dark Library](https://gamebanana.com/guis/35092) theme
-  - `_acrylic.scss` - Theme based on **EliteSkylu's** [Acrylic Steam](https://www.reddit.com/r/Steam/comments/jot6vi/let_me_introduce_you_a_project_of_my_steam_ui/) concept
-  - `_crispcut.scss` - (WIP) Theme by **Jonius7**, emphasising white app section boxes
+  - Each theme gets its own folder containing:
+  - `libraryroot.custom.css` - the CSS file for the theme
+  - `preview.png` - the preview image for the theme
+
+- Themes include:
+  -  **Shiina's** [steam-library](https://github.com/AikoMidori/steam-library) dark theme
+  - **Thespikedballofdoom's** [Dark Library](https://gamebanana.com/guis/35092) theme
+  -  Theme based on **EliteSkylu's** [Acrylic Steam](https://www.reddit.com/r/Steam/comments/jot6vi/let_me_introduce_you_a_project_of_my_steam_ui/) concept
+  -  Crisp Cut by **Jonius7**, emphasising white app section boxes
+  -  [OG-Steam-Library](https://github.com/ungstein/OG-Steam-Library) Theme, by **ungstein**
+
 - `old_glory_data.json` data for `old_glory.exe`. Editing it is not required but it allows some data to be updated/hotfixed outside of having to rebuild the `.exe`
 
 Other files are copied from the`Steam\steamui` directory as required.
@@ -187,11 +200,9 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
     </details>
 
 
-
-
 #### Fix Blurred Game Images
 
-- Download [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix) and run `missing_cover_downloader`
+- Download [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/2021_03) and run `missing_cover_downloader`
 
 ## Quick Links
 
@@ -199,7 +210,7 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
 - [Video Guide 1](https://youtu.be/7_3e9j8FFv8)
 - [SteamUI-OldGlory Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki)
 - [GIF of tweaks](https://gyazo.com/38d0101b493741501697b4a0f5f0818f)
-- [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/new-format-fix)
+- [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/2021_03)
 - [(Images) Collapse Game Page Sections](https://imgur.com/a/2GNoC3u)
 - [(Images) More DLC and Screenshots, more info!](https://imgur.com/a/3WTdrXP)
 - [(Images) JS Tweaks](https://imgur.com/a/mL4QNYB)
@@ -225,13 +236,12 @@ https://github.com/AikoMidori/steam-library
 
 If Library is not working, try one of these things (and **restart Steam** if necessary). If it still doesn't work, try the next thing in the list.
 
-- Check **SteamFriendsPatcher** has patched the library CSS:
-  - Also check it is [patching the right file](https://i.imgur.com/ZAC9yKj.png): (`6.css`)
-  - use the **Clear Steam Cache** button if necessary.
+- Check **SFP (SteamFriendsPatcher)** has patched the library CSS:
+  - use the **Reset Steam** button if necessary.
 - Go to Task Manager and End Task on **Steam Client WebHelper** (let it restart)
 - Use **Remake JS** button under **Settings and About** (this should also be done when Steam Client updates and the JS has changed)
 - Use **Reset** button under **Settings and About**
-- Delete `steamui` folder
+- Delete `steamui` folder and restart Steam
   - Optional: Try these **Steam Settings** (and restart Steam)
     - **Downloads** -> **Clear Download Cache**
     - **Web Browser** -> **Delete Web Browser Cache**
@@ -289,17 +299,17 @@ In the future, I may try to build using `cx_freeze` instead.
 
 #### What does `js_tweaker` do?
 
-the JS goes through this process:
+the JS goes through this process, eg:
 
-- `libraryroot.js` - original file
-- `libraryroot.beaut.js` - beautified js using `jsbeautifier`
-- `libraryroot.modif.js` - beautified js with modified tweaks from `fixes.txt`
-- `libraryreet.js` - minified `libraryroot.modif.js` using `jsmin`
+- `library.js` - original file
+- `library.beaut.js` - beautified js using `jsbeautifier`
+- `library.modif.js` - beautified js with modified tweaks from `fixes.txt`
+- `librery.js` - minified `library.modif.js` using `jsmin`
 
-Limitation that the script reads `libraryroot.beaut.js` line by line, so some complex tweaks are unavailable to be added at the moment.
+Limitation that the script reads `library.beaut.js` line by line, so some complex tweaks are unavailable to be added at the moment.
 
-`js_tweaker` will use `libraryroot.beaut.js` if it already exists. This means:
+`js_tweaker` will use `library.beaut.js` if it already exists. This means:
 
-- you can experiment in `libraryroot.beaut.js` (make a backup first) and delete it afterwards if you want to go back to the clean version `libraryroot.beaut.js`
+- you can experiment in `library.beaut.js` (make a backup first) and delete it afterwards if you want to go back to the clean version `library.beaut.js`
 
-**New (5.7.3)** `library.js` is also now being used. The modified file is called `librery.js`
+**New (5.10.6)** `chunk~547eb3232.js` is now also being used. The modified file is called `chenk~547eb3232.js`

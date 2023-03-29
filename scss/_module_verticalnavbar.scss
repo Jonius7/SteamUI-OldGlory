@@ -15,14 +15,19 @@
   order: 3;
 }
 
+/* increase header height for 9 items eg: CS:GO */
+.appdetails_Header_2gZXh.appdetails_HeaderLoaded_tXlLv {
+  min-height: 250px;
+}
+
 .appdetailssection_AppDetailsSection_2r4TK.appdetailsprimarylinkssection_LinksSection_3-V8v {
   margin-left: auto;
   right: 10px;
-  transform: translate(5px, -295px) translateY(var(--VerticalNavBarOffset));
+  transform: translate(5px, -330px) translateY(var(--VerticalNavBarOffset));
   position: sticky;
   height: 0px !important;
   min-width: 180px;
-  max-width: 187px;
+  max-width: 195px;
   border-radius: 4px;
   pointer-events: all;
   z-index: 5 !important;
@@ -33,7 +38,7 @@
   background: linear-gradient(rgba(40, 40, 40, 0.7) 95.8%, rgba(40, 40, 40, 0) 100%) !important;
   background-size: 93% 100% !important;
   background-repeat: no-repeat !important;
-  height: 228.9px;
+  height: 258.9px;
 }
 
 .appdetailsprimarylinkssection_LinkInner_7k4qm {
@@ -76,7 +81,8 @@ https://gamebanana.com/mods/305429 */
 }
 
 .appdetailsprimarylinkssection_LinkInner_7k4qm {
-  padding: 0px 4px 4px 0px !important;
+  padding: 0px !important;
+  top: 0px !important;
 }
 
 .appdetailsprimarylinkssection_Links_DgVQa {
@@ -104,6 +110,11 @@ https://gamebanana.com/mods/305429 */
 
 div.NarrowRightPanel .appdetailsprimarylinkssection_LinksSection_3-V8v {
   margin-top: 8px;
+}
+
+/* single/multiplayer icons */
+.sharedappdetailsheader_TitleSection_1P_tv .sharedappdetailsheader_Features_P_lFf {
+    padding-right: 200px;
 }
 
 /* END VERTICAL NAV BAR */

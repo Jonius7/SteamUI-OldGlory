@@ -2,40 +2,49 @@
 	"CSSVariableString": "/* ===== SteamUI-OldGlory will insert CSS Variables from variables.css here ==== */",
 	"CSSBeforeThemes": "// Themes applied before CSS Tweaks",
 	"CSSAfterThemes": "// Themes applied after CSS Tweaks",
-	"libraryrootFile": "2.css",
-	"lastPatchedDate": "2022-04-27T09:53:34Z",
+	"libraryjsFile": "library.js",
+	"libraryjsBeautFile": "library.beaut.js",
+	"libraryjsModifFile": "library.modif.js",
+	"libraryjsPatchedFile": "librery.js",
+	"libraryjsOriginalFile": "library.js.original",
+	"libraryrootjsFile": "chunk~547eb3232.js",
+	"libraryrootjsBeautFile": "chunk~547eb3232.beaut.js",
+	"libraryrootjsModifFile": "chunk~547eb3232.modif.js",
+	"libraryrootjsPatchedFile": "chenk~547eb3232.js",
+	"libraryrootjsOriginalFile": "chunk~547eb3232.js.original",
+	"jsFile": "so.js",
+	"jsBeautFile": "sp.beaut.js",
+	"jsModifFile": "sp.modif.js",
+	"jsPatchedFile": "sq.js",
+	"jsOriginalFile": "sp.js.original",
+	"lastPatchedDate": "2023-02-21T05:30:01Z",
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",
-			"filename": "_shiina.scss",
 			"order": "before"
 		},
 		"Dark Library": {
 			"author": "Thespikedballofdoom",
-			"filename": "_spiked.scss",
 			"order": "after"
 		},
 		"Acrylic Theme": {
 			"author": "EliteSkylu",
-			"filename": "_acrylic.scss",
 			"order": "after"
 		},
 		"Crisp Cut": {
 			"author": "Jonius7",
-			"filename": "_crispcut.scss",
 			"order": "after"
 		},
-		"LIGHT UI": {
-			"author": "Angelo",
-			"filename": "_light.scss",
+		"Pure [Light]": {
+			"author": "Snudgee",
+			"order": "after"
+		},
+		"OG-Steam-Library": {
+			"author": "Ungstein",
 			"order": "after"
 		}
 	},
 	"sections": {
-		"classic": {
-			"name": "Classic Styling",
-			"description": "CSS for Old UI font and colors"
-		},
 		"sidebar_homeandsearch": {
 			"name": "Sidebar Home & Search",
 			"description": "CSS for the Left Sidebar - Home and Search buttons"
@@ -92,7 +101,7 @@
 			"name": "Gamepage Nav Bar",
 			"description": "CSS for the navigation bar"
 		},
-		"gamepage_dlcscreenshots": {
+		"gamepage_dlc_screenshots": {
 			"name": "Gamepage DLC & Screenshots",
 			"description": "CSS for DLC/Screenshots sections sizes"
 		},
@@ -100,13 +109,58 @@
 			"name": "[Module] Game Properties",
 			"description": "CSS for Game Properties layout (incl. DLC Manager)"
 		},
+		"module_homeicon": {
+			"name": "[Auto-Module] Home Icon",
+			"description": "CSS for turning HOME button text into an icon"
+		},
+		"smooth": {
+			"name": "[Module] Smooth",
+			"description": "CSS for smooth animations"
+		},
+		"module_gamehover": {
+			"name": "[Module] Game Hover",
+			"description": "CSS for Game Hover box size"
+		},
+		"tweak_nozoom": {
+			"name": "[Tweak] No Zoom",
+			"description": "CSS for removing zoom/expand on game images when hovered"
+		},
+		"module_simplified_homesearch": {
+			"name": "[Tweak] Simplified Home Search",
+			"description": "CSS for simplified Home and Search buttons"
+		},
 		"module_landscapegameimages": {
 			"tags": [
 				"JS",
 				"Advanced"
 			],
-			"name": "[Module] Landscape Game Images",
+			"name": "[Auto-Module] Landscape Game Images",
 			"description": "(Requires JS) CSS for Horizontal Game Images"
+		},		
+		"module_playbarbox": {
+			"tags": [
+				"Advanced"
+			],
+			"name": "[Auto-Module] Play Bar Box",
+			"description": "CSS for Play Bar pulled up into box (in gamepage header)"
+		},
+		"module_verticalnavbar": {
+			"tags": [
+				"Advanced"
+			],
+			"name": "[Auto-Module] Vertical Nav Bar",
+			"description": "(Requires JS) CSS for enabling a vertical navigation bar"
+		},
+		"module_classiclayout": {
+			"tags": [
+				"Advanced"
+			],
+			"name": "[Auto-Module] Classic Layout",
+			"description": "(Requires JS) (Requires Vertical Nav Bar) CSS for enabling classic layout"
+		},
+		"classic": {
+			"name": "[Auto-Module] Classic Styling",
+			"description": "CSS for Old UI font and colors"
 		},
 		"module_listview": {
 			"tags": [
@@ -114,44 +168,15 @@
 				"Advanced",
 				"Experimental"
 			],
-			"name": "[Module] List View",
+			"name": "[Module] [Experimental] List View",
 			"description": "(EXPERIMENTAL) (Requires JS) CSS for List view implementation"
 		},
-		"module_playbarbox": {
-			"tags": [
-				"Advanced"
-			],
-			"name": "[Module] Play Bar Box",
-			"description": "CSS for Play Bar pulled up into box (in gamepage header)"
-		},
-		"module_verticalnavbar": {
-			"tags": [
-				"JS",
-				"Advanced"
-			],
-			"name": "[Module] Vertical Nav Bar",
-			"description": "(Requires JS) CSS for enabling a vertical navigation bar"
-		},
-		"module_classiclayout": {
-			"tags": [
-				"JS",
-				"Advanced"
-			],
-			"name": "[Module] Classic Layout",
-			"description": "(Requires JS) (Requires Vertical Nav Bar) CSS for enabling classic layout"
-		},
-		"module_homeicon": {
-			"name": "[Module] Home Icon",
-			"description": "CSS for turning HOME button text into an icon"
-		},
-		"tweak_nozoom": {
-			"name": "[Tweak] No Zoom",
-			"description": "CSS for removing zoom/expand on game images when hovered"
-		},
-		"user_module1": {
+		"custom_module1": {
+			"name": "Custom Module 1",
 			"description": "Your custom CSS module 1"
 		},
-		"user_module2": {
+		"custom_module2": {
+			"name": "Custom Module 2",
 			"description": "Your custom CSS module 2"
 		}
 	},
@@ -291,25 +316,6 @@
 				"config": {
 					"--FriendsDLCScreenshotsColumnWidth": "33%",
 					"--SwapColumns": "right"
-				}
-			},
-			"[Current value]": {
-				"value": "3"
-			}
-		},
-		"Game Image Opacity": {
-			"Dim Uninstalled Games": {
-				"value": "1",
-				"config": {
-					"--GameImageOpacity": "1",
-					"--UninstalledGameImageOpacity": "0.5"
-				}
-			},
-			"Default (Full Opacity)": {
-				"value": "2",
-				"config": {
-					"--GameImageOpacity": "1",
-					"--UninstalledGameImageOpacity": "1"
 				}
 			},
 			"[Current value]": {

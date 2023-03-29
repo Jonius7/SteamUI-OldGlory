@@ -34,7 +34,9 @@ DEFAULT_CONFIG = {
         "EnableClassicLayout" : "0",
         "LandscapeImages" : "0",
         "InstallWithLibraryTheme" : "0",
-        "ThemeSelected" : "Crisp Cut"
+        "ThemeSelected" : "Crisp Cut",
+        "ClassicStyling" : "0",
+        "HomeButton" : "1",
         },
     "JS_Settings" : {
         "HomePageGridSpacing" : "1",
@@ -76,7 +78,7 @@ CSS_CONFIG = {
     "Left Sidebar - Games List" : {
         "--HoverOverlayPosition" : {
             "default" : "0",
-            "current" : "unset",
+            "current" : "0",
             "options": {"0", "unset"},
             "desc" : "Set 0 if default JS, unset if tweaked JS"},
         "--GameListEntrySize" : {
@@ -177,7 +179,13 @@ CSS_CONFIG = {
             "current" : "block",
             "options": {"block", "none"},
             "desc" : "Set to none to hide 'Recommond this game' box on game page."},
-        },
+        
+        "--DLCAvailableContent" : {
+            "default" : "block",
+            "current" : "none",
+            "options": {"block", "none"},
+            "desc" : "Set to none to hide the DLC Available Content box."},
+        },    
     "Game Page Background" : {
         "--AppPageBlur" : {
             "default" : "8px",
@@ -284,25 +292,27 @@ def get_file_hash(filepath):
     UTILITY: Returns the git SHA hash of a file.
     '''
     try:
-        with open(filepath, 'r', encoding="UTF-8") as f, \
-            open(filepath + ".temp", 'w', encoding="UTF-8", newline='\n') as f1:
-            f1.writelines(f.readlines())
-        f.close()
-        f1.close()
+        #exclude .png for filehash
+        if os.path.isfile(filepath) and os.path.splitext(filepath)[1] != ".png":
+            with open(filepath, 'r', encoding="UTF-8") as f, \
+                open(filepath + ".temp", 'w', encoding="UTF-8", newline='\n') as f1:
+                f1.writelines(f.readlines())
+            f.close()
+            f1.close()
 
-        filesize_bytes = os.path.getsize(filepath + ".temp")
+            filesize_bytes = os.path.getsize(filepath + ".temp")
 
-        s = sha1()
-        s.update(b"blob %u\0" % filesize_bytes)
-        
-        with open(filepath + ".temp", 'rb') as g:
-            s.update(g.read())
-        g.close()
+            s = sha1()
+            s.update(b"blob %u\0" % filesize_bytes)
+            
+            with open(filepath + ".temp", 'rb') as g:
+                s.update(g.read())
+            g.close()
 
-        if os.path.exists(filepath + ".temp"):
-            os.remove(filepath + ".temp")
-        
-        return s.hexdigest()
+            if os.path.exists(filepath + ".temp"):
+                os.remove(filepath + ".temp")
+            
+            return s.hexdigest()
     except:
         print("Unable to get hash of file: " + filepath, file=sys.stderr)
         print_traceback()
@@ -439,10 +449,11 @@ def write_config(config_dict = DEFAULT_CONFIG):
         config[section] = config_dict[section]
     #print(config.sections())
     #print(config.options("Main_Settings"))
-    with open("oldglory_config2.cfg", "w", newline='', encoding="UTF-8") as config_file:
+    filename = "oldglory_config2.cfg"
+    with open(filename, "w", newline='', encoding="UTF-8") as config_file:
         config.write(config_file)
     config_file.close()
-    print("Config file written.")
+    print("Updated config file. (" + filename + ")")
 
 ### [END OF] CONFIG Functions
 ##########################################
@@ -489,8 +500,88 @@ SETTING_MAP = {
     "LandscapeImages" : {"filename" : "module_landscapegameimages"},
     "InstallWithLibraryTheme" : "",
     "ClassicStyling" : {"filename" : "classic"},
+    "HomeButton" : {"filename" : "module_homeicon"},
     "ThemeSelected" : ""
 }
+
+def read_css_sections(filename = "scss/libraryroot.custom.scss"):
+    try:
+        sections_data = {}
+        with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f:
+            import_prefix = '@import "./'
+            import_suffix = '";'
+            themes_prefix = '@import "../themes/'
+            start_comment = '//'
+            for line in f:
+                if import_prefix in line:
+                    if line.startswith(start_comment):
+                        parsed_line = LineParser.remove_start_comment(start_comment, line)
+                        parsed_line2 = LineParser.remove_import_prefix(import_prefix, parsed_line)
+                        section = LineParser.remove_import_suffix(import_suffix, parsed_line2).rstrip(OS_line_ending())
+                        sections_data[section] = "0"
+                    else:
+                        parsed_line = LineParser.remove_import_prefix(import_prefix, line)
+                        section = LineParser.remove_import_suffix(import_suffix, parsed_line).rstrip(OS_line_ending())
+                        sections_data[section] = "1"
+        f.close()
+        print("Loaded CSS Sections. " + "(" + filename + ")")
+        return sections_data
+    except:
+        print("Error reading " + filename, file=sys.stderr)
+        print_traceback()
+    pass
+
+def write_css_sections(sections, sections_filedata, sections_json):
+    '''
+    sections            list of sections with values 0 or 1 depending on disabled/enabled
+    
+    sections_filedata   list of sections with values 0 or 1 from the original file, to compare
+    
+    sections_json       json data
+    '''
+    try:
+        with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
+             open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
+
+            import_prefix = '@import "./'
+            themes_prefix = '@import "../themes/'
+            start_comment = '//'
+            modify = 0
+            for line in f:
+                if import_prefix in line:
+                    for section in sections:
+                        #print(section)
+                        if import_prefix + section in line:
+                            if sections[section] == "1": 
+                                if section in sections_filedata \
+                                and sections[section] != sections_filedata[section]:
+                                    #print("CHANGED SECTION "+ section)
+                                    modify = 1
+                                    f1.write(LineParser.remove_start_comment(start_comment, line))
+                            elif sections[section] == "0":
+                                if section in sections_filedata \
+                                and sections[section] != sections_filedata[section]:
+                                    #print("CHANGED SECTION "+ section)
+                                    modify = 1
+                                    f1.write(LineParser.add_start_comment(start_comment, line))
+                            else:
+                                print("Invalid value for section " + section, file=sys.stderr)
+                    if modify == 0:
+                        f1.write(line)
+                    modify = 0
+                else:
+                    f1.write(line)                    
+        f.close()
+        f1.close()
+        
+        ###
+        shutil.move("scss/libraryroot.custom.scss", "scss/libraryroot.custom.scss.backup1")
+        shutil.move("scss/libraryroot.custom.temp.scss", "scss/libraryroot.custom.scss")
+    except:
+        print("Error enabling/disabling CSS sections,\nat " + line, file=sys.stderr)
+        print_traceback()
+    pass
+
        
 def write_css_settings(settings): 
     try:
@@ -543,6 +634,26 @@ class LineParser():
     def add_start_comment(start_comment, line):
         #Concatenates start_comment to line (space in between)
         return start_comment + " " + line
+    
+    @staticmethod
+    def remove_import_prefix(import_prefix, line):
+        #strips import_prefix and any spaces before line
+        return line.split(import_prefix)[1].lstrip()
+    
+    @staticmethod
+    def add_import_prefix(import_prefix, line):
+        #Concatenates import_prefix to line
+        return import_prefix + line
+    
+    @staticmethod
+    def remove_import_suffix(import_suffix, line):
+        #strips import_suffix
+        return line.split(import_suffix)[0]
+    
+    @staticmethod
+    def add_import_suffix(import_suffix, line):
+        #Concatenates import_suffix to line
+        return line + import_suffix
 
 def compile_css(json_data):
     '''
@@ -709,33 +820,36 @@ def create_css_variables_lines(css_config):
 ### Simplified due to use of SCSS
 
 ### Now removes existing theme imports and adds current ones to be enabled
-def enable_css_theme(theme_filename, order, json_data):
+def enable_css_theme(theme_name, order, json_data):
     print("Enabling themes...")
     #print(theme_filename + order)
     #print(json_data)
+    library_files = ["libraryroot.custom.css"]
     try:
         with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
              open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
             themereading = 0
-            for line in f:
+            print(os.path.join("themes", theme_name, "libraryroot.custom.css"))
+            for line in f:                
                 if themereading == 1:
-                    #if line != "\n":
                     if line != OS_line_ending():
                         pass
-                    if order == "before" and os.path.exists("themes/" + theme_filename):
-                        #print("theme line")
-                        # [1:-5] is to truncate the _ and .scss
-                        f1.write('@import \"../themes/' + theme_filename[1:-5] + '\";' + OS_line_ending())
-                    f1.write(OS_line_ending())
+                    for library_file in library_files:
+                        if order == "before" and os.path.exists(os.path.join("themes", theme_name, library_file)):
+                            #print("theme line")
+                            f1.write('@import \"../themes/' + theme_name + "/" + library_file.rsplit(".",1)[0] + '\";' + OS_line_ending())
+                        else:
+                            f1.write(OS_line_ending())
                     themereading = 0
                 elif themereading == 2:
-                    #if line != "\n":
                     if line != OS_line_ending():
                         pass
-                    if order == "after" and os.path.exists("themes/" + theme_filename):
-                        #print("theme line")
-                        f1.write('@import \"../themes/' + theme_filename[1:-5] + '\";' + OS_line_ending())
-                    f1.write(OS_line_ending())
+                    for library_file in library_files:
+                        if order == "after" and os.path.exists(os.path.join("themes", theme_name, library_file)):
+                            #print("theme line")
+                            f1.write('@import \"../themes/' + theme_name + "/" + library_file.rsplit(".",1)[0] + '\";' + OS_line_ending())
+                        else:
+                            f1.write(OS_line_ending())
                     themereading = 0
                         
                 elif json_data["CSSBeforeThemes"] in line:
@@ -746,7 +860,7 @@ def enable_css_theme(theme_filename, order, json_data):
                     themereading = 2
                 else:
                     f1.write(line)
-            if theme_filename == "_shiina.scss":
+            if theme_name == "steam-library":
                 steam_library_compat_config()
         
         f.close()
@@ -777,6 +891,58 @@ def steam_library_compat_config(overwrite=0):
 ### [END OF] APPLY CSS THEME Functions
 ##########################################
 
+##########################################
+### Patch CSS
+def patch_css():
+    patched_text = "/*patched*/\n"
+    original_text = "/*original*/\n"
+    css_dir = os.path.join(library_dir(), "css")
+    for filename in os.listdir(css_dir):
+        filepath = os.path.join(css_dir, filename)
+        filesize = os.stat(filepath).st_size
+        #print(filepath + " " + str(filesize))
+        if os.path.isfile(filepath):
+            with open(filepath, newline='', encoding="UTF-8") as f:
+                first_line = f.readline()
+                if patched_text[0:-1] in first_line:
+                    print("File " + filename + " already patched.")
+                elif original_text[0:-1] in first_line:
+                    pass
+                else:
+                    contents = patched_text + "@import url(\"https://steamloopback.host/" + "css/" + get_original_filename(filename) + "\");\n@import url(\"https://steamloopback.host/" + get_custom_filename() + "\");\n";
+                    #print(contents)
+                    #print(os.stat(filepath).st_size)
+                    #print(os.stat(filepath).st_size - len(contents))
+
+                    with open(filepath, newline='', encoding="UTF-8") as f1, \
+                        open(os.path.join(css_dir, get_original_filename(filename)), "w", newline='', encoding="UTF-8") as f2:
+                        f2.write(original_text)
+                        for line in f1:
+                            f2.write(line)
+                    f2.close()
+                    f1.close()                    
+                    with open(filepath, "w", encoding="UTF-8") as f3:
+                        #print(filesize)
+                        contents += "\t" * (filesize - utf8len(contents) - 3)
+                        #print(tabs)
+                        f3.write(contents)
+                    f3.close()
+                    
+                    print("Patched file " + filename)
+                    
+            f.close()
+        
+    print("----------")
+    
+def utf8len(s):
+    return len(s.encode('utf-8'))
+                
+def get_original_filename(filename):
+    original_filename = filename.rsplit(".", 1)
+    return original_filename[0] + ".original." + original_filename[1]
+    
+def get_custom_filename():
+    return "libraryroot.custom.css"
 
 ##########################################
 ### JS Functions
@@ -794,6 +960,7 @@ def load_js_fixes():
         state = 3 #0 = disabled(commented out), 1 = enabled, 2 = mixed, starting
 
         with open(js_fixes_filename, newline='', encoding="UTF-8") as infile:
+            sizes_dict = {}
             for line in infile:
                 if re.match("### ===.*===", line):
                     readfix = 1
@@ -815,18 +982,24 @@ def load_js_fixes():
                     fixesdata[fixname] = str(state)
                     (key, val) = line.rstrip().split("  ") #validation
                     ### special fixes data, line to look out for has n = [number] in it
-                    ### could rewrite in the future
-                    if "Change Game Image Grid Sizes" in fixname and re.search("r = ([0-9]+)", line):
-                        line_segments = line.split("  ")
-                        sizes_dict = {}
+                    ### rewritten
+                    if "Change Game Image Grid Sizes" in fixname: # and re.search("r = ([0-9]+)", line):
+                        #line_segments = line.split("  ")
                         sizes = ["Small", "Medium", "Large"]
-                        size_values = re.findall("r = ([0-9]+)", line_segments[1])
-                        for i, value in enumerate(size_values):
-                            sizes_dict[sizes[i]] = value
+                        for size in sizes:
+                            if "PortraitWidth" + size in line:
+                                #print(line)
+                                value = re.findall("([0-9]+)", line)[1]
+                                sizes_dict[size] = value
+                        #size_names = ["PortraitWidthSmall", "PortraitWidthMedium", "PortraitWidthLarge"]
+                        #size_values = re.findall("r = ([0-9]+)", line_segments[1])
+                        #for i, value in enumerate(size_values):
+                        #    sizes_dict[sizes[i]] = value
                         special_fixesdata[fixname] = sizes_dict
+                    ### END
                 elif readfix == 0:
                     state = 0
-                sectionhead = 0               
+                sectionhead = 0              
         infile.close()
         
         print("Loaded JS Tweaks. " + "(" + js_fixes_filename + ")")
@@ -864,19 +1037,12 @@ def write_js_fixes(fixesdata, special_fixesdata):
                 if writefix == 1 and sectionhead == 0:
                     ### special fixes data
                     if "Change Game Image Grid Sizes" in current_fixname:
-                        line_segments = line.split("  ")
-
                         sizes = ["Small", "Medium", "Large"]
-                        line_segments[1] = re.sub("r = ([0-9]+)", "r = AAA", line_segments[1])
-                        #print(line_segments[1])
-                        for key in sizes:
-                            #print(special_fixesdata[current_fixname][key])
-                            #print(special_fixesdata)
-                            line_segments[1] = line_segments[1].replace("AAA", special_fixesdata[current_fixname][key], 1)
-                        #print(line_segments[1])
-
-                        line = "  ".join(line_segments)
-                        #print(line)
+                        for size in sizes:
+                            if "PortraitWidth" + size in line:
+                                newline = re.sub(r'^((.*?([0-9]+).*?){1})([0-9]+)',
+                                r'\g<1>{}'.format(special_fixesdata[current_fixname][size]), line)
+                                line = newline
                     #print("~C!~~~")
                     #print(current_fixname + "   ")
                     #print(fixesdata[current_fixname])                    
@@ -965,9 +1131,13 @@ def clean_slate_css():
         print("Was not able to completely reset libraryroot.custom.css.", file=sys.stderr)
         print_traceback()
 
+#rewrite so not hardcoded
 def clear_js_working_files():
     try:
-        files_to_remove = ["library.js", "library.beaut.js", "libraryroot.js", "libraryroot.beaut.js"]
+        json_data = get_json_data()
+        files_to_remove = [json_data["libraryjsFile"], json_data["libraryjsBeautFile"], json_data["libraryjsOriginalFile"],
+        json_data["libraryrootjsFile"], json_data["libraryrootjsBeautFile"], json_data["libraryrootjsOriginalFile"],
+        json_data["jsFile"], json_data["jsBeautFile"], json_data["jsOriginalFile"]]
         for file in files_to_remove:
             w_file = Path(file)
             w_file.unlink(missing_ok=True)
@@ -987,7 +1157,7 @@ BRANCH = "master"
 def create_session():
     try:
         username = ''
-        token = unscramble_token('knqcpp7j7vqg1z1c2jovzwjocpp27o2oapvzwtnp')
+        token = unscramble_token('2WU_8KpiFuigEKkMQ6IBbZR6Pv5a3fVm3XDzB8yl')
         session = requests.Session()
         session.auth = (username, token)
         return session
@@ -996,8 +1166,8 @@ def create_session():
         print_traceback()
 
 def unscramble_token(scrambled_token):
-    charset = '0123456789abcdef'
-    keyset = '7oqngcwvjtka21pz'
+    charset = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_'
+    keyset = 'xYjaXH2Woh7G6pkU9T4yz1qb8uDKcdZNilCVmLvBge5REMP0tA3rfswQSJIOnF_'
     key_indices = [keyset.index(k) for k in scrambled_token]
     plain_token = ''.join(charset[keyIndex] for keyIndex in key_indices)
     return plain_token
@@ -1007,15 +1177,17 @@ def unscramble_token(scrambled_token):
 def get_small_update_file_list():
     try:
         list_filename = 'small_update_file_list.json'
-        session = create_session()        
+        session = create_session()     
         response = session.get('https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/' + \
                                BRANCH + "/" + list_filename)
+        #print(response.status_code) 
         return response.json()
     except json.decoder.JSONDecodeError as e:
         print("Error in update filelist JSON format.\nThis could be an issue with:\n" \
               "- " + list_filename + " on Github.\n" \
               "- Too many Github API requests (access token could have been removed)", file=sys.stderr)
-        print_traceback()
+        #print_traceback()
+        print(e, file=sys.stderr)
     except:
         print("Unable to load update filelist", file=sys.stderr)
         print_traceback()
@@ -1030,7 +1202,6 @@ def check_new_commit_dates(json_data):
     try:
         file_dates = {}
         file_list = get_small_update_file_list()
-        
         '''
         #use local version of file for debugging purposes
         with open('small_update_file_list.json') as f:
@@ -1114,17 +1285,29 @@ def hash_compare_small_update_files(file_dates, json_data):
                         
                         local_filepath = filename + "/" + filedata["name"]
                         #print(local_filepath)
-                        if os.path.exists(local_filepath):
+                        if os.path.exists(local_filepath) and os.path.isfile(local_filepath):
                             #if local hash != remote hash
                             if (get_file_hash(local_filepath) != filedata["sha"] and
                                  local_filepath != "scss/libraryroot.custom.scss" and
-                                 local_filepath != "scss/_user_module1.scss" and
-                                 local_filepath != "scss/_user_module2.scss"):                
+                                 local_filepath != "scss/_custom_module1.scss" and
+                                 local_filepath != "scss/_custom_module2.scss"):                
                                 #print("Different file hashes " + local_filepath)
                                 #print(local_filepath + " | " + get_file_hash(local_filepath) + "  |  " + filedata["sha"])
                                 print("New Version | " + local_filepath)
                                 updatetype_files.append(local_filepath)
                             #print("", end="")
+                        elif os.path.exists(local_filepath) and os.path.isdir(local_filepath):
+                            print(local_filepath + " is directory")
+                            dir_contents = get_repo_directory_contents(local_filepath)
+                            #print(dir_contents)
+                            for dir_filedata in dir_contents:
+                                dir_filepath = local_filepath + "/" + dir_filedata["name"]
+                                if (os.path.exists(dir_filepath) and
+                                os.path.isfile(dir_filepath)):
+                                    if (get_file_hash(dir_filepath) != filedata["sha"] and
+                                    os.path.splitext(dir_filepath)[1] != ".png"):
+                                        print("New Version | " + dir_filepath)
+                                        updatetype_files.append(dir_filepath)
                         else:
                             print("File at " + local_filepath + " exists on remote but not locally")
                             updatetype_files.append(local_filepath)
@@ -1213,7 +1396,7 @@ def download_file(filepath, branch=BRANCH):
                 open(filepath, 'w', encoding="UTF-8", newline='').write(r.text)
                 print("File " + filepath + " downloaded.")
             else:
-                print("Invalid request URL")
+                print("Invalid request URL: " + filepath)
         else:
             print("File at " + filepath + " already exists!")
     except:

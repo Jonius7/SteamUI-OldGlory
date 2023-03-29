@@ -20,10 +20,6 @@
 /* steam-library tweaks for SteamUI-OldGlory
    ========================================================================== */
    
-.gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L::before, .gamelisthome_Label_3O48L::before {
-    margin: 25px 0px 0px 0px !important;
-}
-
 .gamelisthome_Label_3O48L, .gamelisthome_Bar_3pSPl.gamelisthome_CollectionButton_30KGS {
     margin-left: 0px !important;
 }
@@ -33,7 +29,6 @@
     color: var(--libraryhome) !important;
     filter: unset !important;  
 }
-
 
 .gamelisthome_Bar_3pSPl .gamelisthome_Label_3O48L {
     color: var(--libraryhome) !important;
