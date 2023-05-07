@@ -87,6 +87,8 @@ def beautify_js(filename=json_data["libraryrootjsFile"]):
                 shutil.copy2(os.path.join(library_dir(), filename), filename)
 
             opts = jsbeautifier.default_options()
+            #opts.preserve_newlines = True
+            #opts.jslint_happy = False
             #opts.eol = ""
             library = jsbeautifier.beautify_file(filename, opts)
 
@@ -96,6 +98,21 @@ def beautify_js(filename=json_data["libraryrootjsFile"]):
             print("Beautified file write finished")
     except:
         error_exit(filename + " not found")
+
+def unpack_js(filename=json_data["libraryrootjsFile"]):
+    try:
+        print("Beautify file...")
+        beautify_file = get_beaut_filename(filename)
+        opts = jsbeautifier.default_options()
+        library = jsbeautifier.beautify_file(filename, opts)
+        f = open(beautify_file, "wt", newline='', encoding="UTF-8")
+        f.write(library)
+        f.close()
+        print("Beautified file write finished")
+        
+    except:
+        error_exit(filename + " not found")
+    
 
 #modify library.js to look for different libraryroot.js file
 '''def setup_library(reset=0):
