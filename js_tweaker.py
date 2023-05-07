@@ -2,6 +2,7 @@
 #libraries needed: jsbeautifier, jsmin
 
 import jsbeautifier
+import js_beautify
 import platform
 import os
 import sys
@@ -86,15 +87,14 @@ def beautify_js(filename=json_data["libraryrootjsFile"]):
             if not os.path.isfile(filename):
                 shutil.copy2(os.path.join(library_dir(), filename), filename)
 
-            opts = jsbeautifier.default_options()
-            #opts.preserve_newlines = True
-            #opts.jslint_happy = False
-            #opts.eol = ""
-            library = jsbeautifier.beautify_file(filename, opts)
-
-            f = open(beautify_file, "wt", newline='', encoding="UTF-8")
-            f.write(library)
-            f.close()
+            #opts = jsbeautifier.default_options()
+            #library = jsbeautifier.beautify_file(filename, opts)
+            #f = open(beautify_file, "wt", newline='', encoding="UTF-8")
+            #f.write(library)
+            #f.close()
+            
+            js_beautify.beautify(filename)
+            
             print("Beautified file write finished")
     except:
         error_exit(filename + " not found")
@@ -269,6 +269,7 @@ def write_modif_file(filename = json_data["libraryrootjsFile"]):
 def re_minify_file(modif_filename = json_data["libraryrootjsModifFile"], min_filename = json_data["libraryrootjsPatchedFile"]):
     try:
         if os.path.isfile(modif_filename):
+            '''
             print("\nRe-minify JS file")
             with open(modif_filename, "r", newline='', encoding="UTF-8") as js_file:
                 minified = rjsmin.jsmin(js_file.read(), keep_bang_comments=True)
@@ -277,6 +278,10 @@ def re_minify_file(modif_filename = json_data["libraryrootjsModifFile"], min_fil
             js_file.close()
             js_min_file.close()
             print("JS Minify complete. (" + min_filename + ")")
+            '''
+            shutil.copy2(modif_filename, min_filename)
+            print("File " + modif_filename + " copied to " + min_filename)
+            
     except:
         error_exit("Error completing JS minify.")
 
