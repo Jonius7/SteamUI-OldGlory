@@ -1,5 +1,5 @@
 ### === Enable Patching JS ===
-27: "localization/shared_japanese-json",~~58: "chunk~2dcc5aaf7"  58: "chenk~2dcc5aaf7"
+33: "localization/steamui_portuguese-json",~~58: "chunk~2dcc5aaf7"  58: "chenk~2dcc5aaf7"
 5590: "localization/steamui_vietnamese-json",~~5742: "sp",  5742: "sq",
 
 ### === Increase Number of Screenshots and DLC displayed ===
