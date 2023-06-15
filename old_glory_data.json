@@ -7,17 +7,17 @@
 	"libraryjsModifFile": "library.modif.js",
 	"libraryjsPatchedFile": "librery.js",
 	"libraryjsOriginalFile": "library.js.original",
-	"libraryrootjsFile": "chunk~547eb3232.js",
-	"libraryrootjsBeautFile": "chunk~547eb3232.beaut.js",
-	"libraryrootjsModifFile": "chunk~547eb3232.modif.js",
-	"libraryrootjsPatchedFile": "chenk~547eb3232.js",
-	"libraryrootjsOriginalFile": "chunk~547eb3232.js.original",
-	"jsFile": "so.js",
+	"libraryrootjsFile": "chunk~2dcc5aaf7.js",
+	"libraryrootjsBeautFile": "chunk~2dcc5aaf7.beaut.js",
+	"libraryrootjsModifFile": "chunk~2dcc5aaf7.modif.js",
+	"libraryrootjsPatchedFile": "chenk~2dcc5aaf7.js",
+	"libraryrootjsOriginalFile": "chunk~2dcc5aaf7.js.original",
+	"jsFile": "sp.js",
 	"jsBeautFile": "sp.beaut.js",
 	"jsModifFile": "sp.modif.js",
 	"jsPatchedFile": "sq.js",
 	"jsOriginalFile": "sp.js.original",
-	"lastPatchedDate": "2023-02-21T05:30:01Z",
+	"lastPatchedDate": "2023-05-27T05:33:03Z",
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",
@@ -125,6 +125,14 @@
 			"name": "[Tweak] No Zoom",
 			"description": "CSS for removing zoom/expand on game images when hovered"
 		},
+		"achievements_page": {
+			"name": "Achievements Page",
+			"description": "CSS for View My Achievements page"
+		},
+		"bottom_top_bar": {
+			"name": "[Module] Bottom Top Bar",
+			"description": "CSS for moving bottom bar elements to the top"
+		},
 		"module_simplified_homesearch": {
 			"name": "[Tweak] Simplified Home Search",
 			"description": "CSS for simplified Home and Search buttons"
@@ -136,7 +144,7 @@
 			],
 			"name": "[Auto-Module] Landscape Game Images",
 			"description": "(Requires JS) CSS for Horizontal Game Images"
-		},		
+		},
 		"module_playbarbox": {
 			"tags": [
 				"Advanced"

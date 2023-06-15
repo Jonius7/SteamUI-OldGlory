@@ -1,0 +1,138 @@
+/* ==================== Move bottom bar to top ====================
+   ==================== Credit: LaserFlash ====================
+   ========================================================================== */
+   :root {
+    /* width of your username - you will need to configure this */
+    --username-length: 155px;
+    /* other options  */
+    --download-summary-width: 180px;
+    --order-friends: 3;
+    --order-add-game: 2;
+    --order-download: 1;
+}
+
+/** ================================================================================== **/
+/** Position the buttons **/
+[class*="bottombar_BottomBarContainer"] {    
+    position: absolute;
+    --steam-control-width: 242px;
+    right: calc(var(--steam-control-width) + var(--username-length));
+    top: 6px;
+    
+}
+/** ================================================================================== **/
+/** Override some colours and sizes **/
+[class*="bottombar_BottomBar_"] {
+    width: fit-content;
+    box-shadow: none;
+    background: none;
+    gap: 8px;
+    flex: 0;
+}
+
+[class*="bottombar_BottomBar"] [class*="FriendsButton_"],
+[class*="bottombar_BottomBar"] [class*="AddGameButton_"],
+[class*="bottombar_BottomBar"] [class*="DownloadStatus_"] {
+    background-color: rgba(103, 112, 123, .2);
+    padding: 0px 12px;
+    border-radius: 2px;
+    min-width: 24px;
+    min-height: 24px;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+[class*="bottombar_BottomBar"] [class*="FriendsButton"]:hover,
+[class*="bottombar_BottomBar"] [class*="AddGameButton"]:hover,
+[class*="bottombar_BottomBar"] [class*="DownloadStatus_"]:hover {
+    background-color: #3d4450;
+    transition: background-color .15s ease-out;
+}
+
+[class*="bottombar_BottomBar"] [class*="FriendsButton"] [class*="bottombar_Icon"],
+[class*="bottombar_BottomBar"] [class*="AddGameButton"] [class*="bottombar_Icon"],
+[class*="bottombar_BottomBar"] [class*="DownloadStatus_"] [class*="bottombar_Icon"] {
+    margin-bottom: 4px;
+}
+
+/** ================================================================================== **/
+/** Style the download progress **/
+[class*="bottombar_BottomBar"] [class*="DownloadStatus_"] [class*="DetailedDownloadProgress"] {
+    max-width: var(--download-summary-width);
+    align-items: center;
+}
+
+[class*="bottombar_BottomBar"] [class*="DownloadStatus_"] [class*="DetailedDownloadProgress"] [class*="bottombar_Icon"] {
+    margin: 0;
+    margin-top: 2px;
+    box-shadow: none;
+    height: 20px;
+    width: 20px;
+}
+
+[class*="bottombar_BottomBar"] [class*="DownloadStatus_"] [class*="DetailedDownloadProgress"] [class*="ProgressBarWrapper"] {
+    margin: 0;
+}
+
+[class*="bottombar_BottomBar"] [class*="DownloadStatus_"] [class*="DetailedDownloadProgress"] [class*="Status"],
+[class*="bottombar_BottomBar"] [class*="DownloadStatus_"] [class*="DownloadStatusContent_"] [class*="Queue_"] {
+    padding-top: 0;
+}
+
+[class*="bottombar_DownloadStatusContent_"] {
+    padding: 0;
+}
+
+/** ================================================================================== **/
+/** Hide elements we don't want **/
+[class*="bottombar_BottomBar"] [class*="updatealert_Alert_"] /* need to find out what this is */,
+[class*="bottombar_BottomBar"] [class*="DownloadStatus_"] [class*="DetailedDownloadProgress"] [class*="IconBevel"] {
+    display: none;
+}
+
+/** ================================================================================== **/
+/** Change the order and override some styles **/
+[class*="bottombar_BottomBar"] [class*="AddGameButton"] {
+    order: var(--order-add-game);
+}
+
+[class*="bottombar_BottomBar"] [class*="DownloadStatus_"] {
+    order: var(--order-download);
+    flex-grow: 0;
+    padding: 0 6px;
+
+}
+
+[class*="bottombar_BottomBar"] [class*="FriendsButton"] {
+    order: var(--order-friends);
+}
+
+/** ================================================================================== **/
+/** make friends & add game text a tooltip **/
+[class*="bottombar_BottomBar"] [class*="AddGameButton"] [class*="bottombar_Text"],
+[class*="bottombar_BottomBar"] [class*="FriendsButton"] [class*="bottombar_Text"] {
+    position: absolute;
+    top: 32px;
+    opacity: 0;
+    transition: opacity .25s;
+    pointer-events: none;
+    box-sizing: border-box;
+    font-size: 13px;
+    background-color: #696773;
+    border-radius: 2px;
+    color: #e0e1e6;
+    padding: 6px 8px;
+    box-shadow: 1px 1px 8px #0005, 2px 2px 16px 1px #0005;
+    width: fit-content;
+    user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+[class*="bottombar_BottomBar"] [class*="AddGameButton"]:hover [class*="bottombar_Text"],
+[class*="bottombar_BottomBar"] [class*="FriendsButton"]:hover [class*="bottombar_Text"] {
+    opacity: 1;
+}
+/** ================================================================================== **/
