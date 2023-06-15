@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "1.1.0.0"
-        self.release = "5.12-pre1"
+        self.version = "1.1.0.1"
+        self.release = "5.12"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)

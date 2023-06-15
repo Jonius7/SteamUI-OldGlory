@@ -1,2 +1,2 @@
 @echo off
-python old_glory.py
+"C:\Users\Jason\Downloads\SteamUI-OldGloryMaster\.env\Scripts\python.exe" old_glory.py
