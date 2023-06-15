@@ -1,8 +1,9 @@
 /* ==================== Move bottom bar to top ====================
+   ==================== Credit: LaserFlash ====================
    ========================================================================== */
    :root {
     /* width of your username - you will need to configure this */
-    --username-length: 151px;
+    --username-length: 155px;
     /* other options  */
     --download-summary-width: 180px;
     --order-friends: 3;
@@ -80,6 +81,9 @@
     padding-top: 0;
 }
 
+[class*="bottombar_DownloadStatusContent_"] {
+    padding: 0;
+}
 
 /** ================================================================================== **/
 /** Hide elements we don't want **/

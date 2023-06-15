@@ -17,7 +17,7 @@
 	"jsModifFile": "sp.modif.js",
 	"jsPatchedFile": "sq.js",
 	"jsOriginalFile": "sp.js.original",
-	"lastPatchedDate": "2023-03-29T08:10:18Z",
+	"lastPatchedDate": "2023-05-27T05:33:03Z",
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",
@@ -124,6 +124,14 @@
 		"tweak_nozoom": {
 			"name": "[Tweak] No Zoom",
 			"description": "CSS for removing zoom/expand on game images when hovered"
+		},
+		"achievements_page": {
+			"name": "Achievements Page",
+			"description": "CSS for View My Achievements page"
+		},
+		"bottom_top_bar": {
+			"name": "[Module] Bottom Top Bar",
+			"description": "CSS for moving bottom bar elements to the top"
 		},
 		"module_simplified_homesearch": {
 			"name": "[Tweak] Simplified Home Search",
