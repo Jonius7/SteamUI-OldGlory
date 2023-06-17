@@ -1,0 +1,149 @@
+/* Dark Library by spikedballofdoom
+   https://gamebanana.com/guis/35092
+*/
+
+.gamelistbar_GameListHomeAndSearch_2TKEa .gamelistbar_Container_3x1Hk {
+    background-color: #0c0c0c;
+}
+
+.gamelistsearchbar_Container_20QAC .gamelistsearchbar_SearchInput_12vo5 .DialogTextInputBase:hover {
+    background: #404040;
+}
+.gamelistsearchbar_Container_20QAC .gamelistsearchbar_SearchInput_12vo5 .DialogTextInputBase {
+    background: #2f2f2f;
+}
+.libraryhome_Container_2gSXC .libraryhome_UpdatesContainer_17uEB{
+    background: #111;
+}
+div.LowPerfMode .appdetailsplaysection_Glassy_3DeO9.appdetailsplaysection_PlayBar_3fLo1 {
+    background: linear-gradient(to top, rgba(36, 40, 47, 0) 0%, rgba(0, 0, 0, 0) calc( 100% - 2px), rgba(193, 202, 207, 0.1) calc( 100% - 1px), rgba(29, 29, 29, 0.3) 100%);
+}
+.appdetailsoverview_Glassy_2OOzY .appdetailsoverview_BackdropGlass_Jbe-- {
+    background: #00000000; 
+}
+.appdetailsoverview_Glassy_2OOzY > div {
+    z-index: 1;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.62) 0%, 82px, rgba(39, 44, 53, 0.3) 80%, rgba(39, 44, 53, 0) 100%);
+}
+.appdetailsoverview_Glassy_2OOzY .appdetailsoverview_ColumnContainer_OhSdL {
+    background: #000000a1;
+}
+.appactivityday_Event_UVeN0 .appactivityday_EventBody_NEMXh {
+    background: rgb(23, 23, 23); 
+}
+.libraryhome_LibraryHome_3Sb2o {
+    background-image: none;
+    background-color: #0c0c0c ;
+}
+
+.gamelistbar_Container_3x1Hk {
+    background-image: none; 
+    background-color: #0c0c0c !important;
+}
+
+.gamelistsectionheader_Container_2sYIg {
+    background: none;
+}
+
+.allcollections_Collection_3IWn- {
+    background: #0e203a;
+}
+
+.allcollections_ScrollContainer_u1xD3 {
+    background: radial-gradient(100% 100% at 33% 45%, #0c0c0b 0%, #101314 100%);
+}
+
+.collectionview_OuterContainer_2sNr7 {
+    background: radial-gradient(100% 100% at 33% 45%, #080808 0%, #101314 100%);
+}
+
+.gamelistsearchbar_Container_20QAC .gamelistsearchbar_AdvancedSearchContainer_vCCmY {
+    border-radius: 0px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+/*ENTIRE BAR*/
+.downloads_DownloadsPage_1bq4x {
+    background: none;
+    background-color: #0c0c0c;
+}
+
+.downloads_SectionItem_1VNuY:hover, .downloads_SectionItem_1VNuY.downloads_Dragging_3-SbB {
+    background-color: #171717;
+    border-radius: 2px;
+}
+/*BAR BUTTONS*/
+.downloads_SectionItem_1VNuY
+.downloads_Button_3oavR.DialogButton {
+background: #212121 !important;
+}
+.downloads_SectionItem_1VNuY:hover 
+.downloads_Button_3oavR.DialogButton:enabled {
+background: #3f3f3f !important;
+}
+
+/*Dark UI Additions by FatheredPuma81*/
+/* Library background*/
+.libraryhome_Container_2gSXC {
+	background-color: #0c0c0c;
+}
+/*Top Bar*/
+.steamdesktop_TopBar_3Z7VQ {
+	background: #0c0c0c;
+}
+/*Line Below Store/Library*/
+.steamdesktop_LocalContentContainer_RGNMW .steamdesktop_URLBarReplacement_2Cmrn {
+    background: #0c0c0c;
+}
+/*Dropdown Window Color*/
+.menu_MenuPopup_3pofG {
+    background: #171717;
+}
+/*Steam URL Color*/
+.steamdesktop_BrowserWrapper_1bGew .steamdesktop_URLBar_UkR3s {
+    background: #0c0c0c;
+}
+/*Steam Bottom Bar*/
+.bottombar_BottomBar_3vCzS {
+    background: #0c0c0c;
+}
+
+/*Steam Settings*/
+/*Left Half Color*/
+.pagedsettings_PagedSettingsDialog_PageListColumn_RTicB {
+    background: #0c0c0c;
+}
+/*Right Half Background*/
+.pagedsettings_PagedSettingsDialog_PageContent_1I3Ni.DesktopUI, .DesktopUI .pagedsettings_PagedSettingsDialog_PageContent_1I3Ni {
+    background: #0c0c0c;
+}
+/*Highlight Color*/
+.pagedsettings_PagedSettingsDialog_PageListItem_bkfjn.pagedsettings_Active_Myra7 {
+    background-color: #4c4c4c;
+}
+
+/*Friend Right Click Drop Down Menu Color*/
+.contextmenu_contextMenu_LQkrb {
+    background: radial-gradient(ellipse farthest-corner at 50% 30%, #0c0c0c 0%, #101010 50%, #1e1e1e 100%);
+}
+/*Right Click Game Menu*/
+.DesktopUI .contextmenu_contextMenu_LQkrb, .contextmenu_ForceDesktop_7K1n9 .contextmenu_contextMenu_LQkrb {
+    background: radial-gradient(ellipse farthest-corner at 50% 30%, #0c0c0c 0%, #101010 50%, #1e1e1e 100%);
+}
+/*Right Click Play*/
+.DesktopUI .library_ContextMenuAction_Z5iAX.Stream, .DesktopUI .library_ContextMenuAction_Z5iAX.Connect, .DesktopUI .library_ContextMenuAction_Z5iAX.Launch, .DesktopUI .library_ContextMenuAction_Z5iAX.PlayMusic, .DesktopUI .library_ContextMenuAction_Z5iAX.Play {
+    background: linear-gradient(-45deg, #3e3e3e 0%, #808080 70%);
+}
+
+/*Big Play Button*/
+.appactionbutton_Green_3cI5T>.appactionbutton_ButtonChild_2AzIX {
+    background: linear-gradient(to right, #3e3e3e 0%, #808080 60%);
+}
+/*Right Side of Big Play Button*/
+.appactionbutton_Green_3cI5T>.appactionbutton_ButtonChild_2AzIX.appactionbutton_StreamingSelector_2q-gZ {
+    background: linear-gradient(to right, #3e3e3e 0%, #808080 60%);
+}
+/*Inside Arrow*/
+.appactionbutton_Green_3cI5T>.appactionbutton_ButtonChild_2AzIX svg {
+    fill: #cecece;
+}

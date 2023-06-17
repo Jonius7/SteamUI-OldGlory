@@ -1,0 +1,61 @@
+/*Friends List*/
+/*Friends List Top*/
+.friendListHeaderContainer {
+    background-color: #0c0c0c;
+}
+/*Friends Middle Bottom*/
+.friendslist_OfflineContainer_J8oP5 {
+    background-color: #0c0c0c;
+}
+/*Friends List Bottom*/
+.friendListFooter {
+    background-color: #0c0c0c;
+}
+/*Friends List Friends Tab*/
+.activeTab {
+    background-color: #1f1f1f;
+}
+/*Main Friends*/
+.friendlistListContainer {
+    background: radial-gradient(ellipse farthest-corner at 50% 30%, #0c0c0c 0%, #101010 50%, #1e1e1e 100%);
+}
+/*Group Chats*/
+.friendsListSectionTitle {
+    background-color: #1f1f1f;
+}
+
+/*Chat Window*/
+/*Middle Chat Window*/
+.chatWindow {
+    background: radial-gradient(ellipse farthest-corner at 50% 30%, #0c0c0c 0%, #101010 50%, #1e1e1e 100%);
+}
+/*Friend Box*/
+.chattabs_ChatTab_2Vrcp.chattabs_Active_Lrqoj {
+    background-color: #1e1e1e;
+}
+/*Outside Text Box*/
+.chatWindow .chatEntry {
+    background-color: #0c0c0c;
+}
+/*Text box*/
+.chatentry_chatEntryControls_2gP0D {
+    background-color: #212121;
+}
+/*Title Bar*/
+.titleBarContainer.ChatTabs {
+    background-color: #0c0c0c;
+}
+/*Button Colors*/
+.chatentry_chatSubmitButton_1IEiK {
+    background-color: #212121;
+}
+.chatentry_chatSubmitButton_1IEiK.chatentry_EmbedButton_24xNx, .chatentry_chatSubmitButton_1IEiK.chatentry_EmoticonPickerButton_K-lPM {
+    background-color: #212121;
+}
+.VoiceToggle {
+    background: #212121;
+}
+
+.chatTabSelector {
+    background: linear-gradient(to bottom, #1e1e1e 0px, #202020 80%, #202020 100%);
+}
