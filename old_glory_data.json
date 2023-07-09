@@ -27,6 +27,10 @@
 			"author": "Thespikedballofdoom",
 			"order": "after"
 		},
+		"Full Dark Mode": {
+			"author": "FatheredPuma81",
+			"order": "after"
+		},
 		"Acrylic Theme": {
 			"author": "EliteSkylu",
 			"order": "after"
