@@ -877,6 +877,7 @@ def enable_css_theme(theme_name, order, json_data):
 
 def steam_library_compat_config(overwrite=0):
     try:
+        print("Don't forget to run Apply config.css in Advanced Options if needed.")
         if not os.path.isfile("themes/config.css"):                             # if config.css in OldGlory themes/ doesn't exist
             shutil.copy2("themes/config.css.original", "themes/config.css")     # make a copy from config.css.original
             print("created themes/config.css from themes/config.css.original")
@@ -886,6 +887,9 @@ def steam_library_compat_config(overwrite=0):
     except FileNotFoundError:
         print("config.css not found", file=sys.stderr)
         print_traceback()
+    pass
+
+def apply_friends_css():
     pass
 
 ### [END OF] APPLY CSS THEME Functions

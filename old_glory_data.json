@@ -17,7 +17,7 @@
 	"jsModifFile": "sp.modif.js",
 	"jsPatchedFile": "sq.js",
 	"jsOriginalFile": "sp.js.original",
-	"lastPatchedDate": "2023-05-27T05:33:03Z",
+	"lastPatchedDate": "2023-09-25T03:35:50Z",
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",
@@ -136,6 +136,10 @@
 		"bottom_top_bar": {
 			"name": "[Module] Bottom Top Bar",
 			"description": "CSS for moving bottom bar elements to the top"
+		},
+		"module_metro_topbar": {
+			"name": "[Module] Metro Top Bar",
+			"description": "Adds Metro Skin style Top Navigation bar, disable Bottom Top Bar to use"
 		},
 		"module_simplified_homesearch": {
 			"name": "[Tweak] Simplified Home Search",

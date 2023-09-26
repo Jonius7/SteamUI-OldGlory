@@ -35,7 +35,7 @@
   --AchievementsClickHighlight: Highlight_opacity;  /* Default: appdetailsoverview_HighlightMe_25jnp. Options: Highlight_opacity Highlight_border. Set to disabled to disable. */
 
   /* Game Page Elements */
-  --RecommendGame: block;  /* Default: block. Set to none to hide "Recommond this game" box on game page. */
+  --RecommendGame: none;  /* Default: block. Set to none to hide "Recommond this game" box on game page. */
   --DLCAvailableContent: none;  /* Default: block. Set to none to hide the DLC Available Content box. */
 
   /* Game Page Background */
@@ -581,10 +581,17 @@ div.appdetailsoverview_RightColumn_2aor4 > div:nth-child(3) {
   margin-bottom: 29px;
 }
 
+/* crafting badge */
+.appactivityday_BadgeSection_3G7i5 {
+  margin-bottom: 30px;
+}
+
+/* other margins */
 .appdetailssection_AppDetailsSectionContainer_31ptF.appdetailssection_AppDetailsSectionHasLabel_2G5B7 > div > div:nth-child(2) {
   margin-top: 0px;
 }
 
+/* received new game margin */
 .appactivityday_Event_UVeN0.appactivityday_ReceivedNewGame_35ZQ6.appactivityday_NoCommentSupport_2CB_R.Panel.Focusable {
   margin-bottom: 24px;
 }
@@ -735,41 +742,22 @@ div.NarrowRightPanel .appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .app
   grid-template-rows: auto auto;
 }
 
-/* ==================== Game Properties ====================
+/* ==================== View My Achievements page ====================
    ========================================================================== */
-:root {
-  --CheckBoxColor: rgb(93 99 112 / 50%);
-  --StatusColor: rgb(93 99 112 / 20%);
+.achievementspage_Page_3FQHg .achievementspage_Container_11Z-t {
+  padding-top: 14px;
 }
 
-.DialogContent {
-  padding: 10px 24px;
-}
-
-.DialogContentTransition {
-  flex: 5.3;
-  width: unset;
+.library_AchievementsOverlayContainer_HruWV .library_AchievementsPageContainer_gioyP {
+  width: 95%;
   max-width: unset;
+  margin: 14px auto 14px auto;
 }
 
-.ModalDialogPopup .DialogContentTransition .DialogBody {
-  overflow-y: hidden;
+.achievementsheader_Container_2iGYY .achievementsheader_Portrait_2SjmZ {
+  width: 100px;
 }
 
-.appproperties_AppProperties_1FyBL .appproperties_Checkbox_2V2nc {
-  background: var(--CheckBoxColor);
-}
-
-.DialogTextInputBase, ._DialogInputContainer {
-  background: var(--CheckBoxColor);
-}
-
-.appproperties_AppProperties_1FyBL .DialogBody .appproperties_SteamInputStatusGrid_3lj3- {
-  background: var(--StatusColor);
-}
-
-/* ========================================================================== 
-   END Game Properties */
 /* Home Icon 
 Adapted from LIGHT-UI by Angelo*/
 .gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx {
@@ -811,6 +799,308 @@ Adapted from LIGHT-UI by Angelo*/
     padding: 5px 11px;
     top: 2px;
 }*/
+/* ==================== Game Properties ====================
+   ========================================================================== */
+:root {
+  --CheckBoxColor: rgb(93 99 112 / 50%);
+  --StatusColor: rgb(93 99 112 / 20%);
+}
+
+.DialogContent {
+  padding: 10px 24px;
+}
+
+.DialogContentTransition {
+  flex: 5.3;
+  width: unset;
+  max-width: unset;
+}
+
+.ModalDialogPopup .DialogContentTransition .DialogBody {
+  overflow-y: hidden;
+}
+
+.appproperties_AppProperties_1FyBL .appproperties_Checkbox_2V2nc {
+  background: var(--CheckBoxColor);
+}
+
+.DialogTextInputBase, ._DialogInputContainer {
+  background: var(--CheckBoxColor);
+}
+
+.appproperties_AppProperties_1FyBL .DialogBody .appproperties_SteamInputStatusGrid_3lj3- {
+  background: var(--StatusColor);
+}
+
+/* ========================================================================== 
+   END Game Properties */
+/* ===== CREDITS  =====
+/* Shiina♪#9670
+/* DISCORD: https://discord.gg/UZvkvkh
+/* GITHUB: https://github.com/AikoMidori/
+/* -------------------------------------------------------------------------------------------
+/* © 2021 All Rights Reserved. Created by Shiina♪
+/**/
+/* New steam theme */
+.rootmenu_SteamButton_bSKGl::before {
+  display: none;
+}
+
+.rootmenu_SteamButton_bSKGl {
+  content: none !important;
+  display: none !important;
+}
+
+.rootmenu_RootMenuButton_2UyOB::after {
+  content: "" !important;
+  margin-left: 25px !important;
+}
+
+.rootmenu_RootMenuButton_2UyOB {
+  margin-top: 27px !important;
+  line-height: 4px !important;
+  margin-left: 3px !important;
+  content: "----!" !important;
+  margin-right: 60px !important;
+  background-repeat: no-repeat !important;
+  background-image: url("https://cdn.discordapp.com/attachments/601492211586039824/1102616344668684339/login_logo.png") !important;
+  background-size: 16px !important;
+}
+
+[class*="rootmenu_RootMenuButton_"]:nth-of-type(2), [class*="rootmenu_RootMenuButton_"]:nth-of-type(3), [class*="rootmenu_RootMenuButton_"]:nth-of-type(4), [class*="rootmenu_RootMenuButton_"]:nth-of-type(5) {
+  display: none !important;
+}
+
+/* top bar font size */
+.supernav_SuperNavMenu_7AlhC {
+  font-size: 15px !important;
+}
+
+/* top bar selected text color */
+.supernav_SuperNavMenu_7AlhC.supernav_Selected_1gqEj:not(.supernav_Disabled_2cO0H) .supernav_MenuButton_19axK {
+  color: #fff !important;
+}
+
+/* top bar unselected text color */
+.supernav_SuperNavMenu_7AlhC .supernav_MenuButton_19axK {
+  color: grey !important;
+}
+
+/* top bar color line */
+.supernav_SuperNavMenu_7AlhC.supernav_Selected_1gqEj:not(.supernav_Disabled_2cO0H) .supernav_MenuButton_19axK::after {
+  margin-top: 9px !important;
+  height: 1px !important;
+  background: #1a9fff !important;
+}
+
+/* Top bar color and height */
+.steamdesktop_TitleBar_39oUC {
+  height: 45px !important;
+  background: #191919 !important;
+}
+
+/* buttons to top bar */
+.steamdesktop_SuperNavBar_3Z3oh {
+  margin-top: -34px !important;
+  width: 40% !important;
+  margin-left: 30px !important;
+}
+
+/* announcement button replacement */
+.titlebarcontrols_AnnouncementsButton_5wILZ {
+  display: none !important;
+}
+
+/* notification button replacement */
+.titlebarcontrols_NotificationButtonContainer_3mGEz {
+  right: 0 !important;
+  padding: 0 7px 0 15px !important;
+  min-width: 24px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  margin-right: 265px !important;
+  border-radius: 4px !important;
+  height: fit-content !important;
+  margin-top: -15px !important;
+  position: absolute !important;
+  right: 0px !important;
+}
+
+/* top bar text centered */
+.supernav_SuperNav_2D64j {
+  margin-top: 0px !important;
+}
+
+.supernav_SuperNavMenu_7AlhC.supernav_Selected_1gqEj:not(.supernav_Disabled_2cO0H) .supernav_MenuButton_19axK {
+  color: #fff !important;
+}
+
+/* back anf forward button */
+.supernav_Arrow_25lBL {
+  margin-top: -5px !important;
+}
+
+/* window resize grip */
+.window_resize_grip {
+  background-image: none !important;
+}
+
+/* hide url bar */
+.steamdesktop_BrowserWrapper_1bGew .steamdesktop_URLBar_UkR3s {
+  display: none !important;
+}
+
+/* avatar reposition */
+[class*="steamavatar_avatarHolder_"] {
+  margin: 0 0 0 0 !important;
+  margin-top: -2px !important;
+  margin-right: 10px !important;
+}
+
+.offline [class*="steamavatar_avatarStatus_"] {
+  border-radius: 0px !important;
+  width: 4px !important;
+  height: 32px !important;
+  left: 30px !important;
+  top: 0px !important;
+  z-index: 1 !important;
+}
+
+.online [class*="steamavatar_avatarStatus_"] {
+  border-radius: 0px !important;
+  width: 4px !important;
+  height: 32px !important;
+  left: 30px !important;
+  top: 0px !important;
+  z-index: 1 !important;
+}
+
+.ingame [class*="steamavatar_avatarStatus_"] {
+  border-radius: 0px !important;
+  width: 4px !important;
+  height: 32px !important;
+  left: 30px !important;
+  top: 0px !important;
+  z-index: 1 !important;
+}
+
+/* avatar size */
+[class*="steamavatar_avatar_"] {
+  border-radius: 0px !important;
+  height: 32px !important;
+  width: 32px !important;
+}
+
+/* hide arrow next to name */
+.titlebarcontrols_AccountMenu_3yD46 .titlebarcontrols_Chevron_3x51w {
+  display: none !important;
+}
+
+/* reposition name annd buttons top bar */
+.titlebarcontrols_TitleBarControls_3cykd {
+  margin-top: 0px !important;
+}
+
+/* name font size */
+.titlebarcontrols_AccountMenu_3yD46 {
+  background: transparent !important;
+  font-variant: all-small-caps !important;
+  font-size: 16px !important;
+  margin-right: 220px !important;
+  margin-top: 0px !important;
+}
+
+/* hide large mode button */
+.titlebarcontrols_GamepadUIToggle_3LKQ3 {
+  display: none !important;
+}
+
+/* close buttons */
+.title-area {
+  margin-top: 4px !important;
+}
+
+/* bottombar area */
+.bottombar_BottomBar_3vCzS {
+  /* bottom bar to top */
+  background: transparent !important;
+  margin-top: 8px !important;
+  right: 0 !important;
+  margin-right: 149px !important;
+  position: fixed !important;
+  top: 0 !important;
+  border-radius: 4px !important;
+  box-shadow: unset;
+}
+
+/* reposition bottom bar items in the top */
+.bottombar_AddGameButton_2foCk {
+  padding: 0 7px 0 15px !important;
+  background-color: #2e2e2f !important;
+  min-width: 24px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  border-radius: 2px !important;
+}
+
+.bottombar_DownloadStatus_2EQ7g {
+  padding: 0 6px 0 16px !important;
+  background-color: #2e2e2f !important;
+  min-width: 24px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  border-radius: 2px !important;
+  right: 0 !important;
+  margin-right: 110px !important;
+  position: fixed !important;
+}
+
+/* reposition bottom bar items in the top */
+.bottombar_FriendsButton_1TdaA {
+  padding: 0 7px 0 15px !important;
+  margin-left: 7px !important;
+  background-color: #2e2e2f !important;
+  min-width: 24px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  border-radius: 2px !important;
+  margin-right: 4px;
+}
+
+.bottombar_DetailedDownloadProgress_2VtAq .bottombar_Icon_1KrJ3 {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.bottombar_ProgressBarWrapper_2_Fom {
+  margin-top: -2px !important;
+}
+
+.bottombar_DetailedDownloadProgress_2VtAq {
+  max-width: 250px !important;
+}
+
+.bottombar_AddGameButton_2foCk .bottombar_Icon_1KrJ3, .bottombar_Icon_1KrJ3, .bottombar_FriendsButton_1TdaA .bottombar_Text_3OhUx {
+  margin-bottom: 2px !important;
+}
+
+.bottombar_AddGameButton_2foCk .bottombar_Text_3OhUx, .bottombar_FriendsButton_1TdaA .bottombar_Text_3OhUx, .bottombar_DownloadStatusContent_ip-YZ .bottombar_Queue_3wJnT {
+  display: none !important;
+}
+
+.bottombar_DetailedDownloadProgress_2VtAq .bottombar_IconBevel_21vPQ {
+  background-image: none !important;
+}
+
+.libraryassetimage_Container_1R9r2 {
+  margin-top: 2px !important;
+}
+
+.steamdesktop_LocalContentContainer_RGNMW .steamdesktop_URLBarReplacement_2Cmrn {
+  min-height: 0px;
+  height: 0px;
+}
+
 /* Custom CSS (module 1)
    ========================================================================== */
 /* ========================================================================== 
@@ -866,7 +1156,7 @@ Adapted from LIGHT-UI by Angelo*/
   background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
 }
 
-.appdetailsoverview_RightColumn_2aor4 * {
+.appdetailsoverview_RightColumn_2aor4 * :not(path):not(circle):not(.appdetailssectionheader_LabelText_3i0ko) {
   color: var(--SectionFontColor2) !important;
   fill: var(--SectionFontColor2) !important;
   stroke: var(--SectionFontColor2) !important;

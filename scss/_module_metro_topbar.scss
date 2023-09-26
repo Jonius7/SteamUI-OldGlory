@@ -1,0 +1,268 @@
+/* ===== CREDITS  =====
+/* Shiina♪#9670
+/* DISCORD: https://discord.gg/UZvkvkh
+/* GITHUB: https://github.com/AikoMidori/
+/* -------------------------------------------------------------------------------------------
+/* © 2021 All Rights Reserved. Created by Shiina♪
+/**/
+
+/* New steam theme */
+
+.rootmenu_SteamButton_bSKGl::before {
+  display: none;
+}  
+
+.rootmenu_SteamButton_bSKGl {
+  content: none !important;
+  display: none !important;
+}
+
+.rootmenu_RootMenuButton_2UyOB::after {
+  content: "" !important;
+  margin-left: 25px !important;
+}
+.rootmenu_RootMenuButton_2UyOB{
+  margin-top: 27px !important;
+  line-height: 4px !important;
+  margin-left: 3px !important;
+  content: "----!" !important;
+  margin-right: 60px !important;
+  background-repeat: no-repeat !important;
+  background-image: url("https://cdn.discordapp.com/attachments/601492211586039824/1102616344668684339/login_logo.png") !important;
+  background-size: 16px !important;
+}
+  
+
+[class*="rootmenu_RootMenuButton_"]:nth-of-type(2), [class*="rootmenu_RootMenuButton_"]:nth-of-type(3), [class*="rootmenu_RootMenuButton_"]:nth-of-type(4), [class*="rootmenu_RootMenuButton_"]:nth-of-type(5) {
+  display: none !important;
+}
+
+/* top bar font size */
+.supernav_SuperNavMenu_7AlhC {
+  font-size: 15px !important;
+}
+
+/* top bar selected text color */
+.supernav_SuperNavMenu_7AlhC.supernav_Selected_1gqEj:not(.supernav_Disabled_2cO0H) .supernav_MenuButton_19axK {
+  color: #fff !important;
+}
+
+/* top bar unselected text color */
+.supernav_SuperNavMenu_7AlhC .supernav_MenuButton_19axK {
+  color: grey !important;
+}
+
+/* top bar color line */
+.supernav_SuperNavMenu_7AlhC.supernav_Selected_1gqEj:not(.supernav_Disabled_2cO0H) .supernav_MenuButton_19axK::after {
+  margin-top: 9px !important;
+  height: 1px !important;
+  background: #1a9fff !important;
+}
+
+/* Top bar color and height */
+.steamdesktop_TitleBar_39oUC {
+  height: 45px !important;
+  background: #191919 !important;
+}
+
+/* buttons to top bar */
+.steamdesktop_SuperNavBar_3Z3oh {
+  margin-top: -34px !important;
+  width: 40% !important;
+  margin-left: 30px !important;
+}
+
+/* announcement button replacement */
+.titlebarcontrols_AnnouncementsButton_5wILZ {
+  display: none !important;
+}
+
+/* notification button replacement */
+.titlebarcontrols_NotificationButtonContainer_3mGEz {
+  right: 0 !important;
+  padding: 0 7px 0 15px !important;
+  min-width: 24px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  margin-right: 265px !important;
+  border-radius: 4px !important;
+  height: fit-content !important;
+  margin-top: -15px !important;
+  position: absolute !important;
+  right: 0px !important;
+}
+
+/* top bar text centered */
+.supernav_SuperNav_2D64j {
+  margin-top: 0px !important;
+}
+
+.supernav_SuperNavMenu_7AlhC.supernav_Selected_1gqEj:not(.supernav_Disabled_2cO0H) .supernav_MenuButton_19axK {
+  color: #fff !important;
+}
+
+/* back anf forward button */
+.supernav_Arrow_25lBL {
+  margin-top: -5px !important;
+}
+
+/* window resize grip */
+.window_resize_grip {
+  background-image: none !important;
+}
+
+/* hide url bar */
+.steamdesktop_BrowserWrapper_1bGew .steamdesktop_URLBar_UkR3s {
+  display: none !important;
+}
+
+/* avatar reposition */
+[class*="steamavatar_avatarHolder_"] {
+  margin: 0 0 0 0 !important;
+  margin-top: -2px !important;
+  margin-right: 10px !important;
+}
+
+.offline [class*="steamavatar_avatarStatus_"] {
+  border-radius: 0px !important;
+  width: 4px !important;
+  height: 32px !important;
+  left: 30px !important;
+  top: 0px !important;
+  z-index: 1 !important;
+}
+
+.online [class*="steamavatar_avatarStatus_"] {
+  border-radius: 0px !important;
+  width: 4px !important;
+  height: 32px !important;
+  left: 30px !important;
+  top: 0px !important;
+  z-index: 1 !important;
+}
+
+.ingame [class*="steamavatar_avatarStatus_"] {
+  border-radius: 0px !important;
+  width: 4px !important;
+  height: 32px !important;
+  left: 30px !important;
+  top: 0px !important;
+  z-index: 1 !important;
+}
+
+/* avatar size */
+[class*="steamavatar_avatar_"] {
+  border-radius: 0px !important;
+  height: 32px !important;
+  width: 32px !important;
+}
+
+/* hide arrow next to name */
+.titlebarcontrols_AccountMenu_3yD46 .titlebarcontrols_Chevron_3x51w {
+  display: none !important;
+}
+
+/* reposition name annd buttons top bar */
+.titlebarcontrols_TitleBarControls_3cykd {
+  margin-top: 0px !important;
+}
+
+/* name font size */
+.titlebarcontrols_AccountMenu_3yD46 {
+  background: transparent !important;
+  font-variant: all-small-caps !important;
+  font-size: 16px !important;
+  margin-right: 220px !important;
+  margin-top: 0px !important;
+}
+
+/* hide large mode button */
+.titlebarcontrols_GamepadUIToggle_3LKQ3 {
+  display: none !important;
+}
+
+/* close buttons */
+.title-area {
+  margin-top: 4px !important;
+}
+
+/* bottombar area */
+.bottombar_BottomBar_3vCzS {
+  /* bottom bar to top */
+  background: transparent !important;
+  margin-top: 8px !important;
+  right: 0 !important;
+  margin-right: 149px !important;
+  position: fixed !important;
+  top: 0 !important;
+  border-radius: 4px !important;
+  box-shadow: unset;
+}
+
+/* reposition bottom bar items in the top */
+.bottombar_AddGameButton_2foCk {
+  padding: 0 7px 0 15px !important;
+  background-color: #2e2e2f !important;
+  min-width: 24px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  border-radius: 2px !important;
+}
+
+.bottombar_DownloadStatus_2EQ7g {
+  padding: 0 6px 0 16px !important;
+  background-color: #2e2e2f !important;
+  min-width: 24px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  border-radius: 2px !important;
+  right: 0 !important;
+  margin-right: 110px !important;
+  position: fixed !important;
+}
+
+/* reposition bottom bar items in the top */
+.bottombar_FriendsButton_1TdaA {
+  padding: 0 7px 0 15px !important;
+  margin-left: 7px !important;
+  background-color: #2e2e2f !important;
+  min-width: 24px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  border-radius: 2px !important;
+  margin-right: 4px;
+}
+
+.bottombar_DetailedDownloadProgress_2VtAq .bottombar_Icon_1KrJ3 {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.bottombar_ProgressBarWrapper_2_Fom { 
+  margin-top: -2px !important;
+}
+
+.bottombar_DetailedDownloadProgress_2VtAq {
+  max-width: 250px !important;
+}
+
+.bottombar_AddGameButton_2foCk .bottombar_Icon_1KrJ3, .bottombar_Icon_1KrJ3, .bottombar_FriendsButton_1TdaA .bottombar_Text_3OhUx {
+  margin-bottom: 2px !important;
+}
+
+.bottombar_AddGameButton_2foCk .bottombar_Text_3OhUx, .bottombar_FriendsButton_1TdaA .bottombar_Text_3OhUx, .bottombar_DownloadStatusContent_ip-YZ .bottombar_Queue_3wJnT{
+  display: none !important;
+}
+
+.bottombar_DetailedDownloadProgress_2VtAq .bottombar_IconBevel_21vPQ {
+  background-image: none !important;
+}
+
+.libraryassetimage_Container_1R9r2 {
+  margin-top: 2px !important;
+}
+
+.steamdesktop_LocalContentContainer_RGNMW .steamdesktop_URLBarReplacement_2Cmrn {
+  min-height: 0px;
+  height: 0px;
+}

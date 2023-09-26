@@ -1,5 +1,9 @@
 ## SteamUI-OldGlory GUI Changelog
 
+1.1.1			(Release 5.12.1) Full Dark Mode Theme (FatheredPuma81), Metro Top Bar CSS
+
+1.1.0.1		 (Release 5.12)
+
 1.1.0.0 		*(5.12-pre1)* Now uses Rust for JS beautification
 
 1.0.1.2		 *(5.11.2-pre1)* Fix JS tweaks for Steam Beta 28 March (incl Landscape Game Images)
