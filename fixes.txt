@@ -42,7 +42,7 @@ MoveRangeSelectUpOneRow() {  RunApp(e) {window.location.href = "steam://rungamei
 ###className: pi().GameInfoShadow  className: ""
 
 ### === Dim Not Installed Games ===
-hoverDelay: 300,  hoverDelay: 300, style: a.installed ? {} : {opacity: "var(--UninstalledGameImageOpacity)"},
+###hoverDelay: 300,  hoverDelay: 300, style: a.installed ? {} : {opacity: "var(--UninstalledGameImageOpacity)"},
 
 ### === Don't load HOME game images, only alt text ===
 ###v && this.BDisplayTitle() && i.createElement("span"  i.createElement("span"

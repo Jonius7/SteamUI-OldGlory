@@ -285,7 +285,9 @@ Install libraries using `pip`:
 
 Run:
 
-​	`maturin develop` (you may need to create a Python `virtualenv` first)
+​	`maturin develop` (you may need to create a Python `virtualenv` first): 
+
+​		Linux: `sudo apt install python3-venv` , then: [link](https://docs.python.org/3/library/venv.html)
 
 Build `old_glory.exe`:
 	`pyinstaller -w --icon=steam_oldglory.ico --clean --onefile old_glory.spec`

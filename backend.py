@@ -1161,7 +1161,7 @@ BRANCH = "master"
 def create_session():
     try:
         username = ''
-        token = unscramble_token('2WU_8KpiFuigEKkMQ6IBbZR6Pv5a3fVm3XDzB8yl')
+        token = unscramble_token('2oyWzY_Uxy_KKmmEm5snDBnPnu2aZMZZU_lu99MRwFohNnWyosHTdHs8Uaf19SPsxypzJAs1HAplyvJMLFnmPTwqgjQML')
         session = requests.Session()
         session.auth = (username, token)
         return session
