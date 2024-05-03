@@ -1,0 +1,37 @@
+/* ==================== Game Properties ====================
+   ========================================================================== */
+
+:root {
+  --CheckBoxColor: rgb(93 99 112 / 50%);
+  --StatusColor: rgb(93 99 112 / 20%);
+}
+
+.DialogContent {
+  padding: 10px 24px;
+}
+
+.DialogContentTransition {
+  flex: 5.3;
+  width: unset;
+  max-width: unset;
+}
+
+.ModalDialogPopup .DialogContentTransition .DialogBody {
+  overflow-y: hidden;
+}
+
+._1FyBL6obxHQ2Z2CsaV2Gbz ._2V2nc3qHRjg_726Zc2HT28 {
+  background: var(--CheckBoxColor);
+}
+
+.DialogTextInputBase, ._DialogInputContainer {
+  background: var(--CheckBoxColor);
+}
+
+._1FyBL6obxHQ2Z2CsaV2Gbz .DialogBody ._3lj3-GDYOlcoIFB3fFo1ko {
+  background: var(--StatusColor);
+}
+
+/* ========================================================================== 
+   END Game Properties */
+

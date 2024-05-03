@@ -1,0 +1,97 @@
+/* ==================== GameList Sidebar ====================
+   ========================================================================== */
+
+/* Gamelist entry - font size */
+
+._2-O4ZG0KrnSrzISHBKctFQ {
+  font-size: var(--GameListEntrySize) !important;
+}
+
+._2-O4ZG0KrnSrzISHBKctFQ._3cMVyOc-9F9Jvp3uKF7_xj {
+  height: 100%;
+}
+
+/* Gamelist entry - icon size */
+
+._2-O4ZG0KrnSrzISHBKctFQ .ga1hyw11cdBVodrCAidPF {
+  height: 22px;
+  width: 22px;
+}
+
+/* Fix hover text to the bottom. With JavaScript tweaks this can be dynamic.*/
+
+._2iiN7AYnLFTRFRiuipiYJz {
+  bottom: var(--HoverOverlayPosition) !important;
+}
+
+/* Context Menu font size */
+.contextmenu_contextMenuContents_2EstN {
+  font-size: var(--ContextMenuFontSize);
+}
+
+/* Context Menu line spacing/height */
+.contextmenu_contextMenuItem_1n7Wl {
+  line-height: var(--ContextMenuLineHeight);
+  height: var(--ContextMenuLineHeight);
+}
+
+/* remove border */
+
+._2sYIghGVXJr6tsQVvcryy8 {
+  box-sizing: border-box;
+  color: #707379;
+  border: 0px solid rgba(0, 0, 0, 0);
+}
+
+/* category name - repositioning */
+._3cV3O8FnPQqpJO5kIMUlLX {
+  margin-top: 3px;
+  padding: 0px 9px 5px 9px;
+}
+
+
+/* category name - font size and height*/
+._2mZ8LlvoUiyeEUtIWuTri {
+  font-size: var(--CategoryNameHeaderSize);
+  height: 15px;
+}
+
+
+/* category count - font size and height*/
+._29uten9Yy8q-n7woDEOXVF {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Zoom out both the gamelist container and the hover text for long game names */
+._1ijTaXJJA5YWl_fW2IxcaT, ._2-O4ZG0KrnSrzISHBKctFQ._3cMVyOc-9F9Jvp3uKF7_xj {
+  zoom: var(--GameListZoomSize);
+  position: relative;
+}
+
+/* Fix hover text to the bottom if default JS, position dynamically if JS tweaked. */
+._2-O4ZG0KrnSrzISHBKctFQ._3cMVyOc-9F9Jvp3uKF7_xj {
+  position: fixed;
+  height: 28px;
+  bottom: var(--HoverOverlayPosition);
+}
+
+._9sPoVBFyE_vE87mnZJ5aB {
+  display: var(--ShowLeftSidebar);
+}
+
+._3pSPluBgf0NeR1kkCLWMhR.eNLOx4LVceeMwRvTVWh3 {
+  border-radius: 3px;
+}
+
+._3pSPluBgf0NeR1kkCLWMhR._30KGSfPjPskFlnrSxBfkiK {
+  margin-left: 6px;
+}
+
+/*Home button text centred*/
+._3O48LaKWcabKx07xdrt1TH {
+  margin: auto;
+}
+
+/* ========================================================================== 
+   END GameList Sidebar */

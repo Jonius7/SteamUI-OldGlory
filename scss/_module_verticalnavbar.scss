@@ -1,0 +1,121 @@
+/* Vertical Nav Bar
+   ========================================================================== */
+
+.sharedappdetailsheader_BoxSizerContainer_A14yd {
+  z-index: 2 !important;
+}
+
+._25oBZpa3dUcMw8QAsa2u67._3s6_6sN8LyrlTHc_z6VfNU._2QAgOXmzdXYGH8vI6S2sHw {
+  order: 2;
+}
+._25oBZpa3dUcMw8QAsa2u67._3yfoeR7q8sXXS2UyFcIK1K._2QAgOXmzdXYGH8vI6S2sHw {
+  order: 2;
+}
+.OhSdLYuggDtBcWjYP0j_9 {
+  order: 3;
+}
+
+/* increase header height for 9 items eg: CS:GO */
+._2gZXhRmKUk68pA28-5ZmGQ.tXlLvuTxOVL1w3aVPX4bm {
+  min-height: 250px;
+}
+
+._2r4TK4BAuU-J4FuF_O7v_5._3-V8vjmrwuJM6Ws3tsjFJj {
+  margin-left: auto;
+  right: 10px;
+  transform: translate(5px, -330px) translateY(var(--VerticalNavBarOffset));
+  position: sticky;
+  height: 0px !important;
+  min-width: 180px;
+  max-width: 195px;
+  border-radius: 4px;
+  pointer-events: all;
+  z-index: 5 !important;
+  padding: 0px;
+}
+
+._2r4TK4BAuU-J4FuF_O7v_5._3-V8vjmrwuJM6Ws3tsjFJj > div {
+  background: linear-gradient(rgba(40, 40, 40, 0.7) 95.8%, rgba(40, 40, 40, 0) 100%) !important;
+  background-size: 93% 100% !important;
+  background-repeat: no-repeat !important;
+  height: 258.9px;
+}
+
+._7k4qmaN8SUMvv6u-L81uk {
+  max-width: 150px;
+  overflow: visible;
+  & .appdetailsprimarylinkssection_Link_1b6LY {
+    padding: 2px 10px 2px 10px;
+  }
+}
+
+._3-V8vjmrwuJM6Ws3tsjFJj .DgVQapkBmhAW6oPY5rPZo {
+  height: unset !important;
+}
+
+._27RcNu8aXKBpYkHcNNrt-X ._1sZgBDTw5NH-yuVDZK1SUU::before {
+  content: '';
+  min-height: 0px;
+}
+
+/* credit: Naii for CSS-only Vertical Nav Bar
+https://gamebanana.com/mods/305429 */
+._7k4qmaN8SUMvv6u-L81uk {
+	opacity: 1 !important;
+	position: relative !important;
+  pointer-events: all !important;
+  z-index: 100 !important;
+}
+
+._1bIMOmWaxKrMdVMWU21ku  {
+	display: none !important;
+}
+/* end credit */
+
+.DY4_wSF8h9T5o46hO5I9V ._1b6LYWVijW-9E4YV0keDWZ {
+  text-align: left;
+}
+
+.DgVQapkBmhAW6oPY5rPZo.Panel.Focusable {
+  padding: 10px 0px 10px 5px;
+}
+
+._7k4qmaN8SUMvv6u-L81uk {
+  padding: 0px !important;
+  top: 0px !important;
+}
+
+.DgVQapkBmhAW6oPY5rPZo {
+  width: fit-content;
+}
+
+/* single/multiplayer/controller support icons */
+.sharedappdetailsheader_TitleSection_30acA {
+  z-index: 4;
+
+  & .sharedappdetailsheader_Features_fqwOy {
+    padding-right: 210px;
+  }
+}
+
+/* categories */
+._2b6WkTnmJxMuX1biL7aS3C{
+  right: 210px;
+  pointer-events: all;
+}
+
+.sharedappdetailsheader_TopCapsule_NZMJ6 {
+    min-height: 240px;
+}
+
+div.NarrowRightPanel ._3-V8vjmrwuJM6Ws3tsjFJj {
+  margin-top: 8px;
+}
+
+/* single/multiplayer icons */
+._1P_tvRxY9iltprLKOz9j2O .P_lFfrL6Fy9Q_ZpRxgwFe {
+    padding-right: 200px;
+}
+
+/* END VERTICAL NAV BAR */
+  

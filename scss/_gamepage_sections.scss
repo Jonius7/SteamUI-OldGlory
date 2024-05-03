@@ -1,0 +1,71 @@
+/* ==================== Game AppPage Sections ====================
+   ========================================================================== */
+   
+/*Remove Appdetail margins */
+
+._2r4TK4BAuU-J4FuF_O7v_5 {
+  margin: 0px;
+}
+
+._31ptFGGMZrSQc5BCX1e5lm {
+  margin: 8px;
+}
+
+/* Section box background color */
+._31ptFGGMZrSQc5BCX1e5lm._3KfxIwlXEvum7FCD_AM2_t {
+  background: radial-gradient(100% 80% at 64% 95%, rgba(104, 112, 124, 0.5) 0%, rgba(91, 99, 112, 0.5) 40%, rgba(24, 35, 36, 0.5) 100%);
+}
+
+button.DialogButton._3Cdin80d-hVsakHUZboheb._3nJyYxGQ3kdwwabPmxNnMe {
+  margin-top: -4px;
+  padding: 2px 8px;
+}
+
+._39bm0CkBxBjJsnPpAzoZlv {
+  margin-bottom: 6px;
+}
+
+/* Move Additional Content to bottom */
+div._2aor4XVOYzN1PBSREk0UbO > div:nth-child(3) {
+  order: 5;
+}
+
+/* Section Highlight */
+._3wz2S_PAaNYT8usbbv6QYn {
+  /* Don't do anything yet */
+  opacity: 1.0;
+  animation-name: var(--AchievementsClickHighlight);
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+  animation-delay: .6s; }
+
+@keyframes appdetailsoverview_HighlightMe_25jnp {
+  0% {
+    filter: brightness(1); }
+  30% {
+    filter: brightness(2); }
+  100% {
+    filter: brightness(1); }
+  }
+
+@keyframes Highlight_opacity {
+  0% {
+    filter: opacity(100%); }
+  30% {
+    filter: opacity(0%); }
+  100% {
+    filter: opacity(100%); }
+}
+
+@keyframes Highlight_border {
+  0% {
+    border: 0px; }
+  30% {
+    border: 2px solid black; }
+  100% {
+    border: 0px; }
+}
+
+/* ========================================================================== 
+   END Game AppPage Sections */

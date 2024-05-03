@@ -1,0 +1,54 @@
+// Themes applied before CSS Tweaks
+
+
+/* SteamUI-OldGlory CSS Tweaks v2.1
+   by Jonius7 
+*/
+
+// ===== Main CSS Tweaks =====
+/* ===== SteamUI-OldGlory will insert CSS Variables from variables.css here ==== */
+@import "./sidebar_homeandsearch";
+@import "./sidebar_gamelist";
+@import "./home_collections";
+@import "./scrollbar";
+@import "./gamepage_header";
+@import "./gamepage_sections";
+@import "./gamepage_boundary";
+@import "./gamepage_spotlight";
+@import "./gamepage_columns";
+@import "./gamepage_playbar";
+@import "./gamepage_activitynews";
+@import "./gamepage_events";
+@import "./gamepage_broadcasts";
+@import "./gamepage_navbar";
+@import "./gamepage_dlc_screenshots";
+@import "./achievements_page";
+
+// ===== Auto-Modules - no need to change =====
+// @import "./module_landscapegameimages";
+// @import "./module_playbarbox";
+// @import "./module_verticalnavbar";
+// @import "./module_classiclayout";
+// @import "./classic";
+@import "./module_homeicon";
+
+// ===== Modules =====
+@import "./module_gameproperties";
+// @import "./smooth";
+// @import "./module_gamehover";
+// @import "./tweak_nozoom";
+// @import "./module_simplified_homesearch";
+@import "./bottom_top_bar";
+// @import "./module_metro_topbar";
+
+// ===== Experimental Modules =====
+// @import "./module_listview";
+
+// ===== Custom Modules =====
+@import "./custom_module1";
+@import "./custom_module2";
+
+// Themes applied after CSS Tweaks
+@import "../themes/Crisp Cut/libraryroot.custom";
+
+// END OF FILE - DO NOT REMOVE

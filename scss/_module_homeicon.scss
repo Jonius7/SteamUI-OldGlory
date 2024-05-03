@@ -1,0 +1,43 @@
+/* Home Icon 
+Adapted from LIGHT-UI by Angelo*/
+
+._3pSPluBgf0NeR1kkCLWMhR.eNLOx4LVceeMwRvTVWh3 {
+    background-color: #3e4047;
+}
+
+._3pSPluBgf0NeR1kkCLWMhR:hover ._3O48LaKWcabKx07xdrt1TH {
+    color: transparent !important;
+    filter:grayscale(1) invert(1) brightness(1);
+    
+}
+
+._3pSPluBgf0NeR1kkCLWMhR.eNLOx4LVceeMwRvTVWh3 ._3O48LaKWcabKx07xdrt1TH {
+    filter:grayscale(1) invert(1) brightness(1);
+}
+
+._3pSPluBgf0NeR1kkCLWMhR ._3O48LaKWcabKx07xdrt1TH {
+    transition: filter 0.3s ease-in-out;
+    color: transparent;
+    background-image: url(https://i.imgur.com/M8kynWD.png) !important;
+    filter:grayscale(1) invert(1) brightness(0.5);
+    background-size: 20px !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+
+._3O48LaKWcabKx07xdrt1TH {
+    align-self: unset;
+    margin: 0 auto;
+    line-height: 30px;
+}
+
+/* Old version
+.gamelisthome_Label_3O48L:after {
+    content: '🏠';
+    color: transparent;
+    visibility: visible;
+    display: block;
+    position: absolute;
+    padding: 5px 11px;
+    top: 2px;
+}*/

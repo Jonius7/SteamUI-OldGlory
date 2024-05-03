@@ -1,0 +1,48 @@
+/* ==================== Sidebar - Home and Search ====================
+   ========================================================================== */
+
+   :root {
+    --SidebarBackgroundImage: linear-gradient(to bottom, #2d333c 0%, #24282f 20%);
+  }
+  
+  /* Container grid setup */
+  ._3x1HklzyDs4TEjACrRO2tB {
+    background-color: none;
+    background-image: var(--SidebarBackgroundImage);
+    display: grid !important;
+    grid-template-rows: 38px fit-content(20%) auto;
+    grid-template-columns: minmax(94px, 35%) auto;
+  }
+  
+  /*Home bar width: 1st column, align with Gamelist dropdown and buttons*/
+  ._2TKEazUUS3TlniZfpc8OOe {
+    background-color: unset !important;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.8) !important;
+    padding: 6px 3px 0px 6px !important;
+    grid-column-start: 1;
+  }
+  
+  /* Gamelist dropdown and buttons width: 2nd column, align with home bar*/
+  ._1ZS_xta5HMXzR8JgxDH6n7 {
+    padding: 6px 3px 0px !important;
+    grid-column-start: 2;
+  }
+  
+  /* Games dropdown width increased */
+  .EDl_mzaY3WxkgmYVD8W4d {
+    width: 195px !important;
+  }
+  
+  /* Other divs to max width (2 columns) */
+  ._1ijTaXJJA5YWl_fW2IxcaT, ._20QAC4WMXm8qFE8waUT5oo, ._1fbRpYO_BFDlMdFLsQMGVE {
+    grid-column-start: 1;
+    grid-column-end: span 2;
+  }
+  
+  /* Round only outsie corners of Advanced Search filters button */
+  ._20QAC4WMXm8qFE8waUT5oo .vCCmYvn9yQ_V8CpKupllU {
+    border-radius: 0px 4px 4px 0px;
+  }
+  
+  /* ========================================================================== 
+     END Sidebar - Home and Search */

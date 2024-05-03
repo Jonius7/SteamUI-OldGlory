@@ -1,0 +1,128 @@
+/* ==================== Move bottom bar to top ====================
+   ==================== Credit: LaserFlash ====================
+   ========================================================================== */
+   :root {
+    /* width of your username - you will need to configure this */
+    --username-length: 155px;
+    /* other options  */
+    --download-summary-width: 180px;
+    --order-friends: 3;
+    --order-add-game: 2;
+    --order-download: 1;
+}
+
+/** ================================================================================== **/
+/** Position the buttons **/
+._1_yS5UP7el0aN4vntx3dx {    
+    position: absolute;
+    --steam-control-width: 242px;
+    right: calc(var(--steam-control-width) + var(--username-length));
+    top: 6px;
+    
+}
+/** ================================================================================== **/
+/** Override some colours and sizes **/
+._3vCzSrrXZzZjVJFZNg9SGu {
+    width: fit-content;
+    box-shadow: none;
+    background: none;
+    gap: 8px;
+    flex: 0;
+}
+
+._3vCzSrrXZzZjVJFZNg9SGu .FriendsButton_, ._3vCzSrrXZzZjVJFZNg9SGu .AddGameButton_, ._3vCzSrrXZzZjVJFZNg9SGu .DownloadStatus_ {
+    background-color: rgba(103, 112, 123, .2);
+    padding: 0px 12px;
+    border-radius: 2px;
+    min-width: 24px;
+    min-height: 24px;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+._3vCzSrrXZzZjVJFZNg9SGu .FriendsButton:hover, ._3vCzSrrXZzZjVJFZNg9SGu .AddGameButton:hover, ._3vCzSrrXZzZjVJFZNg9SGu .DownloadStatus_:hover {
+    background-color: #3d4450;
+    transition: background-color .15s ease-out;
+}
+
+._3vCzSrrXZzZjVJFZNg9SGu .FriendsButton ._21vPQjHoo0uwud5lfCD_x-, ._3vCzSrrXZzZjVJFZNg9SGu .AddGameButton ._21vPQjHoo0uwud5lfCD_x-, ._3vCzSrrXZzZjVJFZNg9SGu .DownloadStatus_ ._21vPQjHoo0uwud5lfCD_x- {
+    margin-bottom: 4px;
+}
+
+/** ================================================================================== **/
+/** Style the download progress **/
+._3vCzSrrXZzZjVJFZNg9SGu .DownloadStatus_ .DetailedDownloadProgress {
+    max-width: var(--download-summary-width);
+    align-items: center;
+}
+
+._3vCzSrrXZzZjVJFZNg9SGu .DownloadStatus_ .DetailedDownloadProgress ._21vPQjHoo0uwud5lfCD_x- {
+    margin: 0;
+    margin-top: 2px;
+    box-shadow: none;
+    height: 20px;
+    width: 20px;
+}
+
+._3vCzSrrXZzZjVJFZNg9SGu .DownloadStatus_ .DetailedDownloadProgress .ProgressBarWrapper {
+    margin: 0;
+}
+
+._3vCzSrrXZzZjVJFZNg9SGu .DownloadStatus_ .DetailedDownloadProgress .Status, ._3vCzSrrXZzZjVJFZNg9SGu .DownloadStatus_ .DownloadStatusContent_ .Queue_ {
+    padding-top: 0;
+}
+
+.ip-YZhijAMZcuRoXBGiye {
+    padding: 0;
+}
+
+/** ================================================================================== **/
+/** Hide elements we don't want **/
+._3vCzSrrXZzZjVJFZNg9SGu ._2iJsgdTIX9Tj23rWnB7Q-c, ._3vCzSrrXZzZjVJFZNg9SGu .DownloadStatus_ .DetailedDownloadProgress .IconBevel {
+    display: none;
+}
+
+/** ================================================================================== **/
+/** Change the order and override some styles **/
+._3vCzSrrXZzZjVJFZNg9SGu .AddGameButton {
+    order: var(--order-add-game);
+}
+
+._3vCzSrrXZzZjVJFZNg9SGu .DownloadStatus_ {
+    order: var(--order-download);
+    flex-grow: 0;
+    padding: 0 6px;
+
+}
+
+._3vCzSrrXZzZjVJFZNg9SGu .FriendsButton {
+    order: var(--order-friends);
+}
+
+/** ================================================================================== **/
+/** make friends & add game text a tooltip **/
+._3vCzSrrXZzZjVJFZNg9SGu .AddGameButton ._3OhUxFVlQYr9W5ThxstR8k, ._3vCzSrrXZzZjVJFZNg9SGu .FriendsButton ._3OhUxFVlQYr9W5ThxstR8k {
+    position: absolute;
+    top: 32px;
+    opacity: 0;
+    transition: opacity .25s;
+    pointer-events: none;
+    box-sizing: border-box;
+    font-size: 13px;
+    background-color: #696773;
+    border-radius: 2px;
+    color: #e0e1e6;
+    padding: 6px 8px;
+    box-shadow: 1px 1px 8px #0005, 2px 2px 16px 1px #0005;
+    width: fit-content;
+    user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+._3vCzSrrXZzZjVJFZNg9SGu .AddGameButton:hover ._3OhUxFVlQYr9W5ThxstR8k, ._3vCzSrrXZzZjVJFZNg9SGu .FriendsButton:hover ._3OhUxFVlQYr9W5ThxstR8k {
+    opacity: 1;
+}
+/** ================================================================================== **/
