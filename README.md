@@ -5,11 +5,11 @@
 <p align="center">
 	<a href="https://github.com/Jonius7/SteamUI-OldGlory/releases"><img alt="GitHub all releases downloads" src="https://img.shields.io/github/downloads/Jonius7/SteamUI-OldGlory/total"></a>
 	<a href="https://github.com/Jonius7/SteamUI-OldGlory/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/Jonius7/SteamUI-OldGlory?color=dda113"></a>
-	<img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/Jonius7/SteamUI-OldGlory">
     <a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest"><img alt="GitHub latest release version" src="https://img.shields.io/github/v/release/Jonius7/SteamUi-OldGlory?display_name=release"></a>
 	<a href="https://github.com/Jonius7/SteamUI-OldGlory/issues?q="><img alt="GitHub closed issues" src="https://img.shields.io/github/issues-closed-raw/Jonius7/SteamUI-OldGlory?color=c733c3&label=issues%20solved"></a>
     <a href="https://github.com/Jonius7/SteamUI-OldGlory/commits/dev"><img alt="GitHub commits on /dev since last merge" src="https://img.shields.io/github/commits-since/Jonius7/SteamUI-OldGlory/latest/dev?label=commits%20since"></a>
 </p>
+
 
 <h3 align="center"><a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Download Latest Version</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#quick-guide">Quick Guide</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/wiki">Wiki</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/issues/56">Known Issues</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting">Troubleshooting</a></h3>
 
