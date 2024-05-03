@@ -275,13 +275,19 @@ To debug the Steam Library yourself, run Steam with the ` -dev` tag.
 
 #### Build `old_glory`
 
-Requires Python 3.8+
+Requires Python `3.8+`, Rust (tested with `1.69.0`)
 
 Install pyinstaller:
 	`pip install pyinstaller`
 
 Install libraries using `pip`: 
-	`pip install jsbeautifier rjsmin libsass Pillow requests requests_oauthlib`
+	`pip install jsbeautifier rjsmin libsass Pillow requests requests_oauthlib maturin`
+
+Run:
+
+​	`maturin develop` (you may need to create a Python `virtualenv` first): 
+
+​		Linux: `sudo apt install python3-venv` , then: [link](https://docs.python.org/3/library/venv.html)
 
 Build `old_glory.exe`:
 	`pyinstaller -w --icon=steam_oldglory.ico --clean --onefile old_glory.spec`
