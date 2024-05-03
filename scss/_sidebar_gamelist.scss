@@ -3,24 +3,24 @@
 
 /* Gamelist entry - font size */
 
-.gamelistentry_Container_2-O4Z {
+._2-O4ZG0KrnSrzISHBKctFQ {
   font-size: var(--GameListEntrySize) !important;
 }
 
-.gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
+._2-O4ZG0KrnSrzISHBKctFQ._3cMVyOc-9F9Jvp3uKF7_xj {
   height: 100%;
 }
 
 /* Gamelist entry - icon size */
 
-.gamelistentry_Container_2-O4Z .gamelistentry_GameIcon_ga1hy {
+._2-O4ZG0KrnSrzISHBKctFQ .ga1hyw11cdBVodrCAidPF {
   height: 22px;
   width: 22px;
 }
 
 /* Fix hover text to the bottom. With JavaScript tweaks this can be dynamic.*/
 
-.gamelistentry_FriendStatusHover_2iiN7 {
+._2iiN7AYnLFTRFRiuipiYJz {
   bottom: var(--HoverOverlayPosition) !important;
 }
 
@@ -37,60 +37,59 @@
 
 /* remove border */
 
-.gamelistsectionheader_Container_2sYIg {
+._2sYIghGVXJr6tsQVvcryy8 {
   box-sizing: border-box;
   color: #707379;
   border: 0px solid rgba(0, 0, 0, 0);
 }
 
 /* category name - repositioning */
-.gamelistsectionheader_SectionHeaderContent_3cV3O {
+._3cV3O8FnPQqpJO5kIMUlLX {
   margin-top: 3px;
   padding: 0px 9px 5px 9px;
 }
 
 
 /* category name - font size and height*/
-.gamelistsectionheader_SectionName_2mZ8L {
+._2mZ8LlvoUiyeEUtIWuTri {
   font-size: var(--CategoryNameHeaderSize);
   height: 15px;
 }
 
 
 /* category count - font size and height*/
-.gamelistsectionheader_SectionCount_29ute {
+._29uten9Yy8q-n7woDEOXVF {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.5);
 }
 
 /* Zoom out both the gamelist container and the hover text for long game names */
-.gamelist_Container_1ijTa,
-.gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
+._1ijTaXJJA5YWl_fW2IxcaT, ._2-O4ZG0KrnSrzISHBKctFQ._3cMVyOc-9F9Jvp3uKF7_xj {
   zoom: var(--GameListZoomSize);
   position: relative;
 }
 
 /* Fix hover text to the bottom if default JS, position dynamically if JS tweaked. */
-.gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
+._2-O4ZG0KrnSrzISHBKctFQ._3cMVyOc-9F9Jvp3uKF7_xj {
   position: fixed;
   height: 28px;
   bottom: var(--HoverOverlayPosition);
 }
 
-.library_LeftListSizableContainer_9sPoV {
+._9sPoVBFyE_vE87mnZJ5aB {
   display: var(--ShowLeftSidebar);
 }
 
-.gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx {
+._3pSPluBgf0NeR1kkCLWMhR.eNLOx4LVceeMwRvTVWh3 {
   border-radius: 3px;
 }
 
-.gamelisthome_Bar_3pSPl.gamelisthome_CollectionButton_30KGS {
+._3pSPluBgf0NeR1kkCLWMhR._30KGSfPjPskFlnrSxBfkiK {
   margin-left: 6px;
 }
 
 /*Home button text centred*/
-.gamelisthome_Label_3O48L {
+._3O48LaKWcabKx07xdrt1TH {
   margin: auto;
 }
 

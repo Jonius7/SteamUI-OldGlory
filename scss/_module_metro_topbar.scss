@@ -8,20 +8,20 @@
 
 /* New steam theme */
 
-.rootmenu_SteamButton_bSKGl::before {
+.bSKGlAJG2UVWTsntEJY2v::before {
   display: none;
 }  
 
-.rootmenu_SteamButton_bSKGl {
+.bSKGlAJG2UVWTsntEJY2v {
   content: none !important;
   display: none !important;
 }
 
-.rootmenu_RootMenuButton_2UyOB::after {
+._2UyOBeiSdBayaFdRa39N2O::after {
   content: "" !important;
   margin-left: 25px !important;
 }
-.rootmenu_RootMenuButton_2UyOB{
+._2UyOBeiSdBayaFdRa39N2O{
   margin-top: 27px !important;
   line-height: 4px !important;
   margin-left: 3px !important;
@@ -33,52 +33,52 @@
 }
   
 
-[class*="rootmenu_RootMenuButton_"]:nth-of-type(2), [class*="rootmenu_RootMenuButton_"]:nth-of-type(3), [class*="rootmenu_RootMenuButton_"]:nth-of-type(4), [class*="rootmenu_RootMenuButton_"]:nth-of-type(5) {
+._2UyOBeiSdBayaFdRa39N2O:nth-of-type(2), ._2UyOBeiSdBayaFdRa39N2O:nth-of-type(3), ._2UyOBeiSdBayaFdRa39N2O:nth-of-type(4), ._2UyOBeiSdBayaFdRa39N2O:nth-of-type(5) {
   display: none !important;
 }
 
 /* top bar font size */
-.supernav_SuperNavMenu_7AlhC {
+._7AlhCx3XGzBeIrQaCneUD {
   font-size: 15px !important;
 }
 
 /* top bar selected text color */
-.supernav_SuperNavMenu_7AlhC.supernav_Selected_1gqEj:not(.supernav_Disabled_2cO0H) .supernav_MenuButton_19axK {
+._7AlhCx3XGzBeIrQaCneUD._1gqEjB5QsKT_NftD1dEsdZ:not(._2cO0HdvLEGAdhosLekWsmo) ._19axKcqYRuaJ8vdYKYmtTQ {
   color: #fff !important;
 }
 
 /* top bar unselected text color */
-.supernav_SuperNavMenu_7AlhC .supernav_MenuButton_19axK {
+._7AlhCx3XGzBeIrQaCneUD ._19axKcqYRuaJ8vdYKYmtTQ {
   color: grey !important;
 }
 
 /* top bar color line */
-.supernav_SuperNavMenu_7AlhC.supernav_Selected_1gqEj:not(.supernav_Disabled_2cO0H) .supernav_MenuButton_19axK::after {
+._7AlhCx3XGzBeIrQaCneUD._1gqEjB5QsKT_NftD1dEsdZ:not(._2cO0HdvLEGAdhosLekWsmo) ._19axKcqYRuaJ8vdYKYmtTQ::after {
   margin-top: 9px !important;
   height: 1px !important;
   background: #1a9fff !important;
 }
 
 /* Top bar color and height */
-.steamdesktop_TitleBar_39oUC {
+._39oUCO1OuizVPwcnnv88no {
   height: 45px !important;
   background: #191919 !important;
 }
 
 /* buttons to top bar */
-.steamdesktop_SuperNavBar_3Z3oh {
+._3Z3ohQ8-1NKnCZkbS6fvy {
   margin-top: -34px !important;
   width: 40% !important;
   margin-left: 30px !important;
 }
 
 /* announcement button replacement */
-.titlebarcontrols_AnnouncementsButton_5wILZ {
+._5wILZhsLODVwGfcJ0hKmJ {
   display: none !important;
 }
 
 /* notification button replacement */
-.titlebarcontrols_NotificationButtonContainer_3mGEz {
+._3mGEzzp18imtSzGPkduedi {
   right: 0 !important;
   padding: 0 7px 0 15px !important;
   min-width: 24px !important;
@@ -93,16 +93,16 @@
 }
 
 /* top bar text centered */
-.supernav_SuperNav_2D64j {
+._2D64jIEK7wpUR_NlObDW76 {
   margin-top: 0px !important;
 }
 
-.supernav_SuperNavMenu_7AlhC.supernav_Selected_1gqEj:not(.supernav_Disabled_2cO0H) .supernav_MenuButton_19axK {
+._7AlhCx3XGzBeIrQaCneUD._1gqEjB5QsKT_NftD1dEsdZ:not(._2cO0HdvLEGAdhosLekWsmo) ._19axKcqYRuaJ8vdYKYmtTQ {
   color: #fff !important;
 }
 
 /* back anf forward button */
-.supernav_Arrow_25lBL {
+._25lBLzuVeYAUG279up4xP8 {
   margin-top: -5px !important;
 }
 
@@ -112,18 +112,18 @@
 }
 
 /* hide url bar */
-.steamdesktop_BrowserWrapper_1bGew .steamdesktop_URLBar_UkR3s {
+._1bGewp3tfzqAF6fVTFFUOz .UkR3sY319PuaUNuUWks2K {
   display: none !important;
 }
 
 /* avatar reposition */
-[class*="steamavatar_avatarHolder_"] {
+._1YGAHSfGavQI6MODJq-pJB {
   margin: 0 0 0 0 !important;
   margin-top: -2px !important;
   margin-right: 10px !important;
 }
 
-.offline [class*="steamavatar_avatarStatus_"] {
+.offline ._1yIzy56YfJIliF6ykwhP2r {
   border-radius: 0px !important;
   width: 4px !important;
   height: 32px !important;
@@ -132,7 +132,7 @@
   z-index: 1 !important;
 }
 
-.online [class*="steamavatar_avatarStatus_"] {
+.online ._1yIzy56YfJIliF6ykwhP2r {
   border-radius: 0px !important;
   width: 4px !important;
   height: 32px !important;
@@ -141,7 +141,7 @@
   z-index: 1 !important;
 }
 
-.ingame [class*="steamavatar_avatarStatus_"] {
+.ingame ._1yIzy56YfJIliF6ykwhP2r {
   border-radius: 0px !important;
   width: 4px !important;
   height: 32px !important;
@@ -151,24 +151,24 @@
 }
 
 /* avatar size */
-[class*="steamavatar_avatar_"] {
+._1p_QrI3ixF-RAwnxad9pEm {
   border-radius: 0px !important;
   height: 32px !important;
   width: 32px !important;
 }
 
 /* hide arrow next to name */
-.titlebarcontrols_AccountMenu_3yD46 .titlebarcontrols_Chevron_3x51w {
+._3yD46y5pd3zOGR7CzKs0mC ._3x51wbt5DYyWC8JKwQ51ir {
   display: none !important;
 }
 
 /* reposition name annd buttons top bar */
-.titlebarcontrols_TitleBarControls_3cykd {
+._3cykd-VfN_xBxf3Qxriccm {
   margin-top: 0px !important;
 }
 
 /* name font size */
-.titlebarcontrols_AccountMenu_3yD46 {
+._3yD46y5pd3zOGR7CzKs0mC {
   background: transparent !important;
   font-variant: all-small-caps !important;
   font-size: 16px !important;
@@ -177,7 +177,7 @@
 }
 
 /* hide large mode button */
-.titlebarcontrols_GamepadUIToggle_3LKQ3 {
+._3LKQ3S_yqrebeNLF6aeiog {
   display: none !important;
 }
 
@@ -187,7 +187,7 @@
 }
 
 /* bottombar area */
-.bottombar_BottomBar_3vCzS {
+._3vCzSrrXZzZjVJFZNg9SGu {
   /* bottom bar to top */
   background: transparent !important;
   margin-top: 8px !important;
@@ -200,7 +200,7 @@
 }
 
 /* reposition bottom bar items in the top */
-.bottombar_AddGameButton_2foCk {
+._2foCkpRXhqq0UGVE50BWqj {
   padding: 0 7px 0 15px !important;
   background-color: #2e2e2f !important;
   min-width: 24px !important;
@@ -209,7 +209,7 @@
   border-radius: 2px !important;
 }
 
-.bottombar_DownloadStatus_2EQ7g {
+._2EQ7ghgqIdjKv9jsQC0Zq9 {
   padding: 0 10px 0 10px !important;
   background-color: #2e2e2f !important;
   min-width: 24px !important;
@@ -222,7 +222,7 @@
 }
 
 /* reposition bottom bar items in the top */
-.bottombar_FriendsButton_1TdaA {
+._1TdaAqMFadi0UTqilrkelR {
   padding: 0 7px 0 15px !important;
   margin-left: 7px !important;
   background-color: #2e2e2f !important;
@@ -233,36 +233,36 @@
   margin-right: 4px;
 }
 
-.bottombar_DetailedDownloadProgress_2VtAq .bottombar_Icon_1KrJ3 {
+._2VtAqT03BpBsVdmxwptn9D ._1KrJ3sFAqPBN9mfpaNTU5F {
   width: 24px !important;
   height: 24px !important;
 }
 
-.bottombar_ProgressBarWrapper_2_Fom { 
+._2_FomluqqgQ2Hx8ON3AVep { 
   margin-top: -2px !important;
 }
 
-.bottombar_DetailedDownloadProgress_2VtAq {
+._2VtAqT03BpBsVdmxwptn9D {
   max-width: 250px !important;
 }
 
-.bottombar_AddGameButton_2foCk .bottombar_Icon_1KrJ3, .bottombar_Icon_1KrJ3, .bottombar_FriendsButton_1TdaA .bottombar_Text_3OhUx {
+._2foCkpRXhqq0UGVE50BWqj ._1KrJ3sFAqPBN9mfpaNTU5F, ._1KrJ3sFAqPBN9mfpaNTU5F, ._1TdaAqMFadi0UTqilrkelR ._3OhUxFVlQYr9W5ThxstR8k {
   margin-bottom: 2px !important;
 }
 
-.bottombar_AddGameButton_2foCk .bottombar_Text_3OhUx, .bottombar_FriendsButton_1TdaA .bottombar_Text_3OhUx, .bottombar_DownloadStatusContent_ip-YZ .bottombar_Queue_3wJnT{
+._2foCkpRXhqq0UGVE50BWqj ._3OhUxFVlQYr9W5ThxstR8k, ._1TdaAqMFadi0UTqilrkelR ._3OhUxFVlQYr9W5ThxstR8k, .ip-YZhijAMZcuRoXBGiye ._3wJnTtcTLEp0R7eQj_mK8Y{
   display: none !important;
 }
 
-.bottombar_DetailedDownloadProgress_2VtAq .bottombar_IconBevel_21vPQ {
+._2VtAqT03BpBsVdmxwptn9D ._21vPQjHoo0uwud5lfCD_x- {
   background-image: none !important;
 }
 
-.libraryassetimage_Container_1R9r2 {
+._1R9r2OBCxAmtuUVrgBEUBw {
   margin-top: 2px !important;
 }
 
-.steamdesktop_LocalContentContainer_RGNMW .steamdesktop_URLBarReplacement_2Cmrn {
+.RGNMWtyj73_-WdhflrmuY ._2CmrnGY-Amtd83ScJkFvx2 {
   min-height: 0px;
   height: 0px;
 }

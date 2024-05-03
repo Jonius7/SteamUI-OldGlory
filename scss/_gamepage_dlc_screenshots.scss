@@ -1,6 +1,6 @@
 /*Responsive DLC Grid Columns */
 
-div.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
+div._2ycfNEAjDWvJwI6a-Wef4Q ._15tTAQr0o8mb0NcLEUOz1c {
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   /*justify-content: center;*/
 }
@@ -8,12 +8,12 @@ div.appdetailsdlcsection_DLCSection_2ycfN .appdetailsdlcsection_DLC_15tTA {
 
 /*Shrink Screenshots size to show more (JS recommended)*/
 
-.appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
+._2_TE0KLOU7kWWxa9LS7iXA ._2fgcqIGs6BXH_KJiTLhJX5 {
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-template-rows: auto auto auto;
   overflow-y: scroll;
 }
 
-div.NarrowRightPanel .appdetailsscreenshotssection_ScreenshotsSection_2_TE0 .appdetailsscreenshotssection_Screenshots_2fgcq {
+div.NarrowRightPanel ._2_TE0KLOU7kWWxa9LS7iXA ._2fgcqIGs6BXH_KJiTLhJX5 {
   grid-template-rows: auto auto;
 }

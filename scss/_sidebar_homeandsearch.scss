@@ -6,7 +6,7 @@
   }
   
   /* Container grid setup */
-  .gamelistbar_Container_3x1Hk {
+  ._3x1HklzyDs4TEjACrRO2tB {
     background-color: none;
     background-image: var(--SidebarBackgroundImage);
     display: grid !important;
@@ -15,7 +15,7 @@
   }
   
   /*Home bar width: 1st column, align with Gamelist dropdown and buttons*/
-  .gamelistbar_GameListHomeAndSearch_2TKEa {
+  ._2TKEazUUS3TlniZfpc8OOe {
     background-color: unset !important;
     box-shadow: 0 0 0px rgba(0, 0, 0, 0.8) !important;
     padding: 6px 3px 0px 6px !important;
@@ -23,24 +23,24 @@
   }
   
   /* Gamelist dropdown and buttons width: 2nd column, align with home bar*/
-  .gamelistdropdown_Bar_1ZS_x {
+  ._1ZS_xta5HMXzR8JgxDH6n7 {
     padding: 6px 3px 0px !important;
     grid-column-start: 2;
   }
   
   /* Games dropdown width increased */
-  .gamelistdropdown_DropDown_EDl_m {
+  .EDl_mzaY3WxkgmYVD8W4d {
     width: 195px !important;
   }
   
   /* Other divs to max width (2 columns) */
-  .gamelist_Container_1ijTa, .gamelistsearchbar_Container_20QAC, .gamelist_NoSearchResultsContainer_1fbRp {
+  ._1ijTaXJJA5YWl_fW2IxcaT, ._20QAC4WMXm8qFE8waUT5oo, ._1fbRpYO_BFDlMdFLsQMGVE {
     grid-column-start: 1;
     grid-column-end: span 2;
   }
   
   /* Round only outsie corners of Advanced Search filters button */
-  .gamelistsearchbar_Container_20QAC .gamelistsearchbar_AdvancedSearchContainer_vCCmY {
+  ._20QAC4WMXm8qFE8waUT5oo .vCCmYvn9yQ_V8CpKupllU {
     border-radius: 0px 4px 4px 0px;
   }
   
