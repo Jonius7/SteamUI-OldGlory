@@ -10,9 +10,6 @@
 ###this.hasScreenshots ? (t = this.currentScreenshot  /*this.hasScreenshots ? (t = this.currentScreenshot
 ###})) : (t = String(this.props.appid),  })) : */(t = String(this.props.appid),
 
-### === Scrolling Tweak - Scroll past ADD SHELF Button on load ===
-this.SetStateLoaded()  this.SetStateLoaded(),document.getElementsByClassName('smartscrollcontainer_Body_g6Mwh')[0].scrollTop = 30
-
 ### === Change Game Image Grid Sizes - default widths 111, 148, 222 ===
 gridColumnGap: 16,  gridColumnGap: 5,
 gridRowGap: 24,  gridRowGap: 8,
@@ -31,18 +28,10 @@ PortraitWidthLarge: "222px",  PortraitWidthLarge: "200px",
 ### === Stop What's New Events from Loading ===
 ###B.Config.STORE_BASE_URL + "events/ajaxgetbesteventsforuser"  ""
 
-### === Press Enter to launch games ===
-switch (t) {~~case 38:  case 13: return this.RunApp(o.OX.currentGameListSelection.nAppId), void e.preventDefault();case 38:
-MoveRangeSelectUpOneRow() {  RunApp(e) {window.location.href = "steam://rungameid/" + e;} MoveRangeSelectUpOneRow() {
-(0, a.gn)([F.ak], Te.prototype, "ScrollToTop", null),  (0, a.gn)([F.ak], Te.prototype, "ScrollToTop", null), (0, a.gn)([F.ak], Te.prototype, "RunApp", null),
-
 ### === Expand Show more Details panel by default ===
 ###let e = this.props.expand ? pi().AppDetailsExpanded : pi().AppDetailsCollapsed;  let e = this.props.expand ? pi().AppDetailsCollapsed : pi().AppDetailsExpanded;
 ###this.props.expand ? this.state.gameInfoHeight + "px" : "0px"  this.props.expand ? "0px" : this.state.gameInfoHeight + "px"
 ###className: pi().GameInfoShadow  className: ""
-
-### === Dim Not Installed Games ===
-###hoverDelay: 300,  hoverDelay: 300, style: a.installed ? {} : {opacity: "var(--UninstalledGameImageOpacity)"},
 
 ### === Don't load HOME game images, only alt text ===
 ###v && this.BDisplayTitle() && i.createElement("span"  i.createElement("span"
