@@ -11,7 +11,7 @@
 </p>
 
 
-<h3 align="center"><a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Download Latest Version</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#quick-guide">Quick Guide</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/wiki">Wiki</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/issues/56">Known Issues</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting">Troubleshooting</a></h3>
+<h3 align="center"><a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Download Latest Version</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#quick-guide">Quick Guide</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/wiki">Wiki</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/issues/56">Known Issues</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting">Troubleshooting</a> | <a href="https://discord.gg/hScVrvxJWy">Discord</a></h3>
 
 <p align="center">Check <a href="https://github.com/Jonius7/SteamUI-OldGlory/tree/dev"><code>/dev</code></a> branch for in-progress tweaks.</p>
 
