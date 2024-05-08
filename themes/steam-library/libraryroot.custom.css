@@ -20,24 +20,24 @@
 /* steam-library tweaks for SteamUI-OldGlory
    ========================================================================== */
    
-.gamelisthome_Label_3O48L, .gamelisthome_Bar_3pSPl.gamelisthome_CollectionButton_30KGS {
+._3O48LaKWcabKx07xdrt1TH, ._3pSPluBgf0NeR1kkCLWMhR._30KGSfPjPskFlnrSxBfkiK {
     margin-left: 0px !important;
 }
 
 /* Stop conflict with homeicon */
-.gamelisthome_Bar_3pSPl:hover .gamelisthome_Label_3O48L {
+._3pSPluBgf0NeR1kkCLWMhR:hover ._3O48LaKWcabKx07xdrt1TH {
     color: var(--libraryhome) !important;
     filter: unset !important;  
 }
 
-.gamelisthome_Bar_3pSPl .gamelisthome_Label_3O48L {
+._3pSPluBgf0NeR1kkCLWMhR ._3O48LaKWcabKx07xdrt1TH {
     color: var(--libraryhome) !important;
 }
-.gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L {
+._3pSPluBgf0NeR1kkCLWMhR.eNLOx4LVceeMwRvTVWh3 ._3O48LaKWcabKx07xdrt1TH {
     filter: unset !important;
 }
 
-.gamelistdropdown_Bar_1ZS_x {
+._1ZS_xta5HMXzR8JgxDH6n7 {
     margin-left: 0px;
     margin-top: unset !important;
 }
@@ -48,22 +48,22 @@
 }
 
 /* Game icons resize */
-.gamelistentry_Container_2-O4Z .gamelistentry_GameIcon_ga1hy {
+._2-O4ZG0KrnSrzISHBKctFQ .ga1hyw11cdBVodrCAidPF {
     height: 22px !important;
     width: 22px !important;
 }
 
 /* Remove to have solid background in GamePage */
-.appdetailsoverview_Container_27RcN {
+._27RcNu8aXKBpYkHcNNrt-X {
 	display: flex !important;
 }
 
 /* Remove some background so sticky header image JS will work */
-.library_AppDetailsTransitionGroup_2Dd4T {
+._2Dd4T78PcCTUVgOtDGFY5j {
     background: none !important;
 }
 
-.appdetails_Glassy_3Fmxx.appdetails_ScrollContainer_2l416 {
+._3FmxxjyWNHU1PrBGnBe6tm._2l416KfEtI4CL0mCUEmOBw {
     background: none !important;
 }
 

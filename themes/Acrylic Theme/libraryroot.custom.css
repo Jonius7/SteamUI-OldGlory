@@ -9,88 +9,88 @@ Original Design by EliteSkylu
 }
 
 /* Home and search buttons */
-.gamelisthome_Bar_3pSPl {
+._3pSPluBgf0NeR1kkCLWMhR {
     background-color: rgba(255,255,255,0);
 }
 
-.gamelisthome_CollectionIcon_nC-pL .gamelisthome_CollectionIconBox_2tyaV {
+.nC-pL16iUnIRcaj1UVnwq ._2tyaVs9BpqcW068aaOrO56 {
     background: #aaaaaa;
 }
 
-.gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx .gamelisthome_CollectionIconBox_2tyaV {
+._3pSPluBgf0NeR1kkCLWMhR.eNLOx4LVceeMwRvTVWh3 ._2tyaVs9BpqcW068aaOrO56 {
     background-color: #b0deea;
 }
 
 /* Home Label */
-.gamelisthome_Label_3O48L {
+._3O48LaKWcabKx07xdrt1TH {
     color: #aaaaaa;
 }
-.gamelisthome_Selected_eNLOx .gamelisthome_Label_3O48L {
+.eNLOx4LVceeMwRvTVWh3 ._3O48LaKWcabKx07xdrt1TH {
     color: #b0deea;
 	
 }
 
-.gamelisthome_Bar_3pSPl.gamelisthome_Selected_eNLOx {
+._3pSPluBgf0NeR1kkCLWMhR.eNLOx4LVceeMwRvTVWh3 {
 	background-color: rgba(255,255,255,0);
 }
 
-.gamelistdropdown_Bar_1ZS_x .gamelistdropdown_MenuHeader_2PF_m {
+._1ZS_xta5HMXzR8JgxDH6n7 ._2PF_m-I5yte3WnQhpcz8RC {
 	background-color: rgba(255,255,255,0);
 }
 
 /* Recent Search and Installed Game Buttons */
-.gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg path, .gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg line, .gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg polyline, .gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg circle {
+._1ZS_xta5HMXzR8JgxDH6n7 ._1PgAonvorr0o_NMxNKiDFU ._3mzKdQXht__YHo6PX1LmB6 svg path, ._1ZS_xta5HMXzR8JgxDH6n7 ._1PgAonvorr0o_NMxNKiDFU ._3mzKdQXht__YHo6PX1LmB6 svg line, ._1ZS_xta5HMXzR8JgxDH6n7 ._1PgAonvorr0o_NMxNKiDFU ._3mzKdQXht__YHo6PX1LmB6 svg polyline, ._1ZS_xta5HMXzR8JgxDH6n7 ._1PgAonvorr0o_NMxNKiDFU ._3mzKdQXht__YHo6PX1LmB6 svg circle {
     stroke: #aaaaaa;
 }
-.gamelistdropdown_Bar_1ZS_x .gamelistdropdown_Filters_1PgAo .gamelistdropdown_CheckboxWithImage_3mzKd svg {
+._1ZS_xta5HMXzR8JgxDH6n7 ._1PgAonvorr0o_NMxNKiDFU ._3mzKdQXht__YHo6PX1LmB6 svg {
     fill: #aaaaaa;
 }
 
 /* search bar color */
-.gamelistsearchbar_Container_20QAC .gamelistsearchbar_SearchInput_12vo5 .DialogTextInputBase, .gamelistsearchbar_Container_20QAC .gamelistsearchbar_AdvancedSearchContainer_vCCmY {
+._20QAC4WMXm8qFE8waUT5oo ._12vo5L1hsNGdao6_ssuirS .DialogTextInputBase, ._20QAC4WMXm8qFE8waUT5oo .vCCmYvn9yQ_V8CpKupllU {
     background-color: rgba(51, 55, 60, 0.6);
 }
 
-.gamelistsearchbar_Container_20QAC {
+._20QAC4WMXm8qFE8waUT5oo {
 	padding-left: 0px;
     padding-right: 15px;
 }
 
-.gamelistdropdown_Bar_1ZS_x {
+._1ZS_xta5HMXzR8JgxDH6n7 {
     padding-right: 15px;
 }
 
 /* Sidebar container */
-.gamelistbar_Container_3x1Hk {
+._3x1HklzyDs4TEjACrRO2tB {
     background-image: linear-gradient(to bottom, #525E6A 0%, #232C3B 20%, #0B151F 50%, #283D4E 75%, #556877 94%);/*, rgba(255,255,255,1) 100%);*/
 	padding-left: 15px;
 }
 
-.gamelistbar_GameListHomeAndSearch_2TKEa {
+._2TKEazUUS3TlniZfpc8OOe {
     padding: 6px 3px 0px 0px;
 }
 
-.gamelistentry_Container_2-O4Z.gamelistentry_HoverOverlay_3cMVy {
+._2-O4ZG0KrnSrzISHBKctFQ._3cMVyOc-9F9Jvp3uKF7_xj {
   transform: translateX(-6.75px);
 }
 
-.gamelistentry_FriendStatusHover_2iiN7 {
+._2iiN7AYnLFTRFRiuipiYJz {
   transform: translateX(-6.75px);
 }
 
 
 /* fade in out at edges */
-.gamelist_Container_1ijTa {
+._1ijTaXJJA5YWl_fW2IxcaT {
     -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
 }
 
 /* Section Header */
-.gamelistsectionheader_Container_2sYIg {
+._2sYIghGVXJr6tsQVvcryy8 {
     background: linear-gradient(to right, #015AFF 50%, rgba(62, 78, 105, 0) 100%);
 	border-radius: 3px;
 }
 
-.gamelistsectionheader_SectionName_2mZ8L {
+._2mZ8LlvoUiyeEUtIWuTri {
 	font-size: 14px;
     text-transform: unset;
     letter-spacing: 1px;
@@ -98,37 +98,37 @@ Original Design by EliteSkylu
 }
 
 /* Library Grid background */
-.libraryhome_LibraryHome_3Sb2o {
+._3Sb2o_mQ30IDRh0C72QUUu {
     background-image: unset;
 }
 
 /* What's new Background */
-.libraryhome_UpdatesContainer_17uEB {
+._17uEBe5Ri8TMsnfELvs8-N {
     background: unset;
 }
 
 /* What's New rounded corners */
-.libraryhomenewupdates_PartnerEventRowCapsule_MainImageContainer_SPz0i {
+.SPz0ipLqfF1oAO7tdrkdY {
     border-radius: 10px;
 }
 
 /* Library background */
-.libraryhome_Container_2gSXC {
+._2gSXCB6PbOlMxslr8hm6dm {
     /*background-image: linear-gradient(to bottom, #272B2E 0%, #272B2E 27%, #32373A 31%, #131D26 50%, #1E2327 60%, #32373D 85%, #2B3035 100%);*/
 	background-image: linear-gradient(to right, #07110E 0%, #1B2228 15%, #25292C 50%, #272B2E 80%, #1A1F23 100%);
 }
 
 /* Shelf Title */
-.libraryhomeshowcases_CollectionDropDown_1YdRd ._DialogInputContainer, .pageablecontainer_HeaderPageControls_2ce8e .pageablecontainer_Name_EckfX {
+._1YdRdM9TZ_3Xolwv9aVEv- ._DialogInputContainer, .pageablecontainer_HeaderPageControls_2ce8e .pageablecontainer_Name_EckfX {
 	text-transform: unset;
 }
 /* Sorting Labels */
-.appgrid_SortingDropDown_1tBzy .appgrid_SortingDropDownLabel_1ljKT, .libraryhomeshowcases_AddShowcaseRow_3SkuN .libraryhomeshowcases_AddShowcase_2aw5a {
+._1tBzypb5E2AwNuBuVns9Hl ._1ljKTq3H58WbDZGNPfM0TY, ._3SkuN_ykQuWGF94fclHdhJ ._2aw5aUUo3lrK6wxJb4_ms5 {
     text-transform: capitalize;
 }
 
 /* Rounded Game boxes */
-.appportrait_LibraryItemBox_WYgDg {
+.WYgDg9NyCcMIVuMyZ_NBC {
     border-radius: 10px;
 }
 
