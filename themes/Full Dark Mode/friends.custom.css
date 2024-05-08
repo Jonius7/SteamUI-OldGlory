@@ -1,4 +1,8 @@
 /*Friends List*/
+/*Note: The new version of SFP can't inject certain things for some reason*/
+/*Recommendation: Use version 0.0.15 instead and copy everything here into libraryroot.custom.css*/
+
+
 /*Friends List Top*/
 .friendListHeaderContainer {
     background-color: #0c0c0c;
@@ -23,8 +27,31 @@
 .friendsListSectionTitle {
     background-color: #1f1f1f;
 }
+/*Groups Box Color*/
+.chatRoomListContainer {
+	background: radial-gradient(ellipse farthest-corner at 20% 30%, #1b1b1b 0%, #1e1e1e 10%, #0c0c0c 100%);
+}
+
+
+/*Create a new chat box when you press the + on Group Chats*/
+.DialogContent, .DialogContentTransition {
+    background: radial-gradient(ellipse farthest-corner at 50% 30%, #0c0c0c 0%, #101010 50%, #1e1e1e 100%);
+}
+/*Cancel Button*/
+button.DialogButton {
+    background: #2c2c2c;
+}
+/*Create Chat Button Highlight*/
+button.DialogButton.Primary {
+    background: #2c2c2c;
+}
+
+
+
 
 /*Chat Window*/
+
+
 /*Middle Chat Window*/
 .chatWindow {
     background: radial-gradient(ellipse farthest-corner at 50% 30%, #0c0c0c 0%, #101010 50%, #1e1e1e 100%);
@@ -33,29 +60,49 @@
 .chattabs_ChatTab_2Vrcp.chattabs_Active_Lrqoj {
     background-color: #1e1e1e;
 }
+/*Group Chat Tab box color*/
+.X2iywwN7fcdh9zXpXVsrk._1BNlZUYDbVr8VhCTmq7ksk {
+    background-color: #212121;
+}
+/*Group Chat Below Tab*/
+.chatWindow .chatHeader {
+    background: linear-gradient(to right, #212121 80%, #0c0c0c 100%);
+}
+
+
+
+
+
 /*Outside Text Box*/
 .chatWindow .chatEntry {
     background-color: #0c0c0c;
 }
 /*Text box*/
-._2gP0DqVyb1aEACymAe6if3 {
+.chatentry_chatEntryControls_2gP0D {
     background-color: #212121;
 }
 /*Title Bar*/
 .titleBarContainer.ChatTabs {
     background-color: #0c0c0c;
 }
-/*Button Colors*/
-._1IEiKQnjHpIv-m601y6hvP {
+/*Tabs*/
+.X2iywwN7fcdh9zXpXVsrk._1BNlZUYDbVr8VhCTmq7ksk {
     background-color: #212121;
 }
+/*Button Colors*/
+.chatentry_chatSubmitButton_1IEiK {
+    background-color: #212121;
+}
+.chatentry_chatSubmitButton_1IEiK.chatentry_EmbedButton_24xNx, .chatentry_chatSubmitButton_1IEiK.chatentry_EmoticonPickerButton_K-lPM {
+    background-color: #212121;
+}
+/*Emoticon and Paper Clip buttons*/
 ._1IEiKQnjHpIv-m601y6hvP._24xNxnnkSf6A1WY3MnCCeg, ._1IEiKQnjHpIv-m601y6hvP.K-lPMiafCuZRqjfXykujt {
     background-color: #212121;
 }
 .VoiceToggle {
     background: #212121;
 }
-
 .chatTabSelector {
     background: linear-gradient(to bottom, #1e1e1e 0px, #202020 80%, #202020 100%);
 }
