@@ -34,6 +34,6 @@ PortraitWidthLarge: "222px",  PortraitWidthLarge: "200px",
 ###className: pi().GameInfoShadow  className: ""
 
 ### === Don't load HOME game images, only alt text ===
-###v && this.BDisplayTitle() && i.createElement("span"  i.createElement("span"
-###this.state.bIsLoaded ?~~rgSources: s,  /* rgSources: s,
-###onLoad: this.OnImageLoaded,  onLoad: this.OnImageLoaded, */
+S && this.BDisplayTitle() && r.createElement("span"  r.createElement("span"
+this.state.bIsLoaded ?~~rgSources: a,  /* rgSources: a,
+onLoad: this.OnImageLoaded,  onLoad: this.OnImageLoaded, */
