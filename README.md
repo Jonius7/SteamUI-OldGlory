@@ -259,10 +259,9 @@ The program can't start because `api-ms-win-crt-math-l1-1-0.dll` is missing from
 
 ## Dev Notes
 
-#### For more details, go to [Story](docs/story.md).
+#### For more details, go to [Story](docs/story.md)
 
-#### [CSS Changelog](docs/Changelog - CSS.md)
-#### [GUI Changelog](docs/Changelog - old_glory GUI.md)
+#### [CSS Changelog](docs/Changelog\ -\ CSS.md) | [GUI Changelog](docs/Changelog\ -\ old_glory GUI.md)
 
 #### [SteamUI-OldGlory Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki)
 
