@@ -1,18 +1,20 @@
 ## SteamUI-OldGlory GUI Changelog
 
-1.1.1			(Release 5.12.1) Full Dark Mode Theme (FatheredPuma81), Metro Top Bar CSS
+**1.1.1.1**	    **(Release 5.13)**
 
-1.1.0.1		 (Release 5.12)
+**1.1.1**	       **(Release 5.12.1)** Full Dark Mode Theme (FatheredPuma81), Metro Top Bar CSS
+
+**1.1.0.1**	    **(Release 5.12)**
 
 1.1.0.0 		*(5.12-pre1)* Now uses Rust for JS beautification
 
 1.0.1.2		 *(5.11.2-pre1)* Fix JS tweaks for Steam Beta 28 March (incl Landscape Game Images)
 
-**1.0.1.1**	 	**(Release 5.11.1)** Fix frame scrolling error (`_tkinter.TclError: invalid command name`)
+**1.0.1.1**           **(Release 5.11.1)** Fix frame scrolling error (`_tkinter.TclError: invalid command name`)
 
-1.0.1			 (*5.11.1-pre1*) Fix expired login token (for checking updates)
+1.0.1		     (*5.11.1-pre1*) Fix expired login token (for checking updates)
 
-**1.0**				**(Release 5.11)** New CSS Sections functionality
+**1.0**		  **(Release 5.11)** New CSS Sections functionality
 
 0.9.30.3		(*5.11-pre4*)	More CSS/JS Mode Menu Functionality
 
