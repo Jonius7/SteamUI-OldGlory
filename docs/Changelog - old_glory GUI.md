@@ -1,5 +1,7 @@
 ## SteamUI-OldGlory GUI Changelog
 
+1.1.2		
+
 **1.1.1.1**	    **(Release 5.13)**
 
 **1.1.1**	       **(Release 5.12.1)** Full Dark Mode Theme (FatheredPuma81), Metro Top Bar CSS

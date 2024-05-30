@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "1.1.1.1"
-        self.release = "5.13"
+        self.version = "1.1.2"
+        self.release = "5.14-pre1"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -187,7 +187,7 @@ class StartPage(tk.Frame):
     
     ### Functions - Frames and Pack
         self.create_check_frame()
-        self.create_patch_frame()
+        self.create_patch_frame(controller)
         self.create_mode_frame()
         self.create_confirm_frame()
         self.set_init_gui_states()
@@ -370,7 +370,7 @@ class StartPage(tk.Frame):
         #self.image1 = add_img(self.frameCheck, os.path.join(os.getcwd(), 'images/full_layout.png'))
         #self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")      
     
-    def create_patch_frame(self):
+    def create_patch_frame(self, controller):
     ### PATCH FRAME
     ###
         
@@ -427,6 +427,25 @@ class StartPage(tk.Frame):
                                      hover_delay=200)
         pbutton4.bind("<Button-1>", lambda event:backend.patch_css())
         pbutton4.grid(row=1, column=1, padx=(5,0), pady=5)
+        
+        labeltext_d = tk.StringVar()
+        labeltext_d.set("Install Location")
+        
+        label_d = tk.Label(self.framePatch, textvariable=labeltext_d)
+        label_d.grid(row=3, column=1)
+        
+        ###
+        self.dropdown5_value = tk.StringVar()
+        self.dropdown5 = ttk.Combobox(self.framePatch,
+                                 font="TkDefaultFont",
+                                 values=["Steam", "Millennium", "Local"],
+                                 state="readonly",
+                                 textvariable=self.dropdown5_value,)
+        dropdown5_tip = custom_tk.Detail_tooltip(self.dropdown5,
+                                     "Select install location for OldGlory files",
+                                     hover_delay=200)
+        self.dropdown5.set(controller.oldglory_config["Filepaths"]["InstallMode"])
+        self.dropdown5.grid(row=4, column=1)
     
         
     def create_mode_frame(self):   

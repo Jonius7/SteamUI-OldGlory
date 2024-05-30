@@ -26,7 +26,8 @@ DEFAULT_CONFIG = {
     "Filepaths" : {
         "SteamLibraryPath" : "",
         "PatcherPath" : "",
-        },
+        "InstallMode" : "Steam",
+    },
     "Main_Settings" : {
         "InstallCSSTweaks" : "1",
         "EnablePlayButtonBox" : "0",
@@ -37,7 +38,7 @@ DEFAULT_CONFIG = {
         "ThemeSelected" : "Crisp Cut",
         "ClassicStyling" : "0",
         "HomeButton" : "1",
-        },
+    },
     "JS_Settings" : {
         "HomePageGridSpacing" : "1",
         "MoreScreenshotsAndDLC" : "1",
@@ -266,6 +267,12 @@ def library_dir():
     except:
         print("Steam Library directory not found. Is Steam installed/has been run under this User?", file=sys.stderr)
         print_traceback()
+
+def skins_dir():
+    skins_path = library_dir() + "/skins/OldGlory"
+    if OS_TYPE == "Windows":
+        skins_path = skins_path.replace("/","\\")
+    return skins_path
 
 def print_traceback():
     '''
@@ -1090,33 +1097,71 @@ def write_js_fixes(fixesdata, special_fixesdata):
 ### STEAM DIRECTORY AND CLEAR Functions
 
                     
-def refresh_steam_dir():
+def backup_libraryroot_css(install_location="Steam"):
     try:
         local_libraryroot_custom_css = "libraryroot.custom.css"
-        libraryroot_custom_css = library_dir() + "/" + "libraryroot.custom.css"
-        libraryroot_custom_css_backup = library_dir() + "/" + "libraryroot.custom.css.backup"
-        libraryroot_custom_css_backup2 = library_dir() + "/" + "libraryroot.custom.css.backup2"
+        if install_location == "Steam":
+            libraryroot_custom_css = library_dir() + "/" + "libraryroot.custom.css"
+            libraryroot_custom_css_backup = library_dir() + "/" + "libraryroot.custom.css.backup"
+            libraryroot_custom_css_backup2 = library_dir() + "/" + "libraryroot.custom.css.backup2"
+        elif install_location == "Millennium":
+            local_skin_json = "skin.json"
+            skin_json = skins_dir() + "/" + "skin.json"
+            skin_json_backup = skins_dir() + "/" + "skin.json.backup"
+            libraryroot_custom_css = skins_dir() + "/" + "libraryroot.custom.css"
+            libraryroot_custom_css_backup = skins_dir() + "/" + "libraryroot.custom.css.backup"
+            libraryroot_custom_css_backup2 = skins_dir() + "/" + "libraryroot.custom.css.backup2"
+        elif install_location == "Local":
+            libraryroot_custom_css = "libraryroot.custom.css"
+            libraryroot_custom_css_backup = "libraryroot.custom.css.backup"
+            libraryroot_custom_css_backup2 = "libraryroot.custom.css.backup2"
+        else:
+            raise Exception("Invalid install location/type", file=sys.stderr)
         
-        if os.path.isfile(libraryroot_custom_css):
-            print("Existing libraryroot.custom.css code detected.")
-            if os.path.isfile(libraryroot_custom_css_backup):
-                shutil.copy2(libraryroot_custom_css, libraryroot_custom_css_backup2)
-                print("Backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup2")
-            else:
-                shutil.copy2(libraryroot_custom_css, libraryroot_custom_css_backup)
-                print("backed up steamui/libraryroot.custom.css to steamui/libraryroot.custom.css.backup")
-            shutil.copy2(local_libraryroot_custom_css, libraryroot_custom_css)
-        elif not os.path.isfile(libraryroot_custom_css):
-            shutil.copy2(local_libraryroot_custom_css, libraryroot_custom_css)
-        print("File " + local_libraryroot_custom_css + " written to " + libraryroot_custom_css)
+        if install_location == "Steam" or install_location == "Millennium":
+            if os.path.isfile(libraryroot_custom_css):
+                print("Existing libraryroot.custom.css code detected.")
+                if os.path.isfile(libraryroot_custom_css_backup):
+                    shutil.copy2(libraryroot_custom_css, libraryroot_custom_css_backup2)
+                    print("Backed up libraryroot.custom.css to " + libraryroot_custom_css_backup2)
+                else:
+                    shutil.copy2(libraryroot_custom_css, libraryroot_custom_css_backup)
+                    print("backed up libraryroot.custom.css to " + libraryroot_custom_css_backup)
+                shutil.copy2(local_libraryroot_custom_css, libraryroot_custom_css)
+            elif not os.path.isfile(libraryroot_custom_css):
+                shutil.copy2(local_libraryroot_custom_css, libraryroot_custom_css)
+            print("File " + local_libraryroot_custom_css + " written to " + libraryroot_custom_css)
+            
+        if install_location == "Local":
+            if os.path.isfile(libraryroot_custom_css):
+                print("Existing libraryroot.custom.css code detected.")
+                if os.path.isfile(libraryroot_custom_css_backup):
+                    shutil.copy2(libraryroot_custom_css, libraryroot_custom_css_backup2)
+                    print("Backed up libraryroot.custom.css to " + libraryroot_custom_css_backup2)
+                else:
+                    shutil.copy2(libraryroot_custom_css, libraryroot_custom_css_backup)
+                    print("backed up libraryroot.custom.css to " + libraryroot_custom_css_backup)
         
+        if install_location == "Millennium":
+            if os.path.isfile(skin_json):
+                print("Existing skin.json code detected.")
+                shutil.copy2(skin_json, skin_json_backup)
+                print("backed up skin.json to skin.json.backup")
+            shutil.copy2(local_skin_json, skin_json)
+        
+    except:
+        print("Unable to copy libraryroot.custom.css to install location.", file=sys.stderr)
+        print_traceback()
+        
+def refresh_steam_dir():
+    try:
         #refresh steam library
         f = open(library_dir() + "/refresh_dir.txt", "w", newline='', encoding="UTF-8")
         f.close()
         if os.path.exists(library_dir() + "/refresh_dir.txt"):
             os.remove(library_dir() + "/refresh_dir.txt")
     except:
-        print("Unable to copy libraryroot.custom.css to Steam directory.", file=sys.stderr)
+        print("Unable to refresh Steam directory.", file=sys.stderr)
         print_traceback()
     
 

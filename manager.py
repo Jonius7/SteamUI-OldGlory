@@ -48,6 +48,7 @@ def install_click(event, page, controller):
         try:
             disable_buttons_while_installing(controller)
             settings = get_settings_from_gui(page)
+            set_filepaths_config(page, controller)
             settings = set_js_config(controller, settings)
             apply_special_js_config(controller)
             #print(settings)
@@ -76,6 +77,7 @@ def install_click(event, page, controller):
             backend.compile_css(backend.get_json_data())
             controller.js_gui_changed = 0
             controller.mode_changed = 0
+            backend.backup_libraryroot_css(controller.oldglory_config["Filepaths"]["InstallMode"])
             backend.refresh_steam_dir()
             update_loaded_config(page, controller)
             if not thread:
@@ -118,6 +120,14 @@ def get_settings_from_gui(page, config_map=CONFIG_MAP):
         return settings
     except:
         print("Error while installing tweaks.", file=sys.stderr)
+        old_glory.print_traceback()
+
+def set_filepaths_config(page, controller):
+    try:
+        #print(controller.oldglory_config)
+        controller.oldglory_config["Filepaths"]["InstallMode"] = page.dropdown5.get()
+    except:
+        print("Error while setting filepaths config (includes install location).", file=sys.stderr)
         old_glory.print_traceback()
 
 def set_js_config(controller, settings):
