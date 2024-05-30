@@ -1,0 +1,1024 @@
+@charset "UTF-8";
+/* SteamUI-OldGlory CSS Tweaks v2.1
+   by Jonius7 
+*/
+/* Configurable variables */
+:root {
+  /* What's New */
+  --WhatsNew: block;  /* Default: block. Set to none to hide What's New */
+  --WhatsNewOrder: 2;  /* Default: 0. Set 0 to put to top, 1 or higher to put to bottom */
+
+  /* Left Sidebar - Games List */
+  --HoverOverlayPosition: 0;  /* Default: 0. Set 0 if default JS, unset if tweaked JS */
+  --GameListEntrySize: 16px;  /* Default: 16px.  */
+  --CategoryNameHeaderSize: 13px;  /* Default: 13px.  */
+  --GameListZoomSize: 75%;  /* Default: 100%. 75% highly recommended for Game List similar to old Library UI. Affects GameListEntrySize and CategoryNameHeaderSize */
+  --ShowLeftSidebar: flex;  /* Default: flex. Set to none to hide left sidebar */
+
+  /* Right Click Context Menu */
+  --ContextMenuLineHeight: 16px;  /* Default: inherit. Currently will override very long category names */
+  --ContextMenuFontSize: 13px;  /* Default: 14px.  */
+
+  /* Game Grid */
+  --RemoveShine: none;  /* Default: block. Set to none to Remove Shine/Glare on game grid images, which can cause discomfort */
+  --GameImageTransition: 1s;  /* Default: .4s, .4s, .4s, .2s. Grid Game Images transition time. 0s for instant, 2s for smooth. */
+  --GameImageOpacity: 1;  /* Default: 1. Suggested values for "softer" images: 0.7 or 0.5 */
+  --UninstalledGameImageOpacity: 0.5;  /* Default: 1. Suggested values: 0.5, 0.2 */
+  --GameGridImageBackground: inherit;  /* Default: inherit. Default is inherit, set #365d2d for a friendly green */
+  --GridRowGap: 8px;  /* Default: 24px. Corresponds with JavaScript tweak - Home Page Grid Spacing. */
+  --GridColumnGap: 5px;  /* Default: 16px. Corresponds with JavaScript tweak - Home Page Grid Spacing. */
+  --RemoveGameHover: block;  /* Default: block. Set to none to remove game preview box when hovering over game */
+
+  /* Game Page Layout */
+  --FriendsDLCScreenshotsColumnWidth: 61%;  /* Default: 33%. Determines width of the Friends Who Play/Achievements/Screenshots/DLC/Trading Cards column. Friend Activity/News column will fill the rest. */
+  --SwapColumns: left;  /* Default: right. Set left to swap columns. */
+  --AchievementsClickHighlight: Highlight_opacity;  /* Default: appdetailsoverview_HighlightMe_25jnp. Options: Highlight_opacity Highlight_border. Set to disabled to disable. */
+
+  /* Game Page Elements */
+  --RecommendGame: block;  /* Default: block. Set to none to hide "Recommond this game" box on game page. */
+  --DLCAvailableContent: none;  /* Default: block. Set to none to hide the DLC Available Content box. */
+
+  /* Game Page Background */
+  --AppPageBlur: 2px;  /* Default: 8px. Controls the blur between the Header and AppPage content. 2px for a more clean look. */
+  --AmbientBlur: black;  /* Default: black 80%. Set to rgba(0,0,0,0) to remove */
+
+  /* Other */
+  --VerticalNavBarOffset: 0px;  /* Default: 0px. Leave at 0px, this var is for steam-library compatibility and vertical nav bar */
+}
+/* ==================== Sidebar - Home and Search ====================
+   ========================================================================== */
+:root {
+  --SidebarBackgroundImage: linear-gradient(to bottom, #2d333c 0%, #24282f 20%);
+}
+
+/* Container grid setup */
+._3x1HklzyDs4TEjACrRO2tB {
+  background-color: none;
+  background-image: var(--SidebarBackgroundImage);
+  display: grid !important;
+  grid-template-rows: 38px fit-content(20%) auto;
+  grid-template-columns: minmax(94px, 35%) auto;
+}
+
+/*Home bar width: 1st column, align with Gamelist dropdown and buttons*/
+._2TKEazUUS3TlniZfpc8OOe {
+  background-color: unset !important;
+  box-shadow: 0 0 0px rgba(0, 0, 0, 0.8) !important;
+  padding: 6px 3px 0px 6px !important;
+  grid-column-start: 1;
+}
+
+/* Gamelist dropdown and buttons width: 2nd column, align with home bar*/
+._1ZS_xta5HMXzR8JgxDH6n7 {
+  padding: 6px 3px 0px !important;
+  grid-column-start: 2;
+}
+
+/* Games dropdown width increased */
+.EDl_mzaY3WxkgmYVD8W4d {
+  width: 195px !important;
+}
+
+/* Other divs to max width (2 columns) */
+._1ijTaXJJA5YWl_fW2IxcaT, ._20QAC4WMXm8qFE8waUT5oo, ._1fbRpYO_BFDlMdFLsQMGVE {
+  grid-column-start: 1;
+  grid-column-end: span 2;
+}
+
+/* Round only outsie corners of Advanced Search filters button */
+._20QAC4WMXm8qFE8waUT5oo .vCCmYvn9yQ_V8CpKupllU {
+  border-radius: 0px 4px 4px 0px;
+}
+
+/* ========================================================================== 
+     END Sidebar - Home and Search */
+/* ==================== GameList Sidebar ====================
+   ========================================================================== */
+/* Gamelist entry - font size */
+._2-O4ZG0KrnSrzISHBKctFQ {
+  font-size: var(--GameListEntrySize) !important;
+}
+
+._2-O4ZG0KrnSrzISHBKctFQ._3cMVyOc-9F9Jvp3uKF7_xj {
+  height: 100%;
+}
+
+/* Gamelist entry - icon size */
+._2-O4ZG0KrnSrzISHBKctFQ .ga1hyw11cdBVodrCAidPF {
+  height: 22px;
+  width: 22px;
+}
+
+/* Fix hover text to the bottom. With JavaScript tweaks this can be dynamic.*/
+._2iiN7AYnLFTRFRiuipiYJz {
+  bottom: var(--HoverOverlayPosition) !important;
+}
+
+/* Context Menu font size */
+.contextmenu_contextMenuContents_2EstN {
+  font-size: var(--ContextMenuFontSize);
+}
+
+/* Context Menu line spacing/height */
+.contextmenu_contextMenuItem_1n7Wl {
+  line-height: var(--ContextMenuLineHeight);
+  height: var(--ContextMenuLineHeight);
+}
+
+/* remove border */
+._2sYIghGVXJr6tsQVvcryy8 {
+  box-sizing: border-box;
+  color: #707379;
+  border: 0px solid rgba(0, 0, 0, 0);
+}
+
+/* category name - repositioning */
+._3cV3O8FnPQqpJO5kIMUlLX {
+  margin-top: 3px;
+  padding: 0px 9px 5px 9px;
+}
+
+/* category name - font size and height*/
+._2mZ8LlvoUiyeEUtIWuTri {
+  font-size: var(--CategoryNameHeaderSize);
+  height: 15px;
+}
+
+/* category count - font size and height*/
+._29uten9Yy8q-n7woDEOXVF {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Zoom out both the gamelist container and the hover text for long game names */
+._1ijTaXJJA5YWl_fW2IxcaT, ._2-O4ZG0KrnSrzISHBKctFQ._3cMVyOc-9F9Jvp3uKF7_xj {
+  zoom: var(--GameListZoomSize);
+  position: relative;
+}
+
+/* Fix hover text to the bottom if default JS, position dynamically if JS tweaked. */
+._2-O4ZG0KrnSrzISHBKctFQ._3cMVyOc-9F9Jvp3uKF7_xj {
+  position: fixed;
+  height: 28px;
+  bottom: var(--HoverOverlayPosition);
+}
+
+._9sPoVBFyE_vE87mnZJ5aB {
+  display: var(--ShowLeftSidebar);
+}
+
+._3pSPluBgf0NeR1kkCLWMhR.eNLOx4LVceeMwRvTVWh3 {
+  border-radius: 3px;
+}
+
+._3pSPluBgf0NeR1kkCLWMhR._30KGSfPjPskFlnrSxBfkiK {
+  margin-left: 6px;
+}
+
+/*Home button text centred*/
+._3O48LaKWcabKx07xdrt1TH {
+  margin: auto;
+}
+
+/* ========================================================================== 
+   END GameList Sidebar */
+/* ==================== Home and Collections ====================
+   ========================================================================== */
+/* Library Home padding and background */
+._3Sb2o_mQ30IDRh0C72QUUu {
+  padding: 8px 12px 12px;
+  /* default 8px 14px 14px */
+  /*background-image: linear-gradient(to bottom, #2d333c 0%, #24282f 20%);*/
+  order: 1;
+}
+
+/* Home Page - What's New
+   ========================================================================== */
+/* Height of What's New container */
+.LibraryDisplaySizeSmall ._17uEBe5Ri8TMsnfELvs8-N {
+  height: 270px;
+}
+
+.g6MwhS-JgwOuj2uZKbi0K._2AUVZlzQq67qe3yhLZsPPB {
+  display: flex;
+  flex-flow: column;
+}
+
+.g6MwhS-JgwOuj2uZKbi0K._2AUVZlzQq67qe3yhLZsPPB > div:nth-child(1) {
+  order: var(--WhatsNewOrder);
+}
+
+/* Position What's New */
+._17uEBe5Ri8TMsnfELvs8-N {
+  display: var(--WhatsNew);
+}
+
+/* Home Page - Steam Games Grid
+   ========================================================================== */
+/* Move Hours Played/Size on Disk/Metacritic Score... text box up */
+._1LJqx_qFOC8199RBQO5kU8 {
+  margin-top: -32px;
+  padding: 2px 8px;
+}
+
+/* Move small "Friend Playing" box on Steam Grid */
+._3dncOt2dhpnFYQn-WYQ3Mb._1WWmQqppYq8c44A7nTMKUq:not(._301ftk7pLtiYAWjjxEG0Gu) {
+  transform: translateY(-13px);
+}
+
+.yGeS63NTeSwJCWS395eIb ._3dncOt2dhpnFYQn-WYQ3Mb._1WWmQqppYq8c44A7nTMKUq {
+  top: unset;
+}
+
+/* Recommended corresponding JS tweak: default gap is 24px 16px */
+._3vHkmRShhzwd67_MtEq8-n._3DJLGrqzoQ5vMDI_4VG502, ._11p6Fm47YPaY-YjtuLYMMJ {
+  gap: var(--GridRowGap) var(--GridColumnGap) !important;
+}
+
+._54PuCatl_tYG836TOs4Mv .WYgDg9NyCcMIVuMyZ_NBC:hover ._8YrRmy_c6O0FCxFT8gjqo {
+  opacity: .9;
+}
+
+/* Remove grid shine/glare */
+.MyNb5dG3FsBnKdp8j_ntk {
+  display: var(--RemoveShine);
+}
+
+/* Remove transitioning on game images when scrolling */
+._2IYf7aM4eYQ2Oh-ntmzHbm {
+  transition-timing-function: unset;
+}
+
+/* Background color behind game images */
+.WYgDg9NyCcMIVuMyZ_NBC {
+  transition-duration: var(--GameImageTransition) !important;
+  background-color: var(--GameGridImageBackground);
+}
+
+/* Grid game image opacity */
+._2IYf7aM4eYQ2Oh-ntmzHbm._13w3SEbKLJRUhSyoGQZze8._3QIfJmcfmiE8FBFu3iB1Nb {
+  opacity: var(--GameImageOpacity);
+}
+
+/* Grid - Uninstalled game image opacity */
+/*.appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(2) {
+  opacity: var(--UninstalledGameImageOpacity);
+}
+
+.appportrait_Draggable_1pwP4>.appportrait_LibraryItemBox_WYgDg:nth-last-of-type(3) {
+  opacity: var(--UninstalledGameImageOpacity);
+}
+
+ More precise uninstalled game image opacity but doesn't cover all areas 
+.appportrait_Draggable_1pwP4 > :nth-last-of-type(3) {
+  //opacity: var(--UninstalledGameImageOpacity);
+}*/
+/* Add bottom padding for shelf */
+._3vHkmRShhzwd67_MtEq8-n._3DJLGrqzoQ5vMDI_4VG502 {
+  padding-bottom: 8px;
+}
+
+/* Your Collections header and side padding reduced*/
+.u1xD3KJEgksF_J_5TLZzO {
+  padding: 10px 14px;
+}
+
+/* Game Hover Preview */
+._2sGn0cBsD44TjnUIh-lx9d {
+  display: var(--RemoveGameHover);
+}
+
+/* ========================================================================== 
+   END Home and Collections */
+/* ==================== Scrollbar Tweaks ====================
+   ========================================================================== */
+.library_Container_3xRRJ *::-webkit-scrollbar, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar {
+  width: 16px;
+  /* default 12px */
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  /* default 10px */
+}
+
+.library_Container_3xRRJ *::-webkit-scrollbar-thumb, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar-thumb {
+  border: 1px solid transparent;
+  /* default: 3px solid transparent */
+  border-right: 0px solid transparent;
+  background-color: rgba(140, 140, 140, 0.35);
+}
+
+.library_Container_3xRRJ *::-webkit-scrollbar-thumb:active, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar-thumb:active {
+  border: 1px solid transparent;
+  border-right: 0px solid transparent;
+}
+
+/* ========================================================================== 
+   END Scrollbar Tweaks */
+/* ==================== Game AppPage Header ====================
+   ========================================================================== */
+.Jbe--NUNw7sxbxGsMSjVa {
+  backdrop-filter: none !important;
+}
+
+._2meE3N6-Wkw3yQUVtQK-i8._2meE3N6-Wkw3yQUVtQK-i8 {
+  max-height: 230px;
+}
+
+._2gZXhRmKUk68pA28-5ZmGQ.tXlLvuTxOVL1w3aVPX4bm {
+  min-height: 230px;
+  margin-bottom: 13px;
+}
+
+._dijeIFQK07Fymccmf6qA {
+  height: 139%;
+}
+
+/* Unset Header Image height to show top and bottom */
+.sharedappdetailsheader_ImgContainer_QlR9E {
+  height: auto;
+}
+
+._2b6WkTnmJxMuX1biL7aS3C {
+  pointer-events: all;
+}
+
+/* Removing grey backgrounds up to the top level, as much as possible */
+.sharedappdetailsheader_TopCapsule_NZMJ6 {
+  background-color: unset;
+}
+
+._2Dd4T78PcCTUVgOtDGFY5j {
+  background: none;
+}
+
+._2l416KfEtI4CL0mCUEmOBw {
+  background-color: none;
+}
+
+._3FmxxjyWNHU1PrBGnBe6tm._2l416KfEtI4CL0mCUEmOBw {
+  background: none;
+}
+
+._3xRRJfD2xy95i9NhJxLTp0 {
+  background-size: 100% !important;
+}
+
+/* alttextimg - broken link image in top left annoyance */
+#alttext-image {
+  display: none;
+}
+
+img.sharedappdetailsheader_ImgSrc_HNbe3.sharedappdetailsheader_ImgBlur_HSQWw {
+  display: none;
+}
+
+._dijeIFQK07Fymccmf6qA._3XYFKZ4dGPY0v1xxXRIwm6 {
+  width: 0px;
+}
+
+.sharedappdetailsheader_ImgSrc_HNbe3 {
+  text-indent: -10000px;
+}
+
+/* ========================================================================== 
+   END Game AppPage Header */
+/* ==================== Game AppPage Sections ====================
+   ========================================================================== */
+/*Remove Appdetail margins */
+._2r4TK4BAuU-J4FuF_O7v_5 {
+  margin: 0px;
+}
+
+._31ptFGGMZrSQc5BCX1e5lm {
+  margin: 8px;
+}
+
+/* Section box background color */
+._31ptFGGMZrSQc5BCX1e5lm._3KfxIwlXEvum7FCD_AM2_t {
+  background: radial-gradient(100% 80% at 64% 95%, rgba(104, 112, 124, 0.5) 0%, rgba(91, 99, 112, 0.5) 40%, rgba(24, 35, 36, 0.5) 100%);
+}
+
+button.DialogButton._3Cdin80d-hVsakHUZboheb._3nJyYxGQ3kdwwabPmxNnMe {
+  margin-top: -4px;
+  padding: 2px 8px;
+}
+
+._39bm0CkBxBjJsnPpAzoZlv {
+  margin-bottom: 6px;
+}
+
+/* Move Additional Content to bottom */
+div._2aor4XVOYzN1PBSREk0UbO > div:nth-child(3) {
+  order: 5;
+}
+
+/* Section Highlight */
+._3wz2S_PAaNYT8usbbv6QYn {
+  /* Don't do anything yet */
+  opacity: 1.0;
+  animation-name: var(--AchievementsClickHighlight);
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+  animation-delay: .6s;
+}
+
+@keyframes appdetailsoverview_HighlightMe_25jnp {
+  0% {
+    filter: brightness(1);
+  }
+  30% {
+    filter: brightness(2);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@keyframes Highlight_opacity {
+  0% {
+    filter: opacity(100%);
+  }
+  30% {
+    filter: opacity(0%);
+  }
+  100% {
+    filter: opacity(100%);
+  }
+}
+
+@keyframes Highlight_border {
+  0% {
+    border: 0px;
+  }
+  30% {
+    border: 2px solid black;
+  }
+  100% {
+    border: 0px;
+  }
+}
+
+/* ========================================================================== 
+   END Game AppPage Sections */
+/* ================== Game AppPage Header/Section Boundary ==================
+   ========================================================================== */
+/* added a darker gradient to the top of the apppage below the Game Image */
+._2OOzYVWIHaKXm6_7sscT9i ._1Qa-Aq8WFiF9584yU_1xuC {
+  background: linear-gradient(0deg, rgba(40, 41, 49, 0) 0%, rgba(51, 51, 51, 0.2) 35%, rgba(51, 51, 51, 0.5) 100%);
+}
+
+/* Height of blur over background image. If a low value, most of the background will be clear. default: 450px */
+._2OOzYVWIHaKXm6_7sscT9i .Jbe--NUNw7sxbxGsMSjVa {
+  height: 2000px;
+  background: linear-gradient(to bottom, rgba(40, 40, 40, 0.1) 0%, rgba(39, 44, 53, 0.5) 82px, rgba(40, 40, 40, 0.6) 92%, rgba(40, 40, 40, 0) 100%);
+  backdrop-filter: blur(var(--AppPageBlur));
+}
+
+/* Game AppPage Info Panel ======================================== */
+._2jPMy2QZr8bWi6yrk5ZzHA ._1uS70KI6ZbUE94jUB27ioB ._3GkV1NVDKuXYTLyRt2Uirz {
+  color: #c3c3c3;
+}
+
+/* ========================================================================== 
+   END Game AppPage Header/Section Boundary */
+/* ================== Game AppPage Post-Game Summary & Spotlight ==================
+   ========================================================================== */
+._27RcNu8aXKBpYkHcNNrt-X {
+  /* Adjust padding */
+}
+
+._27RcNu8aXKBpYkHcNNrt-X .OhSdLYuggDtBcWjYP0j_9 {
+  padding: 8px 10px 4px 10px;
+}
+
+._27RcNu8aXKBpYkHcNNrt-X ._11kuVRYZvWXn-3rBJ_6yL8._3wbndu1paxHkciYr4rFJH5 {
+  width: calc(63.7% - 42px);
+}
+
+._3fiHsLeD_6rtm6bM9lHlVL.appdetailsspotlight_NewDLCImages_ENdo7 {
+  height: unset !important;
+}
+
+/*Change Game Summary separator from small dot to thin line-clamp*/
+._11ner25as4lWCRtPyqpdQ_ {
+  background-color: rgba(132, 154, 182, 0.3);
+  width: 1px;
+  height: 160px;
+  border-radius: 3%;
+  margin: 10px 16px;
+  align-self: center;
+}
+
+._3LE-6w1ItIAB4CKJFCa3Od {
+  display: var(--RecommendGame);
+}
+
+/* New DLC for [game] has been acquired */
+/* ========================================================================== 
+   END Game AppPage Post-Game Summary & Spotlight */
+/* ================== Game AppPage MAIN COLUMNS ==================
+   ========================================================================== */
+._27RcNu8aXKBpYkHcNNrt-X ._2aor4XVOYzN1PBSREk0UbO {
+  width: var(--FriendsDLCScreenshotsColumnWidth);
+  margin-left: 0;
+  margin-right: 10px;
+  float: var(--SwapColumns);
+}
+
+._3yTl3RiWfo-Itg-xp967wP {
+  max-width: unset;
+}
+
+/* ========================================================================== 
+   END Game AppPage MAIN COLUMNS */
+/* Game AppPage Play Bar
+   ========================================================================== */
+/* increase text opacity of heading for Last Played, Play Time, Achievements*/
+._34lrt5-Fc3usZU6trA1P0- {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* increase icon opacity of Play Time */
+._1aKegVl9_lSdNAyWYZQlr9 ._1GZdosVXnfrf69yU8DWASl svg polyline, ._1aKegVl9_lSdNAyWYZQlr9 ._1GZdosVXnfrf69yU8DWASl svg path {
+  stroke: rgba(255, 255, 255, 0.5);
+}
+
+._1aKegVl9_lSdNAyWYZQlr9 ._1GZdosVXnfrf69yU8DWASl svg circle {
+  stroke: rgba(255, 255, 255, 0.5);
+  fill: rgba(255, 255, 255, 0.5);
+}
+
+/* increase text opacity of value for Last Played, Play Time*/
+._2TYVGoD27ZMfjRirKQNLfk, ._3pS8kMrtScuY1Qf-W8tmRV ._1nfJNsQjTOXSQQyFahGnRi {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Play button Size */
+._1FnJ6dPuknQFQ2RTpKTI16._1hhB2Wf7iExA15zh_lDQ_y {
+  min-width: 164px;
+}
+
+/* Game AppPage Activity - Friends
+   ========================================================================== */
+/* Compact News */
+/* Remove Activity item margin */
+.S2Fu9HxHCA5MaCLGrN2ib {
+  margin-bottom: 0px;
+  margin-top: -29px;
+  min-height: 95px;
+}
+
+/* comment box */
+._39nnaT_CLE0m_WXVIrAwaG {
+  margin-bottom: 29px;
+}
+
+/* crafting badge */
+._3G7i5g23e7CREVJMvy-uuM {
+  margin-bottom: 30px;
+}
+
+/* other margins */
+._31ptFGGMZrSQc5BCX1e5lm._2G5B7o_YoI__u11--EFjal > div > div:nth-child(2) {
+  margin-top: 0px;
+}
+
+/* received new game margin */
+.UVeN0kaD3zv1feMj_mMw5._35ZQ6r0nfzLTVQqolxl7as._2CB_RqM2eU0opie2AJ3Eow.Panel.Focusable {
+  margin-bottom: 24px;
+}
+
+/* Added to their library margin */
+.UVeN0kaD3zv1feMj_mMw5._35ZQ6r0nfzLTVQqolxl7as._2CB_RqM2eU0opie2AJ3Eow.Panel {
+  margin-bottom: 22px;
+}
+
+/* Activity Achievement Unlocked to 2 columns */
+.yJLy7HDLJT44C1fcm6lPI {
+  padding: 6px;
+  grid-template-columns: repeat(auto-fill, [col-start] minmax(140px, 48%) [col-end]) !important;
+  gap: 8px 8px;
+}
+
+/* Activity Margin */
+._2bqRppbRWGNAZV5lfubW7- {
+  margin-bottom: 30px;
+}
+
+/* DLC Available Content */
+.apopactivitydlc_Rollup_2UySY {
+  display: var(--DLCAvailableContent);
+}
+
+._1_lVh3JvHLiurz1OuvfGhm {
+  display: var(--DLCAvailableContent);
+}
+
+/* Game AppPage Activity - Events
+   ========================================================================== */
+/* Activity Heading Padding */
+._3yTl3RiWfo-Itg-xp967wP > div {
+  padding-left: 0px;
+}
+
+/* Remove Activity Event margin */
+.UVeN0kaD3zv1feMj_mMw5 {
+  margin-top: 3px;
+}
+
+/* Font size for large event title */
+._3fsjzvni7TQ1NphLHM_5r3 {
+  font-size: 16px;
+}
+
+/* Font size for medium event*/
+._1gljEIuhbsQpFCWuVhdKTJ {
+  font-size: 16px;
+}
+
+._2gv3EsHSu5dMQyMqaz-W9t {
+  padding: 10px;
+}
+
+/* Fix event image and text widths */
+._1XpBItdUymdlwPZzvvOnyW {
+  max-width: 260px;
+  min-width: 205px;
+  padding: unset;
+  padding: 0px 6px;
+}
+
+.fGDsmh9vz8h0RMEoRoAvF {
+  max-width: 250px;
+}
+
+._2HzKE96Sc4z6KHN68gr4DS {
+  position: relative;
+  padding: 8px 12px 12px 0px;
+  margin-top: 0px;
+  flex: 1;
+  max-height: 130px;
+}
+
+.ddB5GVHCwLezhshXUMCNL {
+  width: 200px;
+  height: unset;
+}
+
+.VytJzt3Z_t6332-n24Yrc {
+  max-width: 200px;
+}
+
+._1gljEIuhbsQpFCWuVhdKTJ {
+  max-width: 600px;
+  -webkit-line-clamp: 3 !important;
+}
+
+._3dJ4Bq6Msivz5-UIHzSEQu {
+  padding: 0px;
+  display: flex;
+}
+
+/* margin bottom for trading card activity */
+._2IS7ZQo16varVLcyuFh4sY {
+  margin-bottom: 29px;
+}
+
+/* Game AppPage Activity - Broadcasts
+   ========================================================================== */
+._5uvIN6jXDXzzck59F-nhv.CFp7FDqX1IuwmkuBusvoZ {
+  align-content: flex-end;
+}
+
+._9nwsCOgZqq15N_8yHfHX4 {
+  width: 50%;
+  height: 50%;
+  margin-left: auto;
+}
+
+/* Game AppPage Navigation Bar
+   ========================================================================== */
+/* Tweak nav bar to be bigger and more opaque*/
+._3-V8vjmrwuJM6Ws3tsjFJj .DgVQapkBmhAW6oPY5rPZo {
+  height: 35px !important;
+}
+
+._3-V8vjmrwuJM6Ws3tsjFJj ._25f0fX6qbgdB7O_lMrbhCN {
+  padding: 0px 10px 3px 4px !important;
+}
+
+._7k4qmaN8SUMvv6u-L81uk {
+  position: absolute;
+  padding: 4px 16px 4px 0px !important;
+  margin-right: 0px;
+}
+
+._7k4qmaN8SUMvv6u-L81uk ._2sNDjgK9EWiPLdNGkjun-w {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 15px;
+}
+
+._7k4qmaN8SUMvv6u-L81uk ._1b6LYWVijW-9E4YV0keDWZ {
+  padding: 3px 12px 3px 12px;
+}
+
+/*Responsive DLC Grid Columns */
+div._2ycfNEAjDWvJwI6a-Wef4Q ._15tTAQr0o8mb0NcLEUOz1c {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  /*justify-content: center;*/
+}
+
+/*Shrink Screenshots size to show more (JS recommended)*/
+._2_TE0KLOU7kWWxa9LS7iXA ._2fgcqIGs6BXH_KJiTLhJX5 {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-rows: auto auto auto;
+  overflow-y: scroll;
+}
+
+div.NarrowRightPanel ._2_TE0KLOU7kWWxa9LS7iXA ._2fgcqIGs6BXH_KJiTLhJX5 {
+  grid-template-rows: auto auto;
+}
+
+/* ==================== View My Achievements page ====================
+   ========================================================================== */
+._3FQHgRosfNJYE44Fsd_U6z ._11Z-tk3z56AMAn01e-PyBL {
+  padding-top: 14px;
+}
+
+.HruWVPwIDh2FFOOH7OiSs .gioyPMOZttYFcnmgLnsWf {
+  width: 95%;
+  max-width: unset;
+  margin: 14px auto 14px auto;
+}
+
+._2iGYYePQN5QQzHWNLybmd4 ._2SjmZt7H8ly6xW3pCbiuwG {
+  width: 100px;
+}
+
+/* Home Icon 
+Adapted from LIGHT-UI by Angelo*/
+._3pSPluBgf0NeR1kkCLWMhR.eNLOx4LVceeMwRvTVWh3 {
+  background-color: #3e4047;
+}
+
+._3pSPluBgf0NeR1kkCLWMhR:hover ._3O48LaKWcabKx07xdrt1TH {
+  color: transparent !important;
+  filter: grayscale(1) invert(1) brightness(1);
+}
+
+._3pSPluBgf0NeR1kkCLWMhR.eNLOx4LVceeMwRvTVWh3 ._3O48LaKWcabKx07xdrt1TH {
+  filter: grayscale(1) invert(1) brightness(1);
+}
+
+._3pSPluBgf0NeR1kkCLWMhR ._3O48LaKWcabKx07xdrt1TH {
+  transition: filter 0.3s ease-in-out;
+  color: transparent;
+  background-image: url(https://i.imgur.com/M8kynWD.png) !important;
+  filter: grayscale(1) invert(1) brightness(0.5);
+  background-size: 20px !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+._3O48LaKWcabKx07xdrt1TH {
+  align-self: unset;
+  margin: 0 auto;
+  line-height: 30px;
+}
+
+/* Old version
+.gamelisthome_Label_3O48L:after {
+    content: '🏠';
+    color: transparent;
+    visibility: visible;
+    display: block;
+    position: absolute;
+    padding: 5px 11px;
+    top: 2px;
+}*/
+/* ==================== Game Properties ====================
+   ========================================================================== */
+:root {
+  --CheckBoxColor: rgb(93 99 112 / 50%);
+  --StatusColor: rgb(93 99 112 / 20%);
+}
+
+.DialogContent {
+  padding: 10px 24px;
+}
+
+.DialogContentTransition {
+  flex: 5.3;
+  width: unset;
+  max-width: unset;
+}
+
+.ModalDialogPopup .DialogContentTransition .DialogBody {
+  overflow-y: hidden;
+}
+
+._1FyBL6obxHQ2Z2CsaV2Gbz ._2V2nc3qHRjg_726Zc2HT28 {
+  background: var(--CheckBoxColor);
+}
+
+.DialogTextInputBase, ._DialogInputContainer {
+  background: var(--CheckBoxColor);
+}
+
+._1FyBL6obxHQ2Z2CsaV2Gbz .DialogBody ._3lj3-GDYOlcoIFB3fFo1ko {
+  background: var(--StatusColor);
+}
+
+/* ========================================================================== 
+   END Game Properties */
+/* Custom CSS (module 1)
+   ========================================================================== */
+/* ========================================================================== 
+   END Custom CSS (module 1) */
+/* Custom CSS (module 2)
+   ========================================================================== */
+/* ========================================================================== 
+   END Custom CSS (module 2) */
+/* Crisp Cut Theme
+   by Jonius7
+*/
+:root {
+  --LightSectionColor1: #dddddd;
+  --LightSectionColor2: #8a8a8a;
+  --SectionFontColor1: #1d1d1d;
+  --SectionFontColor2: #0c0c0f;
+  --LinksFontColor: #0d0d0d;
+}
+
+/* full background color */
+._3FmxxjyWNHU1PrBGnBe6tm._2l416KfEtI4CL0mCUEmOBw {
+  /*background-image: radial-gradient(100% 100% at 45% 35%, #095aef 0%, #151616 100%);*/
+  /*background-image: radial-gradient(100% 100% at top left, rgba(231,235,241,0.2) 0%, rgba(160,162,168,0.4) 10%, rgba(21, 22, 22, 1) 100%);*/
+  background-image: none;
+}
+
+/* background glass */
+._2OOzYVWIHaKXm6_7sscT9i ._1Qa-Aq8WFiF9584yU_1xuC {
+  /*background: linear-gradient(180deg, rgba(40, 41, 49, 0.2) 0%, rgba(22,22,22, 0.7) 10%, rgba(33,33,35,0.7) 92%, rgba(22,22,23,0) 100%);*/
+}
+
+._2OOzYVWIHaKXm6_7sscT9i .Jbe--NUNw7sxbxGsMSjVa {
+  /*background: none;*/
+}
+
+/* section top gradient */
+._38t1mljBjmJfqjpVzMT1CG {
+  background: linear-gradient(to right, #5f7d82 0%, #0f2650 95%);
+}
+
+/* rightcolumn section bottom gradient */
+._31ptFGGMZrSQc5BCX1e5lm._3KfxIwlXEvum7FCD_AM2_t {
+  /*background: radial-gradient(100% 100% at top left, rgba(60,60,120,0.8) 50%, rgba(120,120,120,0.8) 100%);*/
+  background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
+  box-shadow: 6px 6px 2px #101010ee;
+}
+
+._1wJJQwnV-ssGrL0xveFujy.Panel.Focusable {
+  background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
+}
+
+._2gv3EsHSu5dMQyMqaz-W9t {
+  background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
+}
+
+._2aor4XVOYzN1PBSREk0UbO * :not(path):not(circle):not(._3i0kopAostOz2IDi9HqmeN) {
+  color: var(--SectionFontColor2) !important;
+  fill: var(--SectionFontColor2) !important;
+  stroke: var(--SectionFontColor2) !important;
+}
+
+._1SQ30LQnUhED7sXI79rmas {
+  color: var(--LightSectionColor1) !important;
+}
+
+._1SQ30LQnUhED7sXI79rmas * {
+  color: var(--LightSectionColor1) !important;
+}
+
+div.S2Fu9HxHCA5MaCLGrN2ib ._19LfMT7PFWg2xHOqNjR99q {
+  color: var(--LightSectionColor1) !important;
+}
+
+/* Workshop */
+._38t1mljBjmJfqjpVzMT1CG._1zmwcbn8AgDTiWuHGyMD2w {
+  background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
+}
+
+button.DialogButton._DialogLayout.Secondary._36eP4b2RWX7MYVqoslSplf {
+  color: var(--LightSectionColor1) !important;
+}
+
+._2LXfssF4egV9imnrzSZrtx * {
+  color: var(--LightSectionColor1) !important;
+}
+
+/* Event */
+._1AYE16384J_ecLpN0sEYc5, .LibriMVXcLl1HB60ZUp78 {
+  background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
+  box-shadow: 6px 6px 2px #101010ee;
+  border: 0;
+}
+
+.UVeN0kaD3zv1feMj_mMw5 .NEMXhMlqXOCJwfgWlHXhT {
+  background: radial-gradient(100% 100% at top left, rgba(240, 240, 240, 0.8) 50%, rgba(120, 120, 120, 0.8) 100%);
+}
+
+._1HZy7BvOZuPT8feUwadL4W {
+  background: none;
+  transition: all 0.2s ease-out;
+}
+
+.UVeN0kaD3zv1feMj_mMw5 * {
+  color: var(--SectionFontColor2) !important;
+  fill: var(--SectionFontColor2) !important;
+}
+
+._1yWgPveQ73QeYCdLcs6oFQ * {
+  color: var(--LightSectionColor1) !important;
+  fill: var(--LightSectionColor1) !important;
+}
+
+.QCKBqF2k_sRLcXJ5qQIEl * {
+  color: var(--LightSectionColor2) !important;
+}
+
+._1t1iyV4uBG9M9tTM7rCFNu > .personanameandstatus_playerName_nOdcT {
+  color: var(--LightSectionColor1) !important;
+}
+
+/* Review */
+._3AXaY4djCODzJ6On5MRKno *, ._3QZfwcmLlT0T6WNXW7vqx1 * {
+  fill: #61b6e8 !important;
+}
+
+._1vUp7sGvRrUPsckOw9xPOT *, .GUO5K0ftV5i7CbuQe3rV5 * {
+  fill: #ec666d !important;
+}
+
+/* Post button text color */
+._3x31AgESSlUqX3D4MTHv2m ._37e7DrDNmf1FmsMGA5y0A0 ._2JSyABqFEh-v_dwaTnBydR ._3jvEkfXhmZjvEbkpEv5EsH {
+  color: #888 !important;
+}
+
+._3x31AgESSlUqX3D4MTHv2m ._37e7DrDNmf1FmsMGA5y0A0 ._2JSyABqFEh-v_dwaTnBydR.bGfjajFo4DI-ULSQxw1KY ._3jvEkfXhmZjvEbkpEv5EsH {
+  color: white !important;
+}
+
+._3x31AgESSlUqX3D4MTHv2m ._1JlC29Ic6L-QvL-39X_d-X {
+  color: #b1b0b0 !important;
+}
+
+.IYDCY3MhJV7rB4ftg78kA {
+  color: rgba(45, 185, 255, 0.521) !important;
+}
+
+._1iGSGL7J1nNSmvXA-SqjQb {
+  color: #2db9ff !important;
+}
+
+/* Play bar */
+._3Yf8b2v5oOD8Wqsxu04ar._1U7LKpx70kEsz3jJwAFOi- {
+  background: radial-gradient(100% 100% at top left, rgba(95, 125, 130, 0.8) 0%, rgba(15, 38, 80, 0.8) 95%);
+}
+
+/* Navigation bar */
+._2r4TK4BAuU-J4FuF_O7v_5._3-V8vjmrwuJM6Ws3tsjFJj > div {
+  margin: 0px 0px 8px 0px;
+  background: radial-gradient(100% 100% at top left, rgba(15, 38, 80, 0.8) 88%, rgba(10, 33, 75, 0.8) 98%) !important;
+  box-shadow: 6px 6px 2px #101010ee !important;
+}
+
+._3-V8vjmrwuJM6Ws3tsjFJj ._25f0fX6qbgdB7O_lMrbhCN {
+  /*padding: 0px 26px 3px 20px !important;*/
+}
+
+._3-V8vjmrwuJM6Ws3tsjFJj {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+._5uvIN6jXDXzzck59F-nhv._25f0fX6qbgdB7O_lMrbhCN * {
+  color: var(--LightSectionColor1);
+}
+
+/* Achievements */
+.RPcyJMJC7chgPFkD4KWtO._2feGA5T49Nk1_dTnwfOnL {
+  border: 2px dashed #313131;
+}
+
+._2aVnDeExEHiUFX0zwr_BTO.lZ2c49vTWJ60klQOY9l2K * {
+  color: var(--LightSectionColor1) !important;
+}
+
+/* Hover */
+button.DialogButton._3Cdin80d-hVsakHUZboheb._3nJyYxGQ3kdwwabPmxNnMe:hover {
+  background-color: rgba(151, 163, 178, 0.358);
+}
