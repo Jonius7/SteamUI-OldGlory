@@ -16,9 +16,11 @@
 ._1_yS5UP7el0aN4vntx3dx {
     padding: 0;
     position: absolute;
-    --steam-control-width: 0px;
+    --steam-control-width: 243px;
     right: calc(var(--steam-control-width) + var(--username-length));
     top: 6px;
+    display: flex;
+    align-items: end;
 }
 
 /** ================================================================================== **/
