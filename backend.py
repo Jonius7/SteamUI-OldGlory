@@ -1146,6 +1146,7 @@ def backup_libraryroot_css(install_location="Steam"):
     try:
         local_libraryroot_custom_css = "libraryroot.custom.css"
         if install_location == "Steam":
+            libraryroot_dir = library_dir()
             libraryroot_custom_css = library_dir() + "/" + "libraryroot.custom.css"
             libraryroot_custom_css_backup = library_dir() + "/" + "libraryroot.custom.css.backup"
             libraryroot_custom_css_backup2 = library_dir() + "/" + "libraryroot.custom.css.backup2"
@@ -1153,6 +1154,7 @@ def backup_libraryroot_css(install_location="Steam"):
             local_skin_json = "skin.json"
             skin_json = skins_dir() + "/" + "skin.json"
             skin_json_backup = skins_dir() + "/" + "skin.json.backup"
+            libraryroot_dir = skins_dir()
             libraryroot_custom_css = skins_dir() + "/" + "libraryroot.custom.css"
             libraryroot_custom_css_backup = skins_dir() + "/" + "libraryroot.custom.css.backup"
             libraryroot_custom_css_backup2 = skins_dir() + "/" + "libraryroot.custom.css.backup2"
@@ -1174,6 +1176,7 @@ def backup_libraryroot_css(install_location="Steam"):
                     print("backed up libraryroot.custom.css to " + libraryroot_custom_css_backup)
                 shutil.copy2(local_libraryroot_custom_css, libraryroot_custom_css)
             elif not os.path.isfile(libraryroot_custom_css):
+                Path(libraryroot_dir).mkdir(parents=True, exist_ok=True)
                 shutil.copy2(local_libraryroot_custom_css, libraryroot_custom_css)
             print("File " + local_libraryroot_custom_css + " written to " + libraryroot_custom_css)
             

@@ -10,11 +10,7 @@
     "author": "Jonius7",
     "description": "OldGlory comes to Millennium!",
     "name": "OldGlory",
-    "version": "1.0.0", 
-    "github": {
-        "owner": "Jonius7",
-        "repo_name": "SteamUI-OldGlory"
-    },
+    "version": "1.0.1", 
     "discord_support": {
         "inviteCodeExcludingLink": "hScVrvxJWy"
     },
