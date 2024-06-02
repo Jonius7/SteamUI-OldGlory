@@ -247,26 +247,46 @@ def OS_open_file(path):
         print("Opened: " + path)
     except:
         print_traceback()
+
+
+
+def steam_dir():
+    '''
+    UTILITY: Returns Steam path (/steamui) for Windows, Mac, Linux.
+    '''
+    try:
+        steam_path = ""
+        if OS_TYPE == "Windows":
+            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
+            steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
+            steam_path = steam_path.replace("/","\\")
+            #print(steamui_path)
+        elif OS_TYPE ==  "Darwin":
+            steam_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam"
+        elif OS_TYPE ==  "Linux":
+            steam_path = os.path.expandvars('$HOME') + "/.steam/steam"
+        return steam_path
+    except:
+        print("Steam directory not found. Is Steam installed/has been run under this User?", file=sys.stderr)
+        print_traceback()
+        
+def package_dir():
+    '''
+    UTILITY: Returns Steam package path (/steamui) for Windows, Mac, Linux.
+    '''
+    package_path = steam_dir() + "/package"
+    if OS_TYPE == "Windows":
+        package_path = package_path.replace("/","\\")
+    return package_path
     
 def library_dir():
     '''
     UTILITY: Returns Steam library path (/steamui) for Windows, Mac, Linux.
     '''
-    try:
-        steamui_path = ""
-        if OS_TYPE == "Windows":
-            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
-            steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
-            steamui_path = steam_path.replace("/","\\") + "\steamui"
-            #print(steamui_path)
-        elif OS_TYPE ==  "Darwin":
-            steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "/steamui"
-        elif OS_TYPE ==  "Linux":
-            steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "/steamui"
-        return steamui_path
-    except:
-        print("Steam Library directory not found. Is Steam installed/has been run under this User?", file=sys.stderr)
-        print_traceback()
+    library_path = steam_dir() + "/steamui"
+    if OS_TYPE == "Windows":
+        library_path = library_path.replace("/","\\")
+    return library_path
 
 def skins_dir():
     skins_path = library_dir() + "/skins/OldGlory"
@@ -340,12 +360,13 @@ def get_md5_file_hash(filepath):
         print("Unable to get hash of file: " + filepath, file=sys.stderr)
         print_traceback()
         
-def get_path_with_wildcard(filepath = r"C:\Program Files (x86)\0E Games\Steam\package",
+def get_path_with_wildcard(filepath = r"C:\Program Files (x86)\Steam\package",
                            search_term = "steamui_websrc_all.zip.vz.*"):
     '''
     UTILITY: Returns the filepath (filename) of file using a search wildcard
         defaults to Steam\package steamui_websrc_all.zip.vz.* file
     '''
+    #if os.path.isfile(Path(filepath).glob(search_term)):
     return next(Path(filepath).glob(search_term))
 
 ### Check CSS Patched
@@ -1332,7 +1353,7 @@ def update_json_last_patched_date(json_data):
     write_json_data(json_data)
     
 def update_steamui_websrc_hash(json_data):
-    json_data["steamui_websrc_all.zip.vz_hash"] = get_md5_file_hash(get_path_with_wildcard())
+    json_data["steamui_websrc_all.zip.vz_hash"] = get_md5_file_hash(get_path_with_wildcard(package_dir()))
     write_json_data(json_data)
 
 ### file management functions as part of auto-update
