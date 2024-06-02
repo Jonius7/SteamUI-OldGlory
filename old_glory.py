@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "1.1.2"
-        self.release = "5.14-pre1"
+        self.version = "1.1.3"
+        self.release = "5.14"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -71,8 +71,10 @@ class OldGloryApp(tk.Tk):
         self.show_frame("StartPage")
 
         ### Run Update Checks with show frame
-        thread = Thread(target = self.update_check, args = ())
-        thread.start()
+        thread1 = Thread(target = self.steam_update_check, args = ())
+        thread1.start()
+        thread2 = Thread(target = self.update_check, args = ())
+        thread2.start()
         
     def set_window_dimensions(self, width, height):
         self.windowW = width
@@ -129,6 +131,12 @@ class OldGloryApp(tk.Tk):
                 if frame.__name__ == name:
                     return frame
     '''
+    
+    def steam_update_check(self):
+        pass
+        self.current_file_hash = backend.get_md5_file_hash(backend.get_path_with_wildcard())
+        if self.current_file_hash != self.json_data["steamui_websrc_all.zip.vz_hash"]:
+            print("New Steam Update detected. If the Steam window does not appear, try using the Remake JS button in Settings.", file=sys.stderr)
     
     #init text log
     def update_check(self):        
@@ -1544,7 +1552,8 @@ def reset_all_tweaks(event, controller):
     backend.clear_js_working_files()
 
 def remake_js(event, controller):
-    backend.clear_js_working_files()    
+    controller.json_data["steamui_websrc_all.zip.vz_hash"] = controller.current_file_hash
+    backend.clear_js_working_files() 
     thread = Thread(target = run_js_tweaker, args = (controller, 1,))
     thread.start()
     #thread.join()

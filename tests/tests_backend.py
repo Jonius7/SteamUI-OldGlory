@@ -72,7 +72,7 @@ class TestCSSLineParser(unittest.TestCase):
 
     def test_get_function_performance(self):
         start_time = time.time()
-        print(backend.get_file_hash("../scss/_sidebar.scss"))
+        print(backend.get_git_file_hash("../scss/_sidebar.scss"))
         print("--- %s seconds ---" % (time.time() - start_time))
 
     

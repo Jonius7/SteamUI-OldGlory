@@ -12,8 +12,8 @@ import sass
 from datetime import datetime, timezone
 import requests
 from requests_oauthlib import OAuth1Session
-from hashlib import sha1
-import time
+import hashlib
+from pathlib import Path
 
 ##########################################
 ### CONSTANTS
@@ -294,22 +294,22 @@ def help():
     #for item in l:
         
     
-def get_file_hash(filepath):
+def get_git_file_hash(filepath, encoding="UTF-8"):
     '''
     UTILITY: Returns the git SHA hash of a file.
     '''
     try:
         #exclude .png for filehash
         if os.path.isfile(filepath) and os.path.splitext(filepath)[1] != ".png":
-            with open(filepath, 'r', encoding="UTF-8") as f, \
-                open(filepath + ".temp", 'w', encoding="UTF-8", newline='\n') as f1:
+            with open(filepath, 'r', encoding=encoding) as f, \
+                open(filepath + ".temp", 'w', encoding=encoding, newline='\n') as f1:
                 f1.writelines(f.readlines())
             f.close()
             f1.close()
 
             filesize_bytes = os.path.getsize(filepath + ".temp")
 
-            s = sha1()
+            s = hashlib.sha1()
             s.update(b"blob %u\0" % filesize_bytes)
             
             with open(filepath + ".temp", 'rb') as g:
@@ -323,6 +323,30 @@ def get_file_hash(filepath):
     except:
         print("Unable to get hash of file: " + filepath, file=sys.stderr)
         print_traceback()
+
+def get_md5_file_hash(filepath):
+    '''
+    UTILITY: Returns the MD5 hash of a file.
+    '''
+    try:
+        #exclude .png for filehash
+        if os.path.isfile(filepath):
+            with open(filepath, "rb") as f:
+                file_hash = hashlib.md5()
+                while chunk := f.read(8192):
+                    file_hash.update(chunk)
+            return file_hash.hexdigest()
+    except:
+        print("Unable to get hash of file: " + filepath, file=sys.stderr)
+        print_traceback()
+        
+def get_path_with_wildcard(filepath = r"C:\Program Files (x86)\0E Games\Steam\package",
+                           search_term = "steamui_websrc_all.zip.vz.*"):
+    '''
+    UTILITY: Returns the filepath (filename) of file using a search wildcard
+        defaults to Steam\package steamui_websrc_all.zip.vz.* file
+    '''
+    return next(Path(filepath).glob(search_term))
 
 ### Check CSS Patched
 def is_css_patched(filename="2.css"):
@@ -1306,6 +1330,10 @@ def update_json_last_patched_date(json_data):
     json_data["lastPatchedDate"] = get_remote_datetime()
     #print(json_data)
     write_json_data(json_data)
+    
+def update_steamui_websrc_hash(json_data):
+    json_data["steamui_websrc_all.zip.vz_hash"] = get_md5_file_hash(get_path_with_wildcard())
+    write_json_data(json_data)
 
 ### file management functions as part of auto-update
 ### file_dates - dictionary of filenames with their dates
@@ -1336,7 +1364,7 @@ def hash_compare_small_update_files(file_dates, json_data):
                         #print(local_filepath)
                         if os.path.exists(local_filepath) and os.path.isfile(local_filepath):
                             #if local hash != remote hash
-                            if (get_file_hash(local_filepath) != filedata["sha"] and
+                            if (get_git_file_hash(local_filepath) != filedata["sha"] and
                                  local_filepath != "scss/libraryroot.custom.scss" and
                                  local_filepath != "scss/_custom_module1.scss" and
                                  local_filepath != "scss/_custom_module2.scss"):                
@@ -1353,7 +1381,7 @@ def hash_compare_small_update_files(file_dates, json_data):
                                 dir_filepath = local_filepath + "/" + dir_filedata["name"]
                                 if (os.path.exists(dir_filepath) and
                                 os.path.isfile(dir_filepath)):
-                                    if (get_file_hash(dir_filepath) != filedata["sha"] and
+                                    if (get_git_file_hash(dir_filepath) != filedata["sha"] and
                                     os.path.splitext(dir_filepath)[1] != ".png"):
                                         print("New Version | " + dir_filepath)
                                         updatetype_files.append(dir_filepath)

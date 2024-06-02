@@ -1,6 +1,8 @@
 ## SteamUI-OldGlory GUI Changelog
 
-1.1.2		
+1.1.3		Now auto-checks if there is a new Steam Update and notifies accordingly
+
+1.1.2			*(5.14-pre1)* New Install Location dropdown (now compatible with Millennium)
 
 **1.1.1.1**	    **(Release 5.13)**
 

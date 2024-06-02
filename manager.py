@@ -57,6 +57,7 @@ def install_click(event, page, controller):
             ### To be changed in a later version
             backend.write_js_fixes(controller.js_config, controller.special_js_config)
             backend.write_css_configurables(controller.css_config)
+            backend.update_steamui_websrc_hash(controller.json_data)
             
             #applying settings
             change_javascript = check_if_css_requires_javascript(page, controller, settings)
