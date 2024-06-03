@@ -26,7 +26,7 @@ DEFAULT_CONFIG = {
     "Filepaths" : {
         "SteamLibraryPath" : "",
         "PatcherPath" : "",
-        "InstallMode" : "Steam",
+        "InstallMode" : "SFP/Millennium",
     },
     "Main_Settings" : {
         "InstallCSSTweaks" : "1",
@@ -252,7 +252,7 @@ def OS_open_file(path):
 
 def steam_dir():
     '''
-    UTILITY: Returns Steam path (/steamui) for Windows, Mac, Linux.
+    UTILITY: Returns Steam path for Windows, Mac, Linux.
     '''
     try:
         steam_path = ""
@@ -272,7 +272,7 @@ def steam_dir():
         
 def package_dir():
     '''
-    UTILITY: Returns Steam package path (/steamui) for Windows, Mac, Linux.
+    UTILITY: Returns Steam package path (/package) for Windows, Mac, Linux.
     '''
     package_path = steam_dir() + "/package"
     if OS_TYPE == "Windows":
@@ -289,6 +289,9 @@ def library_dir():
     return library_path
 
 def skins_dir():
+    '''
+    UTILITY: Returns Steam skins path (steamui/skins/OldGlory) for Windows, Mac, Linux.
+    '''
     skins_path = library_dir() + "/skins/OldGlory"
     if OS_TYPE == "Windows":
         skins_path = skins_path.replace("/","\\")
@@ -950,45 +953,72 @@ def apply_friends_css():
 ##########################################
 ### Patch CSS
 def patch_css():
-    patched_text = "/*patched*/\n"
-    original_text = "/*original*/\n"
-    css_dir = os.path.join(library_dir(), "css")
-    for filename in os.listdir(css_dir):
-        filepath = os.path.join(css_dir, filename)
-        filesize = os.stat(filepath).st_size
-        #print(filepath + " " + str(filesize))
-        if os.path.isfile(filepath):
-            with open(filepath, newline='', encoding="UTF-8") as f:
-                first_line = f.readline()
-                if patched_text[0:-1] in first_line:
-                    print("File " + filename + " already patched.")
-                elif original_text[0:-1] in first_line:
-                    pass
-                else:
-                    contents = patched_text + "@import url(\"https://steamloopback.host/" + "css/" + get_original_filename(filename) + "\");\n@import url(\"https://steamloopback.host/" + get_custom_filename() + "\");\n";
-                    #print(contents)
-                    #print(os.stat(filepath).st_size)
-                    #print(os.stat(filepath).st_size - len(contents))
+    try:
+        patched_text = "/*patched*/\n"
+        original_text = "/*original*/\n"
+        css_dir = os.path.join(library_dir(), "css")
+        for filename in os.listdir(css_dir):
+            filepath = os.path.join(css_dir, filename)
+            filesize = os.stat(filepath).st_size
+            #print(filepath + " " + str(filesize))
+            if os.path.isfile(filepath):
+                with open(filepath, newline='', encoding="UTF-8") as f:
+                    first_line = f.readline()
+                    if patched_text[0:-1] in first_line:
+                        print("File " + filename + " already patched.")
+                    elif original_text[0:-1] in first_line:
+                        pass
+                    elif ".original" in filename:
+                        pass
+                    else:
+                        contents = patched_text + "@import url(\"https://steamloopback.host/" + "css/" + get_original_filename(filename) + "\");\n@import url(\"https://steamloopback.host/" + get_custom_filename() + "\");\n";
+                        #print(contents)
+                        #print(os.stat(filepath).st_size)
+                        #print(os.stat(filepath).st_size - len(contents))
 
-                    with open(filepath, newline='', encoding="UTF-8") as f1, \
-                        open(os.path.join(css_dir, get_original_filename(filename)), "w", newline='', encoding="UTF-8") as f2:
-                        f2.write(original_text)
-                        for line in f1:
-                            f2.write(line)
-                    f2.close()
-                    f1.close()                    
-                    with open(filepath, "w", encoding="UTF-8") as f3:
-                        #print(filesize)
-                        contents += "\t" * (filesize - utf8len(contents) - 3)
-                        #print(tabs)
-                        f3.write(contents)
-                    f3.close()
-                    
-                    print("Patched file " + filename)
-                    
-            f.close()
-        
-    print("----------")
+                        with open(filepath, newline='', encoding="UTF-8") as f1, \
+                            open(os.path.join(css_dir, get_original_filename(filename)), "w", newline='', encoding="UTF-8") as f2:
+                            #f2.write(original_text)
+                            for line in f1:
+                                f2.write(line)
+                        f2.close()
+                        f1.close()                    
+                        with open(filepath, "w", encoding="UTF-8") as f3:
+                            #print(filesize)
+                            contents += "\t" * (filesize - utf8len(contents) - 3)
+                            #print(tabs)
+                            f3.write(contents)
+                        f3.close()
+                        
+                        print("Patched file " + filename)
+                        
+                f.close()
+        print("----------")
+    except Exception as e:
+        print("Error patching file " + filename, file=sys.stderr)
+        print_traceback()
+           
+def unpatch_css():
+    try:
+        css_dir = os.path.join(library_dir(), "css")
+        for filename in os.listdir(css_dir):
+            if (os.path.isfile(os.path.join(css_dir, filename)) and
+                not os.path.isfile(os.path.join(
+                    css_dir, filename.rsplit(".")[0] + ".original." + filename.split(".")[-1])
+                                   )
+                ):
+                print("File " + filename + " already unpatched.")
+            elif filename.endswith(".original.css"):
+                orig_filename = filename.split(".")[0] + "." + filename.split(".")[2]
+                #print(orig_filename)
+                shutil.move(os.path.join(css_dir, filename), os.path.join(css_dir, orig_filename))
+                print("Unpatched file " + orig_filename)
+        print("----------")            
+    except Exception as e:
+        print("Error unpatching file " + filename, file=sys.stderr)
+        print_traceback()
+    
+            
     
 def utf8len(s):
     return len(s.encode('utf-8'))
@@ -1142,15 +1172,15 @@ def write_js_fixes(fixesdata, special_fixesdata):
 ### STEAM DIRECTORY AND CLEAR Functions
 
                     
-def backup_libraryroot_css(install_location="Steam"):
+def backup_libraryroot_css(install_location="SFP"):
     try:
         local_libraryroot_custom_css = "libraryroot.custom.css"
-        if install_location == "Steam":
+        if install_location == "steamui":
             libraryroot_dir = library_dir()
             libraryroot_custom_css = library_dir() + "/" + "libraryroot.custom.css"
             libraryroot_custom_css_backup = library_dir() + "/" + "libraryroot.custom.css.backup"
             libraryroot_custom_css_backup2 = library_dir() + "/" + "libraryroot.custom.css.backup2"
-        elif install_location == "Millennium":
+        elif install_location == "SFP/Millennium":
             local_skin_json = "skin.json"
             skin_json = skins_dir() + "/" + "skin.json"
             skin_json_backup = skins_dir() + "/" + "skin.json.backup"
@@ -1165,7 +1195,7 @@ def backup_libraryroot_css(install_location="Steam"):
         else:
             raise Exception("Invalid install location/type", file=sys.stderr)
         
-        if install_location == "Steam" or install_location == "Millennium":
+        if install_location == "SFP/Millennium" or install_location == "steamui":
             if os.path.isfile(libraryroot_custom_css):
                 print("Existing libraryroot.custom.css code detected.")
                 if os.path.isfile(libraryroot_custom_css_backup):
@@ -1190,7 +1220,7 @@ def backup_libraryroot_css(install_location="Steam"):
                     shutil.copy2(libraryroot_custom_css, libraryroot_custom_css_backup)
                     print("backed up libraryroot.custom.css to " + libraryroot_custom_css_backup)
         
-        if install_location == "Millennium":
+        if install_location == "SFP/Millennium":
             if os.path.isfile(skin_json):
                 print("Existing skin.json code detected.")
                 shutil.copy2(skin_json, skin_json_backup)
@@ -1213,15 +1243,17 @@ def refresh_steam_dir():
         print_traceback()
     
 
-def clean_slate_css():    
+def clean_slate_css():
+    '''
+    Backs up and moves existing libraryroot.custom.css file
+    '''
     try:
-        f = open(library_dir() + "/" + "libraryroot.empty.css", "w", newline='', encoding="UTF-8")
-        #f.write(OS_line_ending())
-        f.close()
+        #f = open(library_dir() + "/" + "libraryroot.empty.css", "w", newline='', encoding="UTF-8")
+        #f.close()
         if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css"):
             shutil.move(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup")
-        shutil.move(library_dir() + "/" + "libraryroot.empty.css", library_dir() + "/" + "libraryroot.custom.css")
-        print("libraryroot.custom.css in Steam directory emptied out, backup at libraryroot.custom.css.backup")
+        #shutil.move(library_dir() + "/" + "libraryroot.empty.css", library_dir() + "/" + "libraryroot.custom.css")
+        print("libraryroot.custom.css backed up at libraryroot.custom.css.backup")
         shutil.copy2("themes/config.css.original", library_dir() + "/" + "config.css")
         
     except:

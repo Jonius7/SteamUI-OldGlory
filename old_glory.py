@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "1.1.3.2"
-        self.release = "5.14.1"
+        self.version = "1.1.3.3"
+        self.release = "5.14.2"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -431,10 +431,20 @@ class StartPage(tk.Frame):
                               width=22
         )
         button4_tip = custom_tk.Detail_tooltip(pbutton4,
-                                     "Alternative to SFP for patching CSS",
+                                     "Old method for patching CSS (still works)",
                                      hover_delay=200)
         pbutton4.bind("<Button-1>", lambda event:backend.patch_css())
         pbutton4.grid(row=1, column=1, padx=(5,0), pady=5)
+        
+        pbutton5 = ttk.Button(self.framePatch,
+                              text="Unpatch CSS",
+                              width=22
+        )
+        button5_tip = custom_tk.Detail_tooltip(pbutton5,
+                                     "Undo Patch CSS (provided files aren't manually modified)",
+                                     hover_delay=200)
+        pbutton5.bind("<Button-1>", lambda event:backend.unpatch_css())
+        pbutton5.grid(row=2, column=1, padx=(5,0), pady=5)
         
         labeltext_d = tk.StringVar()
         labeltext_d.set("Install Location")
@@ -446,7 +456,7 @@ class StartPage(tk.Frame):
         self.dropdown5_value = tk.StringVar()
         self.dropdown5 = ttk.Combobox(self.framePatch,
                                  font="TkDefaultFont",
-                                 values=["Steam", "Millennium", "Local"],
+                                 values=["SFP/Millennium", "steamui", "Local"],
                                  state="readonly",
                                  textvariable=self.dropdown5_value,)
         dropdown5_tip = custom_tk.Detail_tooltip(self.dropdown5,
@@ -853,7 +863,7 @@ def release_check(page, current_release):
         print("Could not connect to Github, Unable to check for latest release!", file=sys.stderr)
     except Exception as e:
         print("Unable to check for latest release!", file=sys.stderr)
-        print(e.message, file=sys.stderr)
+        #print(e.message, file=sys.stderr)
     
 
    
@@ -1547,6 +1557,7 @@ def reset_all_tweaks(event, controller):
     #js_tweaker.setup_library(1)
     #js_tweaker.reset_html
     backend.clean_slate_css()
+    backend.unpatch_css()
     manager.set_css_config_no_js(controller.css_config)
     #backend.reset_html()
     backend.clear_js_working_files()
