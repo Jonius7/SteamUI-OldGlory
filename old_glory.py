@@ -465,6 +465,21 @@ class StartPage(tk.Frame):
         self.dropdown5.set(controller.oldglory_config["Filepaths"]["InstallMode"])
         self.dropdown5.grid(row=4, column=1)
     
+        labeltext_e = tk.StringVar()
+        labeltext_e.set("Developer")
+        
+        label_e = tk.Label(self.framePatch, textvariable=labeltext_e)
+        label_e.grid(row=0, column=2)
+        
+        pbutton6 = ttk.Button(self.framePatch,
+                              text="Compile CSS",
+                              width=22
+        )
+        button6_tip = custom_tk.Detail_tooltip(pbutton6,
+                                     "Compiles scss files to libraryroot.custom.css",
+                                     hover_delay=200)
+        pbutton6.bind("<Button-1>", lambda event:backend.compile_css(controller.json_data))
+        pbutton6.grid(row=1, column=2, padx=(5,0), pady=5)
         
     def create_mode_frame(self):   
     ### MODE FRAME

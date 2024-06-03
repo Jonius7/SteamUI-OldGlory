@@ -733,12 +733,13 @@ def compile_css(json_data):
                     f1.write(line)
         f.close()
         f1.close()
+        print("CSS compiled.")
     except:
         print("Error compiling SCSS to CSS", file=sys.stderr)
         print_traceback()
         
     ###
-    shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
+    #shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
     shutil.move("libraryroot.custom.temp.css", "libraryroot.custom.css")
 
 
