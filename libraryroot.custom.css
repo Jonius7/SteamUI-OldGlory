@@ -319,7 +319,6 @@
 /* ==================== Game AppPage Header ====================
    ========================================================================== */
 .Jbe--NUNw7sxbxGsMSjVa {
-  background: transparent !important;
   backdrop-filter: none !important;
 }
 
@@ -592,6 +591,11 @@ div._2aor4XVOYzN1PBSREk0UbO > div:nth-child(3) {
   margin-bottom: 24px;
 }
 
+/* Added to their library margin */
+.UVeN0kaD3zv1feMj_mMw5._35ZQ6r0nfzLTVQqolxl7as._2CB_RqM2eU0opie2AJ3Eow.Panel {
+  margin-bottom: 22px;
+}
+
 /* Activity Achievement Unlocked to 2 columns */
 .yJLy7HDLJT44C1fcm6lPI {
   padding: 6px;
@@ -642,7 +646,7 @@ div._2aor4XVOYzN1PBSREk0UbO > div:nth-child(3) {
 /* Fix event image and text widths */
 ._1XpBItdUymdlwPZzvvOnyW {
   max-width: 260px;
-  min-width: 240px;
+  min-width: 205px;
   padding: unset;
   padding: 0px 6px;
 }
