@@ -106,11 +106,11 @@ class AutoScrollbar(tk.Scrollbar):
         tk.Scrollbar.set(self, low, high)
         
     def pack(self, **kw): 
-        raise (TclError,"pack cannot be used with "\
+        raise (tk.TclError,"pack cannot be used with "\
         "this widget") 
 
     def place(self, **kw): 
-        raise (TclError, "place cannot be used with "\
+        raise (tk.TclError, "place cannot be used with "\
         "this widget") 
 
 ### ================================
