@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "1.1.3.3"
+        self.version = "1.1.4"
         self.release = "5.14.2"
       
         ### Window Frame
@@ -1032,6 +1032,9 @@ def run_and_update_tkinter(func, widget):
 ### RELOAD Functions
 ### ================================
 def reload_click(event, controller):
+    reload_config(controller)
+    
+def reload_config(controller):
     try:
         print("==============================")
         ### Reload Data
@@ -1090,16 +1093,17 @@ class CSSGUICreator(tk.Frame):
         self.controller = controller
         self.config = config
         ###Outer frame and canvas
-        self.frameCSS = custom_tk.ScrollFrame(page)
+        #self.frameCSS = custom_tk.ScrollFrame(page)
+        self.frameCSS = tk.Frame(page, height=430)
+        self.frameCSS.grid_propagate(0)
         
         self.PresetFrame = PresetFrame(self.frameCSS, controller, config)
         self.framePreset = self.PresetFrame.returnPresetFrame()
         self.PresetFrame.getPresetOptions()
 
         #Configure grid expand
-        self.frameCSS.columnconfigure(0, weight=2)
+        self.frameCSS.columnconfigure(0, weight=1)
         self.frameCSS.rowconfigure(0, weight=1)
-        self.frameCSS.columnconfigure(1, weight=1)
         
         self.framePreset.grid(row=0, column=0, sticky="nsew")
         #self.frameConfigurables.grid(row=0, column=1, sticky="nsew")
@@ -1160,10 +1164,12 @@ DEFAULT_QUICK_CSS = {"Top of Page" : {"value" : "1", "config" :
 class PresetFrame(tk.Frame):
     def __init__(self, parent, controller, config):
         self.parent = parent
-        self.framePreset = tk.Frame(self.parent)
         self.controller = controller
         self.config = config #unused?
+        self.outerFrame = custom_tk.ScrollFrameAdvanced(self.parent)
+        self.framePreset = tk.Frame(self.outerFrame.content)
         self.presetOptions = {}
+        self.framePreset.grid(row=0, column=0)
             
         #label_preset_head = tk.Label(self.framePreset, text="Quick CSS Options (more coming soon)")
         #label_preset_head.grid(row=0, column=0, sticky="nsew")
@@ -1187,6 +1193,7 @@ class PresetFrame(tk.Frame):
                 raise Exception("Property quickCSS in JSON file not found.\n"\
                                 "Unable to load Quick CSS Options.")
         except:
+            print("Error while loading " + presetOption + " in Quick CSS. Also check variable.css", file=sys.stderr)
             print_traceback()
             
     def createFrameLinks(self):
@@ -1225,7 +1232,7 @@ class PresetFrame(tk.Frame):
         
     ###    
     def returnPresetFrame(self):
-        return self.framePreset
+        return self.outerFrame
 
 ###
 ### END PresetFrame
@@ -1352,14 +1359,13 @@ class SectionsGUICreator(tk.Frame):
 class SectionsFrame(tk.Frame):
     def __init__(self, parent, controller):
         self.parent = parent
-        self.frameLine = custom_tk.ScrollFrameAdvanced(self.parent)
         self.controller = controller
+        self.frameLine = custom_tk.ScrollFrameAdvanced(self.parent)
         self.frameLineInner = tk.Frame(self.frameLine.content)
         self.frameLineInner.grid(row=0, column=0)
 
         try:
             self.create_sectionsFrame()
-            self.frameLineInner.grid(row=1, column=0)
         except Exception as e:
             print("Property sections in JSON file not found.\n"\
                                 "Unable to load CSS Sections.", file=sys.stderr)
@@ -1379,6 +1385,7 @@ class SectionsFrame(tk.Frame):
         self.checkvars = {}
         self.comboboxes = {}
         self.tips = {}
+        #print (self.controller.sections_config.items())
         for i, (sectionname, value) in enumerate(self.controller.sections_config.items()):
             _checkvar = tk.IntVar()
             self.checkvars[sectionname] = _checkvar
@@ -1388,11 +1395,13 @@ class SectionsFrame(tk.Frame):
                                         text = sectionname,
                                         variable = _checkvar,
                                         command = lambda sectionname = sectionname: self.section_click(self.controller, sectionname))
-            _label = tk.Label(self.frameLineInner,
-                            #text = "(" + sectionname + ") " + self.controller.json_data["sections"][sectionname]["name"],
-                            text = sectionname,
-                            cursor = "hand2")
+            
             if sectionname in self.controller.json_data["sections"]:
+                _label = tk.Label(self.frameLineInner,
+                    #text = "(" + sectionname + ") " + self.controller.json_data["sections"][sectionname]["name"],
+                    text = sectionname,
+                    cursor = "hand2")
+                
                 if "name" in self.controller.json_data["sections"][sectionname]:
                     _label2 = tk.Label(self.frameLineInner,
                                     text = self.controller.json_data["sections"][sectionname]["name"],
@@ -1406,7 +1415,12 @@ class SectionsFrame(tk.Frame):
                                                 hover_delay=200)
                 self.tips[sectionname] = _tip
             else:
+                _label = tk.Label(self.frameLineInner,
+                    #text = "(" + sectionname + ") " + self.controller.json_data["sections"][sectionname]["name"],
+                    text = sectionname,
+                    cursor = "hand2")
                 _label2 = tk.Label(self.frameLineInner,
+                                    text = "",
                                     cursor = "hand2")
             _checkbutton.grid(row=rownum, column=0, padx=(5,0), sticky='w')
             _label.grid(row=rownum, column=1, sticky='w')

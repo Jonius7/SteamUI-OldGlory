@@ -338,6 +338,54 @@
 			"[Current value]": {
 				"value": "3"
 			}
+		},
+		"Game List Zoom Size": {
+			"75%": {
+				"value": "1",
+				"config": {
+					"--GameListZoomSize": "75%"
+				}
+			},
+			"100%": {
+				"value": "2",
+				"config": {
+					"--GameListZoomSize": "100%"
+				}
+			},
+			"[Current value]": {
+				"value": "3"
+			}
+		},
+		"DLC Available Content": {
+			"Visible": {
+				"value": "1",
+				"config": {
+					"--DLCAvailableContent": "block"
+				}
+			},
+			"Hidden": {
+				"value": "2",
+				"config": {
+					"--DLCAvailableContent": "none"
+				}
+			},
+			"[Current value]": {
+				"value": "3"
+			}
+		},
+		"Recommend This Game": {
+			"Visible": {
+				"value": "1",
+				"config": {
+					"--RecommendGame": "block"
+				}
+			},
+			"Hidden": {
+				"value": "2",
+				"config": {
+					"--RecommendGame": "none"
+				}
+			}
 		}
 	}
 }
