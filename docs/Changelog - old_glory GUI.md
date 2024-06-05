@@ -1,6 +1,18 @@
 ## SteamUI-OldGlory GUI Changelog
 
-1.1.3		Now auto-checks if there is a new Steam Update and notifies accordingly
+1.1.4.2	     **(Release 5.14.2)**
+
+1.1.4.1	     Make `fixes.txt` Linux compatible, fix inconsistencies with line endings
+
+1.1.4		Quick CSS Frame now scrollable
+
+1.1.3.3	    Add Unpatch CSS function, no longer creates empty `libraryroot.custom.css`
+
+**1.1.3.2**	     **(Release 5.14.1)** Fix error if steamui\skins\OldGlory folder isn't created
+
+1.1.3.1	    Fix not accepting default package location
+
+**1.1.3**		**(Release 5.14)** Now auto-checks if there is a new Steam Update and notifies accordingly
 
 1.1.2			*(5.14-pre1)* New Install Location dropdown (now compatible with Millennium)
 
