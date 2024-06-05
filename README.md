@@ -11,7 +11,7 @@
 </p>
 
 
-<h3 align="center"><a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Download Latest Version</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#quick-guide">Quick Guide</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/wiki">Wiki</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/issues/56">Known Issues</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting">Troubleshooting</a></h3>
+<h3 align="center"><a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest">Download Latest Version</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#quick-guide">Quick Guide</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/wiki">Wiki</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory/issues/56">Known Issues</a> | <a href="https://github.com/Jonius7/SteamUI-OldGlory#troubleshooting">Troubleshooting</a> | <a href="https://discord.gg/hScVrvxJWy">Discord</a></h3>
 
 <p align="center">Check <a href="https://github.com/Jonius7/SteamUI-OldGlory/tree/dev"><code>/dev</code></a> branch for in-progress tweaks.</p>
 
@@ -54,6 +54,7 @@ Condensed sidebar buttons <br>
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 - Select the options you want to use, then click **Install**.
 - [If using Shiina's steam-library theme](https://i.imgur.com/1cSW7iI.png), click **Apply config.css** under **Advanced Options**
+- If using [Millennium](https://github.com/SteamClientHomebrew/Millennium), Choose **Millennium** under Advanced Options -> **Install Location**
 - Whenever the Steam Client updates, you'll need to use the **Remake JS** option in Settings if you were previously using any JS tweaks.
 - OldGlory should prompt you to download new files as "small updates" when they are released. Main updates will be notified in the log window.
 - To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/latest).
@@ -259,9 +260,9 @@ The program can't start because `api-ms-win-crt-math-l1-1-0.dll` is missing from
 
 ## Dev Notes
 
-#### For more details, go to [Story](docs/story.md).
+#### For more details, go to [Story](docs/story.md)
 
-#### [CSS Changelog](docs/Changelog - CSS.md) | [GUI Changelog](docs/Changelog - old_glory GUI.md)
+#### [CSS Changelog](docs/Changelog%20-%20CSS.md) | [GUI Changelog](docs/Changelog%20-%20old_glory%20GUI.md)
 
 #### [SteamUI-OldGlory Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki)
 
@@ -281,7 +282,7 @@ Install pyinstaller:
 	`pip install pyinstaller`
 
 Install libraries using `pip`: 
-	`pip install jsbeautifier rjsmin libsass Pillow requests requests_oauthlib maturin`
+	`pip install jsbeautifier rjsmin libsass Pillow requests requests_oauthlib maturin playwright`
 
 Run:
 

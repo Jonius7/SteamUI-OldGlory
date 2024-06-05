@@ -17,7 +17,8 @@
 	"jsModifFile": "sp.modif.js",
 	"jsPatchedFile": "sq.js",
 	"jsOriginalFile": "sp.js.original",
-	"lastPatchedDate": "2024-03-15T04:35:08Z",
+	"steamui_websrc_all.zip.vz_hash": "543ddfbd73d1bb57720f1545974908c7",
+	"lastPatchedDate": "2024-06-03T05:13:10Z",
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",
@@ -336,6 +337,54 @@
 			},
 			"[Current value]": {
 				"value": "3"
+			}
+		},
+		"Game List Zoom Size": {
+			"75%": {
+				"value": "1",
+				"config": {
+					"--GameListZoomSize": "75%"
+				}
+			},
+			"100%": {
+				"value": "2",
+				"config": {
+					"--GameListZoomSize": "100%"
+				}
+			},
+			"[Current value]": {
+				"value": "3"
+			}
+		},
+		"DLC Available Content": {
+			"Visible": {
+				"value": "1",
+				"config": {
+					"--DLCAvailableContent": "block"
+				}
+			},
+			"Hidden": {
+				"value": "2",
+				"config": {
+					"--DLCAvailableContent": "none"
+				}
+			},
+			"[Current value]": {
+				"value": "3"
+			}
+		},
+		"Recommend This Game": {
+			"Visible": {
+				"value": "1",
+				"config": {
+					"--RecommendGame": "block"
+				}
+			},
+			"Hidden": {
+				"value": "2",
+				"config": {
+					"--RecommendGame": "none"
+				}
 			}
 		}
 	}

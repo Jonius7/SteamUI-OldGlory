@@ -417,6 +417,9 @@ button.DialogButton.Primary:enabled:hover:active {
 ._1ZS_xta5HMXzR8JgxDH6n7 ._2PF_m-I5yte3WnQhpcz8RC {
 	color: var(--Label);
 }
+._20QAC4WMXm8qFE8waUT5oo {
+    background-color: unset;
+}
 ._20QAC4WMXm8qFE8waUT5oo .vCCmYvn9yQ_V8CpKupllU ._1TxHdzOt3OD9ikR3xIseKe svg path {
 	fill: var(--Label);
 }

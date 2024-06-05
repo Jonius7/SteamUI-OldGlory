@@ -29,11 +29,11 @@ PortraitWidthLarge: "222px",  PortraitWidthLarge: "200px",
 ###B.Config.STORE_BASE_URL + "events/ajaxgetbesteventsforuser"  ""
 
 ### === Expand Show more Details panel by default ===
-###let e = this.props.expand ? pi().AppDetailsExpanded : pi().AppDetailsCollapsed;  let e = this.props.expand ? pi().AppDetailsCollapsed : pi().AppDetailsExpanded;
+###let e = this.props.expand ? M().AppDetailsExpanded : M().AppDetailsCollapsed;  let e = this.props.expand ? M().AppDetailsCollapsed : M().AppDetailsExpanded;
 ###this.props.expand ? this.state.gameInfoHeight + "px" : "0px"  this.props.expand ? "0px" : this.state.gameInfoHeight + "px"
-###className: pi().GameInfoShadow  className: ""
+###className: M().GameInfoShadow  className: ""
 
 ### === Don't load HOME game images, only alt text ===
-###v && this.BDisplayTitle() && i.createElement("span"  i.createElement("span"
-###this.state.bIsLoaded ?~~rgSources: s,  /* rgSources: s,
+###S && this.BDisplayTitle() && r.createElement("span"  r.createElement("span"
+###this.state.bIsLoaded ?~~rgSources: a,  /* rgSources: a,
 ###onLoad: this.OnImageLoaded,  onLoad: this.OnImageLoaded, */

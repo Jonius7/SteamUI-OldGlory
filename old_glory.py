@@ -25,8 +25,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "1.1.1.1"
-        self.release = "5.13"
+        self.version = "1.1.4.2"
+        self.release = "5.14.2"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -71,8 +71,10 @@ class OldGloryApp(tk.Tk):
         self.show_frame("StartPage")
 
         ### Run Update Checks with show frame
-        thread = Thread(target = self.update_check, args = ())
-        thread.start()
+        thread1 = Thread(target = self.steam_update_check, args = ())
+        thread1.start()
+        thread2 = Thread(target = self.update_check, args = ())
+        thread2.start()
         
     def set_window_dimensions(self, width, height):
         self.windowW = width
@@ -129,6 +131,12 @@ class OldGloryApp(tk.Tk):
                 if frame.__name__ == name:
                     return frame
     '''
+    
+    def steam_update_check(self):
+        pass
+        self.current_file_hash = backend.get_md5_file_hash(backend.get_path_with_wildcard(backend.package_dir()))
+        if self.current_file_hash != self.json_data["steamui_websrc_all.zip.vz_hash"]:
+            print("New Steam Update detected. If the Steam window does not appear, try using the Remake JS button in Settings.", file=sys.stderr)
     
     #init text log
     def update_check(self):        
@@ -187,7 +195,7 @@ class StartPage(tk.Frame):
     
     ### Functions - Frames and Pack
         self.create_check_frame()
-        self.create_patch_frame()
+        self.create_patch_frame(controller)
         self.create_mode_frame()
         self.create_confirm_frame()
         self.set_init_gui_states()
@@ -370,7 +378,7 @@ class StartPage(tk.Frame):
         #self.image1 = add_img(self.frameCheck, os.path.join(os.getcwd(), 'images/full_layout.png'))
         #self.image1.grid(row=0, column=4, rowspan=8, padx=5, sticky="n")      
     
-    def create_patch_frame(self):
+    def create_patch_frame(self, controller):
     ### PATCH FRAME
     ###
         
@@ -423,11 +431,55 @@ class StartPage(tk.Frame):
                               width=22
         )
         button4_tip = custom_tk.Detail_tooltip(pbutton4,
-                                     "Alternative to SFP for patching CSS",
+                                     "Old method for patching CSS (still works)",
                                      hover_delay=200)
         pbutton4.bind("<Button-1>", lambda event:backend.patch_css())
         pbutton4.grid(row=1, column=1, padx=(5,0), pady=5)
+        
+        pbutton5 = ttk.Button(self.framePatch,
+                              text="Unpatch CSS",
+                              width=22
+        )
+        button5_tip = custom_tk.Detail_tooltip(pbutton5,
+                                     "Undo Patch CSS (provided files aren't manually modified)",
+                                     hover_delay=200)
+        pbutton5.bind("<Button-1>", lambda event:backend.unpatch_css())
+        pbutton5.grid(row=2, column=1, padx=(5,0), pady=5)
+        
+        labeltext_d = tk.StringVar()
+        labeltext_d.set("Install Location")
+        
+        label_d = tk.Label(self.framePatch, textvariable=labeltext_d)
+        label_d.grid(row=3, column=1)
+        
+        ###
+        self.dropdown5_value = tk.StringVar()
+        self.dropdown5 = ttk.Combobox(self.framePatch,
+                                 font="TkDefaultFont",
+                                 values=["SFP/Millennium", "steamui", "Local"],
+                                 state="readonly",
+                                 textvariable=self.dropdown5_value,)
+        dropdown5_tip = custom_tk.Detail_tooltip(self.dropdown5,
+                                     "Select install location for OldGlory files",
+                                     hover_delay=200)
+        self.dropdown5.set(controller.oldglory_config["Filepaths"]["InstallMode"])
+        self.dropdown5.grid(row=4, column=1)
     
+        labeltext_e = tk.StringVar()
+        labeltext_e.set("Developer")
+        
+        label_e = tk.Label(self.framePatch, textvariable=labeltext_e)
+        label_e.grid(row=0, column=2)
+        
+        pbutton6 = ttk.Button(self.framePatch,
+                              text="Compile CSS",
+                              width=22
+        )
+        button6_tip = custom_tk.Detail_tooltip(pbutton6,
+                                     "Compiles scss files to libraryroot.custom.css",
+                                     hover_delay=200)
+        pbutton6.bind("<Button-1>", lambda event:backend.compile_css(controller.json_data))
+        pbutton6.grid(row=1, column=2, padx=(5,0), pady=5)
         
     def create_mode_frame(self):   
     ### MODE FRAME
@@ -826,7 +878,7 @@ def release_check(page, current_release):
         print("Could not connect to Github, Unable to check for latest release!", file=sys.stderr)
     except Exception as e:
         print("Unable to check for latest release!", file=sys.stderr)
-        print(e.message, file=sys.stderr)
+        #print(e.message, file=sys.stderr)
     
 
    
@@ -980,6 +1032,9 @@ def run_and_update_tkinter(func, widget):
 ### RELOAD Functions
 ### ================================
 def reload_click(event, controller):
+    reload_config(controller)
+    
+def reload_config(controller):
     try:
         print("==============================")
         ### Reload Data
@@ -1038,16 +1093,17 @@ class CSSGUICreator(tk.Frame):
         self.controller = controller
         self.config = config
         ###Outer frame and canvas
-        self.frameCSS = custom_tk.ScrollFrame(page)
+        #self.frameCSS = custom_tk.ScrollFrame(page)
+        self.frameCSS = tk.Frame(page, height=430)
+        self.frameCSS.grid_propagate(0)
         
         self.PresetFrame = PresetFrame(self.frameCSS, controller, config)
         self.framePreset = self.PresetFrame.returnPresetFrame()
         self.PresetFrame.getPresetOptions()
 
         #Configure grid expand
-        self.frameCSS.columnconfigure(0, weight=2)
+        self.frameCSS.columnconfigure(0, weight=1)
         self.frameCSS.rowconfigure(0, weight=1)
-        self.frameCSS.columnconfigure(1, weight=1)
         
         self.framePreset.grid(row=0, column=0, sticky="nsew")
         #self.frameConfigurables.grid(row=0, column=1, sticky="nsew")
@@ -1108,10 +1164,12 @@ DEFAULT_QUICK_CSS = {"Top of Page" : {"value" : "1", "config" :
 class PresetFrame(tk.Frame):
     def __init__(self, parent, controller, config):
         self.parent = parent
-        self.framePreset = tk.Frame(self.parent)
         self.controller = controller
         self.config = config #unused?
+        self.outerFrame = custom_tk.ScrollFrameAdvanced(self.parent)
+        self.framePreset = tk.Frame(self.outerFrame.content)
         self.presetOptions = {}
+        self.framePreset.grid(row=0, column=0)
             
         #label_preset_head = tk.Label(self.framePreset, text="Quick CSS Options (more coming soon)")
         #label_preset_head.grid(row=0, column=0, sticky="nsew")
@@ -1135,6 +1193,7 @@ class PresetFrame(tk.Frame):
                 raise Exception("Property quickCSS in JSON file not found.\n"\
                                 "Unable to load Quick CSS Options.")
         except:
+            print("Error while loading " + presetOption + " in Quick CSS. Also check variable.css", file=sys.stderr)
             print_traceback()
             
     def createFrameLinks(self):
@@ -1173,7 +1232,7 @@ class PresetFrame(tk.Frame):
         
     ###    
     def returnPresetFrame(self):
-        return self.framePreset
+        return self.outerFrame
 
 ###
 ### END PresetFrame
@@ -1300,14 +1359,13 @@ class SectionsGUICreator(tk.Frame):
 class SectionsFrame(tk.Frame):
     def __init__(self, parent, controller):
         self.parent = parent
-        self.frameLine = custom_tk.ScrollFrameAdvanced(self.parent)
         self.controller = controller
+        self.frameLine = custom_tk.ScrollFrameAdvanced(self.parent)
         self.frameLineInner = tk.Frame(self.frameLine.content)
         self.frameLineInner.grid(row=0, column=0)
 
         try:
             self.create_sectionsFrame()
-            self.frameLineInner.grid(row=1, column=0)
         except Exception as e:
             print("Property sections in JSON file not found.\n"\
                                 "Unable to load CSS Sections.", file=sys.stderr)
@@ -1327,6 +1385,7 @@ class SectionsFrame(tk.Frame):
         self.checkvars = {}
         self.comboboxes = {}
         self.tips = {}
+        #print (self.controller.sections_config.items())
         for i, (sectionname, value) in enumerate(self.controller.sections_config.items()):
             _checkvar = tk.IntVar()
             self.checkvars[sectionname] = _checkvar
@@ -1336,11 +1395,13 @@ class SectionsFrame(tk.Frame):
                                         text = sectionname,
                                         variable = _checkvar,
                                         command = lambda sectionname = sectionname: self.section_click(self.controller, sectionname))
-            _label = tk.Label(self.frameLineInner,
-                            #text = "(" + sectionname + ") " + self.controller.json_data["sections"][sectionname]["name"],
-                            text = sectionname,
-                            cursor = "hand2")
+            
             if sectionname in self.controller.json_data["sections"]:
+                _label = tk.Label(self.frameLineInner,
+                    #text = "(" + sectionname + ") " + self.controller.json_data["sections"][sectionname]["name"],
+                    text = sectionname,
+                    cursor = "hand2")
+                
                 if "name" in self.controller.json_data["sections"][sectionname]:
                     _label2 = tk.Label(self.frameLineInner,
                                     text = self.controller.json_data["sections"][sectionname]["name"],
@@ -1354,7 +1415,12 @@ class SectionsFrame(tk.Frame):
                                                 hover_delay=200)
                 self.tips[sectionname] = _tip
             else:
+                _label = tk.Label(self.frameLineInner,
+                    #text = "(" + sectionname + ") " + self.controller.json_data["sections"][sectionname]["name"],
+                    text = sectionname,
+                    cursor = "hand2")
                 _label2 = tk.Label(self.frameLineInner,
+                                    text = "",
                                     cursor = "hand2")
             _checkbutton.grid(row=rownum, column=0, padx=(5,0), sticky='w')
             _label.grid(row=rownum, column=1, sticky='w')
@@ -1520,12 +1586,14 @@ def reset_all_tweaks(event, controller):
     #js_tweaker.setup_library(1)
     #js_tweaker.reset_html
     backend.clean_slate_css()
+    backend.unpatch_css()
     manager.set_css_config_no_js(controller.css_config)
     #backend.reset_html()
     backend.clear_js_working_files()
 
 def remake_js(event, controller):
-    backend.clear_js_working_files()    
+    controller.json_data["steamui_websrc_all.zip.vz_hash"] = controller.current_file_hash
+    backend.clear_js_working_files() 
     thread = Thread(target = run_js_tweaker, args = (controller, 1,))
     thread.start()
     #thread.join()
@@ -1678,7 +1746,7 @@ def settings_window(event, controller):
                     highlightthickness=0,
                     wrap='word',
                     width=70,
-                    height=8)
+                    height=10)
 
     hyperlink = custom_tk.HyperlinkManager(about)
     
@@ -1686,9 +1754,10 @@ def settings_window(event, controller):
     about.insert(tk.END, "and provide some extra functionality where possible.\n\n")
     about.insert(tk.END, 'Github: ')
     about.insert(tk.END, "github.com/Jonius7/SteamUI-OldGlory/", hyperlink.add(partial(webbrowser.open, "https://github.com/Jonius7/SteamUI-OldGlory/")))
-    about.insert(tk.END, "\n\nCan be used with SFP (SteamFriendsPatcher):\n")
+    about.insert(tk.END, "\n\nCan be used with SFP (SteamFriendsPatcher) or Millennium Patcher:\n")
     about.insert(tk.END, "https://github.com/PhantomGamers/SFP/", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SFP/")))
-
+    about.insert(tk.END, "\n")
+    about.insert(tk.END, "https://github.com/SteamClientHomebrew/Millennium/", hyperlink.add(partial(webbrowser.open, "https://github.com/SteamClientHomebrew/Millennium/")))
     about.config(state='disabled') 
 
     about.grid(row=2, column=0, sticky="w", pady=(0,15))

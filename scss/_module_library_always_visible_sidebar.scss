@@ -1,0 +1,40 @@
+/* ==================== Library Sidebar always visible ====================
+   ==================== Credit: canitakemasoulbackpls ====================
+   ========================================================================== */
+   ._1rDh5rXSFZJOqCa4UpnI4z {
+	flex-direction: row !important;
+}
+
+.RGNMWtyj73_-WdhflrmuY {
+	display: flex !important;
+}
+
+._9sPoVBFyE_vE87mnZJ5aB {
+	width: 256px !important;
+}
+
+._276E6ijBpjMA2_iTxNhhjc {
+	cursor: default !important;
+}
+
+/* Uncomment to hide the library tab */
+/*[class*="supernav_SuperNavMenu_"]:nth-of-type(2),*/
+._2CmrnGY-Amtd83ScJkFvx2 {
+	display: none !important;
+}
+
+.UkR3sY319PuaUNuUWks2K {
+	box-shadow: inset rgba(61,68,80,.25) -1px -1px 0px 0px !important;
+}
+
+/* Uncomment for the sidebar to be on the right side */
+/*[class*="steamdesktop_ContentFrame_"],
+[class*="library_Container_"] {
+	flex-direction: row-reverse !important;
+}
+
+[class*="steamdesktop_URLBar_"] {
+	box-shadow: inset rgba(61,68,80,.75) 1px 0px 0px 0px, inset rgba(61,68,80,.25) -1px -1px 0px 0px !important;
+}*/
+
+/** ================================================================================== **/

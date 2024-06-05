@@ -62,6 +62,15 @@ div.LowPerfMode ._3DeO92O5aVkcdwEBCJDjWm._3fLo166MlaNqP8r8tTyRz {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
 }
+
+
+
+/*Dark UI Additions by FatheredPuma81*/
+/*Dark UI Additions by FatheredPuma81*/
+/*Dark UI Additions by FatheredPuma81*/
+
+
+
 /*ENTIRE BAR*/
 ._1bq4x9pa4-9RLY-dXWUZTp {
     background: none;
@@ -72,6 +81,116 @@ div.LowPerfMode ._3DeO92O5aVkcdwEBCJDjWm._3fLo166MlaNqP8r8tTyRz {
     background-color: #171717;
     border-radius: 2px;
 }
+
+
+/*Shelf/Background Page Stuff*/
+
+/*Library Shelf Page Background*/
+._2gSXCB6PbOlMxslr8hm6dm {
+	background: #0c0c0c;
+	background-color: #0c0c0c;
+	background-image: linear-gradient(to bottom, #0c0c0c 0%, #0c0c0c 20%, #0c0c0c 60%);
+}
+
+/*What's New*/
+._17uEBe5Ri8TMsnfELvs8-N {
+/*    height: 0px;*/
+    background-image: linear-gradient(to top, #0c0c0c 0%, #0c0c0c 80%);
+}
+
+/*"Add Shelf" Bar */
+._3Sb2o_mQ30IDRh0C72QUUu {
+    background-image: linear-gradient(to bottom, #0c0c0c 0%, #0c0c0c 20%);
+}
+/*Add Shelf Text*/
+/*._3SkuN_ykQuWGF94fclHdhJ {
+    color: #a9a9a9;
+}*/
+
+/*"Add Shelf" Hover LEFT Side Highlight*/
+/*._3SkuN_ykQuWGF94fclHdhJ .XTpoZLWc4Qj5P6VF4s1_X {
+	background: linear-gradient(to left, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+}*/
+
+/*"Add Shelf" Hover RIGHT Side Highlight*/
+/*._3SkuN_ykQuWGF94fclHdhJ ._1fD3LfL2EuzDHoKxB5ts7 {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+}*/
+
+/*"Add Shelf" Plus Color*/
+/*._3SkuN_ykQuWGF94fclHdhJ svg line, ._3SkuN_ykQuWGF94fclHdhJ svg circle {
+    stroke: #a9a9a9;
+}*/
+
+/*Choose Shelf "Choose what to display on this shelf" text color*/
+/*._2AUVZlzQq67qe3yhLZsPPB {
+    color: rgba(255,255,255,.8);
+}*/
+
+/*"Choose a shelf" text color*/
+/*._1YdRdM9TZ_3Xolwv9aVEv- ._DialogInputContainer {
+    box-sizing: border-box;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: 100;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    color: #ccc;
+}*/
+
+/*Sort By Text Color*/
+/*._1tBzypb5E2AwNuBuVns9Hl ._1ljKTq3H58WbDZGNPfM0TY {
+    color: #a0a1a5;
+}*/
+
+/*Text to the Right of Sort By*/
+/*._1tBzypb5E2AwNuBuVns9Hl ._DialogInputContainer {
+    color: #ccc;
+}*/
+
+
+/*What's New Popup Box*/
+
+/*"What's New" text*/
+.DialogHeader {
+    color: #959595;
+}
+/*What's New Box Color*/
+._2JKpGzeAiwmBdY73bfRXz- {
+    background: radial-gradient(circle at top left, #0c0c0c 0%, #0c0c0c 60%),#0c0c0c;
+    user-select: none;
+}
+/*Visibility Settings Box Color*/
+.DialogTextInputBase, ._DialogInputContainer {
+    background: #161616;
+}
+
+
+/*DOWNLOADS PAGE*/
+
+/*Top Downloads Bar with Speed and whatnot. Idk why it's half blue*/
+._3KDkLoCR8OM8xfdQysKn9t {
+    background-color: #0c0c0c;
+}
+/*Line Just Below the Downloads Bar*/
+.SEmVpmXrYVl3OxL1sDFTg {
+    background: linear-gradient(to right, #0c0c0c, #0c0c0c);
+}
+/*Bottom of Download page background*/
+._1ugNiylO2vKXhirsGocAxa {
+    background: #0c0c0c; 
+}
+/*"There are no downloads in queue" text color*/
+/*body, body._3r3LeMDqAWrWz5yemfRZrr {
+    color: #969696;
+}*/
+
+
+
 /*BAR BUTTONS*/
 ._1VNuYHM6BPBOJspC6zPf5r ._3oavRVhIS9tC3vBsFT4Ggi.DialogButton {
 background: #212121 !important;
@@ -79,8 +198,6 @@ background: #212121 !important;
 ._1VNuYHM6BPBOJspC6zPf5r:hover ._3oavRVhIS9tC3vBsFT4Ggi.DialogButton:enabled {
 background: #3f3f3f !important;
 }
-
-/*Dark UI Additions by FatheredPuma81*/
 /* Library background*/
 ._2gSXCB6PbOlMxslr8hm6dm {
 	background-color: #0c0c0c;
@@ -106,6 +223,10 @@ background: #3f3f3f !important;
     background: #0c0c0c;
 }
 
+
+
+
+
 /*Steam Settings*/
 /*Left Half Color*/
 .RTicBCbDcEGkjsbmWzA8C {
@@ -119,7 +240,6 @@ background: #3f3f3f !important;
 .bkfjn0yka2uHNqEvWZaTJ.Myra7iGjzCdMPzitboVfh {
     background-color: #4c4c4c;
 }
-
 /*Friend Right Click Drop Down Menu Color*/
 .LQkrbbayZPY11qHm01t7F {
     background: radial-gradient(ellipse farthest-corner at 50% 30%, #0c0c0c 0%, #101010 50%, #1e1e1e 100%);
@@ -132,7 +252,6 @@ background: #3f3f3f !important;
 .DesktopUI .Z5iAXBkRFGnwpXsO8ANTl.Stream, .DesktopUI .Z5iAXBkRFGnwpXsO8ANTl.Connect, .DesktopUI .Z5iAXBkRFGnwpXsO8ANTl.Launch, .DesktopUI .Z5iAXBkRFGnwpXsO8ANTl.PlayMusic, .DesktopUI .Z5iAXBkRFGnwpXsO8ANTl.Play {
     background: linear-gradient(-45deg, #3e3e3e 0%, #808080 70%);
 }
-
 /*Big Play Button*/
 ._3cI5TXsFX3bvpR-7EBOtxq > ._2AzIX5kl9k6JnxLfR5H4kX {
     background: linear-gradient(to right, #3e3e3e 0%, #808080 60%);
@@ -144,4 +263,24 @@ background: #3f3f3f !important;
 /*Inside Arrow*/
 ._3cI5TXsFX3bvpR-7EBOtxq > ._2AzIX5kl9k6JnxLfR5H4kX svg {
     fill: #cecece;
+}
+/*Launch game selection popup box*/
+.LclHwcOfHFpwObYMD1HLa {
+    background: radial-gradient(circle at top left, #0c0c0c 0%, #101010 50%, #1e1e1e 100%),#0c0c0c;
+}
+/*Inner Game Selection*/
+.LclHwcOfHFpwObYMD1HLa ._2aHnQT0gTQ5KIsi5omK93w ._134yW7SKfZYwmvwlUElGx- {
+    background: #1f1f1f;
+}
+/*Games*/
+.LclHwcOfHFpwObYMD1HLa ._2aHnQT0gTQ5KIsi5omK93w ._134yW7SKfZYwmvwlUElGx- ._3DEhfTvEKwgLd4smd6QdaU {
+    background: #303030;
+}
+/*Game Select Box Play Button*/
+.LclHwcOfHFpwObYMD1HLa ._3H2GezG50hog8gSDj-qbx1 ._3EWVuoln1WAvpEaPNfpift {
+    background: linear-gradient(to right, #2f2f2f 0%, #6a6a6a 60%);
+}
+/*Game Select Box Cancel Button*/
+.LclHwcOfHFpwObYMD1HLa ._3H2GezG50hog8gSDj-qbx1 ._3EWVuoln1WAvpEaPNfpift, .LclHwcOfHFpwObYMD1HLa ._3H2GezG50hog8gSDj-qbx1 ._1d8CbcBnA6t3lsxYdnMv1h {
+    background: #2f2f2f;
 }

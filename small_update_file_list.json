@@ -17,5 +17,8 @@
 	],
 	"JSON_Update" : [
 		"old_glory_data.json"
+	],
+	"Skin_Update" : [
+		"skin.json"
 	]
 }

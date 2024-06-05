@@ -1,5 +1,5 @@
 /* ==================== Move bottom bar to top ====================
-   ==================== Credit: LaserFlash ====================
+   ==================== Credit: LaserFlash (modified by Jonius7) ====================
    ========================================================================== */
    :root {
     /* width of your username - you will need to configure this */
@@ -13,13 +13,16 @@
 
 /** ================================================================================== **/
 /** Position the buttons **/
-._1_yS5UP7el0aN4vntx3dx {    
+._1_yS5UP7el0aN4vntx3dx {
+    padding: 0;
     position: absolute;
-    --steam-control-width: 242px;
+    --steam-control-width: 243px;
     right: calc(var(--steam-control-width) + var(--username-length));
     top: 6px;
-    
+    display: flex;
+    align-items: end;
 }
+
 /** ================================================================================== **/
 /** Override some colours and sizes **/
 ._3vCzSrrXZzZjVJFZNg9SGu {
@@ -124,5 +127,47 @@
 
 ._3vCzSrrXZzZjVJFZNg9SGu .AddGameButton:hover ._3OhUxFVlQYr9W5ThxstR8k, ._3vCzSrrXZzZjVJFZNg9SGu .FriendsButton:hover ._3OhUxFVlQYr9W5ThxstR8k {
     opacity: 1;
+}
+
+//Downloads bar
+._2VtAqT03BpBsVdmxwptn9D {
+    width: 16.88vw;
+}
+
+//Top header buttons
+
+
+._3vCzSrrXZzZjVJFZNg9SGu ._1TdaAqMFadi0UTqilrkelR, ._3vCzSrrXZzZjVJFZNg9SGu ._2foCkpRXhqq0UGVE50BWqj, ._3vCzSrrXZzZjVJFZNg9SGu ._2EQ7ghgqIdjKv9jsQC0Zq9 {
+    padding: 0px 12px;
+    border-radius: 2px;
+    min-width: 24px;
+    min-height: 24px;
+    max-height: 24px;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(103,112,123,.2);
+}
+
+._1TdaAqMFadi0UTqilrkelR ._1KrJ3sFAqPBN9mfpaNTU5F, ._2foCkpRXhqq0UGVE50BWqj ._1KrJ3sFAqPBN9mfpaNTU5F {
+    margin-right: -7px;
+}
+
+._3vCzSrrXZzZjVJFZNg9SGu ._2foCkpRXhqq0UGVE50BWqj ._3OhUxFVlQYr9W5ThxstR8k, ._3vCzSrrXZzZjVJFZNg9SGu ._1TdaAqMFadi0UTqilrkelR ._3OhUxFVlQYr9W5ThxstR8k {
+    position: absolute;
+    top: 32px;
+    opacity: 0;
+    transition: opacity .25s;
+    pointer-events: none;
+    box-sizing: border-box;
+    font-size: 13px;
+    border-radius: 2px;
+    padding: 6px 8px;
+    box-shadow: 1px 1px 8px #0005, 2px 2px 16px 1px #0005;
+    width: fit-content;
+    user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 /** ================================================================================== **/

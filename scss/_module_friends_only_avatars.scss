@@ -1,0 +1,30 @@
+/* ==================== Friends Only Avatars ====================
+   ==================== Credit: canitakemasoulbackpls ====================
+   ========================================================================== */
+:root {
+	--friends-avatar-spacing: 8px;
+}
+
+.SteamPlayerGroupLines,
+.SteamPlayerGroupFooter,
+.friendlistListContainer .labelHolder {
+	display: none !important;
+}
+
+.friend {
+	padding: 0 !important;
+	position: unset !important;
+}
+
+.groupList,
+.friendsContainer {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	gap: var(--friends-avatar-spacing) !important;
+	padding-left: var(--friends-avatar-spacing) !important;
+}
+
+.listContentContainer {
+	margin-bottom: var(--friends-avatar-spacing) !important;
+}
+/** ================================================================================== **/

@@ -1,0 +1,23 @@
+{
+    "UseDefaultPatches": true,
+    "Patches": [
+        {
+            "MatchRegexString": "^Steam$",
+            "TargetCss": "libraryroot.custom.css",
+            "TargetJs": "libraryroot.custom.js"
+        }
+    ],
+    "author": "Jonius7",
+    "description": "OldGlory comes to Millennium!",
+    "name": "OldGlory",
+    "version": "1.0.1", 
+    "discord_support": {
+        "inviteCodeExcludingLink": "hScVrvxJWy"
+    },
+    "tags": [
+        "Tweaks",
+        "Compact"
+    ],
+    "header_image": "https://i.imgur.com/8V4V7HU.png",
+    "splash_image": "https://i.imgur.com/8V4V7HU.png"
+}
