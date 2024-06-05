@@ -1116,12 +1116,12 @@ def write_js_fixes(fixesdata, special_fixesdata):
                     if fixname in line:
                         current_fixname = fixname
                         sectionhead_line = "### === " + fixname + " ==="
-                        f1.write(sectionhead_line + OS_line_ending())
+                        f1.write(sectionhead_line + '\n')
                         writefix = 1
                         sectionhead = 1
-                if line.strip(' ') == OS_line_ending():
+                if line.strip(' ') == '\n':
                     writefix = 0
-                    f1.write(OS_line_ending())
+                    f1.write('\n')
                 if writefix == 1 and sectionhead == 0:
                     ### special fixes data
                     if "Change Game Image Grid Sizes" in current_fixname:
