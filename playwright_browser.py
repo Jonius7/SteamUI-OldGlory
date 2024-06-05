@@ -26,7 +26,7 @@ def refresh():
         #page.screenshot(path="example.png")
         page.get_by_text('SharedJSContext').click()
         page.wait_for_url(re.compile("http:\/\/localhost:8080\/devtools\/inspector.html\?ws=localhost:8080\/devtools\/page\/.*"))
-        page.wait_for_url("http://localhost:8080" + get_client_url())
+        #page.wait_for_url("http://localhost:8080" + get_client_url())
         #print("WAITED FINISHED")
         #page.locator("body").click()
         #page.reload()
