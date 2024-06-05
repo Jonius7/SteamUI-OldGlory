@@ -1055,7 +1055,7 @@ def load_js_fixes():
                     sectionhead = 1
                     fixname = line
                     fixname = re.sub("### ===|===", "", line).strip()
-                elif line.strip(' ') == OS_line_ending():
+                elif line.strip(' ') == '\n':
                     readfix = 0
                 if readfix == 1 and sectionhead == 0:
                     if line.lstrip()[:3] == "###":
