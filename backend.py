@@ -14,6 +14,7 @@ import requests
 from requests_oauthlib import OAuth1Session
 import hashlib
 from pathlib import Path
+from playwright.sync_api import sync_playwright, Playwright, Page
 
 ##########################################
 ### CONSTANTS
@@ -1242,7 +1243,19 @@ def refresh_steam_dir():
     except:
         print("Unable to refresh Steam directory.", file=sys.stderr)
         print_traceback()
-    
+        
+def refresh_steam():
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True, slow_mo=0)
+        page = browser.new_page()
+        page.goto("http://localhost:8080")
+        page.get_by_text('SharedJSContext').click()
+        page.wait_for_url(re.compile("http:\/\/localhost:8080\/devtools\/inspector.html\?ws=localhost:8080\/devtools\/page\/.*"))
+        page.wait_for_timeout(300)
+        page.keyboard.press('F5',delay=0)
+        print("Steam window refreshed.")
+        page.wait_for_timeout(300)
+        browser.close()
 
 def clean_slate_css():
     '''
