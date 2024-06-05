@@ -80,8 +80,10 @@ def install_click(event, page, controller):
             controller.mode_changed = 0
             backend.backup_libraryroot_css(controller.oldglory_config["Filepaths"]["InstallMode"])
             
-            thread2 = Thread(target = backend.refresh_steam, args = ())
-            thread2.start()
+            # Will be removed once refresh_steam is working in exe
+            backend.refresh_steam_dir()
+            #thread2 = Thread(target = backend.refresh_steam, args = ())
+            #thread2.start()
             
             update_loaded_config(page, controller)
             if not thread:
