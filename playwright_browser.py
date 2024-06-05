@@ -44,7 +44,7 @@ def get_client_url():
     response = requests.get("http://localhost:8080/json")
     data = json.loads(response.text)
     start2 = time.time()
-    print(start2 - start1) 
+    print(start2 - start1)
     for i in data:
         if i["title"] == "SharedJSContext":
             end = time.time()
