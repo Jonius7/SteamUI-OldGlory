@@ -79,7 +79,10 @@ def install_click(event, page, controller):
             controller.js_gui_changed = 0
             controller.mode_changed = 0
             backend.backup_libraryroot_css(controller.oldglory_config["Filepaths"]["InstallMode"])
-            backend.refresh_steam()
+            
+            thread2 = Thread(target = backend.refresh_steam, args = ())
+            thread2.start()
+            
             update_loaded_config(page, controller)
             if not thread:
                 enable_buttons_after_installing(controller)
