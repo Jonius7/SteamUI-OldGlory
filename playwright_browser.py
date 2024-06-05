@@ -1,7 +1,9 @@
 import asyncio
 import re
 from playwright.sync_api import sync_playwright, Playwright, Page
-import urllib.request, json 
+import urllib.request, json
+import requests
+import time
 
 
 def run(playwright):
@@ -18,12 +20,13 @@ def run(playwright):
   
 def refresh():
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False, slow_mo=00)
+        browser = playwright.chromium.launch(headless=True, slow_mo=00)
         page = browser.new_page()
         page.goto("http://localhost:8080")
         #page.screenshot(path="example.png")
         page.get_by_text('SharedJSContext').click()
         page.wait_for_url(re.compile("http:\/\/localhost:8080\/devtools\/inspector.html\?ws=localhost:8080\/devtools\/page\/.*"))
+        page.wait_for_url("http://localhost:8080" + get_client_url())
         #print("WAITED FINISHED")
         #page.locator("body").click()
         #page.reload()
@@ -45,12 +48,14 @@ def request_url():
         return data["webSocketDebuggerUrl"]
     
 def get_client_url():
-    url = ""
-    with urllib.request.urlopen("http://localhost:8080/json") as url:
-        data = json.load(url)
-        
-        for i in data:
-            if i["title"] == "SharedJSContext":
-               url = i["devtoolsFrontendUrl"]
-    return url
+    start1 = time.time()
+    response = requests.get("http://localhost:8080/json")
+    data = json.loads(response.text)
+    start2 = time.time()
+    print(start2 - start1) 
+    for i in data:
+        if i["title"] == "SharedJSContext":
+            end = time.time()
+            print(end - start2)
+            return i["devtoolsFrontendUrl"]
     
