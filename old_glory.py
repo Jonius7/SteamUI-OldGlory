@@ -1746,7 +1746,7 @@ def settings_window(event, controller):
                     highlightthickness=0,
                     wrap='word',
                     width=70,
-                    height=8)
+                    height=10)
 
     hyperlink = custom_tk.HyperlinkManager(about)
     
@@ -1754,9 +1754,10 @@ def settings_window(event, controller):
     about.insert(tk.END, "and provide some extra functionality where possible.\n\n")
     about.insert(tk.END, 'Github: ')
     about.insert(tk.END, "github.com/Jonius7/SteamUI-OldGlory/", hyperlink.add(partial(webbrowser.open, "https://github.com/Jonius7/SteamUI-OldGlory/")))
-    about.insert(tk.END, "\n\nCan be used with SFP (SteamFriendsPatcher):\n")
+    about.insert(tk.END, "\n\nCan be used with SFP (SteamFriendsPatcher) or Millennium Patcher:\n")
     about.insert(tk.END, "https://github.com/PhantomGamers/SFP/", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SFP/")))
-
+    about.insert(tk.END, "\n")
+    about.insert(tk.END, "https://github.com/SteamClientHomebrew/Millennium/", hyperlink.add(partial(webbrowser.open, "https://github.com/SteamClientHomebrew/Millennium/")))
     about.config(state='disabled') 
 
     about.grid(row=2, column=0, sticky="w", pady=(0,15))

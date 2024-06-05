@@ -1,6 +1,6 @@
 ## SteamUI-OldGlory GUI Changelog
 
-1.1.4.2	     **(Release 5.14.2)**
+**1.1.4.2**	     **(Release 5.14.2)** Add Millennium URL Link to Settings and About
 
 1.1.4.1	     Make `fixes.txt` Linux compatible, fix inconsistencies with line endings
 
