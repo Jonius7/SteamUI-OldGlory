@@ -37,9 +37,20 @@ def refresh():
 
         
      
-def request():
+def request_url():
     with urllib.request.urlopen("http://localhost:8080/json/version") as url:
         data = json.load(url)
-        print(data)
-        print(data["webSocketDebuggerUrl"])
+        #print(data)
+        #print(data["webSocketDebuggerUrl"])
+        return data["webSocketDebuggerUrl"]
+    
+def get_client_url():
+    url = ""
+    with urllib.request.urlopen("http://localhost:8080/json") as url:
+        data = json.load(url)
+        
+        for i in data:
+            if i["title"] == "SharedJSContext":
+               url = i["devtoolsFrontendUrl"]
+    return url
     
