@@ -26,7 +26,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
         self.version = "1.1.5"
-        self.release = "5.14.2"
+        self.release = "5.15-pre1"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -1754,6 +1754,8 @@ def settings_window(event, controller):
     about.insert(tk.END, "and provide some extra functionality where possible.\n\n")
     about.insert(tk.END, 'Github: ')
     about.insert(tk.END, "github.com/Jonius7/SteamUI-OldGlory/", hyperlink.add(partial(webbrowser.open, "https://github.com/Jonius7/SteamUI-OldGlory/")))
+    about.insert(tk.END, "\n")
+    about.insert(tk.END, "Known Issues", hyperlink.add(partial(webbrowser.open, "https://github.com/Jonius7/SteamUI-OldGlory/issues/56/")))
     about.insert(tk.END, "\n\nCan be used with SFP (SteamFriendsPatcher) or Millennium Patcher:\n")
     about.insert(tk.END, "https://github.com/PhantomGamers/SFP/", hyperlink.add(partial(webbrowser.open, "https://github.com/PhantomGamers/SFP/")))
     about.insert(tk.END, "\n")
