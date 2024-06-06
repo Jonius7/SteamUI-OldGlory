@@ -8,13 +8,16 @@ import re
 from pathlib import Path
 import configparser
 import json
+import urllib.request
 import sass
 from datetime import datetime, timezone
 import requests
 from requests_oauthlib import OAuth1Session
 import hashlib
 from pathlib import Path
-from playwright.sync_api import sync_playwright, Playwright, Page
+#from playwright.sync_api import sync_playwright, Playwright, Page
+import asyncio
+import pyppeteer
 
 ##########################################
 ### CONSTANTS
@@ -427,11 +430,10 @@ def datetime_string_to_obj(date_string):
 
 ##########################################
 ### JSON Functions
-def get_json_data():
+def get_json_data(json_data_filename='old_glory_data.json'):
     '''
     JSON: load data from JSON file and return it as an object
     '''
-    json_data_filename = 'old_glory_data.json'
     try:
         with open(json_data_filename, encoding="UTF-8") as f:
             json_data = json.load(f)
@@ -448,10 +450,10 @@ def get_json_data():
         print("Error reading JSON file " + json_data_filename, file=sys.stderr)
         print_traceback()
 
-def write_json_data(json_data):
+def write_json_data(json_data, json_data_filename='old_glory_data.json'):
     '''
+    JSON: write JSON file using json_data object
     '''
-    json_data_filename = 'old_glory_data.json'
     try:
         with open(json_data_filename, "r", newline=OS_line_ending(), encoding="UTF-8") as f, \
              open(json_data_filename + ".temp", "w", newline=OS_line_ending(), encoding="UTF-8") as f1:
@@ -473,9 +475,11 @@ def write_json_data(json_data):
 ##########################################
 ### CONFIG Functions
 
-def load_config():
+def load_config(config_filename = "oldglory_config2.cfg"):
+    '''
+    Load config file in TOML format and returns a Python dictionary object containing that config
+    '''
     config_dict = {}
-    config_filename = "oldglory_config2.cfg"
     if not os.path.isfile(config_filename) :
         print("Config file " + config_filename + " not found. Creating copy with default options.", file=sys.stderr)
         write_config(DEFAULT_CONFIG)
@@ -498,14 +502,16 @@ def test_config():
     config.read("oldglory_config2.cfg")
     return config
 
-def write_config(config_dict = DEFAULT_CONFIG):
+def write_config(config_dict = DEFAULT_CONFIG, filename = "oldglory_config2.cfg"):
+    '''
+    Takes a Python dictionary object and writes a config file in TOML format
+    '''
     config = configparser.ConfigParser()
     config.optionxform = str
     for section in config_dict:
         config[section] = config_dict[section]
     #print(config.sections())
     #print(config.options("Main_Settings"))
-    filename = "oldglory_config2.cfg"
     with open(filename, "w", newline='', encoding="UTF-8") as config_file:
         config.write(config_file)
     config_file.close()
@@ -521,6 +527,9 @@ def write_config(config_dict = DEFAULT_CONFIG):
 ###   Need to change logic to cover "unchecking" options
 
 def validate_settings(settings):
+    '''
+    UNIMPLEMENTED
+    '''
     validated_settings = []
     if "InstallCSSTweaks" not in settings:
         print("CSS Tweaks not enabled. Nothing will be applied.")
@@ -561,6 +570,9 @@ SETTING_MAP = {
 }
 
 def read_css_sections(filename = "scss/libraryroot.custom.scss"):
+    '''
+    Read a list of SCSS imports and returns a Python dictionary containing each import as a "section"
+    '''
     try:
         sections_data = {}
         with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f:
@@ -587,8 +599,11 @@ def read_css_sections(filename = "scss/libraryroot.custom.scss"):
         print_traceback()
     pass
 
-def write_css_sections(sections, sections_filedata, sections_json):
+def write_css_sections(sections, sections_filedata, sections_json,
+                       filepath="scss/libraryroot.custom.scss",
+                       temp_filepath="scss/libraryroot.custom.temp.scss"):
     '''
+    takes two dictionaries of imports as "sections" compares them and writes to libraryroot.custom.scss
     sections            list of sections with values 0 or 1 depending on disabled/enabled
     
     sections_filedata   list of sections with values 0 or 1 from the original file, to compare
@@ -596,8 +611,8 @@ def write_css_sections(sections, sections_filedata, sections_json):
     sections_json       json data
     '''
     try:
-        with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
-             open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
+        with open(filepath, "r", newline='', encoding="UTF-8") as f, \
+             open(temp_filepath, "w", newline='', encoding="UTF-8") as f1:
 
             import_prefix = '@import "./'
             themes_prefix = '@import "../themes/'
@@ -631,18 +646,23 @@ def write_css_sections(sections, sections_filedata, sections_json):
         f1.close()
         
         ###
-        shutil.move("scss/libraryroot.custom.scss", "scss/libraryroot.custom.scss.backup1")
-        shutil.move("scss/libraryroot.custom.temp.scss", "scss/libraryroot.custom.scss")
+        shutil.move(filepath, filepath + ".backup1")
+        shutil.move(temp_filepath, filepath)
     except:
         print("Error enabling/disabling CSS sections,\nat " + line, file=sys.stderr)
         print_traceback()
     pass
 
        
-def write_css_settings(settings): 
+def write_css_settings(settings,
+                       filepath="scss/libraryroot.custom.scss",
+                       temp_filepath="scss/libraryroot.custom.temp.scss"):
+    '''
+    Takes a dictionary of "settings" and writes to libraryroot.custom.scss
+    '''
     try:
-        with open("scss/libraryroot.custom.scss", "r", newline='', encoding="UTF-8") as f, \
-             open("scss/libraryroot.custom.temp.scss", "w", newline='', encoding="UTF-8") as f1:
+        with open(filepath, "r", newline='', encoding="UTF-8") as f, \
+             open(temp_filepath, "w", newline='', encoding="UTF-8") as f1:
 
             import_prefix = '@import "./'
             themes_prefix = '@import "../themes/'
@@ -672,8 +692,8 @@ def write_css_settings(settings):
         f1.close()
         
         ###
-        shutil.move("scss/libraryroot.custom.scss", "scss/libraryroot.custom.scss.backup1")
-        shutil.move("scss/libraryroot.custom.temp.scss", "scss/libraryroot.custom.scss")
+        shutil.move(filepath, filepath + ".backup1")
+        shutil.move(temp_filepath, filepath)
             
     except:
         print("Error enabling/disabling CSS modules,\nat " + line, file=sys.stderr)
@@ -711,7 +731,9 @@ class LineParser():
         #Concatenates import_suffix to line
         return line + import_suffix
 
-def compile_css(json_data):
+def compile_css(json_data,
+                filepath="libraryroot.custom.css",
+                temp_filepath="libraryroot.custom.temp.css"):
     '''
     Compiles libraryroot.custom.css from /scss directory
     Adds variables.css
@@ -719,8 +741,8 @@ def compile_css(json_data):
     try:
         sass.compile(dirname=('scss','.'),
                      output_style='expanded')
-        with open('libraryroot.custom.css', "r", newline='', encoding="UTF-8") as f, \
-             open("libraryroot.custom.temp.css", "w", newline='', encoding="UTF-8") as f1:
+        with open(filepath, "r", newline='', encoding="UTF-8") as f, \
+             open(temp_filepath, "w", newline='', encoding="UTF-8") as f1:
             for line in f:
                 if json_data["CSSVariableString"] in line:
                     #print(line)
@@ -741,13 +763,14 @@ def compile_css(json_data):
         
     ###
     #shutil.move("libraryroot.custom.css", "libraryroot.custom.css.backup")
-    shutil.move("libraryroot.custom.temp.css", "libraryroot.custom.css")
+    shutil.move(temp_filepath, filepath)
 
 
 ### Triggers on Reload Config (button)
 ### From :root in css file -> CSS Config dict
-def load_css_configurables():
-    css_config_filename = "variables.css"
+def load_css_configurables(css_config_filename="variables.css"):
+    '''
+    Reads a .css file containing CSS variables and returns a Python dictionary'''
     loaded_css_config = {}
     try:
         with open(css_config_filename, newline='', encoding="UTF-8") as infile:
@@ -830,8 +853,10 @@ def css_line_parser(line):
         print_traceback()
         
 
-def write_css_configurables(css_config):
-    css_config_filename = "variables.css"
+def write_css_configurables(css_config, css_config_filename = "variables.css"):
+    '''
+    Takes a Python dictionary and writes it to a .css file containing CSS variables
+    '''
     to_write_lines = create_css_variables_lines(css_config)
     try:
         with open(css_config_filename, "w", newline='', encoding="UTF-8") as f:
@@ -845,6 +870,9 @@ def write_css_configurables(css_config):
 #create css variables
 #from css_config dictionary to an array of lines of CSS to be written
 def create_css_variables_lines(css_config):
+    '''
+    Takes a Python dictionary and return an array of lines of CSS to be written
+    '''
     try:
         indent = "  "
         css_lines = []
@@ -1172,7 +1200,6 @@ def write_js_fixes(fixesdata, special_fixesdata):
 
 ##########################################
 ### STEAM DIRECTORY AND CLEAR Functions
-
                     
 def backup_libraryroot_css(install_location="SFP"):
     try:
@@ -1232,30 +1259,6 @@ def backup_libraryroot_css(install_location="SFP"):
     except:
         print("Unable to copy libraryroot.custom.css to install location.", file=sys.stderr)
         print_traceback()
-        
-def refresh_steam_dir():
-    try:
-        #refresh steam library
-        f = open(library_dir() + "/refresh_dir.txt", "w", newline='', encoding="UTF-8")
-        f.close()
-        if os.path.exists(library_dir() + "/refresh_dir.txt"):
-            os.remove(library_dir() + "/refresh_dir.txt")
-    except:
-        print("Unable to refresh Steam directory.", file=sys.stderr)
-        print_traceback()
-        
-def refresh_steam():
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=True, slow_mo=0)
-        page = browser.new_page()
-        page.goto("http://localhost:8080")
-        page.get_by_text('SharedJSContext').click()
-        page.wait_for_url(re.compile("http:\/\/localhost:8080\/devtools\/inspector.html\?ws=localhost:8080\/devtools\/page\/.*"))
-        page.wait_for_timeout(300)
-        page.keyboard.press('F5',delay=0)
-        print("Steam window refreshed.")
-        page.wait_for_timeout(300)
-        browser.close()
 
 def clean_slate_css():
     '''
@@ -1290,6 +1293,62 @@ def clear_js_working_files():
         print_traceback()
 
 ### [END OF] STEAM DIRECTORY AND CLEAR Functions
+##########################################
+
+
+##########################################
+### STEAM Refresh functions
+
+# Only works in Steam -dev mode
+def refresh_steam_dir():
+    try:
+        #refresh steam library
+        f = open(library_dir() + "/refresh_dir.txt", "w", newline='', encoding="UTF-8")
+        f.close()
+        if os.path.exists(library_dir() + "/refresh_dir.txt"):
+            os.remove(library_dir() + "/refresh_dir.txt")
+    except:
+        print("Unable to refresh Steam directory.", file=sys.stderr)
+        print_traceback()
+        
+def request_url():
+    with urllib.request.urlopen("http://localhost:8080/json/version") as url:
+        data = json.load(url)
+        return data["webSocketDebuggerUrl"]
+        
+async def get_sharedjscontext(pages):
+    for page in pages:
+        title = await page.title()
+        if title == "SharedJSContext":
+            return page
+        
+async def connect_via_socket(socket_url):
+    browser = await pyppeteer.connect(browserWSEndpoint=socket_url, defaultViewport=None)
+    pages = await browser.pages()
+    sharedjscontext = await get_sharedjscontext(pages)
+    await sharedjscontext.reload()
+
+
+async def refresh_steam(url):
+    await connect_via_socket(url)
+
+
+# requires Playwright and browser install
+# not needed, see refresh_steam() 
+def refresh_steam_playwright():
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True, slow_mo=0)
+        page = browser.new_page()
+        page.goto("http://localhost:8080")
+        page.get_by_text('SharedJSContext').click()
+        page.wait_for_url(re.compile("http:\/\/localhost:8080\/devtools\/inspector.html\?ws=localhost:8080\/devtools\/page\/.*"))
+        page.wait_for_timeout(300)
+        page.keyboard.press('F5',delay=0)
+        print("Steam window refreshed.")
+        page.wait_for_timeout(300)
+        browser.close()
+        
+### [END OF] STEAM Refresh Functions
 ##########################################
 
 

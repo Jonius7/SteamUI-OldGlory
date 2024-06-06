@@ -4,6 +4,10 @@ from tkinter import ttk
 import io
 import os
 import sys
+import asyncio
+import time
+import queue
+
 '''
 from PIL import ImageTk, Image
 
@@ -43,10 +47,21 @@ CONFIG_MAP = {#"SteamLibraryPath" : {"set" : ""},
 ### INSTALL Functions
 ### ================================
 
+def worker(q: queue.Queue):
+    q.put_nowait(backend.request_url())
+
 def install_click(event, page, controller):
     if str(event.widget['state']) == 'normal':
         try:
             disable_buttons_while_installing(controller)
+            
+            q = queue.Queue()
+            url_thread = Thread(target = worker, args = (q,))
+            url_thread.start()
+            #join_thread = Thread(target = url_thread.join(), args = ())
+            #join_thread.start
+            socket_url = q.get_nowait()            
+            
             settings = get_settings_from_gui(page)
             set_filepaths_config(page, controller)
             settings = set_js_config(controller, settings)
@@ -80,14 +95,19 @@ def install_click(event, page, controller):
             controller.mode_changed = 0
             backend.backup_libraryroot_css(controller.oldglory_config["Filepaths"]["InstallMode"])
             
-            # Will be removed once refresh_steam is working in exe
-            backend.refresh_steam_dir()
-            #thread2 = Thread(target = backend.refresh_steam, args = ())
-            #thread2.start()
-            
             update_loaded_config(page, controller)
             if not thread:
                 enable_buttons_after_installing(controller)
+            
+            # Will be removed once refresh_steam is working in exe
+            #backend.refresh_steam_dir()
+            while True:
+                if not url_thread.is_alive():
+                    break
+                thread2 = Thread(target = asyncio.run, args = (backend.refresh_steam(socket_url),))
+                thread2.start()
+            
+            
         except:
             print("Error while installing tweaks.", file=sys.stderr)
             old_glory.print_traceback()

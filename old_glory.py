@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "1.1.4.2"
+        self.version = "1.1.5"
         self.release = "5.14.2"
       
         ### Window Frame
@@ -1039,8 +1039,7 @@ def reload_config(controller):
         print("==============================")
         ### Reload Data
         controller.frames["StartPage"].loaded_config = manager.set_selected_main_options(controller.frames["StartPage"], controller)
-        print("Loaded config data. (oldglory_config.cfg)")
-        #print("Loaded config data. (oldglory_config2.cfg)")
+        print("Loaded config data. (oldglory_config2.cfg)")
         controller.json_data = backend.get_json_data()
         controller.css_config = backend.load_css_configurables()
         controller.sections_config = backend.read_css_sections()
@@ -1691,6 +1690,7 @@ class UpdateWindow(tk.Toplevel):
             self.controller.frames["StartPage"].text1.update_idletasks()
         #Update LastPatchedDate
         backend.update_json_last_patched_date(self.controller.json_data)
+        reload_config()
         self.destroy()
         
 

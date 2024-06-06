@@ -22,4 +22,4 @@ async def connect_via_socket():
 async def main():
     await connect_via_socket()
 
-asyncio.run(main())
+asyncio.run(connect_via_socket())
