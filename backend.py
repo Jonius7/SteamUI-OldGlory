@@ -1201,22 +1201,22 @@ def write_js_fixes(fixesdata, special_fixesdata):
 ##########################################
 ### STEAM DIRECTORY AND CLEAR Functions
                     
-def backup_libraryroot_css(install_location="SFP"):
+def backup_libraryroot_css(install_location="SFP/Millennium"):
     try:
         local_libraryroot_custom_css = "libraryroot.custom.css"
         if install_location == "steamui":
             libraryroot_dir = library_dir()
-            libraryroot_custom_css = library_dir() + "/" + "libraryroot.custom.css"
-            libraryroot_custom_css_backup = library_dir() + "/" + "libraryroot.custom.css.backup"
-            libraryroot_custom_css_backup2 = library_dir() + "/" + "libraryroot.custom.css.backup2"
+            libraryroot_custom_css = os.path.join(library_dir(), "libraryroot.custom.css")
+            libraryroot_custom_css_backup = os.path.join(library_dir(),  "libraryroot.custom.css.backup")
+            libraryroot_custom_css_backup2 = os.path.join(library_dir(), "libraryroot.custom.css.backup2")
         elif install_location == "SFP/Millennium":
             local_skin_json = "skin.json"
-            skin_json = skins_dir() + "/" + "skin.json"
-            skin_json_backup = skins_dir() + "/" + "skin.json.backup"
+            skin_json = os.path.join(skins_dir(), "skin.json")
+            skin_json_backup = os.path.join(skins_dir(), "skin.json.backup")
             libraryroot_dir = skins_dir()
-            libraryroot_custom_css = skins_dir() + "/" + "libraryroot.custom.css"
-            libraryroot_custom_css_backup = skins_dir() + "/" + "libraryroot.custom.css.backup"
-            libraryroot_custom_css_backup2 = skins_dir() + "/" + "libraryroot.custom.css.backup2"
+            libraryroot_custom_css = os.path.join(skins_dir(), "libraryroot.custom.css")
+            libraryroot_custom_css_backup = os.path.join(skins_dir(), "libraryroot.custom.css.backup")
+            libraryroot_custom_css_backup2 = os.path.join(skins_dir(), "libraryroot.custom.css.backup2")
         elif install_location == "Local":
             libraryroot_custom_css = "libraryroot.custom.css"
             libraryroot_custom_css_backup = "libraryroot.custom.css.backup"
@@ -1267,11 +1267,11 @@ def clean_slate_css():
     try:
         #f = open(library_dir() + "/" + "libraryroot.empty.css", "w", newline='', encoding="UTF-8")
         #f.close()
-        if os.path.isfile(library_dir() + "/" + "libraryroot.custom.css"):
-            shutil.move(library_dir() + "/" + "libraryroot.custom.css", library_dir() + "/" + "libraryroot.custom.css.backup")
-        #shutil.move(library_dir() + "/" + "libraryroot.empty.css", library_dir() + "/" + "libraryroot.custom.css")
+        if os.path.isfile(os.path.join(library_dir(), "libraryroot.custom.css")):
+            shutil.move(os.path.join(library_dir(), "libraryroot.custom.css"), os.path.join(library_dir(), "libraryroot.custom.css.backup"))
+        #shutil.move(os.path.join(library_dir(), "libraryroot.empty.css"), os.path.join(library_dir(), "libraryroot.custom.css"))
         print("libraryroot.custom.css backed up at libraryroot.custom.css.backup")
-        shutil.copy2("themes/config.css.original", library_dir() + "/" + "config.css")
+        shutil.copy2("themes/config.css.original", os.path.join(library_dir(), "config.css"))
         
     except:
         print("Was not able to completely reset libraryroot.custom.css.", file=sys.stderr)
