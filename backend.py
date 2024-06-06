@@ -18,6 +18,8 @@ from pathlib import Path
 #from playwright.sync_api import sync_playwright, Playwright, Page
 import asyncio
 import pyppeteer
+#import urllib3
+import psutil
 
 ##########################################
 ### CONSTANTS
@@ -422,6 +424,24 @@ def datetime_string_to_obj(date_string):
     UTILITY: Convert datetime string to object.
     '''
     return datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%SZ")
+
+def process_exists(process_name):
+    if OS_TYPE == "Windows":
+        progs = str(subprocess.check_output('tasklist'))
+    else:
+        return False
+    if process_name in progs:
+        return True
+    else:
+        return False
+
+def steam_exists():
+    if OS_TYPE == "Windows":
+        return process_exists("steam.exe")
+    elif OS_TYPE ==  "Darwin":
+        return False
+    elif OS_TYPE ==  "Linux":
+        return False
 
 
 ### [END OF] GENERAL UTILITY Functions
@@ -1311,10 +1331,18 @@ def refresh_steam_dir():
         print("Unable to refresh Steam directory.", file=sys.stderr)
         print_traceback()
         
-def request_url():
-    with urllib.request.urlopen("http://localhost:8080/json/version") as url:
+def request_url(url_address="http://localhost:8080/json/version"):
+    with urllib.request.urlopen(url_address) as url:
         data = json.load(url)
         return data["webSocketDebuggerUrl"]
+
+#Testing urllib3, not needed as performance is similar
+def request_url_3(url_address="http://localhost:8080/json/version"):
+    http = urllib3.PoolManager()
+    response = http.request("GET", url_address)
+    data = response.data
+    values = json.loads(data)
+    return values["webSocketDebuggerUrl"]
         
 async def get_sharedjscontext(pages):
     for page in pages:
