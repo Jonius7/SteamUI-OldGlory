@@ -7,6 +7,7 @@ import sys
 import asyncio
 import time
 import queue
+import urllib.error
 
 '''
 from PIL import ImageTk, Image
@@ -19,7 +20,7 @@ import socket
 from functools import partial
 #import re
 '''
-from threading import Thread
+from threading import Thread, Event
 
 
 import old_glory
@@ -47,20 +48,66 @@ CONFIG_MAP = {#"SteamLibraryPath" : {"set" : ""},
 ### INSTALL Functions
 ### ================================
 
-def worker(q: queue.Queue):
-    q.put_nowait(backend.request_url())
+def worker0a(q: queue.Queue, event: Event):
+    q.put(backend.steam_exists())
+    event.set()
+    
+def worker0b(q: queue.Queue, event: Event, result_container):
+    event.wait()
+    try:
+        result = q.get_nowait()
+        result_container.append(result)
+    except queue.Empty:
+        print("Queue is empty, could not get the result.")
+
+def worker1a(q: queue.Queue, event: Event, controller):
+    try:
+        print("Refreshing Steam window...")
+        #q.put_nowait(backend.request_url())
+        q.put(backend.request_url())
+        event.set()
+    except urllib.error.URLError:
+        print("Is Steam running? Unable to refresh Steam window.", file=sys.stderr)
+    except:
+        print("Unable to refresh Steam window", file=sys.stderr)
+        backend.print_traceback()
+    finally:
+        enable_buttons_after_installing(controller)
+        
+def worker1b(q: queue.Queue, event: Event):
+    event.wait()
+    result = q.get()
+    asyncio.run(backend.refresh_steam(result))
+    #print(f"Second thread received: {result}")
+    print("Steam window refreshed.")
 
 def install_click(event, page, controller):
     if str(event.widget['state']) == 'normal':
         try:
             disable_buttons_while_installing(controller)
+            result_container = []
+            q0 = queue.Queue()
+            event0 = Event()
+            exists1_thread = Thread(target = worker0a, args = (q0, event0))
+            exists1_thread.start()
+            exists2_thread = Thread(target = worker0b, args = (q0, event0, result_container))
+            exists2_thread.start()
             
-            q = queue.Queue()
-            url_thread = Thread(target = worker, args = (q,))
-            url_thread.start()
-            #join_thread = Thread(target = url_thread.join(), args = ())
-            #join_thread.start
-            socket_url = q.get_nowait()            
+            while not event0.is_set():
+                time.sleep(0.01)
+            
+            if result_container:
+                final_result = result_container[0]
+                #print(f"Final result: {final_result}")
+            
+            if final_result:
+                q1 = queue.Queue()
+                event1 = Event()
+                url_thread = Thread(target = worker1a, args = (q1, event1, controller))
+                url_thread.start()
+                #join_thread = Thread(target = url_thread.join(), args = ())
+                #join_thread.start
+                #socket_url = q.get_nowait()
             
             settings = get_settings_from_gui(page)
             set_filepaths_config(page, controller)
@@ -96,16 +143,21 @@ def install_click(event, page, controller):
             backend.backup_libraryroot_css(controller.oldglory_config["Filepaths"]["InstallMode"])
             
             update_loaded_config(page, controller)
+            if final_result:
+                thread2 = ThreadWithCallback(target = worker1b, args = (q1, event1),
+                                            callback = lambda: enable_buttons_after_installing(controller))
+                thread2.start()
             if not thread:
                 enable_buttons_after_installing(controller)
             
             # Will be removed once refresh_steam is working in exe
             #backend.refresh_steam_dir()
-            while True:
-                if not url_thread.is_alive():
-                    break
-                thread2 = Thread(target = asyncio.run, args = (backend.refresh_steam(socket_url),))
-                thread2.start()
+            #while True:
+            #    if not url_thread.is_alive():
+            #        break
+            #    thread2 = Thread(target = asyncio.run, args = (backend.refresh_steam(socket_url),))
+            #    thread2.start()
+            
             
             
         except:
