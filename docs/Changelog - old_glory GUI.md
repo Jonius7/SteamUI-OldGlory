@@ -1,5 +1,7 @@
 ## SteamUI-OldGlory GUI Changelog
 
+1.1.5.3	    *(5.15-pre3)* Hide console window when checking for Steam on Windows, add check on Linux
+
 1.1.5.2	     	*(5.15-pre2)* Move `refresh_steam` threading into 2 functions
 
 1.1.5.1	     Precise 2 layers of threading on `refresh_steam` for maximum responsiveness

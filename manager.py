@@ -95,7 +95,7 @@ def threads_setup_refresh_steam(controller):
         
     if result_container:
         final_result = result_container[0]
-        print(f"Final result: {final_result}")
+        #print(f"Final result: {final_result}")
     
     if final_result:
         q1 = queue.Queue()
