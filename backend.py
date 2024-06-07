@@ -425,15 +425,29 @@ def datetime_string_to_obj(date_string):
     '''
     return datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%SZ")
 
+
+CREATE_NO_WINDOW = 0x08000000
+
 def process_exists(process_name):
     if OS_TYPE == "Windows":
-        progs = str(subprocess.check_output('tasklist'))
+        #check list of tasks (and hide console window)
+        progs = str(subprocess.check_output('tasklist', creationflags=CREATE_NO_WINDOW))
+        if process_name in progs:
+            return True
+        else:
+            return False
+    
+    if OS_TYPE == "Linux":
+        result = subprocess.run(['pgrep', '-f', process_name], stdout=subprocess.PIPE)
+        output = result.stdout.decode().strip()
+        
+        if output:
+            return True
+        else:
+            return False
     else:
         return False
-    if process_name in progs:
-        return True
-    else:
-        return False
+    
 
 def steam_exists():
     if OS_TYPE == "Windows":
@@ -441,7 +455,7 @@ def steam_exists():
     elif OS_TYPE ==  "Darwin":
         return False
     elif OS_TYPE ==  "Linux":
-        return False
+        return process_exists("steam")
 
 
 ### [END OF] GENERAL UTILITY Functions
