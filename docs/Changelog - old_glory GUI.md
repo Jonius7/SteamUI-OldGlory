@@ -1,12 +1,12 @@
 ## SteamUI-OldGlory GUI Changelog
 
-1.1.5.2	      Move `refresh_steam` threading into 2 functions
+1.1.5.2	     	*(5.15-pre2)* Move `refresh_steam` threading into 2 functions
 
-1.1.5.1	      Precise 2 layers of threading on `refresh_steam` for maximum responsiveness
+1.1.5.1	     Precise 2 layers of threading on `refresh_steam` for maximum responsiveness
 
-1.1.5		Working implementation of refreshing Steam window upon installing (caveat of freezing)
+1.1.5			*(5.15-pre1)* Working implementation of refreshing Steam window upon installing (caveat of freezing)
 
-**1.1.4.2**	     **(Release 5.14.2)** Add Millennium URL Link to Settings and About
+**1.1.4.2**	     	*(5.14.2-pre1)* Add Millennium URL Link to Settings and About
 
 1.1.4.1	     Make `fixes.txt` Linux compatible, fix inconsistencies with line endings
 
@@ -82,7 +82,7 @@
 
 ​	0.9.24		*(5.8-pre8)*	33% faster performance - pre-compiling Regex strings
 
-​	0.9.23		`Install` button now disables while installing
+​	0.9.23	   `Install` button now disables while installing
 
 ​	0.9.22.4	*(5.8-pre7)* 	`refs` functionality completed, fixed `write_modif_file` 
 

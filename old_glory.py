@@ -3,7 +3,6 @@ import tkinter.font as TkFont
 from tkinter import ttk
 from PIL import ImageTk, Image
 import sys
-import io
 import os
 import platform
 import traceback
