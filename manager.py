@@ -81,11 +81,47 @@ def worker1b(q: queue.Queue, event: Event):
     #print(f"Second thread received: {result}")
     print("Steam window refreshed.")
 
+def threads_setup_refresh_steam(controller):
+    result_container = []
+    q0 = queue.Queue()
+    event0 = Event()
+    exists1_thread = Thread(target = worker0a, args = (q0, event0))
+    exists1_thread.start()
+    exists2_thread = Thread(target = worker0b, args = (q0, event0, result_container))
+    exists2_thread.start()
+    
+    while not event0.is_set():
+        time.sleep(0.01)
+        
+    if result_container:
+        final_result = result_container[0]
+        print(f"Final result: {final_result}")
+    
+    if final_result:
+        q1 = queue.Queue()
+        event1 = Event()
+        url_thread = Thread(target = worker1a, args = (q1, event1, controller))
+        url_thread.start()
+        return {"result": final_result, 
+                "queue": q1,
+                "event": event1}
+    else:
+        return {"result": final_result}
+    
+def threads_execute_refresh_steam(thread_data, controller):
+    if thread_data["result"]:
+        #thread2 = ThreadWithCallback(target = worker1b, args = (thread_data["queue"], thread_data["event"]),
+        #                                    callback = lambda: enable_buttons_after_installing(controller))
+        thread2 = Thread(target = worker1b, args = (thread_data["queue"], thread_data["event"]))
+        thread2.start()
+        return thread2
+
 def install_click(event, page, controller):
     if str(event.widget['state']) == 'normal':
         try:
             disable_buttons_while_installing(controller)
-            result_container = []
+            
+            '''result_container = []
             q0 = queue.Queue()
             event0 = Event()
             exists1_thread = Thread(target = worker0a, args = (q0, event0))
@@ -105,9 +141,9 @@ def install_click(event, page, controller):
                 event1 = Event()
                 url_thread = Thread(target = worker1a, args = (q1, event1, controller))
                 url_thread.start()
-                #join_thread = Thread(target = url_thread.join(), args = ())
-                #join_thread.start
-                #socket_url = q.get_nowait()
+            '''
+
+            thread_in_progress_data = threads_setup_refresh_steam(controller)
             
             settings = get_settings_from_gui(page)
             set_filepaths_config(page, controller)
@@ -143,11 +179,12 @@ def install_click(event, page, controller):
             backend.backup_libraryroot_css(controller.oldglory_config["Filepaths"]["InstallMode"])
             
             update_loaded_config(page, controller)
-            if final_result:
-                thread2 = ThreadWithCallback(target = worker1b, args = (q1, event1),
-                                            callback = lambda: enable_buttons_after_installing(controller))
-                thread2.start()
-            if not thread:
+            
+            if thread_in_progress_data["result"]:
+                second_thread = threads_execute_refresh_steam(thread_in_progress_data, controller)
+                if not second_thread:
+                    enable_buttons_after_installing(controller)
+            elif not thread:
                 enable_buttons_after_installing(controller)
             
             # Will be removed once refresh_steam is working in exe

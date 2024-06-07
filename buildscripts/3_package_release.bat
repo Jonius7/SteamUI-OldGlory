@@ -2,4 +2,4 @@
 
 set /p version=Enter Release Number:
 
-7z a releases/SteamUI-OldGlory-Release_%version%.zip ./dist/old_glory.exe old_glory_data.json libraryroot.custom.css variables.css fixes.txt images/ themes/ scss/ README.md -xr!*.backup*
+7z a releases/SteamUI-OldGlory-Release_%version%.zip ./dist/old_glory.exe old_glory_data.json libraryroot.custom.css variables.css fixes.txt skin.json images/ themes/ scss/ README.md -xr!*.backup*
