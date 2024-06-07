@@ -16,7 +16,7 @@ from threading import Thread
 import manager
 import backend
 import js_tweaker
-import custom_tk
+from src import custom_tk
 
 
 OS_TYPE = platform.system()

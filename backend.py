@@ -19,7 +19,7 @@ from pathlib import Path
 import asyncio
 import pyppeteer
 #import urllib3
-import psutil
+#import psutil
 
 ##########################################
 ### CONSTANTS
