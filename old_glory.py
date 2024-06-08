@@ -1585,11 +1585,10 @@ class JSFrame(tk.Frame):
 ### ================================
 def reset_all_tweaks(event, controller):
     #js_tweaker.setup_library(1)
-    #js_tweaker.reset_html
+    js_tweaker.reset_html()
     backend.clean_slate_css()
     backend.unpatch_css()
     manager.set_css_config_no_js(controller.css_config)
-    #backend.reset_html()
     backend.clear_js_working_files()
 
 def remake_js(event, controller):
@@ -1692,7 +1691,7 @@ class UpdateWindow(tk.Toplevel):
             self.controller.frames["StartPage"].text1.update_idletasks()
         #Update LastPatchedDate
         backend.update_json_last_patched_date(self.controller.json_data)
-        reload_config()
+        reload_config(self.controller)
         self.destroy()
         
 
