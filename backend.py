@@ -16,7 +16,7 @@ from requests_oauthlib import OAuth1Session
 import hashlib
 from pathlib import Path
 #from playwright.sync_api import sync_playwright, Playwright, Page
-import asyncio
+#import asyncio
 import pyppeteer
 #import urllib3
 #import psutil
@@ -274,7 +274,18 @@ def steam_dir():
         elif OS_TYPE ==  "Linux":
             steam_path = os.path.expandvars('$HOME') + "/.steam/steam"
         return steam_path
-    except:
+    except FileNotFoundError:
+        try:
+            #alternate registry path for Steam InstallPath
+            if OS_TYPE == "Windows":
+                key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\Wow6432Node\Valve\Steam")
+                steam_path = winreg.QueryValueEx(key, "InstallPath")[0]
+                steam_path = steam_path.replace("/","\\")
+                return steam_path
+        except:
+            print("Steam directory not found. Is Steam installed/has been run under this User?", file=sys.stderr)
+            print_traceback()
+    except:            
         print("Steam directory not found. Is Steam installed/has been run under this User?", file=sys.stderr)
         print_traceback()
         
