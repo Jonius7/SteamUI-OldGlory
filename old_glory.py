@@ -25,7 +25,7 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
         self.version = "1.1.5.4"
-        self.release = "5.15-pre2"
+        self.release = "5.15-pre4"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -132,10 +132,13 @@ class OldGloryApp(tk.Tk):
     '''
     
     def steam_update_check(self):
-        pass
-        self.current_file_hash = backend.get_md5_file_hash(backend.get_path_with_wildcard(backend.package_dir()))
-        if self.current_file_hash != self.json_data["steamui_websrc_all.zip.vz_hash"]:
-            print("New Steam Update detected. If the Steam window does not appear, try using the Remake JS button in Settings.", file=sys.stderr)
+        try:
+            self.current_file_hash = backend.get_md5_file_hash(backend.get_path_with_wildcard(backend.package_dir()))
+            if self.current_file_hash != self.json_data["steamui_websrc_all.zip.vz_hash"]:
+                print("New Steam Update detected. If the Steam window does not appear, try using the Remake JS button in Settings.", file=sys.stderr)
+        except:
+            print("Error checking Steam package folder for update.",file=sys.stderr)
+            print_traceback()
     
     #init text log
     def update_check(self):        

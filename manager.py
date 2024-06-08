@@ -1,8 +1,3 @@
-import tkinter as tk
-import tkinter.font as TkFont
-from tkinter import ttk
-import io
-import os
 import sys
 import asyncio
 import time
