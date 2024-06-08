@@ -68,6 +68,11 @@
   grid-column-start: 1;
 }
 
+/*Home button text centred*/
+._3O48LaKWcabKx07xdrt1TH {
+  margin: auto;
+}
+
 /* Gamelist dropdown and buttons width: 2nd column, align with home bar*/
 ._1ZS_xta5HMXzR8JgxDH6n7 {
   padding: 6px 3px 0px !important;
@@ -168,11 +173,6 @@
 
 ._3pSPluBgf0NeR1kkCLWMhR._30KGSfPjPskFlnrSxBfkiK {
   margin-left: 6px;
-}
-
-/*Home button text centred*/
-._3O48LaKWcabKx07xdrt1TH {
-  margin: auto;
 }
 
 /* ========================================================================== 

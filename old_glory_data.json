@@ -146,6 +146,18 @@
 			"name": "[Tweak] Simplified Home Search",
 			"description": "CSS for simplified Home and Search buttons"
 		},
+		"module_client_tab_icons": {
+			"name": "[Module] Client Tab Icons",
+			"description": "Add icons for the Store Library Community {Username} text buttons"
+		},
+		"module_library_always_visible_sidebar": {
+			"name": "[Module] Library Sidebar Always Visible",
+			"description": "Make library sidebar visible even on Store and Community pages"
+		},
+		"module_friends_only_avatars": {
+			"name": "[Module] Friends Only Avatars",
+			"description": "Does something with friends avatars"
+		},
 		"module_landscapegameimages": {
 			"tags": [
 				"JS",

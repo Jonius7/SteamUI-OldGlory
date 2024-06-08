@@ -62,7 +62,8 @@ def worker1a(q: queue.Queue, event: Event, controller):
         q.put(backend.request_url())
         event.set()
     except urllib.error.URLError:
-        print("Is Steam running? Unable to refresh Steam window (requires SFP/Millennium)", file=sys.stderr)
+        print("Is Steam running? Unable to refresh Steam window (requires SFP/Millennium) \n\
+            Alternatively run Steam with the -cef-enable-debugging argument", file=sys.stderr)
     except:
         print("Unable to refresh Steam window", file=sys.stderr)
         backend.print_traceback()
