@@ -860,7 +860,7 @@ def compile_css(json_data,
                     f1.write(line)
         f.close()
         f1.close()
-        print("CSS compiled.")
+        print("CSS compiled to " + filepath)
     except:
         print("Error compiling SCSS to CSS", file=sys.stderr)
         print_traceback()

@@ -3,7 +3,6 @@
 5590: "localization/steamui_vietnamese-json",~~5742: "sp",  5742: "sq",
 
 ### === Increase Number of Screenshots and DLC displayed ===
-.slice(0, 4)  .slice(0, 9)
 .IN_GAMEPADUI) ? 4 : 6;  .IN_GAMEPADUI) ? 4 : 12;
 
 ### === Disable screenshot slideshow on hover ===
