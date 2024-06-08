@@ -1573,8 +1573,9 @@ def update_json_last_patched_date(json_data):
     write_json_data(json_data)
     
 def update_steamui_websrc_hash(json_data):
-    json_data["steamui_websrc_all.zip.vz_hash"] = get_md5_file_hash(get_path_with_wildcard(package_dir()))
-    write_json_data(json_data)
+    if os.path.exists(get_path_with_wildcard(package_dir())):
+        json_data["steamui_websrc_all.zip.vz_hash"] = get_md5_file_hash(get_path_with_wildcard(package_dir()))
+        write_json_data(json_data)
 
 ### file management functions as part of auto-update
 ### file_dates - dictionary of filenames with their dates
