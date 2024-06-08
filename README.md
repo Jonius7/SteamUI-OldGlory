@@ -17,7 +17,7 @@
 
 <p align="center">Check <a href="https://github.com/Jonius7/SteamUI-OldGlory/tree/dev"><code>/dev</code></a> branch for in-progress tweaks.</p>
 
-### Video Guide and GIF
+## Video Guide and GIF
 
 <img src="https://media.giphy.com/media/OjD2H5dci42cYRVvWN/source.gif" alt="Alt Text" style="zoom:95%;" /> 
 
@@ -25,7 +25,7 @@
 
 <p align="left"><a href="https://youtu.be/foCewvyOszQ"><img alt="YouTube Video Views" src="https://img.shields.io/youtube/views/foCewvyOszQ?style=social"></a></p>
 
-### Showcase of Tweaks
+## Showcase of Tweaks
 
 <details><summary>(click to expand)</summary><br>
 Condensed sidebar buttons <br>
@@ -45,21 +45,66 @@ Condensed sidebar buttons <br>
 </details>
 
 
-
-
 ## Quick Guide
-
-#### Patching and CSS
-
+### Using SFP (SteamFriendsPatcher)
 - Install [**SFP (SteamFriendsPatcher)**](https://github.com/PhantomGamers/SFP/releases). Run it, it will patch some files.
-  - Alternatively, use the **Patch CSS** option in SteamUI-OldGlory **Advanced Options**
+
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
+
 - Select the options you want to use, then click **Install**.
+
+- In **SFP**, click the **Settings** icon in the bottom left, select the **Steam** -> **Steam skin** dropdown and choose **OldGlory**.
+  
+
+### Using Millennium Patcher
+
+- Install [**Millennium**](https://github.com/SteamClientHomebrew/Millennium).
+
+- Open up Steam, go to **Steam** -> **Settings** -> **Interface** -> **Steam Skin** and click on **Open Millennium** to open up the Millennium window.
+
+- Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
+
+- Select the options you want to use, then click **Install**.
+
+- In **Millennium**, the OldGlory theme should appear. Click on it to activate the theme. You can continue to customise your options in the SteamUI-OldGlory Installer, click **Install** and Steam should update accordingly.
+
+### Using SteamUI-OldGlory standalone (old method)
+
+SteamUI-OldGlory supports patching the CSS directly however it only covers patching the main window (not friends list, store page or Big Picture)
+
+- In the SteamUI-OldGlory Installer under **Advanced Options** -> **Patching** you can use the **Patch CSS** option. Change the **Install Location** from **SFP/Millennium** to **steamui**
+- If you decide to use SFP/Millennium in the future you can use the **Unpatch CSS** option and Change the **Install Location** back to **SFP/Millennium**
+
+### Fix Blurry Portrait Game Images
+
+- To fix all your blurry portrait game images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/latest).
+
+
+
+## More Info
+
+### When Steam Updates
+
+SteamUI-OldGlory supports patching the Steam JS files to provide extra functionality.
+
+This means sometimes when the Steam Client updates, you'll need to use the **Remake JS** option in Settings if you were previously using any JS tweaks.
+
+SteamUI-OldGlory will notify you upon startup if it detects certain Steam files have been changed/updated.
+
+If the Steam window does not appear (but appears in the system tray), try using the **Remake JS** button in Settings.
+
+### Other Config
+
 - [If using Shiina's steam-library theme](https://i.imgur.com/1cSW7iI.png), click **Apply config.css** under **Advanced Options**
-- If using [Millennium](https://github.com/SteamClientHomebrew/Millennium), Choose **Millennium** under Advanced Options -> **Install Location**
-- Whenever the Steam Client updates, you'll need to use the **Remake JS** option in Settings if you were previously using any JS tweaks.
-- OldGlory should prompt you to download new files as "small updates" when they are released. Main updates will be notified in the log window.
-- To fix all your blurry game portrait images, use this build of [**Steam Missing Covers Downloader**](https://github.com/Jonius7/steam-missing-covers-downloader/releases/latest).
+
+  - Alternatively, use the **Patch CSS** option in SteamUI-OldGlory **Advanced Options**
+
+### SteamUI-OldGlory Updates
+
+- SteamUI-OldGlory will do an update check upon startup and link you to the Github page to download a new release if available.
+- For smaller updates SteamUI-OldGlory should prompt you to download new files when they are released.
+
+## Customising CSS
 
 ##### Enable/Disable CSS modules and features
 
@@ -72,92 +117,30 @@ Since version 5.11, OldGlory can enable/disable individual CSS modules and featu
 <details><summary>More details</summary>
 <ul>   
 <li><tt>variables.css</tt>  contains a list of CSS variables that tweak certain parts of the Library.</li>
-  <li>A few of these can be configured using the GUI, but there are additional options here you can set manually.</li>
-  <li>If you manually edit the file, use the <b>Reload Config</b> button to load them into the Configurer. </li><br>
+  <li>Most of these can be configured using the GUI, but there are additional options here you can set manually.</li>
+  <li>If you manually edit the file, use the <b>Reload Config</b> button to load them into the Installer. </li><br>
 <li><tt>scss/libraryroot.custom.scss</tt> contains the <tt>@imports</tt> for each of the CSS "modules", that each cover a different part of the Steam library.</li>
     <li>You can enable and disable certain modules by adding <tt>// </tt> to the beginning of the line</li>
     <li>Click <b>Install</b> in the Configurer to apply your changes.</li>
 </ul>
 </details>
+
 <img src="https://media.giphy.com/media/5ZiZcGpMvRyEdOliSk/giphy.gif" alt="GUI Images" style="zoom:95%;" />
 
-#### OldGlory Installer (GUI)
+## OldGlory Installer (GUI)
 
-##### Main Options
+#### [Installer GUI Details](docs/Installer%20GUI%20Details.md)
 
-- **Install CSS Tweaks** - main layout tweaks will be applied to Steam Library
-- **Box Play Button** - turns the Play Bar into a floating box in the header
-- **Vertical Nav Bar** - turns the Navigation/Links bar into a floating vertical menu in the header, on the right side
-- **Classic Layout** - Vertical Nav Bar is now aligned with the game page content, with the Friends Activity/News column pushed to the bottom of the page.
-- **Landscape Game Images** - changes Portrait Game Images in the HOME page to Landscape ones.
-- **Library Theme** - applies the library theme shown in the dropdown
-
-**Actions**
-
-- **Install** - Will install selected CSS and JS tweaks. If no JS options have changed, will just install the CSS tweaks (which is faster than installing both CSS and JS)
-  - The app will copy the needed files to and from `steamui` folder as need.
-- **Reload Config** - If you have modified `fixes.txt` `variables.css` or `old_glory.json` manually, then Reload Config will grab these new values and update the checkboxes and values in the GUI (CSS Options + JS Options), without having to restart the GUI app. Changing files in `/scss` or `/themes` doesn't require Reload Config. 
-
-In **Advanced -> Quick Links**:
-
-- **Open OldGlory folder** -  open the OS file explorer to the main folder where OldGlory and files are located . 
-- **Open steamui folder** - open the `steamui` folder within ` Program Files/Steam` where the library files are located.
-- **Apply config.css**: (For Shiina's steam-library theme) This option has been added to accommodate those who might have their own `config.css` in `[steamdir]/steamui` already. If you are instead editing the `config.css` in `themes/`, clicking this button will copy `config.css` over to `[steamdir]/steamui`.
-  - This may change in the future
-
-In **Settings and About**:
-
-- **Remake JS** - Deletes local JS files and re-applies JS tweaks. 
-  Use this when some JS tweaks may not apply due to new JavaScript. Usually:
-  - after a Steam Client update, or 
-  - switching between Steam Stable and Steam Beta
-  - Technical details: 
-    `clear_js_working_files` - deletes local JS files including`library.js`, `library.beaut.js`
-    `run_js_tweaker` - recreates JS files and applies JS tweaks
-
-- **Reset** - triple click to reset the `steamui` directory back to using default library theme. Useful if something screws up or you want to test a clean slate.
-
-##### CSS Options
-
-- **What's New** - Changes position and display of What's New
-- **Game List Zoom** - Compact rows for Left Sidebar (Games List)
-- **Show Left Sidebar** - Show/Hide Left Sidebar (Games List)
-- **Glare/Shine** - Removes glare/reflection on HOME page images
-- **Game Image Transition** - Fade in time for HOME page images
-- **Home Page Grid Spacing** - Choose between compact or default
-- **Game Page Layout** - Swap Game page columns or default
-- **Game Image Opacity** - HOME page: Dim Game Images, or Uninstalled Game Images
-- **[Open variables file]** - opens `variables.css` using OS default text editor
-- **[Open scss file]** - opens `scss/libraryroot.custom.scss` using OS default text editor
-
-**JS Options**
-
-- **Enable Patching JS**
-
-- **Increase Number of Screenshots and DLC displayed** - On game page: Screenshots: 4 -> 9, DLC 6 -> 12
-- **Disable screenshot slideshow on hover** - Hovering over games on HOME page will only show the Game Boxart, not the screenshot slideshow
-- **Scrolling Tweak** - Scroll past ADD SHELF Button on load
-- **Change Game Image Grid Sizes** - Change the size of Game Images on the HOME page, based on <u>width in pixels</u>. There are 3 values here to change, corresponding to Small, Medium, Large sizes in settings. Defaults are:
-  - <u>Small</u>		  `111`
-  - <u>Medium</u>	 `148`
-  - <u>Large</u>		  `222`
-- ***Landscape Images JS Tweaks***  - corresponds to Main Option **Landscape Game Images**. No need to configure manually.
-- **Stop What's New Events from Loading** - removes loading of What's New Events
-- **Press Enter to Launch Games** - Selected game in game list will launch upon pressing Enter
-- **Expand Show more Details Panel by default** - The Show More Details Panel (i) will expand by default on game page load
-- **Dim Uninstalled Games** - Dim Uninstalled games on HOME page
-- **Don't load HOME game images, only alt text** - Can improve performance by not loading images and only the alt text
-
-
-
-#### Included files:
+## Included files:
 
 - `old_glory.exe` - App to apply **SteamUI-OldGlory's** tweaks
 - `variables.css` - CSS variables to customise
 - `fixes.txt` - JS tweaks
-- `libraryroot.custom.css` - output CSS file. Do not edit this directly, use the `\scss` folder files
+- `libraryroot.custom.css` - output CSS file. Do not edit this directly, use the `\scss` folder files and **Compile CSS** button
+- `skin.json` - JSON file for compatibility with Millennium
+- `README.md` - this file
 - `\scss` - (New in Release 5.0)
-  - `libraryroot.custom.scss` - contains all the `@imports` for smaller `.scss` files. The GUI handles enabling/disabling `_module_playbarbox`, `_module_verticalnavbar`, `_module_landscapegameimages`, `_module_classiclayout`. Manually comment out the other modules (for now)
+  - `libraryroot.custom.scss` - contains all the `@imports` for smaller `.scss` files. The GUI handles enabling/disabling `_module_playbarbox`, `_module_verticalnavbar`, `_module_landscapegameimages`, `_module_classiclayout`, `_classic`, `_module_homeicon`. 
   - `_custom_module1.scss`- put your custom CSS code here
   - `_custom_module2.scss` - put your custom CSS code here
 
@@ -169,17 +152,17 @@ In **Settings and About**:
 - Themes include:
   -  **Shiina's** [steam-library](https://github.com/AikoMidori/steam-library) dark theme
   - **Thespikedballofdoom's** [Dark Library](https://gamebanana.com/guis/35092) theme
+  - **FatheredPuma81's** Full Dark Mode theme
   -  Theme based on **EliteSkylu's** [Acrylic Steam](https://www.reddit.com/r/Steam/comments/jot6vi/let_me_introduce_you_a_project_of_my_steam_ui/) concept
   -  Crisp Cut by **Jonius7**, emphasising white app section boxes
+  -  Pure [Light] theme by **Snudgee**
   -  [OG-Steam-Library](https://github.com/ungstein/OG-Steam-Library) Theme, by **ungstein**
-
+  
 - `old_glory_data.json` data for `old_glory.exe`. Editing it is not required but it allows some data to be updated/hotfixed outside of having to rebuild the `.exe`
 
 Other files are copied from the`Steam\steamui` directory as required.
 
 `config.css` for Shiina's steam-library theme will be created from `config.css.original` the first time you enable the theme. Alternatively, you can put your existing `config.css` file here and the app will use it.
-
-
 
 #### JavaScript Tweaks
 
@@ -203,10 +186,6 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
     </details>
 
 
-#### Fix Blurred Game Images
-
-- Download [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/2021_03) and run `missing_cover_downloader`
-
 ## Quick Links
 
 - [Video Guide 2](https://youtu.be/foCewvyOszQ)
@@ -225,6 +204,7 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
 - [Steam Discussions [2]](https://steamcommunity.com/discussions/forum/0/2451595019863406679/)
 
 
+
 ## steam-library Support
 
 Shiina's **steam-library** theme is included as one of the starting themes you can choose from.
@@ -239,8 +219,7 @@ https://github.com/AikoMidori/steam-library
 
 If Library is not working, try one of these things (and **restart Steam** if necessary). If it still doesn't work, try the next thing in the list.
 
-- Check **SFP (SteamFriendsPatcher)** has patched the library CSS:
-  - use the **Reset Steam** button if necessary.
+- Check **SFP (SteamFriendsPatcher)** or **Millennium** is running.
 - Go to Task Manager and End Task on **Steam Client WebHelper** (let it restart)
 - Use **Remake JS** button under **Settings and About** (this should also be done when Steam Client updates and the JS has changed)
 - Use **Reset** button under **Settings and About**
