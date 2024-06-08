@@ -20,6 +20,8 @@ import asyncio
 import pyppeteer
 #import urllib3
 #import psutil
+#import threading
+#import queue
 
 ##########################################
 ### CONSTANTS
@@ -448,10 +450,67 @@ def process_exists(process_name):
     else:
         return False
     
+def check_running(process_name="steam.exe"):
+    '''
+    For Windows returns False if process is running in -dev mode
+    '''
+    for process in psutil.process_iter():
+        if process.name().startswith(process_name):
+            if len(process.cmdline()) >= 2:
+                #print(process.cmdline())
+                args = process.cmdline()[1:]
+                #print(args)
+                dev_running = ['-dev' == arg for arg in args]
+                if True in dev_running:
+                    #print(process_name + " is running in -dev mode")
+                    return False
+            #print(process_name + " is running")
+            return True
+        return False
+        
+def is_process_running_with_arg(process_name, arg):
+    # Iterate over all running processes
+    for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+        try:
+            # Check if the process name matches
+            if process_name.lower() in proc.info['name'].lower():
+                # Ensure cmdline is not None and check for the specific argument
+                if proc.info['cmdline'] and arg in proc.info['cmdline']:
+                    return True
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+    return False
 
-def steam_exists():
+def thread_is_process_running():
+    process_name = "steam"
+    argument = "-dev"
+    result_queue = queue.Queue()
+    def check_process():
+        result = is_process_running_with_arg(process_name, argument)
+        result_queue.put(result)
+    
+    check_thread = threading.Thread(target=check_process)
+    check_thread.start()
+    result = result_queue.get(timeout=2)
+    if result:
+        print(f"The process {process_name} is running with the argument {argument}.")
+    else:
+        print(f"The process {process_name} is not running with the argument {argument}.")
+    return result
+
+def steam_running(is_dev=False):
+    '''
+    Checks if Steam is running
+    '''
     if OS_TYPE == "Windows":
-        return process_exists("steam.exe")
+        # 4 different implementations
+        if not is_dev:
+            return process_exists("steam.exe")
+            #return check_running("steam.exe") #hangs GUI for 0.7 seconds doesn't work with JS tweaks
+            #return not is_process_running_with_arg("steam", "-dev") #hangs GUI for 0.7 seconds doesn't work with JS tweaks
+            #return thread_is_process_running()
+        else:
+            return False
     elif OS_TYPE ==  "Darwin":
         return False
     elif OS_TYPE ==  "Linux":

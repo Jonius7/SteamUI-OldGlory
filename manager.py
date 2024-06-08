@@ -48,14 +48,14 @@ CONFIG_MAP = {#"SteamLibraryPath" : {"set" : ""},
 ### INSTALL Functions
 ### ================================
 
-def worker0a(q: queue.Queue, event: Event):
-    q.put(backend.steam_exists())
+def worker0a(q: queue.Queue, event: Event, controller):
+    q.put(backend.steam_running())
     event.set()
     
 def worker0b(q: queue.Queue, event: Event, result_container):
     event.wait()
     try:
-        result = q.get_nowait()
+        result = q.get()
         result_container.append(result)
     except queue.Empty:
         print("Queue is empty, could not get the result.")
@@ -85,7 +85,7 @@ def threads_setup_refresh_steam(controller):
     result_container = []
     q0 = queue.Queue()
     event0 = Event()
-    exists1_thread = Thread(target = worker0a, args = (q0, event0))
+    exists1_thread = Thread(target = worker0a, args = (q0, event0, controller))
     exists1_thread.start()
     exists2_thread = Thread(target = worker0b, args = (q0, event0, result_container))
     exists2_thread.start()
@@ -96,6 +96,8 @@ def threads_setup_refresh_steam(controller):
     if result_container:
         final_result = result_container[0]
         #print(f"Final result: {final_result}")
+    else:
+        final_result = None
     
     if final_result:
         q1 = queue.Queue()
