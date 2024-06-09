@@ -1691,6 +1691,7 @@ class UpdateWindow(tk.Toplevel):
             self.controller.frames["StartPage"].text1.update_idletasks()
         #Update LastPatchedDate
         backend.update_json_last_patched_date(self.controller.json_data)
+        self.controller.frames["StartPage"].text1.update_idletasks()
         reload_config(self.controller)
         self.destroy()
         

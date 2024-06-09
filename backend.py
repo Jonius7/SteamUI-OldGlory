@@ -515,7 +515,7 @@ def steam_running(is_dev=False):
     '''
     if OS_TYPE == "Windows":
         # 4 different implementations
-        if not is_dev:
+        if not is_dev or not millennium_enabled():
             return process_exists("steam.exe")
             #return check_running("steam.exe") #hangs GUI for 0.7 seconds doesn't work with JS tweaks
             #return not is_process_running_with_arg("steam", "-dev") #hangs GUI for 0.7 seconds doesn't work with JS tweaks
@@ -526,6 +526,14 @@ def steam_running(is_dev=False):
         return False
     elif OS_TYPE ==  "Linux":
         return process_exists("steam")
+
+def millennium_enabled():
+    if os.path.exists(os.path.join(steam_dir(), "User32.dll")):
+        #print("Millennium enabled.")
+        return True
+    else:
+        return False
+    
 
 
 ### [END OF] GENERAL UTILITY Functions
@@ -1353,15 +1361,23 @@ def backup_libraryroot_css(install_location="SFP/Millennium"):
                     shutil.copy2(libraryroot_custom_css, libraryroot_custom_css_backup)
                     print("backed up libraryroot.custom.css to " + libraryroot_custom_css_backup)
         
+        #skin.json
         if install_location == "SFP/Millennium":
             if os.path.isfile(skin_json):
                 print("Existing skin.json code detected.")
                 shutil.copy2(skin_json, skin_json_backup)
                 print("backed up skin.json to skin.json.backup")
             shutil.copy2(local_skin_json, skin_json)
-        
     except:
         print("Unable to copy libraryroot.custom.css to install location.", file=sys.stderr)
+        print_traceback()
+
+def copy_theme_folder_files(controller):
+    pass
+    try:
+        pass
+    except:
+        print("Unable to copy theme files/folder.", file=sys.stderr)
         print_traceback()
 
 def clean_slate_css():
