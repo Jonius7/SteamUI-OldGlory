@@ -7,9 +7,10 @@
 	<a href="https://github.com/Jonius7/SteamUI-OldGlory/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/Jonius7/SteamUI-OldGlory?color=dda113"></a>
     <a href="https://github.com/Jonius7/SteamUI-OldGlory/releases/latest"><img alt="GitHub latest release version" src="https://img.shields.io/github/v/release/Jonius7/SteamUi-OldGlory?display_name=release"></a>
 	<a href="https://github.com/Jonius7/SteamUI-OldGlory/issues?q="><img alt="GitHub closed issues" src="https://img.shields.io/github/issues-closed-raw/Jonius7/SteamUI-OldGlory?color=c733c3&label=issues%20solved"></a>
-    <a href="https://github.com/Jonius7/SteamUI-OldGlory/tree/master"><img alt="Lines of code in project" src="https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/Jonius7/SteamUI-OldGlory/badge?filter=.py$,.scss$,.rs$?style=flat&logoColor=white&label=Lines%20of%20Code"></a>
+    <a href="https://github.com/Jonius7/SteamUI-OldGlory/tree/master"><img alt="Lines of code in project" src="https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/Jonius7/SteamUI-OldGlory/badge?filter=.py$,.scss$,.rs$,.json$&style=flat&logoColor=white&label=Lines%20of%20Code"></a>
     <a href="https://github.com/Jonius7/SteamUI-OldGlory/commits/dev"><img alt="GitHub commits on /dev since last merge" src="https://img.shields.io/github/commits-since/Jonius7/SteamUI-OldGlory/latest/dev?label=commits%20since"></a>
 </p>
+
 
 
 
