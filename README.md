@@ -98,8 +98,6 @@ If the Steam window does not appear (but appears in the system tray), try using 
 
 - [If using Shiina's steam-library theme](https://i.imgur.com/1cSW7iI.png), click **Apply config.css** under **Advanced Options**
 
-  - Alternatively, use the **Patch CSS** option in SteamUI-OldGlory **Advanced Options**
-
 ### SteamUI-OldGlory Updates
 
 - SteamUI-OldGlory will do an update check upon startup and link you to the Github page to download a new release if available.
