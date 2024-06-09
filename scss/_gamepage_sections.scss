@@ -26,8 +26,35 @@ button.DialogButton._3Cdin80d-hVsakHUZboheb._3nJyYxGQ3kdwwabPmxNnMe {
 }
 
 /* Move Additional Content to bottom */
-div._2aor4XVOYzN1PBSREk0UbO > div:nth-child(3) {
+div.vzLedtsu3TtTlKLEKzIhH:nth-of-type(2) {
   order: 5;
+}
+
+/* Move sections around (Activity + News, Community Content, Spotlight) */
+/*._1sZgBDTw5NH-yuVDZK1SUU {
+  flex-direction: column;
+}
+
+._1sZgBDTw5NH-yuVDZK1SUU:nth-child(1) {
+  display: flex;
+  order: 3;
+}
+
+._1sZgBDTw5NH-yuVDZK1SUU:nth-child(2) {
+  display: flex;
+  order: 2;
+}
+
+._1sZgBDTw5NH-yuVDZK1SUU:nth-child(3) {
+  display: flex;
+  order: 1;
+  float: left;
+}*/
+
+/* Style Community Content section heading to be like other headings */
+._2lNdDLgjQdeBXmMlPO8lvq {
+  background: unset;
+  color: #94a1a6;
 }
 
 /* Section Highlight */

@@ -129,14 +129,12 @@
     opacity: 1;
 }
 
-//Downloads bar
+/* Downloads bar */
 ._2VtAqT03BpBsVdmxwptn9D {
     width: 16.88vw;
 }
 
-//Top header buttons
-
-
+/* Top header buttons */
 ._3vCzSrrXZzZjVJFZNg9SGu ._1TdaAqMFadi0UTqilrkelR, ._3vCzSrrXZzZjVJFZNg9SGu ._2foCkpRXhqq0UGVE50BWqj, ._3vCzSrrXZzZjVJFZNg9SGu ._2EQ7ghgqIdjKv9jsQC0Zq9 {
     padding: 0px 12px;
     border-radius: 2px;
@@ -170,4 +168,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+/* Remove Maximized box-shadow line */
+._3vCzSrrXZzZjVJFZNg9SGu.Maximized, .Maximized ._3vCzSrrXZzZjVJFZNg9SGu {
+    box-shadow: unset;
+}
+
 /** ================================================================================== **/
