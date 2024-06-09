@@ -1,0 +1,37 @@
+{
+  "name": "Compact Activity & News",
+  "version": "v1.0",
+  "author": "Jonius7",
+  "description": "Brings SteamUI-OldGlory's Compact Activity & News layout to CSSLoader!",
+  "tabs": {
+    "library": [
+      "Steam|SteamLibraryWindow"
+    ]
+  },
+  "patches": {
+    "Activity & News": {
+      "default": "Yes",
+      "type": "checkbox",
+      "values": {
+        "Yes": {
+          "gamepage_activitynews.css": [
+            "library"
+          ]
+        },
+        "No": {}
+      }
+    },
+    "Events": {
+      "default": "Yes",
+      "type": "checkbox",
+      "values": {
+        "Yes": {
+          "gamepage_events.css": [
+            "library"
+          ]
+        },
+        "No": {}
+      }
+    }
+  }
+}
