@@ -13,7 +13,14 @@
 	--Label: #a0aa95 !important;
 	--DimListText: #758666 !important;
 	--DisabledText1: #75806f !important;
-	--DisabledText2: #282e22 !important; }
+	--DisabledText2: #282e22 !important; 
+	--FullGreen: #7ea64b !important;
+    --Inset: 1px inset var(--BorderBright);
+    --Outset: 1px outset var(--BorderBright);
+	--MaizeFilter: brightness(0) saturate(100%) invert(75%) sepia(22%) saturate(895%) hue-rotate(15deg) brightness(90%) contrast(95%);
+	--OffWhiteFilter: brightness(0) saturate(100%) invert(93%) sepia(10%) saturate(157%) hue-rotate(50deg) brightness(95%) contrast(91%);
+	--DisabledText1Filter: brightness(0) saturate(100%) invert(52%) sepia(22%) saturate(374%) hue-rotate(49deg) brightness(93%) contrast(91%);
+}
 
 /* No Bullshit Mode */
 /*
@@ -264,7 +271,6 @@ button.DialogButton.Primary:enabled:hover:active {
 	margin-top: 9px;
 	margin-right: 6px;
 	cursor: pointer;
-	background-image: url(https://ungstein.github.io/og-steam-library/steamui/images/window_close.png);
 	background-position: center;
 	box-sizing: border-box;
 	border-style: solid;
@@ -274,6 +280,9 @@ button.DialogButton.Primary:enabled:hover:active {
 	background-repeat: no-repeat;
 	background-position: center;
 	-webkit-app-region: no-drag;
+}
+.title-area-icon .closeButton {
+	background-image: url(https://ungstein.github.io/og-steam-library/steamui/images/window_close.png);
 }
 .title-area-icon:active {
 	width: 20px;
@@ -2326,4 +2335,317 @@ button.DialogButton:disabled, button.DialogButton:disabled:hover {
 
 .library_Container_3xRRJ *::-webkit-scrollbar-corner, .library_LibraryContextMenu_1UOkn::-webkit-scrollbar-corner {
 	background-color: var(--LightGreenBG);
+}
+
+
+
+/* Nav Bar -----------------------------------------------------------------------------------------------------------*/
+
+
+
+
+._2CmrnGY-Amtd83ScJkFvx2{
+    display: none;
+}
+
+._3Z7VQ1IMk4E3HsHvrkLNgo{
+    background-color: var(--GreenBG) !important;
+    box-shadow: none !important;
+    border: none;
+    padding-bottom: 3px;
+    position: relative;
+}
+
+._3Z7VQ1IMk4E3HsHvrkLNgo > div{
+    padding: 0;
+    margin: 0;
+}
+
+/* RootMenu Buttons ======================================================================= */
+._2UyOBeiSdBayaFdRa39N2O{
+    color: var(--OffWhite);
+    padding: 0% 4px;
+    height: min-content;
+}
+
+/* Navigation Buttons ======================================================================= */
+
+._19axKcqYRuaJ8vdYKYmtTQ{
+    background-color: var(--GreenBG) !important;
+    border: var(--Outset);
+    border-radius: 0%;
+    text-decoration: none !important;
+    font-weight: normal !important;
+    padding: 5px 8px !important;
+    font-size: 12px !important;
+    text-transform: none;
+    color: var(--OffWhite) !important;
+}
+
+._2D64jIEK7wpUR_NlObDW76 ._2Lu3d-5qLmW4i19ysTt2jT{
+    padding: 5px;
+}
+
+._2Lu3d-5qLmW4i19ysTt2jT._1gqEjB5QsKT_NftD1dEsdZ ._19axKcqYRuaJ8vdYKYmtTQ{
+    color: var(--Maize) !important;
+    border: var(--Inset);
+}
+
+._2Lu3d-5qLmW4i19ysTt2jT._1gqEjB5QsKT_NftD1dEsdZ ._19axKcqYRuaJ8vdYKYmtTQ::after{
+    display: none !important;
+}
+
+/* Dropdowns ======================================================================= */
+._2jXHP0742MyApMUVUM8IFn{
+    background-color: var(--GreenBG);
+}
+
+._2jXHP0742MyApMUVUM8IFn:hover{
+    background-color: var(--GreenBG) !important;
+}
+
+/* Account & News & More ======================================================================= */
+
+._3LKQ3S_yqrebeNLF6aeiog, ._3lRfTo8Wo3phXfE1DvK6QW, ._5wILZhsLODVwGfcJ0hKmJ, .RtSv39ZoBOySnb8XQ5hJf, .Utdt7JrpIm5JlpQmqyj1v, .Utdt7JrpIm5JlpQmqyj1v.Playing{
+    background-color: var(--GreenBG) !important;
+    border: var(--Outset);
+    border-radius: 0%;
+    padding: 5px;
+    margin: 0 5px 3px !important;
+    position: relative;
+    width: 17px !important;
+    min-width: 17px !important;
+    height: 17px !important;
+    min-height: 17px !important;
+    color: var(--OffWhite) !important;
+}
+
+.SVGIcon_Notification, .RtSv39ZoBOySnb8XQ5hJf .Icon{
+    color: inherit !important;
+}
+
+._3LKQ3S_yqrebeNLF6aeiog:hover, ._3lRfTo8Wo3phXfE1DvK6QW:hover, ._5wILZhsLODVwGfcJ0hKmJ:hover, .RtSv39ZoBOySnb8XQ5hJf:hover{
+    background-color: var(--GreenBG) !important;
+    border: var(--Outset);
+    color: #fff !important;
+}
+
+.RtSv39ZoBOySnb8XQ5hJf.HasNew, .RtSv39ZoBOySnb8XQ5hJf.HasNew:hover{
+    color: var(--Maize) !important;
+}
+
+.Utdt7JrpIm5JlpQmqyj1v.Playing svg.Icon{
+    color: var(--Maize);
+}
+
+.Utdt7JrpIm5JlpQmqyj1v:active{
+    background: var(--DarkGreenBG) !important;
+    border: var(--Inset);
+}
+
+.Utdt7JrpIm5JlpQmqyj1v:hover{
+    background: transparent;
+}
+
+._3LKQ3S_yqrebeNLF6aeiog svg{
+    position: static !important;
+    top: auto !important;
+}
+
+._3yD46y5pd3zOGR7CzKs0mC{
+    background-color: var(--GreenBG) !important;
+    border: var(--Outset);
+    height: 27px !important;
+    min-height: 27px !important;
+}
+
+._1yIzy56YfJIliF6ykwhP2r, ._3yD46y5pd3zOGR7CzKs0mC ._3x51wbt5DYyWC8JKwQ51ir{
+    display: none !important;
+    background: transparent !important;
+}
+
+._3yD46y5pd3zOGR7CzKs0mC.online div{
+    color: var(--OffWhite);
+    font-weight: 100;
+}
+._3yD46y5pd3zOGR7CzKs0mC.ingame div{
+    color: var(--Maize);
+    font-weight: 100;
+}
+
+.HoGkIKTQnkTEFGjqO-GMl ._11phBiBefcVQdzrnrezkKa, .HoGkIKTQnkTEFGjqO-GMl ._2jphjrSifC6orDT4g_7Wd{
+    color: var(--Maize);
+}
+
+._338kJp62vHY5iDbsraaiKD{
+    box-shadow: none;
+    border: none;
+}
+
+._1bGewp3tfzqAF6fVTFFUOz .UkR3sY319PuaUNuUWks2K{
+    background: var(--GreenBG);
+    box-shadow: none;
+    color: var(--Label);
+    border-bottom: var(--Outset);
+}
+
+._1bGewp3tfzqAF6fVTFFUOz ._2m_orETo6AghzAnc0sISCt ._3izqEKa-zuPIrUDSm1bRvf, ._1bGewp3tfzqAF6fVTFFUOz ._2m_orETo6AghzAnc0sISCt ._2m_orETo6AghzAnc0sISCt .MZPxEZcxAGtPDf1NYtouS{
+    color: inherit !important;
+    transition: none;
+}
+
+._1bGewp3tfzqAF6fVTFFUOz ._2m_orETo6AghzAnc0sISCt > div{
+    transition: none !important;
+}
+
+._1bGewp3tfzqAF6fVTFFUOz ._2m_orETo6AghzAnc0sISCt > div:hover{
+    background-color: transparent !important;
+    color: var(--Maize) !important;
+}
+
+/* Notifications Mailbox =================================================================*/
+
+._1UgM1Pm8SbTWX7_2f-crGt{
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    color: var(--OffWhite);
+    padding: 2px 2px 4px !important;
+}
+
+.MCa4RMSvWJwwWjcZP2wTT ._1oERP7bVictkby2hP4BBva{
+    transition: none;
+    background-color: var(--GreenBG);
+    border: var(--Outset);
+    border-radius: 0;
+}
+
+.MCa4RMSvWJwwWjcZP2wTT ._1oERP7bVictkby2hP4BBva:hover{
+    transition: none;
+    background-color: var(--GreenBG);
+    color: var(--Maize);
+}
+
+.MCa4RMSvWJwwWjcZP2wTT ._3zQLPuC3M-NPNa1tVda9Dz{
+    font-weight: normal;
+}
+
+.p2CKe5nuC_8YgWL_lZbNn .cam5nVZiJHP17RZlbXzmE{
+    color: var(--Label);
+}
+
+._3sTMvhkGXqBzwhsP2-IA5P ._1tsEfG-JyQFR7Un1HPOt98{
+    background: var(--GreenBG) !important;
+    border: var(--Outset);
+}
+
+._3sTMvhkGXqBzwhsP2-IA5P ._1tsEfG-JyQFR7Un1HPOt98:active, .MCa4RMSvWJwwWjcZP2wTT ._1oERP7bVictkby2hP4BBva:active{
+    background: var(--DarkGreenBG) !important;
+    border: var(--Inset);
+}
+
+._3sTMvhkGXqBzwhsP2-IA5P ._2caCrhFIrYqRuguK-cB6be{
+    background: var(--GreenBG);
+    border-radius: 0%;
+    border: var(--Outset);
+}
+
+._2KGzW7VOt9p5H2NTkCwy5A{
+    filter: brightness(100%) blur(0px);
+    border: var(--Outset);
+}
+
+._2KGzW7VOt9p5H2NTkCwy5A + img{
+    display: none;
+}
+
+._3sTMvhkGXqBzwhsP2-IA5P ._1tsEfG-JyQFR7Un1HPOt98 ._39ZAWlQf4pS3jH004cFreS, ._3sTMvhkGXqBzwhsP2-IA5P ._1tsEfG-JyQFR7Un1HPOt98 ._2XcN2JborbQvIZhYakQnO6{
+    color: var(--Label);
+}
+
+._3sTMvhkGXqBzwhsP2-IA5P ._1tsEfG-JyQFR7Un1HPOt98 ._39ZAWlQf4pS3jH004cFreS > div{
+    color: inherit !important;
+}
+
+/* Browser container =================================================================*/
+
+._1bGewp3tfzqAF6fVTFFUOz ._29p1jfvZ-VdlXK24_7UGsK{
+    background: var(--DarkGreenBG);
+    outline: 1px inset var(--BorderBright);
+}
+
+/* Windows buttons =================================================================*/
+.DesktopUI .window-controls > div, .ModalPosition_Dismiss .closeButton{
+    background: var(--GreenBG);
+    border: var(--Outset);
+    border-radius: 0%;
+    height: 20px;
+    width: 20px;
+    transition: none !important; 
+    margin: 0 3px;
+}
+.title-area-icon.closeButton.windowControlButton {
+    background-image: url(https://ungstein.github.io/og-steam-library/steamui/images/window_close.png);
+}
+
+.DesktopUI .title-area-icon-inner{
+    transition: none;
+}
+
+.DesktopUI .window-controls > div:hover, .ModalPosition_Dismiss .closeButton:hover{
+    background: var(--GreenBG) !important;
+    transition: none !important;
+}
+
+.DesktopUI .window-controls > div:active, .ModalPosition_Dismiss .closeButton:active{
+    background: var(--DarkGreenBG) !important;
+    border: var(--Inset);
+}
+
+.DesktopUI .window-controls > div [class*="SVGIcon"] line, .DesktopUI .window-controls > div [class*="SVGIcon"] rect, .DesktopUI .window-controls > div [class*="SVGIcon"] polyline,  .ModalPosition_Dismiss .closeButton line{
+    stroke: var(--OffWhite) !important;
+    transition: none;
+}
+
+.DesktopUI .window-controls > div:hover [class*="SVGIcon"] line, .DesktopUI .window-controls > div:hover [class*="SVGIcon"] rect, .DesktopUI .window-controls > div:hover [class*="SVGIcon"] polyline, .ModalPosition_Dismiss .closeButton:hover line{
+    stroke: var(--Maize) !important;
+    transition: none;
+}
+
+.LQkrbbayZPY11qHm01t7F{
+    border: var(--Outset);
+    min-width: fit-content !important;
+    background: var(--GreenBG) !important;
+    box-shadow: none !important;
+    box-sizing: border-box;
+}
+
+.LQkrbbayZPY11qHm01t7F .DialogCheckbox{
+    box-shadow: none !important;
+}
+
+.LQkrbbayZPY11qHm01t7F svg{
+    stroke: var(--Maize) !important;
+}
+
+._3B1SUx7hDHl_0zpJXbJMcC{
+background: transparent;
+}
+
+._3B1SUx7hDHl_0zpJXbJMcC ._2ZOluvz9PNJJ_h5yPgdIGP{
+    background-color: var(--Maize);
+}
+
+
+.Checkbox stop{
+    stop-color: var(--Maize) !important;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: var(--GreenBG) !important;
+    border-radius: 0% !important;
+}
+
+::selection{
+    text-shadow: none;
 }
