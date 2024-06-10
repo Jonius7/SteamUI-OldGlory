@@ -1792,7 +1792,12 @@ div.MediumWindow ._1BxZDLT8KveuJzn-1q4NTP .RfMM3QjbVZCURuo5YTHWD {
   color: var(--ACCENT) !important;
   left: 17px !important;
   height: 22px !important;
-  top: 8px !important;
+  margin-top: 1px;
+  filter: grayscale(1) !important;
+}
+
+._3pSPluBgf0NeR1kkCLWMhR ._3O48LaKWcabKx07xdrt1TH:hover {
+  filter: grayscale(1) !important;
 }
 
 /*-------------------------- LIBRARY HOME ICON --------------------------*/
