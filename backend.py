@@ -22,6 +22,7 @@ import pyppeteer
 #import psutil
 #import threading
 #import queue
+import zipfile
 
 ##########################################
 ### CONSTANTS
@@ -1720,15 +1721,15 @@ def backup_old_versions(filelist):
 def download_file(filepath, branch=BRANCH):
     try:
         url = 'https://raw.githubusercontent.com/Jonius7/SteamUI-OldGlory/'
-        r = requests.get(url + branch + "/" + filepath, allow_redirects=True)
+        response = requests.get(url + branch + "/" + filepath, allow_redirects=True)
         if not os.path.exists(filepath):
-            if r.ok:
+            if response.ok:
                 # split
                 dirs = filepath.split("/")
                 if len(dirs) == 2 and not os.path.exists(dirs[0]):
                     os.makedirs(dirs[0])            
                 #open(filepath, 'wb').write(r.context)
-                open(filepath, 'w', encoding="UTF-8", newline='').write(r.text)
+                open(filepath, 'w', encoding="UTF-8", newline='').write(response.text)
                 print("File " + filepath + " downloaded.")
             else:
                 print("Invalid request URL: " + filepath)
@@ -1739,4 +1740,62 @@ def download_file(filepath, branch=BRANCH):
         print_traceback()
 
 ### [END OF] AUTO-UPDATE Functions
+##########################################
+
+
+##########################################
+### THEME UPDATE functions
+
+
+def update_theme(username, repo_name):
+    extract_zip(*download_theme_repo(username, repo_name))
+
+def download_theme_repo(username, repo_name):
+    '''
+    Downloads zip file of Github repository from default branch to downloads/ folder
+    returns tuple of directory, zip_filename
+    '''
+    try:
+        directory = "downloads"
+        
+        url = f"https://api.github.com/repos/{username}/{repo_name}/zipball"
+        print(f"Downloading from: {url}")
+        response = requests.get(url, allow_redirects=True)
+        if not os.path.exists(directory):
+            os.makedirs(directory, exist_ok=True)
+        if response.ok:
+            zip_filename = f'{username}-{repo_name}.zip'
+            filepath = os.path.join(directory, zip_filename)
+            with open(filepath, 'wb') as file:
+                file.write(response.content)
+            print(f"Downloaded successfully at {directory}/{zip_filename}")
+            return directory, zip_filename
+        else:
+            print(f"Failed to download {url}\nStatus code: {response.status_code}")
+    except PermissionError:
+        print(f"Unable to save theme zip as file at: {filepath}", file=sys.stderr)
+        print_traceback()
+    except:
+        print("Unable to download theme from: " + url, file=sys.stderr)
+        print_traceback()
+
+def extract_zip(directory, zip_filename):
+    '''
+    Takes a zip file from downloads/ directory and extracts to ../themes/
+    '''
+    try:
+        theme_directory = "themes"
+        with zipfile.ZipFile(os.path.join(directory, zip_filename), 'r') as zip_ref:
+            extract_path = os.path.join(directory, "..", theme_directory)
+            zip_ref.extractall(extract_path)
+            print(f"Extracted all files to {extract_path}")
+        return theme_directory, zip_filename 
+    except:
+        print(f"Unable to extract zip at: {directory}", file=sys.stderr)
+        print_traceback()
+
+def rename_extracted_folder(extract_path, zip_filename, username, repo_name)
+    pass
+
+### [END OF] THEME UPDATE Functions
 ##########################################
