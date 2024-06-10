@@ -3,9 +3,10 @@
   "version": "v1.0",
   "author": "Jonius7",
   "description": "Brings SteamUI-OldGlory's Compact Activity & News layout to CSSLoader!",
+  "manifest_version": 9,
   "tabs": {
     "library": [
-      "Steam|SteamLibraryWindow"
+      "desktop"
     ]
   },
   "patches": {
