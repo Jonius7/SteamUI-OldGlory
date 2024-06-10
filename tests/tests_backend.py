@@ -6,10 +6,10 @@ import backend
 import time
 import os
 
+
+os.chdir("..")
 #CSS Line Parser
 class TestCSSLineParser(unittest.TestCase):
-
-    os.chdir("..")
     #unittest.main(warnings='ignore')
     
     '''
@@ -70,6 +70,7 @@ class TestCSSLineParser(unittest.TestCase):
     #def test_get_json(self):
     #    backend.get_json_data()
 
+    '''
     def test_get_function_performance(self):
         start_time = time.time()
         print(backend.get_git_file_hash("../scss/_sidebar.scss"))
@@ -80,7 +81,13 @@ class TestCSSLineParser(unittest.TestCase):
         j = backend.get_json_data()
         c = backend.check_new_commit_dates(j)        
         print(backend.hash_compare_small_update_files(c, j))
+    '''
     
+class TestThemeUpdater(unittest.TestCase):
+    def test_theme_updater(self):
+        tu = backend.ThemeUpdater("Jonius7", "SteamUI-OldGlory")
+        tu.update_theme()
+        print(tu.get_extracted_folder_name("Jonius7-SteamUI-OldGlory-234234"))
     
 if __name__ == '__main__':
     unittest.main()

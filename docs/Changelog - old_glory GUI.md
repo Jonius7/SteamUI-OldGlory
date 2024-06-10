@@ -1,5 +1,9 @@
 ## SteamUI-OldGlory GUI Changelog
 
+1.1.6.1		*(5.16-pre1)* New ThemeUpdater class
+
+1.1.6		Add new functions to download Github theme repo, extract zip
+
 **1.1.5.4**	     **(Release 5.15)** Small fixes (alternate registry path for Steam InstallPath)
 
 1.1.5.3	    *(5.15-pre3)* Hide console window when checking for Steam on Windows, add check on Linux
@@ -10,7 +14,7 @@
 
 1.1.5			*(5.15-pre1)* Working implementation of refreshing Steam window upon installing (caveat of freezing)
 
-**1.1.4.2**	     	*(5.14.2-pre1)* Add Millennium URL Link to Settings and About
+1.1.4.2	     	*(5.14.2-pre1)* Add Millennium URL Link to Settings and About
 
 1.1.4.1	     Make `fixes.txt` Linux compatible, fix inconsistencies with line endings
 
@@ -26,7 +30,7 @@
 
 1.1.2			*(5.14-pre1)* New Install Location dropdown (now compatible with Millennium)
 
-**1.1.1.1**	    **(Release 5.13)**  new class mapping, remove defunct JS tweaks
+**1.1.1.1**	    **(Release 5.13)**  New class mapping, remove defunct JS tweaks
 
 **1.1.1**	       **(Release 5.12.1)** Full Dark Mode Theme (FatheredPuma81), Metro Top Bar CSS
 
@@ -64,15 +68,15 @@
 
 **0.9.27.1**	  **(Release 5.10)** No longer needs SFP to patch CSS
 
-**0.9.25.6** 	 **(Release 5.9)** New themes directory format (folder for each theme)
+**0.9.25.6** 	 **(Release 5.9)** New themes directory format, fix JS tweaks for 18 Aug update
 
-0.9.25.1		(*5.9-pre1*)	
+0.9.25.1		(*5.9-pre1*) New themes directory format (folder for each theme)	
 
 **0.9.11.31**	**(Release 5.8.6)** New Versions of JS Tweaks for Steam Update 28 July
 
 **0.9.11.29**	**(Release 5.8.5)** New versions of JS tweaks for Steam update 13 May 
 
-0.9.11.23 	*(Release 5.8.4-pre1)*
+0.9.11.25 	*(Release 5.8.4-pre1)* New version JS tweaks working up to Change Game Image Sizes
 
 **0.9.11.23** 	**(Release 5.8.3)** Fix extra newlines being added when updating files
 
@@ -92,7 +96,9 @@
 
 ​	0.9.20.5	Generating `refs` list, filter out tweaks that don't have `refs`
 
-**0.9.11.5**	**(Release 5.7.4.2)**
+**0.9.11.5**	**(Release 5.7.4.2)** Hotfix patching JS, change to use `rjsmin`
+
+0.9.11.4 	*(5.7.4.1)* Remove number-specific JS reference
 
 ​	0.9.20.2	Search for `refs` (WIP), update JS Beautify Messages
 

@@ -1747,55 +1747,70 @@ def download_file(filepath, branch=BRANCH):
 ### THEME UPDATE functions
 
 
-def update_theme(username, repo_name):
-    extract_zip(*download_theme_repo(username, repo_name))
+class ThemeUpdater:
+    def __init__(self, username, repo_name):
+        self.username = username
+        self.repo_name = repo_name
+        self.downloads_dir = os.path.join(os.getcwd(), "downloads")
+        self.theme_dir = os.path.join(os.getcwd(), "themes")
+        self.zip_filename = f'{self.username}-{self.repo_name}.zip'
+        self.extract_path = os.path.join(self.downloads_dir, "..", self.theme_dir)
+        self.new_folder_name = f'{self.username}-{self.repo_name}'
 
-def download_theme_repo(username, repo_name):
-    '''
-    Downloads zip file of Github repository from default branch to downloads/ folder
-    returns tuple of directory, zip_filename
-    '''
-    try:
-        directory = "downloads"
-        
-        url = f"https://api.github.com/repos/{username}/{repo_name}/zipball"
-        print(f"Downloading from: {url}")
-        response = requests.get(url, allow_redirects=True)
-        if not os.path.exists(directory):
-            os.makedirs(directory, exist_ok=True)
-        if response.ok:
-            zip_filename = f'{username}-{repo_name}.zip'
-            filepath = os.path.join(directory, zip_filename)
-            with open(filepath, 'wb') as file:
-                file.write(response.content)
-            print(f"Downloaded successfully at {directory}/{zip_filename}")
-            return directory, zip_filename
-        else:
-            print(f"Failed to download {url}\nStatus code: {response.status_code}")
-    except PermissionError:
-        print(f"Unable to save theme zip as file at: {filepath}", file=sys.stderr)
-        print_traceback()
-    except:
-        print("Unable to download theme from: " + url, file=sys.stderr)
-        print_traceback()
+    def update_theme(self):
+        self.download_theme_repo()
+        self.extract_zip()
+        self.rename_extracted_folder()
 
-def extract_zip(directory, zip_filename):
-    '''
-    Takes a zip file from downloads/ directory and extracts to ../themes/
-    '''
-    try:
-        theme_directory = "themes"
-        with zipfile.ZipFile(os.path.join(directory, zip_filename), 'r') as zip_ref:
-            extract_path = os.path.join(directory, "..", theme_directory)
-            zip_ref.extractall(extract_path)
-            print(f"Extracted all files to {extract_path}")
-        return theme_directory, zip_filename 
-    except:
-        print(f"Unable to extract zip at: {directory}", file=sys.stderr)
-        print_traceback()
+    def download_theme_repo(self):
+        '''
+        Downloads zip file of Github repository from default branch to downloads/ folder
+        returns tuple of directory, zip_filename
+        '''
+        try:            
+            url = f"https://api.github.com/repos/{self.username}/{self.repo_name}/zipball"
+            print(f"Downloading from: {url}")
+            response = requests.get(url, allow_redirects=True)
+            if not os.path.exists(self.downloads_dir):
+                os.makedirs(self.downloads_dir, exist_ok=True)
+            if response.ok:
+                
+                filepath = os.path.join(self.downloads_dir, self.zip_filename)
+                with open(filepath, 'wb') as file:
+                    file.write(response.content)
+                print(f"Downloaded successfully at {self.downloads_dir}/{self.zip_filename}")
+                return self.downloads_dir, self.zip_filename
+            else:
+                print(f"Failed to download {url}\nStatus code: {response.status_code}")
+        except PermissionError:
+            print(f"Unable to save theme zip as file at: {filepath}", file=sys.stderr)
+            print_traceback()
+        except:
+            print("Unable to download theme from: " + url, file=sys.stderr)
+            print_traceback()
 
-def rename_extracted_folder(extract_path, zip_filename, username, repo_name)
-    pass
-
+    def extract_zip(self):
+        '''
+        Takes a zip file from downloads/ directory and extracts
+        '''
+        try:
+            with zipfile.ZipFile(os.path.join(self.downloads_dir, self.zip_filename), 'r') as zip_ref:
+                zip_ref.extractall(self.extract_path)
+                print(f"Extracted all files to {self.extract_path}")
+            return self.theme_dir, self.zip_filename
+        except:
+            print(f"Unable to extract zip at: {self.downloads_dir}", file=sys.stderr)
+            print_traceback()
+            
+    def get_extracted_folder_name(self, folder_name):
+        return folder_name.rpartition("-")[0]
+    
+    def rename_extracted_folder(self):
+        folder_list = os.listdir(self.theme_dir)
+        for folder in folder_list:
+            if self.get_extracted_folder_name(folder) == self.new_folder_name :
+                os.rename(os.path.join(self.theme_dir, folder),
+                          os.path.join(self.theme_dir, self.new_folder_name))
+                print("Folder renamed.")
 ### [END OF] THEME UPDATE Functions
 ##########################################
