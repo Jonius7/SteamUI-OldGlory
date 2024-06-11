@@ -107,12 +107,16 @@ def threads_setup_refresh_steam(controller):
         return {"result": final_result}
     
 def threads_execute_refresh_steam(thread_data, controller):
-    if thread_data["result"]:
-        #thread2 = ThreadWithCallback(target = worker1b, args = (thread_data["queue"], thread_data["event"]),
-        #                                    callback = lambda: enable_buttons_after_installing(controller))
-        thread2 = Thread(target = worker1b, args = (thread_data["queue"], thread_data["event"]))
-        thread2.start()
-        return thread2
+    try:
+        if thread_data["result"]:
+            #thread2 = ThreadWithCallback(target = worker1b, args = (thread_data["queue"], thread_data["event"]),
+            #                                    callback = lambda: enable_buttons_after_installing(controller))
+            thread2 = Thread(target = worker1b, args = (thread_data["queue"], thread_data["event"]))
+            thread2.start()
+            return thread2
+    except:
+        print("Unable to refresh Steam window.", file=sys.stderr)
+        old_glory.print_traceback()
 
 def install_click(event, page, controller):
     if str(event.widget['state']) == 'normal':
