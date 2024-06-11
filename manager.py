@@ -122,28 +122,6 @@ def install_click(event, page, controller):
     if str(event.widget['state']) == 'normal':
         try:
             disable_buttons_while_installing(controller)
-            
-            '''result_container = []
-            q0 = queue.Queue()
-            event0 = Event()
-            exists1_thread = Thread(target = worker0a, args = (q0, event0))
-            exists1_thread.start()
-            exists2_thread = Thread(target = worker0b, args = (q0, event0, result_container))
-            exists2_thread.start()
-            
-            while not event0.is_set():
-                time.sleep(0.01)
-            
-            if result_container:
-                final_result = result_container[0]
-                #print(f"Final result: {final_result}")
-            
-            if final_result:
-                q1 = queue.Queue()
-                event1 = Event()
-                url_thread = Thread(target = worker1a, args = (q1, event1, controller))
-                url_thread.start()
-            '''
 
             thread_in_progress_data = threads_setup_refresh_steam(controller)
             
@@ -187,18 +165,7 @@ def install_click(event, page, controller):
                 if not second_thread:
                     enable_buttons_after_installing(controller)
             elif not thread:
-                enable_buttons_after_installing(controller)
-            
-            # Will be removed once refresh_steam is working in exe
-            #backend.refresh_steam_dir()
-            #while True:
-            #    if not url_thread.is_alive():
-            #        break
-            #    thread2 = Thread(target = asyncio.run, args = (backend.refresh_steam(socket_url),))
-            #    thread2.start()
-            
-            
-            
+                enable_buttons_after_installing(controller)            
         except:
             print("Error while installing tweaks.", file=sys.stderr)
             old_glory.print_traceback()
