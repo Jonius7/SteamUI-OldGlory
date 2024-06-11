@@ -24,6 +24,11 @@ PortraitWidthLarge: "222px",  PortraitWidthLarge: "200px",
 ###t = Math.max(1, Math.min(m, Math.floor((e + c) / p)));  t = Math.max(1, Math.min(m, Math.floor((e + c) / p)) + 1);
 ###return this.props.childHeight * this.props.scaleGridItems  return this.props.childHeight * 43 / 138 * this.props.scaleGridItems
 
+### === Press Enter to launch games ===
+switch (t) {~~case 38:  case 13: return this.RunApp(Ne.l.GetLastRangeSelection().m_appid), void e.preventDefault();case 38:
+MoveRangeSelectUpOneRow() {  RunApp(e) {window.open("steam://rungameid/" + e, "_blank");} MoveRangeSelectUpOneRow() {
+(0, F.gn)([y.ak], Te.prototype, "ScrollToTop", null),  (0, F.gn)([y.ak], Te.prototype, "ScrollToTop", null), (0, F.gn)([y.ak], Te.prototype, "RunApp", null),
+
 ### === Stop What's New Events from Loading ===
 ###B.Config.STORE_BASE_URL + "events/ajaxgetbesteventsforuser"  ""
 
