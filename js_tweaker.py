@@ -3,7 +3,7 @@
 
 import jsbeautifier
 import js_beautify
-import platform
+import yaml
 import os
 import sys
 import shutil
@@ -11,39 +11,21 @@ import traceback
 import re
 import rjsmin
 import time
+import copy
+from rich import print as r_print
 
 import backend
 
 LOCAL_DEBUG = 0 #Set to 1 to not copy files to/from Steam directory
-
-# Determine Steam Library Path
-OS_TYPE = platform.system()
-if OS_TYPE == "Windows":
-    import winreg
+VERBOSE = 1
 
 fixes_dict = {}
 
 json_data = backend.get_json_data()
 
+
 def initialise():
     fixes_dict.clear() #not fixes_dict = {}
-
-def library_dir():
-    try:
-        steamui_path = ""
-        if OS_TYPE == "Windows":
-            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
-            steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
-            steamui_path = steam_path.replace("/","\\") + "\steamui"
-            #print(steamui_path)
-        elif OS_TYPE ==  "Darwin":
-            steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "/steamui"
-        elif OS_TYPE ==  "Linux":
-            steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "/steamui"
-        return steamui_path
-    except:
-        error_exit("Steam library directory could not be found.")
-
 
 ######
 
@@ -53,9 +35,9 @@ def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fres
     try:
         if reset == 1 or LOCAL_DEBUG == 1:
             for filename in files_to_copy:
-                if os.path.exists(library_dir() + "/" + filename):
+                if os.path.exists(backend.library_dir() + "/" + filename):
                     print("Copying file " + filename + " from Steam\steamui...")
-                    shutil.copy2(library_dir() + "/" + filename, filename)
+                    shutil.copy2(backend.library_dir() + "/" + filename, filename)
             
     except FileNotFoundError:
         error_exit("Steam directory and/or files not found.\n" \
@@ -66,8 +48,8 @@ def backup_files_from_steam():
         for filename in files_to_copy:
             #if os.path.exists(library_dir() + "/" + filename):
             #    shutil.copy2(library_dir() + "/" + filename, library_dir() + "/" + filename + ".original")
-            if not os.path.exists(filename + ".original") and os.path.exists(library_dir() + "/" + filename):
-                shutil.copy2(library_dir() + "/" + filename, filename + ".original")
+            if not os.path.exists(filename + ".original") and os.path.exists(backend.library_dir() + "/" + filename):
+                shutil.copy2(backend.library_dir() + "/" + filename, filename + ".original")
     except:
         error_exit("Error while copying files")
             
@@ -82,10 +64,10 @@ def get_modif_filename(filename):
 def beautify_js(filename=json_data["libraryrootjsFile"]):
     try:
         beautify_file = get_beaut_filename(filename)
-        if not os.path.isfile(beautify_file) and os.path.isfile(os.path.join(library_dir(), filename)):
+        if not os.path.isfile(beautify_file) and os.path.isfile(os.path.join(backend.library_dir(), filename)):
             print("Opening " + beautify_file + ", generating beautified JS...")
             if not os.path.isfile(filename):
-                shutil.copy2(os.path.join(library_dir(), filename), filename)
+                shutil.copy2(os.path.join(backend.library_dir(), filename), filename)
 
             #opts = jsbeautifier.default_options()
             #library = jsbeautifier.beautify_file(filename, opts)
@@ -159,7 +141,7 @@ def modify_html():
     try:
         lines = []
         modified = 0
-        with open(library_dir() + "/index.html", encoding="UTF-8") as infile:
+        with open(backend.library_dir() + "/index.html", encoding="UTF-8") as infile:
             for line in infile:
                 for src, target in html_array.items():
                     new_line = re.sub(src, target, line)
@@ -168,23 +150,23 @@ def modify_html():
                 lines.append(new_line)
         infile.close()
         if modified == 1:
-            with open(library_dir() + "/index.html.temp", 'w', encoding="UTF-8") as outfile:
+            with open(backend.library_dir() + "/index.html.temp", 'w', encoding="UTF-8") as outfile:
                 for line in lines:
                     outfile.write(line)            
             outfile.close()
             
-            shutil.move(library_dir() +"/index.html", library_dir() + "/index.html.original")
-            shutil.move(library_dir() +"/index.html.temp", library_dir() + "/index.html")
+            shutil.move(backend.library_dir() +"/index.html", backend.library_dir() + "/index.html.original")
+            shutil.move(backend.library_dir() +"/index.html.temp", backend.library_dir() + "/index.html")
             print("index.html changing to use tweaked JS.")
-            print("index.html backup created at " + library_dir() + "/index.html.original")
+            print("index.html backup created at " + backend.library_dir() + "/index.html.original")
     except:
         error_exit("index.html unable to be patched.")
 
 def reset_html():
     try:
-        if os.path.isfile(library_dir() + "/index.html.original"):
-            shutil.move(library_dir() + "/index.html.original", library_dir() + "/index.html")
-            print(library_dir() + "/index.html replaced with backup: " + "index.html.original")
+        if os.path.isfile(backend.library_dir() + "/index.html.original"):
+            shutil.move(backend.library_dir() + "/index.html.original", backend.library_dir() + "/index.html")
+            print(backend.library_dir() + "/index.html replaced with backup: " + "index.html.original")
     except:
         error_exit("Unable to reset index.html")
             
@@ -266,7 +248,11 @@ def write_modif_file(filename = json_data["libraryrootjsFile"]):
     except:
         error_exit("Error writing " + modif_filename)
 
-def re_minify_file(modif_filename = json_data["libraryrootjsModifFile"], min_filename = json_data["libraryrootjsPatchedFile"]):
+def re_minify_file(modif_filename = json_data["libraryrootjsModifFile"],
+                   min_filename = json_data["libraryrootjsPatchedFile"]):
+    '''
+    Previously minified JS files until it stopped working
+    '''
     try:
         if os.path.isfile(modif_filename):
             '''
@@ -306,8 +292,8 @@ def copy_files_to_steam():
                              json_data["jsPatchedFile"]: json_data["jsPatchedFile"]}
             for filename in files_to_copy:
                 if os.path.isfile(filename):
-                    shutil.copy2(filename, library_dir() + "/" + files_to_copy[filename])
-                    print("File " + filename + " written to " + library_dir() + "/" + files_to_copy[filename])
+                    shutil.copy2(filename, backend.library_dir() + "/" + files_to_copy[filename])
+                    print("File " + filename + " written to " + backend.library_dir() + "/" + files_to_copy[filename])
                 
     except FileNotFoundError:
         error_exit("Files not found!: " + filename + "\n" \
