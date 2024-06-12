@@ -88,6 +88,8 @@ class TestThemeUpdater(unittest.TestCase):
         tu = backend.ThemeUpdater("Jonius7", "SteamUI-OldGlory")
         tu.update_theme()
         print(tu.get_extracted_folder_name("Jonius7-SteamUI-OldGlory-234234"))
+        tv = backend.ThemeUpdater("RoseTheFlower", "MetroSteam")
+        tv.update_theme()
     
 if __name__ == '__main__':
     unittest.main()

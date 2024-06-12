@@ -338,7 +338,7 @@ def help():
     
 def get_git_file_hash(filepath, encoding="UTF-8"):
     '''
-    UTILITY: Returns the git SHA hash of a file.
+    UTILITY: Returns the git SHA hash of a file (excluding .png)
     '''
     try:
         #exclude .png for filehash
@@ -1532,19 +1532,19 @@ def check_new_commit_dates(json_data):
     try:
         file_dates = {}
         file_list = get_small_update_file_list()
-        '''
-        #use local version of file for debugging purposes
+        
+        '''#use local version of file for debugging purposes
         with open('small_update_file_list.json') as f:
             file_list = json.load(f)
-        f.close()
-        '''
+        f.close()'''
+        
         
         for k, v in file_list.items():
             file_dates_item = {}
             for pathname in file_list[k]:
                 session = create_session()
-                response = session.get("https://api.github.com/repos/jonius7/steamui-oldglory/commits?path=" + \
-                                       pathname + "&page=1&per_page=1&sha=" + BRANCH)
+                response = session.get(f"https://api.github.com/repos/jonius7/steamui-oldglory/commits?path="
+                                       f"{pathname}&page=1&per_page=1&sha={BRANCH}")
                 #print(json_data["lastPatchedDate"] < response.json()[0]["commit"]["committer"]["date"])
 
                 # if commit date is newer than last patched dated
@@ -1737,6 +1737,69 @@ def download_file(filepath, branch=BRANCH):
     except:
         print("Unable to download file " + str(filepath), file=sys.stderr)
         print_traceback()
+        
+        
+### Additional Auto-update functions
+
+def compute_sha1_file_hash(file_path):
+    '''
+    Compute SHA-1 hash of a file (new version).
+    '''
+    sha1_hash = hashlib.sha1()
+    with open(file_path, "rb") as f:
+        for byte_block in iter(lambda: f.read(4096), b""):
+            sha1_hash.update(byte_block)
+    return sha1_hash.hexdigest()
+
+def get_local_files_hashes(directory):
+    '''
+    Get SHA-1 hashes for all files in a directory and its subdirectories.
+    '''
+    file_hashes = {}
+    for root, _, files in os.walk(directory):
+        for file in files:
+            file_path = os.path.join(root, file)
+            file_hashes[os.path.relpath(file_path, directory)] = compute_sha1_file_hash(file_path)
+    return file_hashes
+
+def get_github_file_hashes(username, repo_name, subfolder_path):
+    '''
+    Get SHA-1 hashes for all files in a GitHub repository subfolder.
+    '''
+    api_url = f"https://api.github.com/repos/{username}/{repo_name}/contents/{subfolder_path}"
+    response = requests.get(api_url)
+    if response.status_code != 200:
+        raise Exception(f"Failed to fetch data from GitHub API: {response.status_code}")
+
+    file_hashes = {}
+    for file_info in response.json():
+        if file_info['type'] == 'file':
+            file_url = file_info['download_url']
+            file_response = requests.get(file_url)
+            if file_response.status_code == 200:
+                file_hashes[file_info['path']] = hashlib.sha1(file_response.content).hexdigest()
+    return file_hashes
+
+def compare_hashes(local_hashes, github_hashes):
+    '''
+    Compare local file hashes with GitHub file hashes.
+    '''
+    for relative_path, local_hash in local_hashes.items():
+        github_hash = github_hashes.get(relative_path.replace("\\", "/"))
+        if github_hash is None:
+            print(f"File {relative_path} only exists locally, ignoring...")
+        elif local_hash != github_hash:
+            print(f"File differs: {relative_path}")
+        else:
+            print(f"File matches: {relative_path}")
+
+def test_run_local_github(username, repo_name):
+    local_directory = f"themes/{username}-{repo_name}"
+    local_file_hashes = get_local_files_hashes(local_directory)
+    github_file_hashes = get_github_file_hashes(username, repo_name, "")
+    compare_hashes(local_file_hashes, github_file_hashes)
+
+
 
 ### [END OF] AUTO-UPDATE Functions
 ##########################################
@@ -1757,6 +1820,10 @@ class ThemeUpdater:
         self.new_folder_name = f'{self.username}-{self.repo_name}'
 
     def update_theme(self):
+        '''
+        Downloads zip of Github repository to downloads/ folder, extracts it
+        to themes/ folder
+        '''
         self.download_theme_repo()
         self.extract_zip()
         self.rename_extracted_folder()
@@ -1790,7 +1857,7 @@ class ThemeUpdater:
 
     def extract_zip(self):
         '''
-        Takes a zip file from downloads/ directory and extracts
+        Takes a zip file from downloads/ directory and extracts to themes/ directory
         '''
         try:
             with zipfile.ZipFile(os.path.join(self.downloads_dir, self.zip_filename), 'r') as zip_ref:
