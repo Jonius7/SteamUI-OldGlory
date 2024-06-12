@@ -262,7 +262,7 @@ Install pyinstaller:
 	`pip install pyinstaller`
 
 Install libraries using `pip`: 
-	`pip install jsbeautifier rjsmin libsass Pillow requests requests_oauthlib maturin pyppeteer`
+	`pip install jsbeautifier rjsmin libsass Pillow requests requests_oauthlib maturin pyppeteer pyyaml rich schema`
 
 Run:
 

@@ -12,7 +12,6 @@ import urllib.request
 import sass
 from datetime import datetime, timezone
 import requests
-from requests_oauthlib import OAuth1Session
 import hashlib
 from pathlib import Path
 #from playwright.sync_api import sync_playwright, Playwright, Page

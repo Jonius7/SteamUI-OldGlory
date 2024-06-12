@@ -3,7 +3,7 @@
 
 import jsbeautifier
 import js_beautify
-import platform
+import yaml
 import os
 import sys
 import shutil
@@ -11,39 +11,21 @@ import traceback
 import re
 import rjsmin
 import time
+import copy
+from rich import print as r_print
 
 import backend
 
 LOCAL_DEBUG = 0 #Set to 1 to not copy files to/from Steam directory
-
-# Determine Steam Library Path
-OS_TYPE = platform.system()
-if OS_TYPE == "Windows":
-    import winreg
+VERBOSE = 1
 
 fixes_dict = {}
 
 json_data = backend.get_json_data()
 
+
 def initialise():
     fixes_dict.clear() #not fixes_dict = {}
-
-def library_dir():
-    try:
-        steamui_path = ""
-        if OS_TYPE == "Windows":
-            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "SOFTWARE\Valve\Steam")
-            steam_path = winreg.QueryValueEx(key, "SteamPath")[0]
-            steamui_path = steam_path.replace("/","\\") + "\steamui"
-            #print(steamui_path)
-        elif OS_TYPE ==  "Darwin":
-            steamui_path = os.path.expandvars('$HOME') + "/Library/Application Support/Steam" + "/steamui"
-        elif OS_TYPE ==  "Linux":
-            steamui_path = os.path.expandvars('$HOME') + "/.steam/steam" + "/steamui"
-        return steamui_path
-    except:
-        error_exit("Steam library directory could not be found.")
-
 
 ######
 
@@ -53,9 +35,9 @@ def copy_files_from_steam(reset=0): #set reset to 1 to overwrite files with fres
     try:
         if reset == 1 or LOCAL_DEBUG == 1:
             for filename in files_to_copy:
-                if os.path.exists(library_dir() + "/" + filename):
+                if os.path.exists(backend.library_dir() + "/" + filename):
                     print("Copying file " + filename + " from Steam\steamui...")
-                    shutil.copy2(library_dir() + "/" + filename, filename)
+                    shutil.copy2(backend.library_dir() + "/" + filename, filename)
             
     except FileNotFoundError:
         error_exit("Steam directory and/or files not found.\n" \
@@ -66,8 +48,8 @@ def backup_files_from_steam():
         for filename in files_to_copy:
             #if os.path.exists(library_dir() + "/" + filename):
             #    shutil.copy2(library_dir() + "/" + filename, library_dir() + "/" + filename + ".original")
-            if not os.path.exists(filename + ".original") and os.path.exists(library_dir() + "/" + filename):
-                shutil.copy2(library_dir() + "/" + filename, filename + ".original")
+            if not os.path.exists(filename + ".original") and os.path.exists(backend.library_dir() + "/" + filename):
+                shutil.copy2(backend.library_dir() + "/" + filename, filename + ".original")
     except:
         error_exit("Error while copying files")
             
@@ -82,10 +64,10 @@ def get_modif_filename(filename):
 def beautify_js(filename=json_data["libraryrootjsFile"]):
     try:
         beautify_file = get_beaut_filename(filename)
-        if not os.path.isfile(beautify_file) and os.path.isfile(os.path.join(library_dir(), filename)):
+        if not os.path.isfile(beautify_file) and os.path.isfile(os.path.join(backend.library_dir(), filename)):
             print("Opening " + beautify_file + ", generating beautified JS...")
             if not os.path.isfile(filename):
-                shutil.copy2(os.path.join(library_dir(), filename), filename)
+                shutil.copy2(os.path.join(backend.library_dir(), filename), filename)
 
             #opts = jsbeautifier.default_options()
             #library = jsbeautifier.beautify_file(filename, opts)
@@ -159,7 +141,7 @@ def modify_html():
     try:
         lines = []
         modified = 0
-        with open(library_dir() + "/index.html", encoding="UTF-8") as infile:
+        with open(backend.library_dir() + "/index.html", encoding="UTF-8") as infile:
             for line in infile:
                 for src, target in html_array.items():
                     new_line = re.sub(src, target, line)
@@ -168,23 +150,23 @@ def modify_html():
                 lines.append(new_line)
         infile.close()
         if modified == 1:
-            with open(library_dir() + "/index.html.temp", 'w', encoding="UTF-8") as outfile:
+            with open(backend.library_dir() + "/index.html.temp", 'w', encoding="UTF-8") as outfile:
                 for line in lines:
                     outfile.write(line)            
             outfile.close()
             
-            shutil.move(library_dir() +"/index.html", library_dir() + "/index.html.original")
-            shutil.move(library_dir() +"/index.html.temp", library_dir() + "/index.html")
+            shutil.move(backend.library_dir() +"/index.html", backend.library_dir() + "/index.html.original")
+            shutil.move(backend.library_dir() +"/index.html.temp", backend.library_dir() + "/index.html")
             print("index.html changing to use tweaked JS.")
-            print("index.html backup created at " + library_dir() + "/index.html.original")
+            print("index.html backup created at " + backend.library_dir() + "/index.html.original")
     except:
         error_exit("index.html unable to be patched.")
 
 def reset_html():
     try:
-        if os.path.isfile(library_dir() + "/index.html.original"):
-            shutil.move(library_dir() + "/index.html.original", library_dir() + "/index.html")
-            print(library_dir() + "/index.html replaced with backup: " + "index.html.original")
+        if os.path.isfile(backend.library_dir() + "/index.html.original"):
+            shutil.move(backend.library_dir() + "/index.html.original", backend.library_dir() + "/index.html")
+            print(backend.library_dir() + "/index.html replaced with backup: " + "index.html.original")
     except:
         error_exit("Unable to reset index.html")
             
@@ -238,6 +220,215 @@ def find_fix_with_variable(line, fix):
     #res = [i.start() for i in re.finditer("\$\^", st)]
     #for lv in res:
     print("todo")
+
+# v2 handling tools Start
+
+class YamlHandler:
+    def __init__(self, filename):
+        '''
+        self.parse_yaml_file()
+        '''
+        self.filename = filename
+        self.data = self.get_yaml_data()
+        self.f_data = None#self.format_yaml_data()
+        
+    def get_yaml_data(self):
+        with open(self.filename, newline='', encoding="UTF-8") as f:
+            yaml_data = yaml.safe_load(f)
+        f.close()
+        return yaml_data
+    
+    def format_yaml_data(self, data):
+        '''
+        Format yaml file data to support Regex operations \n
+        Requires functions in ConfigJSHandler to be run first to format data properly
+        '''
+        f_data = copy.deepcopy(data)
+        self.regex = RegexHandler()
+        for filename in f_data:
+            for tweak in f_data[filename]:
+                try:
+                    for i, find_repl in enumerate(tweak_strs := f_data[filename][tweak]["strings"]):
+                        #if using "previous line"
+                        if (sem := semantic_find_str(find_repl["find"])):
+                            tweak_strs[i].update({"find":
+                                {"prev": self.regex.sub_find_with_regex(sem["prev"]),
+                                "current": self.regex.sub_find_with_regex(sem["current"])}
+                            })
+                            tweak_strs[i]["repl"] = self.regex.sub_repl_with_regex(tweak_strs[i]["repl"])
+                        else:
+                            tweak_strs[i]["find"] = self.regex.sub_find_with_regex(tweak_strs[i]["find"])
+                            tweak_strs[i]["repl"] = self.regex.sub_repl_with_regex(tweak_strs[i]["repl"])
+                except KeyError:
+                    print("Tweak " + tweak + " has no strings to find and replace, skipping", file=sys.stderr)
+                    continue
+                except:
+                    error_exit("Unable to properly format Yaml data at: " + tweak)
+        self.f_data = f_data
+        if VERBOSE == 1:
+            r_print(self.f_data)
+        
+    def format_yaml_data_compiled(self, data):
+        '''
+        Format yaml file data to support Regex operations \n
+        Requires functions in ConfigJSHandler to be run first to format data properly
+        '''
+        f_data = copy.deepcopy(data)
+        self.regex = RegexHandler()
+        for filename in f_data:
+            for tweak in f_data[filename]:
+                try:
+                    for i, find_repl in enumerate(tweak_strs := f_data[filename][tweak]["strings"]):
+                        #if using "previous line"
+                        if (sem := semantic_find_str(find_repl["find"])):
+                            tweak_strs[i].update({"find":
+                                {"prev": re.compile(self.regex.sub_find_with_regex(sem["prev"])),
+                                "current": re.compile(self.regex.sub_find_with_regex(sem["current"]))}
+                            })
+                            tweak_strs[i]["repl"] = self.regex.sub_repl_with_regex(tweak_strs[i]["repl"])
+                        else:
+                            tweak_strs[i]["find"] = re.compile(self.regex.sub_find_with_regex(tweak_strs[i]["find"]))
+                            tweak_strs[i]["repl"] = self.regex.sub_repl_with_regex(tweak_strs[i]["repl"])
+                except KeyError:
+                    print("Tweak " + tweak + " has no strings to find and replace, skipping", file=sys.stderr)
+                    continue
+                except:
+                    error_exit("Unable to properly format Yaml data at: " + tweak)
+        self.f_data = f_data
+        if VERBOSE == 1:
+            r_print(self.f_data)
+    
+    def r_print_to_file(self, data):
+        '''
+        prints dictionary of data to file, for visibility/checking
+        '''
+        pass
+
+def raw_text(str_text):
+    '''
+    may not be needed \n
+    takes a string and return a "raw string" version of it
+    '''
+    raw_text = [str_text]
+    str_text = "%r"%str_text
+    raw_text = str_text[1:-1]
+    return raw_text
+
+def escaped_pattern(pattern_str):
+    '''
+    Returns Regex escaped string
+    '''
+    #str = re.sub('\\\\([0-9]+)', '\\1', str)
+    return re.escape(pattern_str)
+
+def regex_search(pattern_str, string):
+    return re.search(escaped_pattern(pattern_str), string)
+
+def semantic_find_values(str, config):
+    '''
+    String to search through and find values
+    '''
+    pass
+
+def semantic_find_str(find_str):
+    '''
+    May need to redo/realign with the process
+    '''
+    #find_str = unescape(find_str)
+    semantic = None
+    if "~~" in find_str:
+        t = find_str.split("~~")
+        if len(t) == 2:
+            semantic = {"prev" : t[0],
+                        "current" : t[1]}
+    return semantic
+
+def unescape(string):
+    #new_string = re.sub(r'\\(.)', r'\1', string)
+    #new_string = re.sub(r'\([tnrvf])', r'\1', string)
+    #return new_string
+    #should cover all practical cases
+    new_string = re.sub(r'\\(.)', r'\1', string, flags=re.DOTALL)
+    return new_string
+
+class RegexHandler:
+    def __init__(self):
+        #Detecting variables %1% %2% %3% etc.
+        self.vars_pattern = re.compile("%([0-9]+)%")
+        self.refs_pattern = re.compile("%([a-z]+)%")
+        #The regex pattern to replace them with
+        self.js_letters = "([A-Za-z_$]{1,2})"
+    
+    def sub_find_with_regex(self, find):
+        r'''
+        returns string where:
+            self.vars       regex pattern substituted with
+            self.latters    regex pattern
+        string special characters are escaped beforehand
+            special characters: ()[]{}?*+-|^$\\.&~# \t\n\r\v\f
+        '''
+        return self.vars_pattern.sub(self.js_letters, escaped_pattern(find))
+    
+    def sub_repl_with_regex(self, repl):
+        return self.vars_pattern.sub(r"\\"+"\\1",  escaped_pattern(repl))
+    
+    def sub_ref_with_regex(self, ref):
+        return self.refs_pattern.sub(self.js_letters, escaped_pattern(ref))
+    
+    #def sub_extras_with_letters(self, extra_ref, letters):
+    #    letters_iter = iter(letters)
+    #    return self.refs_pattern.sub(self.match_letters(letters_iter), extra_ref)
+    
+    #def match_letters(self, letters_iter):
+    #    return letters_iter.next()
+    
+    def find_and_repl(self, find, repl, line, lineno):
+        '''
+        takes a find/replace pair and returns the string to be written
+            find - the string to find (regex formatted) \n
+            repl - the string to replace it with (regex formatted) \n
+            line - the line in question (in the tweaks file) \n
+            unescape(re.sub(...))
+        '''
+        return_string = unescape(re.sub(find, repl, line))
+        #print(return_string.ljust(70)[:70].strip() + (' ...' if len(return_string) > 70 else ''))
+        print("TWEAK (" + str(lineno) + "): " + return_string.strip().ljust(120)[:120] + (' ...\n' if len(return_string) > 120 else '\n'), end='')
+        return return_string 
+    
+    def compiled_find_and_repl(self, find, repl, line, lineno):
+        '''
+        takes a find/replace pair and returns the string to be written
+            find - the compiled string to find (regex formatted) \n
+            repl - the string to replace it with (regex formatted) \n
+            line - the line in question (in the tweaks file) \n
+            unescape(re.sub(...))
+        '''
+        return_string = unescape(find.sub(repl, line))
+        #print(return_string.ljust(70)[:70].strip() + (' ...' if len(return_string) > 70 else ''))
+        print("TWEAK (" + str(lineno) + "): " + return_string.strip().ljust(120)[:120] + (' ...\n' if len(return_string) > 120 else '\n'), end='')
+        return return_string    
+        
+    def find(self, find, line):
+        '''
+        - find: pattern
+        - line: text to search \n
+        re.search(...)
+        '''
+        return re.search(find, line)
+    
+    def compiled_find(self, find, line):
+        '''
+        - find: compiled pattern
+        - line: text to search \n
+        re.search(...)
+        '''
+        return find.search(line)
+
+
+
+# v2 handling tools end
+
+
         
 
 def write_modif_file(filename = json_data["libraryrootjsFile"]):
@@ -266,7 +457,11 @@ def write_modif_file(filename = json_data["libraryrootjsFile"]):
     except:
         error_exit("Error writing " + modif_filename)
 
-def re_minify_file(modif_filename = json_data["libraryrootjsModifFile"], min_filename = json_data["libraryrootjsPatchedFile"]):
+def re_minify_file(modif_filename = json_data["libraryrootjsModifFile"],
+                   min_filename = json_data["libraryrootjsPatchedFile"]):
+    '''
+    Previously minified JS files until it stopped working
+    '''
     try:
         if os.path.isfile(modif_filename):
             '''
@@ -306,8 +501,8 @@ def copy_files_to_steam():
                              json_data["jsPatchedFile"]: json_data["jsPatchedFile"]}
             for filename in files_to_copy:
                 if os.path.isfile(filename):
-                    shutil.copy2(filename, library_dir() + "/" + files_to_copy[filename])
-                    print("File " + filename + " written to " + library_dir() + "/" + files_to_copy[filename])
+                    shutil.copy2(filename, backend.library_dir() + "/" + files_to_copy[filename])
+                    print("File " + filename + " written to " + backend.library_dir() + "/" + files_to_copy[filename])
                 
     except FileNotFoundError:
         error_exit("Files not found!: " + filename + "\n" \
