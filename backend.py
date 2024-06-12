@@ -1810,9 +1810,10 @@ def test_run_local_github(username, repo_name):
 
 
 class ThemeUpdater:
-    def __init__(self, username, repo_name):
+    def __init__(self, username, repo_name, branch="main"):
         self.username = username
         self.repo_name = repo_name
+        self.branch = branch
         self.downloads_dir = os.path.join(os.getcwd(), "downloads")
         self.theme_dir = os.path.join(os.getcwd(), "themes")
         self.zip_filename = f'{self.username}-{self.repo_name}.zip'
@@ -1828,6 +1829,15 @@ class ThemeUpdater:
         self.extract_zip()
         self.rename_extracted_folder()
 
+    def get_default_branch(self):
+        url = f"https://api.github.com/repos/{self.username}/{self.repo_name}"
+        response = requests.get(url)
+        response.raise_for_status()
+        default_branch = response.json()["default_branch"]
+        if default_branch:
+            self.branch = default_branch
+    
+    
     def download_theme_repo(self):
         '''
         Downloads zip file of Github repository from default branch to downloads/ folder
@@ -1840,7 +1850,6 @@ class ThemeUpdater:
             if not os.path.exists(self.downloads_dir):
                 os.makedirs(self.downloads_dir, exist_ok=True)
             if response.ok:
-                
                 filepath = os.path.join(self.downloads_dir, self.zip_filename)
                 with open(filepath, 'wb') as file:
                     file.write(response.content)
