@@ -229,14 +229,14 @@ class YamlHandler:
         self.parse_yaml_file()
         '''
         self.filename = filename
-        self.data = self.parse_yaml_file()
+        self.data = self.get_yaml_data()
         self.f_data = None#self.format_yaml_data()
         
-    def parse_yaml_file(self):
+    def get_yaml_data(self):
         with open(self.filename, newline='', encoding="UTF-8") as f:
-            data = yaml.safe_load(f)
+            yaml_data = yaml.safe_load(f)
         f.close()
-        return data
+        return yaml_data
     
     def format_yaml_data(self, data):
         '''

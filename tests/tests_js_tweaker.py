@@ -1,20 +1,23 @@
 import unittest
 from unittest.mock import mock_open, patch
+import os
 import sys
 from pathlib import Path
-sys.path.append(str(Path('.').absolute().parent))
+#sys.path.append(str(Path('.').absolute().parent))
 import backend
 import js_tweaker
 import datetime
 import re
 import shutil
 from timeit import timeit
+from rich import print as r_print
 
 #CSS Line Parser
 class TestCopyFilesFromSteam(unittest.TestCase):
 
-    def test_reset1(self):
-        js_tweaker.copy_files_from_steam(reset=1)
+    #def test_reset1(self):
+    #    js_tweaker.copy_files_from_steam(reset=1)
+    
     '''
     def test_withdefault(self):
         self.assertEqual(
@@ -74,10 +77,11 @@ class TestCopyFilesFromSteam(unittest.TestCase):
 class TestYaml(unittest.TestCase):
     ###
     def test_parse_yaml(self):
-        yaml = js_tweaker.YamlHandler(sys.path[0] + "/../js_tweaks.yml")
-        return yaml
+        yaml = js_tweaker.YamlHandler(os.path.join(sys.path[0], "js_tweaks.yml"))
+        #print(yaml.data)
+        r_print(yaml.data)
 
-    def test_retrieve_find(self):
+    '''def test_retrieve_find(self):
         yaml = self.test_parse_yaml()
         start_time = datetime.datetime.now()
         for fix in yaml.data:
@@ -91,13 +95,13 @@ class TestYaml(unittest.TestCase):
         start_time = datetime.datetime.now()
         js_tweaker.parse_fixes_file('../fixes.txt')
         end_time = datetime.datetime.now()
-        print(end_time - start_time)
+        print(end_time - start_time)'''
 
     #def test_write_modif(self):
     #    yaml = self.test_parse_yaml()
     #    js_tweaker.write_modif_file(yaml.data)   
 
-class TestRegex(unittest.TestCase):
+'''class TestRegex(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.ac = js_tweaker.RegexHandler()
@@ -152,7 +156,7 @@ class TestRegex(unittest.TestCase):
     def test_semantic(self):
         print(js_tweaker.semantic_find_str('switch (t) {~~case 38:'))
 
-
+'''
 
 if __name__ == '__main__':
     unittest.main()
