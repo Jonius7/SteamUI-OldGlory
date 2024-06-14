@@ -294,28 +294,25 @@ def package_dir():
     '''
     UTILITY: Returns Steam package path (/package) for Windows, Mac, Linux.
     '''
-    package_path = steam_dir() + "/package"
-    if OS_TYPE == "Windows":
-        package_path = package_path.replace("/","\\")
-    return package_path
+    return os.path.join(steam_dir(), "package")
     
 def library_dir():
     '''
     UTILITY: Returns Steam library path (/steamui) for Windows, Mac, Linux.
     '''
-    library_path = steam_dir() + "/steamui"
-    if OS_TYPE == "Windows":
-        library_path = library_path.replace("/","\\")
-    return library_path
+    return os.path.join(steam_dir(), "steamui")
 
 def skins_dir():
     '''
-    UTILITY: Returns Steam skins path (steamui/skins/OldGlory) for Windows, Mac, Linux.
+    UTILITY: Returns Steam skins path (steamui/skins) for Windows, Mac, Linux.
     '''
-    skins_path = library_dir() + "/skins/OldGlory"
-    if OS_TYPE == "Windows":
-        skins_path = skins_path.replace("/","\\")
-    return skins_path
+    return os.path.join(steam_dir(), "steamui", "skins")
+
+def oldglory_dir():
+    '''
+    UTILITY: Returns Steam OldGlory path (steamui/skins/OldGlory) for Windows, Mac, Linux.
+    '''
+    return os.path.join(steam_dir(), "skins", "OldGlory")
 
 def print_traceback():
     '''
@@ -1324,12 +1321,12 @@ def backup_libraryroot_css(install_location="SFP/Millennium"):
             libraryroot_custom_css_backup2 = os.path.join(library_dir(), "libraryroot.custom.css.backup2")
         elif install_location == "SFP/Millennium":
             local_skin_json = "skin.json"
-            skin_json = os.path.join(skins_dir(), "skin.json")
-            skin_json_backup = os.path.join(skins_dir(), "skin.json.backup")
-            libraryroot_dir = skins_dir()
-            libraryroot_custom_css = os.path.join(skins_dir(), "libraryroot.custom.css")
-            libraryroot_custom_css_backup = os.path.join(skins_dir(), "libraryroot.custom.css.backup")
-            libraryroot_custom_css_backup2 = os.path.join(skins_dir(), "libraryroot.custom.css.backup2")
+            skin_json = os.path.join(oldglory_dir(), "skin.json")
+            skin_json_backup = os.path.join(oldglory_dir(), "skin.json.backup")
+            libraryroot_dir = oldglory_dir()
+            libraryroot_custom_css = os.path.join(oldglory_dir(), "libraryroot.custom.css")
+            libraryroot_custom_css_backup = os.path.join(oldglory_dir(), "libraryroot.custom.css.backup")
+            libraryroot_custom_css_backup2 = os.path.join(oldglory_dir(), "libraryroot.custom.css.backup2")
         elif install_location == "Local":
             libraryroot_custom_css = "libraryroot.custom.css"
             libraryroot_custom_css_backup = "libraryroot.custom.css.backup"
@@ -1919,16 +1916,21 @@ class ThemeUpdater:
                 os.rename(os.path.join(self.themes_dir, folder),
                           os.path.join(self.themes_dir, self.new_folder_name))
                 print("Folder renamed.")
-
+                
+def copy_files_from_themes_to_skins(theme_dir, skins_dir, enable_tweaks=True) :
+    if enable_tweaks:
+        shutil.copytree(theme_dir, skins_dir, 
+                        ignore=shutil.ignore_patterns(".git"),
+                        dirs_exist_ok=True)
+        print(f"Theme files copied to '{skins_dir}'.")
 #example usage
 def init_theme_updater(username, repo_name):
     tu = ThemeUpdater(username, repo_name)
     tu.clone_theme()
+    copy_files_from_themes_to_skins(tu.local_dir, 
+                                    os.path.join(skins_dir(), tu.new_folder_name)
+                                    )
     return tu
-                
-def copy_files_from_themes_to_skins(theme_dir, skins_dir, enable_tweaks=True) :
-    if enable_tweaks:
-        shutil.copytree(theme_dir, skins_dir, ignore=shutil.ignore_patterns("libraryroot.custom.css"))
 
 ### [END OF] THEME UPDATE Functions
 ##########################################
