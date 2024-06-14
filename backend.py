@@ -22,6 +22,7 @@ import pyppeteer
 #import threading
 #import queue
 import zipfile
+import git
 
 ##########################################
 ### CONSTANTS
@@ -1815,19 +1816,28 @@ class ThemeUpdater:
         self.repo_name = repo_name
         self.branch = branch
         self.downloads_dir = os.path.join(os.getcwd(), "downloads")
-        self.theme_dir = os.path.join(os.getcwd(), "themes")
-        self.zip_filename = f'{self.username}-{self.repo_name}.zip'
-        self.extract_path = os.path.join(self.downloads_dir, "..", self.theme_dir)
+        self.themes_dir = os.path.join(os.getcwd(), "themes")
+        self.local_dir = os.path.join(self.themes_dir, f"{self.username}-{self.repo_name}")
+        self.zip_filename = f"{self.username}-{self.repo_name}.zip"
+        self.extract_path = os.path.join(self.downloads_dir, "..", self.themes_dir)
         self.new_folder_name = f'{self.username}-{self.repo_name}'
 
     def update_theme(self):
         '''
-        Downloads zip of Github repository to downloads/ folder, extracts it
+        Downloads zip(ball) of Github repository to downloads/ folder, extracts it
         to themes/ folder
+        Excludes files listed in .gitattributes
         '''
         self.download_theme_repo()
         self.extract_zip()
         self.rename_extracted_folder()
+    
+    def clone_theme(self):
+        self.get_default_branch()
+        self.clone_repository()
+    
+    def clone_theme_dev(self):
+        self.clone_repository()
 
     def get_default_branch(self):
         url = f"https://api.github.com/repos/{self.username}/{self.repo_name}"
@@ -1837,6 +1847,28 @@ class ThemeUpdater:
         if default_branch:
             self.branch = default_branch
     
+    
+    def clone_repository(self):
+        # Construct the repository URL
+        repo_url = f"https://github.com/{self.username}/{self.repo_name}.git"
+        
+        if os.path.exists(self.local_dir):
+            try:
+                # If it is a git repository, pull the latest changes
+                repo = git.Repo(self.local_dir)
+                origin = repo.remotes.origin
+                origin.pull(self.branch)
+                print(f"Repository '{self.repo_name}' already exists. Pulled latest changes into '{self.local_dir}'.")
+            except git.exc.InvalidGitRepositoryError:
+                # If it's not a git repository, remove the directory
+                shutil.rmtree(self.local_dir)
+                # Clone the repository
+                git.Repo.clone_from(repo_url, self.local_dir, branch=self.branch)
+                print(f"Directory '{self.local_dir}' already existed and was not a git repository. It has been replaced with the cloned repository.")
+        else:
+            # Clone the repository
+            git.Repo.clone_from(repo_url, self.local_dir, branch=self.branch)
+            print(f"Repository '{self.repo_name}' cloned successfully to '{self.local_dir}'.")
     
     def download_theme_repo(self):
         '''
@@ -1872,7 +1904,7 @@ class ThemeUpdater:
             with zipfile.ZipFile(os.path.join(self.downloads_dir, self.zip_filename), 'r') as zip_ref:
                 zip_ref.extractall(self.extract_path)
                 print(f"Extracted all files to {self.extract_path}")
-            return self.theme_dir, self.zip_filename
+            return self.themes_dir, self.zip_filename
         except:
             print(f"Unable to extract zip at: {self.downloads_dir}", file=sys.stderr)
             print_traceback()
@@ -1881,11 +1913,22 @@ class ThemeUpdater:
         return folder_name.rpartition("-")[0]
     
     def rename_extracted_folder(self):
-        folder_list = os.listdir(self.theme_dir)
+        folder_list = os.listdir(self.themes_dir)
         for folder in folder_list:
             if self.get_extracted_folder_name(folder) == self.new_folder_name :
-                os.rename(os.path.join(self.theme_dir, folder),
-                          os.path.join(self.theme_dir, self.new_folder_name))
+                os.rename(os.path.join(self.themes_dir, folder),
+                          os.path.join(self.themes_dir, self.new_folder_name))
                 print("Folder renamed.")
+
+#example usage
+def init_theme_updater(username, repo_name):
+    tu = ThemeUpdater(username, repo_name)
+    tu.clone_theme()
+    return tu
+                
+def copy_files_from_themes_to_skins(theme_dir, skins_dir, enable_tweaks=True) :
+    if enable_tweaks:
+        shutil.copytree(theme_dir, skins_dir, ignore=shutil.ignore_patterns("libraryroot.custom.css"))
+
 ### [END OF] THEME UPDATE Functions
 ##########################################
