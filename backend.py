@@ -312,7 +312,7 @@ def oldglory_dir():
     '''
     UTILITY: Returns Steam OldGlory path (steamui/skins/OldGlory) for Windows, Mac, Linux.
     '''
-    return os.path.join(steam_dir(), "skins", "OldGlory")
+    return os.path.join(skins_dir(),"OldGlory")
 
 def print_traceback():
     '''
