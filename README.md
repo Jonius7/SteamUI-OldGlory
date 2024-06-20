@@ -279,7 +279,7 @@ Run:
 ​	`maturin develop`:		
 
 Build `old_glory.exe`:
-	`pyinstaller -w --icon=steam_oldglory.ico --clean --onefile old_glory.spec`
+	`pyinstaller --clean old_glory.spec`
 
 The `.spec` file is included in the repository.
 
