@@ -194,10 +194,12 @@ class StartPage(tk.Frame):
         self.tabs = ttk.Notebook(self,width=722)
         self.frameCheck = tk.Frame(self.tabs)
         self.framePatch = tk.Frame(self.tabs)
+        self.frameThemes = tk.Frame(self.tabs)
     
     ### Functions - Frames and Pack
         self.create_check_frame()
         self.create_patch_frame(controller)
+        self.create_themes_frame()
         self.create_mode_frame()
         self.create_confirm_frame()
         self.set_init_gui_states()
@@ -482,6 +484,37 @@ class StartPage(tk.Frame):
                                      hover_delay=200)
         pbutton6.bind("<Button-1>", lambda event:backend.compile_css(controller.json_data))
         pbutton6.grid(row=1, column=2, padx=(5,0), pady=5)
+
+    def create_themes_frame(self):
+        labeltext_a = tk.StringVar()
+        labeltext_a.set("Username:")
+        
+        label_a = tk.Label(self.frameThemes, textvariable=labeltext_a)
+        label_a.grid(row=0, column=0)
+        
+        self.entry_a = ttk.Entry(self.frameThemes)
+        self.entry_a.grid(row=0, column=1)
+        
+        labeltext_b = tk.StringVar()
+        labeltext_b.set("Repository:")
+        
+        label_b = tk.Label(self.frameThemes, textvariable=labeltext_b)
+        label_b.grid(row=1, column=0)
+        
+        self.entry_b = ttk.Entry(self.frameThemes)
+        self.entry_b.grid(row=1, column=1)
+        
+        button_a = ttk.Button(self.frameThemes, text="Download Theme", command=lambda: get_value())
+        button_a.grid(row=2, column=0)
+        
+        def get_value():
+            e_text = self.entry_a.get()
+            
+            labeltext_a1 = tk.StringVar()
+            labeltext_a1.set(e_text)
+            
+            label_a1 = tk.Label(self.frameThemes, textvariable=labeltext_a1)
+            label_a1.grid(row=3, column=0)
         
     def create_mode_frame(self):   
     ### MODE FRAME
@@ -528,11 +561,12 @@ class StartPage(tk.Frame):
         self.frameHead.pack()
         self.frameCheck.pack()
         self.framePatch.pack()
+        self.frameThemes.pack()
 
         ###tabs
         self.tabs.add(self.frameCheck, text="Main Options")
         self.tabs.add(self.framePatch, text="Advanced Options")
-        #self.tabs.add(self.framePatch, text="Patching")
+        self.tabs.add(self.frameThemes, text="Download Themes")
         self.tabs.pack(expand=1)
         
         self.frameLog.pack(padx=17, pady=(10,7), expand=1, fill='both')
