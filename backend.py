@@ -1833,7 +1833,12 @@ class ThemeUpdater:
     def clone_theme(self):
         self.get_default_branch()
         self.set_skin_dir()
-        self.clone_repository()
+        self.clone_repository(self.local_dir)
+    
+    def clone_theme_to_skins(self):
+        self.get_default_branch()
+        self.set_skin_dir()
+        self.clone_repository(self.skin_dir)
     
     def clone_theme_dev(self):
         self.clone_repository()
@@ -1850,27 +1855,27 @@ class ThemeUpdater:
     def set_skin_dir(self):
         self.skin_dir = os.path.join(skins_dir(), f"{self.repo_name}-{self.branch}")
     
-    def clone_repository(self):
+    def clone_repository(self, dest_dir):
         # Construct the repository URL
         repo_url = f"https://github.com/{self.username}/{self.repo_name}.git"
         
-        if os.path.exists(self.skin_dir):
+        if os.path.exists(dest_dir):
             try:
                 # If it is a git repository, pull the latest changes
-                repo = git.Repo(self.skin_dir)
+                repo = git.Repo(dest_dir)
                 origin = repo.remotes.origin
                 origin.pull(self.branch)
-                print(f"Repository '{self.repo_name}' already exists. Pulled latest changes into '{self.skin_dir}'.")
+                print(f"Repository '{self.repo_name}' already exists. Pulled latest changes into '{dest_dir}'.")
             except git.exc.InvalidGitRepositoryError:
                 # If it's not a git repository, remove the directory
-                shutil.rmtree(self.skin_dir)
+                shutil.rmtree(dest_dir)
                 # Clone the repository
-                git.Repo.clone_from(repo_url, self.skin_dir, branch=self.branch)
-                print(f"Directory '{self.skin_dir}' already existed and was not a git repository. It has been replaced with the cloned repository.")
+                git.Repo.clone_from(repo_url, dest_dir, branch=self.branch)
+                print(f"Directory '{dest_dir}' already existed and was not a git repository. It has been replaced with the cloned repository.")
         else:
             # Clone the repository
-            git.Repo.clone_from(repo_url, self.skin_dir, branch=self.branch)
-            print(f"Repository '{self.repo_name}' cloned successfully to '{self.skin_dir}'.")
+            git.Repo.clone_from(repo_url, dest_dir, branch=self.branch)
+            print(f"Repository '{self.repo_name}' cloned successfully to '{dest_dir}'.")
     
     def download_theme_repo(self):
         '''
