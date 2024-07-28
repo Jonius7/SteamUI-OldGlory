@@ -124,6 +124,7 @@ def install_click(event, page, controller):
             disable_buttons_while_installing(controller)
 
             thread_in_progress_data = threads_setup_refresh_steam(controller)
+            #thread_in_progress_data = None
             
             settings = get_settings_from_gui(page)
             set_filepaths_config(page, controller)
@@ -160,10 +161,11 @@ def install_click(event, page, controller):
             
             update_loaded_config(page, controller)
             
-            if thread_in_progress_data["result"]:
-                second_thread = threads_execute_refresh_steam(thread_in_progress_data, controller)
-                if not second_thread:
-                    enable_buttons_after_installing(controller)
+            if thread_in_progress_data:
+                if thread_in_progress_data["result"]:
+                    second_thread = threads_execute_refresh_steam(thread_in_progress_data, controller)
+                    if not second_thread:
+                        enable_buttons_after_installing(controller)
             elif not thread:
                 enable_buttons_after_installing(controller)            
         except:
