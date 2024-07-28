@@ -28,6 +28,22 @@
   display: var(--WhatsNew);
 }
 
+/* New What's New display code */
+._3lDczhulqraStjCitLYJ1K._2AUVZlzQq67qe3yhLZsPPB {
+  display: flex;
+  flex-direction: column;
+}
+
+._3lDczhulqraStjCitLYJ1K._2AUVZlzQq67qe3yhLZsPPB > div:first-child {
+  display: flex;
+  order: var(--WhatsNewOrder);
+}
+
+._3Sb2o_mQ30IDRh0C72QUUu {
+  display: flex;
+  order: 1;
+}
+
 /* Home Page - Steam Games Grid
    ========================================================================== */
 
