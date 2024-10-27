@@ -464,7 +464,7 @@ def re_minify_file(modif_filename = json_data["libraryrootjsModifFile"],
     '''
     try:
         if os.path.isfile(modif_filename):
-            '''
+            
             print("\nRe-minify JS file")
             with open(modif_filename, "r", newline='', encoding="UTF-8") as js_file:
                 minified = rjsmin.jsmin(js_file.read(), keep_bang_comments=True)
@@ -473,7 +473,7 @@ def re_minify_file(modif_filename = json_data["libraryrootjsModifFile"],
             js_file.close()
             js_min_file.close()
             print("JS Minify complete. (" + min_filename + ")")
-            '''
+            
             shutil.copy2(modif_filename, min_filename)
             print("File " + modif_filename + " copied to " + min_filename)
             

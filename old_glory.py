@@ -244,8 +244,8 @@ class StartPage(tk.Frame):
         ######
         self.var1 = tk.IntVar()
         self.check1 = ttk.Checkbutton(self.frameCheck,
-                                 variable=self.var1)                        
-        self.check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, [self.check2, self.check3, self.check5, self.check7]))
+                                      variable=self.var1)                        
+        self.check1.bind("<Button-1>", lambda event:css_cb_check(event, self.var1, [self.check2, self.check3, self.check7]))
         self.check1.grid(row=0, column=0)
         ###        
         mo1 = MainOption(
@@ -260,7 +260,7 @@ class StartPage(tk.Frame):
         ######
         self.var2 = tk.IntVar()
         self.check2 = ttk.Checkbutton(self.frameCheck,
-                                 variable=self.var2)
+                                      variable=self.var2)
         self.check2.grid(row=1, column=0)
         ###
         mo2 = MainOption(
@@ -275,7 +275,7 @@ class StartPage(tk.Frame):
         ######
         self.var3 = tk.IntVar()
         self.check3 = ttk.Checkbutton(self.frameCheck,
-                                 variable=self.var3)
+                                      variable=self.var3)
         self.check3.bind("<Button-1>", lambda event:css_cb_check(event, self.var3, [self.check4]))
         self.check3.grid(row=2, column=0)
         ###
@@ -291,7 +291,7 @@ class StartPage(tk.Frame):
         ######
         self.var4 = tk.IntVar()
         self.check4 = ttk.Checkbutton(self.frameCheck,
-                                 variable=self.var4)
+                                      variable=self.var4)
         self.check4.grid(row=3, column=0)
         ###
         mo4 = MainOption(
@@ -306,7 +306,8 @@ class StartPage(tk.Frame):
         ######
         self.var5 = tk.IntVar()
         self.check5 = ttk.Checkbutton(self.frameCheck,
-                                 variable=self.var5)
+                                      variable=self.var5,
+                                      state=tk.DISABLED)
         self.check5.grid(row=4, column=0)
         ###
         mo5 = MainOption(
@@ -322,7 +323,7 @@ class StartPage(tk.Frame):
         self.change_theme = 0
         self.var6 = tk.IntVar()
         self.check6 = ttk.Checkbutton(self.frameCheck,
-                                 variable=self.var6)
+                                      variable=self.var6)
         self.check6.bind("<Button-1>", lambda event: self.setChangeTheme(event))
         self.check6.grid(row=5, column=0)
         ###
@@ -350,7 +351,7 @@ class StartPage(tk.Frame):
         ######
         self.var7 = tk.IntVar()
         self.check7 = ttk.Checkbutton(self.frameCheck,
-                                 variable=self.var7)
+                                      variable=self.var7)
         self.check7.grid(row=0, column=2)
         ###
         mo7 = MainOption(
@@ -365,7 +366,7 @@ class StartPage(tk.Frame):
         ######
         self.var8 = tk.IntVar()
         self.check8 = ttk.Checkbutton(self.frameCheck,
-                                 variable=self.var8)
+                                      variable=self.var8)
         self.check8.grid(row=1, column=2)
         ###
         mo8 = MainOption(
@@ -534,9 +535,10 @@ class StartPage(tk.Frame):
         self.var_n = tk.IntVar()
         button_n = ttk.Button(self.frameMode,
                            text="JS Options",
+                           state="disabled",
                            width=16
         )
-        button_n.bind("<Button-1>", lambda event:show_JSPage(self.controller))
+        #button_n.bind("<Button-1>", lambda event:show_JSPage(self.controller))
         button_n.grid(row=0, column=1, padx=5)
         
         
@@ -552,7 +554,7 @@ class StartPage(tk.Frame):
         ### Set GUI from config
         self.loaded_config = manager.set_selected_main_options(self, self.controller)
         self.text1.config(state='disabled')
-        init_cb_check(self.var1, [self.check2, self.check3, self.check5, self.check7])
+        init_cb_check(self.var1, [self.check2, self.check3, self.check7])
         init_cb_check(self.var3, [self.check4])
         
 
@@ -561,12 +563,12 @@ class StartPage(tk.Frame):
         self.frameHead.pack()
         self.frameCheck.pack()
         self.framePatch.pack()
-        self.frameThemes.pack()
+        #self.frameThemes.pack()
 
         ###tabs
         self.tabs.add(self.frameCheck, text="Main Options")
         self.tabs.add(self.framePatch, text="Advanced Options")
-        self.tabs.add(self.frameThemes, text="Download Themes")
+        #self.tabs.add(self.frameThemes, text="Download Themes")
         self.tabs.pack(expand=1)
         
         self.frameLog.pack(padx=17, pady=(10,7), expand=1, fill='both')
@@ -645,9 +647,10 @@ class CSSPage(tk.Frame):
         self.var_n = tk.IntVar()
         button_n = ttk.Button(self.frameMode,
                            text="JS Options",
+                           state="disabled",
                            width=16
         )
-        button_n.bind("<Button-1>", lambda event:show_JSPage(controller))
+        #button_n.bind("<Button-1>", lambda event:show_JSPage(controller))
         button_n.grid(row=0, column=1, padx=5)
 
     ### CONFIRM FRAME
@@ -776,7 +779,7 @@ class ConfirmFrame(tk.Frame):
                                      font="TkDefaultFont",
                                      values=self.install_modes,
                                      textvariable=self.modeVar,
-                                     state="readonly",
+                                     state="disabled",
                                      #selected=self.install_modes[0],              
         )
         self.modeMenu.current(0)
