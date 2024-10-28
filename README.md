@@ -61,13 +61,14 @@ Condensed sidebar buttons <br>
 
 - Install [**Millennium**](https://github.com/SteamClientHomebrew/Millennium).
 
-- Open up Steam, go to **Steam** -> **Settings** -> **Interface** -> **Steam Skin** and click on **Open Millennium** to open up the Millennium window.
-
 - Download [**SteamUI-OldGlory**](https://github.com/Jonius7/SteamUI-OldGlory/releases). Extract the files to a folder, and run `old_glory.exe`
 
 - Select the options you want to use, then click **Install**.
 
-- In **Millennium**, the OldGlory theme should appear. Click on it to activate the theme. You can continue to customise your options in the SteamUI-OldGlory Installer, click **Install** and Steam should update accordingly.
+- Open up Steam, go to **Steam** -> **Settings** -> **Themes** -> **Client Theme**, click on the dropdown and select **OldGlory**.
+
+- You can continue to customise your options in the SteamUI-OldGlory Installer, click **Install** and Steam should update accordingly.
+
 
 ### Using SteamUI-OldGlory standalone (old method)
 
