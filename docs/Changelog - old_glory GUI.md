@@ -1,5 +1,9 @@
 ## SteamUI-OldGlory GUI Changelog
 
+**1.1.7.1**	     **(Release 5.16)** Disable Remake JS button
+
+1.1.7		Disable JS Tweaks options, unfinished Download Themes tab
+
 1.1.6.1		*(5.16-pre1)* New ThemeUpdater class
 
 1.1.6		Add new functions to download Github theme repo, extract zip
