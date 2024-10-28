@@ -24,8 +24,8 @@ DEBUG_STDOUT_STDERR = False # Only useful for debugging purposes, set to True
 
 class OldGloryApp(tk.Tk):
     def __init__(self, *args, **kwargs):
-        self.version = "1.1.6.2"
-        self.release = "5.16-pre2"
+        self.version = "1.1.7.1"
+        self.release = "5.16"
       
         ### Window Frame
         tk.Tk.__init__(self, *args, **kwargs)
@@ -1818,9 +1818,10 @@ def settings_window(event, controller):
     var_q = tk.IntVar()
     button_q = ttk.Button(frameGeneral,
                        text="Remake JS",
-                       width=10
+                       width=10,
+                       state="disabled"
     )
-    button_q.bind("<Button-1>", lambda event:remake_js(event, controller))
+    #button_q.bind("<Button-1>", lambda event:remake_js(event, controller))
     buttonr_tip = custom_tk.Detail_tooltip(button_q, "Deletes libraryroot.beaut.js and reruns js_tweaker functions.\n" \
                                  "Most useful when something changes with a Steam Client Update", hover_delay=200)
     #buttonr_tip.add_image(open_img("images/full_layout.png"))
