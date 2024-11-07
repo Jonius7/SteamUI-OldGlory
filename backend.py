@@ -22,7 +22,7 @@ import pyppeteer
 #import threading
 #import queue
 import zipfile
-import git
+#import git
 
 ##########################################
 ### CONSTANTS

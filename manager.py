@@ -40,7 +40,7 @@ CONFIG_MAP = {#"SteamLibraryPath" : {"set" : ""},
               "ThemeSelected" : {"set" : ""}
               }
 
-### INSTALL Functions
+### THREADING Functions
 ### ================================
 
 def worker0a(q: queue.Queue, event: Event, controller):
@@ -117,6 +117,9 @@ def threads_execute_refresh_steam(thread_data, controller):
     except:
         print("Unable to refresh Steam window.", file=sys.stderr)
         old_glory.print_traceback()
+
+### INSTALL Functions
+### ================================
 
 def install_click(event, page, controller):
     if str(event.widget['state']) == 'normal':
