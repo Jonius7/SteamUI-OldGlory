@@ -85,16 +85,6 @@ SteamUI-OldGlory supports patching the CSS directly however it only covers patch
 
 ## More Info
 
-### When Steam Updates
-
-SteamUI-OldGlory supports patching the Steam JS files to provide extra functionality.
-
-This means sometimes when the Steam Client updates, you'll need to use the **Remake JS** option in Settings if you were previously using any JS tweaks.
-
-SteamUI-OldGlory will notify you upon startup if it detects certain Steam files have been changed/updated.
-
-If the Steam window does not appear (but appears in the system tray), try using the **Remake JS** button in Settings.
-
 ### Other Config
 
 - [If using Shiina's steam-library theme](https://i.imgur.com/1cSW7iI.png), click **Apply config.css** under **Advanced Options**
@@ -192,7 +182,7 @@ Some tweaks are disabled by default. Under **JS Options**, you can select which 
 - [Video Guide 1](https://youtu.be/7_3e9j8FFv8)
 - [SteamUI-OldGlory Wiki](https://github.com/Jonius7/SteamUI-OldGlory/wiki)
 - [GIF of tweaks](https://gyazo.com/38d0101b493741501697b4a0f5f0818f)
-- [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases/tag/2021_03)
+- [Steam Missing Covers Downloader](https://github.com/Jonius7/steam-missing-covers-downloader/releases)
 - [(Images) Collapse Game Page Sections](https://imgur.com/a/2GNoC3u)
 - [(Images) More DLC and Screenshots, more info!](https://imgur.com/a/3WTdrXP)
 - [(Images) JS Tweaks](https://imgur.com/a/mL4QNYB)
@@ -228,7 +218,7 @@ If Library is not working, try one of these things (and **restart Steam** if nec
     - **Downloads** -> **Clear Download Cache**
     - **Web Browser** -> **Delete Web Browser Cache**
 
-If none of these steps work, please open an [Issue](issues)
+If none of these steps work, please open an [Issue](https://github.com/Jonius7/SteamUI-OldGlory/issues/new/choose)
 
 - State whether you are on Steam Beta Update or not.
 - Which CSS Options/JS Options you have enabled/disabled.
@@ -292,20 +282,3 @@ Sometimes you may need to install `pyinstaller` like this:
 This is mainly for me to try and get an `.exe` that doesn't trigger false positives on [virustotal.com](virustotal.com)
 
 In the future, I may try to build using `cx_freeze` instead.
-
-#### What does `js_tweaker` do?
-
-the JS goes through this process, eg:
-
-- `library.js` - original file
-- `library.beaut.js` - beautified js using `jsbeautifier`
-- `library.modif.js` - beautified js with modified tweaks from `fixes.txt`
-- `librery.js` - minified `library.modif.js` using `jsmin`
-
-Limitation that the script reads `library.beaut.js` line by line, so some complex tweaks are unavailable to be added at the moment.
-
-`js_tweaker` will use `library.beaut.js` if it already exists. This means:
-
-- you can experiment in `library.beaut.js` (make a backup first) and delete it afterwards if you want to go back to the clean version `library.beaut.js`
-
-**New (5.10.6)** `chunk~547eb3232.js` is now also being used. The modified file is called `chenk~547eb3232.js`
