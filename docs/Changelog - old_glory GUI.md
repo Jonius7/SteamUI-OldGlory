@@ -1,5 +1,9 @@
 ## SteamUI-OldGlory GUI Changelog
 
+1.1.7.3	     **(Release 5.16.2)** Fix Updater token
+
+*1.1.7.2*	     **(Release 5.16.1)** Remove git dependency "bad git executable"
+
 **1.1.7.1**	     **(Release 5.16)** Disable Remake JS button
 
 1.1.7		Disable JS Tweaks options, unfinished Download Themes tab

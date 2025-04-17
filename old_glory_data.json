@@ -17,8 +17,8 @@
 	"jsModifFile": "sp.modif.js",
 	"jsPatchedFile": "sq.js",
 	"jsOriginalFile": "sp.js.original",
-	"steamui_websrc_all.zip.vz_hash": "86e834dd5f8186fb1dc0d66602ab899f",
-	"lastPatchedDate": "2024-07-28T06:18:48Z",
+	"steamui_websrc_all.zip.vz_hash": "63ecf1a10060c969a7757748f499c926",
+	"lastPatchedDate": "2024-11-09T14:35:50Z",
 	"themes": {
 		"steam-library": {
 			"author": "Shiina",
