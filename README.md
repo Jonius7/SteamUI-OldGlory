@@ -65,7 +65,7 @@ Condensed sidebar buttons <br>
 
 - Select the options you want to use, then click **Install**.
 
-- Open up Steam, go to **Steam** -> **Millennium** -> **Themes** -> **Client Theme**, click on the dropdown and select **OldGlory**.
+- Open up Steam, go to **Steam** -> **Millennium** -> **Themes**, click on the 3 dots to the right of **OldGlory** and click **Set as active**.
 
 - You can continue to customise your options in the SteamUI-OldGlory Installer, click **Install** and Steam should update accordingly.
 

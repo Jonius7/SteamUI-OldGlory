@@ -75,7 +75,8 @@ def beautify_js(filename=json_data["libraryrootjsFile"]):
             #f.write(library)
             #f.close()
             
-            js_beautify.beautify(filename)
+            #Run Rust code
+            #js_beautify.beautify(filename)
             
             print("Beautified file write finished")
     except:
